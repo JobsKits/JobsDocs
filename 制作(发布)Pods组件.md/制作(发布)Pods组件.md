@@ -6,23 +6,71 @@
 
 * 普通模板
 
+  ![image-20251202150730991](./assets/image-20251202150730991.png)
+
+  ```ruby
+  Pod::Spec.new do |s|
+    s.name         = 'JobsSwiftBaseDefines'          # Pod 名
+    s.version      = '0.1.4'
+    s.summary      = '一些全局的基础定义'
+    s.description  = <<-DESC
+                        全局常量/协议定义/结构体/枚举
+                     DESC
+    s.homepage     = 'https://github.com/JobsKits/JobsSwiftBaseDefines'
+    s.license      = { :type => 'MIT', :file => 'LICENSE' }
+    s.author       = { 'Jobs' => 'lg295060456@gmail.com' }
+  
+    s.platform     = :ios, '15.0'
+    s.swift_version = '5.0'
+    s.source       = { :git => 'https://github.com/JobsKits/JobsSwiftBaseDefines.git',
+                       :tag => s.version.to_s }
+    s.source_files = '**/*.swift'
+    s.frameworks   = 'UIKit'
+  
+  end
+  ```
+
+* 带子Pod的模版
+
+  ![image-20251202150651948](./assets/image-20251202150651948.png)
+  
   ```ruby
   Pod::Spec.new do |s|
     s.name         = 'JobsSwiftBaseTools'          # Pod 名
-    s.version      = '0.1.0'
+    s.version      = '0.1.8'
     s.summary      = 'Swift@基础工具集'
     s.description  = <<-DESC
                         关于Swift语言下的基础工具集
                      DESC
+  
     s.homepage     = 'https://github.com/JobsKits/JobsSwiftBaseTools'
     s.license      = { :type => 'MIT', :file => 'LICENSE' }
     s.author       = { 'Jobs' => 'lg295060456@gmail.com' }
-    s.platform     = :ios, '15.0'
+  
+    s.platform      = :ios, '15.0'
     s.swift_version = '5.0'
-    s.source       = { :git => 'https://github.com/JobsKits/JobsSwiftBaseTools.git',
-                       :tag => s.version.to_s }
-    # 递归匹配当前目录下所有子目录里的 .swift 文件
-    s.source_files = '**/*.swift'
+  
+    s.source = {
+      :git => 'https://github.com/JobsKits/JobsSwiftBaseTools.git',
+      :tag => s.version.to_s
+    }
+  
+    # 全局排除脚本
+    s.exclude_files = ['MacOS/🫘JobsPublishPods.command','icon.png',]
+  
+    # ====== 源码：主 Pod 直接包含所有 Swift（根目录 + 多语言 + 网络监控）======
+    s.source_files = [
+      '*.swift',
+      '多语言化/**/*.swift',
+      '🛜网络流量监控/**/*.swift'
+    ]
+  
+    # ====== 资源：icon + 本地化，直接打进目标工程的根 Bundle，不建 .bundle ======
+    s.resources = [
+      '多语言化/zh-Hans.lproj/**/*'
+    ]
+  
+    # ====== 系统库依赖：所有代码共享 ======
     s.ios.frameworks = 'UIKit',
                        'QuartzCore',
                        'Network',
@@ -33,6 +81,8 @@
                        'CoreLocation',
                        'CoreBluetooth',
                        'UniformTypeIdentifiers'
+  
+    # ====== 第三方依赖：所有代码共享 ======
     s.dependency 'RxSwift'
     s.dependency 'RxCocoa'
     s.dependency 'NSObject+Rx'
@@ -40,51 +90,14 @@
     s.dependency 'Alamofire'
     s.dependency 'JobsSwiftBaseDefines'
   
-  end
-  ```
-
-* 带子Pod的模版
-
-  ```ruby
-  Pod::Spec.new do |s|
-    s.name         = 'JobsSwiftBaseConfig'
-    s.version      = '0.1.0'
-    s.summary      = 'Jobs 基础配置'
-    s.description  = <<-DESC
-                      JobsSwiftBaseConfig 配置
-                     DESC
-    s.homepage     = 'https://github.com/295060456/JobsSwiftBaseConfigDemo'
-    s.license      = { :type => 'MIT', :file => 'LICENSE' }
-    s.author       = { 'Jobs' => 'lg295060456@gmail.com' }
-  
-    s.platform      = :ios, '15.0'
-    s.swift_version = '5.0'
-    s.source        = {
-      :git => 'https://github.com/295060456/JobsSwiftBaseConfig.git',
-      :tag => s.version.to_s
-    }
-  
-    # 顶层可以不写 source_files，让子 pod 自己管自己的源码
-    # s.source_files = ...
-  
-    s.frameworks = 'UIKit'
-  
-    # 公共依赖（所有子 pod 都会带上）
-    s.dependency 'SnapKit'
-  
-    # ==================== 子 Pod：Core ====================
-    s.subspec 'Core' do |ss|
-      ss.source_files = 'Sources/Core/**/*.{swift}'
-      # 这里可以写 Core 独有的依赖
-      ss.dependency 'Kingfisher'
+    # ====================== Localization（多语言化分组） ======================
+    s.subspec 'Localization' do |ss|
+      ss.source_files = '多语言化/**/*.swift'
     end
   
-    # ==================== 子 Pod：UI ====================
-    s.subspec 'UI' do |ss|
-      ss.source_files = 'Sources/UI/**/*.{swift}'
-      # UI 依赖 Core
-      ss.dependency 'JobsSwiftBaseConfig/Core'
-      ss.dependency 'SDWebImage'
+    # ====================== NetworkMonitor（网络流量监控分组） ======================
+    s.subspec 'NetworkMonitor' do |ss|
+      ss.source_files = '🛜网络流量监控/**/*.swift'
     end
   end
   ```
@@ -160,3 +173,15 @@ pod trunk info JobsSwiftBaseTools
   ```shell
   pod deintegrate
   ```
+  
+* 作者无法主动删除自己发布的[**Cocoapods**](https://cocoapods.org/)
+
+  * 废弃并非删除
+
+    ```shell
+    pod trunk deprecate JobsSwiftBaseTools
+    pod trunk deprecate JobsSwiftBaseTools 0.1.0 # 废弃掉某个指定的版本
+    ```
+
+  *  真实删除（从 Specs 仓库抹掉）一般只有严重法律问题、安全问题之类，才会由 [**Cocoapods**](https://cocoapods.org/) 官方手工处理，<font color=red>**作者自己是做不到的**</font>。
+
