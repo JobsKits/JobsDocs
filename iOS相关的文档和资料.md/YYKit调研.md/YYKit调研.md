@@ -200,6 +200,23 @@
   * [**ComponentKit**](https://componentkit.org/)
   * [**texture**](https://github.com/texturegroup/texture)
   
+* 为了接管系统的管线，产生了**YYLabel**和**YYTextView**
+  
+  * 必须继承才可以用，有一定的入侵性
+  
+  * 代码行数很大，未文件级别的解耦
+  
+    <table style="width:100%; table-layout:fixed; border:1px solid #ccc; border-collapse:collapse;">
+      <tr>
+        <td style="text-align:center; padding:8px; border-right:1px solid #eee;">
+          <img src="./assets/image-20251207150942006.png" style="width:80%; height:auto;">
+        </td>
+        <td style="text-align:center; padding:8px;">
+          <img src="./assets/image-20251207151007244.png" style="width:80%; height:auto;">
+        </td>
+      </tr>
+    </table>
+  
 * **YYThreadSafeArray**（不完美）
   
   * 性能肯定不如裸 `NSMutableArray`
