@@ -58,7 +58,9 @@
   
 * 服务器端：内容转发、路由、**水印**
 
-  * 对数据进行切片，形成`*.m3u8`，对客户端（HLS）
+  * <font color=red>**对数据进行切片，形成`*.m3u8`，对客户端（HLS）**</font>
+  
+* 画中画效果：实现端是具体的设备端，比如iOS/Android层
 
 ## 二、推流端（主播）架构
 
@@ -71,7 +73,7 @@
 * 处理模块
 
   * 美颜、滤镜、贴纸
-  * 通常基于 GPUImage（历史包袱，已被逐步被淘汰） / **Metal** / 内置美颜 SDK
+  * 通常基于 [**GPUImage**](https://github.com/BradLarson/GPUImage)（历史包袱，已被逐步被淘汰） / **Metal** / 内置美颜 SDK
 
 * **编码模块**
 
@@ -103,7 +105,7 @@
 
   * 错误上报、码率统计、丢帧统计、日志上报
 
-## 三、推流端（主播）开源框架
+## 三、<font color=red>推流端（主播）开源框架</font>
 
 ### 1、传统直播（RTMP/SRT/CDN）
 
@@ -148,60 +150,107 @@
   * 对客户端：在推流之前，对采集到的数据进行处理
   * 对服务器端：缩放分辨率、裁剪、叠加台标（水印）、旋转、打字
 * 「滤镜」不是一个具体的控件，而是一套**处理音视频数据的算法/效果链**
+* **用现成的美颜SDK（不建议自己搞，工作量很可观）**
+  * FaceUnity
+  * Banuba / 其他 Beauty AR SDK
+  * 腾讯系美颜（TRTC / Beauty AR SDK）
 
 ## 五、礼物特效
 
 > 大部分「礼物特效」**严格意义上不叫滤镜**，但实现上会用到跟滤镜类似的渲染技术。<font color=red>**意味着礼物特效的播放是单独的播放引擎来处理**</font>
 
-### 1、2D效果可选方案
+### 1、可选方案
 
+* [**SVGA**](https://svga.dev/)
+
+  * 优点：
+
+    - 跨平台支持： iOS / Android / Flutter / Web / HarmonyOS
+    - 天然支持“**大量贴图 + 关键帧**”类型动画，很适合礼物那种：
+      - 大图飞进飞出
+      - 星星、爱心、硬币乱飞
+    - 支持合成、混合模式，搞一些“假 3D”透视、炫光也没问题。
+    - SVGA 在“礼物动画”这种重贴图、多关键帧场景下，通常比 Lottie 更稳定
+    - 国内大厂也用（比如，腾讯）
+
+  * 缺点：
+
+    - <font color=red>**已停更**</font>（无法适配更新的系统和硬件，出问题全靠自己修）
+    - 源代码是OC
+    - **不支持“真 3D”，只能做“伪 3D”。**
+    - 矢量支持不如 [**Lottie动画播放器**](https://github.com/airbnb/lottie-ios) 完整，更多是位图 + 路径
+    - 设计链路要用它自己的工具链（现在也有 AE 插件，但没有 Lottie 那么主流）
+
+* [**Lottie动画播放器**](https://github.com/airbnb/lottie-ios)：接受的源文件（礼物特效）。UI 在 **After Effects** 里做动画利用插件（Bodymovin / LottieFiles AE 插件）导出特定格式动画
+
+  * 优点：
+    * 跨平台支持：iOS / Android / Web / React Native / Windows / Flutter
+    * Lottie 是更通用的 UI 动效格式
+    * 矢量为主，放大不糊，适合 UI 风格。
+    * 和 AE 结合紧密，设计师用 Bodymovin 导出就行。
+    * 支持部分表达式、蒙版、渐变等效果。
+  * 缺点
+    * Lottie 在 **轻量 UI 动效** 很舒服，但做大礼物时：JSON 体积会膨胀、解析 & 渲染压力会增加，容易掉帧
+    * AE 里有些复杂效果不支持（比如某些插件/3D 效果）。
+    * 大动画（粒子多、图层多）性能和体积会顶不住。
+  * 输出格式：
+    * 主格式为：`*.json` （包含：图层、形状、路径、关键帧、缓动曲线、外部图片资源）
+    * 副格式为：`*.lottie`
+
+  ![image-20251208085127392](./assets/image-20251208085127392.png)
+
+* [**Rive动画播放器**](https://github.com/rive-app/rive-ios)：矢量 2D + 状态机，比 [**Lottie动画播放器**](https://github.com/airbnb/lottie-ios) 更偏“交互”。[**Rive Editor**](https://rive.app/editor)制作动画源文件导出至`*.riv`
+
+  * **Rive 不支持真正的 3D，它是 2D 矢量动画引擎**。
+  
+  ![image-20251208090218427](./assets/image-20251208090218427.png)
+  
+* [**Tencent@libpag**](https://github.com/Tencent/libpag) :
+
+  ![image-20251208171107733](./assets/image-20251208171107733.png)
+  
 * **SpriteKit**：<font color=red>**Apple 自带的 2D 引擎**</font>，本质是做 2D 游戏的：场景（`SKScene`）+ 精灵（`SKSpriteNode`）+ 粒子 + 物理
 
   * 跟 iOS 底层 Metal 集成得很好，性能强、调度可控。可以自己实现：
     - 精灵帧动画（序列图）
     - 粒子效果（烟花、爆炸、雨雪）
     - 文本/图片拼礼物卡片
-
-* 💥[**Lottie动画播放器**](https://github.com/airbnb/lottie-ios)：接受的源文件（礼物特效）。UI 在 **After Effects** 里做动画利用插件（Bodymovin / LottieFiles AE 插件）导出特定格式动画
-
-  * 主格式为：`*.json` （包含：图层、形状、路径、关键帧、缓动曲线、外部图片资源）
-  * 副格式为：`*.lottie`
-
-  ![image-20251208085127392](./assets/image-20251208085127392.png)
-
-* [**Rive动画播放器**](https://github.com/rive-app/rive-ios)：矢量 2D + 状态机，比 [**Lottie动画播放器**](https://github.com/airbnb/lottie-ios) 更偏“交互”。[**Rive Editor**](https://rive.app/editor)制作动画源文件导出至`*.riv`
-
-  ![image-20251208090218427](./assets/image-20251208090218427.png)
-
-### 2、2D/3D效果
-
-#### 2.1、[**Unity**](https://unity.com/)
-
-> **个人或者小团队用 Unity，是可以免费用的**；只有做到一定规模、赚钱到一定程度，才必须付费买 Pro / Enterprise。
->
-> 之前吵得很凶的 **Runtime Fee（按安装收费）已经取消了**，现在就回到传统的「免费 Personal + 付费订阅」模式
-
-* Unity Personal（免费版）
-
-  * **价格：免费**
-  * 资格条件：最近 12 个月，和这个项目相关的**收入 + 融资 < 20 万美金**（$200,000）。特点：
-    - 引擎核心功能都能用
-    - 允许商用、上架商店
-    - 现在连 “Made with Unity” 开屏都可以去掉（Unity 6 起）。
-
-* Unity Pro <font color=red>**付费**</font>
-
-  * 价格：现在大约 **$2,200 美金/年/每个开发者账号**（按座位计费）
-  * 资格条件：最近 12 个月相关收入/融资 **> 20 万美金** 且 < 2500 万美金
   
-* Unity Enterprise  <font color=red>**付费**</font>
+* #### [**Unity**](https://unity.com/)（好是好，可是太重了，一般用于游戏渲染。不推荐）
+
+  > **个人或者小团队用 Unity，是可以免费用的**；只有做到一定规模、赚钱到一定程度，才必须付费买 Pro / Enterprise。
+  >
+  > 之前吵得很凶的 **Runtime Fee（按安装收费）已经取消了**，现在就回到传统的「免费 Personal + 付费订阅」模式
   
-  * 价格：定制报价，更贵
-  * 资格条件：最近 12 个月相关收入/融资 ≥ 2500 万美金 
+  * Unity Personal（免费版）
   
+    * **价格：免费**
+    * 资格条件：最近 12 个月，和这个项目相关的**收入 + 融资 < 20 万美金**（$200,000）。特点：
+      - 引擎核心功能都能用
+      - 允许商用、上架商店
+      - 现在连 “Made with Unity” 开屏都可以去掉（Unity 6 起）。
   
+  * Unity Pro <font color=red>**付费**</font>
   
+    * 价格：现在大约 **$2,200 美金/年/每个开发者账号**（按座位计费）
+    * 资格条件：最近 12 个月相关收入/融资 **> 20 万美金** 且 < 2500 万美金
   
+  * Unity Enterprise  <font color=red>**付费**</font>
+  
+    * 价格：定制报价，更贵
+    * 资格条件：最近 12 个月相关收入/融资 ≥ 2500 万美金 
+
+### 2、建议
+
+* 不建议用`*.gif`格式做动效
+  * 帧率和画质很不耐看
+  * 无法控制播放行为（播放过程中暂停、重启）
+* 想生态、安全、教程多：**Lottie** ✅
+* 想交互多、以后可玩性高：**Rive** ✅
+* 想跟国内视频 / 直播生态更贴：可以研究 **PAG（libpag）**，但上手成本会高一点。
+* 前期全部的礼物特效是围绕2D特效展开
+* 视频播放也可以作为一个参考面
+* 3D特效需要更大的成本开销，在前期试探市场反应的情况下，不建议继续探索。成本更应该用在播放器的推拉流稳定性上
 
 ## 六、整体构架
 
