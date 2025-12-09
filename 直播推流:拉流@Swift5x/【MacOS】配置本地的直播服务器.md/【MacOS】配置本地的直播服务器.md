@@ -47,6 +47,10 @@
   
 * 拉流的效果
   
+  * iOS 模拟器
+  
+    ![Simulator Screenshot - iPhone 17 Pro - 2025-12-09 at 14.07.55](./assets/Simulator Screenshot - iPhone 17 Pro - 2025-12-09 at 14.07.55.png)
+  
   * [**Google@Chrome浏览器**](https://www.google.com/intl/zh-CN/chrome/)不支持**HLS**，[**需要做特殊处理**](#对Chrome的特殊处理)
   
     ![image-20251209102115230](./assets/image-20251209102115230.png)
