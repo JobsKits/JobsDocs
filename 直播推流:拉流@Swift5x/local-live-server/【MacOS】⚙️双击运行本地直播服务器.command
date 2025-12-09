@@ -183,6 +183,38 @@ ensure_node_media_server() {
     fi
 }
 
+# ================================== ffmpeg 自检 & 安装 ==================================
+ensure_ffmpeg() {
+    if command -v ffmpeg &>/dev/null; then
+        info_echo "🧪 已检测到 ffmpeg："
+        gray_echo "  - $(ffmpeg -version | head -n 1)"
+        return 0
+    fi
+
+    warn_echo "🧩 未检测到 ffmpeg，准备通过 Homebrew 安装 ffmpeg..."
+
+    # 确认 brew 已存在，不存在就先装 brew
+    if ! command -v brew &>/dev/null; then
+        warn_echo "⚠️ 当前系统未检测到 Homebrew，先尝试安装 Homebrew..."
+        install_homebrew
+    fi
+
+    # 再次确认 brew 存在，才能执行 brew install ffmpeg
+    if ! command -v brew &>/dev/null; then
+        error_echo "❌ Homebrew 仍不可用，无法安装 ffmpeg，请手动检查环境"
+        exit 1
+    fi
+
+    info_echo "📦 正在安装 ffmpeg（brew install ffmpeg）..."
+    if brew install ffmpeg >>"$LOG_FILE" 2>&1; then
+        success_echo "✅ ffmpeg 安装完成"
+        gray_echo "  - $(ffmpeg -version | head -n 1)"
+    else
+        error_echo "❌ ffmpeg 安装失败，请检查 ${LOG_FILE}"
+        exit 1
+    fi
+}
+
 # ================================== 进程管理 & 启动服务器 ==================================
 kill_existing_server() {
     cd "$SCRIPT_DIR"
@@ -217,11 +249,12 @@ start_node_server() {
 # ================================== 主流程 ==================================
 main() {
     print_intro
-    install_homebrew
-    ensure_node_and_npm
-    ensure_node_media_server
-    kill_existing_server
-    start_node_server
+    install_homebrew          # 确保 brew 存在 & 可选 update
+    ensure_node_and_npm       # 确保 node / npm
+    ensure_ffmpeg             # 在确认 brew 已存在的基础上安装 ffmpeg（如缺失）
+    ensure_node_media_server  # 确保 node-media-server@2.3.8
+    kill_existing_server      # 停掉旧 server.js
+    start_node_server         # 启动新 server.js
 }
 
 main "$@"
