@@ -1818,6 +1818,15 @@ let button = UIButton(type: .system)
     )
     ```
 
+#### 2.20、安全取Cell
+
+> 通过数组下标安全取Cell，即使越界也不会奔溃（只是去不到Cell值返回nil）
+
+```swift
+let cell = collectionView[section: 0, item: 3]
+let cell = tableView[section: 0, row: 3]
+```
+
 ### 3、对抗记忆衰弱
 
 * 使用Xcode代码块的方式👉[**`JobsCodeSnippets`**](https://github.com/JobsKits/JobsCodeSnippets)脚本安装，自动注入系统指定目录，只需要重启Xcode即可使用
