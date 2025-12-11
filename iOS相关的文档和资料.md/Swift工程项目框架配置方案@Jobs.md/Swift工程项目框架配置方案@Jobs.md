@@ -10,7 +10,6 @@
 * OC库需要导入头文件，而且头文件的导入在编译阶段同样存在循环引用的问题（编译的时候，一定是按照加载的顺序，自上而下的编译），那么在某些极端的情况下，引入的位置不对，就会造成编译不通过（亲测）。而[**Swift**](https://www.swift.org/)在工程内部不需要导入文件，除非在不同工程（跨域），比如利用[**CocoaPods**](https://cocoapods.org/)管理的第三方才需要进行导入。所以，既然是系统做了优化的，我们就要顺势而为。
 * 导入库，一般情况下，它会向后兼容，导入一些老旧的`*.framework`库，造成打包体积过大的隐患（并不能每次都精确复现，这里只是讲风险与隐患）。这里的一个例子就是[**过期的模拟器配件**](https://github.com/295060456/Xcode_Sys_lib)。老旧的Api只要你调用了就一定会指向老旧的`*.framework`，**会影响打包大小，但是不一定影响运行时的内存情况**
 * 对于一些老旧库（超过5年不维护的库）如果实在要用，就需要手动集成自项目，而不是[**CocoaPods**](https://cocoapods.org/)管理
-* 
 
 ### 2、用开源播放器
 
@@ -1960,6 +1959,19 @@ pod 'JobsSwiftBaseDefines'               # https://github.com/JobsKits/JobsSwift
 pod 'JobsSwiftFoundation@Extensions'     # https://github.com/JobsKits/Jobs.Swift.Foundation.Extensions
 pod 'JobsSwiftMetalKit@Extensions'       # https://github.com/JobsKits/Jobs.Swift.MetalKit.Extensions
 ```
+
+## 四、BaseURL构架
+
+* 移动端App需要预埋一组URL
+  * 每次发包的时候，可以进行更替/每次启动移动端App也可以进行更新（具体看具体业务场景设计）
+  * 这一组URL的请求结果➤**拿到真实的移动端App请求的BaseURL**
+  * 这一组URL实际上是**服务器矩阵**（以应对IP封锁）
+* 真实的App里面具体请求对应的BaseURl程序员都不知是什么。前端开发人员只需要面对接口，而不需要关心BaseURL
+* 那么在移动端App开屏进入页面的时候，就需要有自检环节（前端配合进度条等UI反馈）
+  * 先测试预埋的一组URL的可达性（本地开启轮询测试）
+  * 然后再通过这一组URL拉取实际请求的BaseURL（可以是一个组）
+  * 自检环节，之前亚博是控制在10～15秒
+* 全局的BaseURL是浮动的，内部需要有一个实时监控机制，如果在使用过程中BaseURL变的不可达，那么就需要在这一组BaseURL去找可用的BaseURL顶上
 
 <a id="🔚" href="#一些基本的原则" style="font-size:17px; color:green; font-weight:bold;">我是有底线的👉点我回到首页</a>
 
