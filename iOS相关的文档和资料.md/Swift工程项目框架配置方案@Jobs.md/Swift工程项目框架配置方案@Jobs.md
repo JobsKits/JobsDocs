@@ -1713,6 +1713,121 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   }
   ```
 
+##### 2.17.5、🍡 字符串取色🎨（校验规定格式）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+```swift
+/// 支持格式：
+/// "#RRGGBB" / "RRGGBB" / "0xRRGGBB"
+/// "#RGB"   / "RGB"
+/// "#AARRGGBB" / "AARRGGBB"
+
+"#353a3e".cor          // OK → 正常色
+"353a3e".cor           // OK
+"0x353a3e".cor         // OK
+"#FFF".cor             // OK → 展开成 #FFFFFF
+"80FF0000".cor         // OK → alpha=0x80, red
+"乱七八糟".cor         // ❌ → 直接红色
+
+"80FF0000".cor(alpha: 1) // alpha 走字符串里的 0x80，而不是你传的 1
+"垃圾".cor(.black)        // 非法 → black
+```
+
+##### 2.17.6、[**对全局普通的字符串进行多语言国际化的处理**](#国际化) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+##### 2.17.7、[**富文本**](#富文本) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+* 把普通字符串**升格**为富文本字符串
+
+  ```swift
+  NSAttributedString(string: s)
+  ```
+
+* 把富文本字符串**降格**为普通字符串
+
+  ```swift
+  a.string
+  ```
+
+##### 2.17.8、条形码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+* `Code128 条形码`（可指定目标尺寸；自动无插值放大）
+
+  ```swift
+  UIImageView().byImage(barContent.code128BarcodeImage(size: CGSize(width: 260, height: 100)))
+  ```
+
+* 生成带底部文字的人类可读 `Code128 条形码`
+
+  ```swift
+  UIImageView().byImage(barContent.code128ByText(width: 260, barHeight: 100))
+  ```
+
+##### 2.17.9、二维码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+* 纯二维码（中间无Logo）
+
+  ```swift
+  UIImageView().byImage(qrContent.qrcodeImage(260))
+  ```
+
+* 生成带中心 Logo 的二维码
+
+  ```swift
+  UIImageView().byImage(
+      "https://www.google.com".qrcodeImage(
+          260,
+          correction: "H",
+          centerLogo: "Ani".img,
+          logoRatio: 0.22,
+          logoCornerRadius: 10,
+          borderWidth: 6,
+          borderColor: .white
+      )
+  )
+  ```
+
+##### 2.17.10、裁剪 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+* 去掉首尾空白 / 换行
+
+  ```swift
+  let raw = "  Hello World \n"
+  let cleaned = raw.byTrimmed
+  print(cleaned)  // "Hello World"
+  ```
+
+* 裁剪后非空才要这个字符串（否则用 nil）
+
+  ```swift
+  let input = "   \n  "              // 用户乱输入的东西
+  let value = input.byTrimmedOrNil  // -> nil
+  
+  let input2 = "  Jobs  "
+  let value2 = input2.byTrimmedOrNil // -> "Jobs"
+  ```
+
+* 判断一个字符串是不是非空的 http/https URL
+
+  ```swift
+  let urlString = "  https://example.com/path  "
+  
+  if urlString.isNonEmptyHttpURL {
+      print("这是一个 http(s) URL")
+  } else {
+      print("不是合法的 http(s) URL 字符串")
+  }
+  ```
+
+* 只要 http(s) 字符串，其他一律当 nil
+
+  ```swift
+  let input = "  www.example.com  "
+  let httpString = input.asHttpURLOrNil   // -> nil
+  
+  let input2 = "  https://example.com  "
+  let httpString2 = input2.asHttpURLOrNil // -> "https://example.com"
+  ```
+
 #### 2.18、对点击事件的封装
 
 ##### 2.18.1、封装在`UIControl` 层的点击事件
