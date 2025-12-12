@@ -4,7 +4,7 @@
 
 ## 一、前置条件
 
-* 在**`unity.app`**里面导出关于iOS的工程项目（包含<font size=5>`UnityFramework.framwork`</font>） 
+* 在<font size=5>**`unity.app`**</font>里面导出关于iOS的工程项目（包含<font size=5>`UnityFramework.framwork`</font>） 
 
   ![image-20251211132331087](./assets/image-20251211132331087.png)
 
@@ -119,3 +119,58 @@
 * **嵌入 Unity，包体和首帧时间都会涨**。主工程那边要有心理预期，不要想着它跟一个普通原生页面一样轻量
 
 * <font size=5>**`*.UnityFramework`** </font>本身是 **Objective-C 动态库**，需要用 **Bridging Header** 把它桥接进来
+
+* 因为iOS模拟器和真机涉及到不同的设备，那就涉及到不同的CPU指令集，所以事实上是2套不同的包。如果需要iOS主工程项目需要支持iOS模拟器调试，则需要<font size=5>**`unity.app`**</font>单独构建 Simulator 版库，并在 Xcode 里做平台区分
+
+  * ```swift
+    #if targetEnvironment(simulator) 
+    /// 模拟器专用代码
+    #else
+    /// 真机（iPhone / iPad 设备）代码
+    #endif
+    ```
+
+    ```swift
+    #if os(iOS) && !targetEnvironment(simulator)
+    // 只有 iOS 真机（iPhone / iPad）代码
+    #endif
+    
+    #if !targetEnvironment(simulator)
+    // 只有真机（iPhone / iPad）会编译到这里
+    #endif
+    ```
+
+    ```swift
+    #if targetEnvironment(simulator) 
+    /// 模拟器专用代码
+    #endif
+    ```
+
+  * ```objective-c
+    #import <TargetConditionals.h>
+    #if TARGET_OS_SIMULATOR
+        // 模拟器专用代码
+    #else
+        // 真机（iPhone / iPad 设备）代码
+    #endif
+    ```
+
+    ```objective-c
+    #import <TargetConditionals.h>
+    #if TARGET_OS_IOS && !TARGET_OS_SIMULATOR
+        // 只有 iOS 真机（iPhone / iPad）代码
+    #endif
+    
+    #if !TARGET_OS_SIMULATOR
+        // 只有真机（iPhone / iPad）会编译到这里
+    #endif
+    ```
+
+    ```objective-c
+    #import <TargetConditionals.h>
+    #if TARGET_OS_SIMULATOR
+        // 模拟器专用代码
+    #endif
+    ```
+
+    
