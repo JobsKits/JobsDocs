@@ -918,7 +918,9 @@ private lazy var collectionView: UICollectionView = {
             }
         }
 }()
+```
 
+```swift
 // ============================== UICollectionViewDataSource ==============================
 func numberOfSections(in collectionView: UICollectionView) -> Int { 1 }
 
@@ -1056,6 +1058,28 @@ private lazy var tableView: UITableView = {
             }
         }
 }()
+```
+
+```swift
+extension BMPlayerDemoVC : UITableViewDataSource,UITableViewDelegate{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { Row.allCases.count }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        tableView.py_dequeueReusableCell(withType: UITableViewCell.self, for: indexPath)
+            .byData(data[indexPath.row])
+            .byText(Row(rawValue: indexPath.row)?.title)
+            .byAccessoryType(.disclosureIndicator)
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 64 }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        switch Row(rawValue: indexPath.row)! {
+        case .local:  PlayerLocalVC().byPush(self)
+        case .remote: PlayerRemoteVC().byPush(self)
+        case .feed:   FeedListVC().byPush(self)
+        case .float:  JobsLiveFloatPlayer.shared.showRemoteLive()
+        }
+    }
+}
 ```
 
 #### 2.10、对`UILabel`的封装
