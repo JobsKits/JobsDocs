@@ -1965,6 +1965,109 @@ let cell = collectionView[section: 0, item: 3]
 let cell = tableView[section: 0, row: 3]
 ```
 
+#### 2.21、（全局）协议传参（支持不定参数）
+
+##### 2.21.1、正向传参数：<font size=5>**`byData`**</font>
+
+* **VC / View**
+
+  ```swift
+  /// 正向传入
+  DemoDetailVC().byData("https://www.baidu.com")
+  /// 获取（使用）
+  private var input: Any?
+  @discardableResult
+  func byData(_ any: Any?) -> Self {
+      input = any
+      return self
+  }
+  ```
+
+* **Cell**
+
+  ```swift
+  /// UITableViewDataSource
+  func tableView(_ tableView: UITableView,
+                 cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+      let row = sections[indexPath.section][indexPath.row]
+  
+      switch row {
+      case .avatar:
+          /// 用自定义的 AvatarCell 子类，在其子类中覆写byData
+          return tableView.py_dequeueReusableCell(
+              withType: AvatarCell.self,
+              for: indexPath
+          ).byData(JobsCellConfig(title: row.title))
+      default:
+          /// 用系统默认的 UITableViewCell，在分类中统一处理数据
+          return tableView.py_dequeueReusableCell(withType: BaseTableViewCellByValue1.self, for: indexPath)
+              .byTitleFont(.systemFont(ofSize: 16))
+              .byDetailTitleFont((.systemFont(ofSize: 14)))
+              .bySelectionStyle(.none)
+              .byAccessoryType(.disclosureIndicator)
+              .bySeparatorInset(.init(top: 0, left: 16, bottom: 0, right: 16))
+              .byData(JobsCellConfig(title: row.title,detail:row.detail))
+      }
+  }
+  ```
+
+  ```swift
+  /// 覆写 byData
+  final class AvatarCell: UITableViewCell {
+      @discardableResult
+      /// 富文本的优先级比普通文本高。即，如果同时设置富文本和普通文本，优先展示富文本
+      func byData(_ any: Any?) -> Self {
+          guard let cfg = any as? JobsCellConfig else { return self }
+          if let title = cfg.title {
+              textLabel?.byJobsAttributedText(title)
+          }
+          if let detail = cfg.detail {
+              detailTextLabel?.byJobsAttributedText(detail)
+          }
+          if let image = cfg.image {
+              avatarView.byImage(image)
+          };return self
+      }
+  }
+  ```
+
+  ```swift
+  #if os(OSX)
+  import AppKit
+  #elseif os(iOS) || os(tvOS)
+  import UIKit
+  #endif
+  @MainActor
+  public extension ViewDataProtocol where Self: UITableViewCell {
+      @discardableResult
+      func byData(_ any: Any?) -> Self {
+          guard let cfg = any as? JobsCellConfig else { return self }
+          if #available(iOS 14.0, *) {
+              return self
+                  .byJobsText(cfg.title)
+                  .bySecondaryJobsText(cfg.detail)
+                  .byImage(cfg.image)
+          } else {
+              if let title = cfg.title { textLabel?.byJobsAttributedText(title) }
+              if let detail = cfg.detail { detailTextLabel?.byJobsAttributedText(detail) }
+              if let image = cfg.image { imageView?.byImage(image) }
+              return self
+          }
+      }
+  }
+  ```
+
+##### 2.21.2、逆向传参数：<font size=5>**`sendResult`**</font> ➤ <font size=5>**`onResult`**</font>
+
+```swift
+/// 逆向传入
+sendResult("Jobs")
+/// 获取（使用）
+DemoDetailVC().onResult { name in
+		print("回来了 \(name)")
+}
+```
+
 ### 3、对抗记忆衰弱
 
 * 使用Xcode代码块的方式👉[**`JobsCodeSnippets`**](https://github.com/JobsKits/JobsCodeSnippets)脚本安装，自动注入系统指定目录，只需要重启Xcode即可使用
