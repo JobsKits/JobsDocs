@@ -1757,19 +1757,456 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
 
 ##### 2.17.6、[**对全局普通的字符串进行多语言国际化的处理**](#国际化) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 2.17.7、[**富文本**](#富文本) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 2.17.7、[**富文本相关**](#富文本) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-* 把普通字符串**升格**为富文本字符串
+* 数据层（转换）
 
-  ```swift
-  NSAttributedString(string: s)
-  ```
+  * 把普通字符串**升格**为富文本字符串
 
-* 把富文本字符串**降格**为普通字符串
+    ```swift
+    NSAttributedString(string: s)
+    ```
 
-  ```swift
-  a.string
-  ```
+  * 把富文本字符串**降格**为普通字符串
+
+    ```swift
+    a.string
+    ```
+
+* UI层（设置）
+
+  * ```swift
+    UILabel().richTextBy(runs, paragraphStyle: ps)
+    ```
+
+  * ```swift
+    UIButton.sys()
+        /// 富文本字@设置主标题
+        .byRichTitle(JobsRichText.make([
+            JobsRichRun(.text("¥99")).font(.systemFont(ofSize: 18, weight: .semibold)).color(.systemRed),
+            JobsRichRun(.text(" /月")).font(.systemFont(ofSize: 16)).color(.white)
+        ]))
+         /// 富文本字@设置副标题
+        .byRichSubTitle(JobsRichText.make([
+            JobsRichRun(.text("原价 ")).font(.systemFont(ofSize: 12)).color(.white.withAlphaComponent(0.8)),
+            JobsRichRun(.text("¥199")).font(.systemFont(ofSize: 12, weight: .medium)).color(.systemYellow)
+        ]))
+    ```
+
+  * ```swift
+    UITextView().richTextBy(runs, paragraphStyle: ps)
+    ```
+
+    ```swift
+    UITextView()
+            .byAttributedText(NSMutableAttributedString(
+                string: "🔗 默认蓝色链接（系统样式）：",
+                attributes: [
+                    .font: UIFont.systemFont(ofSize: 15),
+                    .foregroundColor: UIColor.secondaryLabel
+                ])
+                .byAdd(NSAttributedString(
+                    string: " Apple 官网",
+                    attributes: [
+                        .link: URL(string: "https://www.apple.com")!,
+                        .font: UIFont.boldSystemFont(ofSize: 16)
+                    ]))
+                .byAdd(NSAttributedString(
+                    string: "\n客服电话：400-123-4567",
+                    attributes: [.font: UIFont.systemFont(ofSize: 15)]
+                )))
+    ```
+
+  * ```swift
+    UITextField().richTextBy(runs, paragraphStyle: ps)
+    ```
+
+* 配置层
+
+  * 富文本@图
+
+    ```swift
+    // 图标附件
+    let image = UIImage(systemName: "paperclip", withConfiguration: config)!
+    let att = NSTextAttachment()
+    att.image = image
+    
+    let ps = jobsMakeParagraphStyle {
+        $0.alignment = .center
+        $0.lineSpacing = 2
+    }
+    
+    let runs: [JobsRichRun] = [
+        JobsRichRun(.attachment(att, CGSize(width: 16, height: 16))),
+        JobsRichRun(.text("  附件说明"))
+            .font(.systemFont(ofSize: 15))
+            .color(.secondaryLabel)
+    ]
+
+  * 下划线
+
+    ```swift
+    // 段落样式
+    let ps = jobsMakeParagraphStyle {
+        $0.alignment = .center
+        $0.lineSpacing = 6
+    }
+    // 富文本配置数组
+    let runs: [JobsRichRun] = [
+        JobsRichRun(.text("欢迎使用 "))
+            .font(.systemFont(ofSize: 18))
+            .color(.secondaryLabel),
+    
+        JobsRichRun(.text("JobsRichText "))
+            .font(.boldSystemFont(ofSize: 18))
+            .color(.systemBlue)
+            .underline(.single, color: .systemBlue),
+    
+        JobsRichRun(.text("封装示例"))
+            .font(.systemFont(ofSize: 18))
+            .strike(.single, color: .systemRed)
+    ]
+    ```
+
+  * 超链接
+
+    ```swift
+    let ps = jobsMakeParagraphStyle {
+        $0.alignment = .center
+        $0.lineSpacing = 4
+    }
+    
+    let runs: [JobsRichRun] = [
+        JobsRichRun(.text("如需帮助，请联系 "))
+            .font(.systemFont(ofSize: 15))
+            .color(.secondaryLabel),
+    
+        JobsRichRun(.text("专属客服"))
+            .font(.systemFont(ofSize: 15))
+            .color(.systemBlue)
+            .link("click://customer")
+    ]
+    ```
+
+  * 富文本点击事件
+
+    * 利用 **`UITextViewDelegate`** 处理点击事件
+
+      ```swift
+      extension RichTextDemoVC: UITextViewDelegate {
+          // MARK: ✅ iOS17+ 新 API
+          @available(iOS 17.0, *)
+          func textView(_ textView: UITextView,
+                        textItemMenuConfiguration configuration: UITextItem.MenuConfiguration,
+                        for textRange: UITextRange,
+                        point: CGPoint) -> UITextItem.MenuConfiguration? {
+              // 可自定义菜单行为（复制/打开/分享）
+              return configuration
+          }
+      
+          @available(iOS 17.0, *)
+          func textView(_ textView: UITextView,
+                        primaryActionFor textItem: UITextItem) -> UIAction? {
+      
+              switch textItem.content {
+              case .link(let url):
+                  if url.scheme == "click" {
+                      print("点击事件")
+                      // 返回 nil 表示不执行系统默认行为
+                      return nil
+                  }
+                  return nil
+      
+              default:
+                  // 非 link 类型的内容，保持默认
+                  return nil
+              }
+          }
+          // MARK: ✅ iOS16 及以下旧 API
+          @available(iOS, introduced: 10.0, deprecated: 17.0, message: "Use textView(_:primaryActionFor:) on iOS17+ instead")
+          func textView(_ textView: UITextView,
+                        shouldInteractWith URL: URL,
+                        in characterRange: NSRange,
+                        interaction: UITextItemInteraction) -> Bool {
+              if URL.scheme == "click" {
+                  print("点击事件")
+                  return false
+              }
+              return true
+          }
+      }
+      ```
+
+    * 利用 [**RxSwift**](https://github.com/ReactiveX/RxSwift)/[**RxCocoa**](https://github.com/ReactiveX/RxSwift) 处理点击事件
+
+      ```swift
+      // 🔹订阅点击（RAC风格）
+      textView.linkTap
+              .observe(on: MainScheduler.instance)
+              .subscribe(onNext: { [weak self] url in
+                  guard let self else { return }
+                  if url.scheme == "click" {
+                      self.presentAlert(for: url.absoluteString)
+                  }
+              })
+              .disposed(by: disposeBag)
+      ```
+
+* 将不同的数据合二为一 ➤ 普通字符串➕富文本字符串
+
+  * 协议层
+
+    ```swift
+    /// MARK: - 统一的「任意配置」协议（覆盖 UIView / UIViewController）
+    ///  正向：byData（单参 + 不定参）
+    ///  逆向：onResult + sendResult（单参 + 不定参）
+    @MainActor
+    public protocol ViewDataProtocol: AnyObject {
+        /// 正向@单（入）参数
+        @discardableResult
+        func byData(_ any: Any?) -> Self
+        /// 逆向@单（入）参数
+        func sendResult(_ any: Any?)
+        /// 逆向@单（出）参数
+        @discardableResult
+        func onResult(_ callback: @escaping (Any?) -> Void) -> Self
+    }
+    
+    public extension ViewDataProtocol {
+        /// 正向@不定（入）参数
+        @_disfavoredOverload
+        @discardableResult
+        func byData(_ items: Any?...) -> Self {
+            items.count == 1 ? byData(items[0]) : byData(items)
+        }
+        /// 逆向@不定（入）参数
+        @_disfavoredOverload
+        func sendResult(_ items: Any?...) {
+            if items.count == 1 { sendResult(items[0]) }
+            else { sendResult(items) }
+        }
+        /// 逆向@无（入）参数
+        func sendResult() {
+            sendResult(nil as Any?)
+        }
+        /// 逆向@不定（出）参数
+        @_disfavoredOverload
+        @discardableResult
+        func onResult(_ callback: @escaping ([Any?]) -> Void) -> Self {
+            onResult { payload in
+                if let arr = payload as? [Any?] {
+                    callback(arr)
+                } else {
+                    callback([payload])
+                }
+            }
+        }
+    }
+    ```
+
+  * 应用层
+
+    * ```swift
+      private enum JobsViewResultKey {
+          static var callback: UInt8 = 0
+      }
+      /// ✅ 覆盖所有 View（UIView 及其子类）
+      extension UIView: ViewDataProtocol {}
+      @MainActor
+      public extension ViewDataProtocol where Self: UIView {
+          // ================================== 正向：传值即渲染（默认 no-op） ==================================
+          /// 默认实现：什么都不做，留给自定义 View/Cell 在自己的类里实现 `byData(_:)`
+          @discardableResult
+          func byData(_ any: Any?) -> Self { self }
+          // ================================== 逆向：回传 ==================================
+          @discardableResult
+          func onResult(_ callback: @escaping jobsByAnyBlock) -> Self {
+              objc_setAssociatedObject(self, &JobsViewResultKey.callback, callback, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+              return self
+          }
+      
+          func sendResult(_ any: Any?) {
+              (objc_getAssociatedObject(self, &JobsViewResultKey.callback) as? jobsByAnyBlock)?(any)
+          }
+      }
+      ```
+
+    * ```swift
+      @MainActor
+      public extension ViewDataProtocol where Self: UICollectionViewCell {
+          @discardableResult
+          func byData(_ any: Any?) -> Self { self }
+      }
+      ```
+
+    * ```swift
+      #endif
+      @MainActor
+      public extension ViewDataProtocol where Self: UITableViewCell {
+          @discardableResult
+          func byData(_ any: Any?) -> Self {
+              guard let cfg = any as? JobsCellConfig else { return self }
+              if #available(iOS 14.0, *) {
+                  return self
+                      .byJobsText(cfg.title)
+                      .bySecondaryJobsText(cfg.detail)
+                      .byImage(cfg.image)
+              } else {
+                  if let title = cfg.title { textLabel?.byJobsAttributedText(title) }
+                  if let detail = cfg.detail { detailTextLabel?.byJobsAttributedText(detail) }
+                  if let image = cfg.image { imageView?.byImage(image) }
+                  return self
+              }
+          }
+      }
+      ```
+
+    * ```swift
+      private enum JobsAssocKey {
+          static var callback: UInt8 = 0
+      }
+      /// ✅ 覆盖所有 ViewController（UIViewController 及其子类）
+      extension UIViewController: ViewDataProtocol {}
+      @MainActor
+      public extension ViewDataProtocol where Self: UIViewController {
+          // ================================== 正向：传值即渲染（默认 no-op） ==================================
+          /// 默认实现：什么都不做，留给子类 VC 自己实现 `byData(_:)` 去解析/渲染
+          @discardableResult
+          func byData(_ any: Any?) -> Self { self }
+          // ================================== 逆向：回传 ==================================
+          @discardableResult
+          func onResult(_ callback: @escaping jobsByAnyBlock) -> Self {
+              objc_setAssociatedObject(self, &JobsAssocKey.callback, callback, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+              return self
+          }
+          func sendResult(_ any: Any?) {
+              (objc_getAssociatedObject(self, &JobsAssocKey.callback) as? jobsByAnyBlock)?(any)
+          }
+      }
+      ```
+
+  * 自定义数据（模型）层**`JobsCellConfig`**
+
+    * 数据模型里面的数据类型是**`JobsText`**
+
+      ```swift
+      // MARK: - 通用于 UITableViewCell 和 UICollectionViewCell 的模型组件
+      public struct JobsCellConfig {
+          public let title: JobsText?
+          public let detail: JobsText?
+          public let image: UIImage?
+          public let data: Any?
+      
+          public init(title: JobsText? = nil,
+                      detail: JobsText? = nil,
+                      image: UIImage? = nil,
+                      data: Any? = nil) {
+              self.title = title
+              self.detail = detail
+              self.image = image
+              self.data = data
+          }
+      }
+      ```
+
+    * 枚举里面的值的类型是**`JobsText`**
+
+      ```swift
+      // MARK: - 行模型
+      private enum EditProfileRow: CaseIterable {
+          case avatar
+          case nickname
+          case gender
+      
+          var title: JobsText {
+              switch self {
+              case .avatar:     return "头像"
+              case .nickname:   return "昵称"
+              case .gender:     return "性别"
+              }
+          }
+      		/// ❤️ 这里的字段“detail”，既可以是String类型，也可以是NSAttributedString类型。合二为一
+          var detail: JobsText? {
+              switch self {
+              case .avatar:
+                  return nil
+              case .nickname:
+                	/// 富文本
+                  return JobsText(JobsRichText.make([
+                      JobsRichRun(.text("等级达到2级才能修改昵称"))
+                          .font(.systemFont(ofSize: 14))
+                          .color(.systemRed),
+                      JobsRichRun(.text("Eric"))
+                          .font(.systemFont(ofSize: 14, weight: .semibold))
+                          .color(.secondaryLabel)
+                  ]))
+              case .gender:
+                  /// 普通文本
+                  return "female"
+          }
+      }
+      ```
+
+  * 数据灌入
+
+    ```swift
+    tableView.py_dequeueReusableCell(withType: BaseTableViewCellByValue1.self, for: indexPath)
+        .byTitleFont(.systemFont(ofSize: 16))
+        .byDetailTitleFont((.systemFont(ofSize: 14)))
+        .bySelectionStyle(.none)
+        .byAccessoryType(.disclosureIndicator)
+        .bySeparatorInset(.init(top: 0, left: 16, bottom: 0, right: 16))
+        .byData(JobsCellConfig(title: row.title,detail:row.detail))
+    ```
+
+  * <font color=red>**数据解析（核心）**</font>
+
+    * 解析数据到`UILabel`
+
+      ```swift
+      extension UILabel {
+          @discardableResult
+          func byJobsAttributedText(_ text: JobsText?) -> Self {
+              guard let text else { return self }
+              self.attributedText = text.asAttributed
+              return self
+          }
+          @discardableResult
+          func byJobsText(_ text: JobsText?) -> Self {
+              guard let text else { return self }
+              self.text = text.asString
+              return self
+          }
+      }
+      ```
+
+    * 解析数据到`UITableViewCell`
+
+      ```swift
+      public extension UITableViewCell {
+          /// 解析为富文本
+          func byJobsAttributedText(_ text: JobsText?) -> Self {
+              guard let text else { return self }
+              if #available(iOS 14.0, *) {
+                  return byContentConfiguration { $0.attributedText = text.asAttributed }
+              } else {
+                  self.textLabel?.attributedText = text.asAttributed
+                  return self
+              };
+          }
+          /// 解析为普通文本
+          func byJobsText(_ text: JobsText?) -> Self {
+              guard let text else { return self }
+              if #available(iOS 14.0, *) {
+                  return byContentConfiguration { $0.text = text.asString }
+              } else {
+                  self.textLabel?.text = text.asString
+                  return self
+              };
+          }
+      }
+      ```
+
 
 ##### 2.17.8、条形码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
