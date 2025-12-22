@@ -810,7 +810,7 @@ private lazy var exampleButton: UIButton = {
       UIImageView()
           .byContentMode(.scaleAspectFill)
           .byClipsToBounds()
-          .kf_setImage(from: "https://picsum.photos/200", placeholder: "Ani".img)
+          .kf_setImage("https://picsum.photos/200", placeholder: "Ani".img)
           .onTap { iv in
               toastBy("单击图片：\(iv)")
            }
@@ -1686,7 +1686,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
       UIImageView()
           .byContentMode(.scaleAspectFill)
           .byClipsToBounds()
-          .kf_setImage(from: "https://picsum.photos/200", placeholder: "Ani".img)
+          .kf_setImage("https://picsum.photos/200", placeholder: "Ani".img)
           .byAddTo(scrollView) { [unowned self] make in
               make.top.equalTo(asyncImgViewSD.snp.bottom).offset(20)
               make.left.equalTo(scrollView.frameLayoutGuide.snp.left).offset(20)
