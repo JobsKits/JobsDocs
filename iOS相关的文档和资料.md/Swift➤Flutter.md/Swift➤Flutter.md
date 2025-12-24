@@ -11,6 +11,8 @@
 * [**Flutter**](https://flutter.dev/)官方文档 ➤ [**将 Flutter module 集成到 iOS 项目**](https://docs.flutter.cn/add-to-app/ios/project-setup/)
 * 集成[**Flutter**](https://flutter.dev/)页面，绝对不是只引入单个的`*.dart`文件，而是需要将整个[**Flutter**](https://flutter.dev/)工程文件全部集成（[**Flutter**](https://flutter.dev/) 里面还包含各种依赖）
 * iOS主工程项目里面的`Podfile`里面，[**仅仅是做钩子**](#Podfile)，勾住[**Flutter**](https://flutter.dev/)项目里面的配置。<font color=red>而此文件并不直接写pod Flutter</font>
+* 需要安装[**Flutter**](https://flutter.dev/)环境
+* 必须进入[**Flutter**](https://flutter.dev/)目录中执行`flutter pub get`生成中间产物`podhelper.rb`才能跑通`pod install`
 * 关于iOS程序的入口配置，会因为[**Flutter**](https://flutter.dev/)的出现，有一点小变化，这里总结出一个[**通例**](iOS侧的入口配置)
 
 ## 二、集成步骤
