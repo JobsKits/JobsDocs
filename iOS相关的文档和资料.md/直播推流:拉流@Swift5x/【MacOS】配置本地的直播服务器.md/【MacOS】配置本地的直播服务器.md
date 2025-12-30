@@ -162,10 +162,23 @@ brew install ffmpeg
 
 ## 四、查询本地局域网IP（非公网IP）
 
-```shell
-➜  Desktop ipconfig getifaddr en0
-192.168.65.91
-```
+* 最常用（Wi-Fi）
+
+  ```shell
+  ipconfig getifaddr en0
+  
+  192.168.65.91
+  ```
+
+* 查看所有网卡 IP（一次看清）
+
+  ```shell
+  ifconfig | grep "inet "
+  ```
+
+  ```shell
+  ifconfig | grep "inet " | grep -v 127.0.0.1   # 排除 127.0.0.1
+  ```
 
 ## 五、双端代码配置
 
