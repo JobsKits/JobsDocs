@@ -29,5 +29,17 @@
 
   ![image-20251114132659685](./assets/image-20251114132659685.png)
 
+## 三、清理缓存
+
+* 每一次修改由<font color=red>**S**</font>wift<font color=red>**P**</font>ackage<font color=red>**D**</font>ependence管理的第三方，都需要：Xcode ➤ File ➤ Packages ➤ Reset Package Caches ➤ Resolve Package Visions
+
+## 四、编译
+
+```shell
+swift package reset
+swift package resolve
+swift build
+```
+
 
 
