@@ -1,81 +1,139 @@
-# 通过SSH连接到GitHub
+# `SSH` ➤ [Github](https://github.com)
 
 [toc]
 
-## 1、生成SSH密钥（尚未在本地计算机上生成SSH密钥对）
+## 一、生成`SSH`密钥🔑
 
-```bash
-ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+> 尚未在本地计算机上生成`SSH`密钥🔑对
+
+```shell
+ssh-keygen -t rsa -b 4096 -C "lg295060456@gmail.com"
 ```
 
-```bash
-➜  ~ ssh-keygen -t rsa -b 4096 -C "lg295060456@vip.qq.com"
+```shell
+Last login: Sat Jan 17 14:20:11 on ttys000
+➜  Desktop ssh-keygen -t rsa -b 4096 -C "lg295060456@gmail.com"
 Generating public/private rsa key pair.
 Enter file in which to save the key (/Users/jobs/.ssh/id_rsa): 
-Enter passphrase (empty for no passphrase): 
+Enter passphrase for "/Users/jobs/.ssh/id_rsa" (empty for no passphrase): 
 Enter same passphrase again: 
 Your identification has been saved in /Users/jobs/.ssh/id_rsa
 Your public key has been saved in /Users/jobs/.ssh/id_rsa.pub
 The key fingerprint is:
-SHA256:y5ofQZUyxJq5eHuaHSF69ncnVBALyFUMA5o3a7wFD7g lg295060456@vip.qq.com
+SHA256:Fdvu/MXEYvmoomwjooZvPoR3gX1FlvmYrmmubfZDs7A lg295060456@gmail.com
 The key's randomart image is:
 +---[RSA 4096]----+
-|       +o+*=o.   |
-|       +*..oo.   |
-|      ++*o  ..   |
-|      += *    .  |
-|     .E.S o  .   |
-|    ..o+ *  .    |
-|    ..o.*  .     |
-|     o.*.o. o .  |
-|      =++. . o   |
+|       .oo.      |
+|       .+  +     |
+|   o   . +o .    |
+|  . o . o...   o |
+| .   o .S   . + o|
+|. o . . +  o . * |
+| + .   * o  o . +|
+|. + ..E.= .  o . |
+| =+o.Bo+++ .. .  |
 +----[SHA256]-----+
 ```
 
-## 2、添加SSH密钥到SSH代理
+## 二、确认 `id_rsa` 真的存在 & 权限正确
+
+```shell
+ls -la ~/.ssh/id_rsa ~/.ssh/id_rsa.pub
+chmod 600 ~/.ssh/id_rsa
+chmod 644 ~/.ssh/id_rsa.pub
+```
+
+## 三、把 `github.com` 的 key 明确写进 `~/.ssh/config`
+
+* 建立`~/.ssh/config`并赋权
+
+  ```
+  mkdir -p ~/.ssh
+  touch ~/.ssh/config
+  chmod 600 ~/.ssh/config
+  ```
+
+* 打开 `open ~/.ssh/config` 
+
+  ```
+  open ~/.ssh/config
+  ```
+
+* 编辑 `~/.ssh/config` 
+
+  > `IdentitiesOnly yes` 很关键：强制只用你指定的 key，避免 Sourcetree/ssh 乱试其它 identity 导致失败或卡住。
+
+  ```
+  Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
+    AddKeysToAgent yes
+    UseKeychain yes
+  ```
+
+## 四、`id_rsa` ➤ macOS Keychain + agent
+
+> 让 GUI 程序也能用
+
+```shell
+ssh-add --apple-use-keychain ~/.ssh/id_rsa
+ssh-add -l
+```
+
+## 五、添加`SSH`密钥🔑 ➤ `SSH`代理
 
 * 运行以下命令来将生成的SSH密钥添加到SSH代理，以便您可以在不重复输入密码的情况下使用它：
 
-```bash
+```shell
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 ```
 
-```bash
-➜  ~ eval "$(ssh-agent -s)"
+```shell
+➜  Desktop eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
-Agent pid 84601
-Identity added: /Users/jobs/.ssh/id_rsa (lg295060456@vip.qq.com)
+Agent pid 9880
+Identity added: /Users/jobs/.ssh/id_rsa (lg295060456@gmail.com)
 ```
 
-## 3、将公钥添加到GitHub
+## 六、添加公钥🔑 ➤ [Github](https://github.com)
 
-```
-1、打开~/.ssh/id_rsa.pub文件并复制其中的内容
-2、然后登录到 https://github.com/settings/ssh/new
-3、转到您的帐户设置，点击"SSH and GPG keys"，
-4、然后点击"New SSH key"。
-5、将复制的公钥内容粘贴到"Key"字段中，并为该密钥提供一个标题。
-```
+* 打开`~/.ssh/id_rsa.pub`文件并复制其中的内容
 
-```bash
-➜  ~ cat ~/.ssh/id_rsa.pub                                       
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC6UV+N2PUXPCAWHKutXrVwqQMAhrP5OWs1DsvhIphyv1Nz8yS9Wgd+Raf6zR+ZzEcIiKY9q1wkUV9jIVVG7oNCPh6fWNjAnw7FTrdvniIbAVnqE7NxmQ6SCNbwS820aBfEqceC/ep2MVknMUd1X/ODWGpD4FSgwUtHoNvcBK5lV9cyOZCN2vz1bjrZHPzATntUVif5HuOxzcchhNvmGPzT+vT81+vveeETmEbpGSw+GT5A3xH2MXnFjuSydxhMthq0fHLnfQz/FRd/ZM2K7YjbavFJqVju+glVsMVL7BPw4NG5fB9E4De5YeJJlVr6mW+KJGL4SwR+wCXHQZVYwvfPKQlCpzYm885l8yH1v9e5/ekAjYpuKytQzUf0a79WhsbrJ1C+vYGGJ4w6jWvutIGUCI3RudBaYPjBZTTbYBx0WeFtkYWgstrjMyxMO7Wp3sH5U6wnc39pnLzpWrSx5Nf8h6rn8B5DmVtkwgZw4la6Bfg3EAbjS3GQS6NtBZh92cw98tHzDJxHbi39L/OZA1gGPnakJI88SnjMVTTlBy5VoJdwOnFXKbNbCVsvaDYDwVU6lUqh/rgHk2jMut+DYX0+lgldLS+8gRjkGSxlQt2rC9L/LWS1JdZyrQYT85a/9GFjBM7BD3seMoWbNW4DrpO6rGgBPoJLiw9zqnjKPwZYgQ== lg295060456@vip.qq.com
-```
+   ```shell
+   pbcopy < ~/.ssh/id_rsa.pub
+   ```
 
-```bash
-open https://github.com/settings/ssh/new
-```
+* 然后登录到 https://github.com/settings/ssh/new
 
-![image-20231007055435866](./assets/image-20231007055435866.png)
+  ```shell
+  open https://github.com/settings/ssh/new
+  ```
 
-![image-20231007055515204](./assets/image-20231007055515204.png)
+* 转到您的帐户设置，点击`SSH and GPG keys`
 
-![image-20231007055536132](./assets/image-20231007055536132.png)
+* 然后点击`New SSH key`
 
-## 4、测试SSH连接
+* 将复制的公钥内容粘贴到"Key"字段中，并为该密钥提供一个标题
 
-* 运行以下命令来测试SSH连接是否正常
+  ```shell
+  cat ~/.ssh/id_rsa.pub
+  ```
+
+  ```shell
+  ➜  Desktop cat ~/.ssh/id_rsa.pub
+  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC09QFwwcZOnwX5qfiHdYqPNispoWiC72iOMdPk+xX30uvpgDZCUPCD9tWZi5UeoqN0htQLagYjW88EMDTl16pGHZDv9ohCrXyFM7Aer6UJNSWEYf5c2ghvK4zBeoja6X714vtBbI9Vj1L/NcJ61aKsKV/3cYGLFbynHwUrxMm/NbrWa4TV18UCQ0bZN3hwAonr5OWKBGmHIPMYwYoyqm8JQGVVhQWX4WqOjRClOImw/DmGia/NYnU3UeZO+iPCmq5zRLpHkhVm7LK/y/NqAJbZFPgk5E0PScZK8hkbye5UJqUyjHgRzvswT3IqeV2k2mc87icOxVqkqzqNN99nisI5eLV+jyfxVE2+80s8sVSuxRyMonMQBfWO+tO/s0oGDGXJuZ6K9swmk9pphOAOOamMNHqlqN2yN3hL8YtNviCoCTDaxTTswZyrHgXvrE03plAnszxkv2HbniDSldOYa+v9YzMmG6ZJtrlQJN/r7s8jRwhJBb6sBlwqL45B3y0+VOUXr4+Eoc+/A2xy4lOpVaD86B96ks3hm2l1oXMnsoCLJwzLQ25jLcM2rux69DOhGhTw1TvjaRGx22knjDIaTuEDLpuZ20yRCt/xgUaG8oygU3O955jS4Glw3P8wAfKoSf2PlW9tOQn+L/bCdcUho8lmJjueougNvW2keuM9nSoIHQ== lg295060456@gmail.com
+  ```
+
+  ![image-20231007055435866](./assets/image-20231007055435866.png)
+
+  ![image-20231007055515204](./assets/image-20231007055515204.png)
+
+  ![image-20231007055536132](./assets/image-20231007055536132.png)
+
+## 七、命令测试`SSH`连接是否正常
 
 ```bash
 ssh -T git@github.com
