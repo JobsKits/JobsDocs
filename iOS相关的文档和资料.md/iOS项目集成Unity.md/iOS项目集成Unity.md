@@ -21,7 +21,9 @@
 
   <img src="./assets/image-20251211140302678.png" width="50%">
 
-* 在项目主工程中导入 <font size=5>`UnityFramework.framwork`</font> 
+* 在项目主工程中导入 <font size=5>`UnityFramework.framwork`</font> ➤ [**条件编译**](#条件编译)需要做额外的特殊处理
+
+  <img src="./assets/image-25690119100002189.png" alt="image-25690119100002189" style="zoom:50%;" />
 
 
   * 在左侧点开 `Unity-iPhone` 子工程  ➤ **`TARGETS`**，确认里面有一个叫 **`UnityFramework`** 的 target（Unity 新版会有）
@@ -32,11 +34,11 @@
 
 ### 1、**`选中主 App`** ➤ **`TARGETS`** ➤ **`General`** 
 
-#### 1.1、<font id=如果是条件编译，那么这一步跳过>**`Frameworks, Libraries, and Embedded Content`**</font> ➤ <font color=red>**如果是条件编译，那么这一步跳过**</font>
+#### 1.1、<font id=如果是条件编译，那么这一步跳过>**`Frameworks, Libraries, and Embedded Content`**</font> ➤ <font color=red>**如果是[条件编译](#条件编译)，那么这一步跳过**</font>
 
 - 点 `+` → 选择 `UnityFramework.framework`（在 `Unity-iPhone` → `Products` 下面）
 
-- `Embed` 一栏改成 **Embed & Sign**
+- x`Embed` 一栏改成 **Embed & Sign**
 
   <table style="width:100%; table-layout:fixed;">
   <!-- 大图单独一行 -->
