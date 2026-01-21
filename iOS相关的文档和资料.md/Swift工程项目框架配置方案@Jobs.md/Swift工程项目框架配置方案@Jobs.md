@@ -1295,23 +1295,39 @@ extension BMPlayerDemoVC : UITableViewDataSource,UITableViewDelegate{
   }()
   ```
 
-#### 2.14、对计时器的封装`JobsTimer`
-
-> ```
-> JobsSwiftBaseTools.JobsTimer
-> ```
+#### 2.14、对计时器的封装`JobsSwiftTimer`
 
 <div>
-  <img src="./assets/image-20251206163415432.png" width="45%" />
+  <img src="./assets/image-20260121165054858.png" width="45%" />
   <img src="./assets/image-20251206163504503.png" width="45%" />
 </div>
 
+
 ```swift
-JobsTimerFactory.make(kind: .displayLink,
-                      config: JobsTimerConfig(interval: 1, repeats: true, tolerance: 0.002, queue: .main)) {
-    ///  日期打印
-    print(Date().formatted(date: .numeric, time: .standard))
-}.start()
+import JobsSwiftTimer
+
+private var appTickerTimer: JobsTimerProtocol?
+// ✅ 新版 JobsTimer：不再用 JobsTimerFactory.make
+do {
+    let cfg = JobsTimerConfig(
+        interval: 1,
+        repeats: true,
+        tolerance: 0.002,
+        queue: .main,
+        runLoop: .main,
+        runLoopMode: .common,
+        pauseInBackground: true,
+        autoManageAppState: true
+    )
+
+    let t = JobsTimer(kind: .displayLink, config: cfg) {
+        /// 日期打印（这里只是打印，不触碰 UI，不需要 MainActor）
+        print(Date().formatted(date: .numeric, time: .standard))
+    }
+
+    appTickerTimer = t
+    t.start()
+}
 ```
 
 * iOS系统中存在三大计时器核心，分别是：**NSTimer** / **GCD** / **CADisplayLink**。其间的差异在于精确粒度的区别，在大多数场景下都无差别，除非在特定场景下才会有分别
@@ -1335,35 +1351,18 @@ JobsTimerFactory.make(kind: .displayLink,
 ##### 2.14.1、倒计时按钮
 
 ```swift
-// MARK: - 倒计时演示按钮（同一套 API：传 total => 倒计时）
+// MARK: - 倒计时演示按钮
 private lazy var countdownButton: UIButton = {
-    UIButton.sys()
+    UIButton(type: .system)
         .byTitle("获取验证码", for: .normal)
         .byTitleColor(.white, for: .normal)
         .byBackgroundColor(.systemGreen, for: .normal)
-        .onCountdownTick { [weak self] btn, remain, total, kind in
-            guard let self else { return }
-            print("⏱️ [\(kind.jobs_displayName)] \(remain)/\(total)")
-            self.lastFireLabel.text = "Last: " + Self.fmt(Date())
-            btn.byTitle("还剩 \(remain)s", for: .normal)
-        }
-        .onCountdownFinish { _, kind in
-            print("✅ [\(kind.jobs_displayName)] 倒计时完成")
-        }
         .onTap { [weak self] btn in
-            guard let self else { return }
-            let total = self.parseCountdownTotal(10)
-            btn.startTimer(
-                total: total, // ❤️ 传 total => 倒计时
-                interval: self.intervalSec,
-                kind: self.currentKind
-            )
-            // 关键：等 startTimer 把 "10s" 设好后再加前缀，避免被覆盖
-            DispatchQueue.main.async {
-                let cur = btn.title(for: .normal) ?? "\(total)s"
-                if !cur.hasPrefix("还剩 ") {
-                    btn.byTitle("还剩 \(cur)", for: .normal)
-                }
+            guard let strongSelf = self else { return }
+            Task { @MainActor in
+                let total = strongSelf.parseCountdownTotal(10)
+                strongSelf.startCountDown(total: total)
+                btn.byTitle("还剩 \(total)s", for: .normal)
             }
         }
         .byAddTo(view) { [unowned self] make in
@@ -1380,101 +1379,101 @@ private lazy var countdownButton: UIButton = {
 ```swift
 // MARK: - 1. 向上连续滚动
 private lazy var upContinuousMarquee: JobsMarqueeView = { [unowned self] in
-    JobsMarqueeView()
-        .byDirection(.up)
-        .byScrollMode(.continuous(speed: 40))
-        .byItemSizeMode(.fitContent)   // 典型公告跑马灯
-        .byDataSourceButtons([
-            UIButton.sys()
-                .byBackgroundColor(.systemYellow.withAlphaComponent(0.2), for: .normal)
-                .byTitle("向上连续 · 公告 1", for: .normal)
-                .byTitleColor(.label, for: .normal)
-                .byTitleFont(.systemFont(ofSize: 14, weight: .medium))
-                .bySubTitle("更多内容 1", for: .normal)
-                .bySubTitleColor(.secondaryLabel, for: .normal)
-                .bySubTitleFont(.systemFont(ofSize: 11, weight: .regular))
-                .byImage("megaphone.fill".sysImg, for: .normal)
-                .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
-                .byTitleEdgeInsets(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6))
-                .byTapSound("Sound.wav")
-                .onTap { sender in
-                    print("🔔 向上连续 · 公告 1 tapped, selected=\(sender.isSelected)")
-                    toastBy(sender.title!)
-                }
-                .onLongPress(minimumPressDuration: 0.8) { btn, gr in
-                    if gr.state == .began {
-                        btn.alpha = 0.6
-                        print("长按开始 on \(btn)")
-                    } else if gr.state == .ended || gr.state == .cancelled {
-                        btn.alpha = 1.0
-                        print("长按结束")
+        JobsMarqueeView()
+            .byDirection(.up)
+            .byScrollMode(.continuous(speed: 40))
+            .byItemSizeMode(.fitContent)   // 典型公告跑马灯
+            .byDataSourceButtons([
+                UIButton.sys()
+                    .byBackgroundColor(.systemYellow.withAlphaComponent(0.2), for: .normal)
+                    .byTitle("向上连续 · 公告 1", for: .normal)
+                    .byTitleColor(.label, for: .normal)
+                    .byTitleFont(.systemFont(ofSize: 14, weight: .medium))
+                    .bySubTitle("更多内容 1", for: .normal)
+                    .bySubTitleColor(.secondaryLabel, for: .normal)
+                    .bySubTitleFont(.systemFont(ofSize: 11, weight: .regular))
+                    .byImage("megaphone.fill".sysImg, for: .normal)
+                    .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
+                    .byTitleEdgeInsets(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6))
+                    .byTapSound("Sound.wav")
+                    .onTap { sender in
+                        print("🔔 向上连续 · 公告 1 tapped, selected=\(sender.isSelected)")
+                        sender.title?.toast
                     }
-                },
-            UIButton.sys()
-                .byBackgroundColor(.systemYellow.withAlphaComponent(0.2), for: .normal)
-                .byTitle("向上连续 · 公告 2", for: .normal)
-                .byTitleColor(.label, for: .normal)
-                .byTitleFont(.systemFont(ofSize: 14, weight: .medium))
-                .bySubTitle("更多内容 2", for: .normal)
-                .bySubTitleColor(.secondaryLabel, for: .normal)
-                .bySubTitleFont(.systemFont(ofSize: 11, weight: .regular))
-                .byImage("megaphone.fill".sysImg, for: .normal)
-                .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
-                .byTitleEdgeInsets(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6))
-                .byTapSound("Sound.wav")
-                .onTap { sender in
-                    print("🔔 向上连续 · 公告 2 tapped, selected=\(sender.isSelected)")
-                    toastBy(sender.title!)
-                }
-                .onLongPress(minimumPressDuration: 0.8) { btn, gr in
-                    if gr.state == .began {
-                        btn.alpha = 0.6
-                        print("长按开始 on \(btn)")
-                    } else if gr.state == .ended || gr.state == .cancelled {
-                        btn.alpha = 1.0
-                        print("长按结束")
+                    .onLongPress(minimumPressDuration: 0.8) { btn, gr in
+                        if gr.state == .began {
+                            btn.alpha = 0.6
+                            print("长按开始 on \(btn)")
+                        } else if gr.state == .ended || gr.state == .cancelled {
+                            btn.alpha = 1.0
+                            print("长按结束")
+                        }
+                    },
+                UIButton.sys()
+                    .byBackgroundColor(.systemYellow.withAlphaComponent(0.2), for: .normal)
+                    .byTitle("向上连续 · 公告 2", for: .normal)
+                    .byTitleColor(.label, for: .normal)
+                    .byTitleFont(.systemFont(ofSize: 14, weight: .medium))
+                    .bySubTitle("更多内容 2", for: .normal)
+                    .bySubTitleColor(.secondaryLabel, for: .normal)
+                    .bySubTitleFont(.systemFont(ofSize: 11, weight: .regular))
+                    .byImage("megaphone.fill".sysImg, for: .normal)
+                    .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
+                    .byTitleEdgeInsets(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6))
+                    .byTapSound("Sound.wav")
+                    .onTap { sender in
+                        print("🔔 向上连续 · 公告 2 tapped, selected=\(sender.isSelected)")
+                        sender.title?.toast
                     }
-                },
-            UIButton.sys()
-                .byBackgroundColor(.systemYellow.withAlphaComponent(0.2), for: .normal)
-                .byTitle("向上连续 · 公告 3", for: .normal)
-                .byTitleColor(.label, for: .normal)
-                .byTitleFont(.systemFont(ofSize: 14, weight: .medium))
-                .bySubTitle("更多内容 3", for: .normal)
-                .bySubTitleColor(.secondaryLabel, for: .normal)
-                .bySubTitleFont(.systemFont(ofSize: 11, weight: .regular))
-                .byImage("megaphone.fill".sysImg, for: .normal)
-                .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
-                .byTitleEdgeInsets(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6))
-                .byTapSound("Sound.wav")
-                .onTap { sender in
-                    print("🔔 向上连续 · 公告 3 tapped, selected=\(sender.isSelected)")
-                    toastBy(sender.title!)
-                }
-                .onLongPress(minimumPressDuration: 0.8) { btn, gr in
-                    if gr.state == .began {
-                        btn.alpha = 0.6
-                        print("长按开始 on \(btn)")
-                    } else if gr.state == .ended || gr.state == .cancelled {
-                        btn.alpha = 1.0
-                        print("长按结束")
+                    .onLongPress(minimumPressDuration: 0.8) { btn, gr in
+                        if gr.state == .began {
+                            btn.alpha = 0.6
+                            print("长按开始 on \(btn)")
+                        } else if gr.state == .ended || gr.state == .cancelled {
+                            btn.alpha = 1.0
+                            print("长按结束")
+                        }
+                    },
+                UIButton.sys()
+                    .byBackgroundColor(.systemYellow.withAlphaComponent(0.2), for: .normal)
+                    .byTitle("向上连续 · 公告 3", for: .normal)
+                    .byTitleColor(.label, for: .normal)
+                    .byTitleFont(.systemFont(ofSize: 14, weight: .medium))
+                    .bySubTitle("更多内容 3", for: .normal)
+                    .bySubTitleColor(.secondaryLabel, for: .normal)
+                    .bySubTitleFont(.systemFont(ofSize: 11, weight: .regular))
+                    .byImage("megaphone.fill".sysImg, for: .normal)
+                    .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
+                    .byTitleEdgeInsets(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6))
+                    .byTapSound("Sound.wav")
+                    .onTap { sender in
+                        print("🔔 向上连续 · 公告 3 tapped, selected=\(sender.isSelected)")
+                        sender.title?.toast
                     }
+                    .onLongPress(minimumPressDuration: 0.8) { btn, gr in
+                        if gr.state == .began {
+                            btn.alpha = 0.6
+                            print("长按开始 on \(btn)")
+                        } else if gr.state == .ended || gr.state == .cancelled {
+                            btn.alpha = 1.0
+                            print("长按结束")
+                        }
+                    }
+            ])
+            .byBgColor(.randomColor)
+            .byAddTo(self.scrollView) { [unowned self] make in
+                if #available(iOS 11.0, *) {
+                    make.top.equalTo(self.scrollView.contentLayoutGuide.snp.top).offset(10)
+                    make.left.equalTo(self.scrollView.frameLayoutGuide.snp.left).offset(self.horizontalInset)
+                    make.right.equalTo(self.scrollView.frameLayoutGuide.snp.right).inset(self.horizontalInset)
+                } else {
+                    make.top.equalTo(self.scrollView.snp.top).offset(10)
+                    make.left.equalTo(self.scrollView).offset(self.horizontalInset)
+                    make.right.equalTo(self.scrollView).inset(self.horizontalInset)
                 }
-        ])
-        .byBgColor(.randomColor)
-        .byAddTo(self.scrollView) { [unowned self] make in
-            if #available(iOS 11.0, *) {
-                make.top.equalTo(self.scrollView.contentLayoutGuide.snp.top).offset(10)
-                make.left.equalTo(self.scrollView.frameLayoutGuide.snp.left).offset(self.horizontalInset)
-                make.right.equalTo(self.scrollView.frameLayoutGuide.snp.right).inset(self.horizontalInset)
-            } else {
-                make.top.equalTo(self.scrollView.snp.top).offset(10)
-                make.left.equalTo(self.scrollView).offset(self.horizontalInset)
-                make.right.equalTo(self.scrollView).inset(self.horizontalInset)
+                make.height.equalTo(self.marqueeHeight)
             }
-            make.height.equalTo(self.marqueeHeight)
-        }
-}()
+    }()
 ```
 
 ##### 2.14.3、轮播图（实际展现的控件是按钮）
@@ -1503,7 +1502,7 @@ private lazy var kingfisherImageButtonsMarquee: JobsMarqueeView = { [unowned sel
                 .byTapSound("Sound.wav")
                 .onTap { sender in
                     print("🔴 Kingfisher@背景图 1 tapped, selected=\(sender.isSelected)")
-                    toastBy("点击了Kingfisher@背景图")
+                    "点击了Kingfisher@背景图".toast
                 }
                 .onLongPress(minimumPressDuration: 0.8) { btn, gr in
                     if gr.state == .began {
@@ -1530,7 +1529,7 @@ private lazy var kingfisherImageButtonsMarquee: JobsMarqueeView = { [unowned sel
                 .byTapSound("Sound.wav")
                 .onTap { sender in
                     print("🔴 Kingfisher@背景图 2 tapped, selected=\(sender.isSelected)")
-                    toastBy("点击了Kingfisher@背景图")
+                    "点击了Kingfisher@背景图".toast
                 }
                 .onLongPress(minimumPressDuration: 0.8) { btn, gr in
                     if gr.state == .began {
@@ -1557,7 +1556,7 @@ private lazy var kingfisherImageButtonsMarquee: JobsMarqueeView = { [unowned sel
                 .byTapSound("Sound.wav")
                 .onTap { sender in
                     print("🔴 Kingfisher@背景图 3 tapped, selected=\(sender.isSelected)")
-                    toastBy("点击了Kingfisher@背景图")
+                    "点击了Kingfisher@背景图".toast
                 }
                 .onLongPress(minimumPressDuration: 0.8) { btn, gr in
                     if gr.state == .began {
@@ -2395,7 +2394,7 @@ let button = UIButton(type: .system)
 
 #### 2.20、安全取Cell
 
-> 通过数组下标安全取Cell，即使越界也不会奔溃（只是去不到Cell值返回nil）
+> 通过数组下标安全取**Cell**，即使越界也不会奔溃（只是去不到**Cell**值返回nil）
 
 ```swift
 let cell = collectionView[section: 0, item: 3]
@@ -2507,7 +2506,7 @@ DemoDetailVC().onResult { name in
 
 ### 3、对抗记忆衰弱
 
-* 使用Xcode代码块的方式👉[**`JobsCodeSnippets`**](https://github.com/JobsKits/JobsCodeSnippets)脚本安装，自动注入系统指定目录，只需要重启Xcode即可使用
+* 使用**Xcode**代码块的方式👉[**`JobsCodeSnippets`**](https://github.com/JobsKits/JobsCodeSnippets)脚本安装，自动注入系统指定目录，只需要重启**Xcode**即可使用
 
   ![image-20251206164503864](./assets/image-20251206164503864.png)
 
@@ -2515,13 +2514,41 @@ DemoDetailVC().onResult { name in
 
 > 原则上拒绝python，直接用Shell调用系统底层SDK来完成（高效）
 
-### 5、将组件库发布到[**cocoapods**](https://cocoapods.org/)（持续更新）
+### 5、将组件库Pod化
 
 ```ruby
-pod 'JobsSwiftBaseTools'                 # https://github.com/JobsKits/JobsSwiftBaseTools
-pod 'JobsSwiftBaseDefines'               # https://github.com/JobsKits/JobsSwiftBaseDefines
-pod 'JobsSwiftFoundation@Extensions'     # https://github.com/JobsKits/Jobs.Swift.Foundation.Extensions
-pod 'JobsSwiftMetalKit@Extensions'       # https://github.com/JobsKits/Jobs.Swift.MetalKit.Extensions
+# Pod化
+def byJobs
+  pod 'BRPickerViewSwift',              :path => 'JobsByPods/BRPickerViewSwift@Pods'
+  pod 'JobsBy3rdTools',                 :path => 'JobsByPods/JobsBy3rdTools@Pods'
+  pod 'JobsByUIKit',                    :path => 'JobsByPods/JobsByUIKit@Pods'
+  pod 'Inheritance',                    :path => 'JobsByPods/Inheritance@Pods'
+  pod 'Jobsl10n',                       :path => 'JobsByPods/Jobsl10n@Pods'
+  pod 'JobsSwiftTimer',                 :path => 'JobsByPods/JobsSwiftTimer@Pods'                # https://github.com/JobsKits/JobsSwiftTimer
+  pod 'JobsNavBar',                     :path => 'JobsByPods/JobsNavBar@Pods'
+  pod 'JobsToast',                      :path => 'JobsByPods/JobsToast@Pods'
+  pod 'JobsTextTools',                  :path => 'JobsByPods/JobsTextTools@Pods'
+  pod 'JobsImageTools',                 :path => 'JobsByPods/JobsImageTools@Pods'
+  pod 'JobsScale',                      :path => 'JobsByPods/JobsScale@Pods'
+  pod 'JobsGetWindow',                  :path => 'JobsByPods/JobsGetWindow@Pods'
+  pod 'JobsRefresher',                  :path => 'JobsByPods/JobsRefresher@Pods'
+  pod 'JobsSwiftTools',                 :path => 'JobsByPods/JobsSwiftTools@Pods'
+  pod 'JobsCountdownButton',            :path => 'JobsByPods/JobsCountdownButton@Pods'
+  pod 'JobsMarqueeView',                :path => 'JobsByPods/JobsMarqueeView@Pods'
+  pod 'JobsEmptyView',                  :path => 'JobsByPods/JobsEmptyView@Pods'
+  pod 'JobsGestureUnlock',              :path => 'JobsByPods/JobsGestureUnlock@Pods'
+  pod 'JobsCryptoKit',                  :path => 'JobsByPods/JobsCryptoKit@Pods'
+  pod 'JobsLocalNotification',          :path => 'JobsByPods/JobsLocalNotification@Pods'
+  pod 'JobsSwiftAppTools',              :path => 'JobsByPods/JobsSwiftAppTools@Pods'
+  pod 'JobsLuckyEnvelopeRain',          :path => 'JobsByPods/JobsLuckyEnvelopeRain@Pods'
+  pod 'SwiftStandardLibrary_extension', :path => 'JobsByPods/SwiftStandardLibrary_extension@Pods'
+  
+  pod 'JobsSwiftFoundation_extensions', :path => 'JobsByPods/Foundation@Pods'                     # https://github.com/JobsKits/Jobs.Swift.Foundation.Extensions
+  pod 'JobsSwiftMetalKit_extensions',   :path => 'JobsByPods/MetalKit@Pods'                       # https://github.com/JobsKits/Jobs.Swift.MetalKit.Extensions
+  pod 'JobsSwiftBlock',                 :path => 'JobsByPods/JobsSwiftBlock@Pods'                 # https://github.com/JobsKits/JobsSwiftBlock
+  pod 'JobsSwiftBaseDefines',           :path => 'JobsByPods/SwiftDefines@Pods'                   # https://github.com/JobsKits/JobsSwiftBaseDefines
+  pod 'JobsSwiftBaseTools',             :path => 'JobsByPods/JobsSwiftBaseTools@Pods'             # https://github.com/JobsKits/JobsSwiftBaseTools
+end
 ```
 
 ## 四、BaseURL构架
@@ -2530,12 +2557,12 @@ pod 'JobsSwiftMetalKit@Extensions'       # https://github.com/JobsKits/Jobs.Swif
   * 每次发包的时候，可以进行更替/每次启动移动端App也可以进行更新（具体看具体业务场景设计）
   * 这一组URL的请求结果➤**拿到真实的移动端App请求的BaseURL**
   * 这一组URL实际上是**服务器矩阵**（以应对IP封锁）
-* 真实的App里面具体请求对应的BaseURl程序员都不知是什么。前端开发人员只需要面对接口，而不需要关心BaseURL
+* 真实的App里面具体请求对应的**BaseURl**程序员都不知是什么。前端开发人员只需要面对接口，而不需要关心**BaseURL**
 * 那么在移动端App开屏进入页面的时候，就需要有自检环节（前端配合进度条等UI反馈）
   * 先测试预埋的一组URL的可达性（本地开启轮询测试）
-  * 然后再通过这一组URL拉取实际请求的BaseURL（可以是一个组）
+  * 然后再通过这一组URL拉取实际请求的**BaseURL**（可以是一个组）
   * 自检环节，之前亚博是控制在10～15秒
-* 全局的BaseURL是浮动的，内部需要有一个实时监控机制，如果在使用过程中BaseURL变的不可达，那么就需要在这一组BaseURL去找可用的BaseURL顶上
+* 全局的**BaseURL**是浮动的，内部需要有一个实时监控机制，如果在使用过程中BaseURL变的不可达，那么就需要在这一组**BaseURL**去找可用的**BaseURL**顶上
 
 <a id="🔚" href="#一些基本的原则" style="font-size:17px; color:green; font-weight:bold;">我是有底线的👉点我回到首页</a>
 
