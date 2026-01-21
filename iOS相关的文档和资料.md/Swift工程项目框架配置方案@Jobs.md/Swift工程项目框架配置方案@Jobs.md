@@ -2517,37 +2517,36 @@ DemoDetailVC().onResult { name in
 ### 5、将组件库Pod化
 
 ```ruby
-# Pod化
 def byJobs
-  pod 'BRPickerViewSwift',              :path => 'JobsByPods/BRPickerViewSwift@Pods'
-  pod 'JobsBy3rdTools',                 :path => 'JobsByPods/JobsBy3rdTools@Pods'
-  pod 'JobsByUIKit',                    :path => 'JobsByPods/JobsByUIKit@Pods'
-  pod 'Inheritance',                    :path => 'JobsByPods/Inheritance@Pods'
-  pod 'Jobsl10n',                       :path => 'JobsByPods/Jobsl10n@Pods'
-  pod 'JobsSwiftTimer',                 :path => 'JobsByPods/JobsSwiftTimer@Pods'                # https://github.com/JobsKits/JobsSwiftTimer
-  pod 'JobsNavBar',                     :path => 'JobsByPods/JobsNavBar@Pods'
-  pod 'JobsToast',                      :path => 'JobsByPods/JobsToast@Pods'
-  pod 'JobsTextTools',                  :path => 'JobsByPods/JobsTextTools@Pods'
-  pod 'JobsImageTools',                 :path => 'JobsByPods/JobsImageTools@Pods'
-  pod 'JobsScale',                      :path => 'JobsByPods/JobsScale@Pods'
-  pod 'JobsGetWindow',                  :path => 'JobsByPods/JobsGetWindow@Pods'
-  pod 'JobsRefresher',                  :path => 'JobsByPods/JobsRefresher@Pods'
-  pod 'JobsSwiftTools',                 :path => 'JobsByPods/JobsSwiftTools@Pods'
-  pod 'JobsCountdownButton',            :path => 'JobsByPods/JobsCountdownButton@Pods'
-  pod 'JobsMarqueeView',                :path => 'JobsByPods/JobsMarqueeView@Pods'
-  pod 'JobsEmptyView',                  :path => 'JobsByPods/JobsEmptyView@Pods'
-  pod 'JobsGestureUnlock',              :path => 'JobsByPods/JobsGestureUnlock@Pods'
-  pod 'JobsCryptoKit',                  :path => 'JobsByPods/JobsCryptoKit@Pods'
-  pod 'JobsLocalNotification',          :path => 'JobsByPods/JobsLocalNotification@Pods'
-  pod 'JobsSwiftAppTools',              :path => 'JobsByPods/JobsSwiftAppTools@Pods'
-  pod 'JobsLuckyEnvelopeRain',          :path => 'JobsByPods/JobsLuckyEnvelopeRain@Pods'
-  pod 'SwiftStandardLibrary_extension', :path => 'JobsByPods/SwiftStandardLibrary_extension@Pods'
+  pod 'BRPickerViewSwift',                  :path => 'JobsByPods/BRPickerViewSwift@Pods'
+  pod 'JobsBy3rdTools',                     :path => 'JobsByPods/JobsBy3rdTools@Pods'
+  pod 'JobsByUIKit',                        :path => 'JobsByPods/JobsByUIKit@Pods'
+  pod 'JobsInheritance',                    :path => 'JobsByPods/JobsInheritance@Pods'
+  pod 'Jobsl10n',                           :path => 'JobsByPods/Jobsl10n@Pods'
+  pod 'JobsSwiftTimer',                     :path => 'JobsByPods/JobsSwiftTimer@Pods'                # https://github.com/JobsKits/JobsSwiftTimer
+  pod 'JobsNavBar',                         :path => 'JobsByPods/JobsNavBar@Pods'
+  pod 'JobsToast',                          :path => 'JobsByPods/JobsToast@Pods'
+  pod 'JobsTextTools',                      :path => 'JobsByPods/JobsTextTools@Pods'
+  pod 'JobsImageTools',                     :path => 'JobsByPods/JobsImageTools@Pods'
+  pod 'JobsScale',                          :path => 'JobsByPods/JobsScale@Pods'
+  pod 'JobsGetWindow',                      :path => 'JobsByPods/JobsGetWindow@Pods'
+  pod 'JobsRefresher',                      :path => 'JobsByPods/JobsRefresher@Pods'
+  pod 'JobsSwiftTools',                     :path => 'JobsByPods/JobsSwiftTools@Pods'
+  pod 'JobsCountdownButton',                :path => 'JobsByPods/JobsCountdownButton@Pods'
+  pod 'JobsMarqueeView',                    :path => 'JobsByPods/JobsMarqueeView@Pods'
+  pod 'JobsEmptyView',                      :path => 'JobsByPods/JobsEmptyView@Pods'
+  pod 'JobsGestureUnlock',                  :path => 'JobsByPods/JobsGestureUnlock@Pods'
+  pod 'JobsCryptoKit',                      :path => 'JobsByPods/JobsCryptoKit@Pods'
+  pod 'JobsLocalNotification',              :path => 'JobsByPods/JobsLocalNotification@Pods'
+  pod 'JobsSwiftAppTools',                  :path => 'JobsByPods/JobsSwiftAppTools@Pods'
+  pod 'JobsLuckyEnvelopeRain',              :path => 'JobsByPods/JobsLuckyEnvelopeRain@Pods'
+  pod 'JobsSwiftStandardLibrary_extension', :path => 'JobsByPods/JobsSwiftStandardLibrary_extension@Pods'
   
-  pod 'JobsSwiftFoundation_extensions', :path => 'JobsByPods/Foundation@Pods'                     # https://github.com/JobsKits/Jobs.Swift.Foundation.Extensions
-  pod 'JobsSwiftMetalKit_extensions',   :path => 'JobsByPods/MetalKit@Pods'                       # https://github.com/JobsKits/Jobs.Swift.MetalKit.Extensions
-  pod 'JobsSwiftBlock',                 :path => 'JobsByPods/JobsSwiftBlock@Pods'                 # https://github.com/JobsKits/JobsSwiftBlock
-  pod 'JobsSwiftBaseDefines',           :path => 'JobsByPods/SwiftDefines@Pods'                   # https://github.com/JobsKits/JobsSwiftBaseDefines
-  pod 'JobsSwiftBaseTools',             :path => 'JobsByPods/JobsSwiftBaseTools@Pods'             # https://github.com/JobsKits/JobsSwiftBaseTools
+  pod 'JobsSwiftFoundation_extensions',     :path => 'JobsByPods/Foundation@Pods'                     # https://github.com/JobsKits/Jobs.Swift.Foundation.Extensions
+  pod 'JobsSwiftMetalKit_extensions',       :path => 'JobsByPods/MetalKit@Pods'                       # https://github.com/JobsKits/Jobs.Swift.MetalKit.Extensions
+  pod 'JobsSwiftBlock',                     :path => 'JobsByPods/JobsSwiftBlock@Pods'                 # https://github.com/JobsKits/JobsSwiftBlock
+  pod 'JobsSwiftBaseDefines',               :path => 'JobsByPods/SwiftDefines@Pods'                   # https://github.com/JobsKits/JobsSwiftBaseDefines
+  pod 'JobsSwiftBaseTools',                 :path => 'JobsByPods/JobsSwiftBaseTools@Pods'             # https://github.com/JobsKits/JobsSwiftBaseTools
 end
 ```
 
