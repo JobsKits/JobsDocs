@@ -272,11 +272,16 @@
 * <font color=red>风险提示：一旦用了最新的`UIButtonConfiguration`可能影响到老旧的Api的使用（直观感受，老旧Api配置的按钮将会不起效）</font>
 
 ```swift
-/// 使用的时候，仅需要复制，依据具体需求进行删除不必要的项，和修改配置的值（特别是约束）
 private lazy var exampleButton: UIButton = {
     UIButton.sys()
         /// 背景色
         .byBackgroundColor(.systemGreen, for: .normal)
+        /// 字体颜色渐变@只处理主标题（titleLabel）
+        .jobs_setGradientMainTitle(colors: [UIColor(r: 221, g: 221, b: 221), UIColor(r: 127, g: 126, b: 126)], direction: .leftToRight)
+        /// 字体颜色渐变@只副标题渐变
+        .jobs_setGradientSubtitle(colors: [UIColor(r: 221, g: 221, b: 221), UIColor(r: 127, g: 126, b: 126)], direction: .topLeftToBottomRight)
+        /// 字体颜色渐变@主副一致
+        .jobs_setGradientTitlesSame(colors: [UIColor(r: 221, g: 221, b: 221), UIColor(r: 127, g: 126, b: 126)], direction: .leftToRight)
         /// 普通字符串@设置主标题
         .byTitle("显示", for: .normal)
         .byTitle("隐藏", for: .selected)
@@ -302,8 +307,14 @@ private lazy var exampleButton: UIButton = {
         /// 按钮图片@图文关系
         .byImage("eye.slash".sysImg, for: .normal)                // 未选中图标
         .byImage("eye".sysImg, for: .selected)                    // 选中图标
-        .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))// 图文内边距
+        /// iOS15专用@清除偏移
+        .byClearConfigurationBackground() 
+        /// 按钮图片@图文关系iOS13（与下文互斥）
         .byTitleEdgeInsets(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6)) // 图标与文字间距
+        .byImagePlacement(.top)
+        /// 按钮图片@图文关系iOS12（与上文互斥）
+        .byImagePlacementLegacy(.top, padding: 5)
+        .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))// 图文内边距
         /// 点击@播放声音
         .byTapSound("Sound.wav")    
         /// 普通@点按事件触发
@@ -366,6 +377,44 @@ private lazy var exampleButton: UIButton = {
                 .byTitleColor(.white, for: .normal)
                 .byContentEdgeInsets(.init(top: 16, left: 16, bottom: 16, right: 16))
                 .byBgColor(.systemBlue)
+        }
+}()
+// MARK: - 倒计时演示按钮（同一套 API：传 total => 倒计时）
+private lazy var countdownButton: UIButton = {
+    UIButton.sys()
+        .byTitle("获取验证码", for: .normal)
+        .byTitleColor(.white, for: .normal)
+        .byBackgroundColor(.systemGreen, for: .normal)
+        .onCountdownTick { [weak self] btn, remain, total, kind in
+            guard let self else { return }
+            print("⏱️ [\(kind.jobs_displayName)] \(remain)/\(total)")
+            self.lastFireLabel.text = "Last: " + Self.fmt(Date())
+            btn.byTitle("还剩 \(remain)s", for: .normal)
+        }
+        .onCountdownFinish { _, kind in
+            print("✅ [\(kind.jobs_displayName)] 倒计时完成")
+        }
+        .onTap { [weak self] btn in
+            guard let self else { return }
+            let total = self.parseCountdownTotal(10)
+            btn.startTimer(
+                total: total, // ❤️ 传 total => 倒计时
+                interval: self.intervalSec,
+                kind: self.currentKind
+            )
+            // 关键：等 startTimer 把 "10s" 设好后再加前缀，避免被覆盖
+            DispatchQueue.main.async {
+                let cur = btn.title(for: .normal) ?? "\(total)s"
+                if !cur.hasPrefix("还剩 ") {
+                    btn.byTitle("还剩 \(cur)", for: .normal)
+                }
+            }
+        }
+        .byAddTo(view) { [unowned self] make in
+            make.top.equalTo(self.hintLabel.snp.bottom).offset(20)
+            make.left.equalToSuperview().offset(horizontalInset)
+            make.right.equalToSuperview().inset(horizontalInset)
+            make.height.equalTo(50)
         }
 }()
 ```
