@@ -572,68 +572,73 @@ private lazy var countdownButton: UIButton = {
 * 输入监控 + 退格监控
 
   ```swift
-  private lazy var tv: UITextView = { [unowned self] in
+  private lazy var tv1: UITextView = {
       UITextView()
-          .byText("这里展示基础链式调用：字体、颜色、边框、内边距等。")
           .byFont(.systemFont(ofSize: 16))
-          .byTextColor(.label)
-          .byTextAlignment(.left)
+          .byKeyboardType(.default)
           .byEditable(true)
           .bySelectable(true)
           .byTextContainerInset(UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10))
           .byRoundedBorder(color: .systemGray4, width: 1, radius: 8)
-          .onChange { tv, input, old, isDeleting in
-              let new = tv.text ?? ""
-              print("✏️ input='\(input)' old='\(old)' new='\(new)' deleting=\(isDeleting)")
-  
-              // 6~20 有效：绿边，否则红边
-              let ok = (6...20).contains(new.count)
-              tv.layer.borderWidth = 1
-              tv.layer.borderColor = (ok ? UIColor.systemGreen : UIColor.systemRed).cgColor
-              tv.layer.masksToBounds = true
-              if #available(iOS 13.0, *) { tv.layer.cornerCurve = .continuous }
+          .jobs_onInput(limit: nil) { [unowned self] char, value, mode, isLimited, text ,tv in
+              // text 就是当前 UITextView.text（保证不是 nil，空就是 ""）
+              // value 仍然是“本次变更后的值”（由监听器计算出来的 new）
+              // char：删除/回车时为 ""
+              // mode：space/delete/return/normal
+              // isLimited：是否设置了限制（limit != nil）
+              print("✏️ char='\(char)' value='\(value)' mode=\(mode) limited=\(isLimited) text='\(text)'")
           }
-          .onBackspace { tv in
-              print("👈 backspace: len=\(tv.text?.count ?? 0)")
+          .jobs_onBeginEditing { value in
+              print("✍️ begin:", value)
           }
-          .byAddTo(self.view) { [unowned self] make in
-              make.top.equalTo(self.textField.snp.bottom).offset(12)
-              make.centerX.equalToSuperview()
-              make.height.equalTo(36)
+          .jobs_onEndEditing { value in
+              print("✅ end:", value)
+          }
+          .byAddTo(contentView) { [unowned self] make in
+              make.top.equalTo(title1.snp.bottom).offset(8)
+              make.left.equalToSuperview().offset(16)
+              make.right.equalToSuperview().offset(-16)
+              make.height.equalTo(100)
           }
   }()
   ```
-
+  
 * 配合富文本
 
   ```swift
-  private lazy var tvBlue: UITextView = { [unowned self] in
-      return UITextView()
+  private lazy var tvRed: UITextView = {
+      UITextView()
           .byAttributedText(NSMutableAttributedString(
-              string: "🔗 默认蓝色链接（系统样式）：",
-              attributes: [
-                  .font: UIFont.systemFont(ofSize: 15),
-                  .foregroundColor: UIColor.secondaryLabel
-              ])
-              .add(NSAttributedString(
-                  string: " Apple 官网",
-                  attributes: [
-                      .link: URL(string: "https://www.apple.com")!,
-                      .font: UIFont.boldSystemFont(ofSize: 16)
-                  ]))
-              .add(NSAttributedString(
-                  string: "\n客服电话：400-123-4567",
-                  attributes: [.font: UIFont.systemFont(ofSize: 15)]
-              )))
+              string: "🔴 自定义红色链接：",
+              attributes: [.font: UIFont.systemFont(ofSize: 15),
+                           .foregroundColor: UIColor.secondaryLabel]
+          ).byAdd(NSAttributedString(
+              string: " Jobs 官网",
+              attributes: [.link: URL(string: "https://www.google.com")!,
+                           .font: UIFont.boldSystemFont(ofSize: 16)]
+          )).byAdd(NSAttributedString(
+              string: "\n客服电话：400-123-4567",
+              attributes: [.font: UIFont.systemFont(ofSize: 15)]
+          )))
           .byEditable(false)
           .bySelectable(true)
-          .byDataDetectorTypes([.link, .phoneNumber])   // 系统自动识别
+          .byDataDetectorTypes([.link, .phoneNumber])
+          .byLinkTextAttributes([
+              .foregroundColor: UIColor.systemRed,
+              .underlineStyle: NSUnderlineStyle.single.rawValue
+          ])
           .byTextContainerInset(UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10))
           .byRoundedBorder(color: .systemGray4, width: 1, radius: 8)
-          .byAddTo(self.view) { [unowned self] make in
-              make.top.equalTo(self.tv.snp.bottom).offset(12)   // 紧跟在 tv 下面
-              make.centerX.equalToSuperview()
-              make.height.equalTo(36)
+          .jobs_onBeginEditing { value in
+              print("✍️ begin:", value)
+          }
+          .jobs_onEndEditing { value in
+              print("✅ end:", value)
+          }
+          .byAddTo(contentView) { [unowned self] make in
+              make.top.equalTo(tvBlue.snp.bottom).offset(12)
+              make.left.right.equalTo(tv1)
+              make.height.equalTo(110)
           }
   }()
   ```
@@ -644,151 +649,90 @@ private lazy var countdownButton: UIButton = {
 
   ```swift
   /// 密码输入框
-  private lazy var tf1: UITextField = {
-      UITextField()
-          .byDelegate(self) // 数据源
-          .byPlaceholder("请输入密码（6-20 位）")
-          .bySecureTextEntry(true)
-          .byInputAccessoryView(UIToolbar().byItems([
-              UIBarButtonItem()
-                  .byTitle("清空")
-                  .byTitleFont(.systemFont(ofSize: 15))
-                  .byTitleColor(.systemRed)
-                  .byStyle(.plain)
-                  .onTap { [weak self] _ in
-                      guard let self = self else { return }   // ✅ 确保生命周期安全
-                      /// TODO
-                  },
-              UIBarButtonItem(systemItem: .flexibleSpace),
-              UIBarButtonItem()
-                  .byTitle("完成")
-                  .byTitleFont(.systemFont(ofSize: 15))
-                  .byTitleColor(.systemYellow)
-                  .byStyle(.done)
-                  .onTap { [weak self] _ in
-                      guard let self = self else { return }   // ✅ 确保生命周期安全
-                      view.endEditing(true)
-                  },
-          ])
-          .bySizeToFit())                                     // ✅ 给密码框自定义 inputAccessoryView
-          .byBorderStyle(.roundedRect)
-          .byReturnKeyType(.done)
-          .byTextContentType(.password)
-          .byPasswordRules(nil) // 也可自定义
-      //            .byLeftView(Self.makeIcon("lock"), mode: .always)
-          .byLeftIcon(UIImage(systemName: "lock"),
-                      tint: .secondaryLabel,
-                      size: .init(width: 18, height: 18),
-                      leading: 12, spacing: 8)
-          .byRightView(UIButton(type: .system)
-                       // 普通文字：未选中状态标题
-                       .byTitle("显示", for: .normal)
-                       // 选中状态标题
-                       .byTitle("隐藏", for: .selected)
-                       // 文字颜色：区分状态
-                       .byTitleColor(.systemBlue, for: .normal)
-                       .byTitleColor(.systemRed, for: .selected)
-                       // 字体统一
-                       .byTitleFont(.systemFont(ofSize: 16, weight: .medium))
-                       // 图标（SF Symbol）
-                       .byImage(UIImage(systemName: "eye.slash"), for: .normal)   // 未选中图标
-                       .byImage(UIImage(systemName: "eye"), for: .selected)       // 选中图标
-                       // 图文内边距
-                       .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
-                       // 图标与文字间距
-                       .byTitleEdgeInsets(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6))
-                       // 点按事件（统一入口）
-                       .onTap { [weak self] sender in
-                           guard let self else { return }
-                           sender.isSelected.toggle()
-                           // 文字与图标自动切换
-                           self.passwordTF.isSecureTextEntry.toggle()
-                           self.passwordTF.togglePasswordVisibility()
-                           print("👁 当前状态：\(sender.isSelected ? "隐藏密码" : "显示密码")")
-                       }, mode: .always)
-          .byInputView(datePicker) // 演示自定义 inputView：点密码框弹日期（纯展示，不建议真实项目这么用）
-          // 限制输入
-          .byLimitLength(12) {[weak self] isLimited, tf in
-              guard let self else { return }
-              tipLabel.byVisible(isLimited)
-          }
-          .onChange { tf, input, old, isDeleting in
-              let new = tf.text ?? ""
-              print("✏️ input='\(input)' old='\(old)' new='\(new)' deleting=\(isDeleting)")
-  
-              // 示例：6~20 位有效态样式
-              let ok = (6...20).contains(new.count)
-              tf.layer.borderWidth = 1
-              tf.layer.borderColor = (ok ? UIColor.systemGreen : UIColor.systemRed).cgColor
-              tf.layer.masksToBounds = true
-              if #available(iOS 13.0, *) { tf.layer.cornerCurve = .continuous }
-          }
-          .byAddTo(view) { [unowned self] make in
-              make.top.equalTo(textField.snp.bottom).offset(12)
-              make.centerX.equalToSuperview()
-              make.height.equalTo(36)
-          }
-  }()
+  private lazy var passwordTF: UITextField = {
+          UITextField()
+              .byPlaceholder("请输入密码（最长 5）")
+              .byFont(.systemFont(ofSize: 16))
+              .byTextColor(.label)
+              .byKeyboardType(.default)
+              .byReturnKeyType(.done)
+              .byClearButtonMode(.whileEditing)
+              .byDelegate(self)
+              .byLeftView(UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 1)))
+              .byLeftViewMode(.always)
+              .bySecureTextEntry(true)
+              // MARK: Jobs 输入监听（无 Rx）—— 密码：最长 5，只做监听
+              .jobs_onBeginEditing { value in
+                  print("✍️ password begin:", value)
+              }
+              .jobs_onInput(limit: 5) { [weak self] char, value, mode, isLimited in
+                  guard let self else { return }
+                  let current = self.passwordTF.text ?? value
+                  print("🔐 char='\(char)' value='\(current)' mode=\(mode) limited=\(isLimited)")
+              }
+              .jobs_onEndEditing { value in
+                  print("✅ password end:", value)
+              }
+              .byAddTo(view) { [unowned self] make in
+                  make.top.equalTo(emailTF.snp.bottom).offset(16)
+                  make.left.right.height.equalTo(emailTF)
+              }
+              .byBorderColor(.cyan)
+              .byBorderWidth(0.5)
+              .byMasksToBounds(YES)
+              .byClipsToBounds(YES)
+              .byCornerRadius(8.h)
+      }()
   ```
-
+  
 * 邮箱输入框
 
   ```swift
   /// 邮箱输入框
-  private lazy var tf1: UITextField = {
-      UITextField()
-          // 数据源
-          .byDelegate(self)
-          // 基础视觉
-          .byPlaceholder("请输入邮箱（至少 3 个字符）")
-          .byTextColor(.label)
-          .byFont(.systemFont(ofSize: 16))
-          .byTextAlignment(.natural)
-          .byBorderStyle(.roundedRect)
-          .byClearButtonMode(.whileEditing)
-  
-          .byInputAccessoryView(accessory)
-          // 键盘
-          .byKeyboardType(.emailAddress)
-          .byKeyboardAppearance(.dark)
-          .byReturnKeyType(.next)
-          .byEnablesReturnKeyAutomatically(true)
-          // 智能输入
-          .byAutocapitalizationType(.none)
-          .byAutocorrectionType(.no)
-          .bySpellCheckingType(.no)
-          .bySmartQuotesType(.no)
-          .bySmartDashesType(.no)
-          .bySmartInsertDeleteType(.no)
-          // 内容类型
-          .byTextContentType(.emailAddress)
-          // 编辑属性
-          .byAllowsEditingTextAttributes(true)
-          .byDefaultTextAttributes([.kern: 0.5]) // 字距
-          .byTypingAttributes([.foregroundColor: UIColor.label])
-          // 左/右视图
-          //.byLeftView(makeIcon("envelope"), mode: .always)
-          .byLeftIcon(UIImage(systemName: "envelope"),
-                      tint: .secondaryLabel,
-                      size: .init(width: 18, height: 18),
-                      leading: 12, spacing: 8)
-          .onChange { tf, input, old, isDeleting in
-              let new = tf.text ?? ""
-              print("✏️ input='\(input)' old='\(old)' new='\(new)' deleting=\(isDeleting)")
-  
-              // 示例：6~20 位有效态样式
-              let ok = (6...20).contains(new.count)
-              tf.layer.borderWidth = 1
-              tf.layer.borderColor = (ok ? UIColor.systemGreen : UIColor.systemRed).cgColor
-              tf.layer.masksToBounds = true
-              if #available(iOS 13.0, *) { tf.layer.cornerCurve = .continuous }
-          }
-          .byAddTo(view) { [unowned self] make in
-              make.top.equalTo(textField.snp.bottom).offset(12)
-              make.centerX.equalToSuperview()
-              make.height.equalTo(36)
-          }
-  }()
+  private lazy var emailTF: UITextField = {
+          UITextField()
+              .byPlaceholder("请输入邮箱（去空格 / 最长 8）")
+              .byFont(.systemFont(ofSize: 16))
+              .byTextColor(.label)
+              .byKeyboardType(.emailAddress)
+              .byReturnKeyType(.next)
+              .byClearButtonMode(.whileEditing)
+              .byDelegate(self)
+              .byLeftView(UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 1)))
+              .byLeftViewMode(.always)
+              // MARK: Jobs 输入监听（无 Rx）—— 邮箱：去空格 + 最长 8 + 简单规则
+              .jobs_onBeginEditing { value in
+                  print("✍️ email begin:", value)
+              }
+              .jobs_onInput(limit: 8) { [weak self] char, value, mode, isLimited in
+                  guard let self else { return }
+                  let trimmed = value.trimmingCharacters(in: .whitespaces)
+                  if trimmed != value {
+                      self.emailTF.text = trimmed
+                  }
+                  let current = self.emailTF.text ?? trimmed
+                  let ok = current.count >= 3 && current.contains("@")
+                  print("📧 char='\(char)' value='\(current)' mode=\(mode) limited=\(isLimited) ok=\(ok)")
+              }
+              .jobs_onEndEditing { value in
+                  print("✅ email end:", value)
+              }
+              .byAddTo(view) {[unowned self] make in
+                  make.left.equalToSuperview().offset(16)
+                  make.right.equalToSuperview().offset(-16)
+                  make.height.equalTo(44)
+                  if view.jobs_hasVisibleTopBar() {
+                      make.top.equalTo(self.gk_navigationBar.snp.bottom).offset(10)
+                  } else {
+                      make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+                  }
+              }
+              .byBorderColor(.cyan)
+              .byBorderWidth(0.5)
+              .byMasksToBounds(YES)
+              .byClipsToBounds(YES)
+              .byCornerRadius(8.h)
+      }()
   ```
 
 #### 2.7、对`UIImageView`的封装（暂时只展示[**Kingfisher**](https://github.com/onevcat/Kingfisher)。[**SDWebImage**](https://github.com/SDWebImage/SDWebImage)也有）
