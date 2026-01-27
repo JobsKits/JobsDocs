@@ -276,6 +276,8 @@ private lazy var exampleButton: UIButton = {
     UIButton.sys()
         /// 背景色
         .byBackgroundColor(.systemGreen, for: .normal)
+        /// 背景图片
+        .byBackgroundImage("背景图片".img, for: .normal)
         /// 字体颜色渐变@只处理主标题（titleLabel）
         .jobs_setGradientMainTitle(colors: [UIColor(r: 221, g: 221, b: 221), UIColor(r: 127, g: 126, b: 126)], direction: .leftToRight)
         /// 字体颜色渐变@只副标题渐变
@@ -362,6 +364,7 @@ private lazy var exampleButton: UIButton = {
             make.left.right.equalToSuperview().inset(24)
             make.height.equalTo(44)
         }
+        .byCornerRadius(12.h)
         /// UIButtonConfiguration
         if #available(iOS 15.0, *) {
             b.byConfiguration { c in
@@ -416,6 +419,7 @@ private lazy var countdownButton: UIButton = {
             make.right.equalToSuperview().inset(horizontalInset)
             make.height.equalTo(50)
         }
+        .byCornerRadius(12.h)
 }()
 ```
 
@@ -887,7 +891,7 @@ private lazy var countdownButton: UIButton = {
 ![image-20251206153328096](./assets/image-20251206153328096.png)
 
 * 没数据时，自动显示空态图（是一个按钮）
-* 封装了上下拉功能（基于[**ESPullToRefresh**](https://github.com/eggswift/pull-to-refresh)）
+* 封装了**拉新/刷新** 功能 ➤ 基于[**JobsRefresher**](https://github.com/JobsKits/JobsRefresher)
 
 ```swift
 private lazy var flowLayout: UICollectionViewFlowLayout = {
@@ -905,7 +909,8 @@ private lazy var collectionView: UICollectionView = {
         .registerCell(UICollectionViewCell.self)
         .byBackgroundView(nil)
         .byDragInteractionEnabled(false)
-
+        .byContentInsetTop(8)
+        .byExpandVerticalScrollDistance(200.h)
         // 空态按钮（与 UITableView Demo 一致）
         .jobs_emptyButtonProvider { [unowned self] in
             UIButton.sys()
@@ -966,6 +971,72 @@ private lazy var collectionView: UICollectionView = {
                 make.edges.equalToSuperview()
             }
         }
+//        .showRefreshHeaderInfo(NO)   // 竖向Header + 横向Left
+//        .showRefreshFooterInfo(YES)  // 竖向Footer + 横向Right
+        .setLeftLottie(.custom(.init(animationName: "9squares_AlBoardman")))
+        .setRightLottie(.inherit)     // 继承全局（没有全局就回退菊花）
+        .enableRefreshHaptics(true)
+        .setRefreshSound("Sound.wav") 
+        // 左侧拉：比如“上一页/回退”
+        .configSideRefresh(with: JobsDefaultLeftRefresher(),
+                           container: self,
+                           at: .left,
+                           trigger: 70) { [weak self] in
+            guard let self else { return }
+            jobsRunOnMain(self) { vc in
+                try? await Task.sleep(nanoseconds: 900_000_000)
+                // 模拟“刷新完成”：减少一个 item 并刷新
+                self.hItems = max(8, self.hItems - 1)
+                self.collectionView.byReloadData()
+                self.collectionView.switchSideRefresh(.left, to: .normal)
+            }
+       }
+       // 右侧拉：比如“下一页/加载更多卡片”
+       .configSideRefresh(with: JobsDefaultRightRefresher(),
+                          container: self,
+                          at: .right,
+                          trigger: 70) { [weak self] in
+           guard let self else { return }
+           jobsRunOnMain(self) { vc in
+               try? await Task.sleep(nanoseconds: 900_000_000)
+               self.hItems += 3
+               self.collectionView.byReloadData()
+               self.collectionView.switchSideRefresh(.right, to: .normal)
+           }
+       }
+      .setHeaderLottie(.custom(.init(animationName: "LottieLogo1")))
+      .setFooterLottie(.disabled) // 强制 footer 回退菊花（即使全局配置了）
+      .enableRefreshHaptics(true)
+      .setRefreshSound("Sound.wav")
+      // 下拉刷新 Header
+      .configRefreshHeader(component: JobsDefaultHeader(),
+                           container: self,
+                           trigger: 66) { [weak self] in
+          guard let self else { return }
+          jobsRunOnMain(self) { vc in
+              try? await Task.sleep(nanoseconds: 1_000_000_000)
+              self.rows = 20
+              self.tableView.byReloadData()
+              self.tableView.switchRefreshHeader(to: .normal)
+              self.tableView.switchRefreshFooter(to: .normal) // 复位“无更多”
+          }
+      }
+      // 上拉加载 Footer
+      .configRefreshFooter(component: JobsDefaultFooter(),
+                           container: self,
+                           trigger: 66) { [weak self] in
+          guard let self else { return }
+          jobsRunOnMain(self) { vc in
+              try? await Task.sleep(nanoseconds: 1_000_000_000)
+              if self.rows < 60 {
+                  self.rows += 20
+                  self.tableView.byReloadData()
+                  self.tableView.switchRefreshFooter(to: .normal)
+              } else {
+                  self.tableView.switchRefreshFooter(to: .noMoreData)
+              }
+          }
+      }
 }()
 ```
 
@@ -1029,7 +1100,7 @@ func collectionView(_ collectionView: UICollectionView,
 #### 2.9、对`UITableView`的封装
 
 * 没数据时，自动显示空态图（是一个按钮）
-* 封装了上下拉功能（基于[**ESPullToRefresh**](https://github.com/eggswift/pull-to-refresh)）
+* 封装了**拉新/刷新** 功能 ➤ 基于[**JobsRefresher**](https://github.com/JobsKits/JobsRefresher)
 
 ```swift
 private lazy var tableView: UITableView = {
@@ -1040,7 +1111,8 @@ private lazy var tableView: UITableView = {
         .byNoContentInsetAdjustment()
         .bySeparatorStyle(.singleLine)
         .byNoSectionHeaderTopPadding()
-    
+        .byContentInsetTop(8)
+        .byExpandVerticalScrollDistance(200.h)
         .jobs_emptyButtonProvider { [unowned self] in
             UIButton(type: .system)
                 .byTitle("暂无数据", for: .normal)
@@ -1097,7 +1169,6 @@ private lazy var tableView: UITableView = {
                 }
             }
         }
-
         .byAddTo(view) {[unowned self] make in
             if view.jobs_hasVisibleTopBar() {
                 make.top.equalTo(self.gk_navigationBar.snp.bottom).offset(10)
@@ -1106,6 +1177,72 @@ private lazy var tableView: UITableView = {
                 make.edges.equalToSuperview()
             }
         }
+//        .showRefreshHeaderInfo(NO)   // 竖向Header + 横向Left
+//        .showRefreshFooterInfo(YES)  // 竖向Footer + 横向Right
+        .setLeftLottie(.custom(.init(animationName: "9squares_AlBoardman")))
+        .setRightLottie(.inherit)     // 继承全局（没有全局就回退菊花）
+        .enableRefreshHaptics(true)
+        .setRefreshSound("Sound.wav") 
+        // 左侧拉：比如“上一页/回退”
+        .configSideRefresh(with: JobsDefaultLeftRefresher(),
+                           container: self,
+                           at: .left,
+                           trigger: 70) { [weak self] in
+            guard let self else { return }
+            jobsRunOnMain(self) { vc in
+                try? await Task.sleep(nanoseconds: 900_000_000)
+                // 模拟“刷新完成”：减少一个 item 并刷新
+                self.hItems = max(8, self.hItems - 1)
+                self.collectionView.byReloadData()
+                self.collectionView.switchSideRefresh(.left, to: .normal)
+            }
+       }
+       // 右侧拉：比如“下一页/加载更多卡片”
+       .configSideRefresh(with: JobsDefaultRightRefresher(),
+                          container: self,
+                          at: .right,
+                          trigger: 70) { [weak self] in
+           guard let self else { return }
+           jobsRunOnMain(self) { vc in
+               try? await Task.sleep(nanoseconds: 900_000_000)
+               self.hItems += 3
+               self.collectionView.byReloadData()
+               self.collectionView.switchSideRefresh(.right, to: .normal)
+           }
+       }
+      .setHeaderLottie(.custom(.init(animationName: "LottieLogo1")))
+      .setFooterLottie(.disabled) // 强制 footer 回退菊花（即使全局配置了）
+      .enableRefreshHaptics(true)
+      .setRefreshSound("Sound.wav")
+      // 下拉刷新 Header
+      .configRefreshHeader(component: JobsDefaultHeader(),
+                           container: self,
+                           trigger: 66) { [weak self] in
+          guard let self else { return }
+          jobsRunOnMain(self) { vc in
+              try? await Task.sleep(nanoseconds: 1_000_000_000)
+              self.rows = 20
+              self.tableView.byReloadData()
+              self.tableView.switchRefreshHeader(to: .normal)
+              self.tableView.switchRefreshFooter(to: .normal) // 复位“无更多”
+          }
+      }
+      // 上拉加载 Footer
+      .configRefreshFooter(component: JobsDefaultFooter(),
+                           container: self,
+                           trigger: 66) { [weak self] in
+          guard let self else { return }
+          jobsRunOnMain(self) { vc in
+              try? await Task.sleep(nanoseconds: 1_000_000_000)
+              if self.rows < 60 {
+                  self.rows += 20
+                  self.tableView.byReloadData()
+                  self.tableView.switchRefreshFooter(to: .normal)
+              } else {
+                  self.tableView.switchRefreshFooter(to: .noMoreData)
+              }
+          }
+      }
 }()
 ```
 
