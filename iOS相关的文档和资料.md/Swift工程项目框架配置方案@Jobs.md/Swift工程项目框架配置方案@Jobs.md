@@ -855,7 +855,23 @@ private lazy var collectionView: UICollectionView = {
         .byDragInteractionEnabled(false)
         .byContentInsetTop(8)
         .byExpandVerticalScrollDistance(200.h)
-        // 空态按钮（与 UITableView Demo 一致）
+        // 非正式协议闭包化
+        .byTarget(self)
+        .numberOfItemsInSection { [weak self] (obj: AnyObject, cv: UICollectionView, section: Int) -> Int in
+            self?.hItems ?? 0
+        }
+
+        .cellForItemAt { _, cv, indexPath in
+            cv
+                .dequeueCell(HCell.self, for: indexPath)
+                .byData(indexPath.item)
+                .onResult { _ in }
+        }
+        .didSelectItemAt({ obj, cv, idx in
+            cv.deselectItem(at: idx, animated: true)
+            print("点选逻辑")
+        })
+        // 空态按钮
         .jobs_emptyButtonProvider { [unowned self] in
             UIButton.sys()
                 .byTitle("暂无数据", for: .normal)
@@ -1057,6 +1073,24 @@ private lazy var tableView: UITableView = {
         .byNoSectionHeaderTopPadding()
         .byContentInsetTop(8)
         .byExpandVerticalScrollDistance(200.h)
+        // 非正式协议闭包化
+        .byTarget(self)
+        .numberOfRowsInSection { [weak self] (obj: AnyObject, tv: UITableView, section: Int) -> Int in
+            self?.rows ?? 0
+        }
+        .cellForRowAt { _, tv, indexPath in
+            let c = tv.dequeueReusableCell(withIdentifier: "cell") ??
+                    UITableViewCell(style: .default, reuseIdentifier: "cell")
+            var cfg = c.defaultContentConfiguration()
+            cfg.text = "Row \(indexPath.row)"
+            c.contentConfiguration = cfg
+            return c
+        }
+        .didSelectRowAt { _, tv, indexPath in
+            tv.deselectRow(at: indexPath, animated: true)
+            print("点选逻辑")
+        }
+        // 空态按钮
         .jobs_emptyButtonProvider { [unowned self] in
             UIButton(type: .system)
                 .byTitle("暂无数据", for: .normal)
