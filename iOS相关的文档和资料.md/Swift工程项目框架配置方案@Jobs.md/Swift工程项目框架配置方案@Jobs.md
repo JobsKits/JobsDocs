@@ -580,7 +580,11 @@ private lazy var countdownButton: UIButton = {
           .bySelectable(true)
           .byTextContainerInset(UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10))
           .byRoundedBorder(color: .systemGray4, width: 1, radius: 8)
-          .jobs_onInput(limit: nil) { [unowned self] char, value, mode, isLimited, text ,tv in
+          .byHintLimit(12) { lb in
+              lb.byFont(.monospacedDigitSystemFont(ofSize: 11, weight: .semibold))
+                  .byTextColor(.red)
+          }
+          .byOnInput(limit: nil) { [unowned self] char, value, mode, isLimited, text ,tv in
               // text 就是当前 UITextView.text（保证不是 nil，空就是 ""）
               // value 仍然是“本次变更后的值”（由监听器计算出来的 new）
               // char：删除/回车时为 ""
@@ -588,10 +592,10 @@ private lazy var countdownButton: UIButton = {
               // isLimited：是否设置了限制（limit != nil）
               print("✏️ char='\(char)' value='\(value)' mode=\(mode) limited=\(isLimited) text='\(text)'")
           }
-          .jobs_onBeginEditing { value in
+          .byBeginEditing { value in
               print("✍️ begin:", value)
           }
-          .jobs_onEndEditing { value in
+          .byEndEditing { value in
               print("✅ end:", value)
           }
           .byAddTo(contentView) { [unowned self] make in
@@ -629,10 +633,10 @@ private lazy var countdownButton: UIButton = {
           ])
           .byTextContainerInset(UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10))
           .byRoundedBorder(color: .systemGray4, width: 1, radius: 8)
-          .jobs_onBeginEditing { value in
+          .byBeginEditing { value in
               print("✍️ begin:", value)
           }
-          .jobs_onEndEditing { value in
+          .byEndEditing { value in
               print("✅ end:", value)
           }
           .byAddTo(contentView) { [unowned self] make in
@@ -650,39 +654,39 @@ private lazy var countdownButton: UIButton = {
   ```swift
   /// 密码输入框
   private lazy var passwordTF: UITextField = {
-          UITextField()
-              .byPlaceholder("请输入密码（最长 5）")
-              .byFont(.systemFont(ofSize: 16))
-              .byTextColor(.label)
-              .byKeyboardType(.default)
-              .byReturnKeyType(.done)
-              .byClearButtonMode(.whileEditing)
-              .byDelegate(self)
-              .byLeftView(UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 1)))
-              .byLeftViewMode(.always)
-              .bySecureTextEntry(true)
-              // MARK: Jobs 输入监听（无 Rx）—— 密码：最长 5，只做监听
-              .jobs_onBeginEditing { value in
-                  print("✍️ password begin:", value)
-              }
-              .jobs_onInput(limit: 5) { [weak self] char, value, mode, isLimited in
-                  guard let self else { return }
-                  let current = self.passwordTF.text ?? value
-                  print("🔐 char='\(char)' value='\(current)' mode=\(mode) limited=\(isLimited)")
-              }
-              .jobs_onEndEditing { value in
-                  print("✅ password end:", value)
-              }
-              .byAddTo(view) { [unowned self] make in
-                  make.top.equalTo(emailTF.snp.bottom).offset(16)
-                  make.left.right.height.equalTo(emailTF)
-              }
-              .byBorderColor(.cyan)
-              .byBorderWidth(0.5)
-              .byMasksToBounds(YES)
-              .byClipsToBounds(YES)
-              .byCornerRadius(8.h)
-      }()
+      UITextField()
+          .byPlaceholder("请输入密码（最长 5）")
+          .byFont(.systemFont(ofSize: 16))
+          .byTextColor(.label)
+          .byKeyboardType(.default)
+          .byReturnKeyType(.done)
+          .byClearButtonMode(.whileEditing)
+          .byDelegate(self)
+          .byLeftView(UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 1)))
+          .byLeftViewMode(.always)
+          .bySecureTextEntry(true)
+          // MARK: Jobs 输入监听（无 Rx）—— 密码：最长 5，只做监听
+          .byBeginEditing { value in
+              print("✍️ password begin:", value)
+          }
+          .byOnInput(limit: 5) { [weak self] char, value, mode, isLimited in
+              guard let self else { return }
+              let current = self.passwordTF.text ?? value
+              print("🔐 char='\(char)' value='\(current)' mode=\(mode) limited=\(isLimited)")
+          }
+          .byEndEditing { value in
+              print("✅ password end:", value)
+          }
+          .byAddTo(view) { [unowned self] make in
+              make.top.equalTo(emailTF.snp.bottom).offset(16)
+              make.left.right.height.equalTo(emailTF)
+          }
+          .byBorderColor(.cyan)
+          .byBorderWidth(0.5)
+          .byMasksToBounds(YES)
+          .byClipsToBounds(YES)
+          .byCornerRadius(8.h)
+  }()
   ```
   
 * 邮箱输入框
@@ -690,54 +694,54 @@ private lazy var countdownButton: UIButton = {
   ```swift
   /// 邮箱输入框
   private lazy var emailTF: UITextField = {
-          UITextField()
-              .byPlaceholder("请输入邮箱（去空格 / 最长 8）")
-              .byFont(.systemFont(ofSize: 16))
-              .byTextColor(.label)
-              .byKeyboardType(.emailAddress)
-              .byReturnKeyType(.next)
-              .byClearButtonMode(.whileEditing)
-              .byDelegate(self)
-              .byLeftView(UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 1)))
-              .byLeftViewMode(.always)
-              // MARK: Jobs 输入监听（无 Rx）—— 邮箱：去空格 + 最长 8 + 简单规则
-              .jobs_onBeginEditing { value in
-                  print("✍️ email begin:", value)
+      UITextField()
+          .byPlaceholder("请输入邮箱（去空格 / 最长 8）")
+          .byFont(.systemFont(ofSize: 16))
+          .byTextColor(.label)
+          .byKeyboardType(.emailAddress)
+          .byReturnKeyType(.next)
+          .byClearButtonMode(.whileEditing)
+          .byDelegate(self)
+          .byLeftView(UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 1)))
+          .byLeftViewMode(.always)
+          // MARK: Jobs 输入监听（无 Rx）—— 邮箱：去空格 + 最长 8 + 简单规则
+          .byBeginEditing { value in
+              print("✍️ email begin:", value)
+          }
+          .byOnInput(limit: 8) { [weak self] char, value, mode, isLimited in
+              guard let self else { return }
+              let trimmed = value.trimmingCharacters(in: .whitespaces)
+              if trimmed != value {
+                  self.emailTF.text = trimmed
               }
-              .jobs_onInput(limit: 8) { [weak self] char, value, mode, isLimited in
-                  guard let self else { return }
-                  let trimmed = value.trimmingCharacters(in: .whitespaces)
-                  if trimmed != value {
-                      self.emailTF.text = trimmed
-                  }
-                  let current = self.emailTF.text ?? trimmed
-                  let ok = current.count >= 3 && current.contains("@")
-                  print("📧 char='\(char)' value='\(current)' mode=\(mode) limited=\(isLimited) ok=\(ok)")
+              let current = self.emailTF.text ?? trimmed
+              let ok = current.count >= 3 && current.contains("@")
+              print("📧 char='\(char)' value='\(current)' mode=\(mode) limited=\(isLimited) ok=\(ok)")
+          }
+          .byEndEditing { value in
+              print("✅ email end:", value)
+          }
+          .byAddTo(view) {[unowned self] make in
+              make.left.equalToSuperview().offset(16)
+              make.right.equalToSuperview().offset(-16)
+              make.height.equalTo(44)
+              if view.jobs_hasVisibleTopBar() {
+                  make.top.equalTo(self.gk_navigationBar.snp.bottom).offset(10)
+              } else {
+                  make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
               }
-              .jobs_onEndEditing { value in
-                  print("✅ email end:", value)
-              }
-              .byAddTo(view) {[unowned self] make in
-                  make.left.equalToSuperview().offset(16)
-                  make.right.equalToSuperview().offset(-16)
-                  make.height.equalTo(44)
-                  if view.jobs_hasVisibleTopBar() {
-                      make.top.equalTo(self.gk_navigationBar.snp.bottom).offset(10)
-                  } else {
-                      make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-                  }
-              }
-              .byBorderColor(.cyan)
-              .byBorderWidth(0.5)
-              .byMasksToBounds(YES)
-              .byClipsToBounds(YES)
-              .byCornerRadius(8.h)
-      }()
+          }
+          .byBorderColor(.cyan)
+          .byBorderWidth(0.5)
+          .byMasksToBounds(YES)
+          .byClipsToBounds(YES)
+          .byCornerRadius(8.h)
+  }()
   ```
 
-#### 2.7、对`UIImageView`的封装（暂时只展示[**Kingfisher**](https://github.com/onevcat/Kingfisher)。[**SDWebImage**](https://github.com/SDWebImage/SDWebImage)也有）
+#### 2.7、对`UIImageView`的封装（暂时只展示[**Kingfisher**](https://github.com/onevcat/Kingfisher) ,当然 [**SDWebImage **](https://github.com/SDWebImage/SDWebImage)也有）
 
-* `UIImageView`@字符串本地图
+* `UIImageView`@**字符串本地图**
 
   ```swift
   /// UIImageView@字符串本地图
@@ -768,7 +772,7 @@ private lazy var countdownButton: UIButton = {
   }()
   ```
 
-* `UIImageView`字符串网络图@[**Kingfisher**](https://github.com/onevcat/Kingfisher)
+* `UIImageView`**字符串网络图**@[**Kingfisher**](https://github.com/onevcat/Kingfisher)
 
   ```swift
   /// UIImageView字符串网络图@Kingfisher
@@ -799,7 +803,7 @@ private lazy var countdownButton: UIButton = {
   }()
   ```
 
-* `UIImageView`网络图（失败兜底图）@[**Kingfisher**](https://github.com/onevcat/Kingfisher)
+* `UIImageView`**网络图**（失败兜底图）@[**Kingfisher**](https://github.com/onevcat/Kingfisher)
 
   ```swift
   /// UIImageView网络图（失败兜底图）@Kingfisher
