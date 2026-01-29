@@ -580,6 +580,9 @@ private lazy var countdownButton: UIButton = {
           .bySelectable(true)
           .byTextContainerInset(UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10))
           .byRoundedBorder(color: .systemGray4, width: 1, radius: 8)
+          .byPlaceHolder("哈哈哈哈".tr)
+          .byPlaceHolderCor(.blue)
+          .byPlaceHolderFont(.boldSystemFont(ofSize: 15))
           .byHintLimit(12) { lb in
               lb.byFont(.monospacedDigitSystemFont(ofSize: 11, weight: .semibold))
                   .byTextColor(.red)
