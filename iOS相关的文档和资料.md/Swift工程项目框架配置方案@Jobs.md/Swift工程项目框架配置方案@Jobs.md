@@ -1097,7 +1097,7 @@ private lazy var tableView: UITableView = {
             tv.deselectRow(at: indexPath, animated: true)
             print("点选逻辑")
         }
-        // 空态按钮
+         // 空态按钮
         .jobs_emptyButtonProvider { [unowned self] in
             UIButton(type: .system)
                 .byTitle("暂无数据", for: .normal)
@@ -1166,8 +1166,6 @@ private lazy var tableView: UITableView = {
 //        .showRefreshFooterInfo(YES)  // 竖向Footer + 横向Right
         .setLeftLottie(.custom(.init(animationName: "9squares_AlBoardman")))
         .setRightLottie(.inherit)     // 继承全局（没有全局就回退菊花）
-        .enableRefreshHaptics(true)
-        .setRefreshSound("Sound.wav") 
         // 左侧拉：比如“上一页/回退”
         .configSideRefresh(with: JobsDefaultLeftRefresher(),
                            container: self,
@@ -1199,35 +1197,6 @@ private lazy var tableView: UITableView = {
       .setFooterLottie(.disabled) // 强制 footer 回退菊花（即使全局配置了）
       .enableRefreshHaptics(true)
       .setRefreshSound("Sound.wav")
-      // 下拉刷新 Header
-      .configRefreshHeader(component: JobsDefaultHeader(),
-                           container: self,
-                           trigger: 66) { [weak self] in
-          guard let self else { return }
-          jobsRunOnMain(self) { vc in
-              try? await Task.sleep(nanoseconds: 1_000_000_000)
-              self.rows = 20
-              self.tableView.byReloadData()
-              self.tableView.switchRefreshHeader(to: .normal)
-              self.tableView.switchRefreshFooter(to: .normal) // 复位“无更多”
-          }
-      }
-      // 上拉加载 Footer
-      .configRefreshFooter(component: JobsDefaultFooter(),
-                           container: self,
-                           trigger: 66) { [weak self] in
-          guard let self else { return }
-          jobsRunOnMain(self) { vc in
-              try? await Task.sleep(nanoseconds: 1_000_000_000)
-              if self.rows < 60 {
-                  self.rows += 20
-                  self.tableView.byReloadData()
-                  self.tableView.switchRefreshFooter(to: .normal)
-              } else {
-                  self.tableView.switchRefreshFooter(to: .noMoreData)
-              }
-          }
-      }
 }()
 ```
 
