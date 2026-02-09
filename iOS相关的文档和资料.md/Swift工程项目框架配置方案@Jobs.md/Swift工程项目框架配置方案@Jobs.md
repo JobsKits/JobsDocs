@@ -1,13 +1,13 @@
-# Swift工程项目框架配置方案@Jobs
+# [**Swift**](https://www.swift.org/)工程项目框架配置方案@JobsKits
 
 [toc]
 
 ## 一、<font id=一些基本的原则>一些基本的原则</font>
 
-### 1、不到万不得已，不要用OC库
+### 1、不到万不得已，不要用**Objc**库
 
-* 既然是[**Swift**](https://www.swift.org/)工程，那么就尽可能的不要调用OC库，否则我们为什么不用OC写工程项目？**不要既当又立**。特别是在有优秀平替的情况下。相信互联网是在不断向前发展的，新出的轮子可能稳定性来讲可能不如老旧的（特别是那种很多年不更新的库，不到万不得已，慎用！），但是从调用和内存包括向前兼容等方面，一定是优于老旧框架的。否则为什么要开发新版本？即便是Apple公司，也是看到了OC的一些不足，所以才下了很大的决心从OC迁移到[**Swift**](https://www.swift.org/)，相信迁移所造成的各方损耗和带来的优势，也是经过各方多轮评估后才做的取舍！
-* OC库需要导入头文件，而且头文件的导入在编译阶段同样存在循环引用的问题（编译的时候，一定是按照加载的顺序，自上而下的编译），那么在某些极端的情况下，引入的位置不对，就会造成编译不通过（亲测）。而[**Swift**](https://www.swift.org/)在工程内部不需要导入文件，除非在不同工程（跨域），比如利用[**CocoaPods**](https://cocoapods.org/)管理的第三方才需要进行导入。所以，既然是系统做了优化的，我们就要顺势而为。
+* 既然是[**Swift**](https://www.swift.org/)工程，那么就尽可能的不要调用**Objc**库，否则我们为什么不用**Objc**写工程项目？**不要既当又立**。特别是在有优秀平替的情况下。相信互联网是在不断向前发展的，新出的轮子可能稳定性来讲可能不如老旧的（特别是那种很多年不更新的库，不到万不得已，慎用！），但是从调用和内存包括向前兼容等方面，一定是优于老旧框架的。否则为什么要开发新版本？即便是**Apple**公司，也是看到了**Objc**的一些不足，所以才下了很大的决心从**Objc**迁移到[**Swift**](https://www.swift.org/)，相信迁移所造成的各方损耗和带来的优势，也是经过各方多轮评估后才做的取舍！
+* **Objc**库需要导入头文件，而且头文件的导入在编译阶段同样存在循环引用的问题（编译的时候，一定是按照加载的顺序，自上而下的编译），那么在某些极端的情况下，引入的位置不对，就会造成编译不通过（亲测）。而[**Swift**](https://www.swift.org/)在工程内部不需要导入文件，除非在不同工程（跨域），比如利用[**CocoaPods**](https://cocoapods.org/)管理的第三方才需要进行导入。所以，既然是系统做了优化的，我们就要顺势而为。
 * 导入库，一般情况下，它会向后兼容，导入一些老旧的`*.framework`库，造成打包体积过大的隐患（并不能每次都精确复现，这里只是讲风险与隐患）。这里的一个例子就是[**过期的模拟器配件**](https://github.com/295060456/Xcode_Sys_lib)。老旧的Api只要你调用了就一定会指向老旧的`*.framework`，**会影响打包大小，但是不一定影响运行时的内存情况**
 * 对于一些老旧库（超过5年不维护的库）如果实在要用，就需要手动集成自项目，而不是[**CocoaPods**](https://cocoapods.org/)管理
 
@@ -56,7 +56,7 @@
   * [**SnapKit**](https://github.com/SnapKit/SnapKit)：[**Swift**](https://www.swift.org/) 平台上的 [**Masonry**](https://github.com/SnapKit/Masonry) 平替（arm64 模拟器 OK）
 
 * 网络请求框架（多线程异步二次封装）
-  * [**YTKNetwork**](https://github.com/kanyun-inc/YTKNetwork)：OC库，并不建议用，但是他对[**AFNetworking(已永久停更)**](https://github.com/AFNetworking/AFNetworking)进行了一个很好的二次封装（封装点在于开辟多线程以应对一个页面上多个请求的特殊局面）。而[**Swift**](https://www.swift.org/)平台上的请求框架[**Alamofire**](https://github.com/Alamofire/Alamofire)还未对此场景进行深入的兼容
+  * [**YTKNetwork**](https://github.com/kanyun-inc/YTKNetwork)：**Objc**库，并不建议用，但是他对[**AFNetworking(已永久停更)**](https://github.com/AFNetworking/AFNetworking)进行了一个很好的二次封装（封装点在于开辟多线程以应对一个页面上多个请求的特殊局面）。而[**Swift**](https://www.swift.org/)平台上的请求框架[**Alamofire**](https://github.com/Alamofire/Alamofire)还未对此场景进行深入的兼容
 * 图片处理（异步）
   * [**Kingfisher**](https://github.com/onevcat/Kingfisher) [**Swift**](https://www.swift.org/) 平台上对于的 [**SDWebImage**](https://github.com/SDWebImage/SDWebImage) 平替
 
@@ -90,11 +90,11 @@
 
 ![image-20251206154722858](./assets/image-20251206154722858.png)
 
-* 解决某些情况下，多次push或者present的Bug
+* 解决某些情况下，多次**push**或者**present**的Bug
 
   * 正向push带参传值
   * 自定义出现的方向
-  * 自定义出现的方式是push还是present
+  * 自定义出现的方式是**push**还是**present**
   * 退出页面需要回传的参数
 
   ```swift
@@ -117,11 +117,11 @@
       }
   ```
 
-#### 2.2、对UI层的封装格式
+#### 2.2、对`UIView`层的封装格式
 
 ![image-20251206153544362](./assets/image-20251206153544362.png)
 
-* 懒加载+代码块，在实际用的地方利用这个UI的`alpha `或者`hidden`属性进行唤起
+* 懒加载+代码块，在实际用的地方利用这个`UIView`的`alpha `或者`hidden`属性进行唤起
 
 * 利用`byAddTo`将约束全部写进此闭包中，代码不再割裂。因为约束也是对此UI控件的补充说明
 
@@ -258,24 +258,34 @@
         }
     ```
 
-
 #### 2.3、对`UIButton`按钮的封装
+
+##### 2.3.1、利用分类作用于`UIButton`
 
 ![image-20251206153259601](./assets/image-20251206153259601.png)
 
-* 除了向下兼容旧的Api的按钮管线，此Api大胆启用Apple最新的Api：`UIButtonConfiguration`
+* 除了向下兼容旧的Api的按钮管线，此Api大胆启用**Apple**最新的Api：`UIButtonConfiguration`
 * 按钮的点击事件（在一般的点按事件基础上，增加了长按事件的向外暴露），绕过<font color=red>**@selector**</font>和**Target**。<font color=blue>**并实现了追加功能**</font>
 * 可以富文本/普通文本，设置主标题/副标题
 * 按钮图 + 按钮图文关系（位置、距离）、背景图
 * 点击播放声音（额外的一个Api实现，不占用具体的业务层）
-* 按钮的右上角文本配置（参考OC库[**PPBadgeView**](https://github.com/jkpang/PPBadgeView)）
+* 按钮的右上角文本配置（参考**Objc**库[**PPBadgeView**](https://github.com/jkpang/PPBadgeView)）
 * <font color=red>风险提示：一旦用了最新的`UIButtonConfiguration`可能影响到老旧的Api的使用（直观感受，老旧Api配置的按钮将会不起效）</font>
 
 ```swift
 private lazy var exampleButton: UIButton = {
     UIButton.sys()
-        /// 背景色
+        /// 锁死标题颜色：任何 state 都保持同一种颜色，不跟 tint / 系统态自动变化
+        .byLockTitleColor(.red)
+        /// 图片吃 tint，但 tint 锁死为某个颜色
+        .byLockTintColor(.red)
+        /// 只锁 Background（背景色不随状态变）
+        .byLockBackgroundColor(.red)
+        /// 只锁 Border（边框色不随状态变，iOS 15+）
+        .byLockBorderColor(.red)
+        /// 背景色@按照不同的状态
         .byBackgroundColor(.systemGreen, for: .normal)
+        .byBackgroundColor("#2F2F2F".cor, for: .disabled) // 对应按钮不可点击的状态
         /// 背景图片
         .byBackgroundImage("背景图片".img, for: .normal)
         /// 字体颜色渐变@只处理主标题（titleLabel）
@@ -287,8 +297,9 @@ private lazy var exampleButton: UIButton = {
         /// 普通字符串@设置主标题
         .byTitle("显示", for: .normal)
         .byTitle("隐藏", for: .selected)
-        .byTitleColor(.systemBlue, for: .normal)
-        .byTitleColor(.systemRed, for: .selected)
+        /// 字体颜色@按照不同的状态
+        .byTitleColor("#2F2F2F".cor, for: .normal)
+        .byTitleColor("#BBBBBB".cor, for: .disabled) // 对应按钮不可点击的状态
         .byTitleFont(.systemFont(ofSize: 16, weight: .medium))
         /// 普通字符串@设置副标题
         .bySubTitle("显示", for: .normal)
@@ -364,7 +375,11 @@ private lazy var exampleButton: UIButton = {
             make.left.right.equalToSuperview().inset(24)
             make.height.equalTo(44)
         }
-        .byCornerRadius(12.h)
+        .byBorderColor(.cyan)
+        .byBorderWidth(0.5)
+        .byMasksToBounds(YES)
+        .byClipsToBounds(YES)
+        .byCornerRadius(8.h)
         /// UIButtonConfiguration
         if #available(iOS 15.0, *) {
             b.byConfiguration { c in
@@ -382,44 +397,67 @@ private lazy var exampleButton: UIButton = {
                 .byBgColor(.systemBlue)
         }
 }()
-// MARK: - 倒计时演示按钮（同一套 API：传 total => 倒计时）
-private lazy var countdownButton: UIButton = {
-    UIButton.sys()
-        .byTitle("获取验证码", for: .normal)
-        .byTitleColor(.white, for: .normal)
-        .byBackgroundColor(.systemGreen, for: .normal)
-        .onCountdownTick { [weak self] btn, remain, total, kind in
-            guard let self else { return }
-            print("⏱️ [\(kind.jobs_displayName)] \(remain)/\(total)")
-            self.lastFireLabel.text = "Last: " + Self.fmt(Date())
-            btn.byTitle("还剩 \(remain)s", for: .normal)
+```
+
+##### 2.3.2、利用继承作用于`JobsButton`
+
+> 解决在某些iOS版本向下兼容的情况下，无法把握`UIButton`内部控件的生命周期，导致UI错版的问题
+
+```swift
+private lazy var btn1: JobsButton = {
+    JobsButton()
+        .byMode(.imageTopTextBottom)
+        .byTitleLabel { lab in
+            lab.byText("上图下文")
+                .byTextColor(.red)
         }
-        .onCountdownFinish { _, kind in
-            print("✅ [\(kind.jobs_displayName)] 倒计时完成")
+        .bySubTitleLabel { lab in
+            lab.byText("image -> title -> subtitle")
+                .byTextColor(.blue)
         }
-        .onTap { [weak self] btn in
-            guard let self else { return }
-            let total = self.parseCountdownTotal(10)
-            btn.startTimer(
-                total: total, // ❤️ 传 total => 倒计时
-                interval: self.intervalSec,
-                kind: self.currentKind
-            )
-            // 关键：等 startTimer 把 "10s" 设好后再加前缀，避免被覆盖
-            DispatchQueue.main.async {
-                let cur = btn.title(for: .normal) ?? "\(total)s"
-                if !cur.hasPrefix("还剩 ") {
-                    btn.byTitle("还剩 \(cur)", for: .normal)
-                }
-            }
+        // 前景图：内部 foregroundImageView（链式不丢 self）
+        .byForegroundImageView { iv in
+            iv.byContentMode(.scaleAspectFill)
+                .byClipsToBounds()
+                .kf_setImage("https://picsum.photos/200?random=111", placeholder: "Ani".img)
         }
+        // 背景图：JobsButton 自己是 UIImageView
+        .byContentMode(.scaleAspectFill)
+        .byClipsToBounds()
+        .kf_setImage("https://picsum.photos/600/200?random=11", placeholder: "Ani".img)
+        .byImageTitleSpacing(6)
+        .byTitleSubtitleSpacing(2)
+        .byContentInsets(.zero)
+        .byForegroundImageFixedSize(true)
+        .addTapActionAppend { _ in
+            print("btn1 tap #1")
+            "点击了悬浮按钮：上图下文（tap #1）".toast
+        }
+        .addTapActionAppend { _ in
+            print("btn1 tap #2 (append)")
+            "点击了悬浮按钮：上图下文（tap #2 叠加）".toast
+        }
+        .addLongPressActionAppend { gr in
+            guard gr.state == .began else { return }
+            print("btn1 longPress #1 began")
+            "长按了悬浮按钮：上图下文（longPress #1）".toast
+        }
+        .addLongPressActionAppend { gr in
+            guard gr.state == .began else { return }
+            print("btn1 longPress #2 began (append)")
+            "长按了悬浮按钮：上图下文（longPress #2 叠加）".toast
+        }
+        .byBorderColor(.cyan)
+        .byBorderWidth(0.5)
+        .byMasksToBounds(YES)
+        .byClipsToBounds(YES)
+        .byCornerRadius(8.h)
         .byAddTo(view) { [unowned self] make in
-            make.top.equalTo(self.hintLabel.snp.bottom).offset(20)
+            make.top.equalTo(self.hintLabel.snp.bottom).offset(18)
             make.left.equalToSuperview().offset(horizontalInset)
             make.right.equalToSuperview().inset(horizontalInset)
-            make.height.equalTo(50)
+            make.height.equalTo(itemHeight)
         }
-        .byCornerRadius(12.h)
 }()
 ```
 
@@ -650,7 +688,9 @@ private lazy var countdownButton: UIButton = {
   }()
   ```
 
-#### 2.6、对`UITextField`输入框的封装（含输入监控过滤）
+#### 2.6、对`UITextField`输入框的封装
+
+##### 2.6.1、利用分类，对`UITextField`输入框的封装（含输入监控过滤）
 
 * 密码输入框
 
@@ -741,6 +781,74 @@ private lazy var countdownButton: UIButton = {
           .byCornerRadius(8.h)
   }()
   ```
+
+##### 2.6.2、利用继承，对`UITextField`输入框的封装 ➤ `JobsTextField`
+
+> 在`UITextField`下面加了一个`UImageView`作为父视图，方便设置边距
+
+```swift
+private lazy var titleTF: JobsTextField = {
+    JobsTextField()
+        .byTextFieldConfig({ textField in
+            textField
+                .byPlaceholder("请输入内容（必填）")
+                .byPlaceholderFont(.PingFangSC.Regular(14))
+                .byPlaceholderColor("#BBBBBB".cor)
+                .byFont(.PingFangSC.Regular(14))
+                .byTextColor("#BBBBBB".cor)
+                .byKeyboardType(.default)
+                .byReturnKeyType(.next)
+                .byClearButtonMode(.whileEditing)
+                .byRightView(
+                    UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+                        .byAddSubviewRetSuper(
+                            UIButton.sys()
+                                .bySize(CGSizeMake(20, 20))
+                                /// 背景图片
+                                .byBackgroundImage("删除".img, for: .normal)
+                                /// 普通@点按事件触发
+                                .onTap { [weak self] sender in
+                                    guard let self else { return }
+                                    sender.isSelected.toggle()
+                                    titleTF.text = ""
+                                }
+                        )
+                )
+                .byRightViewMode(.whileEditing)
+                /// 输入框由不活跃状态 ➤ 活跃状态 只调用一次
+                .byBeginEditing { value in
+                    self.titleTF.byBorderColor("#C33E2D".cor)
+                        .byBorderWidth(0.5)
+                        .byMasksToBounds(YES)
+                    print("✍️ email begin:", value)
+                }
+                /// 效果@等于父系方法UIControl.byAddAction.editingChanged，只不过比父系方法先调用
+                .byOnInput(limit: nil) { [weak self] char, value, mode, isLimited in
+                    guard let self else { return }
+                    self.buttonStatusToChange()
+                }
+                .byEndEditing { value in
+                    print("✅ email end:", value)
+                    self.titleTF.byBorderColor("#eaeaea".cor)
+                }
+        })
+        .byInsetTop(14)
+        .byInsetLeft(12)
+        .byInsetRight(12)
+        .byInsetBottom(14)
+        .byAddTo(cardView) { [unowned self] make in
+            make.top.equalTo(typeRowView.snp.bottom).offset(AD(0))
+            make.leading.equalTo(cardView).offset(AD(16))
+            make.trailing.equalTo(cardView).offset(AD(-16))
+            make.height.equalTo(AD(44))
+        }
+        .byBorderColor("#eaeaea".cor)
+        .byBorderWidth(0.5)
+        .byMasksToBounds(YES)
+        .byClipsToBounds(YES)
+        .byCornerRadius(4.h)
+    }()
+```
 
 #### 2.7、对`UIImageView`的封装（暂时只展示[**Kingfisher**](https://github.com/onevcat/Kingfisher) ,当然 [**SDWebImage **](https://github.com/SDWebImage/SDWebImage)也有）
 
@@ -1226,6 +1334,34 @@ extension BMPlayerDemoVC : UITableViewDataSource,UITableViewDelegate{
 
 ![image-20251206154144371](./assets/image-20251206154144371.png)
 
+##### 2.10.1、动效数字标签
+
+```swift
+private lazy var valueLabel: UILabel = {
+    UILabel()
+        .byTextAlignment(.center)
+        .byFont(.systemFont(ofSize: 52, weight: .bold))
+        .byTextColor(.label)
+        .byText("\(Int(defaultStart))")
+        .byNumberOfLines(1)
+        .byAnimatedTextNumber(duration: 0.9, minimumInterval: 1.0 / 60.0)
+        .byStopAnimatedTextNumber()
+        .byAnimatedTextNumber(
+            start: 60,
+            step: nil,
+            duration: 0.9,
+            minimumInterval: 1.0 / 60.0,
+            completion: nil
+        )
+        .byStartAnimatedTextNumber("3")
+        .byAddTo(cardView) { [unowned self] make in
+            make.top.equalToSuperview().offset(24)
+            make.left.equalToSuperview().offset(self.cardInset)
+            make.right.equalToSuperview().inset(self.cardInset)
+        }
+}()
+```
+
 #### 2.11、对`UIScrollView`的封装
 
 ![image-20251206154233914](./assets/image-20251206154233914.png)
@@ -1435,14 +1571,34 @@ extension BMPlayerDemoVC : UITableViewDataSource,UITableViewDelegate{
   }()
   ```
 
-#### 2.14、对计时器的封装`JobsSwiftTimer`
+#### 2.14、带箭头的对话框
+
+```swift
+UIView().byDialogBoxContent { dialogBoxView in
+    UITextView()
+        .byBackgroundColor(.clear)
+        .byText(
+            "1.电话、QQ、微信号、乱码、全数字皆、不雅字眼、辱骂 词汇带、负面情绪字眼、标点符号皆会审核失败"
+                .add("\n")
+                .add("2. 中文字母8个为限、全英文字母或全拼音、中文字母或拼 音加数字、字母数字最多2个、超过、一律拒绝")
+                .add("\n")
+                .add("3. 昵称30日内仅能更改一次")
+        )
+        .byTextColor(.white)
+        .byFont(.systemFont(ofSize: 16))
+        .byEditable(NO)
+        .byAddTo(dialogBoxView) { [unowned self] make in
+            make.edges.equalToSuperview()
+        }
+}
+```
+
+#### 2.15、对计时器的封装`JobsSwiftTimer`
 
 <div>
   <img src="./assets/image-20260121165054858.png" width="45%" />
   <img src="./assets/image-20251206163504503.png" width="45%" />
 </div>
-
-
 ```swift
 import JobsSwiftTimer
 
@@ -1479,7 +1635,7 @@ do {
   * 停止计时器（销毁@有回调）`func fireOnce()`
   * 停止计时器（销毁@无回调）` func stop()`
 * 相较于[**YYKit**](https://github.com/ibireme/YYKit)带的计时器
-  * **YYTimer**是一个纯OC的库
+  * **YYTimer**是一个纯**Objc**的库
   * **YYTimer**只是一个计时器的最佳实践：多种定时器组合出来的一个计时器模块
   * 我个人认为还是需要把使用方式暴露给用户，让用户自己去定义
     * 使用何种计时器核心
@@ -1488,7 +1644,7 @@ do {
     * 是否是正计时/是否是倒计时
     * 。。。
 
-##### 2.14.1、倒计时按钮
+##### 2.15.1、倒计时按钮
 
 ```swift
 // MARK: - 倒计时演示按钮
@@ -1514,7 +1670,7 @@ private lazy var countdownButton: UIButton = {
 }()
 ```
 
-##### 2.14.2、跑马灯（实际展现的控件是按钮）
+##### 2.15.2、跑马灯（实际展现的控件是按钮）
 
 ```swift
 // MARK: - 1. 向上连续滚动
@@ -1616,7 +1772,7 @@ private lazy var upContinuousMarquee: JobsMarqueeView = { [unowned self] in
     }()
 ```
 
-##### 2.14.3、轮播图（实际展现的控件是按钮）
+##### 2.15.3、轮播图（实际展现的控件是按钮）
 
 ```swift
 // MARK: - 13. Kingfisher@背景图
@@ -1722,21 +1878,63 @@ private lazy var kingfisherImageButtonsMarquee: JobsMarqueeView = { [unowned sel
 }()
 ```
 
-#### 2.16、雪花算法的[**Swift**](https://www.swift.org/)实践
+#### 2.16、进度条
+
+##### 2.16.1、系统进度条
+
+```swift
+/// 进度条（显示剩余/已完成比例，取决于 progressMode）
+private lazy var progressView: UIProgressView = {
+    UIProgressView(progressViewStyle: .default)
+        .byProgress(0)
+        .byAddTo(view) { [unowned self] make in
+            make.top.equalTo(self.timeLabel.snp.bottom).offset(20)
+            make.left.equalToSuperview().offset(horizontalInset)
+            make.right.equalToSuperview().inset(horizontalInset)
+        }
+}()
+```
+
+##### 2.16.2、自定义进度条 ➤ `JobsProgressBar` 
+
+```swift
+/// 自定义进度条
+private lazy var progressView: JobsProgressBar = {
+    JobsProgressBar()
+        .byDirection(.leftToRight)
+        .byValueMode(.countDown)           // 初始：显示为 100→0
+        .byTrackColor(.systemGray5)        // 你外层灰条在父视图，这里清空即可
+        .byTrackHorizontalInset(0)         // ✅ 不要内部留边
+        .byTrackVerticalInset(0)           // ✅ 不要内部留边
+        .byTrackThickness(nil)             // ✅ 厚度 = JobsProgressBar.height（也就是父视图高度）
+        .byAutoHideLabel(true)             // ✅ 小高度自动隐藏 label（12 高会隐藏）
+        .byLabelMinVisibleHeight(18)
+        .byLabelBackgroundColor(.secondarySystemBackground)
+        .byLabelFont(.monospacedDigitSystemFont(ofSize: 12, weight: .medium))
+        .byAddTo(view) { [unowned self] make in
+            make.top.equalTo(modeToggleButton.snp.bottom).offset(24.h)
+            make.left.equalToSuperview().offset(40.w)
+            make.right.equalToSuperview().inset(40.w)
+            make.height.equalTo(20.h)
+        }
+}()
+```
+
+#### 2.17、雪花算法的[**Swift**](https://www.swift.org/)实践
 
 ```swift
 SnowflakeSwift(IDCID: 4, machineID: 30).nextID() 
 ```
 
-#### 2.17、对字符串的封装
+#### 2.18、对字符串的封装
 
-##### 2.17.1、多语言化
+##### 2.18.1、多语言化
 
 ```swift
 "🔑 注册登录".tr
 ```
 
-##### 2.17.2、通用格式的转换 
+##### 2.18.2、通用格式的转换 
 
 ```swift
  "123".toInt()   
@@ -1784,7 +1982,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
  // 📘 说明：附加字体与颜色属性
 ```
 
-##### 2.17.3、字符串加载图片资源
+##### 2.18.3、字符串加载图片资源
 
 * 取本地图片
 
@@ -1835,7 +2033,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   }()
   ```
 
-##### 2.17.4、字符串打开
+##### 2.18.4、字符串打开
 
 * 打开网站 / **`Scheme`**（带参）
 
@@ -1875,7 +2073,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   }
   ```
 
-##### 2.17.5、🍡 字符串取色🎨（校验规定格式）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 2.18.5、🍡 字符串取色🎨（校验规定格式）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 /// 支持格式：
@@ -1894,9 +2092,9 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
 "垃圾".cor(.black)        // 非法 → black
 ```
 
-##### 2.17.6、[**对全局普通的字符串进行多语言国际化的处理**](#国际化) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 2.18.6、[**对全局普通的字符串进行多语言国际化的处理**](#国际化) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 2.17.7、[**富文本相关**](#富文本) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 2.18.7、[**富文本相关**](#富文本) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 数据层（转换）
 
@@ -2160,7 +2358,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
           // ================================== 逆向：回传 ==================================
           @discardableResult
           func onResult(_ callback: @escaping jobsByAnyBlock) -> Self {
-              objc_setAssociatedObject(self, &JobsViewResultKey.callback, callback, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+              objc_setAssociatedObject(self, &JobsViewResultKey.callback, callback, .OBJC_ASSObjcIATION_COPY_NONATOMIC)
               return self
           }
       
@@ -2215,7 +2413,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
           // ================================== 逆向：回传 ==================================
           @discardableResult
           func onResult(_ callback: @escaping jobsByAnyBlock) -> Self {
-              objc_setAssociatedObject(self, &JobsAssocKey.callback, callback, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+              objc_setAssociatedObject(self, &JobsAssocKey.callback, callback, .OBJC_ASSObjcIATION_COPY_NONATOMIC)
               return self
           }
           func sendResult(_ any: Any?) {
@@ -2347,7 +2545,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
       ```
 
 
-##### 2.17.8、条形码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 2.18.8、条形码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * `Code128 条形码`（可指定目标尺寸；自动无插值放大）
 
@@ -2361,7 +2559,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   UIImageView().byImage(barContent.code128ByText(width: 260, barHeight: 100))
   ```
 
-##### 2.17.9、二维码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 2.18.9、二维码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 纯二维码（中间无Logo）
 
@@ -2385,7 +2583,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   )
   ```
 
-##### 2.17.10、裁剪 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 2.18.10、裁剪 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 去掉首尾空白 / 换行
 
@@ -2427,9 +2625,9 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   let httpString2 = input2.asHttpURLOrNil // -> "https://example.com"
   ```
 
-#### 2.18、对点击事件的封装
+#### 2.19、对点击事件的封装
 
-##### 2.18.1、封装在`UIControl` 层的点击事件
+##### 2.19.1、封装在`UIControl` 层的点击事件
 
 * ```swift
   private lazy var toggle: UISwitch = {
@@ -2483,7 +2681,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   }()
   ```
 
-##### 2.18.2、**封装在`UIButton` 层的点击事件**
+##### 2.19.2、**封装在`UIButton` 层的点击事件**
 
 ```swift
 let button = UIButton(type: .system)
@@ -2493,7 +2691,7 @@ let button = UIButton(type: .system)
     }
 ```
 
-#### 2.19、对弹出框的封装
+#### 2.20、对弹出框的封装
 
 * [**UIAlertController**](#UIAlertController)
 
@@ -2501,7 +2699,7 @@ let button = UIButton(type: .system)
 
   - 自定义持续动画时间
 
-    ```
+    ```swift
     JobsToast.show(
         text: "当前控制器销毁成功",
         config: JobsToast.Config()
@@ -2513,7 +2711,7 @@ let button = UIButton(type: .system)
 
   - 自定义入场动画时间
 
-    ```
+    ```swift
     JobsToast.show(
         text: "已保存",
         showDuration: 0.30   // ⬅️ 入场动画 0.30s（默认 0.18）
@@ -2522,7 +2720,7 @@ let button = UIButton(type: .system)
 
   - 自定义事件
 
-    ```
+    ```swift
     JobsToast.show(
         text: "点我重试",
         tap: { btn in
@@ -2532,7 +2730,7 @@ let button = UIButton(type: .system)
     )
     ```
 
-#### 2.20、安全取Cell
+#### 2.21、安全取Cell
 
 > 通过数组下标安全取**Cell**，即使越界也不会奔溃（只是去不到**Cell**值返回nil）
 
@@ -2541,9 +2739,9 @@ let cell = collectionView[section: 0, item: 3]
 let cell = tableView[section: 0, row: 3]
 ```
 
-#### 2.21、（全局）协议传参（支持不定参数）
+#### 2.22、（全局）协议传参（支持不定参数）
 
-##### 2.21.1、正向传参数：<font size=5>**`byData`**</font>
+##### 2.22.1、正向传参数：<font size=5>**`byData`**</font>
 
 * **VC / View**
 
@@ -2633,7 +2831,7 @@ let cell = tableView[section: 0, row: 3]
   }
   ```
 
-##### 2.21.2、逆向传参数：<font size=5>**`sendResult`**</font> ➤ <font size=5>**`onResult`**</font>
+##### 2.22.2、逆向传参数：<font size=5>**`sendResult`**</font> ➤ <font size=5>**`onResult`**</font>
 
 ```swift
 /// 逆向传入
