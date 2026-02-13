@@ -965,7 +965,7 @@ private lazy var collectionView: UICollectionView = {
     UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         .byDataSource(self)
         .byDelegate(self)
-        .registerCell(UICollectionViewCell.self)
+        .byRegisterCell(UICollectionViewCell.self)
         .byBackgroundView(nil)
         .byDragInteractionEnabled(false)
         .byContentInsetTop(8)
@@ -1125,7 +1125,7 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
 
 func collectionView(_ collectionView: UICollectionView,
                     cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell: UICollectionViewCell = collectionView.dequeueCell(UICollectionViewCell.self, for: indexPath)
+    let cell: UICollectionViewCell = collectionView.byDequeueCell(UICollectionViewCell.self, for: indexPath)
     let label: UILabel
     if let exist = cell.contentView.viewWithTag(1001) as? UILabel {
         label = exist
@@ -1182,7 +1182,7 @@ private lazy var tableView: UITableView = {
     UITableView(frame: .zero, style: .insetGrouped)
         .byDataSource(self)
         .byDelegate(self)
-        .registerCell(UITableViewCell.self)
+        .byRegisterCell(UITableViewCell.self)
         .byNoContentInsetAdjustment()
         .bySeparatorStyle(.singleLine)
         .byNoSectionHeaderTopPadding()
@@ -1312,7 +1312,7 @@ private lazy var tableView: UITableView = {
 extension BMPlayerDemoVC : UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { Row.allCases.count }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableView.py_dequeueReusableCell(withType: UITableViewCell.self, for: indexPath)
+        tableView.byDequeueReusableCell(withType: UITableViewCell.self, for: indexPath)
             .byData(data[indexPath.row])
             .byText(Row(rawValue: indexPath.row)?.title)
             .byAccessoryType(.disclosureIndicator)
@@ -2487,7 +2487,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   * 数据灌入
 
     ```swift
-    tableView.py_dequeueReusableCell(withType: BaseTableViewCellByValue1.self, for: indexPath)
+    tableView.byDequeueReusableCell(withType: BaseTableViewCellByValue1.self, for: indexPath)
         .byTitleFont(.systemFont(ofSize: 16))
         .byDetailTitleFont((.systemFont(ofSize: 14)))
         .bySelectionStyle(.none)
@@ -2768,13 +2768,13 @@ let cell = tableView[section: 0, row: 3]
       switch row {
       case .avatar:
           /// 用自定义的 AvatarCell 子类，在其子类中覆写byData
-          return tableView.py_dequeueReusableCell(
+          return tableView.byDequeueReusableCell(
               withType: AvatarCell.self,
               for: indexPath
           ).byData(JobsCellConfig(title: row.title))
       default:
           /// 用系统默认的 UITableViewCell，在分类中统一处理数据
-          return tableView.py_dequeueReusableCell(withType: BaseTableViewCellByValue1.self, for: indexPath)
+          return tableView.byDequeueReusableCell(withType: BaseTableViewCellByValue1.self, for: indexPath)
               .byTitleFont(.systemFont(ofSize: 16))
               .byDetailTitleFont((.systemFont(ofSize: 14)))
               .bySelectionStyle(.none)
