@@ -975,7 +975,6 @@ private lazy var collectionView: UICollectionView = {
         .numberOfItemsInSection { [weak self] (obj: AnyObject, cv: UICollectionView, section: Int) -> Int in
             self?.hItems ?? 0
         }
-
         .cellForItemAt { _, cv, indexPath in
             cv
                 .dequeueCell(HCell.self, for: indexPath)
@@ -987,7 +986,7 @@ private lazy var collectionView: UICollectionView = {
             print("点选逻辑")
         })
         // 空态按钮
-        .jobs_emptyButtonProvider { [unowned self] in
+        .byEmptyButtonProvider { [unowned self] in
             UIButton.sys()
                 .byTitle("暂无数据", for: .normal)
                 .bySubTitle("点我填充示例数据", for: .normal)
@@ -1007,37 +1006,6 @@ private lazy var collectionView: UICollectionView = {
                     make.width.lessThanOrEqualTo(host).multipliedBy(0.9)
                 }
         }
-
-        // 下拉刷新 Header
-        .configRefreshHeader(component: JobsDefaultHeader(),
-                             container: self,
-                             trigger: 66) { [weak self] in
-            guard let self else { return }
-            Task { @MainActor in
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
-                self.rows = 20
-                self.tableView.byReloadData()
-                self.tableView.switchRefreshHeader(to: .normal)
-                self.tableView.switchRefreshFooter(to: .normal) // 复位“无更多”
-            }
-        }
-        // 上拉加载 Footer
-        .configRefreshFooter(component: JobsDefaultFooter(),
-                                      container: self,
-                                      trigger: 66) { [weak self] in
-            guard let self else { return }
-            Task { @MainActor in
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
-                if self.rows < 60 {
-                    self.rows += 20
-                    self.tableView.byReloadData()
-                    self.tableView.switchRefreshFooter(to: .normal)
-                } else {
-                    self.tableView.switchRefreshFooter(to: .noMoreData)
-                }
-            }
-        }
-
         .byAddTo(view) { [unowned self] make in
             if view.jobs_hasVisibleTopBar() {
                 make.top.equalTo(self.gk_navigationBar.snp.bottom).offset(10)
@@ -1052,6 +1020,33 @@ private lazy var collectionView: UICollectionView = {
         .setRightLottie(.inherit)     // 继承全局（没有全局就回退菊花）
         .enableRefreshHaptics(true)
         .setRefreshSound("Sound.wav") 
+        // 下拉刷新
+        .byRefreshHeader(component: JobsDefaultHeader(),
+                         container: self,
+                         trigger: 66) { [weak self] in
+            guard let self else { return }
+            jobsRunOnMain(self) { vc in
+                self.items = self.makeMockItems(count: 12)
+                self.collectionView.byReloadData()
+                self.collectionView.switchRefreshHeader(to: .normal)
+                self.collectionView.switchRefreshFooter(to: .normal)
+            }
+        }
+        // 上拉加载
+        .byRefreshFooter(component: JobsDefaultFooter(),
+                         container: self,
+                         trigger: 66) { [weak self] in
+            guard let self else { return }
+            jobsRunOnMain(self) { vc in
+                if self.items.count < 60 {
+                    self.items.append(contentsOf: self.makeMockItems(count: 12, startAt: self.items.count + 1))
+                    self.collectionView.byReloadData()
+                    self.collectionView.switchRefreshFooter(to: .normal)
+                } else {
+                    self.collectionView.switchRefreshFooter(to: .noMoreData)
+                }
+            }
+        }
         // 左侧拉：比如“上一页/回退”
         .configSideRefresh(with: JobsDefaultLeftRefresher(),
                            container: self,
@@ -1083,40 +1078,11 @@ private lazy var collectionView: UICollectionView = {
       .setFooterLottie(.disabled) // 强制 footer 回退菊花（即使全局配置了）
       .enableRefreshHaptics(true)
       .setRefreshSound("Sound.wav")
-      // 下拉刷新 Header
-      .configRefreshHeader(component: JobsDefaultHeader(),
-                           container: self,
-                           trigger: 66) { [weak self] in
-          guard let self else { return }
-          jobsRunOnMain(self) { vc in
-              try? await Task.sleep(nanoseconds: 1_000_000_000)
-              self.rows = 20
-              self.tableView.byReloadData()
-              self.tableView.switchRefreshHeader(to: .normal)
-              self.tableView.switchRefreshFooter(to: .normal) // 复位“无更多”
-          }
-      }
-      // 上拉加载 Footer
-      .configRefreshFooter(component: JobsDefaultFooter(),
-                           container: self,
-                           trigger: 66) { [weak self] in
-          guard let self else { return }
-          jobsRunOnMain(self) { vc in
-              try? await Task.sleep(nanoseconds: 1_000_000_000)
-              if self.rows < 60 {
-                  self.rows += 20
-                  self.tableView.byReloadData()
-                  self.tableView.switchRefreshFooter(to: .normal)
-              } else {
-                  self.tableView.switchRefreshFooter(to: .noMoreData)
-              }
-          }
-      }
 }()
 ```
 
 ```swift
-// ============================== UICollectionViewDataSource ==============================
+/// UICollectionViewDataSource
 func numberOfSections(in collectionView: UICollectionView) -> Int { 1 }
 
 func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -1149,13 +1115,18 @@ func collectionView(_ collectionView: UICollectionView,
     label.text = items[indexPath.item]
     return cell
 }
-// ============================== UICollectionViewDelegate ==============================
+```
+
+```swift
+/// UICollectionViewDelegate
 func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     print("✅ didSelect Item: \(indexPath.item)")
     collectionView.deselectItem(at: indexPath, animated: true)
 }
+```
 
-// ============================== UICollectionViewDelegateFlowLayout ==============================
+```swift
+/// UICollectionViewDelegateFlowLayout
 func collectionView(_ collectionView: UICollectionView,
                     layout collectionViewLayout: UICollectionViewLayout,
                     sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -1206,7 +1177,7 @@ private lazy var tableView: UITableView = {
             print("点选逻辑")
         }
          // 空态按钮
-        .jobs_emptyButtonProvider { [unowned self] in
+        .byEmptyButtonProvider { [unowned self] in
             UIButton(type: .system)
                 .byTitle("暂无数据", for: .normal)
                 .bySubTitle("点我填充示例数据", for: .normal)
@@ -1226,7 +1197,6 @@ private lazy var tableView: UITableView = {
                     make.width.lessThanOrEqualTo(host).multipliedBy(0.9)
                 }
         }
-
 //            .byContentInset(UIEdgeInsets(
 //                top: UIApplication.jobsSafeTopInset + 30,
 //                left: 0,
@@ -1234,32 +1204,23 @@ private lazy var tableView: UITableView = {
 //                right: 0
 //            ))
         // 下拉刷新 Header
-        .configRefreshHeader(component: JobsDefaultHeader(),
-                             container: self,
-                             trigger: 66) { [weak self] in
+        .byRefreshHeader(component: JobsDefaultHeader(),
+                         container: self,
+                         trigger: 66) { [weak self] in
             guard let self else { return }
             Task { @MainActor in
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
-                self.rows = 20
                 self.tableView.byReloadData()
                 self.tableView.switchRefreshHeader(to: .normal)
                 self.tableView.switchRefreshFooter(to: .normal) // 复位“无更多”
             }
         }
         // 上拉加载 Footer
-        .configRefreshFooter(component: JobsDefaultFooter(),
-                                      container: self,
-                                      trigger: 66) { [weak self] in
+        .byRefreshFooter(component: JobsDefaultFooter(),
+                         container: self,
+                         trigger: 66) { [weak self] in
             guard let self else { return }
             Task { @MainActor in
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
-                if self.rows < 60 {
-                    self.rows += 20
-                    self.tableView.byReloadData()
-                    self.tableView.switchRefreshFooter(to: .normal)
-                } else {
-                    self.tableView.switchRefreshFooter(to: .noMoreData)
-                }
+                self.tableView.switchRefreshFooter(to: .noMoreData)
             }
         }
         .byAddTo(view) {[unowned self] make in
@@ -2841,6 +2802,24 @@ DemoDetailVC().onResult { name in
 		print("回来了 \(name)")
 }
 ```
+
+#### 2.23、Debug模式下弹窗检测是否释放`UIViewController`
+
+* 引入框架 **`JobsSwiftDebugTools`**
+
+  ```swift
+  #if DEBUG
+  import JobsSwiftDebugTools
+  #endif
+  ```
+
+* App入口处进行调用 **➤**  **`AppDelegate.swift`**
+
+  ```swift
+  #if DEBUG
+  VCDebugDeallocDebug.install()
+  #endif
+  ```
 
 ### 3、对抗记忆衰弱
 
