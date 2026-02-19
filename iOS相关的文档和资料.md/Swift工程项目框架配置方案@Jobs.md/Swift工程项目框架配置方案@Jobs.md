@@ -998,7 +998,7 @@ private lazy var collectionView: UICollectionView = {
                     self.collectionView.byReloadData()        // ✅ reload 后自动评估空态
                 }
                 // 可选：自定义空态按钮布局
-                .jobs_setEmptyLayout { btn, make, host in
+                .byEmptyLayout { btn, make, host in
                     make.centerX.equalTo(host)
                     make.centerY.equalTo(host).offset(-40)
                     make.leading.greaterThanOrEqualTo(host).offset(16)
@@ -1159,6 +1159,11 @@ private lazy var tableView: UITableView = {
         .byNoSectionHeaderTopPadding()
         .byContentInsetTop(8)
         .byExpandVerticalScrollDistance(200.h)
+        .byTableHeaderView(
+          UIView()
+              .byHeight(65)
+              .byBackgroundColor(.clear)
+        )
         // 非正式协议闭包化
         .byTarget(self)
         .numberOfRowsInSection { [weak self] (obj: AnyObject, tv: UITableView, section: Int) -> Int in
@@ -1189,7 +1194,7 @@ private lazy var tableView: UITableView = {
                     self.tableView.reloadData()   // ✅ reload 后会自动评估空态，无需你再手动调用
                 }
                 // 可选：不满意默认居中 -> 自定义布局
-                .jobs_setEmptyLayout { btn, make, host in
+                .byEmptyLayout { btn, make, host in
                     make.centerX.equalTo(host)
                     make.centerY.equalTo(host).offset(-40)
                     make.leading.greaterThanOrEqualTo(host).offset(16)
@@ -1208,7 +1213,7 @@ private lazy var tableView: UITableView = {
                          container: self,
                          trigger: 66) { [weak self] in
             guard let self else { return }
-            Task { @MainActor in
+            jobsRunOnMain {
                 self.tableView.byReloadData()
                 self.tableView.switchRefreshHeader(to: .normal)
                 self.tableView.switchRefreshFooter(to: .normal) // 复位“无更多”
@@ -1219,7 +1224,7 @@ private lazy var tableView: UITableView = {
                          container: self,
                          trigger: 66) { [weak self] in
             guard let self else { return }
-            Task { @MainActor in
+            jobsRunOnMain {
                 self.tableView.switchRefreshFooter(to: .noMoreData)
             }
         }
