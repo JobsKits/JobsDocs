@@ -88,7 +88,7 @@
 
 #### 2.1、对`UIViewController`的封装
 
-![image-20251206154722858](./assets/image-20251206154722858.png)
+<img src="./assets/image-20260221233907415.png" alt="image-20260221233907415" style="zoom:50%;" />
 
 * 解决某些情况下，多次**push**或者**present**的Bug
 
@@ -119,7 +119,7 @@
 
 #### 2.2、对`UIView`层的封装格式
 
-![image-20251206153544362](./assets/image-20251206153544362.png)
+<img src="./assets/image-20260221233840263.png" alt="image-20260221233840263" style="zoom:50%;" />
 
 * 懒加载+代码块，在实际用的地方利用这个`UIView`的`alpha `或者`hidden`属性进行唤起
 
@@ -262,15 +262,7 @@
 
 ##### 2.3.1、利用分类作用于`UIButton`
 
-![image-20251206153259601](./assets/image-20251206153259601.png)
-
-* 除了向下兼容旧的Api的按钮管线，此Api大胆启用**Apple**最新的Api：`UIButtonConfiguration`
-* 按钮的点击事件（在一般的点按事件基础上，增加了长按事件的向外暴露），绕过<font color=red>**@selector**</font>和**Target**。<font color=blue>**并实现了追加功能**</font>
-* 可以富文本/普通文本，设置主标题/副标题
-* 按钮图 + 按钮图文关系（位置、距离）、背景图
-* 点击播放声音（额外的一个Api实现，不占用具体的业务层）
-* 按钮的右上角文本配置（参考**Objc**库[**PPBadgeView**](https://github.com/jkpang/PPBadgeView)）
-* <font color=red>风险提示：一旦用了最新的`UIButtonConfiguration`可能影响到老旧的Api的使用（直观感受，老旧Api配置的按钮将会不起效）</font>
+<img src="./assets/image-20260221233801095.png" alt="image-20260221233801095" style="zoom:50%;" />
 
 ```swift
 private lazy var exampleButton: UIButton = {
@@ -289,11 +281,11 @@ private lazy var exampleButton: UIButton = {
         /// 背景图片
         .byBackgroundImage("背景图片".img, for: .normal)
         /// 字体颜色渐变@只处理主标题（titleLabel）
-        .jobs_setGradientMainTitle(colors: [UIColor(r: 221, g: 221, b: 221), UIColor(r: 127, g: 126, b: 126)], direction: .leftToRight)
+        .byGradientMainTitle(colors: [UIColor(r: 221, g: 221, b: 221), UIColor(r: 127, g: 126, b: 126)], direction: .leftToRight)
         /// 字体颜色渐变@只副标题渐变
-        .jobs_setGradientSubtitle(colors: [UIColor(r: 221, g: 221, b: 221), UIColor(r: 127, g: 126, b: 126)], direction: .topLeftToBottomRight)
+        .byGradientSubtitle(colors: [UIColor(r: 221, g: 221, b: 221), UIColor(r: 127, g: 126, b: 126)], direction: .topLeftToBottomRight)
         /// 字体颜色渐变@主副一致
-        .jobs_setGradientTitlesSame(colors: [UIColor(r: 221, g: 221, b: 221), UIColor(r: 127, g: 126, b: 126)], direction: .leftToRight)
+        .byGradientTitlesSame(colors: [UIColor(r: 221, g: 221, b: 221), UIColor(r: 127, g: 126, b: 126)], direction: .leftToRight)
         /// 普通字符串@设置主标题
         .byTitle("显示", for: .normal)
         .byTitle("隐藏", for: .selected)
@@ -317,17 +309,20 @@ private lazy var exampleButton: UIButton = {
             JobsRichRun(.text("原价 ")).font(.systemFont(ofSize: 12)).color(.white.withAlphaComponent(0.8)),
             JobsRichRun(.text("¥199")).font(.systemFont(ofSize: 12, weight: .medium)).color(.systemYellow)
         ]))
+        /// 主标题和副标题之间的距离（兼容 iOS12+）
+        .byTitlePadding(4.h)
         /// 按钮图片@图文关系
         .byImage("eye.slash".sysImg, for: .normal)                // 未选中图标
         .byImage("eye".sysImg, for: .selected)                    // 选中图标
         /// iOS15专用@清除偏移
         .byClearConfigurationBackground() 
-        /// 按钮图片@图文关系iOS13（与下文互斥）
-        .byTitleEdgeInsets(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6)) // 图标与文字间距
-        .byImagePlacement(.top)
-        /// 按钮图片@图文关系iOS12（与上文互斥）
-        .byImagePlacementLegacy(.top, padding: 5)
-        .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))// 图文内边距
+        /// 按钮@图文位置关系
+        .byImagePlacement(.top ,padding: 5)        // 通用（向下兼容）
+        .byImagePlacementLegacy(.top, padding: 5)  // 只满足iOS13以下
+        /// 按钮图文间距@iOS13（与下文互斥）
+        .byTitleEdgeInsets(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: -6)) 
+        /// 按钮图文内边距@iOS12（与上文互斥）
+        .byContentEdgeInsets(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
         /// 点击@播放声音
         .byTapSound("Sound.wav")    
         /// 普通@点按事件触发
@@ -398,6 +393,176 @@ private lazy var exampleButton: UIButton = {
         }
 }()
 ```
+
+* <font color=red>风险提示：一旦用了最新的 `UIButtonConfiguration` 可能影响到老旧的Api的使用（直观感受，老旧Api配置的按钮将会不起效）</font>
+
+* 可视**UI**（向下兼容，且启用`UIButtonConfiguration`）
+
+  * 普通文本配置主副标题（文本内容、文本字体颜色大小）
+  * <font color=blue>富文本</font>配置主副标题
+  * 设置**背景图**片
+  * 设置背景色
+  * **前景图**文位置关系（空间位置和距离）
+  * 操作Layer层：切角、描边
+  * 锁住**tint**
+  * [**snapkit**](https://github.com/SnapKit/SnapKit)约束
+  * 右上角提示（参考**Objc**库[**PPBadgeView**](https://github.com/jkpang/PPBadgeView)）
+
+* 事件
+
+  * （点按、长按）事件封装 **➤** 绕过<font color=red>**@selector**</font>和**Target**
+
+  * （点按、长按）<font color=blue>**事件追加**</font>
+
+  * 点击播放声音
+
+  * 主副标题的数字动效
+
+    ```swift
+    /// 数字动效按钮@主标题（普通文本）
+    private lazy var btn1: UIButton = {
+        UIButton.sys()
+            .byTitle("¥99", for: .normal)
+            .byTitle("¥99", for: .selected)
+            .byTitle("¥99", for: .disabled)
+            .byTitleColor(.white, for: .normal)
+            .byTitleFont(.systemFont(ofSize: 18, weight: .semibold))
+            .byBackgroundColor(.systemBlue)
+            .byCornerRadius(10)
+            .onTap { [weak self] sender in
+                guard let self else { return }
+                let start = Double(tf1Start.text ?? "") ?? 99
+                let end   = Double(tf1End.text ?? "") ?? 199
+                sender
+                    .byAnimatedMainTitleNumber_Compat(start: start,
+                                                      initialTitle: "¥\(Int(start))",
+                                                      duration: 0.9,
+                                                      minimumInterval: 1.0/60.0) {
+                        "动画结束".tr.toast
+                    }
+                    .byStartAnimatedMainTitleNumber("¥\(Int(end))")
+            }
+            .byAddTo(contentView) { [unowned self] make in
+                make.top.equalTo(tf1Start.snp.bottom).offset(10)
+                make.left.right.equalToSuperview().inset(16)
+                make.height.equalTo(52)
+            }
+    }()
+    /// 数字动效按钮@副标题（富文本）
+    private lazy var btn2: UIButton = {
+        UIButton.sys()
+            .byTitle("会员价格", for: .normal)
+            .byTitleColor(.white, for: .normal)
+            .byTitleFont(.systemFont(ofSize: 16, weight: .medium))
+            .bySubTitle("原价 ¥199 /月", for: .normal)
+            .bySubTitleColor(.white.withAlphaComponent(0.85), for: .normal)
+            .bySubTitleFont(.systemFont(ofSize: 13))
+            .byBackgroundColor("#2F2F2F".cor)
+            .byCornerRadius(10)
+            .onTap { [weak self] sender in
+                guard let self else { return }
+                let start = Double(tf2Start.text ?? "") ?? 199
+                let end   = Double(tf2End.text ?? "") ?? 99
+                // subtitle 富文本：只动数字，其他不动
+                let startAttr = JobsRichText.make([
+                    JobsRichRun(.text("原价 ")).font(.systemFont(ofSize: 12)).color(.white.withAlphaComponent(0.8)),
+                    JobsRichRun(.text("¥\(Int(start))")).font(.systemFont(ofSize: 12, weight: .medium)).color(.systemYellow),
+                    JobsRichRun(.text(" /月")).font(.systemFont(ofSize: 12)).color(.white.withAlphaComponent(0.8))
+                ])
+                let endAttr = JobsRichText.make([
+                    JobsRichRun(.text("原价 ")).font(.systemFont(ofSize: 12)).color(.white.withAlphaComponent(0.8)),
+                    JobsRichRun(.text("¥\(Int(end))")).font(.systemFont(ofSize: 12, weight: .medium)).color(.systemYellow),
+                    JobsRichRun(.text(" /月")).font(.systemFont(ofSize: 12)).color(.white.withAlphaComponent(0.8))
+                ])
+                
+                sender
+                    .byRichSubTitle(startAttr)
+                    .byAnimatedSubTitleNumber(start: start,
+                                              duration: 1.0,
+                                              minimumInterval: 1.0/60.0) {
+                        "动画结束".tr.toast
+                    }.byStartAnimatedSubTitleNumber(endAttr)
+            }
+            .byAddTo(contentView) { [unowned self] make in
+                make.top.equalTo(tf2Start.snp.bottom).offset(10)
+                make.left.right.equalToSuperview().inset(16)
+                make.height.equalTo(64)
+            }
+    }()
+    /// 数字动效按钮@主标题（富文本）
+    private lazy var btn3: UIButton = {
+        UIButton.sys()
+            .byRichTitle(JobsRichText.make([
+                JobsRichRun(.text("¥99")).font(.systemFont(ofSize: 18, weight: .semibold)).color(.systemRed),
+                JobsRichRun(.text(" /月")).font(.systemFont(ofSize: 16)).color(.white)
+            ]))
+            .byTitleColor(.white, for: .normal)
+            .byImage("star.fill".sysImg, for: .normal)
+            .byImagePlacement(.leading, padding: 8)
+            .byBackgroundColor(.systemGreen)
+            .byCornerRadius(10)
+            .onTap { [weak self] sender in
+                guard let self else { return }
+                let start = Double(tf3Start.text ?? "") ?? 99
+                let end   = Double(tf3End.text ?? "") ?? 299
+                
+                let startRich = JobsRichText.make([
+                    JobsRichRun(.text("¥\(Int(start))")).font(.systemFont(ofSize: 18, weight: .semibold)).color(.systemRed),
+                    JobsRichRun(.text(" /月")).font(.systemFont(ofSize: 16)).color(.white)
+                ])
+                let endRich = JobsRichText.make([
+                    JobsRichRun(.text("¥\(Int(end))")).font(.systemFont(ofSize: 18, weight: .semibold)).color(.systemRed),
+                    JobsRichRun(.text(" /月")).font(.systemFont(ofSize: 16)).color(.white)
+                ])
+                
+                sender
+                    .byRichTitle(startRich)
+                    .byAnimatedMainTitleNumber(start: start,
+                                               duration: 0.9,
+                                               minimumInterval: 1.0/60.0) {
+                        "动画结束".tr.toast
+                    }.byStartAnimatedMainTitleNumber(endRich)
+            }
+            .byAddTo(contentView) { [unowned self] make in
+                make.top.equalTo(tf3Start.snp.bottom).offset(10)
+                make.left.right.equalToSuperview().inset(16)
+                make.height.equalTo(56)
+            }
+    }()
+    /// 数字动效按钮@副标题（普通文本）
+    private lazy var btn4: UIButton = {
+        UIButton.sys()
+            .byTitle("限时折扣", for: .normal)
+            .byTitleColor(.white, for: .normal)
+            .byTitleFont(.systemFont(ofSize: 16, weight: .medium))
+            .bySubTitle("倒计时 199 秒", for: .normal)
+            .bySubTitleColor(.white.withAlphaComponent(0.85), for: .normal)
+            .bySubTitleFont(.systemFont(ofSize: 13))
+            .byImage("clock".sysImg, for: .normal)
+            .byImagePlacement(.leading, padding: 8)
+            .byBackgroundColor(.systemPurple)
+            .byCornerRadius(10)
+            .onTap { [weak self] sender in
+                guard let self else { return }
+                let start = Double(tf4Start.text ?? "") ?? 199
+                let end   = Double(tf4End.text ?? "") ?? 9
+                sender
+                    .bySubTitle("倒计时 \(Int(start)) 秒", for: .normal)
+                    .bySubTitle("倒计时 \(Int(start)) 秒", for: .selected)
+                    .bySubTitle("倒计时 \(Int(start)) 秒", for: .disabled)
+                    .byAnimatedSubTitleNumber(start: start, duration: 1.1, minimumInterval: 1.0/60.0) {
+                        "动画结束".tr.toast
+                    }
+                    .byStartAnimatedSubTitleNumber("倒计时 \(Int(end)) 秒")
+            }
+            .byAddTo(contentView) { [unowned self] make in
+                make.top.equalTo(tf4Start.snp.bottom).offset(10)
+                make.left.right.equalToSuperview().inset(16)
+                make.height.equalTo(64)
+                make.bottom.equalToSuperview().offset(-24)
+            }
+    }()
+    ```
 
 ##### 2.3.2、利用继承作用于`JobsButton`
 
@@ -1298,7 +1463,7 @@ extension BMPlayerDemoVC : UITableViewDataSource,UITableViewDelegate{
 
 #### 2.10、对`UILabel`的封装
 
-![image-20251206154144371](./assets/image-20251206154144371.png)
+<img src="./assets/image-20260221234038355.png" alt="image-20260221234038355" style="zoom:50%;" />
 
 ##### 2.10.1、动效数字标签
 
@@ -1310,16 +1475,8 @@ private lazy var valueLabel: UILabel = {
         .byTextColor(.label)
         .byText("\(Int(defaultStart))")
         .byNumberOfLines(1)
+        /// 配置@数字动效
         .byAnimatedTextNumber(duration: 0.9, minimumInterval: 1.0 / 60.0)
-        .byStopAnimatedTextNumber()
-        .byAnimatedTextNumber(
-            start: 60,
-            step: nil,
-            duration: 0.9,
-            minimumInterval: 1.0 / 60.0,
-            completion: nil
-        )
-        .byStartAnimatedTextNumber("3")
         .byAddTo(cardView) { [unowned self] make in
             make.top.equalToSuperview().offset(24)
             make.left.equalToSuperview().offset(self.cardInset)
@@ -1328,9 +1485,23 @@ private lazy var valueLabel: UILabel = {
 }()
 ```
 
+```swift
+/// 启动@数字动效
+self.valueLabel
+    .byStopAnimatedTextNumber()
+    .byAnimatedTextNumber(
+        start: startValue,
+        step: nil,
+        duration: 0.9,
+        minimumInterval: 1.0 / 60.0,
+        completion: nil
+    )
+    .byStartAnimatedTextNumber(endText)
+```
+
 #### 2.11、对`UIScrollView`的封装
 
-![image-20251206154233914](./assets/image-20251206154233914.png)
+<img src="./assets/image-20260221234116329.png" alt="image-20260221234116329" style="zoom:50%;" />
 
 #### 2.12、<font id=UIAlertController>对`UIAlertController`的封装</font>
 
@@ -1561,10 +1732,8 @@ UIView().byDialogBoxContent { dialogBoxView in
 
 #### 2.15、对计时器的封装`JobsSwiftTimer`
 
-<div>
-  <img src="./assets/image-20260121165054858.png" width="45%" />
-  <img src="./assets/image-20251206163504503.png" width="45%" />
-</div>
+<img src="./assets/image-20260221234215242.png" alt="image-20260221234215242" style="zoom:50%;" />
+
 ```swift
 import JobsSwiftTimer
 
@@ -2264,35 +2433,32 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
     ///  正向：byData（单参 + 不定参）
     ///  逆向：onResult + sendResult（单参 + 不定参）
     @MainActor
+    /// ViewDataProtocol@单参数
     public protocol ViewDataProtocol: AnyObject {
-        /// 正向@单（入）参数
+        /// 正向@入参
         @discardableResult
-        func byData(_ any: Any?) -> Self
-        /// 逆向@单（入）参数
-        func sendResult(_ any: Any?)
-        /// 逆向@单（出）参数
+        func byData(_ data: Any?) -> Self
+        /// 逆向@入参
+        func sendResult(_ data: Any?)
+        /// 逆向@出参
         @discardableResult
         func onResult(_ callback: @escaping (Any?) -> Void) -> Self
     }
-    
+    /// ViewDataProtocol@不定参数
     public extension ViewDataProtocol {
-        /// 正向@不定（入）参数
+        /// 正向@入参
         @_disfavoredOverload
         @discardableResult
         func byData(_ items: Any?...) -> Self {
             items.count == 1 ? byData(items[0]) : byData(items)
         }
-        /// 逆向@不定（入）参数
+        /// 逆向@入参
         @_disfavoredOverload
         func sendResult(_ items: Any?...) {
             if items.count == 1 { sendResult(items[0]) }
             else { sendResult(items) }
         }
-        /// 逆向@无（入）参数
-        func sendResult() {
-            sendResult(nil as Any?)
-        }
-        /// 逆向@不定（出）参数
+        /// 逆向@出参
         @_disfavoredOverload
         @discardableResult
         func onResult(_ callback: @escaping ([Any?]) -> Void) -> Self {
@@ -2305,16 +2471,34 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
             }
         }
     }
+    /// ViewDataProtocol@默认空实现
+    public extension ViewDataProtocol {
+        /// 正向@入参
+        @discardableResult
+        func byData(_ data: Any?) -> Self { self }
+        /// 逆向@入参
+        func sendResult(_ data: Any?) {}
+        /// 逆向@出参
+        @discardableResult
+        func onResult(_ callback: @escaping (Any?) -> Void) -> Self { self }
+    }
+    
+    public extension ViewDataProtocol {
+        /// 逆向@无（入）参数；便捷重载，等价于“发一个nil”
+        func sendResult() {
+            sendResult(nil as Any?)
+        }
+    }
     ```
-
+  
   * 应用层
-
+  
     * ```swift
       private enum JobsViewResultKey {
           static var callback: UInt8 = 0
       }
       /// ✅ 覆盖所有 View（UIView 及其子类）
-      extension UIView: ViewDataProtocol {}
+      extension UIView: @retroactive ViewDataProtocol {}
       @MainActor
       public extension ViewDataProtocol where Self: UIView {
           // ================================== 正向：传值即渲染（默认 no-op） ==================================
@@ -2324,7 +2508,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
           // ================================== 逆向：回传 ==================================
           @discardableResult
           func onResult(_ callback: @escaping jobsByAnyBlock) -> Self {
-              objc_setAssociatedObject(self, &JobsViewResultKey.callback, callback, .OBJC_ASSObjcIATION_COPY_NONATOMIC)
+              objc_setAssociatedObject(self, &JobsViewResultKey.callback, callback, .OBJC_ASSOCIATION_COPY_NONATOMIC)
               return self
           }
       
@@ -2333,7 +2517,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
           }
       }
       ```
-
+  
     * ```swift
       @MainActor
       public extension ViewDataProtocol where Self: UICollectionViewCell {
@@ -2341,14 +2525,13 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
           func byData(_ any: Any?) -> Self { self }
       }
       ```
-
+  
     * ```swift
-      #endif
       @MainActor
       public extension ViewDataProtocol where Self: UITableViewCell {
           @discardableResult
           func byData(_ any: Any?) -> Self {
-              guard let cfg = any as? JobsCellConfig else { return self }
+              guard let cfg = any as? JobsBaseCellConfig else { return self }
               if #available(iOS 14.0, *) {
                   return self
                       .byJobsText(cfg.title)
@@ -2363,13 +2546,15 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
           }
       }
       ```
-
+      
     * ```swift
       private enum JobsAssocKey {
           static var callback: UInt8 = 0
+          static var onAppearCompletions: UInt8 = 1
+          static var appearCompletionFired: UInt8 = 2
       }
       /// ✅ 覆盖所有 ViewController（UIViewController 及其子类）
-      extension UIViewController: ViewDataProtocol {}
+      extension UIViewController: @retroactive ViewDataProtocol {}
       @MainActor
       public extension ViewDataProtocol where Self: UIViewController {
           // ================================== 正向：传值即渲染（默认 no-op） ==================================
@@ -2379,7 +2564,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
           // ================================== 逆向：回传 ==================================
           @discardableResult
           func onResult(_ callback: @escaping jobsByAnyBlock) -> Self {
-              objc_setAssociatedObject(self, &JobsAssocKey.callback, callback, .OBJC_ASSObjcIATION_COPY_NONATOMIC)
+              objc_setAssociatedObject(self, &JobsAssocKey.callback, callback, .OBJC_ASSOCIATION_COPY_NONATOMIC)
               return self
           }
           func sendResult(_ any: Any?) {
@@ -2387,11 +2572,11 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
           }
       }
       ```
-
+  
   * 自定义数据（模型）层**`JobsCellConfig`**
-
+  
     * 数据模型里面的数据类型是**`JobsText`**
-
+  
       ```swift
       // MARK: - 通用于 UITableViewCell 和 UICollectionViewCell 的模型组件
       public struct JobsCellConfig {
@@ -2411,9 +2596,9 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
           }
       }
       ```
-
+  
     * 枚举里面的值的类型是**`JobsText`**
-
+  
       ```swift
       // MARK: - 行模型
       private enum EditProfileRow: CaseIterable {
@@ -2451,7 +2636,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
       ```
 
   * 数据灌入
-
+  
     ```swift
     tableView.byDequeueReusableCell(withType: BaseTableViewCellByValue1.self, for: indexPath)
         .byTitleFont(.systemFont(ofSize: 16))
@@ -2461,11 +2646,11 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
         .bySeparatorInset(.init(top: 0, left: 16, bottom: 0, right: 16))
         .byData(JobsCellConfig(title: row.title,detail:row.detail))
     ```
-
+  
   * <font color=red>**数据解析（核心）**</font>
-
+  
     * 解析数据到`UILabel`
-
+  
       ```swift
       extension UILabel {
           @discardableResult
@@ -2482,9 +2667,9 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
           }
       }
       ```
-
+  
     * 解析数据到`UITableViewCell`
-
+  
       ```swift
       public extension UITableViewCell {
           /// 解析为富文本
@@ -2840,12 +3025,20 @@ DemoDetailVC().onResult { name in
 
 ```ruby
 def byJobs
+    
+  pod 'JobsSwiftDebugTools',                :path => 'JobsByPods/JobsSwiftDebugTools@Pods'
+#  pod 'JobsNetworking/Core',                :path => 'JobsByPods/JobsNetworking@Pods' # iOS12/13/14... 都能用（主干）
+#  pod 'JobsNetworking/AF4',                 :path => 'JobsByPods/JobsNetworking@Pods'
+  pod 'JobsNetworking/Async',               :path => 'JobsByPods/JobsNetworking@Pods' # 只在 iOS13+ 工程里想用 async/await，再加这个
+  pod 'JobsNetworking/AF5',                 :path => 'JobsByPods/JobsNetworking@Pods'
+  
   pod 'BRPickerViewSwift',                  :path => 'JobsByPods/BRPickerViewSwift@Pods'
   pod 'JobsBy3rdTools',                     :path => 'JobsByPods/JobsBy3rdTools@Pods'
   pod 'JobsByUIKit',                        :path => 'JobsByPods/JobsByUIKit@Pods'
   pod 'JobsInheritance',                    :path => 'JobsByPods/JobsInheritance@Pods'
   pod 'Jobsl10n',                           :path => 'JobsByPods/Jobsl10n@Pods'
   pod 'JobsSwiftTimer',                     :path => 'JobsByPods/JobsSwiftTimer@Pods'                # https://github.com/JobsKits/JobsSwiftTimer
+  pod 'JobsProgressBar',                    :path => 'JobsByPods/JobsProgressBar@Pods'
   pod 'JobsNavBar',                         :path => 'JobsByPods/JobsNavBar@Pods'
   pod 'JobsToast',                          :path => 'JobsByPods/JobsToast@Pods'
   pod 'JobsTextTools',                      :path => 'JobsByPods/JobsTextTools@Pods'
@@ -2863,11 +3056,10 @@ def byJobs
   pod 'JobsSwiftAppTools',                  :path => 'JobsByPods/JobsSwiftAppTools@Pods'
   pod 'JobsLuckyEnvelopeRain',              :path => 'JobsByPods/JobsLuckyEnvelopeRain@Pods'
   pod 'JobsSwiftStandardLibrary_extension', :path => 'JobsByPods/JobsSwiftStandardLibrary_extension@Pods'
-  
   pod 'JobsSwiftFoundation_extensions',     :path => 'JobsByPods/Foundation@Pods'                     # https://github.com/JobsKits/Jobs.Swift.Foundation.Extensions
   pod 'JobsSwiftMetalKit_extensions',       :path => 'JobsByPods/MetalKit@Pods'                       # https://github.com/JobsKits/Jobs.Swift.MetalKit.Extensions
   pod 'JobsSwiftBlock',                     :path => 'JobsByPods/JobsSwiftBlock@Pods'                 # https://github.com/JobsKits/JobsSwiftBlock
-  pod 'JobsSwiftBaseDefines',               :path => 'JobsByPods/SwiftDefines@Pods'                   # https://github.com/JobsKits/JobsSwiftBaseDefines
+  pod 'JobsSwiftBaseDefines',               :path => 'JobsByPods/JobsSwiftBaseDefines@Pods'                   # https://github.com/JobsKits/JobsSwiftBaseDefines
   pod 'JobsSwiftBaseTools',                 :path => 'JobsByPods/JobsSwiftBaseTools@Pods'             # https://github.com/JobsKits/JobsSwiftBaseTools
 end
 ```
