@@ -1829,41 +1829,66 @@ UIView().byDialogBoxContent { dialogBoxView in
 
 <img src="./assets/image-20260221234215242.png" alt="image-20260221234215242" style="zoom:50%;" />
 
-```swift
-import JobsSwiftTimer
+* **统一协议**
 
-private var appTickerTimer: JobsTimerProtocol?
-// ✅ 新版 JobsTimer：不再用 JobsTimerFactory.make
-do {
-    let cfg = JobsTimerConfig(
-        interval: 1,
-        repeats: true,
-        tolerance: 0.002,
-        queue: .main,
-        runLoop: .main,
-        runLoopMode: .common,
-        pauseInBackground: true,
-        autoManageAppState: true
-    )
+  ```swift
+  // MARK: - 统一协议
+  public protocol JobsSwiftTimerProtocol: AnyObject {
+      /// 计时器当前是否处于运行中
+      var isRunning: Bool { get }
+      /// 启动计时器
+      @discardableResult
+      func start() -> Self
+      /// 暂停计时器
+      @discardableResult
+      func pause() -> Self
+      /// 恢复计时器
+      @discardableResult
+      func resume() -> Self
+      /// 停止计时器（销毁@有回调）
+      @discardableResult
+      func fireOnce() -> Self
+      /// 停止计时器（销毁@无回调）
+      @discardableResult
+      func stop() -> Self
+      /// 注册回调（每 tick 执行一次）
+      @discardableResult
+      func onTick(_ block: @escaping JobsTimerCallback) -> Self
+      /// 注册完成回调（用于一次性定时器或倒计时）
+      @discardableResult
+      func onFinish(_ block: @escaping JobsTimerCallback) -> Self
+  }
+  // MARK: - 标识协议（建议用于 Manager ID 管理）
+  public protocol JobsSwiftTimerIdentifiable {
+      var identifier: String? { get }
+  }
+  ```
 
-    let t = JobsTimer(kind: .displayLink, config: cfg) {
-        /// 日期打印（这里只是打印，不触碰 UI，不需要 MainActor）
-        print(Date().formatted(date: .numeric, time: .standard))
-    }
+* **使用**
 
-    appTickerTimer = t
-    t.start()
-}
-```
+  ```swift
+  import JobsSwiftTimer
+  
+  let t = JobsTimer(kind: kind, config: config) { [weak self] in
+   guard let self else { return }
+   guard self.state == .running else { return }
+   guard let start = self.startDate else { return }
+       /// TODO
+  }
+  
+  timer?.stop()
+  timer = t
+  t.start()
+  ```
 
-* iOS系统中存在三大计时器核心，分别是：**NSTimer** / **GCD** / **CADisplayLink**。其间的差异在于精确粒度的区别，在大多数场景下都无差别，除非在特定场景下才会有分别
+* **iOS**系统中存在三大计时器核心，分别是：**NSTimer** / **GCD** / **CADisplayLink**。其间的差异在于精确粒度的区别，在大多数场景下都无差别，除非在特定场景下才会有分别
 * 在敏捷开发的基础下，我们只需要关心业务层，而不善于关心创建流程（期望快速一键创建），而偏偏系统的创建流程较为复杂。其难点在于计时器的销毁在不经意之间可能会引起循环引用问题，造成页面的不释放，导致内存泄露或者进数据异常
 * 如果是面向业务开发，程序员其实最关心的，是计时器向外抛出的4～5种状态（用协议的方式对外暴露）。分别是：（结束有2种形态，其中一种结束时需要执行一段操作）
   * 启动计时器  `func start()`
   * 暂停计时器  `func pause()`
   * 恢复计时器  `func resume()`
-  * 停止计时器（销毁@有回调）`func fireOnce()`
-  * 停止计时器（销毁@无回调）` func stop()`
+  * 停止计时器（销毁@**有回调**）`func fireOnce()`
+  * 停止计时器（销毁@**无回调**）` func stop()`
 * 相较于[**YYKit**](https://github.com/ibireme/YYKit)带的计时器
   * **YYTimer**是一个纯**Objc**的库
   * **YYTimer**只是一个计时器的最佳实践：多种定时器组合出来的一个计时器模块
@@ -1876,29 +1901,104 @@ do {
 
 ##### 2.15.1、倒计时按钮
 
-```swift
-// MARK: - 倒计时演示按钮
-private lazy var countdownButton: UIButton = {
-    UIButton(type: .system)
-        .byTitle("获取验证码", for: .normal)
-        .byTitleColor(.white, for: .normal)
-        .byBackgroundColor(.systemGreen, for: .normal)
-        .onTap { [weak self] btn in
-            guard let strongSelf = self else { return }
-            Task { @MainActor in
-                let total = strongSelf.parseCountdownTotal(10)
-                strongSelf.startCountDown(total: total)
-                btn.byTitle("还剩 \(total)s", for: .normal)
-            }
-        }
-        .byAddTo(view) { [unowned self] make in
-            make.top.equalTo(self.hintLabel.snp.bottom).offset(20)
-            make.left.equalToSuperview().offset(horizontalInset)
-            make.right.equalToSuperview().inset(horizontalInset)
-            make.height.equalTo(50)
-        }
-}()
-```
+* 创建方案一
+
+  ```swift
+  import JobsByUIKit
+  
+  private lazy var startButton: UIButton = {
+      UIButton(type: .system)
+          .byTitle("开始", for: .normal)
+          .byTitleFont(.systemFont(ofSize: 22, weight: .bold))
+          .byTitleColor(.white, for: .normal)
+          .byBackgroundColor(.systemBlue, for: .normal)
+          .byCornerRadius(10)
+          .byMasksToBounds(true)
+          // 每 tick：更新时间 & 最近触发时间
+          .onCountdownTick({ button, remain, total, kind in
+              /// TODO
+          })
+          // 状态变化：驱动控制键（暂停/继续/Fire/停止）的可用与配色
+          .onTimerStateChange({ [weak self] button, old, new in
+              guard let self else { return }
+              /// TODO
+          })
+          // 点击开始：不传 total => 正计时
+          .onTap { [weak self] btn in
+              guard let self else { return }
+              /// 正/倒计时配置
+              guard isCountdownTime else {
+                  btn.startTimer(
+                      total: 60,// ❤️ 这里的参数如果不传（nil） => 则为正计时
+                      interval: 1,
+                      kind: nil) { [weak self] btn in
+                          guard let self else { return }
+                          isCountdownTime = YES
+                                          /// TODO
+                      };return
+              }
+          }
+          .byAddTo(view) { [unowned self] make in
+              /// TODO
+          }
+  }()
+  ```
+
+* 创建方案二
+
+  ```swift
+  import JobsCountdownButton
+  
+  private lazy var countdownButton: UIButton = {
+      UIButton()
+          /// 倒计时按钮核心配置
+          .byCountdown { cfg in
+              cfg.mode = .down(from: 12)
+              cfg.clickableWhileRunning = true
+              cfg.onTapWhileRunning = { btn, _ in
+                  "运行中被点击！".toast
+              }
+              cfg.renderConfiguration = { sec, base in
+                  var c = base
+                  c.title = "可点 \(sec)s"
+                  return c
+              }
+          }
+          /// 把「点击按钮」和「启动倒计时」自动绑定起来
+          //.byCountdownOnTapAuto()
+          .onTap { [weak self] sender in
+              guard let self = self,
+                    let ctrl = sender.jobsCountdownController
+              else { return }
+  
+              if ctrl.isRunning {
+                  // 正在跑
+                  if ctrl.config.clickableWhileRunning {
+                      ctrl.config.onTapWhileRunning?(sender, ctrl.config)
+                  } else {
+                      // 不可点就直接吞掉点击
+                  }
+              } else {
+                  // 未运行 -> 开始
+                  ctrl.start()
+              }
+          }
+      
+          .byAddTo(self) { [unowned self] make in
+              /// TODO
+          }
+          .byBorderColor(.cyan)
+          .byBorderWidth(0.5)
+          .byMasksToBounds(YES)
+          .byClipsToBounds(YES)
+          /// 切角@平面四个角全切
+          .byCornerRadius(8.h)
+          /// 切角@切固定角，iOS11及其以后可用。需要再配合layer.cornerRadius以生效
+          .byMaskedCorners([.layerMinXMinYCorner, .layerMaxXMinYCorner])
+          /// 切角@切固定角，兼容旧版本iOS系统
+          .byCornerRaduis(corner: [.bottomLeft, .bottomRight], raduis: 4)
+  }()
+  ```
 
 ##### 2.15.2、跑马灯（实际展现的控件是按钮）
 
