@@ -1560,7 +1560,7 @@ extension BMPlayerDemoVC : UITableViewDataSource,UITableViewDelegate{
 
 <img src="./assets/image-20260221234038355.png" alt="image-20260221234038355" style="zoom:50%;" />
 
-##### 2.10.1、动效数字标签
+##### 2.10.1、动效数字标签（内核基于`JobsSwiftTimer`）
 
 ```swift
 private lazy var valueLabel: UILabel = {
@@ -2217,6 +2217,129 @@ let task = JobsPlan.after(.second * 2).do {
     print("2 秒后执行")
 }
 ```
+
+##### 2.15.5、红包雨
+
+```swift
+private lazy var rainView: RedPacketRainView = {
+      RedPacketRainView
+          .dsl(
+              config: RedPacketRainConfig(
+                  // 你可以改成 .default，或者继续用这套 Demo 配置
+                  spawnInterval: 0.2,
+                  minFallDuration: 5.5,
+                  maxFallDuration: 8.0,
+                  packetSize: CGSize(width: 44, height: 54),
+                  maxConcurrentCount: 80,
+                  spawnInsets: .init(top: 0, left: 10, bottom: 0, right: 10),
+                  tapEnabled: true,
+                  packetImage: nil
+              ),
+              timerKind: .gcd
+          )
+          .onPacketTap { [weak self] _, count in
+              guard let self else { return }
+              self.countLabel.byText("已抢到：\(count) 个")
+          }
+          .byAddTo(view) { [unowned self] make in
+              make.edges.equalToSuperview()
+          }
+  }()
+```
+
+##### 2.15.6、网络数据的监听
+
+![image-20260315180854842](./assets/image-20260315180854842.png)
+
+* 监听：数据来源 + 上行⬆️ / 下载⬇️
+
+  ```swift
+  networkNormalListenerBy(view) // 普通文本
+  networkRichListenerBy(view) // 富文本
+  ```
+
+  ```swift
+  /// 手动移除
+  deinit {
+      JobsNetworkTrafficMonitorStop()  /// 停止网络实时监听
+  }
+  ```
+
+* 监听第一次数据源
+
+  ```swift
+  jobsWaitNetworkDataReady(
+     onWiFiReady: {
+         print("✅ Wi-Fi 已有真实流量")
+     },
+     onCellularReady: {
+         print("✅ 蜂窝已实际可用，可以走后续逻辑")
+         // 比如这里再去重试接口、发起播放等
+     }
+  )
+  ```
+
+  ```swift
+  /// 手动移除
+  deinit {
+      JobsCancelWaitNetworkDataReady()       /// 停止网络数据源监听
+  }
+  ```
+
+##### 2.15.7、旋转的抽奖轮盘
+
+* ```swift
+  private lazy var wheelView: LuckyWheelView = {
+      LuckyWheelView()
+          .bySegments([
+              .init(text: "一等奖".tr,
+                    textFont: .systemFont(ofSize: 12, weight: .medium),
+                    textColor: .randomColor,
+                    backgroundColor: .randomColor,
+                    placeholderImage: "globe".sysImg,
+                    imageURLString:"https://picsum.photos/30"),
+              .init(text: "二等奖".tr,
+                    textFont: .systemFont(ofSize: 12, weight: .medium),
+                    textColor: .randomColor,
+                    backgroundColor: .randomColor,
+                    placeholderImage: "plus".sysImg,
+                    imageURLString:"https://picsum.photos/30"),
+              .init(text: "三等奖".tr,
+                    textFont: .systemFont(ofSize: 12, weight: .medium),
+                    textColor: .randomColor,
+                    backgroundColor: .randomColor,
+                    placeholderImage: "message".sysImg,
+                    imageURLString:"https://picsum.photos/30"),
+              .init(text: "谢谢参与".tr,
+                    textFont: .systemFont(ofSize: 12, weight: .medium),
+                    textColor: .randomColor,
+                    backgroundColor: .randomColor,
+                    placeholderImage: "tray".sysImg,
+                    imageURLString:"https://picsum.photos/30"),
+          ])
+          .byPointerDirection(.right) // 停止锚点作为中奖结果
+          .bySpinDuration(3.0)
+          .byInitialVelocity(25.0)
+          .byPanRotationEnabled(true)
+          .onSegmentTap { segment in
+              /// 短按和旋转停止后的中奖结果
+              toastBy("🍀 短按扇形 \(String(describing: segment.text?.rnl))")
+          }
+          .onSegmentLongPress { segment, gr in
+              if gr.state == .began {
+                  toastBy("👆 长按开始 \(String(describing: segment.text?.rnl))")
+              }
+          }
+          .byAddTo(view) { make in
+              make.center.equalToSuperview()
+              make.width.height.equalTo(300)
+          }
+  }()
+  ```
+
+* ```swift
+  wheelView.stopSpin() // 停止
+  ```
 
 #### 2.16、进度条
 
