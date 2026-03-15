@@ -2208,6 +2208,16 @@ private lazy var kingfisherImageButtonsMarquee: JobsMarqueeView = { [unowned sel
 }()
 ```
 
+##### 2.15.4、计划任务（内核基于`JobsSwiftTimer`）
+
+```swift
+import JobsSwiftTaskCenter
+
+let task = JobsPlan.after(.second * 2).do {
+    print("2 秒后执行")
+}
+```
+
 #### 2.16、进度条
 
 ##### 2.16.1、系统进度条
@@ -2225,7 +2235,7 @@ private lazy var progressView: UIProgressView = {
 }()
 ```
 
-##### 2.16.2、自定义进度条 ➤ `JobsProgressBar` 
+##### 2.16.2、自定义进度条（内核基于`JobsSwiftTimer`）  ➤ `JobsProgressBar` 
 
 ```swift
 /// 自定义进度条
