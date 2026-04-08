@@ -1,5 +1,7 @@
 # `Shell`脚本代码片段
 
+![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
+
 [toc]
 
 ## 🎯 <font id=目的>**项目白皮书**</font>
@@ -848,10 +850,10 @@ print_duration
 >
 >     ```shell
 >     cat <<EOF >> ~/.zshrc
->                                  
+>                                          
 >     # >>> Flutter 环境变量 >>>
 >     export PATH="\$HOME/.pub-cache/bin:\$PATH"
->                                  
+>                                          
 >     EOF
 >     ```
 >
@@ -867,10 +869,10 @@ print_duration
 >
 >     ```shell
 >      cat <<EOF > ~/.zshrc
->                                                           
+>                                                                           
 >      # >>> Flutter 环境变量 >>>
 >      export PATH="\$HOME/.pub-cache/bin:\$PATH"
->                                                           
+>                                                                           
 >      EOF
 >     ```
 >  
@@ -1034,20 +1036,6 @@ done
 /usr/bin
 /bin
 ```
-
-### 🎯 使用**`fzf`**  <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```shell
-fzf_select() {
-  echo -e "$@" | tr ' ' '\n' | fzf --prompt="请选择安装方式：" --height=10 --border
-}
-```
-
-> 基本用法👇
->
-> ```shell
-> result=$(fzf_select "通过 Homebrew 安装" "通过 Git 安装" "取消")
-> ```
 
 ### 🎯 判断芯片架构（`ARM64` / `x86_64`）<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
@@ -1220,6 +1208,20 @@ install_fzf() {
   fi
 }
 ```
+
+* 使用**`fzf`** 
+
+  ```shell
+  fzf_select() {
+    echo -e "$@" | tr ' ' '\n' | fzf --prompt="请选择安装方式：" --height=10 --border
+  }
+  ```
+
+  > 基本用法👇
+  >
+  > ```shell
+  > result=$(fzf_select "通过 Homebrew 安装" "通过 Git 安装" "取消")
+  > ```
 
 #### 🎯 3、自检安装 🍺**`Homebrew.jq`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
@@ -1506,15 +1508,15 @@ install_rbenv() {
 >   ```shell
 >   jenv_remove_all_java() {
 >     echo "🧹 开始移除所有通过 Homebrew 安装并注册到 jenv 的 Java 版本..."
->                       
+>                               
 >     if [[ "$(uname -m)" == "arm64" ]]; then
 >       base_path="/opt/homebrew/opt"
 >     else
 >       base_path="/usr/local/opt"
 >     fi
->                       
+>                               
 >     found=false
->                       
+>                               
 >     for path in "$base_path"/openjdk*/libexec/openjdk.jdk/Contents/Home; do
 >       if [[ -d "$path" ]]; then
 >         echo "❌ 正在移除：$path"
@@ -1522,7 +1524,7 @@ install_rbenv() {
 >         found=true
 >       fi
 >     done
->                       
+>                               
 >     if [[ "$found" == false ]]; then
 >       echo "⚠️ 未检测到任何已注册 Java 安装路径"
 >     else
@@ -1683,7 +1685,38 @@ rbenv global 3.3.0
 ruby -v
 ```
 
-### 🎯（[**Dart**](https://dart.dev/)官方推荐）自检安装 **`fvm`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 删除🍺[**Homebrew**](https://brew.sh/) <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+```shell
+# 1. 尝试 untap & 清理
+brew untap homebrew/core || true
+brew cleanup || true
+
+# 2. 官方卸载脚本（HEAD 版）
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+
+# 3. 手动删除常见路径（Intel 和 M 系）
+sudo rm -rf /usr/local/Caskroom/
+sudo rm -rf /usr/local/Frameworks/
+sudo rm -rf /usr/local/Homebrew/
+sudo rm -rf /usr/local/bin/
+sudo rm -rf /usr/local/etc/
+sudo rm -rf /usr/local/include/
+sudo rm -rf /usr/local/lib/
+sudo rm -rf /usr/local/opt/
+sudo rm -rf /usr/local/sbin/
+sudo rm -rf /usr/local/share/
+sudo rm -rf /usr/local/var/
+sudo rm -rf /opt/homebrew/
+
+# 4. 修复 fatal: Could not resolve HEAD 错误
+brew_repo=$(brew --repo homebrew/core 2>/dev/null)
+if [[ -n "$brew_repo" ]]; then
+  sudo rm -rf "$brew_repo"
+fi
+```
+
+### 🎯自检安装 **`fvm`**（[**Dart**](https://dart.dev/)官方推荐） <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > <font color=red>**安装`fvm`的大前提是预先安装`dart`环境 **</font>
 >
@@ -2013,37 +2046,6 @@ fi
  }
  ```
 
-### 🎯 删除🍺[**Homebrew**](https://brew.sh/) <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```shell
-# 1. 尝试 untap & 清理
-brew untap homebrew/core || true
-brew cleanup || true
-
-# 2. 官方卸载脚本（HEAD 版）
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
-
-# 3. 手动删除常见路径（Intel 和 M 系）
-sudo rm -rf /usr/local/Caskroom/
-sudo rm -rf /usr/local/Frameworks/
-sudo rm -rf /usr/local/Homebrew/
-sudo rm -rf /usr/local/bin/
-sudo rm -rf /usr/local/etc/
-sudo rm -rf /usr/local/include/
-sudo rm -rf /usr/local/lib/
-sudo rm -rf /usr/local/opt/
-sudo rm -rf /usr/local/sbin/
-sudo rm -rf /usr/local/share/
-sudo rm -rf /usr/local/var/
-sudo rm -rf /opt/homebrew/
-
-# 4. 修复 fatal: Could not resolve HEAD 错误
-brew_repo=$(brew --repo homebrew/core 2>/dev/null)
-if [[ -n "$brew_repo" ]]; then
-  sudo rm -rf "$brew_repo"
-fi
-```
-
 ### 🎯 **`Git`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 #### 🎯 1、删除本地**`Git`**缓存目录 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
@@ -2075,6 +2077,135 @@ fi
 print_green "🔗 正在添加 Git 源 https://github.com/CocoaPods/Specs.git ..."
 pod repo add cocoapods https://github.com/CocoaPods/Specs.git
 ```
+
+### 🎯判断两个文件内容是否一致 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+```shell
+# 判断源文件和目标文件内容是否完全一致
+is_actions_plist_same() {
+    if [[ ! -f "${CURRENT_ACTIONS_PLIST}" || ! -f "${TARGET_ACTIONS_PLIST}" ]]; then
+        return 1
+    fi
+
+    cmp -s "${CURRENT_ACTIONS_PLIST}" "${TARGET_ACTIONS_PLIST}"
+}
+```
+
+### 🎯重启 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+* App 名、进程名、`open -a` 用的名字，不一定是同一个东西
+
+  * **Finder**
+    * App 名：`Finder`
+    * 进程名：`Finder`
+  * [**SourceTree**](https://www.sourcetreeapp.com/)
+    * App 名：`Sourcetree`
+    * 进程名：`Sourcetree`
+  * [**Google Chrome**](https://www.google.com/chrome/)
+    * App 名：`Google Chrome`
+    * 进程名：`Google Chrome`
+  * [**Visual Studio Code**](https://code.visualstudio.com/)
+    * App 名：`Visual Studio Code`
+    * 进程名：`Code`
+
+* **任意 macOS App 通用重启函数**
+
+  ```shell
+  # 判断指定进程是否在运行
+  is_app_running() {
+      local process_name="$1"
+      pgrep -x "${process_name}" >/dev/null 2>&1
+  }
+  
+  # 优雅退出指定 App
+  quit_app_gracefully() {
+      local app_name="$1"
+      osascript -e "tell application \"${app_name}\" to quit" >/dev/null 2>&1 || true
+  }
+  
+  # 强制结束指定进程
+  force_kill_app() {
+      local process_name="$1"
+      pkill -x "${process_name}" >/dev/null 2>&1 || true
+  }
+  
+  # 等待指定进程退出
+  wait_for_app_exit() {
+      local process_name="$1"
+      local timeout_seconds="${2:-15}"
+      local elapsed=0
+  
+      while is_app_running "${process_name}"; do
+          ((elapsed++))
+          gray_echo "等待 ${process_name} 完全退出 ... ${elapsed}s/${timeout_seconds}s"
+          sleep 1
+  
+          if [[ ${elapsed} -ge ${timeout_seconds} ]]; then
+              return 1
+          fi
+      done
+  
+      return 0
+  }
+  
+  # 启动指定 App
+  launch_app() {
+      local app_name="$1"
+      local app_path="$2"
+  
+      info_echo "正在启动 ${app_name} ..."
+      sleep 1
+  
+      if [[ -n "${app_path}" && -d "${app_path}" ]]; then
+          open -a "${app_path}" || exit_with_error "启动 ${app_name} 失败，请手动打开"
+      else
+          open -a "${app_name}" || exit_with_error "启动 ${app_name} 失败，请手动打开"
+      fi
+  
+      success_echo "${app_name} 已重新启动"
+  }
+  
+  # 通用：安全重启任意 macOS App
+  restart_app() {
+      local app_name="$1"
+      local process_name="$2"
+      local app_path="$3"
+      local timeout_seconds="${4:-15}"
+  
+      if [[ -z "${app_name}" ]]; then
+          exit_with_error "restart_app 缺少参数：app_name"
+      fi
+  
+      if [[ -z "${process_name}" ]]; then
+          process_name="${app_name}"
+      fi
+  
+      info_echo "准备重启 ${app_name} ..."
+  
+      if is_app_running "${process_name}"; then
+          note_echo "检测到 ${app_name} 正在运行，准备优雅退出 ..."
+          quit_app_gracefully "${app_name}"
+  
+          if wait_for_app_exit "${process_name}" "${timeout_seconds}"; then
+              success_echo "${app_name} 已正常退出"
+          else
+              warn_echo "${app_name} 长时间未退出，尝试强制结束进程 ..."
+              force_kill_app "${process_name}"
+              sleep 2
+  
+              if is_app_running "${process_name}"; then
+                  exit_with_error "${app_name} 强制退出失败，请手动关闭后再试"
+              fi
+  
+              success_echo "${app_name} 已被强制结束"
+          fi
+      else
+          warn_echo "当前未检测到 ${app_name} 运行中，将直接启动"
+      fi
+  
+      launch_app "${app_name}" "${app_path}"
+  }
+  ```
 
 ### 🎯 `Shell` <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
