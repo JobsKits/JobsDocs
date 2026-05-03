@@ -663,7 +663,7 @@ body,
 }
 
 .book-page blockquote {
-  background: color-mix(in srgb, var(--jobs-primary-soft) 42%, var(--jobs-surface)) !important;
+  background: var(--jobs-surface-soft) !important;
   border-left-color: #60a5fa !important;
 }
 
@@ -703,7 +703,7 @@ body,
 
 .markdown code:not(pre code),
 .book-page code:not(pre code) {
-  background: color-mix(in srgb, var(--jobs-code-bg) 82%, var(--jobs-surface)) !important;
+  background: var(--jobs-inline-code-bg) !important;
   color: var(--jobs-code-text) !important;
   border-color: var(--jobs-code-border) !important;
 }
@@ -840,5 +840,290 @@ body,
     max-width: 100%;
     font-size: 0.88rem;
     border-radius: 12px !important;
+  }
+}
+
+/* =========================
+   2026-05-03 v4：播放器停靠占位、移动目录、代码阅读性
+   ========================= */
+
+:root {
+  --jobs-inline-code-bg: rgba(37, 99, 235, 0.08);
+  --jobs-inline-code-text: #1d4ed8;
+  --jobs-inline-code-border: rgba(37, 99, 235, 0.18);
+  --jobs-code-bg: #f7f9fc;
+  --jobs-code-text: #243041;
+  --jobs-code-border: #d9e2ef;
+  --jobs-code-shadow: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --jobs-inline-code-bg: rgba(96, 165, 250, 0.14);
+    --jobs-inline-code-text: #bfdbfe;
+    --jobs-inline-code-border: rgba(96, 165, 250, 0.26);
+    --jobs-code-bg: #151f32;
+    --jobs-code-text: #e2e8f0;
+    --jobs-code-border: #334155;
+    --jobs-code-shadow: none;
+  }
+}
+
+.jobs-audio-dock-space {
+  height: 0;
+  margin: 0 6px;
+  overflow: hidden;
+  transition: height 0.24s ease, margin 0.24s ease;
+}
+
+.jobs-audio-dock-space.is-active {
+  margin: 0 6px 12px;
+}
+
+.book-brand,
+.jobs-book-brand-wrap,
+.book-search {
+  transition: margin 0.24s ease, transform 0.24s ease;
+}
+
+body.jobs-audio-undocked-from-menu .book-brand,
+body.jobs-audio-undocked-from-menu .jobs-book-brand-wrap {
+  margin-bottom: 10px !important;
+}
+
+.markdown pre,
+.book-page pre,
+.markdown .highlight pre,
+.book-page .highlight pre,
+.markdown .chroma,
+.book-page .chroma {
+  background: var(--jobs-code-bg) !important;
+  color: var(--jobs-code-text) !important;
+  border: 1px solid var(--jobs-code-border) !important;
+  box-shadow: none !important;
+}
+
+.markdown pre code,
+.book-page pre code,
+.markdown .highlight code,
+.book-page .highlight code {
+  background: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.markdown code:not(pre code),
+.book-page code:not(pre code),
+.markdown p code,
+.book-page p code,
+.markdown li code,
+.book-page li code {
+  display: inline;
+  max-width: 100%;
+  padding: 0.12em 0.36em !important;
+  border: 1px solid var(--jobs-inline-code-border) !important;
+  border-radius: 0.45em !important;
+  background: var(--jobs-inline-code-bg) !important;
+  color: var(--jobs-inline-code-text) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.markdown .highlight,
+.book-page .highlight,
+.markdown .highlight table,
+.book-page .highlight table {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@media screen and (max-width: 56rem) {
+  html,
+  body {
+    min-width: 0 !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  main.container,
+  .container {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .book-page {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .book-article,
+  .markdown {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  .book-header,
+  .book-header.hidden {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 80 !important;
+    display: block !important;
+    margin: -10px -10px 12px !important;
+    padding: 8px 10px !important;
+    background: var(--jobs-surface) !important;
+    border-bottom: 1px solid var(--jobs-border) !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08) !important;
+    box-sizing: border-box !important;
+  }
+
+  .book-header > .flex {
+    min-height: 44px;
+    gap: 8px;
+  }
+
+  .book-header label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    flex: 0 0 40px !important;
+    border-radius: 12px !important;
+    background: var(--jobs-surface-soft) !important;
+    border: 1px solid var(--jobs-border) !important;
+  }
+
+  .book-header .book-icon {
+    width: 24px !important;
+    height: 24px !important;
+    max-width: 24px !important;
+    opacity: 0.9;
+  }
+
+  .book-header h3 {
+    min-width: 0 !important;
+    max-width: calc(100% - 96px) !important;
+    margin: 0 !important;
+    font-size: 1rem !important;
+    line-height: 1.35 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .book-menu {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    z-index: 200 !important;
+    visibility: hidden !important;
+    display: block !important;
+    width: 88vw !important;
+    max-width: 360px !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    transform: translateX(-108%) !important;
+    transition: transform 0.24s ease, visibility 0.24s ease !important;
+    box-shadow: 16px 0 36px rgba(15, 23, 42, 0.2) !important;
+  }
+
+  .book-menu .book-menu-content {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    padding: 12px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .book-menu nav {
+    min-height: calc(100dvh - 24px);
+    box-sizing: border-box;
+  }
+
+  #menu-control:checked ~ main .book-menu {
+    visibility: visible !important;
+    transform: translateX(0) !important;
+  }
+
+  #menu-control:checked ~ main .book-menu-overlay {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 180 !important;
+    background: rgba(15, 23, 42, 0.34) !important;
+  }
+
+  .book-toc {
+    display: none !important;
+  }
+
+  .book-page h1 {
+    font-size: 1.55rem !important;
+    line-height: 1.28 !important;
+    word-break: break-word;
+  }
+
+  .book-page h2 {
+    font-size: 1.28rem !important;
+    line-height: 1.34 !important;
+  }
+
+  .book-page p,
+  .book-page li {
+    font-size: 0.98rem !important;
+    line-height: 1.72 !important;
+  }
+
+  .book-page img,
+  .book-page video,
+  .book-page object,
+  .book-page iframe {
+    max-width: 100% !important;
+  }
+
+  .book-page table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .markdown pre,
+  .book-page pre,
+  .markdown .highlight,
+  .book-page .highlight,
+  .markdown .chroma,
+  .book-page .chroma {
+    max-width: 100% !important;
+    font-size: 0.84rem !important;
+    border-radius: 12px !important;
+    overflow-x: auto !important;
+    box-sizing: border-box !important;
+    -webkit-overflow-scrolling: touch;
   }
 }

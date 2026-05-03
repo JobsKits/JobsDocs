@@ -163,6 +163,63 @@
         height: 34px;
       }
     }
+
+
+     
+    .jobs-docs-shell {
+      padding-bottom: 0 !important;
+    }
+
+    .jobs-audio-player {
+      max-width: calc(100vw - 24px);
+      transition:
+        left 0.24s ease,
+        top 0.24s ease,
+        width 0.24s ease,
+        box-shadow 0.24s ease,
+        border-color 0.24s ease,
+        transform 0.24s ease;
+    }
+
+    .jobs-audio-player.is-dragging {
+      transition: none !important;
+      opacity: 0.97;
+      box-shadow: 0 20px 48px rgba(15, 23, 42, 0.24);
+    }
+
+    .jobs-audio-player.is-dock-candidate {
+      border-color: rgba(37, 99, 235, 0.55);
+      box-shadow: 0 18px 42px rgba(37, 99, 235, 0.18);
+    }
+
+    .jobs-audio-head {
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .jobs-audio-player.is-dragging .jobs-audio-head {
+      cursor: grabbing;
+    }
+
+    .jobs-audio-title {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    @media screen and (max-width: 56rem) {
+      :root {
+        --jobs-player-space: 0px;
+      }
+
+      .jobs-audio-player {
+        right: auto !important;
+        bottom: auto !important;
+        width: 320px;
+        max-width: calc(100vw - 24px);
+      }
+    }
   </style>
 </head>
 
@@ -178,8 +235,8 @@
     </iframe>
   </div>
 
-  <div id="jobs-audio-player" class="jobs-audio-player is-waiting-gesture">
-    <div class="jobs-audio-head">
+  <div id="jobs-audio-player" class="jobs-audio-player is-waiting-gesture is-floating" aria-label="背景音乐控制台">
+    <div class="jobs-audio-head" title="拖动音乐控制台">
       <div class="jobs-audio-title">🎵 With an Orchid</div>
       <button id="jobs-music-unlock" class="jobs-audio-unlock" type="button" aria-label="开启背景音乐">开启音乐</button>
     </div>
@@ -381,6 +438,403 @@
       window.addEventListener("beforeunload", saveState);
 
       tryPlay();
+    })();
+  </script>
+
+
+  <script>
+    (function () {
+      var frame = document.getElementById("jobs-docs-frame");
+      var player = document.getElementById("jobs-audio-player");
+
+      if (!frame || !player) {
+        return;
+      }
+
+      var handle = player.querySelector(".jobs-audio-head") || player;
+      var margin = 12;
+      var gap = 12;
+      var dragState = null;
+      var isDocked = false;
+      var layoutTimer = 0;
+
+      function frameDocument() {
+        try {
+          return frame.contentDocument || frame.contentWindow.document;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function frameWindow() {
+        try {
+          return frame.contentWindow;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function toViewportRect(rect) {
+        var frameRect = frame.getBoundingClientRect();
+
+        return {
+          left: frameRect.left + rect.left,
+          top: frameRect.top + rect.top,
+          right: frameRect.left + rect.right,
+          bottom: frameRect.top + rect.bottom,
+          width: rect.width,
+          height: rect.height
+        };
+      }
+
+      function mobileMenuClosed(doc) {
+        var win = frameWindow();
+        var isSmall = false;
+
+        try {
+          isSmall = !!(win && win.matchMedia("screen and (max-width: 56rem)").matches);
+        } catch (error) {}
+
+        if (!isSmall) {
+          return false;
+        }
+
+        var control = doc && doc.getElementById("menu-control");
+        return !control || !control.checked;
+      }
+
+      function ensureDockSpace() {
+        var doc = frameDocument();
+
+        if (!doc) {
+          return null;
+        }
+
+        var search = doc.querySelector(".book-search");
+
+        if (!search || !search.parentNode) {
+          return null;
+        }
+
+        var space = doc.getElementById("jobs-audio-dock-space");
+
+        if (!space) {
+          space = doc.createElement("div");
+          space.id = "jobs-audio-dock-space";
+          space.className = "jobs-audio-dock-space";
+          space.setAttribute("aria-hidden", "true");
+          search.parentNode.insertBefore(space, search);
+        } else if (space.nextElementSibling !== search) {
+          search.parentNode.insertBefore(space, search);
+        }
+
+        return space;
+      }
+
+      function getMenuRect() {
+        var doc = frameDocument();
+
+        if (!doc || mobileMenuClosed(doc)) {
+          return null;
+        }
+
+        var menu = doc.querySelector(".book-menu");
+
+        if (!menu) {
+          return null;
+        }
+
+        var rect = toViewportRect(menu.getBoundingClientRect());
+        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
+        if (rect.width < 220 || rect.right <= 8 || rect.left >= viewportWidth - 8) {
+          return null;
+        }
+
+        return rect;
+      }
+
+      function getDockSlot() {
+        var doc = frameDocument();
+        var menuRect = getMenuRect();
+
+        if (!doc || !menuRect) {
+          return null;
+        }
+
+        var space = ensureDockSpace();
+        var search = doc.querySelector(".book-search");
+        var brand = doc.querySelector(".jobs-book-brand-wrap, .book-brand");
+
+        if (!space || !search) {
+          return null;
+        }
+
+        var searchRect = toViewportRect(search.getBoundingClientRect());
+        var spaceRect = toViewportRect(space.getBoundingClientRect());
+        var top = spaceRect.top;
+
+        if (!Number.isFinite(top) || top <= 0) {
+          var brandRect = brand ? toViewportRect(brand.getBoundingClientRect()) : null;
+          top = brandRect ? brandRect.bottom + gap : searchRect.top - player.offsetHeight - gap;
+        }
+
+        return {
+          left: Math.max(menuRect.left + 18, searchRect.left),
+          top: Math.max(10, top),
+          width: Math.max(260, Math.min(searchRect.width, menuRect.width - 28)),
+          menuLeft: menuRect.left,
+          menuRight: menuRect.right
+        };
+      }
+
+      function setDockSpace(active) {
+        var doc = frameDocument();
+        var space = ensureDockSpace();
+
+        if (!doc || !space) {
+          return;
+        }
+
+        doc.body.classList.toggle("jobs-audio-docked-in-menu", active);
+        doc.body.classList.toggle("jobs-audio-undocked-from-menu", !active);
+        space.classList.toggle("is-active", active);
+        space.style.height = active ? Math.ceil(player.offsetHeight + gap) + "px" : "0px";
+      }
+
+      function floatingWidth() {
+        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        return Math.max(260, Math.min(320, viewportWidth - margin * 2));
+      }
+
+      function clamp(x, y, width, height) {
+        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        var maxX = Math.max(margin, viewportWidth - width - margin);
+        var maxY = Math.max(margin, viewportHeight - height - margin);
+
+        return {
+          x: Math.min(Math.max(x, margin), maxX),
+          y: Math.min(Math.max(y, margin), maxY)
+        };
+      }
+
+      function applyPosition(x, y, width) {
+        if (width) {
+          player.style.width = Math.round(width) + "px";
+        }
+
+        var rect = player.getBoundingClientRect();
+        var next = clamp(x, y, rect.width, rect.height);
+
+        player.style.left = Math.round(next.x) + "px";
+        player.style.top = Math.round(next.y) + "px";
+        player.style.right = "auto";
+        player.style.bottom = "auto";
+      }
+
+      function dockPlayer() {
+        var slot = getDockSlot();
+
+        if (!slot) {
+          floatPlayer();
+          return;
+        }
+
+        isDocked = true;
+        player.classList.add("is-docked");
+        player.classList.remove("is-floating", "is-dock-candidate");
+        player.style.width = Math.round(slot.width) + "px";
+        setDockSpace(true);
+
+        window.requestAnimationFrame(function () {
+          var nextSlot = getDockSlot() || slot;
+          applyPosition(nextSlot.left, nextSlot.top, nextSlot.width);
+        });
+      }
+
+      function floatPlayer() {
+        isDocked = false;
+        player.classList.add("is-floating");
+        player.classList.remove("is-docked", "is-dock-candidate");
+        setDockSpace(false);
+
+        var width = floatingWidth();
+        player.style.width = Math.round(width) + "px";
+        var rect = player.getBoundingClientRect();
+        var x = Math.max(margin, ((window.innerWidth || document.documentElement.clientWidth) - rect.width) / 2);
+        var y = (window.innerHeight || document.documentElement.clientHeight) - rect.height - margin;
+
+        applyPosition(x, y, rect.width);
+      }
+
+      function snapFloating(x, y) {
+        isDocked = false;
+        player.classList.add("is-floating");
+        player.classList.remove("is-docked", "is-dock-candidate");
+        setDockSpace(false);
+
+        var rect = player.getBoundingClientRect();
+        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        var nextX = (x + rect.width / 2) < viewportWidth / 2 ? margin : viewportWidth - rect.width - margin;
+
+        applyPosition(nextX, y, rect.width);
+      }
+
+      function shouldDockAt(x, width) {
+        var slot = getDockSlot();
+
+        if (!slot) {
+          return false;
+        }
+
+        var centerX = x + width / 2;
+        return centerX >= slot.menuLeft && centerX <= slot.menuRight;
+      }
+
+      function hookFrameMenu() {
+        var doc = frameDocument();
+
+        if (!doc) {
+          return;
+        }
+
+        ensureDockSpace();
+
+        var control = doc.getElementById("menu-control");
+
+        if (control && !control.dataset.jobsAudioDockHooked) {
+          control.dataset.jobsAudioDockHooked = "1";
+          control.addEventListener("change", function () {
+            window.setTimeout(function () {
+              if (control.checked || getMenuRect()) {
+                dockPlayer();
+              } else {
+                floatPlayer();
+              }
+            }, 60);
+          });
+        }
+      }
+
+      function syncLayout() {
+        window.clearTimeout(layoutTimer);
+        layoutTimer = window.setTimeout(function () {
+          hookFrameMenu();
+
+          if (isDocked || getMenuRect()) {
+            dockPlayer();
+          } else {
+            var rect = player.getBoundingClientRect();
+            applyPosition(rect.left, rect.top, rect.width || floatingWidth());
+          }
+        }, 80);
+      }
+
+      if (window.PointerEvent) {
+        handle.addEventListener("pointerdown", function (event) {
+          if (event.button !== undefined && event.button !== 0) {
+            return;
+          }
+
+          if (event.target.closest && event.target.closest("button, audio, input, a")) {
+            return;
+          }
+
+          var rect = player.getBoundingClientRect();
+          dragState = {
+            pointerId: event.pointerId,
+            startX: event.clientX,
+            startY: event.clientY,
+            originX: rect.left,
+            originY: rect.top,
+            width: rect.width,
+            height: rect.height
+          };
+
+          player.classList.add("is-dragging");
+          player.classList.remove("is-docked");
+          player.style.width = Math.round(rect.width) + "px";
+          player.setPointerCapture(event.pointerId);
+          event.preventDefault();
+        });
+
+        player.addEventListener("pointermove", function (event) {
+          if (!dragState || event.pointerId !== dragState.pointerId) {
+            return;
+          }
+
+          var x = dragState.originX + event.clientX - dragState.startX;
+          var y = dragState.originY + event.clientY - dragState.startY;
+          var next = clamp(x, y, dragState.width, dragState.height);
+          var dockCandidate = shouldDockAt(next.x, dragState.width);
+
+          applyPosition(next.x, next.y, dragState.width);
+          player.classList.toggle("is-dock-candidate", dockCandidate);
+          setDockSpace(dockCandidate);
+          event.preventDefault();
+        });
+
+        function finishDrag(event) {
+          if (!dragState || event.pointerId !== dragState.pointerId) {
+            return;
+          }
+
+          var rect = player.getBoundingClientRect();
+          var dockCandidate = shouldDockAt(rect.left, rect.width);
+
+          player.classList.remove("is-dragging");
+          dragState = null;
+
+          try {
+            player.releasePointerCapture(event.pointerId);
+          } catch (error) {}
+
+          if (dockCandidate) {
+            dockPlayer();
+          } else {
+            snapFloating(rect.left, rect.top);
+          }
+        }
+
+        player.addEventListener("pointerup", finishDrag);
+        player.addEventListener("pointercancel", finishDrag);
+      }
+
+      frame.addEventListener("load", function () {
+        hookFrameMenu();
+        syncLayout();
+      });
+
+      window.addEventListener("message", function (event) {
+        if (event.origin && event.origin !== "null" && event.origin !== window.location.origin) {
+          return;
+        }
+
+        if (event.data && event.data.type === "jobsdocs:layout-change") {
+          syncLayout();
+        }
+      });
+
+      window.addEventListener("resize", syncLayout);
+      window.addEventListener("orientationchange", function () {
+        window.setTimeout(syncLayout, 180);
+      });
+
+      window.JobsDocsMusicLayout = {
+        dock: dockPlayer,
+        float: floatPlayer,
+        sync: syncLayout
+      };
+
+      window.setTimeout(function () {
+        hookFrameMenu();
+        if (getMenuRect()) {
+          dockPlayer();
+        } else {
+          floatPlayer();
+        }
+      }, 120);
     })();
   </script>
 </body>
