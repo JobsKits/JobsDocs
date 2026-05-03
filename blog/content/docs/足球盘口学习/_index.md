@@ -274,21 +274,21 @@ bookCollapseSection: false
 
 ## 五、大数据回归分析
 
-* [**进球预期值 =（两队交锋得失球数+最近几轮主客场得失球数）/统计场次**](# https://www.163.com/sports/article/DI0HN5UP000597U8.html) 
+* [**进球预期值 =（两队交锋得失球数+最近几轮主客场得失球数）/统计场次**](https://www.163.com/sports/article/DI0HN5UP000597U8.html) 
 
 ## 六、数据资料
 
-[**【足球秘籍】大神教你轻松判断下半场大小球**](# http://www.direpay.com/archives/football1015001)
+[**【足球秘籍】大神教你轻松判断下半场大小球**](http://www.direpay.com/archives/football1015001)
 
-[**终极滚球定律之上半场有球**](# https://iwwbet.com/yzpk/1312.jhtml)
+[**终极滚球定律之上半场有球**](https://iwwbet.com/yzpk/1312.jhtml)
 
-[**玩球攻略心得 – 大小球钻研的经验之谈**](# https://asia365.cc/%E7%8E%A9%E7%90%83%E6%94%BB%E7%95%A5%E5%BF%83%E5%BE%97-%E5%A4%A7%E5%B0%8F%E7%90%83%E9%92%BB%E7%A0%94%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88/)
+[**玩球攻略心得 – 大小球钻研的经验之谈**](https://asia365.cc/%E7%8E%A9%E7%90%83%E6%94%BB%E7%95%A5%E5%BF%83%E5%BE%97-%E5%A4%A7%E5%B0%8F%E7%90%83%E9%92%BB%E7%A0%94%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88/)
 
-[**足球财富：《盘口解决半场破蛋问题》 **](# https://www.sohu.com/a/288020285_460558)
+[**足球财富：《盘口解决半场破蛋问题》 **](https://www.sohu.com/a/288020285_460558)
 
-[**足彩赔率分析方法！怎么判断足彩大小球的方法！半全场大小球口诀**](# https://zhuanlan.zhihu.com/p/652385995)
+[**足彩赔率分析方法！怎么判断足彩大小球的方法！半全场大小球口诀**](https://zhuanlan.zhihu.com/p/652385995)
 
-[**【干货】初盘高水与低水的投注划分**](# https://sports.sohu.com/20170709/n500530503.shtml)
+[**【干货】初盘高水与低水的投注划分**](https://sports.sohu.com/20170709/n500530503.shtml)
 
 ## 七、课外阅读
 

@@ -1,5 +1,5 @@
 ---
-title: "S wift P ackage D ependence使用指南🧭"
+title: "SwiftPackageDependence使用指南🧭"
 date: 2026-01-12T17:08:55+07:00
 draft: false
 weight: 350
@@ -7,7 +7,7 @@ summary: "一、集成 Xcode 👉 File 👉 Add Package Dependencies ## 二、�
 bookCollapseSection: false
 ---
 
-# S wift P ackage D ependence使用指南🧭
+# SwiftPackageDependence使用指南🧭
 
 
 ## 一、集成

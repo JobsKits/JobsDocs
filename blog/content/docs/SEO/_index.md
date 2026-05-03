@@ -111,7 +111,7 @@ bookCollapseSection: false
     * **权限管理**：**CMS**提供了基于角色的权限控制,不同用户拥有不同的访问和操作权限。
     * **扩展性**：大多数**CMS**支持通过插件或模块扩展更多功能。
     * **易用性**：**CMS**为非技术人员提供了友好的可视化界面,降低了发布内容的门槛。
-  * [**常见的CMS包括**](# https://blog.csdn.net/qq_29073921/article/details/104820162)：
+  * [**常见的CMS包括**](https://blog.csdn.net/qq_29073921/article/details/104820162)：
     * 企业建站系统：**MetInfo(米拓)**、**蝉知**、**SiteServer CMS**等；
     * B2C商城系统：**商派shopex**、**ecshop**、**hishop**、**xpshop**等；
     * 门户建站系统：**DedeCMS(织梦)**、**帝国CMS**（漏洞比较少，一般黑客很难破）、**PHPCMS**、**动易**、**cmstop**等；
@@ -139,11 +139,11 @@ bookCollapseSection: false
 
   * 域名注册商
 
-    * [**GoDaddy**](# https://www.domain.com/)：**域名**、托管、网站安全
-    * [**阿里云**](# https://www.alibabacloud.com/)：全站
-    * [**西部数码**](# https://www.west.cn/)：域名、主机、云服务器、企业邮箱、云建站、小程序
-    * [**GName**](# https://www.gname.com/)：**域名**、网站防护、云服务器、企业邮箱
-    * [**Goodkvm**](# https://www.goodkvm.com/)：**主机、云服务器**（<font color="red">可充值USDT</font>）
+    * [**GoDaddy**](https://www.domain.com/)：**域名**、托管、网站安全
+    * [**阿里云**](https://www.alibabacloud.com/)：全站
+    * [**西部数码**](https://www.west.cn/)：域名、主机、云服务器、企业邮箱、云建站、小程序
+    * [**GName**](https://www.gname.com/)：**域名**、网站防护、云服务器、企业邮箱
+    * [**Goodkvm**](https://www.goodkvm.com/)：**主机、云服务器**（<font color="red">可充值USDT</font>）
   
   * 顶级域名（Top-Level Domain,TLD）：获取顶级域名的使用权需要向相应机构或注册商缴纳费用。顶级域名的数量和种类还在不断扩展中。
   
@@ -430,11 +430,11 @@ bookCollapseSection: false
 
 ## 一些工具
 
-[**Sav.com**](# https://www.sav.com/)，是一个域名注册和管理平台，它让用户可以**购买、注册 和管理域名**
+[**Sav.com**](https://www.sav.com/)，是一个域名注册和管理平台，它让用户可以**购买、注册 和管理域名**
 
-[**DyaDot**](# https://www.dynadot.com/)， 是一个提供域名注册和管理服务的平台。它类似于 Sav.com，允许用户购买、注册和管理域名。
+[**DyaDot**](https://www.dynadot.com/)， 是一个提供域名注册和管理服务的平台。它类似于 Sav.com，允许用户购买、注册和管理域名。
 
-[**tld-list**](# https://tld-list.com/)，对比域名价格的网站
+[**tld-list**](https://tld-list.com/)，对比域名价格的网站
 
 ## SEO.原理
 
@@ -575,8 +575,8 @@ bookCollapseSection: false
 
 * 一些工具
 
-  * [**Microsoft Remote Desktop**](# https://go.microsoft.com/fwlink/?linkid=868963)
-  * [**Mobaxterm**](# https://mobaxterm.mobatek.net/download-home-edition.html)
+  * [**Microsoft Remote Desktop**](https://go.microsoft.com/fwlink/?linkid=868963)
+  * [**Mobaxterm**](https://mobaxterm.mobatek.net/download-home-edition.html)
   * 网站统计 
   * 云办公服务器：AWS ==>产品==>计算==>Amazon Lightsail（虚拟专用服务器）
   *  普通服务器（存放网站代码）：Azure、谷歌云、阿里云==>一般用centOS 
@@ -634,7 +634,7 @@ bookCollapseSection: false
     * 采集新闻（以前可以，现在效果不好 ）
     * **宝藏资源.案例**：教育系统博客，做任务，师生投稿（全新原创文章），没有流量压力，屏蔽了搜索引擎 
     * 带指数的关键词 
-    * 利用AI工具：比如，[**tensorflow**](# https://www.tensorflow.org/?hl=zh-cn)来写文章
+    * 利用AI工具：比如，[**tensorflow**](https://www.tensorflow.org/?hl=zh-cn)来写文章
   * 找屏蔽了搜索引擎的网站。信息孤岛，比如：小红书的内容不暴露在搜索引擎下
   * <font color="red">**做爬虫要非常小心，因为很敏感！！！**</font>
 

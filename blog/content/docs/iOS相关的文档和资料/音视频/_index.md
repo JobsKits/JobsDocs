@@ -3,7 +3,7 @@ title: "音视频"
 date: 2025-11-05T09:49:14+07:00
 draft: false
 weight: 520
-summary: "🔥 前言 🔼 🔽 对音视频相关概念的总结和梳理 ## 1、相关协议 🔼 🔽 ### 1.1、 TCP/IP 协议簇 🔼 🔽 TCP/IP 协议簇的构成 用于网络通信的协议族，是互联网的核心协议；（本质是数据的加密和解密） 定义了计算机如何通过网络相互通信； TCP/IP 的常见应用场景： 文件传输：通过 FTP 协议上传和下载文件； 网页浏览：通过 HTTP"
+summary: "🔥前言 🔼 🔽 对音视频相关概念的总结和梳理 ## 1、相关协议 🔼 🔽 ### 1.1、TCP/IP 协议簇 🔼 🔽 TCP/IP 协议簇的构成 用于网络通信的协议族，是互联网的核心协议；（本质是数据的加密和解密） 定义了计算机如何通过网络相互通信； TCP/IP 的常见应用场景： 文件传输：通过 FTP 协议上传和下载文件； 网页浏览：通过 HTTP/H"
 bookCollapseSection: false
 ---
 
@@ -1054,7 +1054,7 @@ bookCollapseSection: false
 
 ## 7、资料来源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-  [**视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等**](#http://www.52im.net/thread-3922-1-1.html)
+  [**视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等**](http://www.52im.net/thread-3922-1-1.html)
 
   <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的👉点我回到首页</a>
 

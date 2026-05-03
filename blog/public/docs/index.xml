@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jobs Docs</title><link>https://jobsdocs.ccwu.cc/docs/</link><description>Recent content on Jobs Docs</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Wed, 08 Apr 2026 10:20:00 +0800</lastBuildDate><atom:link href="https://jobsdocs.ccwu.cc/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Shell脚本代码片段</title><link>https://jobsdocs.ccwu.cc/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</link><pubDate>Wed, 08 Apr 2026 10:20:00 +0800</pubDate><guid>https://jobsdocs.ccwu.cc/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</guid><description>🎯 项目白皮书 虽然Shell脚本晦涩难懂，但相较于python等脚本，因为减少了一层系统封装调用，所以使得shell脚本具有更大的普适度 不会因为第三方Api更新而影响使用 也降低了某些潜在的兼容性等Bug的出现几率 增强了代码执行的效率 为了更好的规避Shell脚本的晦涩难懂，特此文件记录一些高频需求涉及到的Shell脚本代码片段 本文件下所有的Shel</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jobs Docs</title>
+    <link>http://localhost:1313/docs/</link>
+    <description>Recent content on Jobs Docs</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 08 Apr 2026 10:20:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/docs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Shell脚本代码片段</title>
+      <link>http://localhost:1313/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</link>
+      <pubDate>Wed, 08 Apr 2026 10:20:00 +0800</pubDate>
+      <guid>http://localhost:1313/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</guid>
+      <description>🎯 项目白皮书 虽然Shell脚本晦涩难懂，但相较于python等脚本，因为减少了一层系统封装调用，所以使得shell脚本具有更大的普适度 不会因为第三方Api更新而影响使用 也降低了某些潜在的兼容性等Bug的出现几率 增强了代码执行的效率 为了更好的规避Shell脚本的晦涩难懂，特此文件记录一些高频需求涉及到的Shell脚本代码片段 本文件下所有的Shel</description>
+    </item>
+  </channel>
+</rss>

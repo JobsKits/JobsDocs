@@ -1,5 +1,5 @@
 ---
-title: "R eact N ative"
+title: "ReactNative"
 date: 2026-05-03T16:29:51+08:00
 draft: false
 weight: 570
@@ -7,7 +7,7 @@ summary: "当前总行数：366 行 ## 一、基础知识 脚本语言：必须�
 bookCollapseSection: false
 ---
 
-# R eact N ative
+# ReactNative
 
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
@@ -49,7 +49,7 @@ bookCollapseSection: false
 
   总之,Node.js 借助 JavaScript 语言的优势和事件驱动、非阻塞I/O模型, 成为构建高并发、可伸缩网络应用的理想平台。
 
-* [**Node.js**](# https://nodejs.org/en/) 配置（MacOS下载后是`*.pkg`文件，直接运行，自动配置环境变量）
+* [**Node.js**](https://nodejs.org/en/) 配置（MacOS下载后是`*.pkg`文件，直接运行，自动配置环境变量）
 
   * ```bash
     This package has installed:
@@ -93,7 +93,7 @@ npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它�
   * **更好的安全性**：在每次安装前,Yarn 会通过验证机制校验每个安装包的完整性。
   * **更好的网页端支持**：Yarn 可直接通过 Node.js 的流重定向到浏览器中运行。
 
-### 4、[watchman](# https://facebook.github.io/watchman/)
+### 4、[watchman](https://facebook.github.io/watchman/)
 
 * **Facebook**出品，用于监视文件系统的变化
 

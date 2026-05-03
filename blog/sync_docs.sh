@@ -97,7 +97,7 @@ strip_markdown_for_title() {
         | sed -E 's/__([^_]+)__/\1/g' \
         | sed -E 's/`([^`]+)`/\1/g' \
         | sed -E 's/<br[[:space:]]*\/?>/ /g' \
-        | sed -E 's/<[^>]+>/ /g' \
+        | sed -E 's/<[^>]+>//g' \
         | sed -E 's/[[:space:]]+/ /g' \
         | sed -E 's/^[[:space:]]+|[[:space:]]+$//g'
 }
@@ -110,7 +110,7 @@ strip_markdown_for_summary() {
         | sed -E 's/!\[([^][]*)\]\([^)]+\)//g' \
         | sed -E 's/\[([^][]+)\]\([^)]+\)/\1/g' \
         | sed -E 's/<br[[:space:]]*\/?>/ /g' \
-        | sed -E 's/<[^>]+>/ /g' \
+        | sed -E 's/<[^>]+>//g' \
         | sed -E 's/`([^`]+)`/\1/g' \
         | sed -E 's/\*\*([^*]+)\*\*/\1/g' \
         | sed -E 's/__([^_]+)__/\1/g' \
@@ -230,6 +230,12 @@ is_inside_markdown_named_dir() {
     parent_name="$(basename "$parent_dir")"
 
     is_markdown_named_dir_segment "$parent_name"
+}
+
+# 修复正文中常见的非标准 Markdown 链接写法。
+# 例如：[ReactNative](# https://reactnative.dev/) 会被转换成 [ReactNative](https://reactnative.dev/)。
+normalize_markdown_body() {
+    sed -E 's|\]\([[:space:]]*#[[:space:]]*(https?://[^)]+)\)|](\1)|g'
 }
 
 # 生成摘要。
@@ -596,7 +602,7 @@ write_single_markdown_body() {
 
             print line
         }
-    ' "$source_file"
+    ' "$source_file" | normalize_markdown_body
 }
 
 # 写入 Markdown 页面 front matter，并主动写入页面主标题。

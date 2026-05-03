@@ -1,0 +1,14 @@
+Framework preset:
+Hugo
+
+Build command:
+chmod +x sync_docs.sh && ./sync_docs.sh && hugo --gc --minify --baseURL "https://jobsdocs.ccwu.cc/"
+
+Build output directory:
+public
+
+Root directory:
+blog
+
+Environment variables:
+HUGO_VERSION = extended_0.161.1
