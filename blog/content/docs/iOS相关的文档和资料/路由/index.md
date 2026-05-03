@@ -2,7 +2,7 @@
 title: "路由"
 date: 2025-08-18T12:32:42+07:00
 draft: false
-weight: 220
+weight: 210
 summary: "软件设计理念：高内聚、低耦合 无论是路由还是工程架构都需要根据实际项目来选择。比如你的工程就是小工程,然后还各种设计模式,这就会导致过度设计 提出思考：模块和模块之间进行相互调用的时候,需要进行文件的引用,这本身就是一种高耦合现象。 ## 相关资料来源： https://www.1024sou.com/article/347704.html https://"
 bookCollapseSection: false
 ---

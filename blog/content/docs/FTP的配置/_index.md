@@ -2,7 +2,7 @@
 title: "FTP的配置"
 date: 2026-05-03T16:29:51+08:00
 draft: false
-weight: 630
+weight: 620
 summary: "FTP = File Transfer Protocol = 文件传输协议 FTP主要有两种：FTP协议和SFTP协议。 ## 1、前置条件 资料来源 Akamai/Install VSFTPD on Ubuntu 20.04 ## 2、VSFTPD的安装步骤 ## 3、创建一个FTP用户 创建示例文本 testfile.txt 打开与本地主机上运行的VSF"
 bookCollapseSection: false
 ---

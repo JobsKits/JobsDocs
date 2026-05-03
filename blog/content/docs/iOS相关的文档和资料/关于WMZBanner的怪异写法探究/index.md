@@ -2,7 +2,7 @@
 title: "关于WMZBanner的怪异写法探究"
 date: 2026-05-03T16:29:51+08:00
 draft: false
-weight: 110
+weight: 100
 summary: "1、看懂宏定义 定义部分 调用环节 以上写法等同于👇🏻 ## 2、点语法的外界调用 定义部分 Hello.h文件 Hello.m文件 调用环节 在其他的类引入Hello.h"
 bookCollapseSection: false
 ---

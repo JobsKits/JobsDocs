@@ -2,7 +2,7 @@
 title: "本地推送的写法（程肖斌）"
 date: 2025-08-18T12:32:42+07:00
 draft: false
-weight: 310
+weight: 300
 summary: ""
 bookCollapseSection: false
 ---

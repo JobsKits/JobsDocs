@@ -2,7 +2,7 @@
 title: "运维成长路线"
 date: 2026-05-03T16:29:51+08:00
 draft: false
-weight: 60
+weight: 50
 summary: "1、服务器系统 提纲 单片机 = single-chip microcomputer = 单晶片 = 单片微型计算机 = 微控制器单元 = microcontroller unit 单片机的基本构成、工作原理 快懂百科/单片机 资料来源 类UNIX操作系统家族发展时间线图谱（1969-2020） 知乎/一图看懂UNIX、BSD、MINIX&GNU/LINUX"
 bookCollapseSection: false
 ---

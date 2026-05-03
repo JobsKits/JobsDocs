@@ -27,6 +27,34 @@ to_lower() {
     printf '%s' "$1" | tr '[:upper:]' '[:lower:]'
 }
 
+# 获取文件大小，兼容 macOS 和 Linux。
+get_file_size_bytes() {
+    local file="$1"
+
+    if stat -f%z "$file" >/dev/null 2>&1; then
+        stat -f%z "$file"
+        return
+    fi
+
+    if stat -c%s "$file" >/dev/null 2>&1; then
+        stat -c%s "$file"
+        return
+    fi
+
+    wc -c < "$file" | tr -d ' '
+}
+
+# 判断文件是否超过 Cloudflare Pages 单文件 25 MiB 限制。
+is_cloudflare_pages_oversized_file() {
+    local file="$1"
+    local size
+    local max_size=26214400
+
+    size="$(get_file_size_bytes "$file")"
+
+    [[ "$size" -ge "$max_size" ]]
+}
+
 # 转义 YAML 双引号字符串。
 escape_yaml_string() {
     local value="$1"
@@ -435,6 +463,11 @@ should_skip_pdf() {
     fi
 
     if [[ "$filename" == *"科学上网"* ]]; then
+        return 0
+    fi
+
+    if is_cloudflare_pages_oversized_file "$file"; then
+        log "Skipped PDF: $rel_path 超过 Cloudflare Pages 单文件 25MiB 限制。"
         return 0
     fi
 

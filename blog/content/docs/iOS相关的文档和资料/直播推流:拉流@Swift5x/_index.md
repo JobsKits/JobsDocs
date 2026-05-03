@@ -2,7 +2,7 @@
 title: "直播推流:拉流@Swift5x"
 date: 2026-05-03T16:29:51+08:00
 draft: false
-weight: 370
+weight: 360
 summary: "服务器（本地）：以MacOS和本地局域网为基础，辅以Homebrew ➤ node ➤ node-media-server@2.3.8 视频采集端：iOS@Swift5x➕ HaishinKit ➤ 输出视频流 服务器端（本地）：利用Apple主导的HLS技术切片成 .ts 格式，➤ 进行推流 因为是直播，所以 .ts 文件， 滚动生成，阅后即焚 推流的效果"
 bookCollapseSection: false
 ---
