@@ -7,8 +7,6 @@ summary: "一、什么是.p12文件？ .p12 文件全称 PKCS#12 (Personal Infor
 bookCollapseSection: false
 ---
 
-# Apple生成*.p12文件
-
 
 
 ## 一、什么是`*.p12`文件？

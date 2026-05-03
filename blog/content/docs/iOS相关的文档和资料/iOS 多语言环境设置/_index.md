@@ -7,8 +7,6 @@ summary: "一、目标 App语言跟随当前手机系统语言 用户主动切�
 bookCollapseSection: false
 ---
 
-# iOS 多语言环境设置
-
 
 
 ## 一、目标

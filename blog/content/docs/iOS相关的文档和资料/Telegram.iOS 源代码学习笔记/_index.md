@@ -7,8 +7,6 @@ summary: "当前总行数：0 行 ## 1、准备工作 简介 Telegram.iOS 项目
 bookCollapseSection: false
 ---
 
-# Telegram.iOS 源代码学习笔记
-
 
 
 当前总行数：0 行

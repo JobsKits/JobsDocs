@@ -7,8 +7,6 @@ summary: "一、.podspec 模板 普通模板 带子Pod的模版 ## 二、自检�
 bookCollapseSection: false
 ---
 
-# 制作(发布)Pods组件
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

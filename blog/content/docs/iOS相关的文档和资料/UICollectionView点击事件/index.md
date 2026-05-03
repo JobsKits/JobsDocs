@@ -7,8 +7,6 @@ summary: ""
 bookCollapseSection: false
 ---
 
-# UICollectionView点击事件
-
 
 ```objective-c
 UICollectionView 似乎不能直接响应touchBegan

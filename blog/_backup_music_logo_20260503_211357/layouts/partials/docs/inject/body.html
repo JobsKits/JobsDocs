@@ -1,0 +1,101 @@
+<script src="{{ "jobs-container-routes.js" | relURL }}?v={{ now.Unix }}"></script>
+
+<script>
+(function () {
+  function normalizePath(path) {
+    try {
+      return decodeURI(path);
+    } catch (error) {
+      return path;
+    }
+  }
+
+  function isContainerRoute(pathname) {
+    var currentPath = normalizePath(pathname);
+    var routes = window.JOBS_CONTAINER_ROUTES || [];
+
+    return routes.some(function (route) {
+      var routePath = normalizePath(new URL(route, window.location.origin).pathname);
+      return currentPath === routePath;
+    });
+  }
+
+  function disableContainerLinks() {
+    var routes = window.JOBS_CONTAINER_ROUTES || [];
+
+    routes.forEach(function (route) {
+      var routePath = normalizePath(new URL(route, window.location.origin).pathname);
+
+      document.querySelectorAll("a[href]").forEach(function (link) {
+        var linkPath = normalizePath(new URL(link.href, window.location.origin).pathname);
+
+        if (linkPath === routePath) {
+          link.classList.add("jobs-container-link");
+          link.setAttribute("aria-disabled", "true");
+          link.setAttribute("tabindex", "-1");
+        }
+      });
+    });
+  }
+
+  function setupContainerClickGuard() {
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest && event.target.closest("a[href]");
+
+      if (!link) {
+        return;
+      }
+
+      var pathname = new URL(link.href, window.location.origin).pathname;
+
+      if (isContainerRoute(pathname)) {
+        event.preventDefault();
+        event.stopPropagation();
+        link.blur();
+      }
+    }, true);
+  }
+
+  function fixBrandIcon() {
+    var nextSrc = "{{ "icon.png" | relURL }}?v={{ now.Unix }}";
+
+    document.querySelectorAll(".jobs-brand-icon").forEach(function (img) {
+      img.setAttribute("src", nextSrc);
+      img.setAttribute("loading", "eager");
+      img.setAttribute("decoding", "sync");
+    });
+  }
+
+  function notifyShellMusic() {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: "jobsdocs-user-gesture" }, window.location.origin);
+      }
+    } catch (error) {
+      // 忽略跨域或浏览器限制。
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    fixBrandIcon();
+    disableContainerLinks();
+    setupContainerClickGuard();
+  });
+
+  ["pointerdown", "click", "touchstart", "keydown"].forEach(function (eventName) {
+    document.addEventListener(eventName, notifyShellMusic, { once: true, capture: true });
+  });
+})();
+</script>
+
+<style>
+.jobs-container-link {
+  cursor: default !important;
+  pointer-events: auto !important;
+}
+
+.jobs-container-link:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+</style>

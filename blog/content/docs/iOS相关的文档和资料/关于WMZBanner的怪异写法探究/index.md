@@ -7,8 +7,6 @@ summary: "1、看懂宏定义 定义部分 调用环节 以上写法等同于�
 bookCollapseSection: false
 ---
 
-# 关于WMZBanner的怪异写法探究
-
 
 ## 1、看懂宏定义
 

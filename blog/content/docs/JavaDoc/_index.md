@@ -7,8 +7,6 @@ summary: "当前总行数：26 行 ## Lambda Lambda表达式是Java 8引入的�
 bookCollapseSection: false
 ---
 
-# JavaDoc
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

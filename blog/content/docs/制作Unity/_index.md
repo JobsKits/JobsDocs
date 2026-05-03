@@ -7,8 +7,6 @@ summary: "一、准备工作 ### 1、下载安装Unity Hub ### 2、运行Unity H
 bookCollapseSection: false
 ---
 
-# 制作Unity
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

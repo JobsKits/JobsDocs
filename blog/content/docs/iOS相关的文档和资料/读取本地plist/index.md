@@ -7,8 +7,6 @@ summary: ""
 bookCollapseSection: false
 ---
 
-# 读取本地plist
-
 
 ```objective-c
 + (TYFSITE)siteType{

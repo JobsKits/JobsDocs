@@ -7,8 +7,6 @@ summary: "MyVCModel.h MyVCModel.m"
 bookCollapseSection: false
 ---
 
-# MJExtension用法
-
 
 ```objective-c
 -(void)netWorking_MKWalletMyWalletPOST{

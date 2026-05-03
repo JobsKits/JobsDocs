@@ -7,8 +7,6 @@ summary: "一、打开项目并找到 🔼 🔽 * 找到build setting 👉搜索
 bookCollapseSection: false
 ---
 
-# iOS项目多环境配置
-
 
 
 ## 一、打开项目并找到 <a href="#iOS项目多环境配置" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>

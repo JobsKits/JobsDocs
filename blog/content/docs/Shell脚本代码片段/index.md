@@ -7,8 +7,6 @@ summary: "🎯 项目白皮书 虽然Shell脚本晦涩难懂，但相较于pytho
 bookCollapseSection: false
 ---
 
-# Shell脚本代码片段
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

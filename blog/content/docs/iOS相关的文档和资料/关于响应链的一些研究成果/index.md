@@ -7,8 +7,6 @@ summary: "假设我们有一个VC1，VC1上面加盖一个View0 和 View1，点�
 bookCollapseSection: false
 ---
 
-# 关于响应链的一些研究成果
-
 **假设我们有一个VC1，VC1上面加盖一个View0 和 View1，点击VC跳转进VC2；**
 **现在的需求是：点击View0不跳转，但是点击View1跳转**
 

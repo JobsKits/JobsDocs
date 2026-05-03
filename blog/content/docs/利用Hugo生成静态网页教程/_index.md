@@ -7,8 +7,6 @@ summary: "Hugo中文文档 ## 一、核心特点 > 没有后端、没有数据�
 bookCollapseSection: false
 ---
 
-# 利用Hugo生成静态网页教程
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

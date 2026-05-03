@@ -8,6 +8,9 @@ disablePathToLower = false
 
 disableKinds = ["taxonomy", "term"]
 
+relativeURLs = true
+canonifyURLs = false
+
 [params]
 BookTheme = "auto"
 BookToC = true

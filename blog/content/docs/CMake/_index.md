@@ -7,8 +7,6 @@ summary: "构建 在软件开发中，“构建”指的是将源代码转换为
 bookCollapseSection: false
 ---
 
-# CMake
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

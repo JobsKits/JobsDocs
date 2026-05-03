@@ -7,8 +7,6 @@ summary: ""
 bookCollapseSection: false
 ---
 
-# mermaid
-
 ```mermaid
 classDiagram
 class UIViewModelProtocol {

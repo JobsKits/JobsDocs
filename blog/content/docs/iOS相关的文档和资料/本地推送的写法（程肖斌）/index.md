@@ -7,8 +7,6 @@ summary: ""
 bookCollapseSection: false
 ---
 
-# 本地推送的写法（程肖斌）
-
 
 ```objective-c
 - (IBAction)sendLocalPush:(UIButton *)sender {

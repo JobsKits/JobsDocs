@@ -7,8 +7,6 @@ summary: "当前总行数：0 行 ## 1、详解UIScrollView 和UITabableView的�
 bookCollapseSection: false
 ---
 
-# UITableView 的使用指南
-
 
 
 当前总行数：0 行

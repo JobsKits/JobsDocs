@@ -7,8 +7,6 @@ summary: "搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1�
 bookCollapseSection: false
 ---
 
-# 搭建邮件服务器（Mail server）
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

@@ -74,17 +74,19 @@
 <body>
   <div class="jobs-docs-shell">
     <iframe
+      id="jobs-docs-frame"
       class="jobs-docs-frame"
       name="jobs-docs-frame"
-      src="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/"
-      title="Jobs Docs">
+      src="./docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/"
+      title="Jobs Docs"
+      allow="autoplay">
     </iframe>
   </div>
 
   <div class="jobs-audio-player">
     <div class="jobs-audio-title">🎵 With an Orchid</div>
-    <audio id="jobs-bg-music" controls autoplay loop preload="auto">
-      <source src="/With%20an%20Orchid.mp3" type="audio/mpeg">
+    <audio id="jobs-bg-music" controls autoplay loop preload="auto" playsinline>
+      <source src="./With%20an%20Orchid.mp3" type="audio/mpeg">
       当前浏览器不支持 audio 标签。
     </audio>
   </div>
@@ -92,6 +94,7 @@
   <script>
     (function () {
       var audio = document.getElementById("jobs-bg-music");
+      var frame = document.getElementById("jobs-docs-frame");
 
       if (!audio) {
         return;
@@ -101,6 +104,7 @@
       var timeKey = storagePrefix + "currentTime";
       var volumeKey = storagePrefix + "volume";
       var defaultVolume = 0.42;
+      var hasTriedMutedAutoplay = false;
 
       function getNumberFromStorage(key, fallback) {
         var value = window.localStorage.getItem(key);
@@ -138,9 +142,7 @@
           } else {
             audio.currentTime = savedTime;
           }
-        } catch (error) {
-          
-        }
+        } catch (error) {}
       }
 
       function saveState() {
@@ -153,17 +155,91 @@
         }
       }
 
+      function tryPlay() {
+        var playPromise = audio.play();
+
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(function () {
+            tryMutedAutoplay();
+          });
+        }
+      }
+
+      function tryMutedAutoplay() {
+        if (hasTriedMutedAutoplay) {
+          return;
+        }
+
+        hasTriedMutedAutoplay = true;
+
+        try {
+          audio.muted = true;
+          audio.defaultMuted = true;
+          var playPromise = audio.play();
+
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(function () {});
+          }
+        } catch (error) {}
+      }
+
+      function unlock() {
+        audio.muted = false;
+        audio.defaultMuted = false;
+        tryPlay();
+      }
+
+      function isTrustedFrameMessage(event) {
+        if (event.origin && event.origin !== "null" && event.origin !== window.location.origin) {
+          return false;
+        }
+
+        if (frame && event.source && event.source !== frame.contentWindow) {
+          return false;
+        }
+
+        return true;
+      }
+
       restoreVolume();
+
+      window.JobsDocsMusic = {
+        unlock: unlock,
+        play: unlock,
+        saveState: saveState
+      };
 
       audio.addEventListener("loadedmetadata", function () {
         restoreCurrentTime();
+        tryPlay();
       });
+
+      audio.addEventListener("canplay", function () {
+        tryPlay();
+      }, { once: true });
 
       audio.addEventListener("timeupdate", saveState);
       audio.addEventListener("volumechange", saveState);
 
+      document.addEventListener("pointerdown", unlock, { once: true, capture: true });
+      document.addEventListener("touchstart", unlock, { once: true, capture: true });
+      document.addEventListener("keydown", unlock, { once: true, capture: true });
+      document.addEventListener("click", unlock, { once: true, capture: true });
+
+      window.addEventListener("message", function (event) {
+        if (!isTrustedFrameMessage(event)) {
+          return;
+        }
+
+        if (event.data && event.data.type === "jobsdocs:unlock-music") {
+          unlock();
+        }
+      });
+
       window.addEventListener("pagehide", saveState);
       window.addEventListener("beforeunload", saveState);
+
+      tryPlay();
     })();
   </script>
 </body>

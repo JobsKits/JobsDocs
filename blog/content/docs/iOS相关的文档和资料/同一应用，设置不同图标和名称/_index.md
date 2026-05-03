@@ -7,8 +7,6 @@ summary: "一、产生背景 根据生产和开发经验，App拥有至少下列
 bookCollapseSection: false
 ---
 
-# 同一应用，设置不同图标和名称
-
 
 
 ## 一、产生背景

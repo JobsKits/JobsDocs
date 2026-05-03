@@ -7,8 +7,6 @@ summary: "全局修改 局部修改"
 bookCollapseSection: false
 ---
 
-# iOS 状态栏颜色的修改
-
 
 *全局修改*
 

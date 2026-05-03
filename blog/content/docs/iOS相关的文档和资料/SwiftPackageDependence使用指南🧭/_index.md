@@ -7,8 +7,6 @@ summary: "一、集成 Xcode 👉 File 👉 Add Package Dependencies ## 二、�
 bookCollapseSection: false
 ---
 
-# SwiftPackageDependence使用指南🧭
-
 
 ## 一、集成
 

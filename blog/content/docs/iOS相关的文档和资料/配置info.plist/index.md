@@ -7,8 +7,6 @@ summary: "Open As Source Code，添加以下信息 ### 开权限： 多语言化
 bookCollapseSection: false
 ---
 
-# 配置info.plist
-
 
 
 ## Open As Source Code，添加以下信息

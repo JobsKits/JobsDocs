@@ -7,8 +7,6 @@ summary: "1、服务器系统 提纲 单片机 = single-chip microcomputer = 单
 bookCollapseSection: false
 ---
 
-# 运维成长路线
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

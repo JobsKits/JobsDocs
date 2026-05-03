@@ -7,8 +7,6 @@ summary: ""
 bookCollapseSection: false
 ---
 
-# iOS禁用返回手势
-
 
 ```
 -(void)viewDidAppear:(BOOL)animated{

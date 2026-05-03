@@ -7,8 +7,6 @@ summary: "SEO - 基本概念.名词解释 - 一些工具 - SEO.原理 - 域名�
 bookCollapseSection: false
 ---
 
-# SEO
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

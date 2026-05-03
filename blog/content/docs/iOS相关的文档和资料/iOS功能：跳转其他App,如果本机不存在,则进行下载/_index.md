@@ -7,8 +7,6 @@ summary: "1、资料来源 https://www.jianshu.com/p/5d813fbba559 ## 2、跳转�
 bookCollapseSection: false
 ---
 
-# iOS功能：跳转其他App,如果本机不存在,则进行下载
-
 
 
 

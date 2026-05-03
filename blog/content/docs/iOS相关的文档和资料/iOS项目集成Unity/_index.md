@@ -7,8 +7,6 @@ summary: "前言 配置Unity是比较繁琐的，特别是对于以往开发过�
 bookCollapseSection: false
 ---
 
-# iOS项目集成Unity
-
 
 
 ## 前言

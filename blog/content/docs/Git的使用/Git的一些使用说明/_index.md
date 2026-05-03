@@ -7,8 +7,6 @@ summary: "🎯 项目白皮书 此文档，主要的受众是 Git 的中高阶�
 bookCollapseSection: false
 ---
 
-# Git的一些使用说明
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

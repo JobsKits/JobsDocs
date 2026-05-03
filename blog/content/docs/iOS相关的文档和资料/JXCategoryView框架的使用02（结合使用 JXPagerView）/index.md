@@ -7,8 +7,6 @@ summary: "当前总行数：0 行 一些共同的准备工作 Demo = JXPagerView
 bookCollapseSection: false
 ---
 
-# JXCategoryView框架的使用02（结合使用 JXPagerView）
-
 
 当前总行数：0 行
 

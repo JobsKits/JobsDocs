@@ -1,6 +1,7 @@
 {{- $docs := where .Site.RegularPages "Section" "docs" -}}
 {{- $sortedDocs := sort $docs "Weight" "asc" -}}
 {{- $firstDoc := index $sortedDocs 0 -}}
+{{- $musicURL := "With an Orchid.mp3" | relURL -}}
 
 <!doctype html>
 <html lang="zh-CN">
@@ -78,10 +79,12 @@
   <div class="jobs-docs-shell">
     {{- if $firstDoc }}
     <iframe
+      id="jobs-docs-frame"
       class="jobs-docs-frame"
       name="jobs-docs-frame"
-      src="{{ $firstDoc.RelPermalink }}"
-      title="Jobs Docs">
+      src="{{ $firstDoc.RelPermalink | relURL }}"
+      title="Jobs Docs"
+      allow="autoplay">
     </iframe>
     {{- else }}
     <div style="padding: 24px;">暂无文档。</div>
@@ -90,8 +93,8 @@
 
   <div class="jobs-audio-player">
     <div class="jobs-audio-title">🎵 With an Orchid</div>
-    <audio id="jobs-bg-music" controls autoplay loop preload="auto">
-      <source src="/With%20an%20Orchid.mp3" type="audio/mpeg">
+    <audio id="jobs-bg-music" controls autoplay loop preload="auto" playsinline>
+      <source src="{{ $musicURL }}" type="audio/mpeg">
       当前浏览器不支持 audio 标签。
     </audio>
   </div>
@@ -99,6 +102,7 @@
   <script>
     (function () {
       var audio = document.getElementById("jobs-bg-music");
+      var frame = document.getElementById("jobs-docs-frame");
 
       if (!audio) {
         return;
@@ -108,6 +112,7 @@
       var timeKey = storagePrefix + "currentTime";
       var volumeKey = storagePrefix + "volume";
       var defaultVolume = 0.42;
+      var hasTriedMutedAutoplay = false;
 
       function getNumberFromStorage(key, fallback) {
         var value = window.localStorage.getItem(key);
@@ -145,9 +150,7 @@
           } else {
             audio.currentTime = savedTime;
           }
-        } catch (error) {
-          // 某些浏览器 metadata 未就绪时，不允许设置 currentTime。
-        }
+        } catch (error) {}
       }
 
       function saveState() {
@@ -160,17 +163,91 @@
         }
       }
 
+      function tryPlay() {
+        var playPromise = audio.play();
+
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(function () {
+            tryMutedAutoplay();
+          });
+        }
+      }
+
+      function tryMutedAutoplay() {
+        if (hasTriedMutedAutoplay) {
+          return;
+        }
+
+        hasTriedMutedAutoplay = true;
+
+        try {
+          audio.muted = true;
+          audio.defaultMuted = true;
+          var playPromise = audio.play();
+
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(function () {});
+          }
+        } catch (error) {}
+      }
+
+      function unlock() {
+        audio.muted = false;
+        audio.defaultMuted = false;
+        tryPlay();
+      }
+
+      function isTrustedFrameMessage(event) {
+        if (event.origin && event.origin !== "null" && event.origin !== window.location.origin) {
+          return false;
+        }
+
+        if (frame && event.source && event.source !== frame.contentWindow) {
+          return false;
+        }
+
+        return true;
+      }
+
       restoreVolume();
+
+      window.JobsDocsMusic = {
+        unlock: unlock,
+        play: unlock,
+        saveState: saveState
+      };
 
       audio.addEventListener("loadedmetadata", function () {
         restoreCurrentTime();
+        tryPlay();
       });
+
+      audio.addEventListener("canplay", function () {
+        tryPlay();
+      }, { once: true });
 
       audio.addEventListener("timeupdate", saveState);
       audio.addEventListener("volumechange", saveState);
 
+      document.addEventListener("pointerdown", unlock, { once: true, capture: true });
+      document.addEventListener("touchstart", unlock, { once: true, capture: true });
+      document.addEventListener("keydown", unlock, { once: true, capture: true });
+      document.addEventListener("click", unlock, { once: true, capture: true });
+
+      window.addEventListener("message", function (event) {
+        if (!isTrustedFrameMessage(event)) {
+          return;
+        }
+
+        if (event.data && event.data.type === "jobsdocs:unlock-music") {
+          unlock();
+        }
+      });
+
       window.addEventListener("pagehide", saveState);
       window.addEventListener("beforeunload", saveState);
+
+      tryPlay();
     })();
   </script>
 </body>

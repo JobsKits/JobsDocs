@@ -7,8 +7,6 @@ summary: "一、生成SSH密钥🔑 > 尚未在本地计算机上生成SSH密钥
 bookCollapseSection: false
 ---
 
-# 通过SSH连接到GitHub
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

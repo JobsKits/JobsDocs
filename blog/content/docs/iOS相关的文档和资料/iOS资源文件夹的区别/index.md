@@ -7,8 +7,6 @@ summary: ""
 bookCollapseSection: false
 ---
 
-# iOS资源文件夹的区别
-
 
 ```
 Xcode 有黄色文件夹 和 蓝色文件夹 来管理资源

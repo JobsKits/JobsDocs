@@ -7,8 +7,6 @@ summary: "一些公共的 这种方式，只能统一的设置同一种样式，
 bookCollapseSection: false
 ---
 
-# 关于UITableViewCell和UICollectionViewCell圆切角+Cell的偏移量
-
 
 
 ## 一些公共的

@@ -7,8 +7,6 @@ summary: "资料来源：https://blog.csdn.net/CC1991_/article/details/100803193
 bookCollapseSection: false
 ---
 
-# unknown class viewcontroller in interface builder file
-
 
 资料来源：https://blog.csdn.net/CC1991_/article/details/100803193
 

@@ -6,6 +6,8 @@ readonly ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 readonly BLOG_DIR="$ROOT_DIR/blog"
 readonly CONTENT_DIR="$BLOG_DIR/content/docs"
 readonly OBSOLETE_POSTS_DIR="$BLOG_DIR/content/posts"
+readonly CONTAINER_ROUTES_FILE="$BLOG_DIR/static/jobs-container-routes.js"
+readonly BODY_INJECTION_FILE="$BLOG_DIR/layouts/partials/docs/inject/body.html"
 
 WEIGHT_VALUE=10
 PUBLISHABLE_MARKDOWN_FILES=()
@@ -25,6 +27,152 @@ log_error() {
 # 转换成小写字符串。
 to_lower() {
     printf '%s' "$1" | tr '[:upper:]' '[:lower:]'
+}
+
+# 转义 JS 字符串。
+escape_js_string() {
+    local value="$1"
+
+    printf '%s' "$value" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
+# 初始化容器目录路由文件。
+# 没有直属 md 的目录只作为左侧目录容器，不允许点击进入空页面。
+prepare_container_routes_file() {
+    mkdir -p "$BLOG_DIR/static"
+    printf '%s\n' 'window.JOBS_CONTAINER_ROUTES = [];' > "$CONTAINER_ROUTES_FILE"
+}
+
+# 记录容器目录路由。
+record_container_route() {
+    local target_dir="$1"
+    local rel_path
+    local route
+    local safe_route
+
+    rel_path="${target_dir#$CONTENT_DIR/}"
+
+    if [[ "$rel_path" == "$target_dir" || -z "$rel_path" ]]; then
+        return
+    fi
+
+    route="/docs/$rel_path/"
+    safe_route="$(escape_js_string "$route")"
+
+    printf 'window.JOBS_CONTAINER_ROUTES.push("%s");\n' "$safe_route" >> "$CONTAINER_ROUTES_FILE"
+}
+
+# 写入 Hugo Book body 注入文件。
+# 这里负责：
+# 1. 禁止容器目录点击进入空页面；
+# 2. 强制 logo 使用 Hugo static 下的 icon.png 并追加缓存版本。
+# 背景音乐只挂在首页外层 shell，避免 iframe 子页面切换时重新播放。
+ensure_body_injection() {
+    mkdir -p "$(dirname "$BODY_INJECTION_FILE")"
+
+    cat > "$BODY_INJECTION_FILE" <<'EOF'
+<script src="{{ "jobs-container-routes.js" | relURL }}?v={{ now.Unix }}"></script>
+
+<script>
+(function () {
+  function normalizePath(path) {
+    try {
+      return decodeURI(path);
+    } catch (error) {
+      return path;
+    }
+  }
+
+  function isContainerRoute(pathname) {
+    var currentPath = normalizePath(pathname);
+    var routes = window.JOBS_CONTAINER_ROUTES || [];
+
+    return routes.some(function (route) {
+      var routePath = normalizePath(new URL(route, window.location.origin).pathname);
+      return currentPath === routePath;
+    });
+  }
+
+  function disableContainerLinks() {
+    var routes = window.JOBS_CONTAINER_ROUTES || [];
+
+    routes.forEach(function (route) {
+      var routePath = normalizePath(new URL(route, window.location.origin).pathname);
+
+      document.querySelectorAll("a[href]").forEach(function (link) {
+        var linkPath = normalizePath(new URL(link.href, window.location.origin).pathname);
+
+        if (linkPath === routePath) {
+          link.classList.add("jobs-container-link");
+          link.setAttribute("aria-disabled", "true");
+          link.setAttribute("tabindex", "-1");
+        }
+      });
+    });
+  }
+
+  function setupContainerClickGuard() {
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest && event.target.closest("a[href]");
+
+      if (!link) {
+        return;
+      }
+
+      var pathname = new URL(link.href, window.location.origin).pathname;
+
+      if (isContainerRoute(pathname)) {
+        event.preventDefault();
+        event.stopPropagation();
+        link.blur();
+      }
+    }, true);
+  }
+
+  function fixBrandIcon() {
+    var nextSrc = "{{ "icon.png" | relURL }}?v={{ now.Unix }}";
+
+    document.querySelectorAll(".jobs-brand-icon").forEach(function (img) {
+      img.setAttribute("src", nextSrc);
+      img.setAttribute("loading", "eager");
+      img.setAttribute("decoding", "sync");
+    });
+  }
+
+  function notifyShellMusic() {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: "jobsdocs-user-gesture" }, window.location.origin);
+      }
+    } catch (error) {
+      // 忽略跨域或浏览器限制。
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    fixBrandIcon();
+    disableContainerLinks();
+    setupContainerClickGuard();
+  });
+
+  ["pointerdown", "click", "touchstart", "keydown"].forEach(function (eventName) {
+    document.addEventListener(eventName, notifyShellMusic, { once: true, capture: true });
+  });
+})();
+</script>
+
+<style>
+.jobs-container-link {
+  cursor: default !important;
+  pointer-events: auto !important;
+}
+
+.jobs-container-link:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+</style>
+EOF
 }
 
 # 获取文件大小，兼容 macOS 和 Linux。
@@ -605,7 +753,9 @@ write_single_markdown_body() {
     ' "$source_file" | normalize_markdown_body
 }
 
-# 写入 Markdown 页面 front matter，并主动写入页面主标题。
+# 写入 Markdown 页面 front matter。
+# 注意：这里只写 front matter，不再额外写入 "# title"。
+# Hugo Book 会自动渲染页面标题；如果这里再写一次，就会出现两个主标题。
 write_markdown_page_header() {
     local target_file="$1"
     local title="$2"
@@ -629,8 +779,6 @@ write_markdown_page_header() {
         echo "summary: \"$safe_summary\""
         echo "bookCollapseSection: false"
         echo "---"
-        echo
-        echo "# $title"
         echo
     } > "$target_file"
 }
@@ -711,6 +859,7 @@ write_single_markdown_page() {
 }
 
 # 写入普通 section 的 _index.md。
+# 这种 section 只代表目录容器，本身没有 md 正文，所以左侧菜单里不允许点击进入。
 write_section_index() {
     local target_dir="$1"
     local title="$2"
@@ -726,10 +875,12 @@ write_section_index() {
 title: "$safe_title"
 weight: $weight_value
 bookCollapseSection: false
+jobsContainerOnly: true
 ---
 
-# $title
 EOF
+
+    record_container_route "$target_dir"
 }
 
 # 如果当前页面下面还有子目录，则把 leaf bundle 的 index.md 提升为 branch bundle 的 _index.md。
@@ -744,6 +895,7 @@ promote_leaf_page_to_branch_index() {
 }
 
 # 写入 PDF 文档页。
+# 当前不会被调用；保留函数是为了以后如果恢复 PDF 发布策略，可以少改结构。
 write_pdf_page() {
     local source_pdf="$1"
     local target_dir="$2"
@@ -767,8 +919,6 @@ draft: false
 weight: $weight_value
 bookCollapseSection: false
 ---
-
-# $title
 
 [打开 PDF](./$pdf_filename)
 
@@ -1054,6 +1204,7 @@ clean_obsolete_posts_dir() {
 }
 
 # 创建 docs 根首页。
+# 不写 "# Jobs Docs"，避免 Hugo Book 自动标题之外再多一个主标题。
 ensure_docs_index() {
     mkdir -p "$CONTENT_DIR"
 
@@ -1064,9 +1215,6 @@ weight: 1
 bookCollapseSection: false
 ---
 
-# Jobs Docs
-
-这里是 JobsDocs 文档索引。
 EOF
 }
 
@@ -1122,10 +1270,12 @@ main() {
     log "BLOG_DIR: $BLOG_DIR"
     log "CONTENT_DIR: $CONTENT_DIR"
 
-    # 3. 清空旧内容。
+    # 3. 清空旧内容，并准备注入文件。
     clean_public_dir
+    prepare_container_routes_file
     clean_content_dir
     clean_obsolete_posts_dir
+    ensure_body_injection
 
     # 4. 创建 docs 根首页，并同步站点静态资源。
     ensure_docs_index

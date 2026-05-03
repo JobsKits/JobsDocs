@@ -7,8 +7,6 @@ summary: "我们的驱动力和目标： ## 附件：稳定版仓库Bitbucket，
 bookCollapseSection: false
 ---
 
-# JobsKit 序
-
 
 ## 我们的驱动力和目标：
 

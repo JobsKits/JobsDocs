@@ -7,8 +7,6 @@ summary: ""
 bookCollapseSection: false
 ---
 
-# 定一行个数得出几行
-
 
 ```count:总个数
 num：一排定多少个

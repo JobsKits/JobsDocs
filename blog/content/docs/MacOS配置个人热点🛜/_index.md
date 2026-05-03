@@ -7,8 +7,6 @@ summary: "前言 如果MacOS当前信号输入源是Wi-Fi，则无法配置个�
 bookCollapseSection: false
 ---
 
-# MacOS配置个人热点🛜
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

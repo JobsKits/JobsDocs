@@ -7,8 +7,6 @@ summary: "先对用Git管理的文件夹创建远程仓库 ``` git submodule add
 bookCollapseSection: false
 ---
 
-# Git 子模块使用
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

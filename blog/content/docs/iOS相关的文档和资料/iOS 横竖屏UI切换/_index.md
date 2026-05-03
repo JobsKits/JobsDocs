@@ -7,8 +7,6 @@ summary: "一、第三方支援 ## 二、xcode 设置 ## 三、Info.plist 设置
 bookCollapseSection: false
 ---
 
-# iOS 横竖屏UI切换
-
 
 
 ## 一、第三方支援

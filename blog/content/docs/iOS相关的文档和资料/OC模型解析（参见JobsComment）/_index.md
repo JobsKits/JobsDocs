@@ -7,8 +7,6 @@ summary: "一、关注 @implementation BaseModel 值得注意的一点：如果�
 bookCollapseSection: false
 ---
 
-# OC模型解析（参见JobsComment）
-
 
 
 ![模型解析01](./assets/模型解析01.jpg)

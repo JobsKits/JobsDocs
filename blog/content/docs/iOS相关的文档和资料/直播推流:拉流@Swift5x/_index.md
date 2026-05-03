@@ -7,8 +7,6 @@ summary: "服务器（本地）：以MacOS和本地局域网为基础，辅以Ho
 bookCollapseSection: false
 ---
 
-# 直播推流:拉流@Swift5x
-
 
 * 服务器（本地）：以**MacOS**和本地局域网为基础，辅以[**Homebrew**](https://brew.sh/) ➤ [**node**](https://nodejs.org/en) ➤ [**node-media-server@2.3.8**](https://github.com/codivoire/node-media-server)
 

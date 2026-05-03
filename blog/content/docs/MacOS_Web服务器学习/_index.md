@@ -7,8 +7,6 @@ summary: "一、前言 资料来源 Apache 、Tomcat、Nginx的区别 MacOS 自�
 bookCollapseSection: false
 ---
 
-# MacOS_Web服务器学习
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

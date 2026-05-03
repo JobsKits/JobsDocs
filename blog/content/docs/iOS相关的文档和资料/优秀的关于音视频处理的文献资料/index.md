@@ -7,8 +7,6 @@ summary: "资料来源： https://github.com/huizai0705/VideoRecorderiOS https:/
 bookCollapseSection: false
 ---
 
-# 优秀的关于音视频处理的文献资料
-
 
 ## 资料来源：
 

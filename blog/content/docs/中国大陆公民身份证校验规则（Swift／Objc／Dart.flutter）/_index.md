@@ -7,8 +7,6 @@ summary: "一、Swift的校验方法 > 1️⃣ 统一校验规则：格式 → �
 bookCollapseSection: false
 ---
 
-# 中国大陆公民身份证校验规则（Swift/Objc/Dart.flutter）
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

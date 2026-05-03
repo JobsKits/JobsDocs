@@ -7,8 +7,6 @@ summary: "DDWaterBillBaseModel.h DDWaterBillBaseModel.m"
 bookCollapseSection: false
 ---
 
-# 时间按照【年-月份】分组
-
 
 *DDWaterBillBaseModel.h*
 

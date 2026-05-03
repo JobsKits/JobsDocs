@@ -7,8 +7,6 @@ summary: "当前总行数：176 行 ## 免责声明 珍惜生活，远离赌博 
 bookCollapseSection: false
 ---
 
-# 足球盘口学习
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

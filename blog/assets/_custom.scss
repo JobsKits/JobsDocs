@@ -124,9 +124,9 @@ body {
   width: 58px !important;
   height: 58px !important;
   flex: 0 0 58px !important;
-  object-fit: cover !important;
+  object-fit: contain !important;
   object-position: center center !important;
-  border-radius: 14px !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
 }
@@ -545,7 +545,7 @@ body.dark .book-toc nav {
     width: 38px !important;
     height: 38px !important;
     flex: 0 0 38px !important;
-    border-radius: 10px !important;
+    border-radius: 0 !important;
   }
 
   .book-search {

@@ -7,8 +7,6 @@ summary: "1、生命的定义：具备意识（广义上的趋利避害） 意�
 bookCollapseSection: false
 ---
 
-# 天工开物
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

@@ -7,8 +7,6 @@ summary: "当前总行数：366 行 ## 一、基础知识 脚本语言：必须�
 bookCollapseSection: false
 ---
 
-# ReactNative
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

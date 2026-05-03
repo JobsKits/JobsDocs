@@ -7,8 +7,6 @@ summary: "一、基本面 ### 1、历史 更新时间跨度： 2013.4.11~2017.8.
 bookCollapseSection: false
 ---
 
-# YYKit调研
-
 
 
 ## 一、基本面

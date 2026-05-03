@@ -7,8 +7,6 @@ summary: "一、实践目的 服务器（本地）：以MacOS和本地局域网�
 bookCollapseSection: false
 ---
 
-# 【MacOS】配置本地的直播服务器
-
 
 
 ## 一、实践目的

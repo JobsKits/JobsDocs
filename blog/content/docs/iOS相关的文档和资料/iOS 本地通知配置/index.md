@@ -7,8 +7,6 @@ summary: "一、在AppDelegate里面进行配置 ## 二、相关工具类 JobsLo
 bookCollapseSection: false
 ---
 
-# iOS 本地通知配置
-
 
 
 ## 一、在`AppDelegate`里面进行配置

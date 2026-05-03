@@ -7,8 +7,6 @@ summary: "当前总行数：0 行 ## 其他功能 ## 一些共同的准备工作
 bookCollapseSection: false
 ---
 
-# JXCategoryView框架的使用01
-
 
 当前总行数：0 行
 

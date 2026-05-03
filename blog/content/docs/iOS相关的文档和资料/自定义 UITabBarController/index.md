@@ -7,8 +7,6 @@ summary: "一、相关目录结构 JobsTabBarVC：UITabBarController JobsTabBarI
 bookCollapseSection: false
 ---
 
-# 自定义 UITabBarController
-
 
 
 ## 一、<font id=相关目录结构>相关目录结构</font>

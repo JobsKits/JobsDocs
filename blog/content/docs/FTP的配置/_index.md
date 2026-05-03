@@ -7,8 +7,6 @@ summary: "FTP = File Transfer Protocol = 文件传输协议 FTP主要有两种�
 bookCollapseSection: false
 ---
 
-# FTP的配置
-
 
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 

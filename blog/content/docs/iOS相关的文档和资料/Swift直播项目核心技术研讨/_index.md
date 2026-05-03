@@ -7,8 +7,6 @@ summary: "一、前言 直播项目的核心难点，在于视频数据的处理
 bookCollapseSection: false
 ---
 
-# Swift直播项目核心技术研讨
-
 
 
 ## 一、前言
