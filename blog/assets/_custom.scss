@@ -1589,3 +1589,224 @@ body.jobs-audio-undocked-from-menu .jobs-audio-dock-space {
     color: #94a3b8;
   }
 }
+
+
+/* jobsdocs-v12-style-start */
+.jobs-git-version {
+  margin: -0.38rem 1.1rem 0.82rem;
+  padding-left: 0.12rem;
+  color: var(--gray-500);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.jobs-audio-dock-space {
+  height: 0;
+  margin: 0 6px;
+  overflow: hidden;
+  transition:
+    height 0.24s ease,
+    margin 0.24s ease;
+}
+
+.jobs-audio-dock-space.is-active {
+  margin: 0 6px 12px;
+}
+
+body.jobs-audio-undocked-from-menu .jobs-audio-dock-space {
+  height: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+@media screen and (min-width: 56rem) {
+  .book-menu {
+    flex: 0 0 22rem !important;
+    width: 22rem !important;
+    max-width: 22rem !important;
+  }
+
+  .book-menu .book-menu-content {
+    width: 100% !important;
+    max-width: 22rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .book-page {
+    min-width: 0 !important;
+  }
+}
+
+@media screen and (max-width: 56rem) {
+  .jobs-git-version {
+    margin: -0.22rem 1.1rem 0.75rem;
+    font-size: 0.68rem;
+  }
+}
+
+@media screen and (max-width: 56rem) and (prefers-color-scheme: dark) {
+  .jobs-git-version {
+    color: #94a3b8;
+  }
+}
+/* jobsdocs-v12-style-end */
+
+
+
+
+
+
+
+
+/* jobsdocs-v16-mobile-panel-focus-start */
+@media screen and (max-width: 56rem) {
+  .book-header {
+    z-index: 9800 !important;
+    pointer-events: auto !important;
+  }
+
+  .book-header label,
+  .book-header label[for="menu-control"],
+  .book-header label[for="toc-control"] {
+    position: relative !important;
+    z-index: 9810 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .book-menu .book-brand {
+    margin: 0.65rem 0.9rem 0.25rem !important;
+    padding: 0.7rem 0.55rem 0.2rem !important;
+    max-width: calc(100% - 1.8rem) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .book-menu .book-brand a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    font-size: clamp(0.96rem, 4.9vw, 1.45rem) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  .book-menu .book-brand img {
+    width: 2.2rem !important;
+    height: 2.2rem !important;
+    flex: 0 0 2.2rem !important;
+    object-fit: contain !important;
+  }
+
+  .jobs-git-version {
+    margin: 0.1rem 1.45rem 0.75rem !important;
+    font-size: 0.7rem !important;
+    line-height: 1.2 !important;
+    color: #94a3b8 !important;
+  }
+
+  html.jobs-panel-open,
+  body.jobs-panel-open {
+    height: 100% !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+  }
+
+  body.jobs-panel-open .book-page {
+    overflow: hidden !important;
+    pointer-events: none !important;
+    touch-action: none !important;
+  }
+
+  body.jobs-panel-open .jobs-panel-touch-shield {
+    position: fixed !important;
+    top: var(--jobs-mobile-header-total, 64px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 9300 !important;
+    display: block !important;
+    pointer-events: auto !important;
+    touch-action: none !important;
+    overscroll-behavior: none !important;
+    background: rgba(2, 6, 23, 0.42) !important;
+  }
+
+  body.jobs-left-panel-open .book-menu {
+    position: fixed !important;
+    top: var(--jobs-mobile-header-total, 64px) !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 88vw !important;
+    max-width: 22rem !important;
+    height: calc(100vh - var(--jobs-mobile-header-total, 64px)) !important;
+    height: calc(100dvh - var(--jobs-mobile-header-total, 64px)) !important;
+    z-index: 9400 !important;
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+  }
+
+  body.jobs-left-panel-open .book-menu .book-menu-content {
+    display: block !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+    touch-action: pan-y !important;
+    padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  body.jobs-right-panel-open .book-toc {
+    position: fixed !important;
+    top: var(--jobs-mobile-header-total, 64px) !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 88vw !important;
+    max-width: 22rem !important;
+    height: calc(100vh - var(--jobs-mobile-header-total, 64px)) !important;
+    height: calc(100dvh - var(--jobs-mobile-header-total, 64px)) !important;
+    z-index: 9400 !important;
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+  }
+
+  body.jobs-right-panel-open .book-toc .book-toc-content,
+  body.jobs-right-panel-open .book-toc nav {
+    display: block !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+    touch-action: pan-y !important;
+    padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  body.jobs-left-panel-open #jobs-audio-dock-space,
+  body.jobs-right-panel-open #jobs-audio-dock-space {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+  }
+}
+/* jobsdocs-v16-mobile-panel-focus-end */

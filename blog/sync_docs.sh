@@ -1322,6 +1322,466 @@ check_dependencies() {
     fi
 }
 
+
+# jobsdocs-v12-runtime-start
+ensure_jobsdocs_v12_runtime() {
+    mkdir -p "$BLOG_DIR/static"
+
+    local jobsdocs_commit=""
+
+    if command -v git >/dev/null 2>&1; then
+        jobsdocs_commit="$(git -C "$ROOT_DIR" rev-parse --short=7 HEAD 2>/dev/null || true)"
+    fi
+
+    if [[ -z "$jobsdocs_commit" && -n "${CF_PAGES_COMMIT_SHA:-}" ]]; then
+        jobsdocs_commit="$(printf '%.7s' "$CF_PAGES_COMMIT_SHA")"
+    fi
+
+    if [[ -z "$jobsdocs_commit" && -n "${GITHUB_SHA:-}" ]]; then
+        jobsdocs_commit="$(printf '%.7s' "$GITHUB_SHA")"
+    fi
+
+    if [[ -z "$jobsdocs_commit" ]]; then
+        jobsdocs_commit="unknown"
+    fi
+
+    jobsdocs_commit="$(printf '%s' "$jobsdocs_commit" | sed 's/[^0-9A-Za-z_.-]/_/g' | cut -c1-7)"
+
+    cat > "$BLOG_DIR/static/jobs-git-version.js" <<EOF
+window.JOBS_DOCS_GIT_VERSION = "$jobsdocs_commit";
+EOF
+
+    cat >> "$BODY_INJECTION_FILE" <<'EOF'
+
+<!-- jobsdocs-v12-runtime -->
+<script src="{{ "jobs-git-version.js" | relURL }}?v={{ now.Unix }}"></script>
+<script>
+(function () {
+  function postToShell(type, reason) {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage(
+          {
+            type: type,
+            reason: reason || type
+          },
+          window.location.origin
+        );
+      }
+    } catch (error) {}
+  }
+
+  function ensureGitVersionLabel() {
+    var brand = document.querySelector(".book-brand");
+
+    if (!brand) {
+      return;
+    }
+
+    var version = String(window.JOBS_DOCS_GIT_VERSION || "unknown").slice(0, 7);
+    var label = document.querySelector(".jobs-git-version");
+
+    if (!label) {
+      label = document.createElement("div");
+      label.className = "jobs-git-version";
+      brand.insertAdjacentElement("afterend", label);
+    }
+
+    label.textContent = version;
+  }
+
+  function hookMenuScroll() {
+    document.querySelectorAll(".book-menu, .book-menu-content").forEach(function (element) {
+      if (element.__jobsDocsV12MenuScrollHooked) {
+        return;
+      }
+
+      element.__jobsDocsV12MenuScrollHooked = true;
+
+      element.addEventListener("scroll", function () {
+        postToShell("jobsdocs:menu-scroll", "menu-scroll");
+      }, { passive: true });
+    });
+  }
+
+  function hookUserActionUnlock() {
+    [
+      "click",
+      "pointerdown",
+      "pointerup",
+      "touchstart",
+      "touchmove",
+      "touchend",
+      "mousedown",
+      "mouseup",
+      "keydown",
+      "wheel",
+      "scroll"
+    ].forEach(function (eventName) {
+      document.addEventListener(eventName, function () {
+        postToShell("jobsdocs:any-user-action", eventName);
+        postToShell("jobsdocs:unlock-music", eventName);
+      }, { capture: true, passive: true });
+    });
+  }
+
+  function boot() {
+    ensureGitVersionLabel();
+    hookMenuScroll();
+    postToShell("jobsdocs:layout-change", "boot");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+
+  window.addEventListener("load", boot);
+  window.addEventListener("resize", function () {
+    boot();
+    postToShell("jobsdocs:layout-change", "resize");
+  });
+
+  window.addEventListener("orientationchange", function () {
+    window.setTimeout(function () {
+      boot();
+      postToShell("jobsdocs:layout-change", "orientationchange");
+    }, 180);
+
+    window.setTimeout(function () {
+      boot();
+      postToShell("jobsdocs:layout-change", "orientationchange-late");
+    }, 420);
+  });
+
+  hookUserActionUnlock();
+})();
+</script>
+<!-- /jobsdocs-v12-runtime -->
+EOF
+
+    log "Git Version: $jobsdocs_commit"
+}
+# jobsdocs-v12-runtime-end
+
+
+
+
+
+
+
+
+# jobsdocs-v16-panel-focus-runtime-start
+ensure_jobsdocs_v16_panel_focus_runtime() {
+    cat >> "$BODY_INJECTION_FILE" <<'EOF'
+
+<!-- jobsdocs-v16-panel-focus-runtime -->
+<script>
+(function () {
+  var lastNotifyAt = 0;
+  var shield = null;
+
+  function postToParent(type, reason) {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: type, reason: reason || type }, window.location.origin);
+      }
+    } catch (error) {}
+  }
+
+  function directParentPlay(reason) {
+    try {
+      if (window.parent && window.parent !== window && typeof window.parent.JobsDocsTryPlayMusic === "function") {
+        window.parent.JobsDocsTryPlayMusic("iframe:" + reason, true);
+      }
+    } catch (error) {}
+  }
+
+  function unlockMusic(reason, force) {
+    var now = Date.now();
+    if (!force && now - lastNotifyAt < 100) return;
+    lastNotifyAt = now;
+
+    directParentPlay(reason);
+    postToParent("jobsdocs:any-user-action", reason);
+    postToParent("jobsdocs:unlock-music", reason);
+  }
+
+  function menuControl() {
+    return document.getElementById("menu-control");
+  }
+
+  function tocControl() {
+    return document.getElementById("toc-control");
+  }
+
+  function menuButton() {
+    return document.querySelector('label[for="menu-control"]');
+  }
+
+  function tocButton() {
+    return document.querySelector('label[for="toc-control"]');
+  }
+
+  function isLeftOpen() {
+    var control = menuControl();
+    return !!(control && control.checked);
+  }
+
+  function isRightOpen() {
+    var control = tocControl();
+    return !!(control && control.checked);
+  }
+
+  function activePanel() {
+    if (isLeftOpen()) return document.querySelector(".book-menu");
+    if (isRightOpen()) return document.querySelector(".book-toc");
+    return null;
+  }
+
+  function normalizeTarget(target) {
+    if (!target) return null;
+    if (target.nodeType !== 1) return target.parentElement;
+    return target;
+  }
+
+  function isInsideActivePanel(target) {
+    target = normalizeTarget(target);
+    var panel = activePanel();
+    return !!(target && panel && panel.contains(target));
+  }
+
+  function isHeaderControl(target) {
+    target = normalizeTarget(target);
+    return !!(target && target.closest && target.closest('label[for="menu-control"], label[for="toc-control"]'));
+  }
+
+  function ensureShield() {
+    if (shield && shield.parentNode) return shield;
+
+    shield = document.createElement("div");
+    shield.className = "jobs-panel-touch-shield";
+    shield.setAttribute("aria-hidden", "true");
+
+    ["click", "pointerdown", "touchstart", "wheel"].forEach(function (eventName) {
+      shield.addEventListener(eventName, function (event) {
+        unlockMusic("shield:" + eventName, true);
+        closePanels("shield-close");
+
+        if (event.cancelable) event.preventDefault();
+        event.stopPropagation();
+      }, { capture: true, passive: eventName !== "touchstart" && eventName !== "wheel" });
+    });
+
+    document.body.appendChild(shield);
+    return shield;
+  }
+
+  function removeShield() {
+    if (shield && shield.parentNode) shield.parentNode.removeChild(shield);
+  }
+
+  function focusPanel() {
+    var panel = activePanel();
+    if (!panel) return;
+
+    if (!panel.hasAttribute("tabindex")) panel.setAttribute("tabindex", "-1");
+
+    try {
+      panel.focus({ preventScroll: true });
+    } catch (error) {
+      try { panel.focus(); } catch (_) {}
+    }
+  }
+
+  function syncPanelState() {
+    var leftOpen = isLeftOpen();
+    var rightOpen = isRightOpen();
+    var anyOpen = leftOpen || rightOpen;
+
+    document.documentElement.classList.toggle("jobs-panel-open", anyOpen);
+    document.body.classList.toggle("jobs-panel-open", anyOpen);
+    document.documentElement.classList.toggle("jobs-left-panel-open", leftOpen);
+    document.body.classList.toggle("jobs-left-panel-open", leftOpen);
+    document.documentElement.classList.toggle("jobs-right-panel-open", rightOpen);
+    document.body.classList.toggle("jobs-right-panel-open", rightOpen);
+
+    if (anyOpen) {
+      ensureShield();
+      window.setTimeout(focusPanel, 0);
+    } else {
+      removeShield();
+    }
+
+    postToParent("jobsdocs:layout-change", anyOpen ? "panel-open" : "panel-close");
+  }
+
+  function closePanels(reason) {
+    var left = menuControl();
+    var right = tocControl();
+
+    if (left) left.checked = false;
+    if (right) right.checked = false;
+
+    syncPanelState();
+    unlockMusic(reason || "close-panels", true);
+  }
+
+  function togglePanel(which, reason) {
+    var left = menuControl();
+    var right = tocControl();
+
+    if (which === "left") {
+      if (!left) return;
+      var next = !left.checked;
+      left.checked = next;
+      if (right) right.checked = false;
+    }
+
+    if (which === "right") {
+      if (!right) return;
+      var nextRight = !right.checked;
+      right.checked = nextRight;
+      if (left) left.checked = false;
+    }
+
+    syncPanelState();
+    unlockMusic(reason || ("toggle-" + which), true);
+  }
+
+  function hookHeaderButtons() {
+    var leftButton = menuButton();
+    var rightButton = tocButton();
+
+    if (leftButton && !leftButton.__jobsDocsV16ManualToggleHooked) {
+      leftButton.__jobsDocsV16ManualToggleHooked = true;
+      leftButton.setAttribute("role", "button");
+      leftButton.setAttribute("tabindex", "0");
+
+      leftButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        togglePanel("left", "left-header-click");
+      }, true);
+
+      leftButton.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          event.stopPropagation();
+          togglePanel("left", "left-header-key");
+        }
+      }, true);
+    }
+
+    if (rightButton && !rightButton.__jobsDocsV16ManualToggleHooked) {
+      rightButton.__jobsDocsV16ManualToggleHooked = true;
+      rightButton.setAttribute("role", "button");
+      rightButton.setAttribute("tabindex", "0");
+
+      rightButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        togglePanel("right", "right-header-click");
+      }, true);
+
+      rightButton.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          event.stopPropagation();
+          togglePanel("right", "right-header-key");
+        }
+      }, true);
+    }
+  }
+
+  function hookPanelScroll() {
+    document.querySelectorAll(".book-menu, .book-menu-content, .book-toc, .book-toc-content, .book-toc nav").forEach(function (element) {
+      if (element.__jobsDocsV16PanelScrollHooked) return;
+
+      element.__jobsDocsV16PanelScrollHooked = true;
+      element.addEventListener("scroll", function () {
+        unlockMusic("panel-scroll", true);
+        postToParent("jobsdocs:panel-scroll", "panel-scroll");
+      }, { passive: true });
+    });
+  }
+
+  function backgroundGuard(event) {
+    var strong = /touchstart|pointerdown|mousedown|click|keydown/.test(event.type);
+    unlockMusic(event.type, strong);
+
+    if (!isLeftOpen() && !isRightOpen()) return;
+    if (isInsideActivePanel(event.target) || isHeaderControl(event.target)) return;
+
+    closePanels("outside-" + event.type);
+
+    if (event.cancelable) event.preventDefault();
+    event.stopPropagation();
+  }
+
+  function bindBackgroundGuards() {
+    if (document.__jobsDocsV16BackgroundGuardsHooked) return;
+    document.__jobsDocsV16BackgroundGuardsHooked = true;
+
+    ["pointerdown", "touchstart", "click", "wheel", "touchmove"].forEach(function (eventName) {
+      document.addEventListener(eventName, backgroundGuard, { capture: true, passive: false });
+    });
+  }
+
+  function bindAnyAction(target, label) {
+    if (!target || target.__jobsDocsV16AnyActionHooked) return;
+    target.__jobsDocsV16AnyActionHooked = true;
+
+    ["click", "pointerdown", "pointerup", "touchstart", "touchmove", "touchend", "mousedown", "mouseup", "keydown", "wheel", "scroll"].forEach(function (eventName) {
+      target.addEventListener(eventName, function () {
+        var strong = /touchstart|pointerdown|mousedown|click|keydown/.test(eventName);
+        unlockMusic(label + ":" + eventName, strong);
+      }, { capture: true, passive: true });
+    });
+  }
+
+  function boot() {
+    hookHeaderButtons();
+    hookPanelScroll();
+    bindBackgroundGuards();
+
+    bindAnyAction(window, "window");
+    bindAnyAction(document, "document");
+    bindAnyAction(document.documentElement, "html");
+    bindAnyAction(document.body, "body");
+
+    document.querySelectorAll(".book-page, main, .book-menu, .book-menu-content, .book-toc, .book-toc-content").forEach(function (element) {
+      bindAnyAction(element, element.className || element.tagName || "element");
+    });
+
+    syncPanelState();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+
+  window.addEventListener("load", boot);
+  window.addEventListener("pageshow", boot);
+  window.addEventListener("resize", function () {
+    boot();
+    postToParent("jobsdocs:layout-change", "resize");
+  });
+
+  window.addEventListener("orientationchange", function () {
+    window.setTimeout(boot, 180);
+    window.setTimeout(boot, 420);
+  });
+})();
+</script>
+<!-- /jobsdocs-v16-panel-focus-runtime -->
+EOF
+}
+# jobsdocs-v16-panel-focus-runtime-end
+
 # 脚本主流程。
 main() {
     # 1. 检查依赖命令。
@@ -1338,6 +1798,8 @@ main() {
     clean_content_dir
     clean_obsolete_posts_dir
     ensure_body_injection
+    ensure_jobsdocs_v12_runtime
+    ensure_jobsdocs_v16_panel_focus_runtime
 
     # 4. 创建 docs 根首页，并同步站点静态资源。
     ensure_docs_index

@@ -232,8 +232,9 @@
   </style>
 
 
-<style id="jobs-audio-v10-style">
-  #jobs-audio-player.jobs-audio-player {
+<style id="jobs-audio-v12-style">
+  #jobs-audio-player.jobs-audio-player,
+  .jobs-audio-player {
     position: fixed !important;
     z-index: 620 !important;
     right: auto !important;
@@ -251,14 +252,14 @@
     pointer-events: auto !important;
   }
 
-  #jobs-audio-player.jobs-audio-player.is-initial-positioning,
-  #jobs-audio-player.jobs-audio-player:not(.is-layout-animated) {
+  #jobs-audio-player.is-initial-positioning,
+  #jobs-audio-player:not(.is-layout-animated) {
     transition: none !important;
   }
 
-  #jobs-audio-player.jobs-audio-player.is-layout-animated.is-docked,
-  #jobs-audio-player.jobs-audio-player.is-layout-animated.is-floating,
-  #jobs-audio-player.jobs-audio-player.is-layout-animated.is-mobile-default {
+  #jobs-audio-player.is-layout-animated.is-docked,
+  #jobs-audio-player.is-layout-animated.is-floating,
+  #jobs-audio-player.is-layout-animated.is-mobile-default {
     transition:
       left 0.22s ease,
       top 0.22s ease,
@@ -267,18 +268,20 @@
       transform 0.22s ease !important;
   }
 
-  #jobs-audio-player.jobs-audio-player.is-dragging {
+  #jobs-audio-player.is-dragging {
     transition: none !important;
     cursor: grabbing;
   }
 
-  #jobs-audio-player .jobs-audio-head {
+  #jobs-audio-player .jobs-audio-head,
+  #jobs-audio-player .jobs-audio-title {
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
   }
 
-  #jobs-audio-player.is-dragging .jobs-audio-head {
+  #jobs-audio-player.is-dragging .jobs-audio-head,
+  #jobs-audio-player.is-dragging .jobs-audio-title {
     cursor: grabbing;
   }
 
@@ -532,16 +535,21 @@
       tryPlay();
     })();
   </script>
+  <!-- jobsdocs-v12-player-layout -->
   <script>
     (function () {
       var frame = document.getElementById("jobs-docs-frame");
-      var player = document.getElementById("jobs-audio-player");
+      var player = document.getElementById("jobs-audio-player") || document.querySelector(".jobs-audio-player");
 
       if (!frame || !player) {
         return;
       }
 
-      var handle = player.querySelector(".jobs-audio-head") || player;
+      if (!player.id) {
+        player.id = "jobs-audio-player";
+      }
+
+      var handle = player.querySelector(".jobs-audio-head") || player.querySelector(".jobs-audio-title") || player;
       var margin = 12;
       var gap = 12;
       var mode = "docked";
@@ -743,8 +751,8 @@
 
       function clampFloating(x, y, width, height) {
         var viewport = visualViewportRect();
-        var maxX = Math.max(margin + viewport.left, viewport.left + viewport.width - width - margin);
-        var maxY = Math.max(margin + viewport.top, viewport.top + viewport.height - height - margin);
+        var maxX = Math.max(viewport.left + margin, viewport.left + viewport.width - width - margin);
+        var maxY = Math.max(viewport.top + margin, viewport.top + viewport.height - height - margin);
 
         return {
           x: Math.min(Math.max(x, viewport.left + margin), maxX),
@@ -777,28 +785,6 @@
         markReady();
       }
 
-      function applyFloatingPosition(x, y, width) {
-        if (width) {
-          player.style.width = Math.round(width) + "px";
-        }
-
-        var rect = player.getBoundingClientRect();
-        var next = clampFloating(x, y, rect.width, rect.height);
-
-        player.style.left = Math.round(next.x) + "px";
-        player.style.top = Math.round(next.y) + "px";
-        player.style.right = "auto";
-        player.style.bottom = "auto";
-
-        floatingPosition = {
-          x: next.x,
-          y: next.y,
-          width: rect.width
-        };
-
-        markReady();
-      }
-
       function applyMobileDefaultPosition() {
         mode = "mobile-default";
         player.classList.add("is-mobile-default");
@@ -822,27 +808,25 @@
         markReady();
       }
 
-      function dockFallbackNearMenu() {
-        var menuRect = getMenuRect();
-        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-
-        player.classList.add("is-docked");
-        player.classList.remove("is-floating", "is-mobile-default", "is-dragging", "is-dock-candidate");
-
-        if (menuRect) {
-          var width = Math.max(280, Math.min(menuRect.width - 36, 380));
+      function applyFloatingPosition(x, y, width) {
+        if (width) {
           player.style.width = Math.round(width) + "px";
-          player.style.left = Math.round(menuRect.left + 18) + "px";
-          player.style.top = Math.round(menuRect.top + 124) + "px";
-        } else {
-          var fallbackWidth = floatingWidth();
-          player.style.width = Math.round(fallbackWidth) + "px";
-          player.style.left = Math.round((viewportWidth - fallbackWidth) / 2) + "px";
-          player.style.top = "92px";
         }
 
+        var rect = player.getBoundingClientRect();
+        var next = clampFloating(x, y, rect.width, rect.height);
+
+        player.style.left = Math.round(next.x) + "px";
+        player.style.top = Math.round(next.y) + "px";
         player.style.right = "auto";
         player.style.bottom = "auto";
+
+        floatingPosition = {
+          x: next.x,
+          y: next.y,
+          width: rect.width
+        };
+
         markReady();
       }
 
@@ -853,10 +837,7 @@
           window.setTimeout(function () {
             dockPlayer(true);
           }, initialDockTries < 10 ? 50 : 120);
-          return;
         }
-
-        dockFallbackNearMenu();
       }
 
       function dockPlayer(isInitial) {
@@ -879,10 +860,7 @@
           if (!slot) {
             if (isInitial && !initialReady) {
               retryInitialDock();
-              return;
             }
-
-            dockFallbackNearMenu();
             return;
           }
 
@@ -900,7 +878,7 @@
         var nextWidth = width || Math.max(280, Math.min(rect.width || floatingWidth(), floatingWidth()));
         var viewport = visualViewportRect();
         var nextX = typeof x === "number" ? x : viewport.left + viewport.width - nextWidth - margin;
-        var nextY = typeof y === "number" ? y : Math.max(viewport.top + 92, viewport.top + margin);
+        var nextY = typeof y === "number" ? y : viewport.top + viewport.height - rect.height - margin;
 
         applyFloatingPosition(nextX, nextY, nextWidth);
       }
@@ -937,23 +915,6 @@
         );
       }
 
-      function syncDockedFromMenu() {
-        if (isMobileViewport() && !userDragged) {
-          applyMobileDefaultPosition();
-          return;
-        }
-
-        if (mode !== "docked") {
-          return;
-        }
-
-        var slot = getDockSlot();
-
-        if (slot) {
-          applyDockPosition(slot);
-        }
-      }
-
       function syncLayoutSoon(reason) {
         if (reason === "content-scroll") {
           return;
@@ -973,7 +934,11 @@
           }
 
           if (mode === "docked") {
-            syncDockedFromMenu();
+            var slot = getDockSlot();
+
+            if (slot) {
+              applyDockPosition(slot);
+            }
             return;
           }
 
@@ -988,11 +953,11 @@
       }
 
       function hookScrollTarget(target) {
-        if (!target || target.__jobsAudioMenuScrollHooked) {
+        if (!target || target.__jobsAudioV12MenuScrollHooked) {
           return;
         }
 
-        target.__jobsAudioMenuScrollHooked = true;
+        target.__jobsAudioV12MenuScrollHooked = true;
 
         target.addEventListener("scroll", function () {
           syncLayoutSoon("menu-scroll");
@@ -1013,27 +978,6 @@
           hookScrollTarget(doc.querySelector(".book-menu"));
           hookScrollTarget(doc.querySelector(".book-menu-content"));
         }
-
-        var control = doc.getElementById("menu-control");
-
-        if (control && !control.__jobsAudioDockHooked) {
-          control.__jobsAudioDockHooked = true;
-
-          control.addEventListener("change", function () {
-            window.setTimeout(function () {
-              if (isMobileViewport() && !userDragged) {
-                applyMobileDefaultPosition();
-                return;
-              }
-
-              if (mode === "docked") {
-                dockPlayer(false);
-              } else {
-                syncLayoutSoon("menu-toggle");
-              }
-            }, 100);
-          });
-        }
       }
 
       function startDrag(event) {
@@ -1048,7 +992,6 @@
         }
 
         var rect = player.getBoundingClientRect();
-
         userDragged = true;
 
         dragState = {
@@ -1064,7 +1007,6 @@
         player.classList.add("is-dragging");
         player.classList.remove("is-docked", "is-mobile-default", "is-dock-candidate");
         setDockSpace(false);
-
         player.style.width = Math.round(rect.width) + "px";
 
         try {
@@ -1136,9 +1078,7 @@
 
         window.setTimeout(function () {
           hookFrameMenu();
-          if (mode === "docked" || mode === "mobile-default") {
-            dockPlayer(!initialReady);
-          }
+          dockPlayer(!initialReady);
         }, 180);
       });
 
@@ -1157,23 +1097,13 @@
         }
 
         if (event.data.type === "jobsdocs:layout-change") {
-          if (event.data.reason === "scroll") {
-            return;
-          }
-
           syncLayoutSoon(event.data.reason || "layout-change");
         }
       });
 
       function viewportChanged() {
-        if (window.visualViewport) {
-          window.requestAnimationFrame(function () {
-            if (isMobileViewport() && !userDragged) {
-              applyMobileDefaultPosition();
-            } else {
-              dockPlayer(false);
-            }
-          });
+        if (isMobileViewport() && !userDragged) {
+          applyMobileDefaultPosition();
         } else {
           dockPlayer(false);
         }
@@ -1217,6 +1147,7 @@
       }, 180);
     })();
   </script>
+  <!-- /jobsdocs-v12-player-layout -->
 
 
   <!-- v10-audio-autoplay-restore -->
@@ -1422,6 +1353,391 @@
     })();
   </script>
   <!-- /v10-audio-autoplay-restore -->
+
+
+  <!-- v11-any-user-action-unlock-music -->
+  <script>
+    (function () {
+      var eventNames = [
+        "click",
+        "dblclick",
+        "pointerdown",
+        "pointerup",
+        "pointermove",
+        "touchstart",
+        "touchmove",
+        "touchend",
+        "mousedown",
+        "mouseup",
+        "mousemove",
+        "keydown",
+        "wheel",
+        "scroll"
+      ];
+
+      var lastTryAt = 0;
+
+      function getAudio() {
+        var player = document.getElementById("jobs-audio-player");
+
+        if (!player) {
+          return null;
+        }
+
+        return player.querySelector("audio");
+      }
+
+      function markPlaying() {
+        var player = document.getElementById("jobs-audio-player");
+
+        if (!player) {
+          return;
+        }
+
+        player.classList.add("is-playing");
+        player.classList.remove("is-blocked", "is-waiting-gesture", "is-autoplay-trying");
+      }
+
+      function markBlocked() {
+        var player = document.getElementById("jobs-audio-player");
+
+        if (!player) {
+          return;
+        }
+
+        player.classList.add("is-blocked");
+        player.classList.remove("is-playing", "is-autoplay-trying");
+      }
+
+      function unlockMusic(reason, force) {
+        var now = Date.now();
+
+        if (!force && now - lastTryAt < 260) {
+          return;
+        }
+
+        lastTryAt = now;
+
+        if (typeof window.JobsDocsTryPlayMusic === "function") {
+          window.JobsDocsTryPlayMusic("any-user-action:" + reason);
+          return;
+        }
+
+        var audio = getAudio();
+
+        if (!audio) {
+          return;
+        }
+
+        try {
+          audio.autoplay = true;
+          audio.preload = "auto";
+          audio.muted = false;
+          audio.defaultMuted = false;
+          audio.volume = 1;
+          audio.setAttribute("autoplay", "");
+          audio.setAttribute("preload", "auto");
+          audio.setAttribute("playsinline", "");
+          audio.setAttribute("webkit-playsinline", "");
+          audio.removeAttribute("muted");
+
+          if (audio.readyState === 0) {
+            audio.load();
+          }
+        } catch (error) {}
+
+        var result;
+
+        try {
+          result = audio.play();
+        } catch (error) {
+          markBlocked();
+          return;
+        }
+
+        if (result && typeof result.then === "function") {
+          result.then(markPlaying).catch(markBlocked);
+        } else {
+          window.setTimeout(function () {
+            if (audio.paused) {
+              markBlocked();
+            } else {
+              markPlaying();
+            }
+          }, 80);
+        }
+      }
+
+      function bindTarget(target, label) {
+        if (!target || target.__jobsDocsAnyActionUnlockHooked) {
+          return;
+        }
+
+        target.__jobsDocsAnyActionUnlockHooked = true;
+
+        eventNames.forEach(function (eventName) {
+          target.addEventListener(eventName, function () {
+            unlockMusic(label + ":" + eventName, eventName === "touchstart" || eventName === "pointerdown" || eventName === "click");
+          }, {
+            capture: true,
+            passive: true
+          });
+        });
+      }
+
+      function bindFrame() {
+        var frame = document.getElementById("jobs-docs-frame");
+
+        if (!frame) {
+          return;
+        }
+
+        bindTarget(frame, "iframe-element");
+
+        try {
+          bindTarget(frame.contentWindow, "iframe-window");
+          bindTarget(frame.contentDocument, "iframe-document");
+          bindTarget(frame.contentDocument && frame.contentDocument.documentElement, "iframe-html");
+          bindTarget(frame.contentDocument && frame.contentDocument.body, "iframe-body");
+        } catch (error) {}
+      }
+
+      function boot() {
+        bindTarget(window, "window");
+        bindTarget(document, "document");
+        bindTarget(document.documentElement, "html");
+        bindTarget(document.body, "body");
+        bindFrame();
+
+        unlockMusic("boot", true);
+
+        window.setTimeout(function () {
+          unlockMusic("boot-120", true);
+        }, 120);
+
+        window.setTimeout(function () {
+          unlockMusic("boot-800", true);
+        }, 800);
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", boot);
+      } else {
+        boot();
+      }
+
+      window.addEventListener("load", function () {
+        bindFrame();
+        unlockMusic("load", true);
+      });
+
+      window.addEventListener("pageshow", function () {
+        bindFrame();
+        unlockMusic("pageshow", true);
+      });
+
+      window.addEventListener("message", function (event) {
+        if (event.origin && event.origin !== "null" && event.origin !== window.location.origin) {
+          return;
+        }
+
+        if (
+          event.data &&
+          (
+            event.data.type === "jobsdocs:unlock-music" ||
+            event.data.type === "jobsdocs-user-gesture" ||
+            event.data.type === "jobsdocs:any-user-action"
+          )
+        ) {
+          unlockMusic(event.data.reason || event.data.type, true);
+        }
+      });
+    })();
+  </script>
+  <!-- /v11-any-user-action-unlock-music -->
+
+
+<!-- jobsdocs-v16-force-audio-on-action -->
+<script>
+(function () {
+  var lastTryAt = 0;
+
+  function getPlayer() {
+    return document.getElementById("jobs-audio-player") || document.querySelector(".jobs-audio-player");
+  }
+
+  function getAudio() {
+    var player = getPlayer();
+    return player ? player.querySelector("audio") : null;
+  }
+
+  function markPlaying() {
+    var player = getPlayer();
+    if (!player) return;
+    player.classList.add("is-playing");
+    player.classList.remove("is-blocked", "is-waiting-gesture", "is-autoplay-trying");
+  }
+
+  function markBlocked(reason) {
+    var player = getPlayer();
+    if (!player) return;
+    player.classList.add("is-blocked");
+    player.classList.remove("is-playing", "is-autoplay-trying");
+    player.setAttribute("data-last-blocked-reason", reason || "");
+  }
+
+  function tryPlay(reason, force) {
+    var now = Date.now();
+    if (!force && now - lastTryAt < 120) return;
+    lastTryAt = now;
+
+    var player = getPlayer();
+    var audio = getAudio();
+    if (!audio) return;
+
+    if (player) {
+      player.classList.add("is-autoplay-trying");
+      player.classList.remove("is-waiting-gesture");
+      player.setAttribute("data-last-play-reason", reason || "");
+    }
+
+    try {
+      audio.autoplay = true;
+      audio.preload = "auto";
+      audio.muted = false;
+      audio.defaultMuted = false;
+      audio.volume = 1;
+      audio.setAttribute("autoplay", "");
+      audio.setAttribute("preload", "auto");
+      audio.setAttribute("playsinline", "");
+      audio.setAttribute("webkit-playsinline", "");
+      audio.removeAttribute("muted");
+      if (audio.readyState === 0) audio.load();
+    } catch (error) {}
+
+    if (!audio.paused && !audio.ended) {
+      markPlaying();
+      return;
+    }
+
+    var result;
+    try {
+      result = audio.play();
+    } catch (error) {
+      markBlocked(reason);
+      return;
+    }
+
+    if (result && typeof result.then === "function") {
+      result.then(markPlaying).catch(function () {
+        markBlocked(reason);
+      });
+    } else {
+      window.setTimeout(function () {
+        audio.paused ? markBlocked(reason) : markPlaying();
+      }, 80);
+    }
+  }
+
+  function bindTarget(target, label) {
+    if (!target || target.__jobsDocsV16AudioHooked) return;
+    target.__jobsDocsV16AudioHooked = true;
+
+    [
+      "click",
+      "dblclick",
+      "pointerdown",
+      "pointerup",
+      "touchstart",
+      "touchmove",
+      "touchend",
+      "mousedown",
+      "mouseup",
+      "keydown",
+      "wheel",
+      "scroll"
+    ].forEach(function (eventName) {
+      target.addEventListener(eventName, function () {
+        var strong = /click|pointerdown|touchstart|mousedown|keydown/.test(eventName);
+        tryPlay(label + ":" + eventName, strong);
+      }, { capture: true, passive: true });
+    });
+  }
+
+  function bindFrame() {
+    var frame = document.getElementById("jobs-docs-frame");
+    if (!frame) return;
+
+    bindTarget(frame, "iframe-element");
+
+    try {
+      bindTarget(frame.contentWindow, "iframe-window");
+      bindTarget(frame.contentDocument, "iframe-document");
+      bindTarget(frame.contentDocument && frame.contentDocument.documentElement, "iframe-html");
+      bindTarget(frame.contentDocument && frame.contentDocument.body, "iframe-body");
+
+      var doc = frame.contentDocument;
+      if (doc) {
+        [".book-page", ".book-menu", ".book-menu-content", ".book-toc", ".book-toc-content", "main", "body"].forEach(function (selector) {
+          doc.querySelectorAll(selector).forEach(function (el) {
+            bindTarget(el, "iframe:" + selector);
+          });
+        });
+      }
+    } catch (error) {}
+  }
+
+  function boot() {
+    bindTarget(window, "window");
+    bindTarget(document, "document");
+    bindTarget(document.documentElement, "html");
+    bindTarget(document.body, "body");
+    bindFrame();
+
+    tryPlay("boot", true);
+    window.setTimeout(function () { bindFrame(); tryPlay("boot-120", true); }, 120);
+    window.setTimeout(function () { bindFrame(); tryPlay("boot-800", true); }, 800);
+  }
+
+  window.JobsDocsTryPlayMusic = tryPlay;
+  window.JobsDocsBindMusicEvents = bindFrame;
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+
+  window.addEventListener("load", function () {
+    bindFrame();
+    tryPlay("load", true);
+  });
+
+  window.addEventListener("pageshow", function () {
+    bindFrame();
+    tryPlay("pageshow", true);
+  });
+
+  window.addEventListener("message", function (event) {
+    if (event.origin && event.origin !== "null" && event.origin !== window.location.origin) return;
+    if (!event.data) return;
+
+    if (
+      event.data.type === "jobsdocs:unlock-music" ||
+      event.data.type === "jobsdocs:any-user-action" ||
+      event.data.type === "jobsdocs:menu-scroll" ||
+      event.data.type === "jobsdocs:panel-scroll"
+    ) {
+      tryPlay(event.data.reason || event.data.type, true);
+    }
+
+    if (event.data.type === "jobsdocs:layout-change") {
+      bindFrame();
+    }
+  });
+})();
+</script>
+<!-- /jobsdocs-v16-force-audio-on-action -->
 
 </body>
 </html>
