@@ -1,5 +1,7 @@
 # Git 子模块使用
 
+![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
+
 ![image-20240507183628777](./assets/image-20240507183628777.png)
 
 ```bash

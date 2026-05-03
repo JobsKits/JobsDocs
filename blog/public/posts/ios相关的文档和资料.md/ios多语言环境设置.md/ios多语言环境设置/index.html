@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>iOS 多语言环境设置 | Jobs Docs</title>
+<meta name="keywords" content="Docs">
+<meta name="description" content="一、目标 App语言跟随当前手机系统语言 用户主动切换当前App语言，即：App语言不同于手机系统语言 ## 二、参考资料 3分钟实现iOS语言本地化/国际化（图文详解） iOS App内语言切换（国际化） 在iOS App内优雅的动态切换语言 iOS国际化 （多语言） Demos-LanguageSettingsDemo iOS - 多语言本地化 ## 三">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abb7947e757589ea1d769bb54efb095f56e1ef13fdade0fe3e661c4d81b59898.css" integrity="sha256-q7eUfnV1ieoddpu1TvsJX1bh7xP9reD&#43;PmYcTYG1mJg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Jobs Docs (Alt + H)">Jobs Docs</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      iOS 多语言环境设置
+    </h1>
+    <div class="post-meta"><span title='2026-01-24 16:10:44 +0700 +0700'>January 24, 2026</span>&nbsp;·&nbsp;<span>4 min</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><div class="jobs-toc">
+  <details open>
+    <summary>Table of Contents</summary>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一目标">一、目标</a></li>
+    <li><a href="#二参考资料">二、参考资料</a></li>
+    <li><a href="#三特别说明">三、特别说明</a></li>
+    <li><a href="#四配置流程">四、配置流程</a>
+      <ul>
+        <li><a href="#1xcode-中的配置">1、Xcode 中的配置</a></li>
+        <li><a href="#2语言代码">2、语言代码</a></li>
+        <li><a href="#3应用名称本地化--国际化infopliststrings">3、应用名称本地化 / 国际化（<code>InfoPlist.strings</code>）</a></li>
+        <li><a href="#4代码中字符串的本地化localizablestrings">4、代码中字符串的本地化（<code>Localizable.strings</code>）</a></li>
+        <li><a href="#5图片本地化">5、图片本地化</a></li>
+        <li><a href="#6第三方支援">6、第三方支援</a></li>
+        <li><a href="#7相关调用">7、相关调用</a></li>
+      </ul>
+    </li>
+    <li><a href="#五总结">五、总结</a></li>
+  </ul>
+</nav>
+  </details>
+</div>
+<h2 id="一目标">一、目标<a hidden class="anchor" aria-hidden="true" href="#一目标">#</a></h2>
+<ul>
+<li><strong>App</strong>语言跟随当前手机系统语言</li>
+<li>用户主动切换当前App语言，即：<strong>App</strong>语言不同于手机系统语言</li>
+</ul>
+<h2 id="二参考资料">二、参考资料<a hidden class="anchor" aria-hidden="true" href="#二参考资料">#</a></h2>
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/1143302"><strong>3分钟实现iOS语言本地化/国际化（图文详解）</strong></a></li>
+<li><a href="https://blog.csdn.net/shanghaibao123/article/details/107323395"><strong>iOS App内语言切换（国际化）</strong></a></li>
+<li><a href="https://www.jianshu.com/p/b4288e5e6e4c"><strong>在iOS App内优雅的动态切换语言</strong></a></li>
+<li><a href="https://juejin.cn/post/6966232778987798558"><strong>iOS国际化 （多语言）</strong></a></li>
+<li><a href="https://github.com/DarkAngel7/Demos-LanguageSettingsDemo/"><strong>Demos-LanguageSettingsDemo</strong></a></li>
+<li><a href="https://devma.cn/blog/2016/05/27/ios-duo-yu-yan-ben-di-hua/"><strong>iOS - 多语言本地化</strong></a></li>
+</ul>
+<h2 id="三特别说明">三、特别说明<a hidden class="anchor" aria-hidden="true" href="#三特别说明">#</a></h2>
+<ul>
+<li>
+<p>经实践证明，如果配置多语言化，那么<strong>Xcode</strong>将会刷新<code>Info.plist</code>，导致里面的注释消失。正确的做法是，对<code>Info.plist</code>进行备份，随时进行替换</p>
+</li>
+<li>
+<p>工程项目的<code>Info.plist</code>文件是对整个工程的配置说明，系统固定读取，所以必须在工程项目根目录的同名文件夹下。否则项目启动会出问题</p>
+<p><img alt="image-20240706113027884" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240706113027884.png"></p>
+</li>
+</ul>
+<h2 id="四配置流程">四、配置流程<a hidden class="anchor" aria-hidden="true" href="#四配置流程">#</a></h2>
+<h3 id="1xcode-中的配置">1、Xcode 中的配置<a hidden class="anchor" aria-hidden="true" href="#1xcode-中的配置">#</a></h3>
+<ul>
+<li>
+<p>选中 <strong>project</strong> ➤ <strong>Info</strong> ➤ <strong>Localizations</strong>，然后点击&quot;+&quot;，添加需要国际化 / 本地化的语言</p>
+<ul>
+<li>
+<p>默认勾选<code>Use Base Internationalization</code>
+<img alt="image-20240701112537304" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701112537304.png"></p>
+</li>
+<li>
+<p>如果不勾选<code>Use Base Internationalization</code>
+<img alt="image-20240701112613068" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701112613068.png"></p>
+</li>
+<li>
+<p>添加语言：简体中文 / 标准英语 / 菲律宾他加禄语言
+<img alt="image-20240701114202890" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701114202890.png"></p>
+</li>
+<li>
+<p><code>zh-Hans</code>和<code>zh-Hant</code>是简体中文和繁体中文的缩写。这是标准的缩写。<strong>H可大写也可小写</strong>。</p>
+</li>
+<li>
+<p>如果弹出如下对话框，直接点击finish
+<img alt="image-20240701112459992" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701112459992.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2语言代码">2、语言代码<a hidden class="anchor" aria-hidden="true" href="#2语言代码">#</a></h3>
+<ul>
+<li>
+<p>同一种语言，因为方言文化等历史原因，会对应多个语言代码</p>
+</li>
+<li>
+<p>英语：这些代码通常由<code>ISO 639-1</code>语言代码（<code>en</code>）和 <code>ISO 3166-1</code>国家代码（如<code>US</code>、<code>GB</code>）组合而成，用于指定不同地区的英语变体</p>
+<ul>
+<li><strong>en</strong>：英语（通用）</li>
+<li><strong>en-US</strong>：美国英语</li>
+<li><strong>en-GB</strong>：英国英语</li>
+<li><strong>en-AU</strong>：澳大利亚英语</li>
+<li><strong>en-CA</strong>：加拿大英语</li>
+<li><strong>en-NZ</strong>：新西兰英语</li>
+<li><strong>en-IE</strong>：爱尔兰英语</li>
+<li><strong>en-ZA</strong>：南非英语</li>
+<li><strong>en-IN</strong>：印度英语</li>
+<li><strong>en-SG</strong>：新加坡英语</li>
+<li><strong>en-PH</strong>：菲律宾英语</li>
+<li><strong>en-NG</strong>：尼日利亚英语</li>
+<li><strong>en-ZW</strong>：津巴布韦英语</li>
+</ul>
+</li>
+<li>
+<p>汉语：这些代码<code>ISO 639-1</code>由语言代码（<code>zh</code>）和<code>ISO 15924</code>书写系统代码（如<code>Hans</code>、<code>Hant</code>）或<code>ISO 3166-1</code>国家代码（如<code>CN</code>、<code>SG</code>）组合而成</p>
+<ul>
+<li><strong>zh</strong>：中文（通用）</li>
+<li><strong>zh-Hans</strong>：简体中文</li>
+<li><strong>zh-Hant</strong>：繁体中文</li>
+<li><strong>zh-CN</strong>：中国大陆的简体中文</li>
+<li><strong>zh-SG</strong>：新加坡的简体中文</li>
+<li><strong>zh-TW</strong>：台湾的繁体中文</li>
+<li><strong>zh-HK</strong>：香港的繁体中文</li>
+<li><strong>zh-MO</strong>：澳门的繁体中文</li>
+</ul>
+</li>
+<li>
+<p>菲律宾语言：这些代码主要是<code>ISO 639-2</code>和<code>ISO 639-3</code>语言代码，用于表示菲律宾的不同语言和方言</p>
+<ul>
+<li>
+<p><strong>fil</strong>：菲律宾语（Filipino），基于他加禄语（Tagalog）</p>
+</li>
+<li>
+<p><strong>tl</strong>：他加禄语（Tagalog），<code>ISO 639-1</code>代码</p>
+</li>
+<li>
+<p><strong>fil-PH</strong>：菲律宾的菲律宾语</p>
+</li>
+<li>
+<p><strong>tl-PH</strong>：菲律宾的他加禄语</p>
+</li>
+<li>
+<p>菲律宾方言：<font color=red><strong>方言的代码通常是独立使用，并不需要加前缀</strong></font></p>
+<ul>
+<li>
+<p><strong>ceb</strong>：宿务语（Cebuano）</p>
+</li>
+<li>
+<p><strong>ilo</strong>：伊洛卡诺语（Ilocano）</p>
+</li>
+<li>
+<p><strong>bik</strong>：比科尔语（Bikol）</p>
+</li>
+<li>
+<p><strong>war</strong>：瓦瑞语（Waray）</p>
+</li>
+<li>
+<p><strong>hil</strong>：希利盖农语（Hiligaynon）</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3应用名称本地化--国际化infopliststrings">3、应用名称本地化 / 国际化（<code>InfoPlist.strings</code>）<a hidden class="anchor" aria-hidden="true" href="#3应用名称本地化--国际化infopliststrings">#</a></h3>
+<ul>
+<li>
+<p>是指同一个<strong>App</strong>的名称，在不同的语言环境下（也就是手机设备的语言设置）显示不同的名称；
+比如，微信在简体中文环境下<strong>App</strong>名称显示为<strong>微信</strong>，在英语环境下显示为<strong>weChat</strong></p>
+<ul>
+<li><font id=创建StringsFile>新建 <strong><code>Strings File</code></strong> 文件</font>
+<img alt="image-20240701124321212" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701124321212.png"></li>
+<li><font color=red><strong>保存的文件名<code>InfoPlist.strings</code>为系统所需，不可更改</strong></font>
+<img alt="image-20240701124832755" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701124832755.png"></li>
+<li>新生成的<code>InfoPlist.strings</code>在<u>当前电脑上的实际路径</u>，其实是在<code>en.lproj</code>文件夹下。其中<code>en.lproj</code>和此工程项目的<code>Info.plist </code>处于同一文件层级；
+<img alt="image-20240701132729019" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701132729019.png"></li>
+<li>当删除磁盘上的语言包<code>*.lproj</code>文件夹，项目工程<strong>Xcode</strong>目录索引还有引用，也需要一并删除。在<strong>Xcode</strong>右侧的文件选项卡中，移除勾选。弹出框选择<code>Remove</code>
+<img alt="image-20240701141622517" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701141622517.png"></li>
+<li><font id=Localize color=blue><strong>Localize流程</strong></font>：选中新生成的<code>InfoPlist.strings</code>，在<strong>Xcode</strong>的File inspection（<strong>Xcode</strong>右侧文件检查器）中点击Localize，目的是选择我们需要本地化的语言</li>
+<li>点击Localize后，会弹出一个对话框，展开对话框列表，发现下拉列表所展示的语言正是我们在上面配置的需要国际化的语言，选择我们需要本地化的语言，然后点击对话框的Localize按钮
+<img alt="image-20240701125902632" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701125902632.png">
+<img alt="image-20240701125953191" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701125953191.png"></li>
+<li><font color=red>注意：如果我们没有在 PROJECT 中配置需要国际化的语言（<strong>project</strong> ➤ <strong>Info</strong> ➤ <strong>Localizations</strong>，然后点击&quot;+&quot;），上图下拉列表中将只会出现<code>Base</code>和<code>English</code>选项，English语言是系统默认的语言，其他需要国际化的语言（例如中文简体、法语）必须通过上面的<strong>配置本地化语言</strong>那一步手动添加。</font></li>
+<li>添加了<code>InfoPlist.strings</code>在 <strong>project</strong> ➤ <strong>Info</strong> ➤ <strong>Localizations</strong> 下可以看到有文件被检测到关联：
+<img alt="image-20240701130958012" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701130958012.png"></li>
+<li><font color=red><strong>如果项目曾经有做过过多语言化的处理，则右侧选项卡不会<code>Localize</code>按钮，也不会弹出<code>Do you want to localize this file</code>对话框</strong></font></li>
+<li><font id=在xcode右侧选项卡进行点选><strong>对<code>InfoPlist.strings</code>在 Xcode 右侧选项卡进行点选</strong></font>：
+<code>InfoPlist.strings</code>会化身为一个大的文件夹，下面包含各种语言包的子<code>InfoPlist.strings</code>     <font color=red>点一个加入一个</font>
+<img alt="image-20240701133346486" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701133346486.png"></li>
+</ul>
+</li>
+<li>
+<p>对<code>Info.plist</code>的修改：</p>
+<ul>
+<li>
+<p>向下兼容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- 用于指定应用程序的显示名称是否本地化 --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;key&gt;</span>LSHasLocalizedDisplayName<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;true/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- 应用支持的所有语言代码，这些语言代码应该与您的本地化资源文件夹相匹配 --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;key&gt;</span>CFBundleLocalizations<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;array&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>en<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>zh-Hans<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>fil-PH<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/array&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- 开发区域的语言代码 --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;key&gt;</span>CFBundleDevelopmentRegion<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;string&gt;</span>en<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span></code></pre></div><p><img alt="image-20240701133957265" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701133957265.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4代码中字符串的本地化localizablestrings">4、代码中字符串的本地化（<code>Localizable.strings</code>）<a hidden class="anchor" aria-hidden="true" href="#4代码中字符串的本地化localizablestrings">#</a></h3>
+<ul>
+<li>
+<p>指App内的字符串在不同的语言环境下显示不同的内容；</p>
+</li>
+<li>
+<p><font color=red><strong>保存的文件名<code>Localizable.strings</code>为系统所需，不可更改</strong></font></p>
+</li>
+<li>
+<p><a href="#%E5%88%9B%E5%BB%BAStringsFile"><strong>像创建 <code>InfoPlist.strings</code> 一样</strong></a>，新建 <code>Localizable.strings</code> 文件，包括<a href="#Localize"><strong>Localize流程</strong></a>；</p>
+</li>
+<li>
+<p>新生成的<code>Localizable.strings</code>文件，位于<code>en.lproj</code>文件夹之下，和<code>InfoPlist.strings</code>平行；
+<img alt="image-20240701135711515" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/assets/image-20240701135711515.png"></p>
+</li>
+<li>
+<p>对新生成的<code>Localizable.strings</code>文件，在Xcode右侧选项卡进行点选，<a href="#%E5%9C%A8xcode%E5%8F%B3%E4%BE%A7%E9%80%89%E9%A1%B9%E5%8D%A1%E8%BF%9B%E8%A1%8C%E7%82%B9%E9%80%89"><strong>和<code>InfoPlist.strings</code>的操作一样</strong></a>；</p>
+</li>
+<li>
+<p>枚举映射语言字符串</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// 系统支持语言
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#ifndef APP_LANGUAGE_ENUM_DEFINED
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define APP_LANGUAGE_ENUM_DEFINED
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">NS_ENUM</span>(NSInteger, AppLanguage) {
+</span></span><span style="display:flex;"><span>    AppLanguageBySys,<span style="color:#75715e">/// App语言跟随当前系统
+</span></span></span><span style="display:flex;"><span>    AppLanguageChineseSimplified, <span style="color:#75715e">/// zh-Hans：简体中文
+</span></span></span><span style="display:flex;"><span>    AppLanguageChineseTraditional,<span style="color:#75715e">/// zh-Hant：繁体中文
+</span></span></span><span style="display:flex;"><span>    AppLanguageEnglish,           <span style="color:#75715e">/// en：标准英语
+</span></span></span><span style="display:flex;"><span>    AppLanguageTagalog            <span style="color:#75715e">/// tl：菲律宾他加禄语
+</span></span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span><span style="color:#75715e">/* APP_LANGUAGE_ENUM_DEFINED */</span><span style="color:#75715e">
+</span></span></span></code></pre></div></li>
+<li>
+<p>关注实现类：<a href=""><strong>@interface JobsLanguageManager : NSObject</strong></a></p>
+<ul>
+<li>
+<p>获取当前语言</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// 获取和设置当前语言
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">class</span>,<span style="color:#66d9ef">nonatomic</span>,<span style="color:#66d9ef">assign</span>)AppLanguage language;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 语言包路径
+</span></span></span><span style="display:flex;"><span>+ (NSBundle <span style="color:#f92672">*</span>)<span style="color:#a6e22e">bundle</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 枚举和语言字符串的转换
+</span></span></span><span style="display:flex;"><span>+ (NSString <span style="color:#f92672">*</span>)<span style="color:#a6e22e">languageCodeForAppLanguage:</span>(AppLanguage)language;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 通过key取值对应的语言
+</span></span></span><span style="display:flex;"><span>+ (NSString <span style="color:#f92672">*</span>)<span style="color:#a6e22e">localStringWithKey:</span>(NSString <span style="color:#f92672">*</span>_Nonnull)key;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>以宏的方式进行封装。<font color=red><strong>最上层使用<code>JobsInternationalization(@&quot;&quot;)</code></strong></font></p>
+<p>关注实现类：<a href="https://github.com/295060456/JobsOCBaseConfigDemo/blob/main/JobsOCBaseConfigDemo/OCBaseConfig/%E5%90%84%E9%A1%B9%E5%85%A8%E5%B1%80%E5%AE%9A%E4%B9%89/%E5%90%84%E9%A1%B9%E5%AE%8F%E5%AE%9A%E4%B9%89/MacroDef_Func/MacroDef_String.h"><strong><code>MacroDef_String.h</code></strong></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">#pragma mark —— 国际化
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">inline</span> NSString <span style="color:#f92672">*</span>_Nonnull <span style="color:#a6e22e">JobsInternationalization</span>(NSString <span style="color:#f92672">*</span>_Nonnull text){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [JobsLanguageManager localStringWithKey:text];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>关注实现类：<a href="https://github.com/295060456/JobsOCBaseConfigDemo/tree/main/JobsOCBaseConfigDemo/JobsOCBaseCustomizeUIKitCore/NSObject/NSObject%2BCategory/NSObject%2BExtras"><strong>@interface</strong> NSObject (Extras)</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// App 国际化相关系统宏二次封装 + 设置缺省值
+</span></span></span><span style="display:flex;"><span>+(NSString <span style="color:#f92672">*</span>_Nullable)<span style="color:#a6e22e">localStringWithKey:</span>(nonnull NSString <span style="color:#f92672">*</span>)key{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> NSLocalizedString(key, nil);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>+(NSString <span style="color:#f92672">*</span>_Nullable)<span style="color:#a6e22e">localizedString:</span>(nonnull NSString <span style="color:#f92672">*</span>)key
+</span></span><span style="display:flex;"><span>                            <span style="color:#a6e22e">fromTable:</span>(nullable NSString <span style="color:#f92672">*</span>)tableName{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> NSLocalizedStringFromTable(key,
+</span></span><span style="display:flex;"><span>                                      tableName,
+</span></span><span style="display:flex;"><span>                                      nil);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>+(NSString <span style="color:#f92672">*</span>_Nullable)<span style="color:#a6e22e">localizedString:</span>(nonnull NSString <span style="color:#f92672">*</span>)key
+</span></span><span style="display:flex;"><span>                            <span style="color:#a6e22e">fromTable:</span>(nullable NSString <span style="color:#f92672">*</span>)tableName
+</span></span><span style="display:flex;"><span>                             <span style="color:#a6e22e">inBundle:</span>(nullable NSBundle <span style="color:#f92672">*</span>)bundle{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> NSLocalizedStringFromTableInBundle(key,
+</span></span><span style="display:flex;"><span>                                              tableName,
+</span></span><span style="display:flex;"><span>                                              bundle <span style="color:#f92672">?</span> <span style="color:#f92672">:</span> NSBundle.mainBundle,
+</span></span><span style="display:flex;"><span>                                              nil);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>+(NSString <span style="color:#f92672">*</span>_Nullable)<span style="color:#a6e22e">localizedString:</span>(nonnull NSString <span style="color:#f92672">*</span>)key
+</span></span><span style="display:flex;"><span>                            <span style="color:#a6e22e">fromTable:</span>(nullable NSString <span style="color:#f92672">*</span>)tableName
+</span></span><span style="display:flex;"><span>                             <span style="color:#a6e22e">inBundle:</span>(nullable NSBundle <span style="color:#f92672">*</span>)bundle
+</span></span><span style="display:flex;"><span>                         <span style="color:#a6e22e">defaultValue:</span>(nullable NSString <span style="color:#f92672">*</span>)defaultValue{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> NSLocalizedStringWithDefaultValue(key,
+</span></span><span style="display:flex;"><span>                                             tableName,
+</span></span><span style="display:flex;"><span>                                             bundle <span style="color:#f92672">?</span> <span style="color:#f92672">:</span> NSBundle.mainBundle,
+</span></span><span style="display:flex;"><span>                                             defaultValue,
+</span></span><span style="display:flex;"><span>                                             nil);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>每一次切换语言环境，都必须重塑数据源。即，重新运行一次<code>JobsInternationalization</code>相关的代码。否则效果无法展示</p>
+</li>
+<li>
+<p>语言环境切换的时候，对通知的使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">#ifndef LanguageSwitchNotification_defined
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define LanguageSwitchNotification_defined
+</span></span></span><span style="display:flex;"><span>NSString <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> JobsLanguageSwitchNotification <span style="color:#f92672">=</span> <span style="color:#e6db74">@&#34;JobsLanguageSwitchNotification&#34;</span>;<span style="color:#75715e">// 语言切换
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif </span><span style="color:#75715e">/* LanguageSwitchNotification_defined */</span><span style="color:#75715e">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>@jobs_weakify(self)
+</span></span><span style="display:flex;"><span>JobsAddNotification(self,
+</span></span><span style="display:flex;"><span>                selectorBlocks(<span style="color:#f92672">^</span><span style="color:#66d9ef">id</span> _Nullable(<span style="color:#66d9ef">id</span> _Nullable weakSelf,
+</span></span><span style="display:flex;"><span>                                          <span style="color:#66d9ef">id</span> _Nullable arg){
+</span></span><span style="display:flex;"><span>    NSNotification <span style="color:#f92672">*</span>notification <span style="color:#f92672">=</span> (NSNotification <span style="color:#f92672">*</span>)arg;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>([notification.object isKindOfClass:NSNumber.<span style="color:#66d9ef">class</span>]){
+</span></span><span style="display:flex;"><span>        NSNumber <span style="color:#f92672">*</span>b <span style="color:#f92672">=</span> notification.object;
+</span></span><span style="display:flex;"><span>        NSLog(<span style="color:#e6db74">@&#34;SSS = %d&#34;</span>,b.boolValue);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    @jobs_strongify(self)
+</span></span><span style="display:flex;"><span>    NSLog(<span style="color:#e6db74">@&#34;通知传递过来的 = %@&#34;</span>,notification.object);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>},nil, self),JobsLanguageSwitchNotification,nil);
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="5图片本地化">5、图片本地化<a hidden class="anchor" aria-hidden="true" href="#5图片本地化">#</a></h3>
+<blockquote>
+<p>和本地化代码中的字符串一样，通过<code>NSLocalizedString(key,comment)</code>来获取相应的字符串，然后根据这个字符串再获取图片。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>NSString <span style="color:#f92672">*</span>imageName <span style="color:#f92672">=</span> NSLocalizedString(<span style="color:#e6db74">@&#34;icon&#34;</span>, nil);
+</span></span><span style="display:flex;"><span>UIImage <span style="color:#f92672">*</span>image <span style="color:#f92672">=</span> [UIImage imageNamed:imageName];
+</span></span><span style="display:flex;"><span>self.imageView.image <span style="color:#f92672">=</span> image;
+</span></span></code></pre></div><h3 id="6第三方支援">6、第三方支援<a hidden class="anchor" aria-hidden="true" href="#6第三方支援">#</a></h3>
+<p><em>JobsLanguageManager.h</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  JobsLanguageManager.h
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  JobsOCBaseConfigDemo
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  Created by User on 7/5/24.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#import &#34;MacroDef_UserDefault.h&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// 系统支持语言
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#ifndef APP_LANGUAGE_ENUM_DEFINED
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define APP_LANGUAGE_ENUM_DEFINED
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">NS_ENUM</span>(NSInteger, AppLanguage) {
+</span></span><span style="display:flex;"><span>    AppLanguageBySys,<span style="color:#75715e">/// App语言跟随当前系统
+</span></span></span><span style="display:flex;"><span>    AppLanguageChineseSimplified, <span style="color:#75715e">/// zh-Hans：简体中文
+</span></span></span><span style="display:flex;"><span>    AppLanguageChineseTraditional,<span style="color:#75715e">/// zh-Hant：繁体中文
+</span></span></span><span style="display:flex;"><span>    AppLanguageEnglish,           <span style="color:#75715e">/// en：标准英语
+</span></span></span><span style="display:flex;"><span>    AppLanguageTagalog            <span style="color:#75715e">/// tl：菲律宾他加禄语
+</span></span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span><span style="color:#75715e">/* APP_LANGUAGE_ENUM_DEFINED */</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>FOUNDATION_EXTERN NSString <span style="color:#f92672">*</span> _Nonnull <span style="color:#66d9ef">const</span> JobsLanguageKey;
+</span></span><span style="display:flex;"><span>NS_ASSUME_NONNULL_BEGIN
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">JobsLanguageManager</span> : <span style="color:#a6e22e">NSObject</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 获取和设置当前语言
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">class</span>,<span style="color:#66d9ef">nonatomic</span>,<span style="color:#66d9ef">assign</span>)AppLanguage language;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 语言包路径
+</span></span></span><span style="display:flex;"><span>+ (NSBundle <span style="color:#f92672">*</span>)<span style="color:#a6e22e">bundle</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 枚举和语言字符串的转换
+</span></span></span><span style="display:flex;"><span>+ (NSString <span style="color:#f92672">*</span>)<span style="color:#a6e22e">languageCodeForAppLanguage:</span>(AppLanguage)language;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 通过key取值对应的语言
+</span></span></span><span style="display:flex;"><span>+ (NSString <span style="color:#f92672">*</span>)<span style="color:#a6e22e">localStringWithKey:</span>(NSString <span style="color:#f92672">*</span>_Nonnull)key;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>NS_ASSUME_NONNULL_END
+</span></span></code></pre></div><p><em>JobsLanguageManager.m</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  JobsLanguageManager.m
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  JobsOCBaseConfigDemo
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//  Created by User on 7/5/24.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#import &#34;JobsLanguageManager.h&#34;
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>NSString <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> JobsLanguageKey <span style="color:#f92672">=</span> <span style="color:#e6db74">@&#34;JobsLanguageKey&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">JobsLanguageManager</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> NSBundle <span style="color:#f92672">*</span>bundle <span style="color:#f92672">=</span> nil;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> AppLanguage _language <span style="color:#f92672">=</span> AppLanguageBySys;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>+ (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">initialize</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> dispatch_once_t onceToken;
+</span></span><span style="display:flex;"><span>    dispatch_once(<span style="color:#f92672">&amp;</span>onceToken, <span style="color:#f92672">^</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/// 读取存储的语言设置
+</span></span></span><span style="display:flex;"><span>        [self setLanguage:JobsGetUserDefaultIntegerForKey(JobsLanguageKey)];
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 语言包路径
+</span></span></span><span style="display:flex;"><span>+ (NSBundle <span style="color:#f92672">*</span>)<span style="color:#a6e22e">bundle</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> bundle;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 获取当前语言
+</span></span></span><span style="display:flex;"><span>+ (AppLanguage)<span style="color:#a6e22e">language</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> _language;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 设置当前语言
+</span></span></span><span style="display:flex;"><span>+ (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">setLanguage:</span>(AppLanguage)language {
+</span></span><span style="display:flex;"><span>    _language <span style="color:#f92672">=</span> language;
+</span></span><span style="display:flex;"><span>    NSString <span style="color:#f92672">*</span>languageCode <span style="color:#f92672">=</span> [self languageCodeForAppLanguage:language];
+</span></span><span style="display:flex;"><span>    NSString <span style="color:#f92672">*</span>path <span style="color:#f92672">=</span> [NSBundle.mainBundle pathForResource:languageCode ofType:<span style="color:#e6db74">@&#34;lproj&#34;</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (path) {
+</span></span><span style="display:flex;"><span>        bundle <span style="color:#f92672">=</span> [NSBundle bundleWithPath:path];
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        bundle <span style="color:#f92672">=</span> NSBundle.mainBundle;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 存储当前语言设置
+</span></span></span><span style="display:flex;"><span>    JobsSetUserDefaultKeyWithInteger(JobsLanguageKey, language);
+</span></span><span style="display:flex;"><span>    JobsUserDefaultSynchronize;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 枚举和语言字符串的转换
+</span></span></span><span style="display:flex;"><span>+ (NSString <span style="color:#f92672">*</span>)<span style="color:#a6e22e">languageCodeForAppLanguage:</span>(AppLanguage)language {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (language) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> AppLanguageChineseSimplified:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">@&#34;zh-Hans&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> AppLanguageChineseTraditional:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">@&#34;zh-Hant&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> AppLanguageEnglish:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">@&#34;en&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> AppLanguageTagalog:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> [NSBundle.mainBundle pathForResource:<span style="color:#e6db74">@&#34;fil&#34;</span> ofType:<span style="color:#e6db74">@&#34;lproj&#34;</span>] <span style="color:#f92672">?</span> <span style="color:#e6db74">@&#34;fil&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">@&#34;fil-PH&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> NSLocale.preferredLanguages.firstObject;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 通过key取值对应的语言
+</span></span></span><span style="display:flex;"><span>+ (NSString <span style="color:#f92672">*</span>)<span style="color:#a6e22e">localStringWithKey:</span>(NSString <span style="color:#f92672">*</span>_Nonnull)key {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [self localizedString:key 
+</span></span><span style="display:flex;"><span>                       fromTable:nil
+</span></span><span style="display:flex;"><span>                        inBundle:self.bundle];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span></code></pre></div><h3 id="7相关调用">7、相关调用<a hidden class="anchor" aria-hidden="true" href="#7相关调用">#</a></h3>
+<ul>
+<li>
+<p>原理：应用启动时，首先会读取<strong>NSUserDefaults</strong>中的key为<code>JobsLanguageKey</code>对应的value，该value是一个String数组。也就是说，我们访问这个名为<code>JobsLanguageKey</code>的key可以返回一个string数组，该数组存储着APP支持的语言列表，数组的第一项为<strong>APP</strong>当前默认的语言。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>+ (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">initialize</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> dispatch_once_t onceToken;
+</span></span><span style="display:flex;"><span>    dispatch_once(<span style="color:#f92672">&amp;</span>onceToken, <span style="color:#f92672">^</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/// 读取存储的语言设置
+</span></span></span><span style="display:flex;"><span>        [self setLanguage:JobsGetUserDefaultIntegerForKey(JobsLanguageKey)];
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>同理，既然我们可以通过<code>JobsLanguageKey</code>这个key从<strong>NSUserDefaults</strong>中取出语言数组，那么我们也可以给<code>JobsLanguageKey</code>这个key赋值来达到切换本地语言的效果，从此以后，我们就无需频繁的去模拟器的<strong>设置</strong>→<strong>通用</strong>→<strong>语言与地区</strong> 中切换语言。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">tableView:</span>(UITableView <span style="color:#f92672">*</span>)tableView
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">didSelectRowAtIndexPath:</span>(NSIndexPath <span style="color:#f92672">*</span>)indexPath{
+</span></span><span style="display:flex;"><span>    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 当前点选的Cell
+</span></span></span><span style="display:flex;"><span>    UITableViewCell <span style="color:#f92672">*</span>cell <span style="color:#f92672">=</span> [tableView cellForRowAtIndexPath:indexPath];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (UITableViewCell <span style="color:#f92672">*</span>acell <span style="color:#66d9ef">in</span> tableView.visibleCells) {
+</span></span><span style="display:flex;"><span>        acell.accessoryType <span style="color:#f92672">=</span> acell <span style="color:#f92672">==</span> cell <span style="color:#f92672">?</span> UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    [self setAppLanguageAtAppLanguage:self.dataMutArr[indexPath.row].appLanguage];<span style="color:#75715e">/// 设置App语言环境并发送全局通知JobsLanguageSwitchNotification
+</span></span></span><span style="display:flex;"><span>    [self changeTabBarItemTitle:indexPath];<span style="color:#75715e">///【App语言国际化】更改UITabBarItem的标题
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 重塑数据源
+</span></span></span><span style="display:flex;"><span>    [self.dataMutArr removeAllObjects];
+</span></span><span style="display:flex;"><span>    _dataMutArr <span style="color:#f92672">=</span> nil;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 刷新本界面
+</span></span></span><span style="display:flex;"><span>    [self.tableView.mj_header beginRefreshing];
+</span></span><span style="display:flex;"><span>    @jobs_weakify(self)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 2秒后退出本页面
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//    DispathdDelaySth(2.0, [weak_self backBtnClickEvent:nil]);
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="五总结">五、总结<a hidden class="anchor" aria-hidden="true" href="#五总结">#</a></h2>
+<ul>
+<li>
+<p>其实是操作语言包文件夹<code>*.lproj</code>内的<code>InfoPlist.strings</code>和<code>Localizable.strings</code>。所以一定确保这两个文件一定是包含在工程文件里（需要进入编译期）</p>
+</li>
+<li>
+<p>语言包文件夹<code>*.lproj</code>的名字，就是每个语言对应的索引；</p>
+</li>
+<li>
+<p><code>InfoPlist.strings</code>：App<strong>名字</strong>的多语言化；</p>
+</li>
+<li>
+<p><code>Localizable.strings</code>：App<strong>内容</strong>的多语言化；</p>
+</li>
+<li>
+<p><font color=red><strong>如果当前的key是锚定的中文，那么在<code>Localizable.strings(Chinese,Simplified)</code>文件中可以不写。因为当通过key检索不到内容时，这个时候key就是内容</strong></font>；</p>
+<ul>
+<li>
+<p><strong>Localizable.strings (English)</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#e6db74">&#34;App国际化之应用内部切换语言&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;App language switch&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;跟随系统&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;By System&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;中文&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Chinese&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;英文&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;English&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;他加禄语&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Tagalog&#34;</span>;
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Localizable.strings (Filipino)</strong>  和 <strong>Localizable.strings (Filipino (Philippines))</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#e6db74">&#34;App国际化之应用内部切换语言&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Paglipat ng wika ng app&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;跟随系统&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Sundin ang sistema&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;中文&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Intsik&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;英文&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Ingles&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;他加禄语&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Tagalog&#34;</span>;
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Localizable.strings (Chinese,Simplified)</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// 如果当前的key是锚定的中文，那么在`Localizable.strings(Chinese,Simplified)`文件中可以不写
+</span></span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/docs/">Docs</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Jobs Docs</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

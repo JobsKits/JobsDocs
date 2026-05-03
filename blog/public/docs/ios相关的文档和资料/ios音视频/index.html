@@ -1,0 +1,6070 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="🔥 前言 🔼 🔽 对音视频相关概念的总结和梳理 ## 1、相关协议 🔼 🔽 ### 1.1、 TCP/IP 协议簇 🔼 🔽 TCP/IP 协议簇的构成 用于网络通信的协议族，是互联网的核心协议；（本质是数据的加密和解密） 定义了计算机如何通过网络相互通信； TCP/IP 的常见应用场景： 文件传输：通过 FTP 协议上传和下载文件； 网页浏览：通过 HTTP">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%9F%B3%E8%A7%86%E9%A2%91/">
+  <meta property="og:site_name" content="Jobs Docs">
+  <meta property="og:title" content="音视频">
+  <meta property="og:description" content="🔥 前言 🔼 🔽 对音视频相关概念的总结和梳理 ## 1、相关协议 🔼 🔽 ### 1.1、 TCP/IP 协议簇 🔼 🔽 TCP/IP 协议簇的构成 用于网络通信的协议族，是互联网的核心协议；（本质是数据的加密和解密） 定义了计算机如何通过网络相互通信； TCP/IP 的常见应用场景： 文件传输：通过 FTP 协议上传和下载文件； 网页浏览：通过 HTTP">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2025-11-05T09:49:14+07:00">
+    <meta property="article:modified_time" content="2025-11-05T09:49:14+07:00">
+
+
+  <meta itemprop="name" content="音视频">
+  <meta itemprop="description" content="🔥 前言 🔼 🔽 对音视频相关概念的总结和梳理 ## 1、相关协议 🔼 🔽 ### 1.1、 TCP/IP 协议簇 🔼 🔽 TCP/IP 协议簇的构成 用于网络通信的协议族，是互联网的核心协议；（本质是数据的加密和解密） 定义了计算机如何通过网络相互通信； TCP/IP 的常见应用场景： 文件传输：通过 FTP 协议上传和下载文件； 网页浏览：通过 HTTP">
+  <meta itemprop="datePublished" content="2025-11-05T09:49:14+07:00">
+  <meta itemprop="dateModified" content="2025-11-05T09:49:14+07:00">
+  <meta itemprop="wordCount" content="2155">
+
+<title>音视频 | Jobs Docs</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%9F%B3%E8%A7%86%E9%A2%91/">
+<link rel="stylesheet" href="/book.min.709867152ffe28ee09d96d0ecef7c3155278ba4ed384f46d3c3747771459867f.css" integrity="sha256-cJhnFS/&#43;KO4J2W0OzvfDFVJ4uk7ThPRtPDdHdxRZhn8=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/zh-cn.search.min.153bc96c2db9def0d72e195430b96fa4ceca3da6226aa7f47dce05196a8e7d67.js" integrity="sha256-FTvJbC253vDXLhlUMLlvpM7KPaYiaqf0fc4FGWqOfWc=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-docs">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand jobs-book-brand-wrap">
+  <a class="jobs-book-brand"
+     href="https://github.com/JobsKits"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Open JobsKits GitHub">
+    <img class="jobs-brand-icon" src="/icon.png" alt="Jobs Docs">
+    <span class="jobs-brand-title">Jobs Docs</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E7%9A%84%E7%A7%98%E5%AF%86/" class="">
+      计算机底层的秘密</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/" class="">
+      足球盘口学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/macosweb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="">
+      MacOS_Web服务器学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="">
+      区块链</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" class="">
+      科学上网</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E8%87%AA%E5%BB%BAvps/" class="">
+      自建VPS</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91@cloudflare/" class="">
+      科学上网@Cloudflare</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF/" class="">
+      运维成长路线</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/" class="">
+      iOS相关的文档和资料</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/yykit%E8%B0%83%E7%A0%94/" class="">
+      YYKit调研</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8/" class="">
+      Swift直播项目核心技术研讨</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0/" class="">
+      同一应用，设置不同图标和名称</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/" class="">
+      关于WMZBanner的怪异写法探究</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios.lock/" class="">
+      iOS 锁的使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/" class="">
+      关于UITableViewCell和UICollectionViewCell圆切角&#43;Cell的偏移量</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/" class="">
+      定一行个数得出几行</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/" class="">
+      时间按照【年-月份】分组</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/" class="">
+      关于RAC框架中的@符号进行宏定义唤起的探究</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/" class="">
+      关于响应链的一些研究成果</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/unknown-class-viewcontroller-in-interface-builder-file/" class="">
+      unknown class viewcontroller in interface builder file</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/" class="">
+      iOS禁用返回手势</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/" class="">
+      iOS资源文件夹的区别</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/" class="">
+      N宫格问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B7%AF%E7%94%B1/" class="">
+      路由</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/" class="">
+      精确度量 iOS App 的启动时间</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/" class="">
+      UICollectionView点击事件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jobskit-%E5%BA%8F/" class="">
+      JobsKit 序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/" class="">
+      优秀的关于音视频处理的文献资料</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/" class="">
+      Xcode资料下载</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/" class="">
+      读取本地plist</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B0%81%E8%AF%B4http%E5%92%8Cget%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/" class="">
+      谁说HTTP GET就不能通过Body来发送数据呢？</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/" class="">
+      iOS 状态栏颜色的修改</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/" class="">
+      本地推送的写法（程肖斌）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD/" class="">
+      iOS功能：跳转其他App,如果本机不存在,则进行下载</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/" class="">
+      iOS 多语言环境设置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="">
+      iOS项目多环境配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%A7%A3%E5%86%B3xcode%E5%87%BA%E7%8E%B0sdk-does-not-contain-libarclite-%E9%94%99%E8%AF%AF/" class="">
+      解决Xcode出现：SDK does not contain &#39;libarclite&#39; 错误</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/" class="">
+      正则表达式的相关判定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="">
+      S wift P ackage D ependence使用指南🧭</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/" class="">
+      直播推流:拉流@Swift5x</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/local-live-server/" class="">
+      local-live-server</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/local-live-server/media/" class="">
+      media</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/local-live-server/media/live/" class="">
+      live</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/local-live-server/media/live/jobs_test/" class="">
+      jobs_test</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      【MacOS】配置本地的直播服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/telegram.ios-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="">
+      Telegram.iOS 源代码学习笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9F%A5%E6%89%BE%E7%B3%BB%E7%BB%9F%E8%AD%A6%E5%91%8A%E5%AF%B9%E5%BA%94%E7%9A%84%E7%BC%96%E7%A0%81/" class="">
+      查找系统警告对应的编码</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs/" class="">
+      Swift工程项目框架配置方案@JobsKits</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5/" class="">
+      iOS 本地通知配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/uitableview/" class="">
+      UITableView 的使用指南</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/" class="">
+      自定义 UITabBarController</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%BD%91%E9%A1%B5%E9%9D%99%E6%80%81%E8%B5%84%E6%96%99.html/" class="">
+      网页静态资料.html</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%BD%91%E9%A1%B5%E9%9D%99%E6%80%81%E8%B5%84%E6%96%99.html/masonry.html/" class="">
+      Masonry.html</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%BD%91%E9%A1%B5%E9%9D%99%E6%80%81%E8%B5%84%E6%96%99.html/masonry.html/ios-masonry-%E7%AD%89%E9%97%B4%E9%9A%94%E6%88%96%E7%AD%89%E5%AE%BD%E9%AB%98%E6%8E%92%E5%88%97%E5%A4%9A%E4%B8%AA%E6%8E%A7%E4%BB%B6/" class="">
+      iOS Masonry 等间隔或等宽高排列多个控件</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%BD%91%E9%A1%B5%E9%9D%99%E6%80%81%E8%B5%84%E6%96%99.html/masonry.html/ios-masonry-%E7%AD%89%E9%97%B4%E9%9A%94%E6%88%96%E7%AD%89%E5%AE%BD%E9%AB%98%E6%8E%92%E5%88%97%E5%A4%9A%E4%B8%AA%E6%8E%A7%E4%BB%B6/ios-masonry-%E7%AD%89%E9%97%B4%E9%9A%94%E6%88%96%E7%AD%89%E5%AE%BD%E9%AB%98%E6%8E%92%E5%88%97%E5%A4%9A%E4%B8%AA%E6%8E%A7%E4%BB%B6---%E6%8E%98%E9%87%91_files/" class="">
+      iOS Masonry 等间隔或等宽高排列多个控件 - 掘金_files</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%BD%91%E9%A1%B5%E9%9D%99%E6%80%81%E8%B5%84%E6%96%99.html/ios-%E8%AE%A4%E8%AF%86mach-omasonry.html/" class="">
+      iOS-认识Mach-OMasonry.html</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%BD%91%E9%A1%B5%E9%9D%99%E6%80%81%E8%B5%84%E6%96%99.html/ios-%E8%AE%A4%E8%AF%86mach-omasonry.html/ios-%E8%AE%A4%E8%AF%86mach-o-_-%E7%8E%8B%E7%AB%8B%E5%BF%97_files/" class="">
+      iOS-认识Mach-O _ 王立志_files</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%BD%91%E9%A1%B5%E9%9D%99%E6%80%81%E8%B5%84%E6%96%99.html/3%E5%88%86%E9%92%9F%E5%AE%9E%E7%8E%B0ios%E8%AF%AD%E8%A8%80%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%9B%BD%E9%99%85%E5%8C%96%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3masonry.html/" class="">
+      3分钟实现iOS语言本地化:国际化（图文详解）Masonry.html</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%BD%91%E9%A1%B5%E9%9D%99%E6%80%81%E8%B5%84%E6%96%99.html/3%E5%88%86%E9%92%9F%E5%AE%9E%E7%8E%B0ios%E8%AF%AD%E8%A8%80%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%9B%BD%E9%99%85%E5%8C%96%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3masonry.html/3%E5%88%86%E9%92%9F%E5%AE%9E%E7%8E%B0ios%E8%AF%AD%E8%A8%80%E6%9C%AC%E5%9C%B0%E5%8C%96_%E5%9B%BD%E9%99%85%E5%8C%96%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3---%E4%BA%91&#43;%E7%A4%BE%E5%8C%BA---%E8%85%BE%E8%AE%AF%E4%BA%91_files/" class="">
+      3分钟实现iOS语言本地化_国际化（图文详解） - 云&#43;社区 - 腾讯云_files</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%BD%91%E9%A1%B5%E9%9D%99%E6%80%81%E8%B5%84%E6%96%99.html/git-%E7%BB%99%E8%BF%9C%E7%A8%8B%E5%BA%93%E6%B7%BB%E5%8A%A0%E5%A4%9A%E4%B8%AAurl%E5%9C%B0%E5%9D%80masonry.html/" class="">
+      Git 给远程库添加多个URL地址Masonry.html</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%BD%91%E9%A1%B5%E9%9D%99%E6%80%81%E8%B5%84%E6%96%99.html/git-%E7%BB%99%E8%BF%9C%E7%A8%8B%E5%BA%93%E6%B7%BB%E5%8A%A0%E5%A4%9A%E4%B8%AAurl%E5%9C%B0%E5%9D%80masonry.html/git-%E7%BB%99%E8%BF%9C%E7%A8%8B%E5%BA%93-%E6%B7%BB%E5%8A%A0%E5%A4%9A%E4%B8%AAurl%E5%9C%B0%E5%9D%80_%E5%8D%97%E5%AE%AB%E6%9C%A8java%E7%9A%84%E5%8D%9A%E5%AE%A2-csdn%E5%8D%9A%E5%AE%A2_git-%E5%A4%9Aurl_files/" class="">
+      git 给远程库 添加多个url地址_南宫木java的博客-CSDN博客_git 多url_files</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/" class="">
+      OC模型解析（参见JobsComment）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6/" class="">
+      Apple生成*.p12文件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801%EF%B8%8F/" class="">
+      JXCategoryView框架的使用01</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%EF%B8%8F/" class="">
+      JXCategoryView框架的使用02（结合使用 JXPagerView）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/" class="">
+      制作(发布)Pods组件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/" class="">
+      iOS 横竖屏UI切换</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B/" class="">
+      移动端上架（分发）流程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swiftflutter/" class="">
+      Swift➤Flutter</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/" class="">
+      ❤️LYM的研究成果❤️</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/" class="">
+      iOSNotes-main</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/" class="">
+      MyPlayground.playground</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/playground.xcworkspace/" class="">
+      playground.xcworkspace</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/" class="">
+      Pages</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/while.xcplaygroundpage/" class="">
+      While.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/orderedset.xcplaygroundpage/" class="">
+      OrderedSet.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E6%95%B0%E7%BB%84.xcplaygroundpage/" class="">
+      数组.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/untitled-page-3.xcplaygroundpage/" class="">
+      Untitled Page 3.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E6%9E%9A%E4%B8%BE.xcplaygroundpage/" class="">
+      枚举.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/mvc.xcplaygroundpage/" class="">
+      MVC.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/callasfunction.xcplaygroundpage/" class="">
+      callAsFunction.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E6%B3%9B%E5%9E%8B.xcplaygroundpage/" class="">
+      泛型.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E7%AE%97%E6%B3%95.xcplaygroundpage/" class="">
+      算法.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/struct.xcplaygroundpage/" class="">
+      Struct.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/untitled-page.xcplaygroundpage/" class="">
+      Untitled Page.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/willset.xcplaygroundpage/" class="">
+      willSet.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/hashable-%E5%92%8C-equatable.xcplaygroundpage/" class="">
+      Hashable 和 Equatable.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93.xcplaygroundpage/" class="">
+      类和结构体.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/encodable.xcplaygroundpage/" class="">
+      Encodable.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E5%AD%97%E5%85%B8.xcplaygroundpage/" class="">
+      字典.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/imageio.xcplaygroundpage/" class="">
+      ImageIO.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/untitled-page-2.xcplaygroundpage/" class="">
+      Untitled Page 2.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E5%8D%8F%E8%AE%AE%E5%92%8C%E6%89%A9%E5%B1%95.xcplaygroundpage/" class="">
+      协议和扩展.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E5%87%BD%E6%95%B0.xcplaygroundpage/" class="">
+      函数.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/operation.xcplaygroundpage/" class="">
+      Operation.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E5%8D%95%E5%88%A9.xcplaygroundpage/" class="">
+      单利.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/set.xcplaygroundpage/" class="">
+      Set.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E5%BA%8F%E5%88%97sequence.xcplaygroundpage/" class="">
+      序列sequence.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.xcplaygroundpage/" class="">
+      错误处理.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96.xcplaygroundpage/" class="">
+      字符串格式化.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B%E5%8D%8F%E8%AE%AE.xcplaygroundpage/" class="">
+      集合类型协议.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.xcplaygroundpage/" class="">
+      设计模式.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.xcplaygroundpage/" class="">
+      基础语法.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/untitled-page-4.xcplaygroundpage/" class="">
+      Untitled Page 4.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/gcd.xcplaygroundpage/" class="">
+      GCD.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97.xcplaygroundpage/" class="">
+      数学计算.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/date.xcplaygroundpage/" class="">
+      Date.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/class.xcplaygroundpage/" class="">
+      Class.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/iosnotes-main/myplayground.playground/pages/%E9%9D%A2%E8%AF%95%E9%A2%98.xcplaygroundpage/" class="">
+      面试题.xcplaygroundpage</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/" class="">
+      AppCoordinator-main</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/" class="">
+      AppCoordinator</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/resources/" class="">
+      Resources</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/resources/assets.xcassets/" class="">
+      Assets.xcassets</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/resources/assets.xcassets/appicon.appiconset/" class="">
+      AppIcon.appiconset</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/resources/assets.xcassets/accentcolor.colorset/" class="">
+      AccentColor.colorset</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/resources/assets.xcassets/hongkong.imageset/" class="">
+      HongKong.imageset</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/resources/base.lproj/" class="">
+      Base.lproj</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/common/" class="">
+      Common</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/application/" class="">
+      Application</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/application/container/" class="">
+      Container</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/infrastructure/" class="">
+      Infrastructure</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/domain/" class="">
+      Domain</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/domain/usecases/" class="">
+      UseCases</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/domain/usecases/protocol/" class="">
+      Protocol</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/domain/entities/" class="">
+      Entities</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/" class="">
+      Presentation</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/utils/" class="">
+      Utils</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/utils/extensions/" class="">
+      Extensions</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/behaviors/" class="">
+      Behaviors</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/" class="">
+      Screnes</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/settings/" class="">
+      Settings</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/settings/settings/" class="">
+      Settings</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/settings/settings/viewmodel/" class="">
+      ViewModel</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/settings/settings/composition/" class="">
+      Composition</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/settings/settings/view/" class="">
+      View</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/settings/userconfiguration/" class="">
+      UserConfiguration</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/settings/userconfiguration/viewmodel/" class="">
+      ViewModel</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/settings/userconfiguration/composition/" class="">
+      Composition</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/settings/userconfiguration/view/" class="">
+      View</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/home/" class="">
+      Home</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/home/viewmodel/" class="">
+      ViewModel</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/home/composition/" class="">
+      Composition</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/home/view/" class="">
+      View</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/postdetail/" class="">
+      PostDetail</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/postdetail/conmposition/" class="">
+      Conmposition</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/postdetail/view/" class="">
+      View</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/profile/" class="">
+      Profile</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/profile/viewmodel/" class="">
+      ViewModel</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/profile/composition/" class="">
+      Composition</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/profile/view/" class="">
+      View</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/myposts/" class="">
+      MyPosts</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/myposts/viewmodel/" class="">
+      ViewModel</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/myposts/composition/" class="">
+      Composition</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/myposts/view/" class="">
+      View</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/newpost/" class="">
+      NewPost</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/newpost/viewmodel/" class="">
+      ViewModel</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/newpost/view/" class="">
+      View</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/maintabbar/" class="">
+      MainTabBar</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/maintabbar/composition/" class="">
+      Composition</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/maintabbar/view/" class="">
+      View</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/login/" class="">
+      LogIn</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/login/viewmodel/" class="">
+      ViewModel</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/login/composition/" class="">
+      Composition</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/appcoordinator-main/appcoordinator/presentation/screnes/login/view/" class="">
+      View</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/" class="">
+      iOS-engineering-main</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/" class="">
+      iOS-engineering</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/resources/" class="">
+      Resources</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/resources/assets.xcassets/" class="">
+      Assets.xcassets</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/resources/assets.xcassets/icon_personal_about.imageset/" class="">
+      icon_personal_about.imageset</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/resources/assets.xcassets/appicon.appiconset/" class="">
+      AppIcon.appiconset</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/resources/assets.xcassets/accentcolor.colorset/" class="">
+      AccentColor.colorset</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/screnes/" class="">
+      Screnes</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/screnes/launchscreen/" class="">
+      LaunchScreen</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/screnes/launchscreen/base.lproj/" class="">
+      Base.lproj</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/screnes/mainscreen/" class="">
+      MainScreen</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/screnes/mainscreen/base.lproj/" class="">
+      Base.lproj</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/xcconfig/" class="">
+      Xcconfig</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering/application/" class="">
+      Application</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering.xcodeproj/" class="">
+      iOS-engineering.xcodeproj</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering.xcodeproj/project.xcworkspace/" class="">
+      project.xcworkspace</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering.xcodeproj/project.xcworkspace/xcshareddata/" class="">
+      xcshareddata</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/scripts/" class="">
+      scripts</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/fastlane/" class="">
+      fastlane</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering.xcworkspace/" class="">
+      iOS-engineering.xcworkspace</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%EF%B8%8Flym%E7%9A%84%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C%EF%B8%8F/ios-engineering-main/ios-engineering.xcworkspace/xcshareddata/" class="">
+      xcshareddata</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo.plist/" class="">
+      配置info.plist</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%9F%B3%E8%A7%86%E9%A2%91/" class="active">
+      音视频</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/" class="">
+      iOS项目集成Unity</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/mjextension%E7%94%A8%E6%B3%95/" class="">
+      MJExtension用法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" class="">
+      Shell脚本代码片段</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%B6%E4%BD%9Cunity/" class="">
+      制作Unity</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/rn/" class="">
+      R eact N ative</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F/" class="">
+      CMake</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/seodoc/" class="">
+      SEO</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99/" class="">
+      中国大陆公民身份证校验规则（Swift/Objc/Dart.flutter）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E7%AD%BE%E5%90%8D%E4%BB%B7%E6%A0%BC%E8%B0%83%E7%A0%94.rtfd/" class="">
+      签名价格调研.rtfd</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/" class="">
+      FTP的配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/" class="">
+      Git的使用</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github.workflow/" class="">
+      GitHub.workflow（工作流）的使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/mermaid/" class="">
+      mermaid</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" class="">
+      Git的一些使用说明</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/" class="">
+      Git 子模块使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/" class="">
+      通过SSH连接到GitHub</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/javadoc/" class="">
+      JavaDoc</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9/" class="">
+      MacOS配置个人热点🛜</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/" class="">
+      天工开物</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/macos_%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      搭建邮件服务器（Mail server）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/macos%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B/" class="">
+      利用Hugo生成静态网页教程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" class="">
+      利用Quicktype自动建立数据模型</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>音视频</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言--">🔥前言 <b>🔼</b> <b>🔽</b></a></li>
+    <li><a href="#1相关协议--">1、相关协议 <b>🔼</b> <b>🔽</b></a>
+      <ul>
+        <li><a href="#11tcpip-协议簇--">1.1、<code>TCP/IP</code> 协议簇 <b>🔼</b> <b>🔽</b></a>
+          <ul>
+            <li><a href="#111tcpip-的分层模型--">1.1.1、TCP/IP 的分层模型 <b>🔼</b> <b>🔽</b></a></li>
+            <li><a href="#112tcpip-的核心协议特点--">1.1.2、TCP/IP 的核心协议特点 <b>🔼</b> <b>🔽</b></a></li>
+            <li><a href="#113tcpip-数据传输的完整流程--">1.1.3、TCP/IP 数据传输的完整流程 <b>🔼</b> <b>🔽</b></a></li>
+          </ul>
+        </li>
+        <li><a href="#12http-协议簇--">1.2、HTTP 协议簇 <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#13html协议簇--">1.3、HTML协议簇 <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#14rtmp--">1.4、RTMP <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#15hls--">1.5、HLS <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#16webrtc--">1.6、<strong>WebRTC</strong> <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#17srt--">1.7、<strong>SRT</strong> <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#18rtp--">1.8、<strong>RTP</strong> <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#19mqtt--">1.9、MQTT <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#110websocket--">1.10、WebSocket <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#111sip--">1.11、SIP <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#112h323--">1.12、H.323 <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#113voip--">1.13、VoIP <b>🔼</b> <b>🔽</b></a></li>
+      </ul>
+    </li>
+    <li><a href="#2视频直播数据流解封装原理--">2、视频直播数据流解封装原理 <b>🔼</b> <b>🔽</b></a></li>
+    <li><a href="#3ffmpeg--">3、FFMPEG <b>🔼</b> <b>🔽</b></a></li>
+    <li><a href="#4推拉流--">4、推拉流 <b>🔼</b> <b>🔽</b></a>
+      <ul>
+        <li><a href="#41p2ppeer-to-peer点对点技术--">4.1、P2P（Peer-to-Peer，点对点）技术 <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#42架构--">4.2、架构 <b>🔼</b> <b>🔽</b></a></li>
+      </ul>
+    </li>
+    <li><a href="#5相关文件格式--">5、相关文件格式 <b>🔼</b> <b>🔽</b></a>
+      <ul>
+        <li><a href="#51flv--">5.1、FLV <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#52ts--">5.2、TS <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#53mp4--">5.3、MP4 <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#54hls--">5.4、HLS <b>🔼</b> <b>🔽</b></a></li>
+      </ul>
+    </li>
+    <li><a href="#6faq--">6、FAQ <b>🔼</b> <b>🔽</b></a>
+      <ul>
+        <li><a href="#61什么是以太网-">6.1、什么是以太网？<b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#62什么叫字节流-">6.2、什么叫字节流？<b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#63tcp-怎么从字节流里面识别这个完整消息的-">6.3、TCP 怎么从字节流里面识别这个完整消息的？<b>🔼</b> <b>🔽</b></a></li>
+      </ul>
+    </li>
+    <li><a href="#7资料来源--">7、资料来源 <b>🔼</b> <b>🔽</b></a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h2 id="前言--">🔥<font id=前言>前言</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#%e5%89%8d%e8%a8%80--">#</a></h2>
+<ul>
+<li>对音视频相关概念的总结和梳理</li>
+</ul>
+<h2 id="1相关协议--">1、相关协议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#1%e7%9b%b8%e5%85%b3%e5%8d%8f%e8%ae%ae--">#</a></h2>
+<h3 id="11tcpip-协议簇--">1.1、<font id=TCP/IP><code>TCP/IP</code> 协议簇</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#11tcpip-%e5%8d%8f%e8%ae%ae%e7%b0%87--">#</a></h3>
+<ul>
+<li>
+<p><strong>TCP/IP</strong> 协议簇的构成</p>
+<pre class="mermaid">graph TB
+
+  subgraph L4[&#34;应用层 Application Layer&#34;]
+    direction LR
+    A1[&#34;HTTP / HTTPS&#34;] --- A2[&#34;FTP / TFTP&#34;] --- A3[&#34;SMTP / POP3 / IMAP&#34;] --- A4[&#34;DNS&#34;] --- A5[&#34;Telnet / SSH&#34;] --- A6[&#34;SNMP / DHCP&#34;]
+  end
+
+  subgraph L3[&#34;传输层 Transport Layer&#34;]
+    direction LR
+    B1[&#34;TCP&#34;] --- B2[&#34;UDP&#34;]
+  end
+
+  subgraph L2[&#34;网络层 Internet Layer&#34;]
+    direction LR
+    C1[&#34;IP (IPv4, IPv6)&#34;] --- C2[&#34;ICMP&#34;] --- C3[&#34;IGMP&#34;] --- C4[&#34;ARP / RARP&#34;]
+  end
+
+  subgraph L1[&#34;网络接口层 Link Layer&#34;]
+    direction LR
+    D1[&#34;Ethernet&#34;] --- D2[&#34;PPP / SLIP&#34;] --- D3[&#34;Wi-Fi&#34;] --- D4[&#34;Frame Relay / ATM&#34;]
+  end
+
+  %% 层次连接
+  L4 --&gt; L3
+  L3 --&gt; L2
+  L2 --&gt; L1</pre><script src="/mermaid.min.js"></script><script>mermaid.initialize({"flowchart":{"useMaxWidth":true},"theme":"default"})</script></li>
+<li>
+<p>用于网络通信的协议族，是互联网的核心协议；（本质是数据的加密和解密）</p>
+</li>
+<li>
+<p>定义了计算机如何通过网络相互通信；</p>
+</li>
+<li>
+<p><code>TCP/IP</code> 的常见应用场景：</p>
+<ul>
+<li><strong>文件传输</strong>：通过 FTP 协议上传和下载文件；</li>
+<li><strong>网页浏览</strong>：通过 HTTP/HTTPS 协议访问网站；</li>
+<li><strong>远程登录</strong>：通过 SSH 访问远程服务器；</li>
+<li><strong>电子邮件</strong>：通过 SMTP、POP3、IMAP 收发邮件；</li>
+<li><strong>实时通信</strong>：通过 UDP 实现视频通话或在线游戏；</li>
+</ul>
+</li>
+<li>
+<p><code>TCP/IP</code> 的优点：</p>
+<ul>
+<li><strong>跨平台</strong>：可用于不同的硬件和操作系统；</li>
+<li><strong>扩展性强</strong>：支持不同规模的网络；</li>
+<li><strong>灵活性高</strong>：可以与多种底层网络技术结合；</li>
+<li><strong>标准化</strong>：广泛被全球互联网采用；</li>
+</ul>
+</li>
+</ul>
+<h4 id="111tcpip-的分层模型--">1.1.1、TCP/IP 的分层模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#111tcpip-%e7%9a%84%e5%88%86%e5%b1%82%e6%a8%a1%e5%9e%8b--">#</a></h4>
+<blockquote class='book-hint '>
+<p><strong>四个层次</strong>，从下往上</p>
+</blockquote><ul>
+<li>
+<p><strong>网络接口层</strong>（Network Interface Layer）：</p>
+<ul>
+<li><strong>作用</strong>：负责在物理网络上传输数据包；</li>
+<li><strong>协议</strong>：包括以太网（Ethernet）、Wi-Fi、PPP 等协议；</li>
+<li><strong>功能</strong>：定义硬件设备如何传输数据 + 通过 MAC 地址找到同一网络中的设备；</li>
+</ul>
+</li>
+<li>
+<p><strong>互联网层</strong>（Internet Layer）：</p>
+<ul>
+<li>
+<p><strong>作用</strong>：负责实现主机间的通信，并将数据从一个网络传输到另一个网络；</p>
+</li>
+<li>
+<p>核心协议：</p>
+<ul>
+<li>
+<p><strong>IP（Internet Protocol）</strong>：</p>
+<ul>
+<li>提供不可靠、无连接的数据包传递服务；</li>
+<li>定义了 IP 地址，支持路由选择；</li>
+</ul>
+</li>
+<li>
+<p><strong>ICMP（Internet Control Message Protocol）</strong>：用于传递错误报告和网络状态信息（如 ping）；</p>
+</li>
+<li>
+<p><strong>ARP（Address Resolution Protocol）</strong>：用于将 IP 地址解析为 MAC 地址；</p>
+</li>
+<li>
+<p><strong>RARP（Reverse ARP）</strong>：反向解析 MAC 地址为 IP 地址（较少使用）；</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>功能</strong>：数据分组和路由 + 确保数据到达目标网络；</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>传输层</strong>（Transport Layer）：</p>
+<ul>
+<li>
+<p><strong>作用</strong>：为应用程序提供可靠或不可靠的数据传输服务。</p>
+<p><strong>核心协议</strong>：</p>
+<ul>
+<li>
+<p>TCP（Transmission Control Protocol）：</p>
+<ul>
+<li>提供面向连接的、可靠的传输服务；</li>
+<li>特点：三次握手、四次挥手、超时重传、流量控制；</li>
+</ul>
+</li>
+<li>
+<p>UDP（User Datagram Protocol）：提供无连接的、不可靠的传输服务；</p>
+</li>
+<li>
+<p>特点：速度快、开销低，常用于实时应用（如视频流、在线游戏）；</p>
+</li>
+<li>
+<p><strong>功能</strong>：数据分段和重组 + 端口号管理（区分不同应用）；</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>应用层</strong>（Application Layer）</p>
+<ul>
+<li>
+<p><strong>作用</strong>：直接面向用户，为各种应用提供服务；</p>
+</li>
+<li>
+<p>核心协议：</p>
+<ul>
+<li><strong>HTTP/HTTPS</strong>：用于网页浏览；</li>
+<li><strong>FTP</strong>：文件传输协议；</li>
+<li><strong>SMTP/POP3/IMAP</strong>：电子邮件协议；</li>
+<li><strong>DNS</strong>：域名解析协议；</li>
+<li><strong>Telnet/SSH</strong>：远程登录协议；</li>
+</ul>
+</li>
+<li>
+<p>功能：数据格式化、传输和显示 + 支持不同的应用程序和服务；</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="112tcpip-的核心协议特点--">1.1.2、TCP/IP 的核心协议特点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#112tcpip-%e7%9a%84%e6%a0%b8%e5%bf%83%e5%8d%8f%e8%ae%ae%e7%89%b9%e7%82%b9--">#</a></h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">协议</th>
+          <th style="text-align: center">特点</th>
+          <th style="text-align: center">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><strong>TCP</strong></td>
+          <td style="text-align: center"><strong>可靠性</strong></td>
+          <td style="text-align: center">数据传输前建立连接（三次握手），数据包丢失时自动重传，数据按序到达，避免乱序问题。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><strong>流量控制</strong></td>
+          <td style="text-align: center">使用滑动窗口机制，防止发送方发送过多数据导致接收方缓存溢出。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><strong>拥塞控制</strong></td>
+          <td style="text-align: center">动态调整传输速度以应对网络拥塞。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><strong>面向字节流</strong></td>
+          <td style="text-align: center">数据被看作连续字节流，不区分报文边界。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>UDP</strong></td>
+          <td style="text-align: center"><strong>无连接</strong></td>
+          <td style="text-align: center">不建立连接，数据直接发送。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><strong>速度快</strong></td>
+          <td style="text-align: center">没有可靠性机制，无需等待确认。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><strong>应用场景</strong></td>
+          <td style="text-align: center">适合对实时性要求高的场景，如直播、在线游戏、VoIP。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><strong>无连接、面向报文</strong></td>
+          <td style="text-align: center"></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="113tcpip-数据传输的完整流程--">1.1.3、TCP/IP 数据传输的完整流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#113tcpip-%e6%95%b0%e6%8d%ae%e4%bc%a0%e8%be%93%e7%9a%84%e5%ae%8c%e6%95%b4%e6%b5%81%e7%a8%8b--">#</a></h4>
+<ul>
+<li>数据封装：
+<ul>
+<li>应用层将数据封装为消息；</li>
+<li>传输层将消息分段并添加端口号（如 TCP 段）；</li>
+<li>网络层将段封装为数据包并添加 IP 地址；</li>
+<li>网络接口层将数据包封装为帧，添加 MAC 地址并发送；</li>
+</ul>
+</li>
+<li>数据解封装：
+<ul>
+<li>接收端按照相反顺序逐层解析数据，最终交付给应用层；</li>
+</ul>
+</li>
+</ul>
+<h3 id="12http-协议簇--">1.2、<font id=HTTP>HTTP 协议簇</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#12http-%e5%8d%8f%e8%ae%ae%e7%b0%87--">#</a></h3>
+<ul>
+<li>
+<p><strong>HTTP</strong>（<strong>H</strong>yper<strong>t</strong>ext <strong>T</strong>ransfer <strong>P</strong>rotocol）/ <strong>HTTPS</strong>（HTTP <strong>S</strong>ecure）：均基于 <strong>TCP</strong>（<strong>T</strong>ransmission <strong>C</strong>ontrol <strong>P</strong>rotocol） 的传输协议；</p>
+</li>
+<li>
+<p><strong>HTTP/1.1</strong>：适合简单网页，但性能和扩展性有限，已逐步被淘汰；</p>
+</li>
+<li>
+<p><strong>HTTP/2</strong>：主流标准，解决了 <code>HTTP/1.1</code> 的队头阻塞问题，多路复用提升了并发能力；</p>
+</li>
+<li>
+<p><strong>HTTP/3</strong> 是 HTTP 协议的最新版本</p>
+<ul>
+<li>
+<p>它基于 <strong>QUIC</strong>（<strong>Q</strong>uick <strong>U</strong>DP <strong>I</strong>nternet <strong>C</strong>onnections）协议，并使用 <strong>UDP</strong> 作为传输层，而不是传统的 <strong>TCP</strong>；</p>
+</li>
+<li>
+<p><font color=red>HTTP/3 的目标是解决前几代 HTTP（尤其是 HTTP/2）在高延迟和不稳定网络环境中的性能问题，同时提升传输的安全性和效率</font></p>
+</li>
+<li>
+<p>HTTP/3 代表着互联网协议的未来，但由于需要广泛的网络设备支持，目前还在推广阶段；</p>
+<ul>
+<li>主流浏览器（如 Chrome、Firefox、Edge）已支持 HTTP/3；</li>
+<li>Nginx、Apache 等服务器已经开始支持 HTTP/3，但需要手动配置；</li>
+</ul>
+</li>
+<li>
+<p>HTTP/3 的工作流程</p>
+<pre tabindex="0"><code>1、连接建立
+客户端通过 UDP 发送初始数据包，同时完成 QUIC 的连接和 TLS 1.3 的握手；
+服务端返回握手确认，连接建立完成后直接开始传输数据；
+
+2、数据传输
+数据被分成多个流（Stream），每个流独立传输；
+丢包时，仅重新传输受影响的流，其他流继续传输；
+
+3、连接迁移
+如果设备切换网络（如从 Wi-Fi 切换到蜂窝网络），QUIC 通过连接 ID 保持会话连续性，无需重新建立连接；</code></pre></li>
+</ul>
+</li>
+<li>
+<p><code>HTTP/1.1</code>vs<code>HTTP/2</code> vs <code>HTTP/3</code></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">特性</th>
+          <th style="text-align: center">HTTP/1.1</th>
+          <th style="text-align: center">HTTP/2</th>
+          <th style="text-align: center">HTTP/3</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">底层传输协议</td>
+          <td style="text-align: center">基于 TCP</td>
+          <td style="text-align: center">基于 TCP</td>
+          <td style="text-align: center">基于 UDP（使用 QUIC 协议）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">连接机制</td>
+          <td style="text-align: center">每个请求需要单独的 TCP 连接（连接复用有限）</td>
+          <td style="text-align: center">单个 TCP 连接支持多路复用</td>
+          <td style="text-align: center">单个 UDP 连接支持多路复用</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">多路复用</td>
+          <td style="text-align: center">不支持</td>
+          <td style="text-align: center">支持（多流并发传输，共用一个 TCP 连接）</td>
+          <td style="text-align: center">支持（独立的流，避免 TCP 队头阻塞）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">队头阻塞</td>
+          <td style="text-align: center">存在（每个请求必须等待前一个完成）</td>
+          <td style="text-align: center">存在（TCP 队头阻塞可能影响所有流）</td>
+          <td style="text-align: center">无队头阻塞（QUIC 中每个流独立传输）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">加密支持</td>
+          <td style="text-align: center">可选（通过 HTTPS 开启加密，TLS 1.2/1.3）</td>
+          <td style="text-align: center">默认加密（使用 HTTPS，TLS 1.2/1.3）</td>
+          <td style="text-align: center">默认加密（内置 TLS 1.3，加密传输是强制的）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">连接建立延迟</td>
+          <td style="text-align: center">较高：TCP 三次握手 + 可选的 TLS 握手</td>
+          <td style="text-align: center">较高：TCP 三次握手 + TLS 握手</td>
+          <td style="text-align: center">较低：QUIC 将连接建立和 TLS 握手合并，仅需 1 个 RTT</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">性能表现</td>
+          <td style="text-align: center">请求阻塞，适合简单页面</td>
+          <td style="text-align: center">多路复用提升性能，适合复杂页面</td>
+          <td style="text-align: center">高效传输，更适合高延迟或不稳定网络</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">连接迁移</td>
+          <td style="text-align: center">不支持（IP 地址变化会中断连接）</td>
+          <td style="text-align: center">不支持（TCP 连接与 IP 地址绑定）</td>
+          <td style="text-align: center">支持（QUIC 的连接 ID 允许快速迁移连接）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">压缩机制</td>
+          <td style="text-align: center">不支持</td>
+          <td style="text-align: center">支持头部压缩（HPACK）</td>
+          <td style="text-align: center">支持改进的头部压缩（QPACK）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">扩展性</td>
+          <td style="text-align: center">较差（难以添加新特性）</td>
+          <td style="text-align: center">较好（增加了二进制帧结构，便于扩展新功能）</td>
+          <td style="text-align: center">更好（QUIC 的灵活性使其支持未来扩展）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">典型问题</td>
+          <td style="text-align: center">- 队头阻塞严重<br>- 每个请求需要单独连接，效率低</td>
+          <td style="text-align: center">- 队头阻塞仍存在<br>- TCP 的丢包问题影响多路复用性能</td>
+          <td style="text-align: center">- 需要支持 UDP 的网络设备<br>- 初期普及率较低</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">典型场景</td>
+          <td style="text-align: center">早期简单网站，低复杂度请求</td>
+          <td style="text-align: center">现代网站，需处理大量并发请求</td>
+          <td style="text-align: center">视频流媒体、实时通信、高延迟网络环境</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">使用场景</td>
+          <td style="text-align: center">已较少使用，逐步被淘汰</td>
+          <td style="text-align: center">主流标准，广泛应用于现代 Web</td>
+          <td style="text-align: center">新兴标准，适合未来网络需求</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p><code>HTTP/1.1</code>、<code>HTTP/2</code> 和 <code>HTTP/3</code> 的关键技术对比</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">技术点</th>
+          <th style="text-align: center">HTTP/1.1</th>
+          <th style="text-align: center">HTTP/2</th>
+          <th style="text-align: center">HTTP/3</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">请求/响应格式</td>
+          <td style="text-align: center">纯文本</td>
+          <td style="text-align: center">二进制格式</td>
+          <td style="text-align: center">二进制格式</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">头部压缩</td>
+          <td style="text-align: center">不支持</td>
+          <td style="text-align: center">支持（HPACK 算法）</td>
+          <td style="text-align: center">支持（QPACK 算法，适应 QUIC 流）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">传输方式</td>
+          <td style="text-align: center">每个请求独占一个连接</td>
+          <td style="text-align: center">多路复用，共用一个连接</td>
+          <td style="text-align: center">多路复用，每流独立传输</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">加密协议</td>
+          <td style="text-align: center">可选（TLS 1.2/1.3）</td>
+          <td style="text-align: center">默认加密（TLS 1.2/1.3）</td>
+          <td style="text-align: center">强制加密（TLS 1.3 内置）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">优先级控制</td>
+          <td style="text-align: center">基本支持</td>
+          <td style="text-align: center">强大支持（流的优先级）</td>
+          <td style="text-align: center">改进优先级控制</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">丢包处理</td>
+          <td style="text-align: center">受 TCP 队头阻塞影响</td>
+          <td style="text-align: center">受 TCP 队头阻塞影响</td>
+          <td style="text-align: center">每个流独立处理，不影响其他流</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p><code>HTTP/1.1</code>、<code>HTTP/2</code> 和 <code>HTTP/3</code> 的适用场景</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">场景</th>
+          <th style="text-align: center">HTTP/1.1</th>
+          <th style="text-align: center">HTTP/2</th>
+          <th style="text-align: center">HTTP/3</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">简单网站</td>
+          <td style="text-align: center">合适（例如低流量、简单请求的页面）</td>
+          <td style="text-align: center">更高效</td>
+          <td style="text-align: center">不适合小型场景，性能优势无从发挥</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">复杂 Web 应用</td>
+          <td style="text-align: center">性能有限</td>
+          <td style="text-align: center">广泛使用，性能优越</td>
+          <td style="text-align: center">理想选择，进一步提升复杂页面加载性能</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">移动设备</td>
+          <td style="text-align: center">表现一般（连接迁移差）</td>
+          <td style="text-align: center">较好</td>
+          <td style="text-align: center">表现最佳（支持快速连接迁移，适合网络切换）<br/>在网络频繁切换（如 Wi-Fi 到蜂窝网络）时，保持流畅的用户体验。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">实时通信</td>
+          <td style="text-align: center">表现较差（高延迟、丢包问题明显）</td>
+          <td style="text-align: center">可用</td>
+          <td style="text-align: center">理想选择，流畅支持实时传输和低延迟通信</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">流媒体服务</td>
+          <td style="text-align: center">缓冲时间长、体验差</td>
+          <td style="text-align: center">提升了一定的稳定性</td>
+          <td style="text-align: center">最高效，优化流媒体传输</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">高延迟/弱网环境</td>
+          <td style="text-align: center">表现较差</td>
+          <td style="text-align: center">性能一般</td>
+          <td style="text-align: center">性能最佳，适应弱网和高延迟环境<br/>适合跨国通信或卫星网络等延迟较高的环境</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+<h3 id="13html协议簇--">1.3、HTML协议簇 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#13html%e5%8d%8f%e8%ae%ae%e7%b0%87--">#</a></h3>
+<ul>
+<li>
+<p>HTML（最初版本发布于 1991 年） 和 HTML5（ 2014 年成为 W3C 标准） <strong>并不是严格意义上的继承关系</strong>，更确切地说，HTML5 是 <strong>HTML（超文本标记语言的总称） 的一个版本</strong>，是对 HTML 的升级和扩展。它们之间的关系更像是 <strong>迭代</strong> 和 <strong>升级</strong> 的关系，并非继承；</p>
+</li>
+<li>
+<p>HTML5 是向下兼容的，这意味着以前版本的 HTML 标签在 HTML5 中大多仍然可以使用（尽管部分标签被废弃或不推荐）；</p>
+</li>
+<li>
+<p>在继承 HTML 基本功能的基础上，HTML5 增加了许多新特性。特别是在多媒体、语义化和移动端适配方面；</p>
+<ul>
+<li>
+<p>HTML5 增删了许多语义化标签，提升了网页内容的可读性和结构化</p>
+<ul>
+<li>
+<p>HTML5 删除标签对比：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">标签名</th>
+          <th style="text-align: center">描述</th>
+          <th style="text-align: center">替代方案</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><code>&lt;acronym&gt;</code></td>
+          <td style="text-align: center">表示首字母缩略词</td>
+          <td style="text-align: center">使用 <code>&lt;abbr&gt;</code> 代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;applet&gt;</code></td>
+          <td style="text-align: center">定义 Java Applet 嵌入</td>
+          <td style="text-align: center">使用 <code>&lt;object&gt;</code> 或 <code>&lt;embed&gt;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;basefont&gt;</code></td>
+          <td style="text-align: center">定义基准字体大小</td>
+          <td style="text-align: center">使用 CSS 代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;big&gt;</code></td>
+          <td style="text-align: center">定义大号字体</td>
+          <td style="text-align: center">使用 CSS 的 <code>font-size</code> 代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;center&gt;</code></td>
+          <td style="text-align: center">定义内容居中对齐</td>
+          <td style="text-align: center">使用 CSS 的 <code>text-align</code> 代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;dir&gt;</code></td>
+          <td style="text-align: center">定义目录列表</td>
+          <td style="text-align: center">使用 <code>&lt;ul&gt;</code> 代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;font&gt;</code></td>
+          <td style="text-align: center">定义字体相关样式</td>
+          <td style="text-align: center">使用 CSS 的字体样式属性代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;frame&gt;</code></td>
+          <td style="text-align: center">定义框架</td>
+          <td style="text-align: center">使用 <code>&lt;iframe&gt;</code> 或 CSS 布局代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;frameset&gt;</code></td>
+          <td style="text-align: center">定义框架集</td>
+          <td style="text-align: center">使用 CSS 布局代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;isindex&gt;</code></td>
+          <td style="text-align: center">定义单行文本输入（已废弃）</td>
+          <td style="text-align: center">使用 <code>&lt;form&gt;</code> 元素代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;noframes&gt;</code></td>
+          <td style="text-align: center">为不支持框架的浏览器定义内容</td>
+          <td style="text-align: center">已不再需要</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;s&gt;</code></td>
+          <td style="text-align: center">定义加删除线的文本</td>
+          <td style="text-align: center">使用 CSS 的 <code>text-decoration</code> 代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;strike&gt;</code></td>
+          <td style="text-align: center">和 <code>&lt;s&gt;</code> 类似，表示删除线</td>
+          <td style="text-align: center">使用 CSS 的 <code>text-decoration</code> 代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;tt&gt;</code></td>
+          <td style="text-align: center">定义打字机样式文本</td>
+          <td style="text-align: center">使用 CSS 的 <code>font-family</code> 代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;u&gt;</code></td>
+          <td style="text-align: center">表示下划线文本</td>
+          <td style="text-align: center">使用 CSS 的 <code>text-decoration</code> 代替</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><code>&lt;xmp&gt;</code></td>
+          <td style="text-align: center">定义预格式化文本</td>
+          <td style="text-align: center">使用 <code>&lt;pre&gt;</code> 代替</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>HTML5 新增标签对比：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">类别</th>
+          <th style="text-align: center">标签名</th>
+          <th style="text-align: center">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><strong>语义化标签</strong></td>
+          <td style="text-align: center"><code>&lt;article&gt;</code></td>
+          <td style="text-align: center">表示独立的内容块，如新闻、博客文章等</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;aside&gt;</code></td>
+          <td style="text-align: center">表示与主要内容相关性较小的内容，如侧边栏</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;details&gt;</code></td>
+          <td style="text-align: center">创建交互式控件，用于显示或隐藏内容</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;figcaption&gt;</code></td>
+          <td style="text-align: center">定义 <code>&lt;figure&gt;</code> 的标题</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;figure&gt;</code></td>
+          <td style="text-align: center">用于分组图像或图表等独立内容</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;footer&gt;</code></td>
+          <td style="text-align: center">表示文档或部分内容的页脚</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;header&gt;</code></td>
+          <td style="text-align: center">表示文档或部分内容的页头</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;main&gt;</code></td>
+          <td style="text-align: center">定义文档的主要内容部分</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;mark&gt;</code></td>
+          <td style="text-align: center">表示需要高亮显示的重要文本</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;nav&gt;</code></td>
+          <td style="text-align: center">表示页面的导航部分</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;section&gt;</code></td>
+          <td style="text-align: center">表示文档中一个主题的分区</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>多媒体标签</strong></td>
+          <td style="text-align: center"><code>&lt;audio&gt;</code></td>
+          <td style="text-align: center">定义音频内容</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;video&gt;</code></td>
+          <td style="text-align: center">定义视频内容</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;source&gt;</code></td>
+          <td style="text-align: center">定义媒体资源 <code>&lt;audio&gt;</code> 或 <code>&lt;video&gt;</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;track&gt;</code></td>
+          <td style="text-align: center">为媒体提供字幕或元数据</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>图形相关标签</strong></td>
+          <td style="text-align: center"><code>&lt;canvas&gt;</code></td>
+          <td style="text-align: center">用于绘制图像和图形的画布</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>表单增强</strong></td>
+          <td style="text-align: center"><code>&lt;datalist&gt;</code></td>
+          <td style="text-align: center">定义输入控件的选项列表</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;keygen&gt;</code> <em>(废弃)</em></td>
+          <td style="text-align: center">定义密钥生成控件（为 Web 表单提供安全性）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;output&gt;</code></td>
+          <td style="text-align: center">显示计算或脚本的结果</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>交互控件</strong></td>
+          <td style="text-align: center"><code>&lt;progress&gt;</code></td>
+          <td style="text-align: center">定义任务进度</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;meter&gt;</code></td>
+          <td style="text-align: center">定义范围内的度量值</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>其他</strong></td>
+          <td style="text-align: center"><code>&lt;time&gt;</code></td>
+          <td style="text-align: center">表示时间</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><code>&lt;wbr&gt;</code></td>
+          <td style="text-align: center">定义可添加换行符的位置</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p>多媒体支持：HTML5 原生支持音视频播放，无需额外插件（如 Flash）</p>
+</li>
+<li>
+<p><code>&lt;audio&gt;</code> 和 <code>&lt;video&gt;</code> 标签，用于嵌入音频和视频内容。</p>
+</li>
+<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">audio</span> <span style="color:#a6e22e">controls</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">source</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;example.mp3&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;audio/mpeg&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    您的浏览器不支持 audio 标签。
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">audio</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">video</span> <span style="color:#a6e22e">controls</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">source</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;example.mp4&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;video/mp4&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    您的浏览器不支持 video 标签。
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">video</span>&gt;</span></span></code></pre></div></li>
+<li>
+<p>表单功能增强</p>
+<ul>
+<li><code>&lt;input type=&quot;email&quot;&gt;</code>、<code>&lt;input type=&quot;date&quot;&gt;</code>、<code>&lt;input type=&quot;range&quot;&gt;</code>、<code>&lt;input type=&quot;color&quot;&gt;</code> 等；</li>
+<li>表单验证 ：原生支持表单验证，无需 JavaScript；</li>
+</ul>
+</li>
+<li>
+<p>HTML5 提供了用于绘图和图像处理的新特性：Canvas（用于绘制 2D 图形和动画） 和 SVG（支持矢量图形的定义和操作）</p>
+<ul>
+<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">canvas</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myCanvas&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;200&#34;</span> <span style="color:#a6e22e">height</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>&gt;&lt;/<span style="color:#f92672">canvas</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">canvas</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;myCanvas&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ctx</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">getContext</span>(<span style="color:#e6db74">&#34;2d&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">fillStyle</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;red&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">fillRect</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">80</span>);
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>HTML5 提供了新的客户端存储方式，<strong>替代传统的 Cookie</strong>：</p>
+<ul>
+<li><strong>LocalStorage</strong>：数据保存在本地浏览器中，永久有效，直到主动清除；</li>
+<li><strong>SessionStorage</strong>：数据在会话结束后清除；</li>
+</ul>
+</li>
+<li>
+<p>HTML5 针对移动设备进行了优化，支持响应式设计和触摸屏：</p>
+<ul>
+<li>
+<p>支持 <code>&lt;meta&gt;</code> 标签，用于移动设备的 viewport 配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;viewport&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width=device-width, initial-scale=1.0&#34;</span>&gt;</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>HTML5 提供了多线程的 Web Worker 和更高效的 API：</p>
+<ul>
+<li><strong>Web Worker</strong>：允许在后台运行 JavaScript 代码而不阻塞主线程；</li>
+<li><strong>Geolocation API</strong>：支持定位功能，适用于移动端开发；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="14rtmp--">1.4、RTMP <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#14rtmp--">#</a></h3>
+<blockquote class='book-hint '>
+<p>即， <font color=red>R</font>eal-<font color=red>T</font>ime <font color=red>M</font>essaging <font color=red>P</font>rotocol</p>
+</blockquote><ul>
+<li>
+<p>即：实时消息传输协议。是一个<strong>基于<a href="TCP/IP">TCP</a>的协议</strong></p>
+</li>
+<li>
+<p>RTMP 是一种在整个直播过程中维护播放器和服务器之间持久的<a href="#TCP/IP">TCP</a>连接的流协议</p>
+</li>
+<li>
+<p>在 RTMP 中，直播被分成了两个流：一个视频流和一个音频流</p>
+<pre tabindex="0"><code>这些流被分解成了 4KB 的区块，这些块可以在 TCP 连接中被多路复用，即视频和音频块被交叉存取。
+当视频比特率达到 500Kbps 时，和每个 HLS 段的 3 秒时长相比，每个块只有 64ms，它让穿过所有组件的流都更加顺畅。
+只要编码了 64ms 的视频数据，直播者就可以发送数据；转码服务器可以处理这个区块并且生成多种输出比特率。
+区块随后通过代理被转递出去，直到到达播放器。</code></pre></li>
+<li>
+<p>RTMP是由 <strong>Adobe</strong> 开发的一种用于音视频、数据传输的应用层协议；</p>
+<ul>
+<li>最初用于与 Adobe Flash Player 通信（历史上曾经是强绑定关系，但是其协议本身是独立于 Flash 的）；</li>
+<li>RTMP 是一种低延迟的流媒体传输协议，广泛应用于直播、点播、互动等实时音视频领域；</li>
+<li><strong>Flash Player 的作用</strong>： 在浏览器端，Flash Player 一直是 RTMP 流的默认播放载体。用户通过网页播放器即可直接接收和播放 RTMP 流；</li>
+<li>最原始的RTMP缺乏原生的加密机制。相关扩充协议（RTMPS）普及度和适配度不及 HTTPS、WebRTC 等现代协议；</li>
+</ul>
+</li>
+<li>
+<p>RTMP的扩展协议：</p>
+<ul>
+<li><strong>RTMPS</strong>（RTMP over TLS/SSL）：RTMP 的安全版本，通过 SSL/TLS 加密传输，保障数据安全性；</li>
+</ul>
+<ul>
+<li>
+<p><strong>RTMPT</strong>：在 HTTP 之上封装的 RTMP，用于穿透防火墙；</p>
+</li>
+<li>
+<p><strong>RTMP-Chunk</strong>：将数据块分割成更小的单元，提高传输效率；</p>
+</li>
+</ul>
+</li>
+<li>
+<p>替代协议：</p>
+<ul>
+<li>
+<p><strong>HLS</strong>（<strong>H</strong>TTP <strong>L</strong>ive <strong>S</strong>treaming）：</p>
+<ul>
+<li>由 <strong>Apple</strong> 推出的基于 HTTP 的流媒体协议，可以直接在 HTML5 环境下使用，且兼容性广；</li>
+<li>它已成为主流，特别是在点播和直播中大幅取代了 RTMP；</li>
+</ul>
+</li>
+<li>
+<p>WebRTC：实时通信协议，基于 UDP 实现超低延迟传输，支持点对点连接，特别适合互动性强的场景（如视频会议、远程教育）；</p>
+</li>
+<li>
+<p><strong>DASH</strong>（<strong>D</strong>ynamic <strong>A</strong>daptive <strong>S</strong>treaming over <strong>H</strong>TTP）：另一种基于 HTTP 的流媒体协议，与 HLS 类似，用于适配不同网络环境的多码率播放；</p>
+</li>
+<li>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">协议</th>
+          <th style="text-align: center">特点</th>
+          <th style="text-align: center">使用场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">RTMP</td>
+          <td style="text-align: center">低延迟、成熟稳定</td>
+          <td style="text-align: center">直播、点播</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">HLS</td>
+          <td style="text-align: center">高兼容性、延迟较高</td>
+          <td style="text-align: center">点播、延迟不敏感的直播</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">WebRTC</td>
+          <td style="text-align: center">超低延迟、基于 UDP</td>
+          <td style="text-align: center">实时互动、视频会议</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">SRT</td>
+          <td style="text-align: center">安全性高、抗丢包能力强</td>
+          <td style="text-align: center">跨国直播、高质量传输</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p>随着 Flash 的逐步淘汰，RTMP 的使用场景也受到一定限制：</p>
+<ul>
+<li><strong>Flash Player 的退役</strong>： 2020 年底，<strong>Adobe</strong>  停止了对 Flash Player 的支持，各大浏览器（如 Chrome、Firefox、Edge）也完全禁用 Flash Player（可能的安全问题）；</li>
+<li>失去这一主流接收端后，RTMP 在浏览器端的应用基本被取代（现代浏览器并不直接支持 RTMP 播放）；</li>
+<li>带来的限制：
+<ul>
+<li>额外依赖播放器：如果需要使用 RTMP 流，客户端必须通过第三方播放器（如 VLC、FFmpeg）或专用 SDK 播放，而无法直接在浏览器中无缝集成；</li>
+<li>开发成本增加：开发者需要引入额外的工具或技术栈（如将 RTMP 转码为 HLS 或 WebRTC）以兼容主流平台；</li>
+</ul>
+</li>
+<li>随着网络环境的发展，对传输协议的安全性要求提高，而原始的 RTMP 协议缺乏原生的加密机制。虽然有 <strong>RTMPS（RTMP over TLS/SSL）</strong> 来弥补，但它的普及度和适配度不及 HTTPS、WebRTC 等现代协议；</li>
+<li>内容分发与 CDN 的适配问题：
+<ul>
+<li>现代内容分发网络（CDN）更倾向支持基于 HTTP 的协议（如 HLS 和 DASH），因为它们可以直接利用 HTTP 缓存机制和现有的基础设施；</li>
+<li>RTMP 作为专用协议，与这些现代 CDN 的优化机制不完全兼容，使用成本较高；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="15hls--">1.5、HLS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#15hls--">#</a></h3>
+<blockquote class='book-hint '>
+<p>即，<font color=red>H</font>TTP <font color=red>L</font>ive <font color=red>S</font>treaming</p>
+</blockquote><ul>
+<li>由 <strong>Apple</strong> 开发的流媒体传输协议，<u><strong>基于 HTTP/HTTPS</strong></u>，与现代网络基础设施（如 CDN）无缝集成；</li>
+<li>使用分段视频文件（TS 或 fMP4 ）和索引文件（<font color=red><code>.m3u8</code></font>）实现视频点播和直播功能。视频以小文件传输，丢包率低，即使网络不稳定也能平稳播放；</li>
+<li>是事实上的行业标准，广泛支持于各种设备和平台；</li>
+<li>内容保护：支持 AES-128 加密和防盗链技术；</li>
+<li>核心是将视频内容切分为小段文件（通常 2~10 秒的 TS 或 fMP4 文件）并生成索引文件（<font color=red><code>.m3u8</code></font>），然后通过 HTTP 分发；</li>
+<li>优势：兼容性强、稳定性高，适合大规模视频分发和点播；</li>
+<li>缺势：延迟较高，不适合实时场景；</li>
+<li>应用场景：
+<ul>
+<li>视频点播（如 YouTube、Netflix）；</li>
+<li>高并发直播（如体育赛事转播）；</li>
+<li>需要多设备兼容性的直播平台；</li>
+<li>延迟要求不高的场景，如新闻直播</li>
+</ul>
+</li>
+</ul>
+<h3 id="16webrtc--">1.6、<font id=WebRTC><strong>WebRTC</strong></font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#16webrtc--">#</a></h3>
+<blockquote class='book-hint '>
+<p>即，<font color=red>Web</font> <font color=red>R</font>eal-<font color=red>T</font>ime <font color=red>C</font>ommunication</p>
+</blockquote><ul>
+<li>
+<p>开源技术，能够通过简单的 API，允许浏览器↔️移动设备，通过点对点的方式进行实时音频、视频和数据传输，无需安装插件；</p>
+</li>
+<li>
+<p>WebRTC 是基于 <a href="#RTP"><strong>RTP</strong></a> 的高层封装，专注于提供完整的实时通信解决方案，适合快速开发和部署点对点通信功能。</p>
+</li>
+<li>
+<p>由 W3C 和 IETF 推动，其 API 已被大多数现代浏览器（Chrome、Safari、Firefox 等）支持；</p>
+</li>
+<li>
+<p>使用 P2P（Peer-to-Peer）连接进行数据传输。关键步骤：</p>
+<ul>
+<li><strong>信令（Signaling）</strong>：用于交换通信元数据，包括 <strong>SDP</strong>（<strong>S</strong>ession <strong>D</strong>escription <strong>P</strong>rotocol）和 ICE（<strong>I</strong>nteractive <strong>C</strong>onnectivity <strong>E</strong>stablishment）；</li>
+<li>NAT 穿透：使用 <strong>STUN</strong> 和 <strong>TURN</strong> 技术解决 NAT（网络地址转换）问题，建立设备间的直接连接；</li>
+<li>实时数据传输：
+<ul>
+<li>使用 <a href="#SRTP"><strong>SRTP（Secure Real-time Transport Protocol）</strong></a>传输音频和视频；</li>
+<li>使用 <strong>RTCDataChannel</strong> 传输文本和二进制数据。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>对服务器的信令和 NAT 穿透有较高要求，复杂度较高；</p>
+</li>
+<li>
+<p>优势：低延迟（50ms - 500ms）、实时性强，适合视频会议、实时互动直播等场景；</p>
+</li>
+<li>
+<p>劣势：对服务器的信令和 NAT 穿透有较高要求，复杂度较高；</p>
+</li>
+<li>
+<p>应用场景：</p>
+<ul>
+<li>视频会议（如 Zoom、Google Meet）</li>
+<li>在线教育（如 ClassIn）</li>
+<li>互动直播（低延迟要求）</li>
+<li>远程协作（屏幕共享、文件传输等）</li>
+<li>物联网设备通信（例如智能摄像头的实时视频传输）</li>
+</ul>
+</li>
+<li>
+<p><strong>HLS</strong> vs <strong>WebRTC</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">特性</th>
+          <th style="text-align: center">WebRTC</th>
+          <th style="text-align: center">HLS</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><strong>传输方式</strong></td>
+          <td style="text-align: center">点对点（P2P）</td>
+          <td style="text-align: center">基于 HTTP 的流媒体分发</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>延迟</strong></td>
+          <td style="text-align: center">极低（50ms - 500ms）</td>
+          <td style="text-align: center">较高（5-30 秒）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>应用场景</strong></td>
+          <td style="text-align: center">实时通信、互动直播</td>
+          <td style="text-align: center">视频点播、大规模直播</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>兼容性</strong></td>
+          <td style="text-align: center">浏览器原生支持，适配性高</td>
+          <td style="text-align: center">各种设备和平台广泛支持</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>安全性</strong></td>
+          <td style="text-align: center">使用 DTLS 和 SRTP 加密传输</td>
+          <td style="text-align: center">支持 HTTPS 和 AES-128 加密</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>技术架构</strong></td>
+          <td style="text-align: center">复杂（需要信令、NAT 穿透等）</td>
+          <td style="text-align: center">简单（基于 HTTP）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>适配 CDN</strong></td>
+          <td style="text-align: center">不支持（点对点传输，无法缓存）</td>
+          <td style="text-align: center">完美支持（利用 HTTP 分发内容）</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+<h3 id="17srt--">1.7、<font id=SRT><strong>SRT</strong></font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#17srt--">#</a></h3>
+<blockquote class='book-hint '>
+<p>即，<font color=red>S</font>ecure <font color=red>R</font>eliable <font color=red>T</font>ransport</p>
+</blockquote><ul>
+<li>
+<p>SRT 是由 <strong>Haivision</strong> 公司开发的一种基于 UDP 的流媒体传输协议，专为<strong>低延迟、可靠性和安全性</strong>而设计；</p>
+</li>
+<li>
+<p>它常用于视频直播和远程内容分发；</p>
+</li>
+<li>
+<p>安全拓展：<font id=SRTP><strong>SRTP</strong>（<strong>S</strong>ecure <strong>R</strong>eal-time <strong>T</strong>ransport <strong>P</strong>rotocol，安全实时传输协议）</font></p>
+<ul>
+<li>用于对音视频流的实时传输提供加密、完整性保护和防重放攻击等安全功能；</li>
+<li>主要目标是增强 RTP 的安全性，特别是在实时音视频通信场景下的安全需求，比如 VoIP（语音通信）、视频会议和 WebRTC；</li>
+</ul>
+</li>
+<li>
+<p>SRT 的核心特点：</p>
+<ul>
+<li><font color=red><strong>基于 UDP：</strong> </font> SRT 以 UDP 为基础，但通过在应用层实现自己的可靠性控制，弥补了 UDP 的无连接性和数据丢包问题；</li>
+<li><strong>低延迟：</strong> SRT 提供一种叫做 ARQ（Automatic Repeat reQuest，自动重传请求）的机制，在网络丢包时进行智能重传，同时允许用户配置延迟时间窗口来平衡延迟和质量；</li>
+<li><strong>高可靠性：</strong> 使用 FEC（前向纠错）和 ARQ，SRT 能有效应对丢包、网络抖动和带宽波动等问题；</li>
+<li><strong>安全性：</strong> SRT 支持 AES-128/256 加密，确保传输过程中数据的安全性；</li>
+<li><strong>穿越防火墙：</strong> SRT 能在复杂网络环境下穿越 NAT 和防火墙，方便在公共互联网上使用；</li>
+</ul>
+</li>
+<li>
+<p>SRT 的应用场景：</p>
+<ul>
+<li>视频直播和远程制作（Broadcast and Remote Production）；</li>
+<li>内容分发和转码；</li>
+<li>视频监控和远程视频传输；</li>
+</ul>
+</li>
+<li>
+<p>SRT 的工作原理：</p>
+<ul>
+<li><strong>Handshake：</strong> SRT 在建立连接时使用 UDP 协议完成握手；
+<ul>
+<li><strong>数据传输：</strong> SRT 在应用层实现数据的重传和排序，确保接收端接收完整的数据流；</li>
+<li><strong>时间窗口：</strong> SRT 引入了发送端和接收端的缓冲区时间窗口，以平衡延迟和传输质量；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="18rtp--">1.8、<font id=RTP><strong>RTP</strong></font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#18rtp--">#</a></h3>
+<blockquote class='book-hint '>
+<p>即，<font color=red>R</font>eal-time <font color=red>T</font>ransport <font color=red>P</font>rotocol</p>
+</blockquote><ul>
+<li>
+<p>RTP 是一种<strong>实时传输协议</strong>，专为实时音视频传输设计，<strong>通常与 RTP 控制协议（<a href="#RTCP">RTCP</a>）一起使用</strong>，用于音视频的同步和质量监控；</p>
+</li>
+<li>
+<p>RTP 是 IETF 定义的协议（RFC 3550），广泛用于实时通信、会议系统和 VoIP（如 WebRTC）；</p>
+</li>
+<li>
+<p>RTP 的核心特点</p>
+<ul>
+<li>
+<p><font color=red><strong>基于 UDP：</strong> </font>RTP 使用 UDP 提供快速、低延迟的传输，不保证数据可靠性（如无重传），适用于实时应用；</p>
+</li>
+<li>
+<p><strong>实时性：</strong> RTP 提供时间戳和序列号，帮助接收端按正确顺序重建音视频流并同步播放；</p>
+</li>
+<li>
+<p><strong>灵活性：</strong> RTP 不定义具体的编解码器，可以与 <code>H.264</code>、<code>H.265</code>、<code>AAC</code> 等多种音视频格式配合使用；</p>
+</li>
+<li>
+<p><strong>扩展性：</strong> RTP 支持自定义扩展头部，便于在特定应用场景中添加功能（如视频方向信息）；</p>
+</li>
+</ul>
+</li>
+<li>
+<p><font color=red id=RTCP><strong>RTCP</strong></font>（<strong>R</strong>eal-<strong>T</strong>ime <strong>C</strong>ontrol <strong>P</strong>rotocol）是 RTP 的控制协议，其作用：</p>
+<ul>
+<li>主要用于监控数据传输质量并提供反馈。典型功能包括：
+<ul>
+<li>统计信息报告（如丢包率、延迟、抖动等）；</li>
+<li>接收端反馈给发送端，调整传输速率或其他参数；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>RTP 的应用场景：</p>
+<ul>
+<li><strong>视频会议</strong>（如 Zoom、Teams 等）</li>
+<li><strong>实时语音通话</strong>（如 VoIP 和 SIP）</li>
+<li><strong>实时视频流</strong>（如：<a href="#WebRTC"><strong>WebRTC</strong></a>）</li>
+</ul>
+</li>
+<li>
+<p>RTP 的工作原理：</p>
+<ul>
+<li>
+<p><strong>数据封装：</strong> RTP 将音视频数据封装到 RTP 数据包中，附带时间戳和序列号。</p>
+</li>
+<li>
+<p><strong>同步与播放：</strong> 接收端通过时间戳和序列号重建音视频流。</p>
+</li>
+<li>
+<p><strong>与 RTCP 配合：</strong> RTCP 提供质量监控和同步控制。</p>
+</li>
+<li>
+<p><a href="#WebRTC"><strong>WebRTC</strong></a> vs <strong>RTP</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">对比维度</th>
+          <th style="text-align: center">WebRTC</th>
+          <th style="text-align: center">RTP</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">是否独立工作</td>
+          <td style="text-align: center">提供完整通信框架，适合直接使用</td>
+          <td style="text-align: center">仅提供传输功能，需与其他协议配合使用</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">是否支持数据通道</td>
+          <td style="text-align: center">支持额外的 Data Channel，用于任意数据传输</td>
+          <td style="text-align: center">仅支持音视频流传输</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">NAT 穿越支持</td>
+          <td style="text-align: center">内置支持，能穿越防火墙和 NAT</td>
+          <td style="text-align: center">无内置支持，需借助额外协议实现</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">开发者友好性</td>
+          <td style="text-align: center">高：封装较多，开发简单</td>
+          <td style="text-align: center">较低：需要自行实现信令、安全性等</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">典型使用场景</td>
+          <td style="text-align: center">如果需要快速实现点对点的实时通信功能（如视频聊天、屏幕共享），<br/>＋ 需要在复杂网络环境中运行，<br/>WebRTC 是首选</td>
+          <td style="text-align: center">如果你需要更灵活、底层的实时传输功能，<br/>比如实现定制化的流媒体传输、VoIP 系统或广播应用，可以使用 RTP。<br/>配合 SRTP 和其他协议（如 SIP 或 HLS），<br/>RTP 可实现高度定制化的实时传输系统</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p><a href="#SRT"><strong>SRT</strong></a> vs <strong>RTP</strong></p>
+</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">特性</th>
+          <th style="text-align: center">SRT</th>
+          <th style="text-align: center">RTP</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">底层协议</td>
+          <td style="text-align: center">基于 UDP</td>
+          <td style="text-align: center">基于 UDP</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">可靠性</td>
+          <td style="text-align: center">高：支持重传（ARQ）和纠错（FEC）</td>
+          <td style="text-align: center">较低：无内建重传，依赖更高层协议</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">安全性</td>
+          <td style="text-align: center">支持 AES 加密</td>
+          <td style="text-align: center">无内置加密机制（需配合 SRTP 实现加密）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">延迟</td>
+          <td style="text-align: center">较低：可配置延迟窗口</td>
+          <td style="text-align: center">极低：适合实时应用</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">复杂度</td>
+          <td style="text-align: center">较高：额外实现可靠性和安全性</td>
+          <td style="text-align: center">较低：更接近裸 UDP</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">典型应用</td>
+          <td style="text-align: center">视频直播、远程传输</td>
+          <td style="text-align: center">视频会议、VoIP、WebRTC</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">备注</td>
+          <td style="text-align: center">需要高可靠性、强安全性以及在复杂网络环境下的稳定性<br/>（如公网直播）</td>
+          <td style="text-align: center">追求极低延迟并能容忍一定程度的数据丢失</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+<h3 id="19mqtt--">1.9、MQTT <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#19mqtt--">#</a></h3>
+<blockquote class='book-hint '>
+<p>即，<font color=red>M</font>essage <font color=red>Q</font>ueuing <font color=red>T</font>elemetry <font color=red>T</font>ransport</p>
+</blockquote><ul>
+<li>
+<p><u>轻量级</u>的<strong>发布/订阅</strong>消息传输协议；</p>
+</li>
+<li>
+<p><strong>协议版本</strong>：目前主流版本是 MQTT 3.1.1 和 MQTT 5.0（后者提供了更多特性，如消息过期、增强的错误处理等）；</p>
+</li>
+<li>
+<p><strong>通信层</strong>：基于 <a href="#TCP/IP">TCP</a>，但也支持 <a href="#WebSocket">WebSocket</a>；</p>
+</li>
+<li>
+<p><strong>加密与安全</strong>：可以通过 TLS/SSL 提供传输层加密；支持认证机制（用户名/密码或基于证书）；</p>
+</li>
+<li>
+<p>专为资源受限设备和网络设计。MQTT 的协议头非常小，非常适合低带宽、不稳定的网络环境，比如无线网络；</p>
+</li>
+<li>
+<p>它通常用于物联网（IoT）领域，支持设备之间的高效通信；</p>
+</li>
+<li>
+<p>架构异于传统点对点通信：</p>
+<ul>
+<li>发布者将消息发送到主题（Topic），订阅者订阅某个主题，通过 Broker 转发接收消息；</li>
+<li><strong>持久化会话</strong>：支持客户端和 Broker 之间的会话持久化（Clean Session 标志），以便在客户端断开后重新连接时恢复订阅关系；</li>
+<li><strong>保留消息（Retained Message）</strong>：Broker 可以保留某个主题的最后一条消息，新订阅者可以立刻收到该消息；</li>
+<li><strong>遗嘱消息（Last Will and Testament, LWT）</strong>：客户端可以设置遗嘱消息，当它意外断开时，Broker 会将遗嘱消息发送到指定的主题，通知其他订阅者；</li>
+</ul>
+</li>
+<li>
+<p><strong>质量保证（QoS）</strong>：</p>
+<ul>
+<li><strong>QoS 0</strong>：至多一次（At most once），不保证消息到达；</li>
+<li><strong>QoS 1</strong>：至少一次（At least once），确保消息至少到达一次，但可能重复；</li>
+<li><strong>QoS 2</strong>：仅一次（Exactly once），确保消息只到达一次，适合高可靠性场景；</li>
+</ul>
+</li>
+<li>
+<p>基本架构：（使用客户端-服务器架构）</p>
+<ul>
+<li>
+<p><strong>Broker（消息代理）</strong></p>
+<ul>
+<li>充当消息的中间人，负责接收客户端发布的消息，并将消息转发给订阅了相应主题的客户端；</li>
+<li>例子：Eclipse Mosquitto、HiveMQ、EMQX；</li>
+</ul>
+</li>
+<li>
+<p><strong>Publisher（发布者）</strong>：负责将消息发布到某个主题的客户端；</p>
+</li>
+<li>
+<p><strong>Subscriber（订阅者）</strong>：订阅一个或多个主题，接收与之匹配的消息；</p>
+</li>
+<li>
+<p><strong>主题（Topic）</strong>：类似一个消息的分类标签，发布者将消息发布到一个主题上，订阅者根据主题接收消息；</p>
+</li>
+</ul>
+</li>
+<li>
+<p>工作流程：</p>
+<ul>
+<li><strong>连接</strong>：客户端向 Broker 发起连接请求（通过 <a href="TCP/IP">TCP/IP</a> 或 WebSocket），并进行身份验证（用户名/密码）；</li>
+<li><strong>订阅主题</strong>：客户端向 Broker 提交订阅请求，指定感兴趣的主题；</li>
+<li><strong>发布消息</strong>：客户端向 Broker 发布消息，指定目标主题；</li>
+<li><strong>转发消息</strong>：Broker 根据订阅关系将消息转发给相应的订阅者；</li>
+<li><strong>断开连接</strong>：客户端断开连接，Broker 清理相关的会话或触发遗嘱消息；</li>
+</ul>
+</li>
+<li>
+<p>常见应用场景</p>
+<ul>
+<li><strong>物联网</strong>：智能家居（如灯光、温湿度传感器控制）、工业设备监控（如设备状态和故障报警）；</li>
+<li><strong>实时消息系统</strong>：移动聊天系统、实时位置跟踪；</li>
+<li><strong>远程监控</strong>：停车场设备、交通设施状态监控；</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">特性</th>
+          <th style="text-align: center">MQTT</th>
+          <th style="text-align: center">HTTP</th>
+          <th style="text-align: center">CoAP</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">通信模型</td>
+          <td style="text-align: center">发布/订阅</td>
+          <td style="text-align: center">请求/响应</td>
+          <td style="text-align: center">请求/响应（支持订阅）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">带宽消耗</td>
+          <td style="text-align: center">低</td>
+          <td style="text-align: center">高</td>
+          <td style="text-align: center">非常低</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">实时性</td>
+          <td style="text-align: center">高</td>
+          <td style="text-align: center">较低</td>
+          <td style="text-align: center">高</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">适用场景</td>
+          <td style="text-align: center">物联网、实时消息</td>
+          <td style="text-align: center">静态资源访问</td>
+          <td style="text-align: center">嵌入式设备、低功耗环境</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+<h3 id="110websocket--">1.10、<font id=WebSocket>WebSocket</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#110websocket--">#</a></h3>
+<ul>
+<li>
+<p>WebSocket 是一种<strong>全双工通信协议</strong>，允许客户端和服务器在单个 <a href="TCP/IP">TCP</a> 连接上进行实时、双向的数据交换；</p>
+</li>
+<li>
+<p>它解决了传统 HTTP 协议在实时通信场景下的高延迟和高开销问题，广泛应用于即时通讯、实时通知、多人协作等场景；</p>
+</li>
+<li>
+<p><a href="#HTTP"><code>HTTP</code></a> vs <code>WebSocket</code></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><strong>特性</strong></th>
+          <th style="text-align: center"><strong>HTTP</strong></th>
+          <th style="text-align: center"><strong>WebSocket</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><strong>通信模式</strong></td>
+          <td style="text-align: center">单向（请求-响应）</td>
+          <td style="text-align: center">双向（全双工）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>连接方式</strong></td>
+          <td style="text-align: center">每次请求新建连接</td>
+          <td style="text-align: center">一次握手建立持久连接</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>适用场景</strong></td>
+          <td style="text-align: center">静态数据请求、资源加载</td>
+          <td style="text-align: center">实时通信、低延迟场景</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>数据头大小</strong></td>
+          <td style="text-align: center">较大（HTTP 头部字段多）</td>
+          <td style="text-align: center">小（WebSocket 头部更轻量）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>资源消耗</strong></td>
+          <td style="text-align: center">较高（频繁创建和销毁连接）</td>
+          <td style="text-align: center">较低（持久连接）</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>核心特点</p>
+<ul>
+<li><strong>全双工通信</strong>：客户端和服务器可以同时发送和接收数据，不需要像 HTTP 那样每次请求都等待响应；</li>
+<li><strong>持久化连接</strong>：WebSocket 建立后会保持长连接，不需要像 HTTP 那样频繁建立和关闭连接，降低了资源消耗；</li>
+<li><strong>低延迟</strong>：WebSocket 消息头部非常小（仅 2~14 字节），相比 HTTP 减少了通信开销，适合实时场景；</li>
+<li><strong>基于事件驱动</strong>：WebSocket 的通信通过事件（如 <code>open</code>、<code>message</code>、<code>close</code>、<code>error</code>）来处理数据流，便于编程；</li>
+<li><strong>基于 <a href="TCP/IP">TCP</a></strong>：使用 <a href="TCP/IP">TCP</a> 协议传输数据，可靠性高，并且支持加密（TLS/SSL）；</li>
+</ul>
+</li>
+<li>
+<p>工作流程：</p>
+<ul>
+<li>
+<p><strong>握手阶段</strong>：</p>
+<ul>
+<li>WebSocket 使用 HTTP 协议进行初始握手，客户端向服务器发送一个 <code>Upgrade</code> 请求，要求将协议升级为 WebSocket；</li>
+<li>如果服务器支持 WebSocket，会返回 <code>101 Switching Protocols</code> 状态码，表示连接升级成功；</li>
+</ul>
+</li>
+<li>
+<p><strong>数据传输</strong>：握手成功后，客户端和服务器可以通过 WebSocket 通道进行实时数据交换；</p>
+</li>
+<li>
+<p><strong>关闭连接</strong>：任意一方都可以通过 <code>close</code> 操作主动断开连接；</p>
+</li>
+</ul>
+</li>
+<li>
+<p>握手请求示例</p>
+<p>客户端请求：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#a6e22e">GET</span> /chat <span style="color:#66d9ef">HTTP</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1.1</span>
+</span></span><span style="display:flex;"><span>Host<span style="color:#f92672">:</span> <span style="color:#ae81ff">server.example.com</span>
+</span></span><span style="display:flex;"><span>Upgrade<span style="color:#f92672">:</span> <span style="color:#ae81ff">websocket</span>
+</span></span><span style="display:flex;"><span>Connection<span style="color:#f92672">:</span> <span style="color:#ae81ff">Upgrade</span>
+</span></span><span style="display:flex;"><span>Sec-WebSocket-Key<span style="color:#f92672">:</span> <span style="color:#ae81ff">dGhlIHNhbXBsZSBub25jZQ==</span>
+</span></span><span style="display:flex;"><span>Sec-WebSocket-Version<span style="color:#f92672">:</span> <span style="color:#ae81ff">13</span></span></span></code></pre></div><p>服务器响应：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#66d9ef">HTTP</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1.1</span> <span style="color:#ae81ff">101</span> <span style="color:#a6e22e">Switching Protocols</span>
+</span></span><span style="display:flex;"><span>Upgrade<span style="color:#f92672">:</span> <span style="color:#ae81ff">websocket</span>
+</span></span><span style="display:flex;"><span>Connection<span style="color:#f92672">:</span> <span style="color:#ae81ff">Upgrade</span>
+</span></span><span style="display:flex;"><span>Sec-WebSocket-Accept<span style="color:#f92672">:</span> <span style="color:#ae81ff">s3pPLMBiTxaQ9kYGzzhZRbK+xOo=</span></span></span></code></pre></div></li>
+</ul>
+<h3 id="111sip--">1.11、<font id=SIP>SIP</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#111sip--">#</a></h3>
+<blockquote class='book-hint '>
+<p>即，<font color=red>S</font>ession <font color=red>I</font>nitiation <font color=red>P</font>rotocol</p>
+</blockquote><ul>
+<li>
+<p>用于建立、管理和终止 VoIP 呼叫的信令协议；</p>
+</li>
+<li>
+<p>功能：负责建立、修改和终止会话；</p>
+</li>
+<li>
+<p>特点：</p>
+<ul>
+<li>基于文本（类似 HTTP），易于调试；</li>
+<li>支持用户注册、呼叫转移、呼叫保持等功能；</li>
+</ul>
+</li>
+<li>
+<p>流程：</p>
+<ul>
+<li><strong>INVITE</strong>：客户端发送呼叫邀请；</li>
+<li><strong>ACK</strong>：确认会话建立；</li>
+<li><strong>BYE</strong>：终止会话；</li>
+</ul>
+</li>
+</ul>
+<h3 id="112h323--">1.12、<font id=H323>H.323</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#112h323--">#</a></h3>
+<ul>
+<li>一种传统的 <a href="#VoIP">VoIP</a> 信令协议，适用于视频会议和语音通信；</li>
+<li>功能：早期的 <a href="#VoIP">VoIP</a> 信令协议，主要用于视频会议；</li>
+<li>特点：
+<ul>
+<li>比 <a href="#SIP">SIP</a> 更复杂，但兼容性好；</li>
+<li>包括呼叫控制、媒体传输、信令管理等功能；</li>
+</ul>
+</li>
+</ul>
+<h3 id="113voip--">1.13、<font id=VoIP>VoIP</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#113voip--">#</a></h3>
+<blockquote class='book-hint '>
+<p>即，<font color=red>V</font>oice <font color=red>o</font>ver <font color=red>I</font>nternet <font color=red>P</font>rotocol</p>
+</blockquote><ul>
+<li>
+<p>互联网语音协议，VoIP 也被称为 IP 语音或网络电话技术；</p>
+</li>
+<li>
+<p>将模拟信号（如声音）转换为数字信号，通过网络传输到对端，实现通话功能；</p>
+</li>
+<li>
+<p><font color=blue>某些宗教信仰国家或者地区（比如Dubai）会封锁VoIP协议。具体做法就是强制性的要求在该区域内使用的软件不得包含VoIP的实现；所以不能在软件（如：Skype、Zoom、Google Meet）上打电话只能发语音条</font>；</p>
+</li>
+<li>
+<p><strong>VoIP 技术颠覆了传统电话通信的模式，通过互联网实现低成本、高灵活性的实时语音和视频通信</strong>。尽管在安全性和网络依赖性方面存在挑战，但通过引入编解码器优化、加密技术以及协议改进，VoIP 技术已广泛应用于企业通信、个人通话、智能设备等领域，成为现代通信的核心技术之一。</p>
+</li>
+<li>
+<p>核心原理：</p>
+<ul>
+<li><strong>语音采集与编码</strong>：
+<ul>
+<li>通过麦克风采集模拟语音信号；</li>
+<li>使用编解码器（Codec）将语音信号转换为数字信号，并进行压缩以减少传输数据量；</li>
+</ul>
+</li>
+<li><strong>分组传输</strong>：将压缩后的数字信号切分成多个数据包（Packet），通过 IP 网络进行传输；</li>
+<li><strong>解码与播放</strong>：数据包到达接收端后，解码器将数字信号还原为模拟信号，通过扬声器播放；</li>
+<li><strong>通信协议</strong>：使用专门的 VoIP 协议（如 <a href="#SIP">SIP</a>、<a href="#H323">H.323</a>、<a href="#RTP">RTP</a>）管理呼叫建立、数据传输和终止；</li>
+<li><strong>VoIP 网关</strong>：负责在传统电话网络（PSTN）和 IP 网络之间进行转换；</li>
+<li><strong>PBX 系统</strong>：基于 IP 的专用交换系统，管理内部呼叫和外部通信；</li>
+</ul>
+</li>
+<li>
+<p>工作流程：</p>
+<ul>
+<li><strong>呼叫建立</strong>：用户通过 VoIP 客户端发起呼叫，客户端向服务器发送请求（SIP INVITE）；</li>
+<li><strong>信令交换</strong>：VoIP 服务器（如 <a href="#SIP">SIP</a> 服务器）负责协商呼叫的媒体格式、IP 地址和端口；</li>
+<li><strong>数据传输</strong>：通话双方通过 <a href="#RTP">RTP</a> 协议直接传输语音数据包；</li>
+<li><strong>呼叫终止</strong>：一方挂断电话，<a href="#SIP">SIP</a> 服务器释放会话资源；</li>
+</ul>
+</li>
+<li>
+<p>编解码器（Codec）是 VoIP 的核心技术，用于将语音信号编码成数据流；</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><strong>编解码器</strong></th>
+          <th style="text-align: center"><strong>采样率</strong></th>
+          <th style="text-align: center"><strong>带宽消耗</strong></th>
+          <th style="text-align: center"><strong>特点</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><strong>G.711</strong></td>
+          <td style="text-align: center">8 kHz</td>
+          <td style="text-align: center">64 kbps</td>
+          <td style="text-align: center">无压缩，高音质，网络消耗高</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>G.729</strong></td>
+          <td style="text-align: center">8 kHz</td>
+          <td style="text-align: center">8 kbps</td>
+          <td style="text-align: center">压缩率高，适合低带宽网络</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>OPUS</strong></td>
+          <td style="text-align: center">8-48 kHz</td>
+          <td style="text-align: center">动态（6-510 kbps）</td>
+          <td style="text-align: center">高效，支持语音和音乐</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>AMR</strong></td>
+          <td style="text-align: center">8 kHz</td>
+          <td style="text-align: center">4.75-12.2 kbps</td>
+          <td style="text-align: center">适合移动网络，支持降级策略</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+<h2 id="2视频直播数据流解封装原理--">2、视频直播数据流解封装原理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#2%e8%a7%86%e9%a2%91%e7%9b%b4%e6%92%ad%e6%95%b0%e6%8d%ae%e6%b5%81%e8%a7%a3%e5%b0%81%e8%a3%85%e5%8e%9f%e7%90%86--">#</a></h2>
+<p><img src="./assets/221314l1iui35c7ycuyp1i.png" alt="视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等_5.png" /></p>
+<ul>
+<li>解协议；</li>
+<li>解封装；</li>
+<li>解码音视频；</li>
+<li>音视频同步播放；</li>
+</ul>
+<h2 id="3ffmpeg--">3、FFMPEG <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#3ffmpeg--">#</a></h2>
+<ul>
+<li>
+<p>多媒体处理工具，它是一个开源项目，支持几乎所有的音视频格式和编解码器；</p>
+</li>
+<li>
+<p>核心组件：</p>
+<ul>
+<li><strong>ffmpeg 命令行工具</strong>：用于音视频处理的命令行工具；</li>
+<li><strong>ffprobe 命令行工具</strong>：用于分析多媒体文件的工具；</li>
+<li><strong>libavcodec</strong>：负责音视频编解码的核心库；</li>
+<li><strong>libavformat</strong>：处理多媒体文件格式的库（如 MP4、MKV 等）；</li>
+<li><strong>libavfilter</strong>：提供音视频滤镜功能的库；</li>
+<li><strong>libswscale</strong>：用于图像缩放和像素格式转换；</li>
+<li><strong>libswresample</strong>：用于音频采样率转换和格式转换；</li>
+<li><strong>libavdevice</strong>：支持输入输出设备的库；</li>
+</ul>
+</li>
+<li>
+<p>核心功能：</p>
+<ul>
+<li><strong>转码 (Transcoding)</strong>：
+<ul>
+<li>重新编码音视频文件，例如将 AVI 转为 MP4；</li>
+<li>支持多种编解码器，如 H.264、HEVC、AAC 等；</li>
+</ul>
+</li>
+<li><strong>格式转换 (Container Conversion)</strong>：
+<ul>
+<li>转换文件的封装格式而不重新编码；</li>
+<li>示例：从 MKV 转为 MP4，只改变封装格式，速度快；</li>
+</ul>
+</li>
+<li><strong>剪切与合并</strong>：
+<ul>
+<li>可以精确地剪切音视频片段；</li>
+<li>支持将多个音视频文件合并为一个文件；</li>
+</ul>
+</li>
+<li><strong>滤镜处理 (Filters)</strong>：
+<ul>
+<li>添加特效或修改音视频，比如旋转、裁剪、叠加文字、调节音量等；</li>
+</ul>
+</li>
+<li><strong>多媒体流处理</strong>：
+<ul>
+<li>录制、推流、接收实时音视频流；</li>
+<li>可用于直播场景，支持 RTMP、HLS 等协议；</li>
+</ul>
+</li>
+<li><strong>音视频信息分析</strong>：
+<ul>
+<li>使用 <code>ffprobe</code> 查看音视频文件的详细信息，包括比特率、分辨率、编解码器等；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>常用命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span># 查看文件信息（文件的编解码器、比特率、分辨率等详细信息）
+</span></span><span style="display:flex;"><span>ffprobe input.mp4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 转换文件格式：将 AVI 文件转换为 MP4 文件
+</span></span><span style="display:flex;"><span>ffmpeg -i input.avi output.mp4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 指定编解码器进行转码
+</span></span><span style="display:flex;"><span># -c:v：指定视频编解码器为 H.264
+</span></span><span style="display:flex;"><span># -c:a：指定音频编解码器为 AAC
+</span></span><span style="display:flex;"><span>ffmpeg -i input.mp4 -c:v libx264 -c:a aac output.mp4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 裁剪视频
+</span></span><span style="display:flex;"><span># -ss：指定起始时间
+</span></span><span style="display:flex;"><span># -to：指定结束时间
+</span></span><span style="display:flex;"><span># -c copy：不重新编码，直接裁剪
+</span></span><span style="display:flex;"><span>ffmpeg -i input.mp4 -ss 00:01:00 -to 00:02:00 -c copy output.mp4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 合并视频
+</span></span><span style="display:flex;"><span>ffmpeg -f concat -safe 0 -i file_list.txt -c copy output.mp4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>file_list.txt 内容示例
+</span></span><span style="display:flex;"><span>file &#39;video1.mp4&#39;
+</span></span><span style="display:flex;"><span>file &#39;video2.mp4&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 添加水印
+</span></span><span style="display:flex;"><span># overlay=10:10：将水印放在视频的左上角，距离边缘 10 像素
+</span></span><span style="display:flex;"><span>ffmpeg -i input.mp4 -i watermark.png -filter_complex <span style="color:#e6db74">&#34;overlay=10:10&#34;</span> output.mp4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 调整分辨率
+</span></span><span style="display:flex;"><span># scale=1280:720：将视频分辨率调整为 1280x720
+</span></span><span style="display:flex;"><span>ffmpeg -i input.mp4 -vf scale=1280:720 output.mp4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 视频转图片序列
+</span></span><span style="display:flex;"><span># 每帧导出为一张图片
+</span></span><span style="display:flex;"><span>ffmpeg -i input.mp4 frame_%04d.png
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 图片序列转视频
+</span></span><span style="display:flex;"><span># -framerate 30：设置帧率为 30
+</span></span><span style="display:flex;"><span>ffmpeg -framerate 30 -i frame_%04d.png -c:v libx264 -pix_fmt yuv420p output.mp4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 推送流媒体
+</span></span><span style="display:flex;"><span># 推送到 RTMP 服务器。
+</span></span><span style="display:flex;"><span>ffmpeg -re -i input.mp4 -c copy -f flv rtmp://your.server/live/streamkey</span></span></code></pre></div></li>
+</ul>
+<h2 id="4推拉流--">4、推拉流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#4%e6%8e%a8%e6%8b%89%e6%b5%81--">#</a></h2>
+<ul>
+<li><strong>推流</strong>：指将本地的音视频数据通过网络协议发送到服务器或其他客户端。常用于主播将视频内容推送到直播服务器。</li>
+<li><strong>拉流</strong>：指客户端从服务器或其他数据源获取音视频数据并进行解码播放。观众通过拉流观看主播的直播内容。</li>
+<li>传统推拉流的工作原理：
+<ul>
+<li><strong>基于CDN（内容分发网络）</strong>：
+<ul>
+<li>主播推流到CDN服务器；</li>
+<li>观众从CDN拉取直播流；</li>
+<li>优点：稳定性高，支持大规模分发；</li>
+<li>缺点：带宽成本高，存在一定延迟；</li>
+</ul>
+</li>
+<li><strong>基于MCU/ SFU</strong>：
+<ul>
+<li>MCU（多点控制单元）：集中处理音视频流，例如混音、转码后再分发；</li>
+<li>SFU（选择性转发单元）：直接转发音视频流给多端，不进行转码处理；</li>
+<li>缺点：MCU处理能力有限，SFU虽然降低了服务器压力，但仍依赖中心化服务器；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="41p2ppeer-to-peer点对点技术--">4.1、P2P（Peer-to-Peer，点对点）技术 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#41p2ppeer-to-peer%e7%82%b9%e5%af%b9%e7%82%b9%e6%8a%80%e6%9c%af--">#</a></h3>
+<ul>
+<li>
+<p>分布式网络架构，其特点是网络中的每个节点（设备或计算机）既可以作为客户端，也可以作为服务器；</p>
+</li>
+<li>
+<p>P2P技术通过去中心化的方式实现资源共享、数据传输和协作。广泛应用于文件共享、即时通讯、区块链等领域；</p>
+</li>
+<li>
+<p><strong>P2P音视频传输的实现通常依赖以下技术</strong>：</p>
+<ul>
+<li><a href="#WebRTC"><strong>WebRTC</strong></a>
+<ul>
+<li><strong>STUN（用于获取客户端的公网IP，协助建立点对点连接）/ TURN（当P2P直连失败时，充当中继服务器进行数据转发）</strong>；</li>
+<li><strong>ICE（交互式连接建立）</strong>：综合**<code>STUN</code><strong>/</strong><code>TURN</code>**技术，动态选择最佳传输路径；</li>
+<li><strong>DTLS + SRTP</strong>：保证数据传输的安全性和实时性；</li>
+</ul>
+</li>
+<li>分片与组播
+<ul>
+<li><strong>分片</strong>：将大流分割成小片段，通过多个P2P节点分发，类似于BitTorrent的工作原理；</li>
+<li><strong>组播</strong>：在多观众场景中，节点可以充当中继，帮助转发音视频数据给周围观众；</li>
+</ul>
+</li>
+<li>节点角色分配
+<ul>
+<li><strong>种子节点</strong>：主要负责初始数据流的分发（例如主播）；</li>
+<li><strong>中继节点</strong>：既拉取数据又负责将数据转发给其他节点；</li>
+<li><strong>叶子节点</strong>：只负责接收数据并播放，不再转发；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>P2P推拉流的应用场景</p>
+<ul>
+<li><strong>小规模实时通信</strong>：点对点视频通话、视频会议</li>
+<li><strong>大规模互动直播</strong>：互动直播间（如教育、游戏直播）、连麦场景</li>
+<li><strong>文件或视频分发</strong>：通过P2P加速点播视频的下载或播放</li>
+</ul>
+</li>
+<li>
+<p>P2P推拉流的挑战：</p>
+<ul>
+<li><strong>网络穿透</strong>：NAT穿透对P2P连接至关重要，部分网络环境下P2P连接可能失败；</li>
+<li><strong>带宽与延迟</strong>：若某个中继节点带宽不足，会影响其他节点的观看体验；</li>
+<li><strong>可靠性与稳定性</strong>：节点的不可靠性（掉线、弱网）会导致数据丢失或传输中断；</li>
+<li><strong>安全性</strong>：P2P通信需要严格的数据加密机制，防止数据被篡改或窃取；</li>
+</ul>
+</li>
+<li>
+<p>P2P与CDN结合：</p>
+<ul>
+<li><strong>混合模式</strong>：大多数实际应用中，会结合P2P和CDN以保证流畅性和稳定性
+<ul>
+<li><strong>高并发场景</strong>：观众通过P2P分发，缓解CDN压力；</li>
+<li><strong>弱网环境</strong>：通过CDN作为兜底保障，避免因P2P连接失败而导致观看失败；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>P2P推拉流的优势：</p>
+<ul>
+<li><strong>去中心化</strong>：主播和观众之间直接连接，不依赖中心服务器；</li>
+<li><strong>低延迟</strong>：由于数据传输路径短，延迟明显降低；</li>
+<li><strong>带宽节省</strong>：使用节点间的闲置带宽，减轻中心服务器的压力；</li>
+<li><strong>扩展性强</strong>：支持大量观众之间的直接连接；</li>
+</ul>
+</li>
+<li>
+<p>P2P技术的核心特点：</p>
+<ul>
+<li><strong>去中心化</strong>：没有固定的中心服务器，所有节点地位平等，能够独立发起和响应请求；</li>
+<li><strong>资源共享</strong>：每个节点既是资源的提供者，也是资源的使用者，可以共享存储、带宽、计算能力等；</li>
+<li><strong>自组织</strong>：网络能够根据节点的加入或退出动态调整，保持网络的连通性和效率；</li>
+<li><strong>高扩展性</strong>：网络的性能和容量随着节点的增加而提升；</li>
+<li><strong>容错性强</strong>：单个节点的故障不会影响整个网络的运行；</li>
+</ul>
+</li>
+<li>
+<p>P2P技术的工作原理：</p>
+<ul>
+<li><strong>节点发现</strong>：节点需要找到其他节点以建立连接，常用的方法包括中心服务器引导、分布式哈希表（DHT）以及广播；</li>
+<li><strong>资源定位</strong>：通过分布式索引（如DHT）或搜索算法定位需要的资源，避免集中存储；</li>
+<li><strong>数据传输</strong>：使用分块传输技术（如BitTorrent）提高传输效率，支持多点下载和上传；</li>
+<li><strong>网络维护</strong>：P2P网络会定期检查节点的可用性，并移除离线节点以保证网络的稳定性；</li>
+</ul>
+</li>
+<li>
+<p>P2P技术的优势：</p>
+<ul>
+<li><strong>高效利用资源</strong>：利用每个节点的计算能力和带宽，实现资源的高效共享；</li>
+<li><strong>抗中心化攻击</strong>：无中心服务器，网络更具弹性，不容易因单点故障或攻击而瘫痪；</li>
+<li><strong>成本低</strong>：不依赖大型服务器，运营成本较低；</li>
+<li><strong>扩展性强</strong>：随着节点的增加，系统的性能和能力也能动态提升；</li>
+</ul>
+</li>
+<li>
+<p>P2P技术的挑战：</p>
+<ul>
+<li><strong>安全性问题</strong>：缺乏中心控制，容易受到恶意节点的攻击，如数据篡改、欺诈行为等；</li>
+<li><strong>带宽压力</strong>：部分节点可能成为流量热点，导致带宽负载过重；</li>
+<li><strong>资源不可控性</strong>：节点可能随时离线，导致资源分布和获取的不确定性；</li>
+<li><strong>版权问题</strong>：在文件共享领域，P2P技术容易引发侵权争议；</li>
+</ul>
+</li>
+<li>
+<p>P2P技术的应用场景：</p>
+<ul>
+<li><strong>文件共享</strong>：经典案例：BitTorrent、eMule，用于大规模文件分发；</li>
+<li><strong>即时通讯</strong>：早期的Skype使用P2P技术实现高效通信；</li>
+<li><strong>流媒体分发</strong>：P2P直播平台通过节点间的共享分发直播内容，缓解中心服务器的压力；</li>
+<li><strong>区块链</strong>：比特币、以太坊等区块链系统是基于P2P网络构建的，支持去中心化账本；</li>
+<li><strong>分布式存储</strong>：IPFS（星际文件系统）通过P2P技术构建高效的分布式存储网络；</li>
+<li><strong>分布式计算</strong>：SETI@home、Folding@home等利用P2P技术进行大规模的科学计算；</li>
+</ul>
+</li>
+</ul>
+<h3 id="42架构--">4.2、架构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#42%e6%9e%b6%e6%9e%84--">#</a></h3>
+<ul>
+<li>厂商SDK推拉流</li>
+</ul>
+<p><img src="./assets/212005f758dl3459ld5dh7.png" alt="视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等_1.png" /></p>
+<ul>
+<li>旁路推流</li>
+</ul>
+<p><img src="./assets/213707ezzikelql6v9blit.png" alt="视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等_2.png" /></p>
+<ul>
+<li>
+<p>RTMP推流
+<img src="./assets/214248kuh9rm2rm99ru99u.png" alt="视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等_3.png" /></p>
+<ul>
+<li>RTMP推流的优势和劣势
+<table>
+  <thead>
+      <tr>
+          <th>优势</th>
+          <th>描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>支持专业设备接入</td>
+          <td>可以接入专业的直播摄像头、麦克风，直播的整体效果明显优于手机开播。</td>
+      </tr>
+      <tr>
+          <td>OBS插件丰富</td>
+          <td>OBS已有许多成熟插件，如蘑菇街主播常用的YY助手，可用于美颜处理。<br/>此外，OBS本身支持滤镜、绿幕、多路视频合成等功能，功能比手机端强大。</td>
+      </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+      <tr>
+          <th>劣势</th>
+          <th>描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>配置复杂</td>
+          <td>OBS本身配置较复杂，需要专业设备支持，对主播的要求更高，通常需要一个固定场地进行直播。</td>
+      </tr>
+      <tr>
+          <td>延时较长</td>
+          <td>RTMP需要云端转码，本地上传时也需在OBS中配置GOP和缓冲，导致延时相对较长。</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p>云互备（高可用架构方案）：业务发展到一定阶段后，我们对于业务的稳定性也会有更高的要求</p>
+<p><img src="./assets/214734f2q1etqama6ragz2.png" alt="视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等_4.png" /></p>
+</li>
+</ul>
+<h2 id="5相关文件格式--">5、相关文件格式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#5%e7%9b%b8%e5%85%b3%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f--">#</a></h2>
+<h3 id="51flv--">5.1、FLV <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#51flv--">#</a></h3>
+<ul>
+<li>
+<p>FLV 是一种轻量级、高效的流媒体容器格式，具有低延迟和实时性的优点，用于存储音频、视频以及元数据，广泛应用于早期的流媒体点播和直播系统中；虽然其主流地位已经被更现代的格式（如 <a href="#MP4">MP4</a> 和 <a href="#HLS">HLS</a>）取代，但在特定领域（如 <a href="#RTMP">RTMP</a> 直播）仍然有着不可忽视的应用价值；</p>
+</li>
+<li>
+<p>它通过简单的结构设计，确保可以快速解析和实时流传输；</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><strong>特性</strong></th>
+          <th style="text-align: center"><strong>FLV</strong></th>
+          <th style="text-align: center"><strong>MP4</strong></th>
+          <th style="text-align: center"><strong>HLS</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><strong>实时性</strong></td>
+          <td style="text-align: center">高</td>
+          <td style="text-align: center">一般</td>
+          <td style="text-align: center">较低</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>延迟</strong></td>
+          <td style="text-align: center">低（RTMP 推流）</td>
+          <td style="text-align: center">较高</td>
+          <td style="text-align: center">高（切片时间长）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>文件大小</strong></td>
+          <td style="text-align: center">小</td>
+          <td style="text-align: center">较大</td>
+          <td style="text-align: center">中等</td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><strong>兼容性</strong></td>
+          <td style="text-align: center">较低（依赖 Flash）</td>
+          <td style="text-align: center">高</td>
+          <td style="text-align: center">高</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>基本结构：</p>
+<ul>
+<li>
+<p>Header（文件头）</p>
+<ul>
+<li>
+<p>用于标记文件类型和版本信息；</p>
+</li>
+<li>
+<p>通常为固定长度的 9 字节；</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><strong>偏移位置</strong></th>
+          <th style="text-align: center"><strong>长度</strong></th>
+          <th style="text-align: center"><strong>字段</strong></th>
+          <th style="text-align: center"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center">文件标志 &ldquo;FLV&rdquo;</td>
+          <td style="text-align: center">FLV 文件标识符</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">版本号</td>
+          <td style="text-align: center">通常为 1</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">4</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">文件标志位</td>
+          <td style="text-align: center">音频/视频标识</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">5-8</td>
+          <td style="text-align: center">4</td>
+          <td style="text-align: center">Header 长度</td>
+          <td style="text-align: center">文件头长度（9 字节）</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p>Previous Tag Size（上一个 Tag 的大小）</p>
+<ul>
+<li>标记上一个数据块的大小，固定为 4 字节；</li>
+<li>第一个块的值为 0；</li>
+</ul>
+</li>
+<li>
+<p>Tag（数据块）</p>
+<ul>
+<li>
+<p>FLV 的主体部分，由一系列 Tag 组成；</p>
+</li>
+<li>
+<p>每个 Tag 存储一个音频帧、视频帧或元数据信息；</p>
+</li>
+<li>
+<p>Tag 类型</p>
+<ul>
+<li><strong>音频 Tag（Type=8）：</strong>
+<ul>
+<li>存储音频数据；</li>
+<li>支持格式：AAC、MP3、SPEEX 等；</li>
+</ul>
+</li>
+<li><strong>视频 Tag（Type=9）：</strong>
+<ul>
+<li>存储视频帧数据；</li>
+<li>支持格式：H.263、H.264、VP6 等；</li>
+</ul>
+</li>
+<li><strong>元数据 Tag（Type=18）：</strong>
+<ul>
+<li>包含文件的元数据信息（如分辨率、码率、时长等）；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Tag 的结构：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><strong>字节偏移</strong></th>
+          <th style="text-align: center"><strong>长度</strong></th>
+          <th style="text-align: center"><strong>内容</strong></th>
+          <th style="text-align: center"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">Tag 类型</td>
+          <td style="text-align: center">音频/视频/元数据</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">1-3</td>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center">数据大小</td>
+          <td style="text-align: center">数据的大小</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">4-7</td>
+          <td style="text-align: center">4</td>
+          <td style="text-align: center">时间戳（毫秒）</td>
+          <td style="text-align: center">数据包的时间戳</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">8-10</td>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center">扩展时间戳</td>
+          <td style="text-align: center">扩展时间戳（高精度）</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">11-&hellip;</td>
+          <td style="text-align: center">N</td>
+          <td style="text-align: center">数据载荷（音频/视频）</td>
+          <td style="text-align: center">实际的数据内容</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="52ts--">5.2、TS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#52ts--">#</a></h3>
+<h3 id="53mp4--">5.3、<font id=HLS>MP4</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#53mp4--">#</a></h3>
+<h3 id="54hls--">5.4、<font id=HLS>HLS</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#54hls--">#</a></h3>
+<h2 id="6faq--">6、FAQ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#6faq--">#</a></h2>
+<h3 id="61什么是以太网-">6.1、什么是以太网？<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#61%e4%bb%80%e4%b9%88%e6%98%af%e4%bb%a5%e5%a4%aa%e7%bd%91-">#</a></h3>
+<ul>
+<li><strong>局域网（LAN）</strong>，像是<strong>汽车</strong>这个大类。
+是一个<strong>范围概念</strong>：指在有限区域内（如家庭、办公室、校园、工厂）建立的计算机网络。LAN 可以用不同的技术来实现，比如 <strong>以太网、Wi-Fi、令牌环</strong> 等。</li>
+<li><strong>以太网（Ethernet）</strong>，就像<strong>丰田卡罗拉</strong>这种具体车型。
+是一种<strong>实现局域网的具体技术标准</strong>。它规定了网线、交换机、数据帧格式、MAC 地址等。换句话说，大多数 LAN 都是通过以太网来搭建的，但 LAN ≠ Ethernet。</li>
+</ul>
+<h3 id="62什么叫字节流-">6.2、什么叫字节流？<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#62%e4%bb%80%e4%b9%88%e5%8f%ab%e5%ad%97%e8%8a%82%e6%b5%81-">#</a></h3>
+<ul>
+<li>
+<p>**字节流（Byte Stream）**是指一连串没有边界的字节序列。</p>
+</li>
+<li>
+<p>它强调的是<strong>连续性</strong>，数据被看作一个接一个的字节流动，像水流一样不断传输。</p>
+</li>
+<li>
+<p>特点</p>
+<ul>
+<li>
+<p><strong>无固定边界</strong>
+数据是连续的，没有“包”的概念。应用层要自己定义消息的分隔方式（比如加分隔符 <code>\n</code>，或者前面写一个长度字段）。</p>
+</li>
+<li>
+<p><strong>顺序保证</strong>
+发送的字节序列在接收方一定按顺序到达，不会乱序。</p>
+</li>
+<li>
+<p><strong>传输透明</strong>
+系统不会关心你写的是什么内容（文本、图片、JSON 都可以），只管把字节一个个送过去。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>举例</p>
+<ul>
+<li>
+<p><strong>TCP</strong> 就是“面向字节流”的协议。
+如果你在 TCP 套接字里写入：</p>
+<pre tabindex="0"><code>send(&#34;Hello&#34;)
+send(&#34;World&#34;)</code></pre><p>接收方可能会一次性读到 <code>&quot;HelloWorld&quot;</code>，
+也可能先读到 <code>&quot;Hel&quot;</code>，下一次再读到 <code>&quot;loWorld&quot;</code>。
+因为 TCP 不知道你逻辑上有“Hello”和“World”两个消息，它只知道有一堆连续的字节。</p>
+</li>
+<li>
+<p><strong>UDP</strong> 则不同，它保留消息边界，一次发送的 <code>&quot;Hello&quot;</code> 和 <code>&quot;World&quot;</code>，接收方一定是两个独立的报文。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="63tcp-怎么从字节流里面识别这个完整消息的-">6.3、TCP 怎么从字节流里面识别这个完整消息的？<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#63tcp-%e6%80%8e%e4%b9%88%e4%bb%8e%e5%ad%97%e8%8a%82%e6%b5%81%e9%87%8c%e9%9d%a2%e8%af%86%e5%88%ab%e8%bf%99%e4%b8%aa%e5%ae%8c%e6%95%b4%e6%b6%88%e6%81%af%e7%9a%84-">#</a></h3>
+<ul>
+<li>
+<p><strong>定长消息（Fixed-Length）</strong>
+每个消息固定长度，比如 512 字节。接收方只要每次读 512 个字节，就能知道一条完整消息。</p>
+<ul>
+<li>优点：简单</li>
+<li>缺点：浪费带宽（消息不足 512 字节也要填充）</li>
+</ul>
+</li>
+<li>
+<p><strong>分隔符（Delimiter-Based）</strong>
+在消息末尾加一个特殊符号，例如 HTTP/1.0 的请求用 <code>\r\n\r\n</code> 分隔头部和主体。</p>
+<ul>
+<li>优点：灵活直观</li>
+<li>缺点：如果正文里也可能出现分隔符，就需要转义</li>
+</ul>
+</li>
+<li>
+<p><strong>长度字段（Length-Prefixed）</strong>
+在消息前加上一个固定大小的“长度”字段，说明后面数据的大小。</p>
+<ul>
+<li>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">[</span><span style="color:#f92672">长度</span><span style="color:#f92672">=</span><span style="color:#f92672">11</span><span style="color:#f92672">][</span><span style="color:#f92672">Hello</span> <span style="color:#f92672">World</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span><span style="color:#f92672">长度</span><span style="color:#f92672">=</span><span style="color:#f92672">5</span><span style="color:#f92672">][</span><span style="color:#f92672">12345</span><span style="color:#f92672">]</span></span></span></code></pre></div></li>
+<li>
+<p>接收方先读长度，再根据长度读完整消息。</p>
+</li>
+<li>
+<p>很多二进制协议（如 gRPC、Protobuf over TCP）都这么做。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>混合方式</strong>：有些协议同时用分隔符和长度，比如 HTTP/2、WebSocket 就结合了头部长度和帧分隔的概念。</p>
+</li>
+</ul>
+<h2 id="7资料来源--">7、资料来源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#7%e8%b5%84%e6%96%99%e6%9d%a5%e6%ba%90--">#</a></h2>
+<p><a href="#http://www.52im.net/thread-3922-1-1.html"><strong>视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等</strong></a></p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的👉点我回到首页</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo.plist/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>配置info.plist</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/" class="flex align-center">
+        <span>iOS项目集成Unity</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言--">🔥前言 <b>🔼</b> <b>🔽</b></a></li>
+    <li><a href="#1相关协议--">1、相关协议 <b>🔼</b> <b>🔽</b></a>
+      <ul>
+        <li><a href="#11tcpip-协议簇--">1.1、<code>TCP/IP</code> 协议簇 <b>🔼</b> <b>🔽</b></a>
+          <ul>
+            <li><a href="#111tcpip-的分层模型--">1.1.1、TCP/IP 的分层模型 <b>🔼</b> <b>🔽</b></a></li>
+            <li><a href="#112tcpip-的核心协议特点--">1.1.2、TCP/IP 的核心协议特点 <b>🔼</b> <b>🔽</b></a></li>
+            <li><a href="#113tcpip-数据传输的完整流程--">1.1.3、TCP/IP 数据传输的完整流程 <b>🔼</b> <b>🔽</b></a></li>
+          </ul>
+        </li>
+        <li><a href="#12http-协议簇--">1.2、HTTP 协议簇 <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#13html协议簇--">1.3、HTML协议簇 <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#14rtmp--">1.4、RTMP <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#15hls--">1.5、HLS <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#16webrtc--">1.6、<strong>WebRTC</strong> <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#17srt--">1.7、<strong>SRT</strong> <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#18rtp--">1.8、<strong>RTP</strong> <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#19mqtt--">1.9、MQTT <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#110websocket--">1.10、WebSocket <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#111sip--">1.11、SIP <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#112h323--">1.12、H.323 <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#113voip--">1.13、VoIP <b>🔼</b> <b>🔽</b></a></li>
+      </ul>
+    </li>
+    <li><a href="#2视频直播数据流解封装原理--">2、视频直播数据流解封装原理 <b>🔼</b> <b>🔽</b></a></li>
+    <li><a href="#3ffmpeg--">3、FFMPEG <b>🔼</b> <b>🔽</b></a></li>
+    <li><a href="#4推拉流--">4、推拉流 <b>🔼</b> <b>🔽</b></a>
+      <ul>
+        <li><a href="#41p2ppeer-to-peer点对点技术--">4.1、P2P（Peer-to-Peer，点对点）技术 <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#42架构--">4.2、架构 <b>🔼</b> <b>🔽</b></a></li>
+      </ul>
+    </li>
+    <li><a href="#5相关文件格式--">5、相关文件格式 <b>🔼</b> <b>🔽</b></a>
+      <ul>
+        <li><a href="#51flv--">5.1、FLV <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#52ts--">5.2、TS <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#53mp4--">5.3、MP4 <b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#54hls--">5.4、HLS <b>🔼</b> <b>🔽</b></a></li>
+      </ul>
+    </li>
+    <li><a href="#6faq--">6、FAQ <b>🔼</b> <b>🔽</b></a>
+      <ul>
+        <li><a href="#61什么是以太网-">6.1、什么是以太网？<b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#62什么叫字节流-">6.2、什么叫字节流？<b>🔼</b> <b>🔽</b></a></li>
+        <li><a href="#63tcp-怎么从字节流里面识别这个完整消息的-">6.3、TCP 怎么从字节流里面识别这个完整消息的？<b>🔼</b> <b>🔽</b></a></li>
+      </ul>
+    </li>
+    <li><a href="#7资料来源--">7、资料来源 <b>🔼</b> <b>🔽</b></a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

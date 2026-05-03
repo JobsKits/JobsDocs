@@ -1,16 +1,18 @@
 # [<span style="color:red; font-weight:bold;">R</span>eact<span style="color:red; font-weight:bold;">N</span>ative](# https://reactnative.dev/)
 
+![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
+
 [toc]
 
 当前总行数：366 行
 
-## 基础知识
+## 一、基础知识
 
 * 脚本语言：必须在自己的环境下（解释器）运行，不能完全对接操作系统。比如，`*.js`需要在操作系统里面安装了Node.js以后，才可以运行；
 
-## 一些工具
+## 二、一些工具
 
-### Node.js
+### 1、Node.js
 
 * Node.js：是一个基于 Chrome V8 引擎的 JavaScript 运行环境。它的特点如下:
 
@@ -52,7 +54,7 @@
     v21.7.1
     ```
 
-### npm
+### 2、npm
 
 npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它的主要作用如下:
 
@@ -68,7 +70,7 @@ npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它�
 
 * **创建项目**：npm 可以通过 `npm init` 创建一个标准化的包结构,便于构建新项目。
 
-###  Yarn
+###  3、Yarn
 
 * 全称：Yarn Package Manager
 * 由**Facebook**开源的**依赖管理工具**
@@ -82,7 +84,7 @@ npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它�
   * **更好的安全性**：在每次安装前,Yarn 会通过验证机制校验每个安装包的完整性。
   * **更好的网页端支持**：Yarn 可直接通过 Node.js 的流重定向到浏览器中运行。
 
-### [watchman](# https://facebook.github.io/watchman/)
+### 4、[watchman](# https://facebook.github.io/watchman/)
 
 * **Facebook**出品，用于监视文件系统的变化
 
@@ -91,7 +93,7 @@ npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它�
   brew install watchman
   ```
 
-### `react-native-cli`
+### 5、`react-native-cli`
 
 * `cli` = **C**ommand **L**ine **I**nterface = 命令行界面 = 指的是一种基于纯文本或字符界面与计算机程序进行交互的方式,用户通过输入命令来执行相应的操作；
 
@@ -139,7 +141,7 @@ npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它�
     react-native upgrade # 将项目代码升级到最新的 React Native 版本
     ```
 
-### Expo
+### 6、Expo
 
 Expo 是一个用于构建React Native应用程序的**工具链**。它旨在简化React Native应用程序的开发过程,并提供了许多有用的功能和工具。以下是 Expo 的一些主要特点:
 
@@ -157,7 +159,7 @@ Expo 是一个用于构建React Native应用程序的**工具链**。它旨在�
 
 * **无需Xcode或Android Studio**:使用Expo,开发人员无需在本地安装Xcode或Android Studio就可以构建React Native应用；
 
-### JavaScript bundler
+### 7、JavaScript bundler
 
 * JavaScript bundler是一种工具；
 
@@ -175,7 +177,7 @@ Expo 是一个用于构建React Native应用程序的**工具链**。它旨在�
   - **Parcel**：零配置的bundler,开箱即用。
   - **Metro**：React Native应用程序的默认bundler。
 
-### Metro 开发服务器
+### 8、Metro 开发服务器
 
 * Metro是React Native应用程序的JavaScript bundler；
 * 在React Native中，Metro充当bundler的角色，将React Native应用的JavaScript代码打包成一个单一文件，以优化应用的启动时间和整体性能；
@@ -195,11 +197,7 @@ Expo 是一个用于构建React Native应用程序的**工具链**。它旨在�
   * **资产解析**：Metro能够解析并正确导入图像、视频、字体等资产文件；
   * **错误捕获**：Metro将编译时和运行时的错误可视化,使排查问题更加简单；
 
-
-
-
-
-## 新建项目
+## 三、新建项目
 
 <span style="color:red; font-weight:bold;">*使用**React Native的内置命令行界面**新建工程*</span>
 
@@ -427,9 +425,9 @@ To run your project, navigate to the directory and run one of the following yarn
 ➜  Desktop 
 ```
 
-## 运行项目
+## 四、运行项目
 
-### 在iOS模拟器上运行
+### 1、在iOS模拟器上运行
 
 *`npm run ios`*或者`yarn ios`
 
@@ -487,7 +485,7 @@ iOS Bundled 7769ms (node_modules/expo/AppEntry.js)
 
 ```
 
-### 在Android模拟器上运行
+### 2、在Android模拟器上运行
 
 ```bash
 ➜  AwesomeProject git:(master) npm run android
@@ -506,7 +504,7 @@ https://developer.android.com/studio/run/device.html#developer-device-options. I
 ➜  AwesomeProject git:(master) 
 ```
 
-### 一些错误提示及解决办法
+### 3、一些错误提示及解决办法
 
 ```bash
 ➜  Desktop cd AwesomeProject

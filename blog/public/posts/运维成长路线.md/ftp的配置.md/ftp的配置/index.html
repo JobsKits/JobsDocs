@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>FTP的配置 | Jobs Docs</title>
+<meta name="keywords" content="Docs">
+<meta name="description" content="FTP = File Transfer Protocol = 文件传输协议
+1、是在计算机网络的用户端和服务器间传输文件的应用层协议;
+2、传送文件（file transfer）和访问文件（file access）之间的区别在于:前者由FTP提供，后者由NFS等应用系统提供;
+3、FTP是8位的客户端－服务器协议，能操作任何类型的文件而不需要后续处理，就像MIME或Unicode一样;
+4、FTP服务一般运行在20和21两个端口;
+		4.1、端口20用于在客户端和服务器之间传输数据流;
+		4.2、而端口21用于传输控制流，并且是命令通向FTP服务器的进口;
+5、但FTP有极高的延时，意味从开始请求到第一次接收数据间的时间非常长，并且必须不时执行一些冗长的登录进程;		
+		5.1、当数据通过数据流传输时，控制流处于空闲状态;而当控制流空闲很长时间后，客户端的防火墙会将其会话置为超时;
+		5.2、这样当大量数据通过防火墙时，会产生一些问题。此时，虽然文件可以成功的传输，但因为控制会话，会被防火墙断开;传输会产生一些错误。	
+6、FTP有两种使用模式：主动和被动。
+		6.1、主动模式要求客户端和服务器端同时打开并且监听一个端口以创建连接。在这种情况下，客户端由于安装了防火墙会产生一些问题。
+		6.2、所以，创立了被动模式。被动模式只要求服务器端产生一个监听相应端口的进程，这样就可以绕过客户端安装了防火墙的问题。
+7、一个主动模式的FTP连接创建要遵循以下步骤:
+		7.1、客户端打开一个随机的端口（端口号大于1024，在这里，我们称它为x），同时一个FTP进程连接至服务器的21号命令端口。此时，该tcp连接的来源地端口为客户端指定的随机端口x，目的地端口（远程端口）为服务器上的21号端口。
+		7.2、客户端开始监听端口（x&#43;1），同时向服务器发送一个端口命令（通过服务器的21号命令端口），此命令告诉服务器客户端正在监听的端口号并且已准备好从此端口接收数据。这个端口就是我们所知的数据端口。
+		7.3、服务器打开20号源端口并且创建和客户端数据端口的连接。此时，来源地的端口为20，远程数据(目的地)端口为（x&#43;1）。
+		7.4、客户端通过本地的数据端口创建一个和服务器20号端口的连接，然后向服务器发送一个应答，告诉服务器它已经创建好了一个连接。
+8、语法格式:ftp://[user[:password]@]host[:port]/url-path
+FTP主要有两种：FTP协议和SFTP*协议。*
+FTP协议（File Transfer Protocol，文件传输协议）是一种标准的互联网协议，用于在网络上传输文件。
+FTP协议使用TCP协议进行数据传输和控制连接。使用FTP协议需要通过用户名和密码进行身份验证。
+
+SFTP协议（Secure Shell FTP，安全壳FTP）是FTP协议的安全版本。
+SFTP协议通过加密数据传输，提供更高的安全性。SFTP协议使用SSH协议进行数据传输和控制连接。SFTP协议也需要通过用户名和密码进行身份验证。
+1、前置条件
+资料来源
+Akamai/Install VSFTPD on Ubuntu 20.04
+VSFTPD (Very Secure FTP Daemon)是一个安全的轻量级FTP服务器软件，适用于Linux和类unix操作系统。
+它支持FTP和FTPS两种传输方式，实现了SSL/TLS加密、PAM认证、基于ip的访问控制等多种安全特性。
+
+VSFTPD的一些关键特性包括:性能和可扩展性:VSFTPD设计高效、快速，可以处理大量并发连接。
+安全性:VSFTPD实现了强大的安全措施，以防止未经授权的访问和数据泄露，如SSL/TLS加密、PAM身份验证和chroot监狱。
+可定制性:VSFTPD是高度可配置的，可以定制以满足广泛的特定要求。
+兼容性:VSFTPD兼容大多数类unix操作系统，包括Linux、FreeBSD和Solaris。
+易于使用:VSFTPD易于安装和配置，具有用户友好的配置文件，允许管理员快速设置和自定义服务器。
+
+总的来说，对于需要通过FTP安全地传输文件的组织来说，VSFTPD是一个可靠和安全的选择。
+服务器IP:45.86.65.212
+账号:root
+密码:Jobs_29506045^
+sudo apt update
+apt install selinux-utils
+2、VSFTPD的安装步骤
+sudo apt install vsftpd ftp ufw -y # UFW 防火墙
+sudo systemctl enable vsftpd
+sudo systemctl start vsftpd
+sudo systemctl status vsftpd
+root@mail:~# sudo systemctl status vsftpd
+● vsftpd.service - vsftpd FTP server
+     Loaded: loaded (/lib/systemd/system/vsftpd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2023-05-28 20:18:24 CEST; 20min ago
+   Main PID: 86197 (vsftpd)
+      Tasks: 1 (limit: 1074)
+     Memory: 584.0K
+     CGroup: /system.slice/vsftpd.service
+             └─86197 /usr/sbin/vsftpd /etc/vsftpd.conf
+
+May 28 20:18:24 mail systemd[1]: Starting vsftpd FTP server...
+May 28 20:18:24 mail systemd[1]: Started vsftpd FTP server.
+3、创建一个FTP用户
+服务器IP:45.86.65.212
+账户：ftp_client
+密码：Jobs_29506045^
+sudo useradd -m ftp_client
+sudo passwd ftp_client
+
+useradd -d /home/ftpUser/ -g ftp -s /sbin/nologin ftpUser
+创建示例文本 testfile.txt">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.34d91883bcea6e759c2d3a842c5975efd544bfec7ea2927692a4497df4c731c0.css" integrity="sha256-NNkYg7zqbnWcLTqELFl179VEv&#43;x&#43;opJ2kqRJffTHMcA=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="http://localhost:1313/posts/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Jobs Docs (Alt + H)">Jobs Docs</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      FTP的配置
+    </h1>
+    <div class="post-meta"><span title='2025-08-18 13:05:14 +0700 +0700'>August 18, 2025</span>&nbsp;·&nbsp;<span>5 min</span>
+
+</div>
+  </header> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#1%e5%89%8d%e7%bd%ae%e6%9d%a1%e4%bb%b6" aria-label="1、前置条件">1、前置条件</a></li>
+            <li>
+                <a href="#2vsftpd%e7%9a%84%e5%ae%89%e8%a3%85%e6%ad%a5%e9%aa%a4" aria-label="2、VSFTPD的安装步骤">2、VSFTPD的安装步骤</a></li>
+            <li>
+                <a href="#3%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aaftp%e7%94%a8%e6%88%b7" aria-label="3、创建一个FTP用户">3、创建一个FTP用户</a></li>
+            <li>
+                <a href="#4%e9%87%8d%e5%90%afvsftpd" aria-label="4、重启VSFTPD">4、重启VSFTPD</a></li>
+            <li>
+                <a href="#5vsftpd%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6vsftpdconf" aria-label="5、vsftpd的配置文件（vsftpd.conf）">5、vsftpd的配置文件（vsftpd.conf）</a><ul>
+                    
+            <li>
+                <a href="#51%e5%a4%87%e4%bb%bd" aria-label="5.1、备份">5.1、备份</a></li>
+            <li>
+                <a href="#52%e7%bc%96%e8%be%91" aria-label="5.2、编辑">5.2、编辑</a></li>
+            <li>
+                <a href="#53%e5%85%b3%e9%97%ad%e5%b9%b6%e4%bf%9d%e5%ad%98%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e5%b9%b6%e9%87%8d%e5%90%afvsftpd" aria-label="5.3、关闭并保存配置文件。并重启vsftpd">5.3、关闭并保存配置文件。并重启vsftpd</a></li>
+            <li>
+                <a href="#54%e6%9f%a5%e7%9c%8b%e7%ab%af%e5%8f%a3" aria-label="5.4、查看端口">5.4、查看端口</a></li>
+            <li>
+                <a href="#55%e9%98%b2%e7%81%ab%e5%a2%99" aria-label="5.5、防火墙">5.5、防火墙</a></li>
+            <li>
+                <a href="#57%e9%bb%91%e7%99%bd%e5%90%8d%e5%8d%95" aria-label="5.7、黑白名单">5.7、黑白名单</a></li></ul>
+            </li>
+            <li>
+                <a href="#6%e8%ae%bf%e9%97%ae" aria-label="6、访问">6、访问</a></li>
+            <li>
+                <a href="#7%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%9a%84%e8%ae%bf%e9%97%ae" aria-label="7、服务器的访问">7、服务器的访问</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p><em><strong>FTP</strong> = <strong>F</strong>ile <strong>T</strong>ransfer <strong>P</strong>rotocol = <strong>文件传输协议</strong></em></p>
+<pre tabindex="0"><code>1、是在计算机网络的用户端和服务器间传输文件的应用层协议;
+2、传送文件（file transfer）和访问文件（file access）之间的区别在于:前者由FTP提供，后者由NFS等应用系统提供;
+3、FTP是8位的客户端－服务器协议，能操作任何类型的文件而不需要后续处理，就像MIME或Unicode一样;
+4、FTP服务一般运行在20和21两个端口;
+		4.1、端口20用于在客户端和服务器之间传输数据流;
+		4.2、而端口21用于传输控制流，并且是命令通向FTP服务器的进口;
+5、但FTP有极高的延时，意味从开始请求到第一次接收数据间的时间非常长，并且必须不时执行一些冗长的登录进程;		
+		5.1、当数据通过数据流传输时，控制流处于空闲状态;而当控制流空闲很长时间后，客户端的防火墙会将其会话置为超时;
+		5.2、这样当大量数据通过防火墙时，会产生一些问题。此时，虽然文件可以成功的传输，但因为控制会话，会被防火墙断开;传输会产生一些错误。	
+6、FTP有两种使用模式：主动和被动。
+		6.1、主动模式要求客户端和服务器端同时打开并且监听一个端口以创建连接。在这种情况下，客户端由于安装了防火墙会产生一些问题。
+		6.2、所以，创立了被动模式。被动模式只要求服务器端产生一个监听相应端口的进程，这样就可以绕过客户端安装了防火墙的问题。
+7、一个主动模式的FTP连接创建要遵循以下步骤:
+		7.1、客户端打开一个随机的端口（端口号大于1024，在这里，我们称它为x），同时一个FTP进程连接至服务器的21号命令端口。此时，该tcp连接的来源地端口为客户端指定的随机端口x，目的地端口（远程端口）为服务器上的21号端口。
+		7.2、客户端开始监听端口（x+1），同时向服务器发送一个端口命令（通过服务器的21号命令端口），此命令告诉服务器客户端正在监听的端口号并且已准备好从此端口接收数据。这个端口就是我们所知的数据端口。
+		7.3、服务器打开20号源端口并且创建和客户端数据端口的连接。此时，来源地的端口为20，远程数据(目的地)端口为（x+1）。
+		7.4、客户端通过本地的数据端口创建一个和服务器20号端口的连接，然后向服务器发送一个应答，告诉服务器它已经创建好了一个连接。
+8、语法格式:ftp://[user[:password]@]host[:port]/url-path
+</code></pre><p><em><strong>FTP</strong>主要有两种：<strong>FTP</strong>协议和</em><em>SFTP</em>*协议。*</p>
+<pre tabindex="0"><code>FTP协议（File Transfer Protocol，文件传输协议）是一种标准的互联网协议，用于在网络上传输文件。
+FTP协议使用TCP协议进行数据传输和控制连接。使用FTP协议需要通过用户名和密码进行身份验证。
+
+SFTP协议（Secure Shell FTP，安全壳FTP）是FTP协议的安全版本。
+SFTP协议通过加密数据传输，提供更高的安全性。SFTP协议使用SSH协议进行数据传输和控制连接。SFTP协议也需要通过用户名和密码进行身份验证。
+</code></pre><h2 id="1前置条件">1、前置条件<a hidden class="anchor" aria-hidden="true" href="#1前置条件">#</a></h2>
+<p><em>资料来源</em></p>
+<p><a href="https://www.linode.com/docs/guides/vsftpd-on-ubuntu-2004-installation-and-configuration/">Akamai/Install VSFTPD on Ubuntu 20.04</a></p>
+<pre tabindex="0"><code>VSFTPD (Very Secure FTP Daemon)是一个安全的轻量级FTP服务器软件，适用于Linux和类unix操作系统。
+它支持FTP和FTPS两种传输方式，实现了SSL/TLS加密、PAM认证、基于ip的访问控制等多种安全特性。
+
+VSFTPD的一些关键特性包括:性能和可扩展性:VSFTPD设计高效、快速，可以处理大量并发连接。
+安全性:VSFTPD实现了强大的安全措施，以防止未经授权的访问和数据泄露，如SSL/TLS加密、PAM身份验证和chroot监狱。
+可定制性:VSFTPD是高度可配置的，可以定制以满足广泛的特定要求。
+兼容性:VSFTPD兼容大多数类unix操作系统，包括Linux、FreeBSD和Solaris。
+易于使用:VSFTPD易于安装和配置，具有用户友好的配置文件，允许管理员快速设置和自定义服务器。
+
+总的来说，对于需要通过FTP安全地传输文件的组织来说，VSFTPD是一个可靠和安全的选择。
+</code></pre><pre tabindex="0"><code>服务器IP:45.86.65.212
+账号:root
+密码:Jobs_29506045^
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>apt install selinux-utils
+</span></span></code></pre></div><h2 id="2vsftpd的安装步骤">2、<code>VSFTPD</code>的安装步骤<a hidden class="anchor" aria-hidden="true" href="#2vsftpd的安装步骤">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt install vsftpd ftp ufw -y <span style="color:#75715e"># UFW 防火墙</span>
+</span></span><span style="display:flex;"><span>sudo systemctl enable vsftpd
+</span></span><span style="display:flex;"><span>sudo systemctl start vsftpd
+</span></span><span style="display:flex;"><span>sudo systemctl status vsftpd
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@mail:~# sudo systemctl status vsftpd
+</span></span><span style="display:flex;"><span>● vsftpd.service - vsftpd FTP server
+</span></span><span style="display:flex;"><span>     Loaded: loaded <span style="color:#f92672">(</span>/lib/systemd/system/vsftpd.service; enabled; vendor preset: enabled<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     Active: active <span style="color:#f92672">(</span>running<span style="color:#f92672">)</span> since Sun 2023-05-28 20:18:24 CEST; 20min ago
+</span></span><span style="display:flex;"><span>   Main PID: <span style="color:#ae81ff">86197</span> <span style="color:#f92672">(</span>vsftpd<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      Tasks: <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>limit: 1074<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     Memory: 584.0K
+</span></span><span style="display:flex;"><span>     CGroup: /system.slice/vsftpd.service
+</span></span><span style="display:flex;"><span>             └─86197 /usr/sbin/vsftpd /etc/vsftpd.conf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">28</span> 20:18:24 mail systemd<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>: Starting vsftpd FTP server...
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">28</span> 20:18:24 mail systemd<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>: Started vsftpd FTP server.
+</span></span></code></pre></div><h2 id="3创建一个ftp用户">3、创建一个<code>FTP</code>用户<a hidden class="anchor" aria-hidden="true" href="#3创建一个ftp用户">#</a></h2>
+<pre tabindex="0"><code>服务器IP:45.86.65.212
+账户：ftp_client
+密码：Jobs_29506045^
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo useradd -m ftp_client
+</span></span><span style="display:flex;"><span>sudo passwd ftp_client
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>useradd -d /home/ftpUser/ -g ftp -s /sbin/nologin ftpUser
+</span></span></code></pre></div><p><em>创建示例文本 <strong>testfile.txt</strong></em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo -u ftp_client sh -c <span style="color:#e6db74">&#39;echo &#34;This is the content in the file.&#34; &gt; /home/ftp_client/testfile.txt&#39;</span>
+</span></span></code></pre></div><p><img alt="image-20230529015352961" loading="lazy" src="/posts/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/assets/image-20230529015352961.png"></p>
+<p><em>打开与本地主机上运行的<strong>VSFTPD</strong>服务器的<strong>FTP</strong>连接</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@mail:~# ftp localhost
+</span></span><span style="display:flex;"><span>Connected to localhost.
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">220</span> <span style="color:#f92672">(</span>vsFTPd 3.0.3<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Name <span style="color:#f92672">(</span>localhost:root<span style="color:#f92672">)</span>: ftp_client
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">331</span> Please specify the password.
+</span></span><span style="display:flex;"><span>Password:
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">230</span> Login successful.
+</span></span><span style="display:flex;"><span>Remote system type is UNIX.
+</span></span><span style="display:flex;"><span>Using binary mode to transfer files.
+</span></span><span style="display:flex;"><span>ftp&gt; 
+</span></span></code></pre></div><p><em>验证<strong>ftp_client</strong>用户的主目录中的样例文件<strong>testfile.txt</strong>在<strong>FTP</strong>连接中是可见的:</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ftp&gt; ls /home/ftp_client
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">200</span> EPRT command successful. Consider using EPSV.
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">150</span> Here comes the directory listing.
+</span></span><span style="display:flex;"><span>-rw-rw-r--    <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2005</span>     <span style="color:#ae81ff">2005</span>           <span style="color:#ae81ff">33</span> May <span style="color:#ae81ff">28</span> 20:44 testfile.txt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">226</span> Directory send OK.
+</span></span><span style="display:flex;"><span>ftp&gt; 
+</span></span></code></pre></div><p><em>关闭<strong>FTP</strong>连接</em></p>
+<pre tabindex="0"><code>exit
+或者
+quit
+</code></pre><h2 id="4重启vsftpd">4、重启<code>VSFTPD</code><a hidden class="anchor" aria-hidden="true" href="#4重启vsftpd">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo systemctl restart vsftpd
+</span></span></code></pre></div><h2 id="5vsftpd的配置文件vsftpdconf">5、<code>vsftpd</code>的配置文件（vsftpd.conf）<a hidden class="anchor" aria-hidden="true" href="#5vsftpd的配置文件vsftpdconf">#</a></h2>
+<h3 id="51备份">5.1、备份<a hidden class="anchor" aria-hidden="true" href="#51备份">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.bak
+</span></span></code></pre></div><h3 id="52编辑">5.2、编辑<a hidden class="anchor" aria-hidden="true" href="#52编辑">#</a></h3>
+<pre tabindex="0"><code>vi /etc/vsftpd.conf
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>anonymous_enable<span style="color:#f92672">=</span>NO                    <span style="color:#75715e">#不允许匿名用户登陆 </span>
+</span></span><span style="display:flex;"><span>local_enable<span style="color:#f92672">=</span>YES                      <span style="color:#75715e">#vsftpd所在系统的用户可以登录vsftpd </span>
+</span></span><span style="display:flex;"><span>write_enable<span style="color:#f92672">=</span>YES                      <span style="color:#75715e">#允许使用任何可以修改文件系统的FTP的指令 </span>
+</span></span><span style="display:flex;"><span>local_umask<span style="color:#f92672">=</span><span style="color:#ae81ff">002</span>                        <span style="color:#75715e">#匿名用户新增文件的umask数值 </span>
+</span></span><span style="display:flex;"><span>anon_upload_enable<span style="color:#f92672">=</span>NO                  <span style="color:#75715e">#匿名用户不可以上传文件 </span>
+</span></span><span style="display:flex;"><span>anon_mkdir_write_enable<span style="color:#f92672">=</span>NO            <span style="color:#75715e">#匿名用户不可以修改文件 </span>
+</span></span><span style="display:flex;"><span>xferlog_enable<span style="color:#f92672">=</span>YES                    <span style="color:#75715e">#启用一个日志文件，用于详细记录上传和下载。                </span>
+</span></span><span style="display:flex;"><span>use_localtime<span style="color:#f92672">=</span>YES                      <span style="color:#75715e">#使用本地时间而不是GMT </span>
+</span></span><span style="display:flex;"><span>vsftpd_log_file<span style="color:#f92672">=</span>/var/log/vsftpd.log    <span style="color:#75715e">#vsftpd日志存放位置 </span>
+</span></span><span style="display:flex;"><span>dual_log_enable<span style="color:#f92672">=</span>YES                    <span style="color:#75715e">#用户登陆日志 </span>
+</span></span><span style="display:flex;"><span>connect_from_port_20<span style="color:#f92672">=</span>YES              <span style="color:#75715e">#开启20端口      </span>
+</span></span><span style="display:flex;"><span>xferlog_file<span style="color:#f92672">=</span>/var/log/xferlog          <span style="color:#75715e">#记录上传下载文件的日志 </span>
+</span></span><span style="display:flex;"><span>xferlog_std_format<span style="color:#f92672">=</span>YES                <span style="color:#75715e">#记录日志使用标准格式 </span>
+</span></span><span style="display:flex;"><span>idle_session_timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">600</span>              <span style="color:#75715e">#登陆之后超时时间60秒，登陆之后，一分钟不操作，就会断开连接。 </span>
+</span></span><span style="display:flex;"><span>chroot_local_user<span style="color:#f92672">=</span>YES                  <span style="color:#75715e">#用于指定用户列表文件中的用户,是否允许切换到上级目录      </span>
+</span></span><span style="display:flex;"><span>listen<span style="color:#f92672">=</span>YES                            <span style="color:#75715e">#开启监听 </span>
+</span></span><span style="display:flex;"><span>pam_service_name<span style="color:#f92672">=</span>vsftpd.vu            <span style="color:#75715e">#验证文件的名字 </span>
+</span></span><span style="display:flex;"><span>userlist_enable<span style="color:#f92672">=</span>YES                    <span style="color:#75715e">#允许由userlist_file指定文件中的用户登录FTP服务器                    </span>
+</span></span><span style="display:flex;"><span>tcp_wrappers<span style="color:#f92672">=</span>YES                      <span style="color:#75715e">#支持tcp_wrappers,限制访问(/etc/hosts.allow,/etc/hosts.deny) </span>
+</span></span><span style="display:flex;"><span>guest_enable<span style="color:#f92672">=</span>YES                      <span style="color:#75715e">#起用虚拟用户 </span>
+</span></span><span style="display:flex;"><span>guest_username<span style="color:#f92672">=</span>taokey                  <span style="color:#75715e">#虚拟用户名 </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#user_config_dir=/etc/vsftpd/vsftpuser  #虚拟用户配置文件路径 </span>
+</span></span><span style="display:flex;"><span>local_root<span style="color:#f92672">=</span>/home/ftpUser/ <span style="color:#75715e">#自定义ftp上传路径（注意文件夹权限）</span>
+</span></span><span style="display:flex;"><span>pasv_min_port<span style="color:#f92672">=</span><span style="color:#ae81ff">35000</span>  
+</span></span><span style="display:flex;"><span>pasv_max_port<span style="color:#f92672">=</span><span style="color:#ae81ff">45000</span> 
+</span></span><span style="display:flex;"><span>pasv_enable<span style="color:#f92672">=</span>YES 
+</span></span><span style="display:flex;"><span>pasv_promiscuous<span style="color:#f92672">=</span>YES 
+</span></span><span style="display:flex;"><span>anon_other_write_enable<span style="color:#f92672">=</span>YES
+</span></span></code></pre></div><h3 id="53关闭并保存配置文件并重启vsftpd">5.3、关闭并保存配置文件。并重启<code>vsftpd</code><a hidden class="anchor" aria-hidden="true" href="#53关闭并保存配置文件并重启vsftpd">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo systemctl restart vsftpd
+</span></span></code></pre></div><h3 id="54查看端口">5.4、查看端口<a hidden class="anchor" aria-hidden="true" href="#54查看端口">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@mail:/etc# netstat -ntlp lgrep vsftpd
+</span></span><span style="display:flex;"><span>Active Internet connections <span style="color:#f92672">(</span>only servers<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:19999           0.0.0.0:*               LISTEN      42767/netdata       
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 127.0.0.1:20000         0.0.0.0:*               LISTEN      42141/sogod         
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:993             0.0.0.0:*               LISTEN      38824/dovecot       
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:995             0.0.0.0:*               LISTEN      38824/dovecot       
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 127.0.0.1:10024         0.0.0.0:*               LISTEN      57339/amavisd-new <span style="color:#f92672">(</span> 
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 127.0.0.1:10026         0.0.0.0:*               LISTEN      57339/amavisd-new <span style="color:#f92672">(</span> 
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 127.0.0.1:3306          0.0.0.0:*               LISTEN      40428/mysqld        
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 127.0.0.1:10027         0.0.0.0:*               LISTEN      57339/amavisd-new <span style="color:#f92672">(</span> 
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 127.0.0.1:11211         0.0.0.0:*               LISTEN      27577/memcached     
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 127.0.0.1:9998          0.0.0.0:*               LISTEN      57339/amavisd-new <span style="color:#f92672">(</span> 
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:110             0.0.0.0:*               LISTEN      38824/dovecot       
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:143             0.0.0.0:*               LISTEN      38824/dovecot       
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:80              0.0.0.0:*               LISTEN      28354/nginx: master 
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:22              0.0.0.0:*               LISTEN      770/sshd: /usr/sbin 
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:25              0.0.0.0:*               LISTEN      17592/master        
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 127.0.0.1:8125          0.0.0.0:*               LISTEN      42767/netdata       
+</span></span><span style="display:flex;"><span>tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:4190            0.0.0.0:*               LISTEN      38824/dovecot       
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::19999                :::*                    LISTEN      42767/netdata       
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::993                  :::*                    LISTEN      38824/dovecot       
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::995                  :::*                    LISTEN      38824/dovecot       
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::110                  :::*                    LISTEN      38824/dovecot       
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::143                  :::*                    LISTEN      38824/dovecot       
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::80                   :::*                    LISTEN      28354/nginx: master 
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::21                   :::*                    LISTEN      112244/vsftpd       
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::22                   :::*                    LISTEN      770/sshd: /usr/sbin 
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::25                   :::*                    LISTEN      17592/master        
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> ::1:8125                :::*                    LISTEN      42767/netdata       
+</span></span><span style="display:flex;"><span>tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::4190                 :::*                    LISTEN      38824/dovecot       
+</span></span><span style="display:flex;"><span>root@mail:/etc# 
+</span></span></code></pre></div><h3 id="55防火墙">5.5、防火墙<a hidden class="anchor" aria-hidden="true" href="#55防火墙">#</a></h3>
+<pre tabindex="0"><code></code></pre><h3 id="57黑白名单">5.7、黑白名单<a hidden class="anchor" aria-hidden="true" href="#57黑白名单">#</a></h3>
+<pre tabindex="0"><code></code></pre><h2 id="6访问">6、访问<a hidden class="anchor" aria-hidden="true" href="#6访问">#</a></h2>
+<pre tabindex="0"><code>1、打开 FTP 客户端程序（例如 FileZilla，CuteFTP，WinSCP 等），并输入要连接的 FTP 服务器的主机名或 IP 地址和端口号;
+2、输入 FTP 服务器的用户名和密码。如果您不知道这些凭据，请联系您的 FTP 主机提供商或系统管理员;
+3、单击&#34;连接&#34;按钮，等待连接成功;
+4、一旦连接成功，您应该能够看到服务器上的文件和文件夹。 您可以使用客户端程序的界面来上传和下载文件，创建和删除文件夹等操作;
+</code></pre><pre tabindex="0"><code>brew install inetutils
+</code></pre><p><a href="https://www.jianshu.com/p/d395a16648e1">https://www.jianshu.com/p/d395a16648e1</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ftp 45.86.65.212
+</span></span></code></pre></div><p><img alt="image-20230529092144158" loading="lazy" src="/posts/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/assets/image-20230529092144158.png"></p>
+<h2 id="7服务器的访问">7、服务器的访问<a hidden class="anchor" aria-hidden="true" href="#7服务器的访问">#</a></h2>
+<p><a href="https://wangchujiang.com/linux-command/c/ssh.html">https://wangchujiang.com/linux-command/c/ssh.html</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Last login: Mon May <span style="color:#ae81ff">29</span> 09:24:45 on ttys000
+</span></span><span style="display:flex;"><span>➜  ~ ssh root@45.86.65.212           
+</span></span><span style="display:flex;"><span>The authenticity of host <span style="color:#e6db74">&#39;45.86.65.212 (45.86.65.212)&#39;</span> can<span style="color:#e6db74">&#39;t be established.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">RSA key fingerprint is SHA256:e/J65VcFwOmN836Mw/bEyFKbDCyNZXCEqm+pIZhDPV8.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">This key is not known by any other names
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Warning: Permanently added &#39;</span>45.86.65.212<span style="color:#e6db74">&#39; (RSA) to the list of known hosts.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">root@45.86.65.212&#39;</span>s password: 
+</span></span><span style="display:flex;"><span>Welcome to Ubuntu 20.04 LTS <span style="color:#f92672">(</span>GNU/Linux 5.4.0-29-generic x86_64<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> * Documentation:  https://help.ubuntu.com
+</span></span><span style="display:flex;"><span> * Management:     https://landscape.canonical.com
+</span></span><span style="display:flex;"><span> * Support:        https://ubuntu.com/advantage
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  System information as of Mon <span style="color:#ae81ff">29</span> May <span style="color:#ae81ff">2023</span> 04:27:17 AM CEST
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  System load:  0.01               Processes:             <span style="color:#ae81ff">140</span>
+</span></span><span style="display:flex;"><span>  Usage of /:   26.2% of 14.46GB   Users logged in:       <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  Memory usage: 45%                IPv4 address <span style="color:#66d9ef">for</span> eth0: 45.86.65.212
+</span></span><span style="display:flex;"><span>  Swap usage:   100%               IPv6 address <span style="color:#66d9ef">for</span> eth0: 2402:d0c0:2:449b::1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+</span></span><span style="display:flex;"><span>   just raised the bar <span style="color:#66d9ef">for</span> easy, resilient and secure K8s cluster deployment.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">281</span> updates can be installed immediately.
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">186</span> of these updates are security updates.
+</span></span><span style="display:flex;"><span>To see these additional updates run: apt list --upgradable
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>*** System restart required ***
+</span></span><span style="display:flex;"><span>Last login: Mon May <span style="color:#ae81ff">29</span> 04:12:53 <span style="color:#ae81ff">2023</span> from 119.15.88.194
+</span></span><span style="display:flex;"><span>root@mail:~# 
+</span></span></code></pre></div><p><em>telnet 45.86.65.212 和 ssh <a href="mailto:root@45.86.65.212">root@45.86.65.212</a>  的区别</em></p>
+<pre tabindex="0"><code>telnet和ssh都是远程登录协议。但是区别如下：
+
+1、telnet是纯文本协议，ssh是加密协议，ssh可以保护数据传输的安全性。
+2、telnet不支持文件传输等高级功能，ssh可以支持文件传输和端口转发等高级功能。
+3、telnet登录时不需要用户名密码，ssh登录时需要用户名密码或者公钥认证。
+4、telnet已经被逐渐淘汰，ssh被广泛应用于Linux和Unix系统的远程登录和管理中。
+</code></pre><p><em>一个问题的解决</em></p>
+<pre tabindex="0"><code>root@mail:~# sudo systemctl status telnet
+Unit telnet.service could not be found.
+</code></pre><pre tabindex="0"><code>telnet 服务不是默认安装在许多现代操作系统中的，因为它被认为不够安全
+
+# 什么也没有输出，则表示没有开启该服务
+netstat -a | grep telnet
+
+# 安装 openbsd-inetd。如果已经安装过了，会提示已经安装过了，直接执行下面的步骤就可以了。
+apt-get install openbsd-inetd
+
+# 安装 telnetd
+apt-get install telnetd
+
+# 验证安装：成功安装完之后，/etc/inetd.conf 的内容会多了一行
+cat /etc/inetd.conf | grep telnet 输出：
+telnet stream tcp nowait telnetd /usr/sbin/tcpd /usr/sbin/in.telnetd
+
+# 重启 openbsd-inetd
+/etc/init.d/openbsd-inetd restart
+
+# 这个时候重复第一步操作，则有输出:
+netstat -a | grep telnet 输出：
+root@mail:~# netstat -a | grep telnet
+tcp        0      0 0.0.0.0:telnet          0.0.0.0:*               LISTEN     
+tcp        0      0 localhost:telnet        localhost:38616         ESTABLISHED
+tcp        0      2 localhost:38616         localhost:telnet        ESTABLISHED
+
+# telnet 登陆测试
+root@mail:~# telnet 127.0.0.1
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is &#39;^]&#39;.
+Ubuntu 20.04 LTS
+mail login: root
+Password: 
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.4.0-29-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+ System information disabled due to load higher than 1.0
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+281 updates can be installed immediately.
+186 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+New release &#39;22.04.2 LTS&#39; available.
+Run &#39;do-release-upgrade&#39; to upgrade to it.
+
+
+*** System restart required ***
+Last login: Mon May 29 04:46:48 CEST 2023 from localhost on pts/2
+root@mail:~# 
+</code></pre><p><a href="https://www.jianshu.com/p/1c6d99e078b6">简书/ubuntu下安装telnet服务</a></p>
+<p><a href="https://blog.csdn.net/whbttst/article/details/96428805">https://blog.csdn.net/whbttst/article/details/96428805</a></p>
+<p><a href="https://blog.csdn.net/whbttst/article/details/96428805">CSDN/telnet Connection closed by foreign host.</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/docs/">Docs</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Jobs Docs</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

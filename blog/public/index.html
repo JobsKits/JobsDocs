@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta name="generator" content="Hugo 0.161.1"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <title>Jobs Docs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #f4f7fb;
+    }
+
+    .jobs-docs-shell {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #f4f7fb;
+    }
+
+    .jobs-docs-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #f4f7fb;
+    }
+
+    .jobs-audio-player {
+      position: fixed;
+      left: 24px;
+      bottom: 24px;
+      z-index: 9999;
+      width: 320px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(219, 228, 238, 0.95);
+      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.16);
+      backdrop-filter: blur(10px);
+    }
+
+    .jobs-audio-title {
+      margin-bottom: 8px;
+      color: #1f2937;
+      font-size: 0.92rem;
+      font-weight: 750;
+    }
+
+    .jobs-audio-player audio {
+      width: 100%;
+      height: 36px;
+    }
+
+    @media screen and (max-width: 56rem) {
+      .jobs-audio-player {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        width: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="jobs-docs-shell">
+    <iframe
+      class="jobs-docs-frame"
+      name="jobs-docs-frame"
+      src="/docs/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E7%9A%84%E7%A7%98%E5%AF%86/"
+      title="Jobs Docs">
+    </iframe>
+  </div>
+
+  <div class="jobs-audio-player">
+    <div class="jobs-audio-title">🎵 With an Orchid</div>
+    <audio id="jobs-bg-music" controls autoplay loop preload="auto">
+      <source src="/With%20an%20Orchid.mp3" type="audio/mpeg">
+      当前浏览器不支持 audio 标签。
+    </audio>
+  </div>
+
+  <script>
+    (function () {
+      var audio = document.getElementById("jobs-bg-music");
+
+      if (!audio) {
+        return;
+      }
+
+      var storagePrefix = "jobsdocs.shellMusic.";
+      var timeKey = storagePrefix + "currentTime";
+      var volumeKey = storagePrefix + "volume";
+      var defaultVolume = 0.42;
+
+      function getNumberFromStorage(key, fallback) {
+        var value = window.localStorage.getItem(key);
+        var numberValue = Number(value);
+
+        if (!Number.isFinite(numberValue)) {
+          return fallback;
+        }
+
+        return numberValue;
+      }
+
+      function restoreVolume() {
+        var volume = getNumberFromStorage(volumeKey, defaultVolume);
+
+        if (volume <= 0 || volume > 1) {
+          volume = defaultVolume;
+        }
+
+        audio.volume = volume;
+        audio.muted = false;
+        audio.defaultMuted = false;
+      }
+
+      function restoreCurrentTime() {
+        var savedTime = getNumberFromStorage(timeKey, 0);
+
+        if (savedTime <= 0) {
+          return;
+        }
+
+        try {
+          if (Number.isFinite(audio.duration) && audio.duration > 0) {
+            audio.currentTime = savedTime % audio.duration;
+          } else {
+            audio.currentTime = savedTime;
+          }
+        } catch (error) {
+          
+        }
+      }
+
+      function saveState() {
+        if (Number.isFinite(audio.currentTime)) {
+          window.localStorage.setItem(timeKey, String(audio.currentTime));
+        }
+
+        if (Number.isFinite(audio.volume) && !audio.muted) {
+          window.localStorage.setItem(volumeKey, String(audio.volume));
+        }
+      }
+
+      restoreVolume();
+
+      audio.addEventListener("loadedmetadata", function () {
+        restoreCurrentTime();
+      });
+
+      audio.addEventListener("timeupdate", saveState);
+      audio.addEventListener("volumechange", saveState);
+
+      window.addEventListener("pagehide", saveState);
+      window.addEventListener("beforeunload", saveState);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,2624 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="前言 配置Unity是比较繁琐的，特别是对于以往开发过程中没有接触过此类操作的人员比较虐心，因为包含了很多代码能力以外的经验。笔者退出此文以保姆式教学，助力避坑以求高效开发 如果需要iOS模拟器也支持Unity，则需要Unity侧提供关于iOS模拟器的SDK包，否则只能做条件编译 如需条件编译，不要把主工程的配置项改的乱七八糟。利用 .xcconfig 的优">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/">
+  <meta property="og:site_name" content="Jobs Docs">
+  <meta property="og:title" content="iOS项目集成Unity">
+  <meta property="og:description" content="前言 配置Unity是比较繁琐的，特别是对于以往开发过程中没有接触过此类操作的人员比较虐心，因为包含了很多代码能力以外的经验。笔者退出此文以保姆式教学，助力避坑以求高效开发 如果需要iOS模拟器也支持Unity，则需要Unity侧提供关于iOS模拟器的SDK包，否则只能做条件编译 如需条件编译，不要把主工程的配置项改的乱七八糟。利用 .xcconfig 的优">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2026-01-19T11:17:41+07:00">
+    <meta property="article:modified_time" content="2026-01-19T11:17:41+07:00">
+
+
+  <meta itemprop="name" content="iOS项目集成Unity">
+  <meta itemprop="description" content="前言 配置Unity是比较繁琐的，特别是对于以往开发过程中没有接触过此类操作的人员比较虐心，因为包含了很多代码能力以外的经验。笔者退出此文以保姆式教学，助力避坑以求高效开发 如果需要iOS模拟器也支持Unity，则需要Unity侧提供关于iOS模拟器的SDK包，否则只能做条件编译 如需条件编译，不要把主工程的配置项改的乱七八糟。利用 .xcconfig 的优">
+  <meta itemprop="datePublished" content="2026-01-19T11:17:41+07:00">
+  <meta itemprop="dateModified" content="2026-01-19T11:17:41+07:00">
+  <meta itemprop="wordCount" content="704">
+
+<title>iOS项目集成Unity | Jobs Docs</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/">
+<link rel="stylesheet" href="/book.min.709867152ffe28ee09d96d0ecef7c3155278ba4ed384f46d3c3747771459867f.css" integrity="sha256-cJhnFS/&#43;KO4J2W0OzvfDFVJ4uk7ThPRtPDdHdxRZhn8=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/zh-cn.search.min.3ae23dfc28063fbdde219bf7da0f3bc13deaeac2e682062ddb9f83141ba3d40a.js" integrity="sha256-OuI9/CgGP73eIZv32g87wT3q6sLmggYt25&#43;DFBuj1Ao=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-docs">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand jobs-book-brand-wrap">
+  <a class="jobs-book-brand"
+     href="https://github.com/JobsKits"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Open JobsKits GitHub">
+    <img class="jobs-brand-icon" src="/icon.png" alt="Jobs Docs">
+    <span class="jobs-brand-title">Jobs Docs</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/" class="">
+      FTP的配置</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/" class="">
+      FTP的配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      搭建邮件服务器</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/macos_%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      搭建邮件服务器（Mail server）</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" class="">
+      利用Quicktype自动建立数据模型</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" class="">
+      利用Quicktype自动建立数据模型</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B/" class="">
+      利用Hugo生成静态网页教程</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B/macos%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B/" class="">
+      利用Hugo生成静态网页教程</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" class="">
+      🔥Shell脚本代码片段</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" class="">
+      Shell脚本代码片段</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/" class="">
+      iOS相关的文档和资料</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs/" class="">
+      Swift工程项目框架配置方案@Jobs</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs/" class="">
+      Swift工程项目框架配置方案@JobsKits</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs/%E7%9B%B4%E6%92%AD%E4%BA%A7%E5%93%81%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A120/" class="">
+      直播产品技术概要设计20</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/" class="">
+      iOS多语言环境设置</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/" class="">
+      iOS 多语言环境设置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/" class="">
+      iOS项目集成Unity</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/" class="active">
+      iOS项目集成Unity</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="">
+      SwiftPackageDependence使用指南🧭</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="">
+      S wift P ackage D ependence使用指南🧭</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/" class="">
+      直播推流:拉流@Swift5x</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      【MacOS】配置本地的直播服务器</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      【MacOS】配置本地的直播服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swiftflutter/" class="">
+      Swift➤Flutter</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swiftflutter/swiftflutter/" class="">
+      Swift➤Flutter</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8/" class="">
+      Swift直播项目核心技术研讨</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8/" class="">
+      Swift直播项目核心技术研讨</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/" class="">
+      制作(发布)Pods组件</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/" class="">
+      制作(发布)Pods组件</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6/" class="">
+      Apple生成*.p12文件</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6/" class="">
+      Apple生成*.p12文件</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/" class="">
+      OC模型解析</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/" class="">
+      OC模型解析（参见JobsComment）</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/yykit%E8%B0%83%E7%A0%94/" class="">
+      YYKit调研</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/yykit%E8%B0%83%E7%A0%94/yykit%E8%B0%83%E7%A0%94/" class="">
+      YYKit调研</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%9F%B3%E8%A7%86%E9%A2%91/" class="">
+      iOS音视频</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%9F%B3%E8%A7%86%E9%A2%91/ios%E9%9F%B3%E8%A7%86%E9%A2%91/" class="">
+      iOS音视频</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview/" class="">
+      JXCategoryView</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801%EF%B8%8F/" class="">
+      JXCategoryView框架的使用01</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%EF%B8%8F/" class="">
+      JXCategoryView框架的使用02（结合使用 JXPagerView）</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/mjextension%E7%94%A8%E6%B3%95/" class="">
+      MJExtension用法</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/mjextension%E7%94%A8%E6%B3%95/mjextension%E7%94%A8%E6%B3%95/" class="">
+      MJExtension用法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="">
+      Telegram.iOS 源代码学习笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/telegram.ios-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="">
+      Telegram.iOS 源代码学习笔记</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/uitableview/" class="">
+      UITableView</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/uitableview/uitableview/" class="">
+      UITableView 的使用指南</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo/" class="">
+      配置info</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo/%E9%85%8D%E7%BD%AEinfo.plist/" class="">
+      配置info.plist</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD/" class="">
+      跳转其他App没有则下载</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD/" class="">
+      iOS功能：跳转其他App,如果本机不存在,则进行下载</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0/" class="">
+      同一应用设置不同图标和名称</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0/" class="">
+      同一应用，设置不同图标和名称</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="">
+      iOS项目多环境配置</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="">
+      iOS项目多环境配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B/" class="">
+      移动端上架流程</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B/" class="">
+      移动端上架（分发）流程</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5/" class="">
+      本地通知</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5/" class="">
+      iOS 本地通知配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/" class="">
+      关于WMZBanner的怪异写法探究</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/" class="">
+      关于WMZBanner的怪异写法探究</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/" class="">
+      横屏UI切换</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/" class="">
+      iOS 横竖屏UI切换</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/" class="">
+      其他</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/ios.lock/" class="">
+      iOS 锁的使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/" class="">
+      关于UITableViewCell和UICollectionViewCell圆切角&#43;Cell的偏移量</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/" class="">
+      定一行个数得出几行</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/" class="">
+      时间按照【年-月份】分组</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/" class="">
+      关于RAC框架中的@符号进行宏定义唤起的探究</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/" class="">
+      关于响应链的一些研究成果</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/unknown-class-viewcontroller-in-interface-builder-file/" class="">
+      unknown class viewcontroller in interface builder file</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/" class="">
+      iOS禁用返回手势</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/" class="">
+      iOS资源文件夹的区别</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/" class="">
+      N宫格问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E8%B7%AF%E7%94%B1/" class="">
+      路由</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/" class="">
+      精确度量 iOS App 的启动时间</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/" class="">
+      UICollectionView点击事件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/jobskit-%E5%BA%8F/" class="">
+      JobsKit 序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/" class="">
+      优秀的关于音视频处理的文献资料</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/" class="">
+      Xcode资料下载</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/" class="">
+      读取本地plist</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E8%B0%81%E8%AF%B4http%E5%92%8Cget%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/" class="">
+      谁说HTTP GET就不能通过Body来发送数据呢？</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/ios%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/" class="">
+      iOS 状态栏颜色的修改</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B6%E4%BB%96/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/" class="">
+      本地推送的写法（程肖斌）</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/" class="">
+      自定义 UITabBarController</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/" class="">
+      自定义 UITabBarController</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/" class="">
+      正则表达式的相关判定</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/" class="">
+      Git的使用</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/" class="">
+      通过SSH连接到GitHub</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/" class="">
+      SSH ➤ Github</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" class="">
+      Git的一些使用说明</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" class="">
+      Git的一些使用说明</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github.workflow/" class="">
+      Github.workflow</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github.workflow/github.workflow/" class="">
+      GitHub.workflow（工作流）的使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github.workflow/mermaid/" class="">
+      mermaid</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/" class="">
+      Git子模块使用</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/" class="">
+      Git 子模块使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/" class="">
+      足球盘口学习</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/" class="">
+      足球盘口学习</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%B6%E4%BD%9Cunity/" class="">
+      制作Unity</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%B6%E4%BD%9Cunity/%E5%88%B6%E4%BD%9Cunity/" class="">
+      制作Unity</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9/" class="">
+      MacOS配置个人热点🛜</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9/" class="">
+      MacOS配置个人热点🛜</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99/" class="">
+      中国大陆公民身份证校验规则</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99/" class="">
+      中国大陆公民身份证校验规则（Swift/Objc/Dart.flutter）</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F/" class="">
+      CMake（构建系统）</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F/" class="">
+      CMake</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/reactnativedoc/" class="">
+      ReactNativeDoc</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/reactnativedoc/rn/" class="">
+      R eact N ative</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/javadoc/" class="">
+      JavaDoc</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/javadoc/javadoc/" class="">
+      JavaDoc</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/seodoc/" class="">
+      SeoDoc</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/seodoc/seodoc/" class="">
+      SEO</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="">
+      Web服务器学习</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/macosweb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="">
+      MacOS_Web服务器学习</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF/" class="">
+      运维成长路线</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF/" class="">
+      运维成长路线</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="">
+      区块链</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%8C%BA%E5%9D%97%E9%93%BE/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="">
+      区块链</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/" class="">
+      天工开物</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/" class="">
+      天工开物</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E7%9A%84%E7%A7%98%E5%AF%86/" class="">
+      计算机底层的秘密</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>iOS项目集成Unity</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#一前置条件">一、前置条件</a></li>
+    <li><a href="#二无差别导入适用于unity侧提供的ios包兼容ios模拟器和实体设备">二、无差别导入（适用于Unity侧提供的iOS包兼容iOS模拟器和实体设备）</a>
+      <ul>
+        <li><a href="#1选中主-app--targets--general">1、<strong><code>选中主 App</code></strong> ➤ <strong><code>TARGETS</code></strong> ➤ <strong><code>General</code></strong></a>
+          <ul>
+            <li><a href="#11frameworks-libraries-and-embedded-content--如果是">1.1、<strong><code>Frameworks, Libraries, and Embedded Content</code></strong> ➤ <strong>如果是条件编译，那么这一步跳过</strong></a></li>
+          </ul>
+        </li>
+        <li><a href="#2选中主-app--targets--build-settings-">2、<strong><code>选中主 App</code></strong> ➤ <strong><code>TARGETS</code></strong> ➤ <strong><code>Build Settings</code></strong> ➤</a>
+          <ul>
+            <li><a href="#21other-linker-flags-里加-objc">2.1、<code>Other Linker Flags</code> 里加：<code>-ObjC</code></a></li>
+            <li><a href="#22-framework-search-paths-里加srcrootunity">2.2、 <code>Framework Search Paths</code> 里加：<code>&#34;$(SRCROOT)/Unity&#34;</code></a></li>
+            <li><a href="#23-library-search-paths-里加">2.3、 <code>Library Search Paths</code> 里加：</a></li>
+            <li><a href="#24header-search-paths-里加">2.4、<code>Header Search Paths</code> 里加：</a></li>
+            <li><a href="#25runpath-search-paths-里确保有executable_pathframeworks">2.5、<code>Runpath Search Paths</code> 里确保有：<code>@executable_path/Frameworks</code></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#三条件编译适用于unity侧提供的ios包只支持实体设备而不兼容ios模拟器">三、条件编译（适用于Unity侧提供的iOS包只支持实体设备，而不兼容iOS模拟器）</a>
+      <ul>
+        <li><a href="#1跳过">1、跳过 <code>Frameworks, Libraries, and Embedded Content</code></a></li>
+        <li><a href="#2选中主-app--targets--build-phases">2、<strong><code>选中主 App</code></strong> ➤ <strong><code>TARGETS</code></strong> ➤ <strong><code>Build Phases</code></strong></a>
+          <ul>
+            <li><a href="#21脚本a--去掉勾选based-on-dependency-analysis">2.1、脚本A ➤ 去掉勾选<code>Based on dependency analysis</code></a></li>
+            <li><a href="#22脚本b--去掉勾选based-on-dependency-analysis">2.2、脚本B ➤ 去掉勾选<code>Based on dependency analysis</code></a></li>
+          </ul>
+        </li>
+        <li><a href="#3配置-xcconfig">3、配置 <code>*.xcconfig</code></a>
+          <ul>
+            <li><a href="#31挂载xcconfig">3.1、挂载<code>*.xcconfig</code></a></li>
+            <li><a href="#32jobsconfigxcconfig">3.2、<code>JobsConfig.xcconfig</code></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#四经验交流">四、经验交流</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h2 id="前言">前言<a class="anchor" href="#%e5%89%8d%e8%a8%80">#</a></h2>
+<ul>
+<li>配置Unity是比较繁琐的，特别是对于以往开发过程中没有接触过此类操作的人员比较虐心，因为包含了很多代码能力以外的经验。笔者退出此文以保姆式教学，助力避坑以求高效开发</li>
+<li><strong>如果需要iOS模拟器也支持Unity，则需要Unity侧提供关于iOS模拟器的SDK包</strong>，否则只能做<a href="#%e6%9d%a1%e4%bb%b6%e7%bc%96%e8%af%91">条件编译</a>
+<ul>
+<li>如需<a href="#%e6%9d%a1%e4%bb%b6%e7%bc%96%e8%af%91">条件编译</a>，不要把主工程的配置项改的乱七八糟。利用<a href="#xcconfig"><font size=4><strong><code>*.xcconfig</code></strong></font></a>的优先级最高的特点对主工程的配置项进行覆写</li>
+</ul>
+</li>
+<li>Unity这个框架虽然美如画，但是偏重（适用于游戏），而且使用成本也不低，如果没有钻研的较为深入，恐难驾驭
+<ul>
+<li>集成了Unity，对项目包的大小会有显著增长，对此敏感的研发人员，需要有一定的心理准备</li>
+<li>Unity会占用主线程，会影响UI刷新导致一个1秒左右的卡顿（Xcode会提示紫色的警告），且接管系统<strong>UIWindow</strong>，所以仅仅能够集成是远远不够的</li>
+</ul>
+</li>
+</ul>
+<h2 id="一前置条件">一、前置条件<a class="anchor" href="#%e4%b8%80%e5%89%8d%e7%bd%ae%e6%9d%a1%e4%bb%b6">#</a></h2>
+<ul>
+<li>
+<p>在 <font size=5><strong><code>unity.app</code></strong></font> 里面导出关于<strong>iOS</strong>侧的工程项目 ➤ 包含 <font size=5><code>UnityFramework.framwork</code></font></p>
+<img src="./assets/image-20251211132331087.png" width="50%">
+</li>
+<li>
+<p>引入整个<strong>Unity</strong>生成的Xcode工程 ➤ 主工程项目</p>
+<img src="./assets/image-20251211140302678.png" width="50%">
+</li>
+<li>
+<p>在项目主工程中导入 <font size=5><code>UnityFramework.framwork</code></font> ➤ <a href="#%e6%9d%a1%e4%bb%b6%e7%bc%96%e8%af%91"><strong>条件编译</strong></a>需要做额外的特殊处理</p>
+<img src="./assets/image-25690119100002189.png" alt="image-25690119100002189" style="zoom:50%;" />
+<ul>
+<li>
+<p>在左侧点开 <code>Unity-iPhone</code> 子工程  ➤ <strong><code>TARGETS</code></strong>，确认里面有一个叫 <strong><code>UnityFramework</code></strong> 的 target（Unity 新版会有）</p>
+<p><img src="./assets/image-20251213133612641.png" alt="image-20251213133612641" /></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="二无差别导入适用于unity侧提供的ios包兼容ios模拟器和实体设备">二、<font id=无差别导入>无差别导入</font>（适用于Unity侧提供的iOS包兼容iOS模拟器和实体设备）<a class="anchor" href="#%e4%ba%8c%e6%97%a0%e5%b7%ae%e5%88%ab%e5%af%bc%e5%85%a5%e9%80%82%e7%94%a8%e4%ba%8eunity%e4%be%a7%e6%8f%90%e4%be%9b%e7%9a%84ios%e5%8c%85%e5%85%bc%e5%ae%b9ios%e6%a8%a1%e6%8b%9f%e5%99%a8%e5%92%8c%e5%ae%9e%e4%bd%93%e8%ae%be%e5%a4%87">#</a></h2>
+<h3 id="1选中主-app--targets--general">1、<strong><code>选中主 App</code></strong> ➤ <strong><code>TARGETS</code></strong> ➤ <strong><code>General</code></strong><a class="anchor" href="#1%e9%80%89%e4%b8%ad%e4%b8%bb-app--targets--general">#</a></h3>
+<h4 id="11frameworks-libraries-and-embedded-content--如果是">1.1、<font id=如果是条件编译，那么这一步跳过><strong><code>Frameworks, Libraries, and Embedded Content</code></strong></font> ➤ <font color=red><strong>如果是<a href="#%e6%9d%a1%e4%bb%b6%e7%bc%96%e8%af%91">条件编译</a>，那么这一步跳过</strong></font><a class="anchor" href="#11frameworks-libraries-and-embedded-content--%e5%a6%82%e6%9e%9c%e6%98%af">#</a></h4>
+<ul>
+<li>
+<p>点 <code>+</code> → 选择 <code>UnityFramework.framework</code>（在 <code>Unity-iPhone</code> → <code>Products</code> 下面）</p>
+</li>
+<li>
+<p>x<code>Embed</code> 一栏改成 <strong>Embed &amp; Sign</strong></p>
+<table style="width:100%; table-layout:fixed;">
+<!-- 大图单独一行 -->
+<tr>
+  <td colspan="2" style="text-align:center;">
+    <img src="./assets/image-20251213133840791.png"
+         style="width:100%; height:auto;">
+  </td>
+</tr>     
+  <tr>
+<td style="text-align:center;">
+  <img
+    src="./assets/image-20251213132912613.png"
+    style="width:100%; height:auto;"
+  >
+</td>
+<td style="text-align:center;">
+  <img
+    src="./assets/image-20251211132515703.png"
+    style="width:80%; height:auto;"
+  >
+</td>
+</tr>
+  </table>
+</li>
+</ul>
+<h3 id="2选中主-app--targets--build-settings-">2、<strong><code>选中主 App</code></strong> ➤ <strong><code>TARGETS</code></strong> ➤ <strong><code>Build Settings</code></strong> ➤<a class="anchor" href="#2%e9%80%89%e4%b8%ad%e4%b8%bb-app--targets--build-settings-">#</a></h3>
+<h4 id="21other-linker-flags-里加-objc">2.1、<code>Other Linker Flags</code> 里加：<code>-ObjC</code><a class="anchor" href="#21other-linker-flags-%e9%87%8c%e5%8a%a0-objc">#</a></h4>
+<p><img src="./assets/image-20251213134247612.png" alt="image-20251213134247612" /></p>
+<h4 id="22-framework-search-paths-里加srcrootunity">2.2、 <code>Framework Search Paths</code> 里加：<code>&quot;$(SRCROOT)/Unity&quot;</code><a class="anchor" href="#22-framework-search-paths-%e9%87%8c%e5%8a%a0srcrootunity">#</a></h4>
+<p><img src="./assets/image-20251213134550621.png" alt="image-20251213134550621" /></p>
+<h4 id="23-library-search-paths-里加">2.3、 <code>Library Search Paths</code> 里加：<a class="anchor" href="#23-library-search-paths-%e9%87%8c%e5%8a%a0">#</a></h4>
+<ul>
+<li><code>$(PROJECT_DIR)/Unity/xcode_effectTest/Il2CppOutputProject/IL2CPP/build/deploy_arm64</code></li>
+<li><code>$(PROJECT_DIR)/Unity/xcode_effectTest/Il2CppOutputProject/IL2CPP/build/deploy_x86_64</code></li>
+<li><code>$(PROJECT_DIR)/Unity/xcode_effectTest/Libraries</code></li>
+</ul>
+<p><img src="./assets/image-20251213134746369.png" alt="image-20251213134746369" /></p>
+<h4 id="24header-search-paths-里加">2.4、<code>Header Search Paths</code> 里加：<a class="anchor" href="#24header-search-paths-%e9%87%8c%e5%8a%a0">#</a></h4>
+<ul>
+<li>
+<p><code>&quot;$(SRCROOT)/Unity/xcode_effectTest/Classes&quot;</code></p>
+</li>
+<li>
+<p><code>&quot;$(SRCROOT)/Unity/xcode_effectTest/Libraries&quot;</code></p>
+</li>
+<li>
+<p><code>&quot;$(SRCROOT)/Unity/xcode_effectTest&quot;</code></p>
+</li>
+</ul>
+<p><img src="./assets/image-20251213135025916.png" alt="image-20251213135025916" /></p>
+<h4 id="25runpath-search-paths-里确保有executable_pathframeworks">2.5、<code>Runpath Search Paths</code> 里确保有：<code>@executable_path/Frameworks</code><a class="anchor" href="#25runpath-search-paths-%e9%87%8c%e7%a1%ae%e4%bf%9d%e6%9c%89executable_pathframeworks">#</a></h4>
+<p><img src="./assets/image-20251213135438685.png" alt="image-20251213135438685" /></p>
+<ul>
+<li>
+<p><font color=green id=桥接文件><strong>建立桥接文件</strong></font>，并写入：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>#<span style="color:#66d9ef">import</span> &lt;<span style="color:#a6e22e">TargetConditionals</span>.<span style="color:#a6e22e">h</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#if</span> <span style="color:#f92672">!</span><span style="color:#75715e">TARGET_OS_SIMULATOR</span> <span style="color:#f92672">&amp;&amp;</span> __has_include(&lt;<span style="color:#75715e">UnityFramework</span><span style="color:#f92672">/</span><span style="color:#75715e">UnityFramework</span>.<span style="color:#75715e">h</span>&gt;)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 只有真机（iPhone / iPad）才加入 Unity</span>
+</span></span><span style="display:flex;"><span>#<span style="color:#66d9ef">import</span> &lt;<span style="color:#a6e22e">UnityFramework</span><span style="color:#f92672">/</span><span style="color:#a6e22e">UnityFramework</span>.<span style="color:#a6e22e">h</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span></span></span></code></pre></div></li>
+<li>
+<p><font color=red size=5>将<strong>Unity</strong>资源以<strong>Unity</strong>希望的方式进包</font></p>
+<ul>
+<li>
+<p>将<strong>Unity</strong>工程下的<font size=4><code>Data文件夹</code></font>  <strong>集成到主工程</strong></p>
+</li>
+<li>
+<p>Unity官方要求 ➤ 打出的<code>*.app</code>这些资源应该是在<strong>文件夹Data</strong>下做统一管理</p>
+<pre tabindex="0"><code>JobsSwiftBaseConfigDemo.app/
+    Data/                 ← 这个文件夹必须真的出现
+        boot.config
+        globalgamemanagers
+        ...</code></pre></li>
+<li>
+<p>手动集成 ➤ <strong>直接在Xcode新建蓝色文件夹可能会不灵</strong></p>
+<table style="width:100%; table-layout:fixed;">
+  <tr>
+    <td style="text-align:center;">
+      <img src="./assets/image-20251211160558069.png" style="width:100%; height:auto;">
+    </td>
+    <td style="text-align:center;">
+      <img src="./assets/image-20251211155451124.png" style="width:100%; height:auto;">
+    </td>
+  </tr>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="三条件编译适用于unity侧提供的ios包只支持实体设备而不兼容ios模拟器">三、<font id=条件编译 color=red>条件编译</font>（适用于Unity侧提供的iOS包只支持实体设备，而不兼容iOS模拟器）<a class="anchor" href="#%e4%b8%89%e6%9d%a1%e4%bb%b6%e7%bc%96%e8%af%91%e9%80%82%e7%94%a8%e4%ba%8eunity%e4%be%a7%e6%8f%90%e4%be%9b%e7%9a%84ios%e5%8c%85%e5%8f%aa%e6%94%af%e6%8c%81%e5%ae%9e%e4%bd%93%e8%ae%be%e5%a4%87%e8%80%8c%e4%b8%8d%e5%85%bc%e5%ae%b9ios%e6%a8%a1%e6%8b%9f%e5%99%a8">#</a></h2>
+<ul>
+<li><strong>原因是不同设备的CPU架构不一样，涉及到的底层的CPU指令集不同</strong></li>
+<li>条件编译的操作只是在<a href="#%e6%97%a0%e5%b7%ae%e5%88%ab%e5%af%bc%e5%85%a5"><strong>无差别导入</strong></a>操作基础上进行一些细微的升级</li>
+</ul>
+<h3 id="1跳过">1、<a href="#%e5%a6%82%e6%9e%9c%e6%98%af%e6%9d%a1%e4%bb%b6%e7%bc%96%e8%af%91%ef%bc%8c%e9%82%a3%e4%b9%88%e8%bf%99%e4%b8%80%e6%ad%a5%e8%b7%b3%e8%bf%87">跳过 <code>Frameworks, Libraries, and Embedded Content</code></a><a class="anchor" href="#1%e8%b7%b3%e8%bf%87">#</a></h3>
+<h3 id="2选中主-app--targets--build-phases">2、<strong><code>选中主 App</code></strong> ➤ <strong><code>TARGETS</code></strong> ➤ <strong><code>Build Phases</code></strong><a class="anchor" href="#2%e9%80%89%e4%b8%ad%e4%b8%bb-app--targets--build-phases">#</a></h3>
+<p><img src="./assets/image-20251213141335148.png" alt="image-20251213141335148" /></p>
+<p><img src="./assets/image-20251213141715771.png" alt="image-20251213141715771" /></p>
+<h4 id="21脚本a--去掉勾选based-on-dependency-analysis">2.1、脚本A ➤ 去掉勾选<code>Based on dependency analysis</code><a class="anchor" href="#21%e8%84%9a%e6%9c%aca--%e5%8e%bb%e6%8e%89%e5%8b%be%e9%80%89based-on-dependency-analysis">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>set -euo pipefail
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 只在真机执行</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SDKROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> in
+</span></span><span style="display:flex;"><span>  *iphonesimulator*<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;▶︎ A: simulator build -&gt; skip Unity build&#34;</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    ;;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UNITY_PROJ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SRCROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">/Unity/xcode_effectTest/Unity-iPhone.xcodeproj&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 主工程 Debug 时，让 Unity 用 Release（更稳；你也可以强制一直 Release）</span>
+</span></span><span style="display:flex;"><span>UNITY_CONF<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CONFIGURATION<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>UNITY_CONF<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Debug&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  UNITY_CONF<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Release&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>DD_ROOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SRCROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">/.DerivedDataUnity&#34;</span>
+</span></span><span style="display:flex;"><span>SYMROOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DD_ROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">/Build/Products&#34;</span>
+</span></span><span style="display:flex;"><span>OBJROOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DD_ROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">/Build/Intermediates&#34;</span>
+</span></span><span style="display:flex;"><span>mkdir -p <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SYMROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>OBJROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>DEV_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DEVELOPER_DIR<span style="color:#66d9ef">:-$(</span>/usr/bin/xcode-select -p<span style="color:#66d9ef">)</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;▶︎ A: UNITY_PROJ = </span><span style="color:#e6db74">${</span>UNITY_PROJ<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;▶︎ A: host CONFIGURATION = </span><span style="color:#e6db74">${</span>CONFIGURATION<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;▶︎ A: Unity CONFIGURATION = </span><span style="color:#e6db74">${</span>UNITY_CONF<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;▶︎ A: SYMROOT = </span><span style="color:#e6db74">${</span>SYMROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;▶︎ A: OBJROOT = </span><span style="color:#e6db74">${</span>OBJROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;▶︎ A: DEVELOPER_DIR = </span><span style="color:#e6db74">${</span>DEV_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 关键：不用 -derivedDataPath（否则会要求 -scheme）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 同时用干净环境避免主工程 WRAPPER_NAME/PRODUCT_NAME 污染 Unity build</span>
+</span></span><span style="display:flex;"><span>/usr/bin/env -i <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>PATH<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  HOME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  USER<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  LANG<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>LANG<span style="color:#66d9ef">:-</span>en_US.UTF-8<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  TMPDIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TMPDIR<span style="color:#66d9ef">:-</span>/tmp<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  DEVELOPER_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DEV_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  /usr/bin/xcodebuild <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    -project <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>UNITY_PROJ<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    -target <span style="color:#e6db74">&#34;UnityFramework&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    -configuration <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>UNITY_CONF<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    -sdk iphoneos <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    -destination <span style="color:#e6db74">&#34;generic/platform=iOS&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    CODE_SIGNING_ALLOWED<span style="color:#f92672">=</span>NO <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    CODE_SIGNING_REQUIRED<span style="color:#f92672">=</span>NO <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    CODE_SIGN_IDENTITY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    ENABLE_DEBUG_DYLIB<span style="color:#f92672">=</span>NO <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    SYMROOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SYMROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    OBJROOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>OBJROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    build
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>SRC_FW<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SYMROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>UNITY_CONF<span style="color:#e6db74">}</span><span style="color:#e6db74">-iphoneos/UnityFramework.framework&#34;</span>
+</span></span><span style="display:flex;"><span>DST_FW<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BUILT_PRODUCTS_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">/UnityFramework.framework&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;▶︎ A: SRC_FW = </span><span style="color:#e6db74">${</span>SRC_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;▶︎ A: DST_FW = </span><span style="color:#e6db74">${</span>DST_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> ! -d <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SRC_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;✖︎ A: UnityFramework.framework not produced: </span><span style="color:#e6db74">${</span>SRC_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  exit <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rm -rf <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DST_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>/usr/bin/ditto <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SRC_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DST_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;✅ A: staged UnityFramework.framework into BUILT_PRODUCTS_DIR&#34;</span></span></span></code></pre></div><h4 id="22脚本b--去掉勾选based-on-dependency-analysis">2.2、脚本B ➤ 去掉勾选<code>Based on dependency analysis</code><a class="anchor" href="#22%e8%84%9a%e6%9c%acb--%e5%8e%bb%e6%8e%89%e5%8b%be%e9%80%89based-on-dependency-analysis">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>set -euo pipefail
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 只在真机编译</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SDKROOT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> *<span style="color:#e6db74">&#34;iphonesimulator&#34;</span>* <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;▶︎ B: simulator build -&gt; skip embed&#34;</span>
+</span></span><span style="display:flex;"><span>  exit <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>SRC_FW<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BUILT_PRODUCTS_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">/UnityFramework.framework&#34;</span>
+</span></span><span style="display:flex;"><span>DST_FW<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TARGET_BUILD_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>FRAMEWORKS_FOLDER_PATH<span style="color:#e6db74">}</span><span style="color:#e6db74">/UnityFramework.framework&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> ! -d <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SRC_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;✖︎ B: missing </span><span style="color:#e6db74">${</span>SRC_FW<span style="color:#e6db74">}</span><span style="color:#e6db74"> (did Run Script A run successfully?)&#34;</span>
+</span></span><span style="display:flex;"><span>  exit <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rm -rf <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DST_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>mkdir -p <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>TARGET_BUILD_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>FRAMEWORKS_FOLDER_PATH<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>ditto <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>SRC_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DST_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;▶︎ B: embedded -&gt; </span><span style="color:#e6db74">${</span>DST_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 手动 codesign（因为你已经从 Embed Frameworks/UI 里删掉了 UnityFramework.framework）</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> -n <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>EXPANDED_CODE_SIGN_IDENTITY<span style="color:#66d9ef">:-</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CODE_SIGNING_ALLOWED<span style="color:#66d9ef">:-</span>YES<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NO&#34;</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  /usr/bin/codesign --force --sign <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>EXPANDED_CODE_SIGN_IDENTITY<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    --preserve-metadata<span style="color:#f92672">=</span>identifier,entitlements <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DST_FW<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;▶︎ B: codesigned&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;▶︎ B: codesign skipped (no identity or signing not allowed)&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span></span></span></code></pre></div><h3 id="3配置-xcconfig">3、<font id=xcconfig>配置 <code>*.xcconfig</code></font><a class="anchor" href="#3%e9%85%8d%e7%bd%ae-xcconfig">#</a></h3>
+<h4 id="31挂载xcconfig">3.1、挂载<code>*.xcconfig</code><a class="anchor" href="#31%e6%8c%82%e8%bd%bdxcconfig">#</a></h4>
+<p><img src="./assets/image-20251213142301146.png" alt="image-20251213142301146" /></p>
+<h4 id="32jobsconfigxcconfig">3.2、<code>JobsConfig.xcconfig</code><a class="anchor" href="#32jobsconfigxcconfig">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>//
+</span></span><span style="display:flex;"><span>//  JobsConfig.xcconfig
+</span></span><span style="display:flex;"><span>//  JobsSwiftBaseConfigDemo
+</span></span><span style="display:flex;"><span>//
+</span></span><span style="display:flex;"><span>//  Created by Mac on 11/1/25.
+</span></span><span style="display:flex;"><span>//
+</span></span><span style="display:flex;"><span>//  Configuration settings file format documentation can be found at:
+</span></span><span style="display:flex;"><span>//  https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+</span></span><span style="display:flex;"><span>//
+</span></span><span style="display:flex;"><span>//  此文件仅仅针对单一语言环境下的一些配置。
+</span></span><span style="display:flex;"><span>//  在多语言环境下，此文件的某些配置项，将会用各语言的 InfoPlist.strings 进行覆盖
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PRODUCT_NAME <span style="color:#f92672">=</span> SwiftDemo
+</span></span><span style="display:flex;"><span>APP_DISPLAY_NAME <span style="color:#f92672">=</span> SwiftDemo
+</span></span><span style="display:flex;"><span>INFOPLIST_KEY_CFBundleDisplayName <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>APP_DISPLAY_NAME<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>INFOPLIST_KEY_CFBundleName <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>PRODUCT_NAME<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// <span style="color:#f92672">==================================</span> Unity iOS 真机专用：模拟器禁用 <span style="color:#f92672">==================================</span>
+</span></span><span style="display:flex;"><span>// ObjC/C 宏：#if JOBS_UNITY_ENABLED ...
+</span></span><span style="display:flex;"><span>JOBS_UNITY_ENABLED<span style="color:#f92672">[</span>sdk<span style="color:#f92672">=</span>iphoneos*<span style="color:#f92672">]</span>        <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>JOBS_UNITY_ENABLED<span style="color:#f92672">[</span>sdk<span style="color:#f92672">=</span>iphonesimulator*<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>GCC_PREPROCESSOR_DEFINITIONS <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>inherited<span style="color:#66d9ef">)</span> JOBS_UNITY_ENABLED<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>JOBS_UNITY_ENABLED<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>// Swift 条件：#if JOBS_UNITY_ENABLED ...
+</span></span><span style="display:flex;"><span>SWIFT_ACTIVE_COMPILATION_CONDITIONS <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>inherited<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>SWIFT_ACTIVE_COMPILATION_CONDITIONS<span style="color:#f92672">[</span>sdk<span style="color:#f92672">=</span>iphoneos*<span style="color:#f92672">]</span>        <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>inherited<span style="color:#66d9ef">)</span> JOBS_UNITY_ENABLED
+</span></span><span style="display:flex;"><span>SWIFT_ACTIVE_COMPILATION_CONDITIONS<span style="color:#f92672">[</span>sdk<span style="color:#f92672">=</span>iphonesimulator*<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>inherited<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>// <span style="color:#f92672">==================================</span> Unity：只给真机的搜索路径 + 链接参数 <span style="color:#f92672">==================================</span>
+</span></span><span style="display:flex;"><span>// 让 linker 在真机时能从 Run Script A 拷贝进来的 BUILT_PRODUCTS_DIR 找到 UnityFramework.framework
+</span></span><span style="display:flex;"><span>JOBS_UNITY_FRAMEWORK_SEARCH_PATHS<span style="color:#f92672">[</span>sdk<span style="color:#f92672">=</span>iphoneos*<span style="color:#f92672">]</span>        <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>inherited<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>BUILT_PRODUCTS_DIR<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>SRCROOT<span style="color:#66d9ef">)</span>/Unity
+</span></span><span style="display:flex;"><span>JOBS_UNITY_FRAMEWORK_SEARCH_PATHS<span style="color:#f92672">[</span>sdk<span style="color:#f92672">=</span>iphonesimulator*<span style="color:#f92672">]</span> <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>FRAMEWORK_SEARCH_PATHS <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>inherited<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>JOBS_UNITY_FRAMEWORK_SEARCH_PATHS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>// 真机链接 UnityFramework，模拟器清空（不再去找 framework）
+</span></span><span style="display:flex;"><span>JOBS_UNITY_OTHER_LDFLAGS<span style="color:#f92672">[</span>sdk<span style="color:#f92672">=</span>iphoneos*<span style="color:#f92672">]</span>        <span style="color:#f92672">=</span> -framework UnityFramework
+</span></span><span style="display:flex;"><span>JOBS_UNITY_OTHER_LDFLAGS<span style="color:#f92672">[</span>sdk<span style="color:#f92672">=</span>iphonesimulator*<span style="color:#f92672">]</span> <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>OTHER_LDFLAGS <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>inherited<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>JOBS_UNITY_OTHER_LDFLAGS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>// <span style="color:#f92672">==================================</span> 其他：保持 inherited <span style="color:#f92672">==================================</span>
+</span></span><span style="display:flex;"><span>// bridging header 已经做了条件 import，一般不需要额外 Header Search Paths / CFlags
+</span></span><span style="display:flex;"><span>HEADER_SEARCH_PATHS    <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>inherited<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>OTHER_CFLAGS           <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>inherited<span style="color:#66d9ef">)</span></span></span></code></pre></div><h2 id="四经验交流">四、经验交流<a class="anchor" href="#%e5%9b%9b%e7%bb%8f%e9%aa%8c%e4%ba%a4%e6%b5%81">#</a></h2>
+<ul>
+<li>
+<p>Unity <strong>2019.3</strong> 之前没有 <code>UnityFramework</code> 这个玩法，要用老的 <code>main.mm</code> hack，比较操心，如果 Unity 很旧，建议升级，否则会非常折磨</p>
+</li>
+<li>
+<p>所有的 Unity 文件（除了资源文件），不能挂在宿主 target</p>
+</li>
+<li>
+<p>不要手动拆 Unity 的 <code>Data/</code> 目录，保持 Unity 导出的 Xcode 工程内部结构不变，只是当作子工程引用即可</p>
+</li>
+<li>
+<p>如果你只需要一个 Unity 页面，最简单是直接 present 它；需要多次进出 Unity 时，记得做好状态管理（是否重复初始化、是否需要 unload）</p>
+</li>
+<li>
+<p><strong>嵌入 Unity，包体和首帧时间都会涨</strong>。主工程那边要有心理预期，不要想着它跟一个普通原生页面一样轻量</p>
+</li>
+<li>
+<p><a href="#%e6%a1%a5%e6%8e%a5%e6%96%87%e4%bb%b6"><font size=4><strong><code>*.UnityFramework</code></strong> </font>本身是 <strong>Objc 动态库</strong>，需要用 <strong>Bridging Header</strong> 把它桥接进来</a></p>
+</li>
+<li>
+<p>需要iOS主工程项目需要支持iOS模拟器调试，则需要<font size=4><strong><code>unity.app</code></strong></font>单独构建 Simulator 版库，并在 Xcode 里做平台区分</p>
+<ul>
+<li>
+<p><strong>Swift</strong>侧</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">#if</span> <span style="color:#75715e">targetEnvironment</span>(<span style="color:#75715e">simulator</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 模拟器专用代码</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#else</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 真机（iPhone / iPad 设备）代码</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">#if</span> <span style="color:#75715e">os</span>(<span style="color:#75715e">iOS</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#75715e">targetEnvironment</span>(<span style="color:#75715e">simulator</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 只有 iOS 真机（iPhone / iPad）代码</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#if</span> <span style="color:#f92672">!</span><span style="color:#75715e">targetEnvironment</span>(<span style="color:#75715e">simulator</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 只有真机（iPhone / iPad）会编译到这里</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">#if</span> <span style="color:#75715e">targetEnvironment</span>(<span style="color:#75715e">simulator</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 模拟器专用代码</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span></span></span></code></pre></div></li>
+<li>
+<p><strong>OC</strong>侧</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">#import &lt;TargetConditionals.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#if TARGET_OS_SIMULATOR
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 模拟器专用代码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#else
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 真机（iPhone / iPad 设备）代码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">#import &lt;TargetConditionals.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#if TARGET_OS_IOS &amp;&amp; !TARGET_OS_SIMULATOR
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 只有 iOS 真机（iPhone / iPad）代码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#if !TARGET_OS_SIMULATOR
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 只有真机（iPhone / iPad）会编译到这里
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">#import &lt;TargetConditionals.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#if TARGET_OS_SIMULATOR
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 模拟器专用代码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif</span></span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>iOS项目集成Unity</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="flex align-center">
+        <span>SwiftPackageDependence使用指南🧭</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#一前置条件">一、前置条件</a></li>
+    <li><a href="#二无差别导入适用于unity侧提供的ios包兼容ios模拟器和实体设备">二、无差别导入（适用于Unity侧提供的iOS包兼容iOS模拟器和实体设备）</a>
+      <ul>
+        <li><a href="#1选中主-app--targets--general">1、<strong><code>选中主 App</code></strong> ➤ <strong><code>TARGETS</code></strong> ➤ <strong><code>General</code></strong></a>
+          <ul>
+            <li><a href="#11frameworks-libraries-and-embedded-content--如果是">1.1、<strong><code>Frameworks, Libraries, and Embedded Content</code></strong> ➤ <strong>如果是条件编译，那么这一步跳过</strong></a></li>
+          </ul>
+        </li>
+        <li><a href="#2选中主-app--targets--build-settings-">2、<strong><code>选中主 App</code></strong> ➤ <strong><code>TARGETS</code></strong> ➤ <strong><code>Build Settings</code></strong> ➤</a>
+          <ul>
+            <li><a href="#21other-linker-flags-里加-objc">2.1、<code>Other Linker Flags</code> 里加：<code>-ObjC</code></a></li>
+            <li><a href="#22-framework-search-paths-里加srcrootunity">2.2、 <code>Framework Search Paths</code> 里加：<code>&#34;$(SRCROOT)/Unity&#34;</code></a></li>
+            <li><a href="#23-library-search-paths-里加">2.3、 <code>Library Search Paths</code> 里加：</a></li>
+            <li><a href="#24header-search-paths-里加">2.4、<code>Header Search Paths</code> 里加：</a></li>
+            <li><a href="#25runpath-search-paths-里确保有executable_pathframeworks">2.5、<code>Runpath Search Paths</code> 里确保有：<code>@executable_path/Frameworks</code></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#三条件编译适用于unity侧提供的ios包只支持实体设备而不兼容ios模拟器">三、条件编译（适用于Unity侧提供的iOS包只支持实体设备，而不兼容iOS模拟器）</a>
+      <ul>
+        <li><a href="#1跳过">1、跳过 <code>Frameworks, Libraries, and Embedded Content</code></a></li>
+        <li><a href="#2选中主-app--targets--build-phases">2、<strong><code>选中主 App</code></strong> ➤ <strong><code>TARGETS</code></strong> ➤ <strong><code>Build Phases</code></strong></a>
+          <ul>
+            <li><a href="#21脚本a--去掉勾选based-on-dependency-analysis">2.1、脚本A ➤ 去掉勾选<code>Based on dependency analysis</code></a></li>
+            <li><a href="#22脚本b--去掉勾选based-on-dependency-analysis">2.2、脚本B ➤ 去掉勾选<code>Based on dependency analysis</code></a></li>
+          </ul>
+        </li>
+        <li><a href="#3配置-xcconfig">3、配置 <code>*.xcconfig</code></a>
+          <ul>
+            <li><a href="#31挂载xcconfig">3.1、挂载<code>*.xcconfig</code></a></li>
+            <li><a href="#32jobsconfigxcconfig">3.2、<code>JobsConfig.xcconfig</code></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#四经验交流">四、经验交流</a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

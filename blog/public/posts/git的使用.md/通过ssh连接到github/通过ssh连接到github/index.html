@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>SSH ➤ Github | Jobs Docs</title>
+<meta name="keywords" content="Docs">
+<meta name="description" content="一、生成SSH密钥🔑 &gt; 尚未在本地计算机上生成SSH密钥🔑对 ## 二、确认 idrsa 真的存在 &amp; 权限正确 ## 三、把 github.com 的 key 明确写进 /.ssh/config 建立/.ssh/config并赋权 打开 open ~/.ssh/config 编辑 ~/.ssh/config &gt; IdentitiesOnly yes">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abb7947e757589ea1d769bb54efb095f56e1ef13fdade0fe3e661c4d81b59898.css" integrity="sha256-q7eUfnV1ieoddpu1TvsJX1bh7xP9reD&#43;PmYcTYG1mJg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Jobs Docs (Alt + H)">Jobs Docs</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      SSH ➤ Github
+    </h1>
+    <div class="post-meta"><span title='2026-01-17 17:54:01 +0700 +0700'>January 17, 2026</span>&nbsp;·&nbsp;<span>2 min</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><p><img alt="Jobs倾情奉献" loading="lazy" src="https://picsum.photos/1500/400" title="Jobs出品，必属精品"></p>
+<div class="jobs-toc">
+  <details open>
+    <summary>Table of Contents</summary>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一生成ssh密钥">一、生成<code>SSH</code>密钥🔑</a></li>
+    <li><a href="#二确认-id_rsa-真的存在--权限正确">二、确认 <code>id_rsa</code> 真的存在 &amp; 权限正确</a></li>
+    <li><a href="#三把-githubcom-的-key-明确写进-sshconfig">三、把 <code>github.com</code> 的 key 明确写进 <code>~/.ssh/config</code></a></li>
+    <li><a href="#四id_rsa--macos-keychain--agent">四、<code>id_rsa</code> ➤ macOS Keychain + agent</a></li>
+    <li><a href="#五添加ssh密钥--ssh代理">五、添加<code>SSH</code>密钥🔑 ➤ <code>SSH</code>代理</a></li>
+    <li><a href="#六添加公钥--github">六、添加公钥🔑 ➤ Github</a></li>
+    <li><a href="#七命令测试ssh连接是否正常">七、命令测试<code>SSH</code>连接是否正常</a></li>
+  </ul>
+</nav>
+  </details>
+</div>
+<h2 id="一生成ssh密钥">一、生成<code>SSH</code>密钥🔑<a hidden class="anchor" aria-hidden="true" href="#一生成ssh密钥">#</a></h2>
+<blockquote>
+<p>尚未在本地计算机上生成<code>SSH</code>密钥🔑对</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -t rsa -b <span style="color:#ae81ff">4096</span> -C <span style="color:#e6db74">&#34;lg295060456@gmail.com&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Last login: Sat Jan <span style="color:#ae81ff">17</span> 14:20:11 on ttys000
+</span></span><span style="display:flex;"><span>➜  Desktop ssh-keygen -t rsa -b <span style="color:#ae81ff">4096</span> -C <span style="color:#e6db74">&#34;lg295060456@gmail.com&#34;</span>
+</span></span><span style="display:flex;"><span>Generating public/private rsa key pair.
+</span></span><span style="display:flex;"><span>Enter file in which to save the key <span style="color:#f92672">(</span>/Users/jobs/.ssh/id_rsa<span style="color:#f92672">)</span>: 
+</span></span><span style="display:flex;"><span>Enter passphrase <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#34;/Users/jobs/.ssh/id_rsa&#34;</span> <span style="color:#f92672">(</span>empty <span style="color:#66d9ef">for</span> no passphrase<span style="color:#f92672">)</span>: 
+</span></span><span style="display:flex;"><span>Enter same passphrase again: 
+</span></span><span style="display:flex;"><span>Your identification has been saved in /Users/jobs/.ssh/id_rsa
+</span></span><span style="display:flex;"><span>Your public key has been saved in /Users/jobs/.ssh/id_rsa.pub
+</span></span><span style="display:flex;"><span>The key fingerprint is:
+</span></span><span style="display:flex;"><span>SHA256:Fdvu/MXEYvmoomwjooZvPoR3gX1FlvmYrmmubfZDs7A lg295060456@gmail.com
+</span></span><span style="display:flex;"><span>The key<span style="color:#960050;background-color:#1e0010">&#39;</span>s randomart image is:
+</span></span><span style="display:flex;"><span>+---<span style="color:#f92672">[</span>RSA 4096<span style="color:#f92672">]</span>----+
+</span></span><span style="display:flex;"><span>|       .oo.      |
+</span></span><span style="display:flex;"><span>|       .+  +     |
+</span></span><span style="display:flex;"><span>|   o   . +o .    |
+</span></span><span style="display:flex;"><span>|  . o . o...   o |
+</span></span><span style="display:flex;"><span>| .   o .S   . + o|
+</span></span><span style="display:flex;"><span>|. o . . +  o . * |
+</span></span><span style="display:flex;"><span>| + .   * o  o . +|
+</span></span><span style="display:flex;"><span>|. + ..E.<span style="color:#f92672">=</span> .  o . |
+</span></span><span style="display:flex;"><span>| <span style="color:#f92672">=</span>+o.Bo+++ .. .  |
+</span></span><span style="display:flex;"><span>+----<span style="color:#f92672">[</span>SHA256<span style="color:#f92672">]</span>-----+
+</span></span></code></pre></div><h2 id="二确认-id_rsa-真的存在--权限正确">二、确认 <code>id_rsa</code> 真的存在 &amp; 权限正确<a hidden class="anchor" aria-hidden="true" href="#二确认-id_rsa-真的存在--权限正确">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ls -la ~/.ssh/id_rsa ~/.ssh/id_rsa.pub
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">600</span> ~/.ssh/id_rsa
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">644</span> ~/.ssh/id_rsa.pub
+</span></span></code></pre></div><h2 id="三把-githubcom-的-key-明确写进-sshconfig">三、把 <code>github.com</code> 的 key 明确写进 <code>~/.ssh/config</code><a hidden class="anchor" aria-hidden="true" href="#三把-githubcom-的-key-明确写进-sshconfig">#</a></h2>
+<ul>
+<li>
+<p>建立<code>~/.ssh/config</code>并赋权</p>
+<pre tabindex="0"><code>mkdir -p ~/.ssh
+touch ~/.ssh/config
+chmod 600 ~/.ssh/config
+</code></pre></li>
+<li>
+<p>打开 <code>open ~/.ssh/config</code></p>
+<pre tabindex="0"><code>open ~/.ssh/config
+</code></pre></li>
+<li>
+<p>编辑 <code>~/.ssh/config</code></p>
+<blockquote>
+<p><code>IdentitiesOnly yes</code> 很关键：强制只用你指定的 key，避免 Sourcetree/ssh 乱试其它 identity 导致失败或卡住。</p>
+</blockquote>
+<pre tabindex="0"><code>Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_rsa
+  IdentitiesOnly yes
+  AddKeysToAgent yes
+  UseKeychain yes
+</code></pre></li>
+</ul>
+<h2 id="四id_rsa--macos-keychain--agent">四、<code>id_rsa</code> ➤ macOS Keychain + agent<a hidden class="anchor" aria-hidden="true" href="#四id_rsa--macos-keychain--agent">#</a></h2>
+<blockquote>
+<p>让 GUI 程序也能用</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-add --apple-use-keychain ~/.ssh/id_rsa
+</span></span><span style="display:flex;"><span>ssh-add -l
+</span></span></code></pre></div><h2 id="五添加ssh密钥--ssh代理">五、添加<code>SSH</code>密钥🔑 ➤ <code>SSH</code>代理<a hidden class="anchor" aria-hidden="true" href="#五添加ssh密钥--ssh代理">#</a></h2>
+<ul>
+<li>运行以下命令来将生成的SSH密钥添加到SSH代理，以便您可以在不重复输入密码的情况下使用它：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>eval <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>ssh-agent -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>ssh-add ~/.ssh/id_rsa
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>➜  Desktop eval <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>ssh-agent -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>ssh-add ~/.ssh/id_rsa
+</span></span><span style="display:flex;"><span>Agent pid <span style="color:#ae81ff">9880</span>
+</span></span><span style="display:flex;"><span>Identity added: /Users/jobs/.ssh/id_rsa <span style="color:#f92672">(</span>lg295060456@gmail.com<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h2 id="六添加公钥--github">六、添加公钥🔑 ➤ <a href="https://github.com">Github</a><a hidden class="anchor" aria-hidden="true" href="#六添加公钥--github">#</a></h2>
+<ul>
+<li>
+<p>打开<code>~/.ssh/id_rsa.pub</code>文件并复制其中的内容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pbcopy &lt; ~/.ssh/id_rsa.pub
+</span></span></code></pre></div></li>
+<li>
+<p>然后登录到 <a href="https://github.com/settings/ssh/new">https://github.com/settings/ssh/new</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>open https://github.com/settings/ssh/new
+</span></span></code></pre></div></li>
+<li>
+<p>转到您的帐户设置，点击<code>SSH and GPG keys</code></p>
+</li>
+<li>
+<p>然后点击<code>New SSH key</code></p>
+</li>
+<li>
+<p>将复制的公钥内容粘贴到&quot;Key&quot;字段中，并为该密钥提供一个标题</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat ~/.ssh/id_rsa.pub
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>➜  Desktop cat ~/.ssh/id_rsa.pub
+</span></span><span style="display:flex;"><span>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC09QFwwcZOnwX5qfiHdYqPNispoWiC72iOMdPk+xX30uvpgDZCUPCD9tWZi5UeoqN0htQLagYjW88EMDTl16pGHZDv9ohCrXyFM7Aer6UJNSWEYf5c2ghvK4zBeoja6X714vtBbI9Vj1L/NcJ61aKsKV/3cYGLFbynHwUrxMm/NbrWa4TV18UCQ0bZN3hwAonr5OWKBGmHIPMYwYoyqm8JQGVVhQWX4WqOjRClOImw/DmGia/NYnU3UeZO+iPCmq5zRLpHkhVm7LK/y/NqAJbZFPgk5E0PScZK8hkbye5UJqUyjHgRzvswT3IqeV2k2mc87icOxVqkqzqNN99nisI5eLV+jyfxVE2+80s8sVSuxRyMonMQBfWO+tO/s0oGDGXJuZ6K9swmk9pphOAOOamMNHqlqN2yN3hL8YtNviCoCTDaxTTswZyrHgXvrE03plAnszxkv2HbniDSldOYa+v9YzMmG6ZJtrlQJN/r7s8jRwhJBb6sBlwqL45B3y0+VOUXr4+Eoc+/A2xy4lOpVaD86B96ks3hm2l1oXMnsoCLJwzLQ25jLcM2rux69DOhGhTw1TvjaRGx22knjDIaTuEDLpuZ20yRCt/xgUaG8oygU3O955jS4Glw3P8wAfKoSf2PlW9tOQn+L/bCdcUho8lmJjueougNvW2keuM9nSoIHQ<span style="color:#f92672">==</span> lg295060456@gmail.com
+</span></span></code></pre></div><p><img alt="image-20231007055435866" loading="lazy" src="/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/assets/image-20231007055435866.png"></p>
+<p><img alt="image-20231007055515204" loading="lazy" src="/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/assets/image-20231007055515204.png"></p>
+<p><img alt="image-20231007055536132" loading="lazy" src="/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/assets/image-20231007055536132.png"></p>
+</li>
+</ul>
+<h2 id="七命令测试ssh连接是否正常">七、命令测试<code>SSH</code>连接是否正常<a hidden class="anchor" aria-hidden="true" href="#七命令测试ssh连接是否正常">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -T git@github.com
+</span></span></code></pre></div><p><img alt="image-20231007055634328" loading="lazy" src="/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/assets/image-20231007055634328.png"></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/docs/">Docs</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Jobs Docs</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

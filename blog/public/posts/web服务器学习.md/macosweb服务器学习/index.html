@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>MacOS_Web服务器学习 | Jobs Docs</title>
+<meta name="keywords" content="Docs">
+<meta name="description" content="一、前言 资料来源 Apache 、Tomcat、Nginx的区别 MacOS 自带tomcat和apache，但是建议都用brew重新下载进行额外的管理 查找用Homebrew管理的软件的安装路径（以tomat为例） ## 二、tomcat ### 1、tomcat的安装 ### 2、tomcat的开启/关闭/重启 进入tomcat安装目录下的libexe">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0.md/macosweb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abb7947e757589ea1d769bb54efb095f56e1ef13fdade0fe3e661c4d81b59898.css" integrity="sha256-q7eUfnV1ieoddpu1TvsJX1bh7xP9reD&#43;PmYcTYG1mJg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="http://localhost:1313/posts/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0.md/macosweb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Jobs Docs (Alt + H)">Jobs Docs</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      MacOS_Web服务器学习
+    </h1>
+    <div class="post-meta"><span title='2025-08-18 13:05:14 +0700 +0700'>August 18, 2025</span>&nbsp;·&nbsp;<span>1 min</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><p><img alt="Jobs倾情奉献" loading="lazy" src="https://picsum.photos/1500/400" title="Jobs出品，必属精品"></p>
+<div class="jobs-toc">
+  <details open>
+    <summary>Table of Contents</summary>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一前言">一、前言</a></li>
+    <li><a href="#二tomcat">二、<code>tomcat</code></a>
+      <ul>
+        <li><a href="#1tomcat的安装">1、<code>tomcat</code>的安装</a></li>
+        <li><a href="#2tomcat的开启关闭重启">2、<code>tomcat</code>的开启/关闭/重启</a></li>
+      </ul>
+    </li>
+    <li><a href="#三httpd">三、<code>httpd</code></a>
+      <ul>
+        <li><a href="#1httpd的安装">1、<code>httpd</code>的安装</a></li>
+        <li><a href="#2httpdhttpd的启动">2、<code>httpd</code>httpd的启动</a></li>
+        <li><a href="#3httpd的停止">3、<code>httpd</code>的停止</a></li>
+        <li><a href="#4httpd的重启">4、<code>httpd</code>的重启</a></li>
+        <li><a href="#5httpd的相关备注和说明">5、<code>httpd</code>的相关备注和说明</a></li>
+      </ul>
+    </li>
+    <li><a href="#四nginx">四、<code>nginx</code></a>
+      <ul>
+        <li><a href="#1nginx的安装">1、<code>nginx</code>的安装</a></li>
+        <li><a href="#2nginx的启动">2、<code>nginx</code>的启动</a></li>
+        <li><a href="#3nginx的关闭">3、<code>nginx</code>的关闭</a></li>
+        <li><a href="#4nginx的重启">4、<code>nginx</code>的重启</a></li>
+        <li><a href="#5nginx的停止">5、<code>nginx</code>的停止</a></li>
+        <li><a href="#6重读nginx日志文件">6、重读<code>nginx</code>日志文件</a></li>
+        <li><a href="#7nginx的相关备注和说明">7、<code>nginx</code>的相关备注和说明</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </details>
+</div>
+<h2 id="一前言">一、前言<a hidden class="anchor" aria-hidden="true" href="#一前言">#</a></h2>
+<ul>
+<li>
+<p>资料来源</p>
+<ul>
+<li><a href="https://blog.51cto.com/willis/1852083"><strong>Apache 、Tomcat、Nginx的区别</strong></a></li>
+</ul>
+</li>
+<li>
+<p><strong>MacOS</strong> 自带<code>tomcat</code>和<code>apache</code>，但是建议都用<code>brew</code>重新下载进行额外的管理</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>which -a apache
+</span></span><span style="display:flex;"><span>which apache
+</span></span></code></pre></div></li>
+<li>
+<p>查找用<a href="https://brew.sh/"><strong>Homebrew</strong></a>管理的软件的安装路径（以<code>tomat</code>为例）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/bin/bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew list tomcat
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="二tomcat">二、<code>tomcat</code><a hidden class="anchor" aria-hidden="true" href="#二tomcat">#</a></h2>
+<h3 id="1tomcat的安装">1、<code>tomcat</code>的安装<a hidden class="anchor" aria-hidden="true" href="#1tomcat的安装">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew install tomcat
+</span></span></code></pre></div><h3 id="2tomcat的开启关闭重启">2、<code>tomcat</code>的开启/关闭/重启<a hidden class="anchor" aria-hidden="true" href="#2tomcat的开启关闭重启">#</a></h3>
+<ul>
+<li>进入<strong>tomcat</strong>安装目录下的<code>libexec/bin</code>，执行里面对应的<code>*.sh</code></li>
+</ul>
+<h2 id="三httpd">三、<code>httpd</code><a hidden class="anchor" aria-hidden="true" href="#三httpd">#</a></h2>
+<h3 id="1httpd的安装">1、<code>httpd</code>的安装<a hidden class="anchor" aria-hidden="true" href="#1httpd的安装">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew install httpd
+</span></span></code></pre></div><h3 id="2httpdhttpd的启动">2、<code>httpd</code>httpd的启动<a hidden class="anchor" aria-hidden="true" href="#2httpdhttpd的启动">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>apachectl start
+</span></span></code></pre></div><h3 id="3httpd的停止">3、<code>httpd</code>的停止<a hidden class="anchor" aria-hidden="true" href="#3httpd的停止">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>apachectl stop
+</span></span></code></pre></div><h3 id="4httpd的重启">4、<code>httpd</code>的重启<a hidden class="anchor" aria-hidden="true" href="#4httpd的重启">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>apachectl restart
+</span></span></code></pre></div><h3 id="5httpd的相关备注和说明">5、<code>httpd</code>的相关备注和说明<a hidden class="anchor" aria-hidden="true" href="#5httpd的相关备注和说明">#</a></h3>
+<h4 id="51默认占用系统8080端口俗称apache">5.1、默认占用系统<code>8080</code>端口，俗称<code>apache</code><a hidden class="anchor" aria-hidden="true" href="#51默认占用系统8080端口俗称apache">#</a></h4>
+<h4 id="52因为是只读所以需要加写权限然后将默认的8080更改为8081以及80更改为81防止其他程序抢夺端口">5.2、因为是只读所以需要加写权限，然后将默认的8080更改为8081，以及80更改为81（防止其他程序抢夺端口）<a hidden class="anchor" aria-hidden="true" href="#52因为是只读所以需要加写权限然后将默认的8080更改为8081以及80更改为81防止其他程序抢夺端口">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>open /etc/apache2/httpd.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;IfDefine</span> <span style="color:#960050;background-color:#1e0010">SERVER_APP_HAS_DEFAULT_PORTS</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  Listen 8081
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/IfDefine&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;IfDefine</span> <span style="color:#960050;background-color:#1e0010">!SERVER_APP_HAS_DEFAULT_PORTS</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  Listen 81
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/IfDefine&gt;</span>
+</span></span></code></pre></div><h2 id="四nginx">四、<code>nginx</code><a hidden class="anchor" aria-hidden="true" href="#四nginx">#</a></h2>
+<h3 id="1nginx的安装">1、<code>nginx</code>的安装<a hidden class="anchor" aria-hidden="true" href="#1nginx的安装">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew install nginx
+</span></span></code></pre></div><h3 id="2nginx的启动">2、<code>nginx</code>的启动<a hidden class="anchor" aria-hidden="true" href="#2nginx的启动">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx
+</span></span></code></pre></div><h3 id="3nginx的关闭">3、<code>nginx</code>的关闭<a hidden class="anchor" aria-hidden="true" href="#3nginx的关闭">#</a></h3>
+<blockquote>
+<p>相当于先查出<strong>nginx</strong>的进程<strong>id</strong>再使用<strong>kill</strong>命令强制杀掉进程</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx -s stop
+</span></span></code></pre></div><h3 id="4nginx的重启">4、<code>nginx</code>的重启<a hidden class="anchor" aria-hidden="true" href="#4nginx的重启">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx -s reload
+</span></span></code></pre></div><h3 id="5nginx的停止">5、<code>nginx</code>的停止<a hidden class="anchor" aria-hidden="true" href="#5nginx的停止">#</a></h3>
+<blockquote>
+<p>待<strong>nginx</strong>进程处理任务完毕进行停止</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx -s quit
+</span></span></code></pre></div><h3 id="6重读nginx日志文件">6、重读<code>nginx</code>日志文件<a hidden class="anchor" aria-hidden="true" href="#6重读nginx日志文件">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx -s reopen
+</span></span></code></pre></div><h3 id="7nginx的相关备注和说明">7、<code>nginx</code>的相关备注和说明<a hidden class="anchor" aria-hidden="true" href="#7nginx的相关备注和说明">#</a></h3>
+<h4 id="71默认占用系统8080端口">7.1、默认占用系统8080端口<a hidden class="anchor" aria-hidden="true" href="#71默认占用系统8080端口">#</a></h4>
+<h4 id="72如果端口被占用则报错如下">7.2、如果端口被占用则报错如下：<a hidden class="anchor" aria-hidden="true" href="#72如果端口被占用则报错如下">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> bind<span style="color:#f92672">()</span> to 0.0.0.0:8080 failed <span style="color:#f92672">(</span>48: Address already in use<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> bind<span style="color:#f92672">()</span> to 0.0.0.0:8080 failed <span style="color:#f92672">(</span>48: Address already in use<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> bind<span style="color:#f92672">()</span> to 0.0.0.0:8080 failed <span style="color:#f92672">(</span>48: Address already in use<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> bind<span style="color:#f92672">()</span> to 0.0.0.0:8080 failed <span style="color:#f92672">(</span>48: Address already in use<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> bind<span style="color:#f92672">()</span> to 0.0.0.0:8080 failed <span style="color:#f92672">(</span>48: Address already in use<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> still could not bind<span style="color:#f92672">()</span>
+</span></span></code></pre></div><h4 id="73查询">7.3、查询<a hidden class="anchor" aria-hidden="true" href="#73查询">#</a></h4>
+<ul>
+<li>
+<p>查询某个软件（比如：<code>Nginx</code>）的进程号</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ps aux|grep nginx
+</span></span></code></pre></div></li>
+<li>
+<p>查询端口占用情况（比如查询<code>8080</code>端口）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>lsof -i tcp:8080
+</span></span></code></pre></div></li>
+<li>
+<p>查询由<code>brew</code>管理的<code>nginx</code>的安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew list nginx
+</span></span></code></pre></div></li>
+<li>
+<p>查询<code>nginx</code>的配置文件目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx -t（安装目录 ≠ 配置文件目录）
+</span></span></code></pre></div></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/docs/">Docs</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Jobs Docs</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

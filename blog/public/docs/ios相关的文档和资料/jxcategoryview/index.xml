@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JXCategoryView on Jobs Docs</title>
+    <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview/</link>
+    <description>Recent content in JXCategoryView on Jobs Docs</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 05 Nov 2025 09:49:14 +0700</lastBuildDate>
+    <atom:link href="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JXCategoryView框架的使用01</title>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801%EF%B8%8F/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801%EF%B8%8F/</guid>
+      <description>当前总行数：0 行 ## 其他功能 ## 一些共同的准备工作 ## 图文结合 方式一 方式二 方式三 方式四 公共部分</description>
+    </item>
+    <item>
+      <title>JXCategoryView框架的使用02（结合使用 JXPagerView）</title>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%EF%B8%8F/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%EF%B8%8F/</guid>
+      <description>当前总行数：0 行 一些共同的准备工作 Demo = JXPagerView + JXCategoryView 用JXPagerView管理的区别：</description>
+    </item>
+  </channel>
+</rss>

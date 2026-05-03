@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>配置info on Jobs Docs</title>
+    <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo/</link>
+    <description>Recent content in 配置info on Jobs Docs</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 05 Nov 2025 09:49:14 +0700</lastBuildDate>
+    <atom:link href="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>配置info.plist</title>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo/%E9%85%8D%E7%BD%AEinfo.plist/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo/%E9%85%8D%E7%BD%AEinfo.plist/</guid>
+      <description>Open As Source Code，添加以下信息 ### 开权限： 多语言化 Localizable.strings ### 添加外部字体： ### 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在Info.plist中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 当你的应用在iOS 9中需要使用 Q</description>
+    </item>
+  </channel>
+</rss>

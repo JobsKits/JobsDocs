@@ -1,5 +1,7 @@
 # Git的一些使用说明
 
+![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
+
 [toc]
 
 ## 🎯 <font id=目的>**项目白皮书**</font>

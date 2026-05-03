@@ -1,8 +1,10 @@
 # GitHub.workflow（工作流）的使用
 
+![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
+
 [toc]
 
-## 1、介绍 **GitHub.workflow**
+## 一、介绍 **GitHub.workflow**
 
 * 通俗一点来讲，就是**GitHub**不仅提供存放代码的服务，还提供了一个虚拟机环境
 
@@ -34,7 +36,7 @@
   * [**GitHub Actions 入门教程**](https://docs.github.com/en/actions/learn-github-actions)
   * [**GitHub Actions 市场**](https://github.com/marketplace?type=actions)
 
-## 2、工作方式
+## 二、工作方式
 
 * 本地环境配置
 

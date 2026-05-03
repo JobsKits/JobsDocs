@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>技术文档 on Jobs Docs</title>
+    <link>http://localhost:1313/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/</link>
+    <description>Recent content in 技术文档 on Jobs Docs</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 03 May 2026 10:31:30 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>搭建邮件服务器（Mail server）</title>
+      <link>http://localhost:1313/posts/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8.md/macos_%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Sun, 03 May 2026 10:31:30 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8.md/macos_%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、 电子邮件系统中的邮件交换记录(PTR Record) - 2、搭建流程 - 2.1、连接VPS - 2.1.1、相关准备工作 - 2.1.2、运行下列代码 - 2.2、更改主机名为mail，更改当前计算机的完</description>
+    </item>
+    <item>
+      <title>利用Quicktype自动建立数据模型</title>
+      <link>http://localhost:1313/posts/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B.md/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Sun, 03 May 2026 10:31:30 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B.md/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/</guid>
+      <description>quicktype@网页端 ## 一、安装 &amp;gt; ``shell &amp;gt; quicktype &amp;ndash;version # 验证安装 &amp;gt; ` ### 1、手动安装 利用npm安装 利用Homebrew安装 ### 2、脚本安装 ## 二、在.zshrc里面配置全局函数 ### 使用方式 路径定位于目标文件夹，使用如下命令 qt qt swift qt dart 当目标文</description>
+    </item>
+    <item>
+      <title>FTP的配置</title>
+      <link>http://localhost:1313/posts/ftp%E7%9A%84%E9%85%8D%E7%BD%AE.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Sun, 03 May 2026 10:31:29 +0800</pubDate>
+      <guid>http://localhost:1313/posts/ftp%E7%9A%84%E9%85%8D%E7%BD%AE.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/</guid>
+      <description>FTP = File Transfer Protocol = 文件传输协议 FTP主要有两种：FTP协议和SFTP协议。 ## 1、前置条件 资料来源 Akamai/Install VSFTPD on Ubuntu 20.04 ## 2、VSFTPD的安装步骤 ## 3、创建一个FTP用户 创建示例文本 testfile.txt 打开与本地主机上运行的VSF</description>
+    </item>
+    <item>
+      <title>利用Hugo生成静态网页教程</title>
+      <link>http://localhost:1313/posts/%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B.md/macos%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Wed, 08 Apr 2026 13:21:48 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B.md/macos%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B/</guid>
+      <description>Hugo中文文档 ## 一、核心特点 &amp;gt; 没有后端、没有数据库、速度极快 ## 1、环境配置 推荐终端：Oh-My-Zsh Homebrew ## 2、安装配置 推荐利用Homebrew自动安装配置Hugo 验证 ## 3、生成站点 hugo new site JobsBlog 目录结构 ### 3.2、创建一些页面资源 创建文章页面 创建第一篇文章，放到</description>
+    </item>
+    <item>
+      <title>Shell脚本代码片段</title>
+      <link>http://localhost:1313/posts/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5.md/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</link>
+      <pubDate>Wed, 08 Apr 2026 10:20:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5.md/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</guid>
+      <description>🎯 项目白皮书 虽然Shell脚本晦涩难懂，但相较于python等脚本，因为减少了一层系统封装调用，所以使得shell脚本具有更大的普适度 不会因为第三方Api更新而影响使用 也降低了某些潜在的兼容性等Bug的出现几率 增强了代码执行的效率 为了更好的规避Shell脚本的晦涩难懂，特此文件记录一些高频需求涉及到的Shell脚本代码片段 本文件下所有的Shel</description>
+    </item>
+    <item>
+      <title>Swift工程项目框架配置方案@JobsKits</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs.md/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs/</link>
+      <pubDate>Sun, 15 Mar 2026 18:26:21 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs.md/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs/</guid>
+      <description>一、 一些基本的原则 ### 1、不到万不得已，不要用Objc库 既然是Swift工程，那么就尽可能的不要调用Objc库，否则我们为什么不用Objc写工程项目？不要既当又立。特别是在有优秀平替的情况下。相信互联网是在不断向前发展的，新出的轮子可能稳定性来讲可能不如老旧的（特别是那种很多年不更新的库，不到万不得已，慎用！），但是从调用和内存包括向前兼容等方面，</description>
+    </item>
+    <item>
+      <title>iOS 多语言环境设置</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/</link>
+      <pubDate>Sat, 24 Jan 2026 16:10:44 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/</guid>
+      <description>一、目标 App语言跟随当前手机系统语言 用户主动切换当前App语言，即：App语言不同于手机系统语言 ## 二、参考资料 3分钟实现iOS语言本地化/国际化（图文详解） iOS App内语言切换（国际化） 在iOS App内优雅的动态切换语言 iOS国际化 （多语言） Demos-LanguageSettingsDemo iOS - 多语言本地化 ## 三</description>
+    </item>
+    <item>
+      <title>iOS项目集成Unity</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity.md/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/</link>
+      <pubDate>Mon, 19 Jan 2026 11:17:41 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity.md/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/</guid>
+      <description>前言 配置Unity是比较繁琐的，特别是对于以往开发过程中没有接触过此类操作的人员比较虐心，因为包含了很多代码能力以外的经验。笔者退出此文以保姆式教学，助力避坑以求高效开发 如果需要iOS模拟器也支持Unity，则需要Unity侧提供关于iOS模拟器的SDK包，否则只能做条件编译 如需条件编译，不要把主工程的配置项改的乱七八糟。利用 .xcconfig 的优</description>
+    </item>
+    <item>
+      <title>SSH ➤ Github</title>
+      <link>http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/</link>
+      <pubDate>Sat, 17 Jan 2026 17:54:01 +0700</pubDate>
+      <guid>http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/</guid>
+      <description>一、生成SSH密钥🔑 &amp;gt; 尚未在本地计算机上生成SSH密钥🔑对 ## 二、确认 idrsa 真的存在 &amp;amp; 权限正确 ## 三、把 github.com 的 key 明确写进 &lt;del&gt;/.ssh/config 建立&lt;/del&gt;/.ssh/config并赋权 打开 open ~/.ssh/config 编辑 ~/.ssh/config &amp;gt; IdentitiesOnly yes</description>
+    </item>
+    <item>
+      <title>S wift P ackage D ependence使用指南🧭</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.md/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Mon, 12 Jan 2026 17:08:55 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.md/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</guid>
+      <description>一、集成 Xcode 👉 File 👉 Add Package Dependencies ## 二、删除（涉及到3处） Xcode 👉 File 👉 Add Package Dependencies 工程x.xcodeproj 👉 PROJECT 👉 Package Dependencies 工程x.xcodeproj 👉 TARGETS 👉 General</description>
+    </item>
+    <item>
+      <title>【MacOS】配置本地的直播服务器</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8.md/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Tue, 30 Dec 2025 09:52:44 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8.md/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>一、实践目的 服务器（本地）：以MacOS和本地局域网为基础，辅以Homebrew ➤ node ➤ &lt;a href=&#34;mailto:node-media-server@2.3.8&#34;&gt;node-media-server@2.3.8&lt;/a&gt; 视频采集端：iOS@Swift5x➕ HaishinKit ➤ 输出视频流 服务器端（本地）：利用Apple主导的HLS技术切片成 .ts 格式，➤ 进行推流 因为是直播，所以 .ts 文件， 滚动生成，阅后即</description>
+    </item>
+    <item>
+      <title>Swift➤Flutter</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swiftflutter.md/swiftflutter/</link>
+      <pubDate>Wed, 24 Dec 2025 17:58:28 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swiftflutter.md/swiftflutter/</guid>
+      <description>一、前言 ### 1、实践目的：iOS项目主工程（Swift）集成和在个别页面调用Flutter页面 ### 2、经验总结 Flutter官方文档 ➤ 将 Flutter module 集成到 iOS 项目 集成Flutter页面，绝对不是只引入单个的.dart文件，而是需要将整个Flutter工程文件全部集成（Flutter 里面还包含各种依赖） iOS主</description>
+    </item>
+    <item>
+      <title>Swift直播项目核心技术研讨</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8.md/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8/</link>
+      <pubDate>Mon, 22 Dec 2025 20:36:20 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8.md/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8/</guid>
+      <description>一、前言 直播项目的核心难点，在于视频数据的处理，以及礼物特效 音视频这块是一个独立的领域，没有涉及过的技术人员，从理解基本原理到相关概念入手会比较吃力（在没有AI为辅助的基础上，目测需要3个月时间） 寻找相关文档 验证文档内容的真实可靠性 寻找适合的SDK或者相关开源框架 后端同样需要统一的齐平配合（统一的数据封装协议，流媒体服务器） 对于海外项目，特别是</description>
+    </item>
+    <item>
+      <title>制作(发布)Pods组件</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6.md/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/</link>
+      <pubDate>Mon, 22 Dec 2025 20:36:20 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6.md/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/</guid>
+      <description>一、.podspec 模板 普通模板 带子Pod的模版 ## 二、自检（QSA@Cocoapods） &amp;gt; 命令行操作需要定位于此库路径下 自检不一定靠谱。因为自检的时候，可能用的是本地源。在最后推送到远端的时候，也会自检，以此为准 ## 三、推送 &amp;gt; 命令行操作需要定位于此库路径下 推送到Github，并打对其打tag 注册邮箱会收到一封短信，需要进行点击确</description>
+    </item>
+    <item>
+      <title>Apple生成*.p12文件</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6.md/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Wed, 17 Dec 2025 09:40:25 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6.md/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6/</guid>
+      <description>一、什么是.p12文件？ .p12 文件全称 PKCS#12 (Personal Information Exchange) 它里面同时打包了： - 证书 (.cer) - 私钥 (.key) 并且通常会有一个导出密码保护。 ## 二、.p12文件的用处 &amp;gt; ⚠️ 注意事项 &amp;gt; &amp;gt; - .p12 一定要安全保存，泄露出去别人就能用它伪造推送或签名。 &amp;gt; -</description>
+    </item>
+    <item>
+      <title>OC模型解析（参见JobsComment）</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90.md/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Fri, 12 Dec 2025 15:00:45 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90.md/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/</guid>
+      <description>一、关注 @implementation BaseModel 值得注意的一点：如果是直接model网络数据的模型，无法手动在本类添加自定义的属性，则，必须用分类！ 比如： ## 二、网络返回值 ➤ .json文件</description>
+    </item>
+    <item>
+      <title>足球盘口学习</title>
+      <link>http://localhost:1313/posts/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0.md/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Fri, 12 Dec 2025 10:34:11 +0700</pubDate>
+      <guid>http://localhost:1313/posts/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0.md/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/</guid>
+      <description>当前总行数：176 行 ## 免责声明 珍惜生活，远离赌博 要提醒大家的是，外围博彩不但违反法律，同时存在巨大资金风险，安全无法得到保障； 而且玩法诱惑性比较强，玩家容易沉迷其中并大量流失彩金。 大家务必选择更安全、合法的国家彩票，虽然没有大小球玩法，但竞彩的总进球数以及猜比分和大小球息息相关，学会看大小球之后可以在这些玩法上有所斩获，祝大家杯赛期间一路红到</description>
+    </item>
+    <item>
+      <title>制作Unity</title>
+      <link>http://localhost:1313/posts/%E5%88%B6%E4%BD%9Cunity.md/%E5%88%B6%E4%BD%9Cunity/</link>
+      <pubDate>Mon, 08 Dec 2025 17:21:38 +0700</pubDate>
+      <guid>http://localhost:1313/posts/%E5%88%B6%E4%BD%9Cunity.md/%E5%88%B6%E4%BD%9Cunity/</guid>
+      <description>一、准备工作 ### 1、下载安装Unity Hub ### 2、运行Unity Hub 需要注册并登陆账户 ### 3、下载SDK ### 4、下载编辑器 ## 二、使用 来自于Unity Hub的演示资源 新建工程 下载演示资源 现成的资源（一般用于开发和测试）。相当一部分社区的案例是不支持模拟器的 Unity 官方的 UAAL 示例 别人已经搞好的 S</description>
+    </item>
+    <item>
+      <title>YYKit调研</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/yykit%E8%B0%83%E7%A0%94.md/yykit%E8%B0%83%E7%A0%94/</link>
+      <pubDate>Sun, 07 Dec 2025 15:27:13 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/yykit%E8%B0%83%E7%A0%94.md/yykit%E8%B0%83%E7%A0%94/</guid>
+      <description>一、基本面 ### 1、历史 更新时间跨度： 2013.4.11~2017.8.6 历史贡献者 @ibireme：郭曜源（作者，绝对贡献者） @JakeLin @skyline75489 @KayWong @stevemoser @yas375 @wintersone @windfringe @markrookie @evianzhow 框架所覆盖的iOS版</description>
+    </item>
+    <item>
+      <title>MacOS配置个人热点🛜</title>
+      <link>http://localhost:1313/posts/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9.md/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9/</link>
+      <pubDate>Fri, 14 Nov 2025 10:05:10 +0700</pubDate>
+      <guid>http://localhost:1313/posts/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9.md/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9/</guid>
+      <description>前言 如果MacOS当前信号输入源是Wi-Fi，则无法配置个人热点 必须打开Wi-Fi 成功标志 ## 一、系统设置👉通用👉共享👉配件与互联网👉互联网共享 ## 二、查看信号源 ### 三、按照图示进行配置 &amp;gt; 共享以下来源的连接（信息入口） &amp;gt; 使用以下端口共享给设备（信息出口） 如果是网线直接插入Mac电脑（一般会显示以太网） * 如果网线是通过USBH</description>
+    </item>
+    <item>
+      <title>中国大陆公民身份证校验规则（Swift/Objc/Dart.flutter）</title>
+      <link>http://localhost:1313/posts/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99.md/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99/</link>
+      <pubDate>Wed, 12 Nov 2025 16:43:21 +0700</pubDate>
+      <guid>http://localhost:1313/posts/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99.md/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99/</guid>
+      <description>一、Swift的校验方法 &amp;gt; 1️⃣ 统一校验规则：格式 → 出生日期 → 顺序码(≠&amp;ldquo;000&amp;rdquo;) → 校验位。 &amp;gt; &amp;gt; 2️⃣ 策略 &amp;gt; &amp;gt; 按 GB 11643-1999 的 18 位规则：格式→生日→顺序码→校验位 &amp;gt; &amp;gt; 若输入为 15 位 → 先转换为 18 位（默认世纪补 19），再按 GB 11643-1999 做权重校验。 &amp;gt; &amp;gt; 3️⃣ 默</description>
+    </item>
+    <item>
+      <title>iOS功能：跳转其他App,如果本机不存在,则进行下载</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD.md/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD.md/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD/</guid>
+      <description>1、资料来源 &lt;a href=&#34;https://www.jianshu.com/p/5d813fbba559&#34;&gt;https://www.jianshu.com/p/5d813fbba559&lt;/a&gt; ## 2、跳转对方App的方法 ## 3、对方App跳转自己App的方法</description>
+    </item>
+    <item>
+      <title>JXCategoryView框架的使用01</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/jxcategoryview.md/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801%EF%B8%8F/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/jxcategoryview.md/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801%EF%B8%8F/</guid>
+      <description>当前总行数：0 行 ## 其他功能 ## 一些共同的准备工作 ## 图文结合 方式一 方式二 方式三 方式四 公共部分</description>
+    </item>
+    <item>
+      <title>JXCategoryView框架的使用02（结合使用 JXPagerView）</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/jxcategoryview.md/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%EF%B8%8F/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/jxcategoryview.md/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%EF%B8%8F/</guid>
+      <description>当前总行数：0 行 一些共同的准备工作 Demo = JXPagerView + JXCategoryView 用JXPagerView管理的区别：</description>
+    </item>
+    <item>
+      <title>MJExtension用法</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/mjextension%E7%94%A8%E6%B3%95.md/mjextension%E7%94%A8%E6%B3%95/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/mjextension%E7%94%A8%E6%B3%95.md/mjextension%E7%94%A8%E6%B3%95/</guid>
+      <description>MyVCModel.h MyVCModel.m</description>
+    </item>
+    <item>
+      <title>Telegram.iOS 源代码学习笔记</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.md/telegram.ios-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.md/telegram.ios-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>当前总行数：0 行 ## 1、准备工作 简介 Telegram.iOS 项目是一个开源项目，使用了一种模块化的开发方式，这使得其项目结构与普通的 iOS 项目有所不同。且但它的结构和配置相对复杂； 在Telegram.iOS 源代码里面是没有直接的.h、.m以及.swift这种常规化的代码；这么做的原因： 跨平台设计 代码混淆和压缩 最后因为是脚本生成代码，</description>
+    </item>
+    <item>
+      <title>UITableView 的使用指南</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/uitableview.md/uitableview/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/uitableview.md/uitableview/</guid>
+      <description>当前总行数：0 行 ## 1、详解UIScrollView 和UITabableView的滚动区域 ## 2、UITableViewCell的重用 ## 3、只刷新某一行或某一组的UITableViewCell 一个section刷新 一个cell刷新 ## 4、UITableView 禁止下拉 + 允许上拉 ## 5、UITableViewCell 自适应</description>
+    </item>
+    <item>
+      <title>配置info.plist</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E9%85%8D%E7%BD%AEinfo.md/%E9%85%8D%E7%BD%AEinfo.plist/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E9%85%8D%E7%BD%AEinfo.md/%E9%85%8D%E7%BD%AEinfo.plist/</guid>
+      <description>Open As Source Code，添加以下信息 ### 开权限： 多语言化 Localizable.strings ### 添加外部字体： ### 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在Info.plist中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 当你的应用在iOS 9中需要使用 Q</description>
+    </item>
+    <item>
+      <title>同一应用，设置不同图标和名称</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0.md/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0.md/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0/</guid>
+      <description>一、产生背景 根据生产和开发经验，App拥有至少下列几种环境，而每种环境亦可细分为很多小环境 本地测试环境 UAT预上线环境 线上生产环境：可能存在的来自不同渠道的生产环境 这种情况多发于包网 GUI图形化界面的一个优势就是对其进行区分，加快效率和过滤中间繁琐环节 ## 二、先决理论知识 xcode在建立一个工程的时候，默认给出了debug和release两</description>
+    </item>
+    <item>
+      <title>音视频</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%9F%B3%E8%A7%86%E9%A2%91.md/ios%E9%9F%B3%E8%A7%86%E9%A2%91/</link>
+      <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%9F%B3%E8%A7%86%E9%A2%91.md/ios%E9%9F%B3%E8%A7%86%E9%A2%91/</guid>
+      <description>🔥 前言 🔼 🔽 对音视频相关概念的总结和梳理 ## 1、相关协议 🔼 🔽 ### 1.1、 TCP/IP 协议簇 🔼 🔽 TCP/IP 协议簇的构成 用于网络通信的协议族，是互联网的核心协议；（本质是数据的加密和解密） 定义了计算机如何通过网络相互通信； TCP/IP 的常见应用场景： 文件传输：通过 FTP 协议上传和下载文件； 网页浏览：通过 HTTP</description>
+    </item>
+    <item>
+      <title>CMake</title>
+      <link>http://localhost:1313/posts/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F.md/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Sat, 25 Oct 2025 18:03:02 +0700</pubDate>
+      <guid>http://localhost:1313/posts/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F.md/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F/</guid>
+      <description>构建 在软件开发中，“构建”指的是将源代码转换为可执行文件、库或其他分发格式的过程。这通常包括编译源代码、链接库和生成最终的可执行文件。构建系统是用于自动化和管理这一过程的工具。 构建的过程：（以下是构建过程的一般步骤） 编译（Compile）： 将源代码文件（如 .cpp 或 .c 文件）转换为目标文件（.o 或 .obj 文件）。这一步通常由编译器（如</description>
+    </item>
+    <item>
+      <title>iOS项目多环境配置</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Sat, 25 Oct 2025 18:03:02 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</guid>
+      <description>一、打开项目并找到 🔼 🔽 * 找到build setting 👉搜索 Swift Compiler - Custom Floags 。这里就是第一步添加的环境，然后在里面添加宏定义变量 ## 三、代码中使用 🔼 🔽 &amp;gt; 一定要先判断自定义的宏定义，在判断系统的debug和release，系统的宏优先级更高，所以会每次都进入系统宏的条件中 ## 四、配置 P</description>
+    </item>
+    <item>
+      <title>R eact N ative</title>
+      <link>http://localhost:1313/posts/reactnativedoc.md/rn/</link>
+      <pubDate>Sat, 25 Oct 2025 18:03:02 +0700</pubDate>
+      <guid>http://localhost:1313/posts/reactnativedoc.md/rn/</guid>
+      <description>当前总行数：366 行 ## 一、基础知识 脚本语言：必须在自己的环境下（解释器）运行，不能完全对接操作系统。比如，.js需要在操作系统里面安装了Node.js以后，才可以运行； ## 二、一些工具 ### 1、Node.js Node.js：是一个基于 Chrome V8 引擎的 JavaScript 运行环境。它的特点如下: 事件驱动与非阻塞I/O模型</description>
+    </item>
+    <item>
+      <title>移动端上架（分发）流程</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B.md/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Fri, 12 Sep 2025 12:26:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B.md/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B/</guid>
+      <description>1、苹果端上架 ### 1.1、一些基础知识 #### 1.1.1、一个完整可用的.ipa包，包括： 签名区段（Code Signature Section）： 验证应用程序的完整性，确保代码没有被篡改； 由 Apple 的签名工具（如 codesign）在应用打包过程中生成； 位置：位于应用二进制文件的一个独立区域，通常标记为 LINKEDIT 段中的 c</description>
+    </item>
+    <item>
+      <title>Git的一些使用说明</title>
+      <link>http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</link>
+      <pubDate>Sat, 23 Aug 2025 17:21:04 +0700</pubDate>
+      <guid>http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</guid>
+      <description>🎯 项目白皮书 此文档，主要的受众是 Git 的中高阶使用者 ## 一、高频实用命令 🔼 🔽 ### 1、👀查看@当前仓库 🔼 🔽 ### 2、👀查看@所有子模块一起看（含嵌套） 🔼 🔽 ### 3、👀查看@针对某个子模块目录 🔼 🔽 ### 4、修改 🔼 🔽 ## 二、进阶使用必修 🔼 🔽 ### 1、什么是变基（rebase） 🔼 🔽 变基（rebase</description>
+    </item>
+    <item>
+      <title>Git 子模块使用</title>
+      <link>http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8.md/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 18 Aug 2025 13:05:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8.md/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/</guid>
+      <description>先对用Git管理的文件夹创建远程仓库 ``` git submodule add</description>
+    </item>
+    <item>
+      <title>GitHub.workflow（工作流）的使用</title>
+      <link>http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/github.workflow.md/github.workflow/</link>
+      <pubDate>Mon, 18 Aug 2025 13:05:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/github.workflow.md/github.workflow/</guid>
+      <description>一、介绍 GitHub.workflow 通俗一点来讲，就是GitHub不仅提供存放代码的服务，还提供了一个虚拟机环境 运行GitHub.workflow需要在这台远程的GitHub虚拟机上安装必要的环境 GitHub Actions 是 GitHub 提供的一项服务，它允许您在 GitHub 仓库中定义和执行自动化工作流 这些工作流由事件触发，可以执行各种</description>
+    </item>
+    <item>
+      <title>JavaDoc</title>
+      <link>http://localhost:1313/posts/javadoc.md/javadoc/</link>
+      <pubDate>Mon, 18 Aug 2025 13:05:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/javadoc.md/javadoc/</guid>
+      <description>当前总行数：26 行 ## Lambda Lambda表达式是Java 8引入的一种简洁的语法,用于编写函数式接口的实例； 在Java 8之前没有Lambda表达式的时候，通常使用匿名内部类的方式来实现回调； 函数式接口是只有一个抽象方法的接口。Lambda表达式可以让代码变得更加简洁紧凑，更易读； 类似于OC中的Block 使用Lambda表达式v -&amp;gt;</description>
+    </item>
+    <item>
+      <title>MacOS_Web服务器学习</title>
+      <link>http://localhost:1313/posts/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0.md/macosweb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Mon, 18 Aug 2025 13:05:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0.md/macosweb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+      <description>一、前言 资料来源 Apache 、Tomcat、Nginx的区别 MacOS 自带tomcat和apache，但是建议都用brew重新下载进行额外的管理 查找用Homebrew管理的软件的安装路径（以tomat为例） ## 二、tomcat ### 1、tomcat的安装 ### 2、tomcat的开启/关闭/重启 进入tomcat安装目录下的libexe</description>
+    </item>
+    <item>
+      <title>mermaid</title>
+      <link>http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/github.workflow.md/mermaid/</link>
+      <pubDate>Mon, 18 Aug 2025 13:05:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/github.workflow.md/mermaid/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;classDiagram
+class UIViewModelProtocol {
+    +@property(nonatomic,strong,nullable)UITextModel *textModel;
+    +@property(nonatomic,strong,nullable)UITextModel *subTextModel;
+    +@property(nonatomic,strong,nullable)UITextModel *backBtnTitleModel;
+    +@property(nonatomic,strong,nullable)UIButtonModel *buttonModel;
+    +@property(nonatomic,strong,nullable)UIButtonModel *subButtonModel;
+    +@property(nonatomic,strong,nullable)JobsReturnIDByIDBlock jobsBlock;
+    +@property(nonatomic,strong,nullable)NSMutableArray &amp;lt;JobsReturnIDByIDBlock&amp;gt;*jobsBlockMutArr;
+}
+UIPictureAndBackGroundCorProtocol &amp;lt;|-- UIViewModelProtocol
+UILocationProtocol &amp;lt;|-- UIViewModelProtocol
+UIMarkProtocol &amp;lt;|-- UIViewModelProtocol
+UIViewModelOthersProtocol &amp;lt;|-- UIViewModelProtocol
+BaseButtonProtocol &amp;lt;|-- UIViewModelProtocol
+UITextModelProtocol &amp;lt;|-- UIViewModelProtocol
+
+class UICollectionViewCellProtocol {
+    +-(UICollectionView *)jobsGetCurrentCollectionView;
+    +-(NSIndexPath *)jobsGetCurrentIndexPath;
+    +-(NSInteger)jobsGetCurrentNumberOfSections;
+    +-(NSInteger)jobsGetCurrentNumberOfItemsInSection;
+    +-(UITextView *)getTextView;
+    +-(UIButton *)getBgBtn;
+}
+BaseCellProtocol &amp;lt;|-- UICollectionViewCellProtocol
+
+class UIMarkProtocol {
+    +@property(nonatomic,strong,nullable)NSIndexPath __block *indexPath;
+    +@property(nonatomic,assign)NSInteger __block section;
+    +@property(nonatomic,assign)NSInteger __block row;
+    +@property(nonatomic,assign)NSInteger __block item;
+    +@property(nonatomic,assign)CGPoint __block lastPoint;
+    +@property(nonatomic,assign)NSInteger __block index;
+    +@property(nonatomic,assign)NSInteger __block currentPage;
+    +@property(nonatomic,assign)NSInteger __block pageSize;
+    +@property(nonatomic,assign)BOOL __block isMark;
+    +@property(nonatomic,assign)CGFloat presentUpHeight;
+}
+NSObject &amp;lt;|-- UIMarkProtocol
+
+class UIPictureAndBackGroundCorProtocol {
+    +@property(nonatomic,strong,nullable)UIImage __block *image;
+    +@property(nonatomic,strong,nullable)UIImage __block *bgImage;
+    +@property(nonatomic,strong,nullable)NSString __block *imageURLString;
+    +@property(nonatomic,strong,nullable)NSString __block *bgImageURLString;
+    +@property(nonatomic,strong,nullable)UIColor __block *bgCor;
+    +@property(nonatomic,strong,nullable)UIImage __block *backBtnIMG;
+    +@property(nonatomic,strong,nullable)UIBackgroundConfiguration *bgConfig API_AVAILABLE(ios(14.0), tvos(14.0), watchos(7.0));
+    +@property(nonatomic,strong,nullable)UIImage __block *selectedImage;
+    +@property(nonatomic,strong,nullable)UIImage __block *bgSelectedImage;
+    +@property(nonatomic,strong,nullable)NSString __block *selectedImageURLString;
+    +@property(nonatomic,strong,nullable)NSString __block *bgSelectedImageURLString;
+    +@property(nonatomic,strong,nullable)UIColor __block *bgSelectedCor;
+    +@property(nonatomic,strong,nullable)UIImage __block *backBtnSelectedIMG;
+    +@property(nonatomic,strong,nullable)UIBackgroundConfiguration *bgSelectedConfig API_AVAILABLE(ios(14.0), tvos(14.0), watchos(7.0));
+    +@property(nonatomic,strong,nullable)UIImageView __block *bgImageView;
+}
+NSObject &amp;lt;|-- UIPictureAndBackGroundCorProtocol
+
+class BaseViewControllerProtocol {
+    +- (void)updateStatusBarCor:(UIColor *_Nullable)cor;
+    +-(void)restoreStatusBarCor:(UIColor *_Nullable)cor;
+    +-(void)showUserInfo;
+    +-(void)setGKNav;
+    +-(void)setGKNavBackBtn;
+    +@property(nonatomic,weak)UIViewController *fromVC;
+    +@property(nonatomic,strong,nullable)SPAlertController *alertController;
+    +@property(nonatomic,assign)ComingStyle pushOrPresent;
+    +@property(nonatomic,assign)BOOL setupNavigationBarHidden;
+    +@property(nonatomic,strong)UIView *statusBar;
+}
+BaseViewProtocol &amp;lt;|-- BaseViewControllerProtocol
+
+class AppToolsProtocol {
+    +-(void)toLoginOrRegister:(CurrentPage)appDoorContentType;
+    +-(void)toLogin;
+    +-(void)forcedLogin;
+    +-(void)popUpViewToLogout;
+    +-(UITabBar *)getTabBar;
+    +-(void)tabBarClosePan;
+    +-(void)tabBarOpenPan;
+    +-(void)jumpToHome;
+    +-(NSMutableArray &amp;lt;UIViewController *&amp;gt;*)appRootVC;
+    +-(BOOL)isRootVC;
+    +-(NSString *)encodePicStr:(NSString *)picStr;
+    +-(NSString *)decodePicStr:(NSString *)encodePicStr;
+    +-(void)openGameWithUrl:(NSString *)url;
+    +-(UIImage *)defaultHeaderImage;
+    +-(NSString *)currentLanguage;
+    +-(HTTPRequestHeaderLanguageType)currentLanguageType;
+    +-(void)actionForHotLabel:(JobsHotLabelWithSingleLine *)hl;
+}
+BaseProtocol &amp;lt;|-- AppToolsProtocol
+
+class UIViewModelOthersProtocol {
+    +-(BOOL)jobsVisible;
+    +-(void)setJobsVisible:(BOOL)jobsVisible;
+    +@property(nonatomic,strong,nullable)Class __block cls;
+    +@property(nonatomic,strong,nullable)UIViewModel __block *viewModel;
+    +@property(nonatomic,strong,nullable)NSMutableArray &amp;lt;UIViewModel *&amp;gt; __block *viewModelMutArr;
+    +@property(nonatomic,strong,nullable)RACSignal __block *reqSignal;
+    +@property(nonatomic,strong,nullable)NSString __block *internationalizationKEY;
+    +@property(nonatomic,assign)NSUInteger __block jobsTag;
+    +@property(nonatomic,assign)BOOL __block jobsSelected;
+    +@property(nonatomic,assign)BOOL __block isMultiLineShows;
+    +@property(nonatomic,assign)BOOL __block isTranslucent;
+    +@property(nonatomic,assign)BOOL __block isVisible;
+    +@property(nonatomic,assign)UILabelShowingType labelShowingType;
+    +@property(nonatomic,strong,nullable)id __block data;
+    +@property(nonatomic,strong,nullable)id __block requestParams;
+    +@property(nonatomic,strong,nullable)NSMutableSet __block *jobsDataMutSet;
+    +@property(nonatomic,strong,nullable)NSMutableArray __block *jobsDataMutArr;
+    +@property(nonatomic,strong,nullable)NSMutableDictionary __block *jobsDataMutDic;
+    +@property(nonatomic,strong,nullable)UIColor __block *layerBorderCor;
+    +@property(nonatomic,assign)CGFloat __block layerBorderWidth;
+    +@property(nonatomic,assign)CGFloat __block layerCornerRadius;
+}
+NSObject &amp;lt;|-- UIViewModelOthersProtocol
+
+class UITextModelProtocol {
+    +@property(nonatomic,assign)NSTextAlignment __block textAlignment;
+    +@property(nonatomic,assign)NSLineBreakMode __block lineBreakMode;
+    +@property(nonatomic,assign)CGFloat __block textLineSpacing;
+    +@property(nonatomic,copy)NSString __block *placeholder;
+    +@property(nonatomic,strong)UIColor __block *placeholderColor;
+    +@property(nonatomic,assign)NSInteger __block curWordCount;
+    +@property(nonatomic,assign)NSInteger __block maxWordCount;
+    +@property(nonatomic,strong,nullable)NSString __block *text;
+    +@property(nonatomic,strong,nullable)UIFont __block *font;
+    +@property(nonatomic,strong,nullable)UIColor __block *textCor;
+    +@property(nonatomic,strong,nullable)NSAttributedString __block *attributedText API_AVAILABLE(ios(6.0));
+    +@property(nonatomic,strong)NSMutableArray &amp;lt;RichTextConfig *&amp;gt;__block *titleAttributedDataMutArr;
+    +@property(nonatomic,strong,nullable)NSString __block *selectedText;
+    +@property(nonatomic,strong,nullable)UIFont __block *selectedFont;
+    +@property(nonatomic,strong,nullable)UIColor __block *selectedTextCor;
+    +@property(nonatomic,strong,nullable)NSAttributedString __block *selectedAttributedText API_AVAILABLE(ios(6.0));
+    +@property(nonatomic,strong)NSMutableArray &amp;lt;RichTextConfig *&amp;gt;__block *selectedTitleAttributedDataMutArr;
+}
+NSObject &amp;lt;|-- UITextModelProtocol
+
+class BaseButtonProtocol {
+    +-(void)richElementsInButtonWithModel:(id _Nullable)model;
+    ++(CGFloat)buttonWidthWithModel:(id _Nullable)model;
+    ++(CGFloat)buttonHeightWithModel:(id _Nullable)model;
+    ++(CGSize)buttonSizeWithModel:(id _Nullable)model;
+    ++(CGRect)buttonFrameWithModel:(id _Nullable)model;
+    +-(CGFloat)buttonWidthWithModel:(id _Nullable)model;
+    +-(CGFloat)buttonHeightWithModel:(id _Nullable)model;
+    +-(CGSize)buttonSizeWithModel:(id _Nullable)model;
+    +-(CGRect)buttonFrameWithModel:(id _Nullable)model;
+    +@property(nonatomic,strong)UIFont *titleFont;
+    +@property(nonatomic,assign)NSTextAlignment titleAlignment;
+    +@property(nonatomic,assign)BOOL jobsSelected;
+    +@property(nonatomic,strong)UIImage *normalImage;
+    +@property(nonatomic,strong)UIImage *normalBackgroundImage;
+    +@property(nonatomic,strong)NSString *normalTitle;
+    +@property(nonatomic,strong)NSString *normalSubTitle;
+    +@property(nonatomic,strong)UIColor *normalTitleColor;
+    +@property(nonatomic,strong)UIColor *normalSubTitleColor;
+    +@property(nonatomic,strong)NSAttributedString *normalAttributedTitle;
+    +@property(nonatomic,strong)NSAttributedString *normalAttributedSubTitle;
+    +@property(nonatomic,strong)UIImage *selectedImage;
+    +@property(nonatomic,strong)UIImage *selectedBackgroundImage;
+    +@property(nonatomic,strong)NSString *selectedTitle;
+    +@property(nonatomic,strong)NSString *selectedSubTitle;
+    +@property(nonatomic,strong)UIColor *selectedTitleColor;
+    +@property(nonatomic,strong)UIColor *selectedSubTitleColor;
+    +@property(nonatomic,strong)NSAttributedString *selectedAttributedTitle;
+    +@property(nonatomic,strong)NSAttributedString *selectedAttributedSubTitle;
+    +@property(nonatomic,strong)UIColor *btnBackgroundColor;
+    +@property(nonatomic,assign)CGSize imageSize;
+    +@property(nonatomic,assign)UIControlContentHorizontalAlignment contentHorizontalAlignment;
+    +@property(nonatomic,assign)UIControlContentVerticalAlignment contentVerticalAlignment;
+    +@property(nonatomic,assign)UIEdgeInsets contentEdgeInsets;
+    +@property(nonatomic,readwrite,assign)NSDirectionalEdgeInsets contentInsets;
+    +@property(nonatomic,assign)CGFloat contentSpacing;
+    +@property(nonatomic,assign)NSLineBreakMode lineBreakMode;
+    +@property(nonatomic,assign)CGFloat btnWidth;
+    +@property(nonatomic,assign)CGRect textLabelFrame;
+    +@property(nonatomic,assign)CGRect subTextLabelFrame;
+    +@property(nonatomic,assign)CGRect imageViewFrame;
+    +@property(nonatomic,assign)CGSize textLabelSize;
+    +@property(nonatomic,assign)CGSize subTextLabelSize;
+    +@property(nonatomic,assign)CGSize imageViewSize;
+    +@property(nonatomic,assign)CGFloat textLabelWidth;
+    +@property(nonatomic,assign)CGFloat subTextLabelWidth;
+    +@property(nonatomic,assign)CGFloat imageViewWidth;
+    +@property(nonatomic,assign)CGFloat textLabelHeight;
+    +@property(nonatomic,assign)CGFloat subTextLabelHeight;
+    +@property(nonatomic,assign)CGFloat imageViewHeight;
+    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetX;
+    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetY;
+    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetWidth;
+    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetHeight;
+    +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetX;
+    +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetY;
+    +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetWidth;
+    +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetHeight;
+    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetX;
+    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetY;
+    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetWidth;
+    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetHeight;
+}
+BaseViewProtocol &amp;lt;|-- BaseButtonProtocol
+
+class UITableViewCellProtocol {
+    ++(instancetype)initTableViewCellWithStyle:(UITableViewCellStyle)style;
+    ++(instancetype)cellStyleDefaultWithTableView:(UITableView *)tableView;
+    ++(instancetype)cellStyleValue1WithTableView:(UITableView *)tableView;
+    ++(instancetype)cellStyleValue2WithTableView:(UITableView *)tableView;
+    ++(instancetype)cellStyleSubtitleWithTableView:(UITableView *)tableView;
+    ++(void)settingForTableViewCell:(UITableViewCell *)tableViewCell;
+    +-(UITableView *)jobsGetCurrentTableView;
+    +-(NSIndexPath *)jobsGetCurrentIndexPath;
+    +-(NSInteger)jobsGetCurrentNumberOfSections;
+    +-(NSInteger)jobsGetCurrentNumberOfRowsInSection;
+    +@property(nonatomic,assign)CGRect textLabelFrame;
+    +@property(nonatomic,assign)CGRect detailTextLabelFrame;
+    +@property(nonatomic,assign)CGRect imageViewFrame;
+    +@property(nonatomic,assign)CGSize textLabelSize;
+    +@property(nonatomic,assign)CGSize detailTextLabelSize;
+    +@property(nonatomic,assign)CGSize imageViewSize;
+    +@property(nonatomic,assign)CGFloat textLabelWidth;
+    +@property(nonatomic,assign)CGFloat textLabelHeight;
+    +@property(nonatomic,assign)CGFloat detailTextLabelWidth;
+    +@property(nonatomic,assign)CGFloat detailTextLabelHeight;
+    +@property(nonatomic,assign)CGFloat imageViewWidth;
+    +@property(nonatomic,assign)CGFloat imageViewHeight;
+    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetX;
+    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetY;
+    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetWidth;
+    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetHeight;
+    +@property(nonatomic,assign)CGFloat detailTextLabelOffsetX;
+    +@property(nonatomic,assign)CGFloat detailTextLabelOffsetY;
+    +@property(nonatomic,assign)CGFloat detailTextLabelOffsetWidth;
+    +@property(nonatomic,assign)CGFloat detailTextLabelOffsetHeight;
+    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetX;
+    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetY;
+    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetWidth;
+    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetHeight;
+}
+BaseCellProtocol &amp;lt;|-- UITableViewCellProtocol
+
+class BaseCellProtocol {
+    +-(void)richElementsInCellWithModel:(id _Nullable)model;
+    ++(CGFloat)cellHeightWithModel:(id _Nullable)model;
+    ++(CGSize)cellSizeWithModel:(id _Nullable)model;
+    +-(void)setCellBgImage:(UIImage *)bgImage;
+    +-(UIButton *)getLeftBtn;
+    +-(UIButton *)getRightBtn;
+}
+BaseViewProtocol &amp;lt;|-- BaseCellProtocol
+
+class BaseViewProtocol {
+    +-(void)richElementsInViewWithModel:(id _Nullable)model;
+    ++(CGFloat)viewWidthWithModel:(id _Nullable)model;
+    ++(CGFloat)viewHeightWithModel:(id _Nullable)model;
+    ++(CGFloat)heightForFooterInSection:(id _Nullable)model;
+    ++(CGFloat)heightForHeaderInSection:(id _Nullable)model;
+    ++(CGSize)viewSizeWithModel:(id _Nullable)model;
+    ++(CGRect)viewFrameWithModel:(id _Nullable)model;
+    ++(CGFloat)viewChangeXWithModel:(id _Nullable)model;
+    ++(CGFloat)viewChangeYWithModel:(id _Nullable)model;
+    ++(CGFloat)viewChangeWidthWithModel:(id _Nullable)model;
+    ++(CGFloat)viewChangeHeightWithModel:(id _Nullable)model;
+    ++(CGSize)collectionReusableViewSizeWithModel:(id _Nullable)model;
+    ++(CGFloat)widthByData:(UIViewModel *_Nonnull)data;
+    ++(CGFloat)heightByData:(UIViewModel *_Nonnull)data;
+    +-(CGFloat)viewWidthWithModel:(id _Nullable)model;
+    +-(CGFloat)viewHeightWithModel:(id _Nullable)model;
+    +-(CGFloat)heightForFooterInSection:(id _Nullable)model;
+    +-(CGFloat)heightForHeaderInSection:(id _Nullable)model;
+    +-(CGSize)viewSizeWithModel:(id _Nullable)model;
+    +-(CGRect)viewFrameWithModel:(id _Nullable)model;
+    +-(CGFloat)viewChangeXWithModel:(id _Nullable)model;
+    +-(CGFloat)viewChangeYWithModel:(id _Nullable)model;
+    +-(CGFloat)viewChangeWidthWithModel:(id _Nullable)model;
+    +-(CGFloat)viewChangeHeightWithModel:(id _Nullable)model;
+    +-(CGSize)collectionReusableViewSizeWithModel:(id _Nullable)model;
+    +-(CGFloat)widthByData:(UIViewModel *_Nonnull)data;
+    +-(CGFloat)heightByData:(UIViewModel *_Nonnull)data;
+    +-(instancetype)initWithSize:(CGSize)thisViewSize;
+    +-(void)pullToRefresh;
+    +-(void)loadMoreRefresh;
+    +-(UIViewModel *_Nullable)getViewModel;
+    +@property(nonatomic,strong,nullable)JobsReturnIDByIDBlock jobsBackBlock;
+    +@property(nonatomic,assign)UIRectCorner layoutSubviewsRectCorner;
+    +@property(nonatomic,assign)CGSize layoutSubviewsRectCornerSize;
+    +@property(nonatomic,strong)NSMutableArray &amp;lt;MASConstraint *&amp;gt;*constraintMutArr;
+    +@property(nonatomic,assign)CGSize thisViewSize;
+    +@property(nonatomic,assign)JobsHeaderFooterViewStyle headerFooterViewStyle;
+}
+BaseProtocol &amp;lt;|-- BaseViewProtocol
+
+class UILocationProtocol {
+    +@property(nonatomic,assign)UIInterfaceOrientationMask currentInterfaceOrientationMask;
+    +@property(nonatomic,assign)CGFloat __block cornerRadius;
+    +@property(nonatomic,assign)UIRectCorner __block rectCorner;
+    +@property(nonatomic,assign)CGSize __block cornerRadii;
+    +@property(nonatomic,assign)CGFloat __block jobsWidth;
+    +@property(nonatomic,assign)CGFloat __block jobsHeight;
+    +@property(nonatomic,assign)CGFloat __block jobsTop;
+    +@property(nonatomic,assign)CGFloat __block jobsLeft;
+    +@property(nonatomic,assign)CGFloat __block jobsRight;
+    +@property(nonatomic,assign)CGFloat __block jobsBottom;
+    +@property(nonatomic,assign)CGFloat __block jobsOffsetX;
+    +@property(nonatomic,assign)CGFloat __block jobsOffsetY;
+    +@property(nonatomic,assign)CGSize __block jobsSize;
+    +@property(nonatomic,assign)CGRect __block jobsRect;
+    +@property(nonatomic,assign)CGPoint __block jobsPoint;
+    +@property(nonatomic,assign)UILayoutConstraintAxis __block axis;
+    +@property(nonatomic,assign)UIStackViewDistribution __block distribution;
+    +@property(nonatomic,assign)UIStackViewAlignment __block alignment;
+    +@property(nonatomic,assign)NSDirectionalRectEdge __block buttonEdgeInsetsStyle;
+    +@property(nonatomic,assign)CGFloat __block imageTitleSpace;
+    +@property(nonatomic,assign)CGFloat __block titleSpace;
+    +@property(nonatomic,assign)CGFloat __block cellHeight;
+    +@property(nonatomic,assign)CGFloat __block heightForHeaderInSection;
+    +@property(nonatomic,assign)CGSize __block cellSize;
+    +@property(nonatomic,assign)CGSize __block tableHeaderViewSize;
+    +@property(nonatomic,assign)CGSize __block tableFooterViewSize;
+    +@property(nonatomic,assign)BOOL __block usesTableViewHeaderView;
+    +@property(nonatomic,assign)BOOL __block usesTableViewFooterView;
+    +@property(nonatomic,assign)CGFloat __block offsetXForEach;
+    +@property(nonatomic,assign)CGFloat __block offsetYForEach;
+    +@property(nonatomic,assign)CGFloat __block offsetHeight;
+    +@property(nonatomic,assign)CGFloat __block offsetWidth;
+}
+NSObject &amp;lt;|-- UILocationProtocol
+
+class BaseProtocol {
+    +-(void)languageSwitchNotificationWithSelector:(SEL)aSelector;
+    +-(void)changeTabBarItemTitle:(NSIndexPath *)indexPath;
+    +-(JobsReturnIDByIDBlock _Nonnull)valueForKeyBlock;
+    +-(JobsReturnBOOLByIDBlock _Nonnull)isKindOfClassBlock;
+    +-(JobsReturnBOOLByIDBlock _Nonnull)isMemberOfClassBlock;
+    ++(void)target:(id)target languageSwitchNotificationWithSelector:(SEL)aSelector;
+    +-(void)monitorAppLanguage;
+    +-(void)languageSwitchNotification:(nonnull NSNotification *)notification;
+    ++(void)destroySingleton;
+    ++(instancetype)sharedInstance;
+    +@property(nonatomic,assign)BOOL isLock;
+    +@property(nonatomic,strong)RACDisposable *racDisposable;
+    +@property(nonatomic,copy)JobsReturnIDByIDBlock keyboardUpNotificationBlock;
+    +@property(nonatomic,copy)JobsReturnIDByIDBlock keyboardDownNotificationBlock;
+}
+NSObject &amp;lt;|-- BaseProtocol
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>SEO</title>
+      <link>http://localhost:1313/posts/seodoc.md/seodoc/</link>
+      <pubDate>Mon, 18 Aug 2025 13:05:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/seodoc.md/seodoc/</guid>
+      <description>SEO - 基本概念.名词解释 - 一些工具 - SEO.原理 - 域名和SEO的关系 - 服务器和SEO的关系 - SEO.内容 - 养网站（蜘蛛池）： - 服务器vs搜索引擎vs访客 - 判断来源 当前总行数：455 行 ## 基本概念.名词解释 IIS，全称是 Internet Information Services,是微软公司推出的一种互联网基础服</description>
+    </item>
+    <item>
+      <title>运维成长路线</title>
+      <link>http://localhost:1313/posts/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF.md/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF/</link>
+      <pubDate>Mon, 18 Aug 2025 13:05:14 +0700</pubDate>
+      <guid>http://localhost:1313/posts/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF.md/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF/</guid>
+      <description>1、服务器系统 提纲 单片机 = single-chip microcomputer = 单晶片 = 单片微型计算机 = 微控制器单元 = microcontroller unit 单片机的基本构成、工作原理 快懂百科/单片机 资料来源 类UNIX操作系统家族发展时间线图谱（1969-2020） 知乎/一图看懂UNIX、BSD、MINIX&amp;amp;GNU/LINUX</description>
+    </item>
+    <item>
+      <title>iOS 本地通知配置</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5.md/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5.md/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5/</guid>
+      <description>一、在AppDelegate里面进行配置 ## 二、相关工具类 JobsLocalNotificationModel JobsMakeLocalNotification ## 三、相关调用 * ```objective-c [JobsMakeLocalNotification.new triggerLocalNotification:JobsLocalNot</description>
+    </item>
+    <item>
+      <title>iOS 横竖屏UI切换</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/</guid>
+      <description>一、第三方支援 ## 二、xcode 设置 ## 三、Info.plist 设置 iPhone 应用 iPad 应用 ## 四、代码处理 相关枚举说明 UIInterfaceOrientationMask用于指定应用支持的界面方向的位掩码。它的值可以组合使用，以定义应用程序支持的方向 UIInterfaceOrientation 描述界面当前的方向，用于确定</description>
+    </item>
+    <item>
+      <title>iOS 锁的使用</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios.lock/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios.lock/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/// 获取颜色值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;- (UIColor &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)&lt;span style=&#34;color:#a6e22e&#34;&gt;colorForKey:&lt;/span&gt;(NSString &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)key {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  pthread_rwlock_rdlock(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;_rwlock);&lt;span style=&#34;color:#75715e&#34;&gt;// 读写锁
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  UIColor &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;color &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; UIColor.redCor;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  pthread_rwlock_unlock(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;_rwlock);&lt;span style=&#34;color:#75715e&#34;&gt;// 读写锁
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; color;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>iOS 状态栏颜色的修改</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/</guid>
+      <description>全局修改 局部修改</description>
+    </item>
+    <item>
+      <title>iOS禁用返回手势</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    // 禁用返回手势
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        self.navigationController.interactivePopGestureRecognizer.delegate = nil;
+    }
+}// 与FD相互作用下 不起作用
+
+#import &amp;#34;UINavigationController+FDFullscreenPopGesture.h&amp;#34;
+#import &amp;#34;UIScrollView+FDFullscreenPopGesture.h&amp;#34;
+
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  self.fd_interactivePopDisabled = YES;
+}
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>iOS资源文件夹的区别</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Xcode 有黄色文件夹 和 蓝色文件夹 来管理资源
+
+区别：黄色文件夹内容会进入编译期，蓝色文件夹不进入编译期
+其中bundle资源文件也不会进入编译期
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>JobsKit 序</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/jobskit-%E5%BA%8F/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/jobskit-%E5%BA%8F/</guid>
+      <description>我们的驱动力和目标： ## 附件：稳定版仓库Bitbucket，Github在不断更新 个人GitHub地址</description>
+    </item>
+    <item>
+      <title>N宫格问题</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/</guid>
+      <description>N宫格问题 当前Value对应的Row 排 一排 M 个 一共count item宽 itemW item高 itemH 承接的父视图 width 、height 左边距offsetLeft 右边距offsetRight 上边距offsetTop 下边距offsetBottom 所在index的Value 1 2 3 4 5 6 7 8 9 【3宫格】 1</description>
+    </item>
+    <item>
+      <title>UICollectionView点击事件</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;UICollectionView &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;似乎不能直接响应&lt;/span&gt;touchBegan
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;只能用手势&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.userInteractionEnabled &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; YES;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.target &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.tapGRSEL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; NSStringFromSelector(&lt;span style=&#34;color:#66d9ef&#34;&gt;@selector&lt;/span&gt;(endEditing));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.numberOfTouchesRequired &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.numberOfTapsRequired &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.tapGR.enabled &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; YES;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt;)endEditing{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [self.view endEditing:YES];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;BOOL&lt;/span&gt;)gestureRecognizer:(UIGestureRecognizer &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)gestureRecognizer
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      shouldReceiveTouch:(UITouch &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)touch{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;// 判断如果点击的View是UICollectionView就可以执行手势方法，否则不执行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ([touch.view isKindOfClass:UICollectionView.&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt;]) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; YES;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   }&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; NO;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;UIGestureRecognizerDelegate&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>unknown class viewcontroller in interface builder file</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/unknown-class-viewcontroller-in-interface-builder-file/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/unknown-class-viewcontroller-in-interface-builder-file/</guid>
+      <description>资料来源：https://blog.csdn.net/CC1991_/article/details/100803193 原因 解决方案</description>
+    </item>
+    <item>
+      <title>Xcode资料下载</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/</guid>
+      <description>&lt;a href=&#34;https://developer.apple.com/download/more/&#34;&gt;https://developer.apple.com/download/more/&lt;/a&gt;</description>
+    </item>
+    <item>
+      <title>本地推送的写法（程肖斌）</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;- (&lt;span style=&#34;color:#66d9ef&#34;&gt;IBAction&lt;/span&gt;)&lt;span style=&#34;color:#a6e22e&#34;&gt;sendLocalPush:&lt;/span&gt;(UIButton &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)sender {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//8s后提醒
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    UNTimeIntervalNotificationTrigger *trigger1 = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:8 repeats:NO];
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//每周一早上 8：00 提醒我给起床
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    NSDateComponents *components = [[NSDateComponents alloc] init];
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    components.weekday = 2;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    components.hour = 8;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    UNCalendarNotificationTrigger *trigger3 = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:YES];
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    //需导入定位库   #import &amp;lt;CoreLocation/CoreLocation.h&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    //一到距离(123.333, 123.344）点20米就喊我下车
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    CLRegion *region = [[CLRegion alloc] initCircularRegionWithCenter:CLLocationCoordinate2DMake(123.333, 123.344) radius:20 identifier:@&amp;#34;regionidentifier&amp;#34;];
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    UNLocationNotificationTrigger *trigger4 = [UNLocationNotificationTrigger triggerWithRegion:region repeats:NO];
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (@available(iOS &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      UNMutableNotificationContent &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;content &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[UNMutableNotificationContent alloc] init];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      content.title &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;this is Notifications&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      content.subtitle &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;本地通知&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      content.body &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;推送一条本地通知&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      content.badge &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;@1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      content.userInfo &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;@{&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;this is a userNotification&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;//每小时重复 1 次喊我喝水
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      UNTimeIntervalNotificationTrigger &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;trigger2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt; repeats:YES];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      NSString &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;requestIdentifier &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;sampleRequest&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      UNNotificationRequest &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;request &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [UNNotificationRequest requestWithIdentifier:requestIdentifier content:content trigger:trigger2];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      UNUserNotificationCenter &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;center &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [UNUserNotificationCenter currentNotificationCenter];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      [center addNotificationRequest:request withCompletionHandler:&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;(NSError &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; _Nullable error) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (error) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              NSLog(&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;本地消息推送失败：%@&amp;#34;&lt;/span&gt;, error);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      }];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;// Fallback on earlier versions
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>定一行个数得出几行</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-count:总个数&#34; data-lang=&#34;count:总个数&#34;&gt;num：一排定多少个
+得出的结论是目前多少排
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;推演：
+count   num     结论
+0       3   (2/3) = 0
+
+1       3   (3/3) = 1
+2       3   (4/3) = 1
+3       3   (5/3) = 1
+
+4       3   (6/3) = 2
+5       3   (7/3) = 2
+6       3   (8/3) = 2
+
+7       3   (9/3) = 3
+8       3   (10/3) = 3
+9       3   (11/3) = 3
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;结论：
+row = (count + (num - 1)) / num
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>读取本地plist</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+ (TYFSITE)&lt;span style=&#34;color:#a6e22e&#34;&gt;siteType&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; NSInteger site &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; dispatch_once_t dispatchOnce;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    dispatch_once(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;dispatchOnce, &lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        NSString &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;filePath &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[NSBundle mainBundle] pathForResource:&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;MetaData&amp;#34;&lt;/span&gt; ofType:&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;plist&amp;#34;&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        NSFileManager &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;fm &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [NSFileManager defaultManager];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ([fm fileExistsAtPath:filePath]) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            NSDictionary &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;config &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[NSDictionary alloc] initWithContentsOfFile:filePath];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            NSString &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;appTypeStr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; config[&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;appType&amp;#34;&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            site &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; appTypeStr.integerValue;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    });&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; site;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>关于RAC框架中的@符号进行宏定义唤起的探究</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/</guid>
+      <description>1、RAC地址 ## 2、关于仿写RAC@宏定义 ## 3、核心探究 宏定义 调用 来自GPT-3.5的回答</description>
+    </item>
+    <item>
+      <title>关于UITableViewCell和UICollectionViewCell圆切角&#43;Cell的偏移量</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/</guid>
+      <description>一些公共的 这种方式，只能统一的设置同一种样式，并不能满足自定义需求 ## 1、关于UITableView.UITableViewCell ### 1.1、圆切角 #### 1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】 且不描边顶部 #### 1.1.2、除了最后一行以外，所有的cel</description>
+    </item>
+    <item>
+      <title>关于WMZBanner的怪异写法探究</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/</guid>
+      <description>1、看懂宏定义 定义部分 调用环节 以上写法等同于👇🏻 ## 2、点语法的外界调用 定义部分 Hello.h文件 Hello.m文件 调用环节 在其他的类引入Hello.h</description>
+    </item>
+    <item>
+      <title>关于响应链的一些研究成果</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/</guid>
+      <description>假设我们有一个VC1，VC1上面加盖一个View0 和 View1，点击VC跳转进VC2； 现在的需求是：点击View0不跳转，但是点击View1跳转 1、在View0的子类实现如下方法即可： 2、如果需要截断View1的事件响应，那么在View1里面实现 以上代码亲测有效 科普在前 子视图超出父视图的解决方案 ：在父视图里面写</description>
+    </item>
+    <item>
+      <title>精确度量 iOS App 的启动时间</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/</guid>
+      <description>参考资料来源：https://www.jianshu.com/p/c14987eee107 方法一： Edit scheme &amp;ndash;&amp;gt; Run &amp;ndash;&amp;gt; Arguments 中将环境变量 DYLDPRINTSTATISTICS 设为 1，就可以看到 main 之前各个阶段的时间消耗。 方法二： Edit scheme &amp;ndash;&amp;gt; Run &amp;ndash;&amp;gt; Arguments</description>
+    </item>
+    <item>
+      <title>路由</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%B7%AF%E7%94%B1/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%B7%AF%E7%94%B1/</guid>
+      <description>软件设计理念：高内聚、低耦合 无论是路由还是工程架构都需要根据实际项目来选择。比如你的工程就是小工程,然后还各种设计模式,这就会导致过度设计 提出思考：模块和模块之间进行相互调用的时候,需要进行文件的引用,这本身就是一种高耦合现象。 ## 相关资料来源： &lt;a href=&#34;https://www.1024sou.com/article/347704.html&#34;&gt;https://www.1024sou.com/article/347704.html&lt;/a&gt; https://</description>
+    </item>
+    <item>
+      <title>区块链</title>
+      <link>http://localhost:1313/posts/%E5%8C%BA%E5%9D%97%E9%93%BE.md/%E5%8C%BA%E5%9D%97%E9%93%BE/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/%E5%8C%BA%E5%9D%97%E9%93%BE.md/%E5%8C%BA%E5%9D%97%E9%93%BE/</guid>
+      <description>1、 前言摘要 资料来源 CSDN/公钥/私钥/数字签名/数字证书及 RSA加解密数学原理 稀土掘金/关于公钥与私钥的理解 博客园/公钥与私钥 RSA 算法介绍与演示 知乎/理解公钥和私钥 阿里云/什么是公钥和私钥？ 理解公钥与私钥 华为云/公钥、私钥、数字证书的关系是什么？ 知乎/密码学浅谈（1）：非对称加密与 RSA 算法 小菜学编程/非对称加密算法简介</description>
+    </item>
+    <item>
+      <title>时间按照【年-月份】分组</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/</guid>
+      <description>DDWaterBillBaseModel.h DDWaterBillBaseModel.m</description>
+    </item>
+    <item>
+      <title>谁说HTTP GET就不能通过Body来发送数据呢？</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%B0%81%E8%AF%B4http%E5%92%8Cget%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%B0%81%E8%AF%B4http%E5%92%8Cget%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/</guid>
+      <description>&lt;a href=&#34;https://juejin.cn/post/6844903685206573069&#34;&gt;https://juejin.cn/post/6844903685206573069&lt;/a&gt;</description>
+    </item>
+    <item>
+      <title>天工开物</title>
+      <link>http://localhost:1313/posts/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9.md/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9.md/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/</guid>
+      <description>1、生命的定义：具备意识（广义上的趋利避害） 意识是智慧（逻辑）产生的必要前置条件； 高级智慧生命会更加表现为更强的逻辑思维能力； 低级别的生命仅仅会满足自身的必要循环，个体生存的乃至种族的繁荣； ## 2、元素周期表 放射性元素因为向外散发能量，不稳定，具有半衰期 | 周期/族 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 1</description>
+    </item>
+    <item>
+      <title>优秀的关于音视频处理的文献资料</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/</guid>
+      <description>资料来源： &lt;a href=&#34;https://github.com/huizai0705/VideoRecorderiOS&#34;&gt;https://github.com/huizai0705/VideoRecorderiOS&lt;/a&gt; &lt;a href=&#34;https://github.com/lmf12/SimpleCam&#34;&gt;https://github.com/lmf12/SimpleCam&lt;/a&gt; &lt;a href=&#34;https://github.com/alstonwei/RepeatPlayer&#34;&gt;https://github.com/alstonwei/RepeatPlayer&lt;/a&gt; &lt;a href=&#34;https://github.com/huizai0705/VideoRecorderiOS&#34;&gt;https://github.com/huizai0705/VideoRecorderiOS&lt;/a&gt; htt</description>
+    </item>
+    <item>
+      <title>正则表达式的相关判定</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/</guid>
+      <description>正则表达式的相关判定 - 1、检查一个手机号是否为中国的手机号 - 2、正则表达式匹配某一段字符串 - 2.1、正则表达式匹配英文（大小写）、空格、任意字符串（例如：Jobs）、数字、中文字符（繁 + 简） - 2.2、正则表达式匹配中文字符 - 2.3、正则表达式匹配 Emoji - 2.4、正则表达式匹配网页地址 - 2.5、正则表达式匹配特殊字符 -</description>
+    </item>
+    <item>
+      <title>自定义 UITabBarController</title>
+      <link>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/</link>
+      <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
+      <guid>http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/</guid>
+      <description>一、 相关目录结构 JobsTabBarVC ：UITabBarController JobsTabBarItemConfig：NSObject UITabBarItem JobsTabBarItem：UITabBarItem UITabBarItem+TLAnimation UITabBar UITabBar+Ex UITabBar+TLAnimation</description>
+    </item>
+  </channel>
+</rss>

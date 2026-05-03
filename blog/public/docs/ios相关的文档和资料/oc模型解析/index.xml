@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OC模型解析 on Jobs Docs</title>
+    <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/</link>
+    <description>Recent content in OC模型解析 on Jobs Docs</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 12 Dec 2025 15:00:45 +0700</lastBuildDate>
+    <atom:link href="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OC模型解析（参见JobsComment）</title>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Fri, 12 Dec 2025 15:00:45 +0700</pubDate>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/</guid>
+      <description>一、关注 @implementation BaseModel 值得注意的一点：如果是直接model网络数据的模型，无法手动在本类添加自定义的属性，则，必须用分类！ 比如： ## 二、网络返回值 ➤ .json文件</description>
+    </item>
+  </channel>
+</rss>

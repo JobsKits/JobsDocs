@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="一、前言 资料来源 Apache 、Tomcat、Nginx的区别 MacOS 自带tomcat和apache，但是建议都用brew重新下载进行额外的管理 查找用Homebrew管理的软件的安装路径（以tomat为例） ## 二、tomcat ### 1、tomcat的安装 ### 2、tomcat的开启/关闭/重启 进入tomcat安装目录下的libexe">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0.md/macosweb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+  <meta property="og:site_name" content="Jobs Docs">
+  <meta property="og:title" content="MacOS_Web服务器学习">
+  <meta property="og:description" content="一、前言 资料来源 Apache 、Tomcat、Nginx的区别 MacOS 自带tomcat和apache，但是建议都用brew重新下载进行额外的管理 查找用Homebrew管理的软件的安装路径（以tomat为例） ## 二、tomcat ### 1、tomcat的安装 ### 2、tomcat的开启/关闭/重启 进入tomcat安装目录下的libexe">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2025-08-18T13:05:14+07:00">
+    <meta property="article:modified_time" content="2025-08-18T13:05:14+07:00">
+
+
+  <meta itemprop="name" content="MacOS_Web服务器学习">
+  <meta itemprop="description" content="一、前言 资料来源 Apache 、Tomcat、Nginx的区别 MacOS 自带tomcat和apache，但是建议都用brew重新下载进行额外的管理 查找用Homebrew管理的软件的安装路径（以tomat为例） ## 二、tomcat ### 1、tomcat的安装 ### 2、tomcat的开启/关闭/重启 进入tomcat安装目录下的libexe">
+  <meta itemprop="datePublished" content="2025-08-18T13:05:14+07:00">
+  <meta itemprop="dateModified" content="2025-08-18T13:05:14+07:00">
+  <meta itemprop="wordCount" content="148">
+
+<title>MacOS_Web服务器学习 | Jobs Docs</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0.md/macosweb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+<link rel="stylesheet" href="/book.min.709867152ffe28ee09d96d0ecef7c3155278ba4ed384f46d3c3747771459867f.css" integrity="sha256-cJhnFS/&#43;KO4J2W0OzvfDFVJ4uk7ThPRtPDdHdxRZhn8=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/zh-cn.search.min.5ccfcb1a26c6252b60518744d043eb5b6a46562907b45bcf9eb74b208e8804f4.js" integrity="sha256-XM/LGibGJStgUYdE0EPrW2pGVikHtFvPnrdLII6IBPQ=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-docs">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Jobs Docs</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0.md/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/" class="">
+      足球盘口学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0.md/macosweb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="active">
+      MacOS_Web服务器学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%8C%BA%E5%9D%97%E9%93%BE.md/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="">
+      区块链</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF.md/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF/" class="">
+      运维成长路线</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/yykit%E8%B0%83%E7%A0%94.md/yykit%E8%B0%83%E7%A0%94/" class="">
+      YYKit调研</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8.md/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8/" class="">
+      Swift直播项目核心技术研讨</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0.md/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0/" class="">
+      同一应用，设置不同图标和名称</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios.lock/" class="">
+      iOS 锁的使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/" class="">
+      关于UITableViewCell和UICollectionViewCell圆切角&#43;Cell的偏移量</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/" class="">
+      定一行个数得出几行</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/" class="">
+      时间按照【年-月份】分组</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/" class="">
+      关于RAC框架中的@符号进行宏定义唤起的探究</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/" class="">
+      关于响应链的一些研究成果</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/unknown-class-viewcontroller-in-interface-builder-file/" class="">
+      unknown class viewcontroller in interface builder file</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/" class="">
+      iOS禁用返回手势</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/" class="">
+      iOS资源文件夹的区别</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/" class="">
+      N宫格问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%B7%AF%E7%94%B1/" class="">
+      路由</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/" class="">
+      精确度量 iOS App 的启动时间</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/" class="">
+      UICollectionView点击事件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/jobskit-%E5%BA%8F/" class="">
+      JobsKit 序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/" class="">
+      优秀的关于音视频处理的文献资料</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/" class="">
+      Xcode资料下载</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/" class="">
+      读取本地plist</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%B0%81%E8%AF%B4http%E5%92%8Cget%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/" class="">
+      谁说HTTP GET就不能通过Body来发送数据呢？</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/" class="">
+      iOS 状态栏颜色的修改</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/" class="">
+      本地推送的写法（程肖斌）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD.md/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD/" class="">
+      iOS功能：跳转其他App,如果本机不存在,则进行下载</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/" class="">
+      iOS 多语言环境设置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="">
+      iOS项目多环境配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8.md/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      【MacOS】配置本地的直播服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/" class="">
+      正则表达式的相关判定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.md/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="">
+      S wift P ackage D ependence使用指南🧭</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.md/telegram.ios-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="">
+      Telegram.iOS 源代码学习笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs.md/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs/" class="">
+      Swift工程项目框架配置方案@JobsKits</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5.md/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5/" class="">
+      iOS 本地通知配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/uitableview.md/uitableview/" class="">
+      UITableView 的使用指南</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/" class="">
+      自定义 UITabBarController</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90.md/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/" class="">
+      OC模型解析（参见JobsComment）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6.md/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6/" class="">
+      Apple生成*.p12文件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/jxcategoryview.md/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801%EF%B8%8F/" class="">
+      JXCategoryView框架的使用01</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/jxcategoryview.md/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%EF%B8%8F/" class="">
+      JXCategoryView框架的使用02（结合使用 JXPagerView）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6.md/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/" class="">
+      制作(发布)Pods组件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/" class="">
+      iOS 横竖屏UI切换</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B.md/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B/" class="">
+      移动端上架（分发）流程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swiftflutter.md/swiftflutter/" class="">
+      Swift➤Flutter</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E9%85%8D%E7%BD%AEinfo.md/%E9%85%8D%E7%BD%AEinfo.plist/" class="">
+      配置info.plist</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity.md/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/" class="">
+      iOS项目集成Unity</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/" class="">
+      关于WMZBanner的怪异写法探究</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/mjextension%E7%94%A8%E6%B3%95.md/mjextension%E7%94%A8%E6%B3%95/" class="">
+      MJExtension用法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5.md/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" class="">
+      Shell脚本代码片段</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%B6%E4%BD%9Cunity.md/%E5%88%B6%E4%BD%9Cunity/" class="">
+      制作Unity</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/reactnativedoc.md/rn/" class="">
+      R eact N ative</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F.md/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F/" class="">
+      CMake</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/seodoc.md/seodoc/" class="">
+      SEO</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99.md/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99/" class="">
+      中国大陆公民身份证校验规则（Swift/Objc/Dart.flutter）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ftp%E7%9A%84%E9%85%8D%E7%BD%AE.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/" class="">
+      FTP的配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/github.workflow.md/github.workflow/" class="">
+      GitHub.workflow（工作流）的使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/github.workflow.md/mermaid/" class="">
+      mermaid</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" class="">
+      Git的一些使用说明</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8.md/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/" class="">
+      Git 子模块使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/" class="">
+      SSH ➤ Github</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/javadoc.md/javadoc/" class="">
+      JavaDoc</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9.md/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9/" class="">
+      MacOS配置个人热点🛜</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9.md/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/" class="">
+      天工开物</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8.md/macos_%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      搭建邮件服务器（Mail server）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B.md/macos%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B/" class="">
+      利用Hugo生成静态网页教程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B.md/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" class="">
+      利用Quicktype自动建立数据模型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs.md/%E7%9B%B4%E6%92%AD%E4%BA%A7%E5%93%81%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A120/" class="">
+      直播产品技术概要设计20</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%9F%B3%E8%A7%86%E9%A2%91.md/ios%E9%9F%B3%E8%A7%86%E9%A2%91/" class="">
+      iOS音视频</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E7%9A%84%E7%A7%98%E5%AF%86/" class="">
+      计算机底层的秘密</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>MacOS_Web服务器学习</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#一前言">一、前言</a></li>
+    <li><a href="#二tomcat">二、<code>tomcat</code></a>
+      <ul>
+        <li><a href="#1tomcat的安装">1、<code>tomcat</code>的安装</a></li>
+        <li><a href="#2tomcat的开启关闭重启">2、<code>tomcat</code>的开启/关闭/重启</a></li>
+      </ul>
+    </li>
+    <li><a href="#三httpd">三、<code>httpd</code></a>
+      <ul>
+        <li><a href="#1httpd的安装">1、<code>httpd</code>的安装</a></li>
+        <li><a href="#2httpdhttpd的启动">2、<code>httpd</code>httpd的启动</a></li>
+        <li><a href="#3httpd的停止">3、<code>httpd</code>的停止</a></li>
+        <li><a href="#4httpd的重启">4、<code>httpd</code>的重启</a></li>
+        <li><a href="#5httpd的相关备注和说明">5、<code>httpd</code>的相关备注和说明</a>
+          <ul>
+            <li><a href="#51默认占用系统8080端口俗称apache">5.1、默认占用系统<code>8080</code>端口，俗称<code>apache</code></a></li>
+            <li><a href="#52因为是只读所以需要加写权限然后将默认的8080更改为8081以及80更改为81防止其他程序抢夺端口">5.2、因为是只读所以需要加写权限，然后将默认的8080更改为8081，以及80更改为81（防止其他程序抢夺端口）</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#四nginx">四、<code>nginx</code></a>
+      <ul>
+        <li><a href="#1nginx的安装">1、<code>nginx</code>的安装</a></li>
+        <li><a href="#2nginx的启动">2、<code>nginx</code>的启动</a></li>
+        <li><a href="#3nginx的关闭">3、<code>nginx</code>的关闭</a></li>
+        <li><a href="#4nginx的重启">4、<code>nginx</code>的重启</a></li>
+        <li><a href="#5nginx的停止">5、<code>nginx</code>的停止</a></li>
+        <li><a href="#6重读nginx日志文件">6、重读<code>nginx</code>日志文件</a></li>
+        <li><a href="#7nginx的相关备注和说明">7、<code>nginx</code>的相关备注和说明</a>
+          <ul>
+            <li><a href="#71默认占用系统8080端口">7.1、默认占用系统8080端口</a></li>
+            <li><a href="#72如果端口被占用则报错如下">7.2、如果端口被占用则报错如下：</a></li>
+            <li><a href="#73查询">7.3、查询</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><p><img src="https://picsum.photos/1500/400" alt="Jobs倾情奉献" title="Jobs出品，必属精品"/></p>
+<h2 id="一前言">一、前言<a class="anchor" href="#%e4%b8%80%e5%89%8d%e8%a8%80">#</a></h2>
+<ul>
+<li>
+<p>资料来源</p>
+<ul>
+<li><a href="https://blog.51cto.com/willis/1852083"><strong>Apache 、Tomcat、Nginx的区别</strong></a></li>
+</ul>
+</li>
+<li>
+<p><strong>MacOS</strong> 自带<code>tomcat</code>和<code>apache</code>，但是建议都用<code>brew</code>重新下载进行额外的管理</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>which -a apache
+</span></span><span style="display:flex;"><span>which apache</span></span></code></pre></div></li>
+<li>
+<p>查找用<a href="https://brew.sh/"><strong>Homebrew</strong></a>管理的软件的安装路径（以<code>tomat</code>为例）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/bin/bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew list tomcat</span></span></code></pre></div></li>
+</ul>
+<h2 id="二tomcat">二、<code>tomcat</code><a class="anchor" href="#%e4%ba%8ctomcat">#</a></h2>
+<h3 id="1tomcat的安装">1、<code>tomcat</code>的安装<a class="anchor" href="#1tomcat%e7%9a%84%e5%ae%89%e8%a3%85">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew install tomcat</span></span></code></pre></div><h3 id="2tomcat的开启关闭重启">2、<code>tomcat</code>的开启/关闭/重启<a class="anchor" href="#2tomcat%e7%9a%84%e5%bc%80%e5%90%af%e5%85%b3%e9%97%ad%e9%87%8d%e5%90%af">#</a></h3>
+<ul>
+<li>进入<strong>tomcat</strong>安装目录下的<code>libexec/bin</code>，执行里面对应的<code>*.sh</code></li>
+</ul>
+<h2 id="三httpd">三、<code>httpd</code><a class="anchor" href="#%e4%b8%89httpd">#</a></h2>
+<h3 id="1httpd的安装">1、<code>httpd</code>的安装<a class="anchor" href="#1httpd%e7%9a%84%e5%ae%89%e8%a3%85">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew install httpd</span></span></code></pre></div><h3 id="2httpdhttpd的启动">2、<code>httpd</code>httpd的启动<a class="anchor" href="#2httpdhttpd%e7%9a%84%e5%90%af%e5%8a%a8">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>apachectl start</span></span></code></pre></div><h3 id="3httpd的停止">3、<code>httpd</code>的停止<a class="anchor" href="#3httpd%e7%9a%84%e5%81%9c%e6%ad%a2">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>apachectl stop</span></span></code></pre></div><h3 id="4httpd的重启">4、<code>httpd</code>的重启<a class="anchor" href="#4httpd%e7%9a%84%e9%87%8d%e5%90%af">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>apachectl restart</span></span></code></pre></div><h3 id="5httpd的相关备注和说明">5、<code>httpd</code>的相关备注和说明<a class="anchor" href="#5httpd%e7%9a%84%e7%9b%b8%e5%85%b3%e5%a4%87%e6%b3%a8%e5%92%8c%e8%af%b4%e6%98%8e">#</a></h3>
+<h4 id="51默认占用系统8080端口俗称apache">5.1、默认占用系统<code>8080</code>端口，俗称<code>apache</code><a class="anchor" href="#51%e9%bb%98%e8%ae%a4%e5%8d%a0%e7%94%a8%e7%b3%bb%e7%bb%9f8080%e7%ab%af%e5%8f%a3%e4%bf%97%e7%a7%b0apache">#</a></h4>
+<h4 id="52因为是只读所以需要加写权限然后将默认的8080更改为8081以及80更改为81防止其他程序抢夺端口">5.2、因为是只读所以需要加写权限，然后将默认的8080更改为8081，以及80更改为81（防止其他程序抢夺端口）<a class="anchor" href="#52%e5%9b%a0%e4%b8%ba%e6%98%af%e5%8f%aa%e8%af%bb%e6%89%80%e4%bb%a5%e9%9c%80%e8%a6%81%e5%8a%a0%e5%86%99%e6%9d%83%e9%99%90%e7%84%b6%e5%90%8e%e5%b0%86%e9%bb%98%e8%ae%a4%e7%9a%848080%e6%9b%b4%e6%94%b9%e4%b8%ba8081%e4%bb%a5%e5%8f%8a80%e6%9b%b4%e6%94%b9%e4%b8%ba81%e9%98%b2%e6%ad%a2%e5%85%b6%e4%bb%96%e7%a8%8b%e5%ba%8f%e6%8a%a2%e5%a4%ba%e7%ab%af%e5%8f%a3">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>open /etc/apache2/httpd.conf</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;IfDefine</span> <span style="color:#960050;background-color:#1e0010">SERVER_APP_HAS_DEFAULT_PORTS</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  Listen 8081
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/IfDefine&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;IfDefine</span> <span style="color:#960050;background-color:#1e0010">!SERVER_APP_HAS_DEFAULT_PORTS</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  Listen 81
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/IfDefine&gt;</span></span></span></code></pre></div><h2 id="四nginx">四、<code>nginx</code><a class="anchor" href="#%e5%9b%9bnginx">#</a></h2>
+<h3 id="1nginx的安装">1、<code>nginx</code>的安装<a class="anchor" href="#1nginx%e7%9a%84%e5%ae%89%e8%a3%85">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew install nginx</span></span></code></pre></div><h3 id="2nginx的启动">2、<code>nginx</code>的启动<a class="anchor" href="#2nginx%e7%9a%84%e5%90%af%e5%8a%a8">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx</span></span></code></pre></div><h3 id="3nginx的关闭">3、<code>nginx</code>的关闭<a class="anchor" href="#3nginx%e7%9a%84%e5%85%b3%e9%97%ad">#</a></h3>
+<blockquote class='book-hint '>
+<p>相当于先查出<strong>nginx</strong>的进程<strong>id</strong>再使用<strong>kill</strong>命令强制杀掉进程</p>
+</blockquote><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx -s stop</span></span></code></pre></div><h3 id="4nginx的重启">4、<code>nginx</code>的重启<a class="anchor" href="#4nginx%e7%9a%84%e9%87%8d%e5%90%af">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx -s reload</span></span></code></pre></div><h3 id="5nginx的停止">5、<code>nginx</code>的停止<a class="anchor" href="#5nginx%e7%9a%84%e5%81%9c%e6%ad%a2">#</a></h3>
+<blockquote class='book-hint '>
+<p>待<strong>nginx</strong>进程处理任务完毕进行停止</p>
+</blockquote><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx -s quit</span></span></code></pre></div><h3 id="6重读nginx日志文件">6、重读<code>nginx</code>日志文件<a class="anchor" href="#6%e9%87%8d%e8%af%bbnginx%e6%97%a5%e5%bf%97%e6%96%87%e4%bb%b6">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx -s reopen</span></span></code></pre></div><h3 id="7nginx的相关备注和说明">7、<code>nginx</code>的相关备注和说明<a class="anchor" href="#7nginx%e7%9a%84%e7%9b%b8%e5%85%b3%e5%a4%87%e6%b3%a8%e5%92%8c%e8%af%b4%e6%98%8e">#</a></h3>
+<h4 id="71默认占用系统8080端口">7.1、默认占用系统8080端口<a class="anchor" href="#71%e9%bb%98%e8%ae%a4%e5%8d%a0%e7%94%a8%e7%b3%bb%e7%bb%9f8080%e7%ab%af%e5%8f%a3">#</a></h4>
+<h4 id="72如果端口被占用则报错如下">7.2、如果端口被占用则报错如下：<a class="anchor" href="#72%e5%a6%82%e6%9e%9c%e7%ab%af%e5%8f%a3%e8%a2%ab%e5%8d%a0%e7%94%a8%e5%88%99%e6%8a%a5%e9%94%99%e5%a6%82%e4%b8%8b">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> bind<span style="color:#f92672">()</span> to 0.0.0.0:8080 failed <span style="color:#f92672">(</span>48: Address already in use<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> bind<span style="color:#f92672">()</span> to 0.0.0.0:8080 failed <span style="color:#f92672">(</span>48: Address already in use<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> bind<span style="color:#f92672">()</span> to 0.0.0.0:8080 failed <span style="color:#f92672">(</span>48: Address already in use<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> bind<span style="color:#f92672">()</span> to 0.0.0.0:8080 failed <span style="color:#f92672">(</span>48: Address already in use<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> bind<span style="color:#f92672">()</span> to 0.0.0.0:8080 failed <span style="color:#f92672">(</span>48: Address already in use<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>nginx: <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> still could not bind<span style="color:#f92672">()</span></span></span></code></pre></div><h4 id="73查询">7.3、查询<a class="anchor" href="#73%e6%9f%a5%e8%af%a2">#</a></h4>
+<ul>
+<li>
+<p>查询某个软件（比如：<code>Nginx</code>）的进程号</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ps aux|grep nginx</span></span></code></pre></div></li>
+<li>
+<p>查询端口占用情况（比如查询<code>8080</code>端口）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>lsof -i tcp:8080</span></span></code></pre></div></li>
+<li>
+<p>查询由<code>brew</code>管理的<code>nginx</code>的安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew list nginx</span></span></code></pre></div></li>
+<li>
+<p>查询<code>nginx</code>的配置文件目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nginx -t（安装目录 ≠ 配置文件目录）</span></span></code></pre></div></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0.md/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>足球盘口学习</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/docs/%E5%8C%BA%E5%9D%97%E9%93%BE.md/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="flex align-center">
+        <span>区块链</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#一前言">一、前言</a></li>
+    <li><a href="#二tomcat">二、<code>tomcat</code></a>
+      <ul>
+        <li><a href="#1tomcat的安装">1、<code>tomcat</code>的安装</a></li>
+        <li><a href="#2tomcat的开启关闭重启">2、<code>tomcat</code>的开启/关闭/重启</a></li>
+      </ul>
+    </li>
+    <li><a href="#三httpd">三、<code>httpd</code></a>
+      <ul>
+        <li><a href="#1httpd的安装">1、<code>httpd</code>的安装</a></li>
+        <li><a href="#2httpdhttpd的启动">2、<code>httpd</code>httpd的启动</a></li>
+        <li><a href="#3httpd的停止">3、<code>httpd</code>的停止</a></li>
+        <li><a href="#4httpd的重启">4、<code>httpd</code>的重启</a></li>
+        <li><a href="#5httpd的相关备注和说明">5、<code>httpd</code>的相关备注和说明</a>
+          <ul>
+            <li><a href="#51默认占用系统8080端口俗称apache">5.1、默认占用系统<code>8080</code>端口，俗称<code>apache</code></a></li>
+            <li><a href="#52因为是只读所以需要加写权限然后将默认的8080更改为8081以及80更改为81防止其他程序抢夺端口">5.2、因为是只读所以需要加写权限，然后将默认的8080更改为8081，以及80更改为81（防止其他程序抢夺端口）</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#四nginx">四、<code>nginx</code></a>
+      <ul>
+        <li><a href="#1nginx的安装">1、<code>nginx</code>的安装</a></li>
+        <li><a href="#2nginx的启动">2、<code>nginx</code>的启动</a></li>
+        <li><a href="#3nginx的关闭">3、<code>nginx</code>的关闭</a></li>
+        <li><a href="#4nginx的重启">4、<code>nginx</code>的重启</a></li>
+        <li><a href="#5nginx的停止">5、<code>nginx</code>的停止</a></li>
+        <li><a href="#6重读nginx日志文件">6、重读<code>nginx</code>日志文件</a></li>
+        <li><a href="#7nginx的相关备注和说明">7、<code>nginx</code>的相关备注和说明</a>
+          <ul>
+            <li><a href="#71默认占用系统8080端口">7.1、默认占用系统8080端口</a></li>
+            <li><a href="#72如果端口被占用则报错如下">7.2、如果端口被占用则报错如下：</a></li>
+            <li><a href="#73查询">7.3、查询</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

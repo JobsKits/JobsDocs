@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="一、 相关目录结构 JobsTabBarVC ：UITabBarController JobsTabBarItemConfig：NSObject UITabBarItem JobsTabBarItem：UITabBarItem UITabBarItem&#43;TLAnimation UITabBar UITabBar&#43;Ex UITabBar&#43;TLAnimation">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/">
+  <meta property="og:site_name" content="Jobs Docs">
+  <meta property="og:title" content="自定义 UITabBarController">
+  <meta property="og:description" content="一、 相关目录结构 JobsTabBarVC ：UITabBarController JobsTabBarItemConfig：NSObject UITabBarItem JobsTabBarItem：UITabBarItem UITabBarItem&#43;TLAnimation UITabBar UITabBar&#43;Ex UITabBar&#43;TLAnimation">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2025-08-18T12:32:42+07:00">
+    <meta property="article:modified_time" content="2025-08-18T12:32:42+07:00">
+
+
+  <meta itemprop="name" content="自定义 UITabBarController">
+  <meta itemprop="description" content="一、 相关目录结构 JobsTabBarVC ：UITabBarController JobsTabBarItemConfig：NSObject UITabBarItem JobsTabBarItem：UITabBarItem UITabBarItem&#43;TLAnimation UITabBar UITabBar&#43;Ex UITabBar&#43;TLAnimation">
+  <meta itemprop="datePublished" content="2025-08-18T12:32:42+07:00">
+  <meta itemprop="dateModified" content="2025-08-18T12:32:42+07:00">
+  <meta itemprop="wordCount" content="874">
+
+<title>自定义 UITabBarController | Jobs Docs</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/">
+<link rel="stylesheet" href="/book.min.709867152ffe28ee09d96d0ecef7c3155278ba4ed384f46d3c3747771459867f.css" integrity="sha256-cJhnFS/&#43;KO4J2W0OzvfDFVJ4uk7ThPRtPDdHdxRZhn8=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/zh-cn.search.min.5ccfcb1a26c6252b60518744d043eb5b6a46562907b45bcf9eb74b208e8804f4.js" integrity="sha256-XM/LGibGJStgUYdE0EPrW2pGVikHtFvPnrdLII6IBPQ=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-docs">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Jobs Docs</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0.md/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/" class="">
+      足球盘口学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0.md/macosweb%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="">
+      MacOS_Web服务器学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%8C%BA%E5%9D%97%E9%93%BE.md/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="">
+      区块链</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF.md/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF/" class="">
+      运维成长路线</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/yykit%E8%B0%83%E7%A0%94.md/yykit%E8%B0%83%E7%A0%94/" class="">
+      YYKit调研</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8.md/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8/" class="">
+      Swift直播项目核心技术研讨</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0.md/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0/" class="">
+      同一应用，设置不同图标和名称</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios.lock/" class="">
+      iOS 锁的使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/" class="">
+      关于UITableViewCell和UICollectionViewCell圆切角&#43;Cell的偏移量</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/" class="">
+      定一行个数得出几行</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/" class="">
+      时间按照【年-月份】分组</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/" class="">
+      关于RAC框架中的@符号进行宏定义唤起的探究</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/" class="">
+      关于响应链的一些研究成果</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/unknown-class-viewcontroller-in-interface-builder-file/" class="">
+      unknown class viewcontroller in interface builder file</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/" class="">
+      iOS禁用返回手势</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/" class="">
+      iOS资源文件夹的区别</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/" class="">
+      N宫格问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%B7%AF%E7%94%B1/" class="">
+      路由</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/" class="">
+      精确度量 iOS App 的启动时间</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/" class="">
+      UICollectionView点击事件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/jobskit-%E5%BA%8F/" class="">
+      JobsKit 序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/" class="">
+      优秀的关于音视频处理的文献资料</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/" class="">
+      Xcode资料下载</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/" class="">
+      读取本地plist</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%B0%81%E8%AF%B4http%E5%92%8Cget%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/" class="">
+      谁说HTTP GET就不能通过Body来发送数据呢？</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/ios%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/" class="">
+      iOS 状态栏颜色的修改</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/" class="">
+      本地推送的写法（程肖斌）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD.md/%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E6%B2%A1%E6%9C%89%E5%88%99%E4%B8%8B%E8%BD%BD/" class="">
+      iOS功能：跳转其他App,如果本机不存在,则进行下载</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE.md/ios%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/" class="">
+      iOS 多语言环境设置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="">
+      iOS项目多环境配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8.md/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      【MacOS】配置本地的直播服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/" class="">
+      正则表达式的相关判定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.md/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="">
+      S wift P ackage D ependence使用指南🧭</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.md/telegram.ios-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="">
+      Telegram.iOS 源代码学习笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs.md/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs/" class="">
+      Swift工程项目框架配置方案@JobsKits</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5.md/%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5/" class="">
+      iOS 本地通知配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/uitableview.md/uitableview/" class="">
+      UITableView 的使用指南</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller.md/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/" class="active">
+      自定义 UITabBarController</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90.md/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/" class="">
+      OC模型解析（参见JobsComment）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6.md/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6/" class="">
+      Apple生成*.p12文件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/jxcategoryview.md/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801%EF%B8%8F/" class="">
+      JXCategoryView框架的使用01</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/jxcategoryview.md/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%EF%B8%8F/" class="">
+      JXCategoryView框架的使用02（结合使用 JXPagerView）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6.md/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/" class="">
+      制作(发布)Pods组件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/" class="">
+      iOS 横竖屏UI切换</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B.md/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E6%B5%81%E7%A8%8B/" class="">
+      移动端上架（分发）流程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swiftflutter.md/swiftflutter/" class="">
+      Swift➤Flutter</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E9%85%8D%E7%BD%AEinfo.md/%E9%85%8D%E7%BD%AEinfo.plist/" class="">
+      配置info.plist</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity.md/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/" class="">
+      iOS项目集成Unity</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/" class="">
+      关于WMZBanner的怪异写法探究</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/mjextension%E7%94%A8%E6%B3%95.md/mjextension%E7%94%A8%E6%B3%95/" class="">
+      MJExtension用法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5.md/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" class="">
+      Shell脚本代码片段</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%B6%E4%BD%9Cunity.md/%E5%88%B6%E4%BD%9Cunity/" class="">
+      制作Unity</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/reactnativedoc.md/rn/" class="">
+      R eact N ative</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F.md/cmake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F/" class="">
+      CMake</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/seodoc.md/seodoc/" class="">
+      SEO</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99.md/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99/" class="">
+      中国大陆公民身份证校验规则（Swift/Objc/Dart.flutter）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ftp%E7%9A%84%E9%85%8D%E7%BD%AE.md/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/" class="">
+      FTP的配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/github.workflow.md/github.workflow/" class="">
+      GitHub.workflow（工作流）的使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/github.workflow.md/mermaid/" class="">
+      mermaid</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" class="">
+      Git的一些使用说明</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8.md/git%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/" class="">
+      Git 子模块使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8.md/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/" class="">
+      SSH ➤ Github</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/javadoc.md/javadoc/" class="">
+      JavaDoc</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9.md/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9/" class="">
+      MacOS配置个人热点🛜</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9.md/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/" class="">
+      天工开物</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8.md/macos_%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      搭建邮件服务器（Mail server）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B.md/macos%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B/" class="">
+      利用Hugo生成静态网页教程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B.md/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" class="">
+      利用Quicktype自动建立数据模型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobs.md/%E7%9B%B4%E6%92%AD%E4%BA%A7%E5%93%81%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A120/" class="">
+      直播产品技术概要设计20</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/ios%E9%9F%B3%E8%A7%86%E9%A2%91.md/ios%E9%9F%B3%E8%A7%86%E9%A2%91/" class="">
+      iOS音视频</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E7%9A%84%E7%A7%98%E5%AF%86/" class="">
+      计算机底层的秘密</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>自定义 UITabBarController</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#一相关目录结构">一、相关目录结构</a></li>
+    <li><a href="#二拓展系统tabbarvc-回到顶部">二、拓展系统TabBarVC <b>回到顶部</b></a>
+      <ul>
+        <li><a href="#1jobstabbarvc">1、<code>JobsTabBarVC</code></a>
+          <ul>
+            <li><a href="#11对横屏的适配">1.1、对横屏的适配</a></li>
+            <li><a href="#12对系统的-uitabbar-通过kvc的方式替换为自定义的-jobstabbar">1.2、对系统的 <code>UITabBar</code> 通过<strong>KVC</strong>的方式替换为自定义的 <code>JobsTabBar</code></a></li>
+            <li><a href="#13滑动手势切换子控制器">1.3、滑动手势切换子控制器</a></li>
+            <li><a href="#14长按手势">1.4、长按手势</a></li>
+            <li><a href="#15支持ppbadgeviewtabbaritem计数小红点">1.5、支持<strong><code>PPBadgeView</code></strong>：<code>TabBarItem</code>计数小红点</a></li>
+            <li><a href="#16至少在-voidviewwillappearboolanimated以后的生命周期实现">1.6、至少在<code>-(void)viewWillAppear:(BOOL)animated</code>以后的生命周期，实现</a></li>
+            <li><a href="#17防止多次加载ui的特殊处理">1.7、防止多次加载UI的特殊处理</a></li>
+            <li><a href="#18防止当子控制器为uiimagepickercontroller-引起的崩溃">1.8、防止当子控制器为<code>UIImagePickerController</code> 引起的崩溃</a></li>
+            <li><a href="#19强行自检跳转登录模块">1.9、强行自检跳转登录模块</a></li>
+            <li><a href="#110支持lottie动画">1.10、支持**<code>Lottie</code>**动画</a></li>
+          </ul>
+        </li>
+        <li><a href="#2jobstabbar">2、<code>JobsTabBar</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#三高度自定义tabbarvc-回到顶部">三、高度自定义TabBarVC <b>回到顶部</b></a>
+      <ul>
+        <li><a href="#1jobscustomtabbarvc">1、<code>JobsCustomTabBarVC</code></a></li>
+        <li><a href="#2lztabbarcontroller">2、<code>LZTabBarController</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#四其他-回到顶部">四、其他 <b>回到顶部</b></a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h2 id="一相关目录结构">一、<font id=相关目录结构>相关目录结构</font><a class="anchor" href="#%e4%b8%80%e7%9b%b8%e5%85%b3%e7%9b%ae%e5%bd%95%e7%bb%93%e6%9e%84">#</a></h2>
+<ul>
+<li><font color=red><code>JobsTabBarVC</code></font>：<strong><code>UITabBarController</code></strong>
+<ul>
+<li><code>JobsTabBarItemConfig</code>：<strong><code>NSObject</code></strong></li>
+<li><strong>UITabBarItem</strong>
+<ul>
+<li><code>JobsTabBarItem</code>：<strong><code>UITabBarItem</code></strong></li>
+<li><code>UITabBarItem+TLAnimation</code></li>
+</ul>
+</li>
+<li><strong>UITabBar</strong>
+<ul>
+<li><code>UITabBar+Ex</code></li>
+<li><code>UITabBar+TLAnimation</code></li>
+<li><code>JobsTabBar</code>：<strong><code>UITabBar</code></strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font color =red><code>JobsCustomTabBarVC</code></font>：<strong><code>UITabBarController</code></strong>
+<ul>
+<li><code>JobsCustomTabBarConfig</code>：<strong><code>NSObject</code></strong></li>
+<li><code>JobsCustomTabBar</code>：<strong><code>UIView</code></strong></li>
+<li><code>JobsCustomTabBarButton</code>：<strong><code>UIButton</code></strong></li>
+</ul>
+</li>
+<li><font color=red><code>LZTabBarController</code></font>：<strong><code>UITabBarController</code></strong>
+<ul>
+<li><code>LZTabBar</code>：<strong><code>UIView</code></strong></li>
+<li><code>LZTabBarConfig</code> ：<strong><code>NSObject</code></strong></li>
+<li><code>LZTabBarItem</code>：<strong><code>UIView</code></strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="二拓展系统tabbarvc-回到顶部">二、拓展系统TabBarVC <a href="#相关目录结构" style="font-size:17px; color:green;"><b>回到顶部</b></a><a class="anchor" href="#%e4%ba%8c%e6%8b%93%e5%b1%95%e7%b3%bb%e7%bb%9ftabbarvc-%e5%9b%9e%e5%88%b0%e9%a1%b6%e9%83%a8">#</a></h2>
+<h3 id="1jobstabbarvc">1、<font color=red><code>JobsTabBarVC</code></font><a class="anchor" href="#1jobstabbarvc">#</a></h3>
+<ul>
+<li>产生背景
+<ul>
+<li>在极大的拥抱系统API的基础上进行拓展，使用系统优化好的控件，在后期可能会避免一些不必要的麻烦</li>
+<li>但是需要再此基础上去自定义一些实用性功能
+<ul>
+<li>图文动画弹出</li>
+<li>点击<code>UITabBarItem</code>产生震动</li>
+<li>点击<code>UITabBarItem</code>产生声音</li>
+<li>点击<code>UITabBarItem</code>支持Lottie动画效果</li>
+<li>点击<code>UITabBarItem</code>支持右上角文字变化（<strong><code>PPBadgeView</code></strong>）</li>
+<li>长按手势</li>
+<li>点击<code>UITabBarItem</code>支持自检跳转：检测跳转登录模块、自定义点击跳转行为（不一定非要切换根控制器，而是比如弹出一个提示语）</li>
+<li>对某个<code>UITabBarItem</code>的垂直距离自定义</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="11对横屏的适配">1.1、对横屏的适配<a class="anchor" href="#11%e5%af%b9%e6%a8%aa%e5%b1%8f%e7%9a%84%e9%80%82%e9%85%8d">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">#pragma mark —— 在 UITabBarController 中适配横屏在 UITabBarController 中适配横屏
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// 决定当前界面是否开启自动转屏，如果返回NO，后面两个方法也不会被调用，只是会支持默认的方向
+</span></span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">shouldAutorotate</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> [self.selectedViewController shouldAutorotate];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 当前控制器支持的屏幕旋转方向（在具体的控制器子类进行覆写）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// iPad设备上，默认返回值UIInterfaceOrientationMaskAllButUpSideDwon
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// iPhone设备上，默认返回值是UIInterfaceOrientationMaskAll
+</span></span></span><span style="display:flex;"><span>- (UIInterfaceOrientationMask)<span style="color:#a6e22e">supportedInterfaceOrientations</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> [self.selectedViewController supportedInterfaceOrientations];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 设置进入界面默认支持的方向
+</span></span></span><span style="display:flex;"><span>- (UIInterfaceOrientation)<span style="color:#a6e22e">preferredInterfaceOrientationForPresentation</span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> [super preferredInterfaceOrientationForPresentation];
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><h4 id="12对系统的-uitabbar-通过kvc的方式替换为自定义的-jobstabbar">1.2、<font color=red id=KVC.tabBar>对系统的 <code>UITabBar</code> 通过<strong>KVC</strong>的方式替换为自定义的 <code>JobsTabBar</code></font><a class="anchor" href="#12%e5%af%b9%e7%b3%bb%e7%bb%9f%e7%9a%84-uitabbar-%e9%80%9a%e8%bf%87kvc%e7%9a%84%e6%96%b9%e5%bc%8f%e6%9b%bf%e6%8d%a2%e4%b8%ba%e8%87%aa%e5%ae%9a%e4%b9%89%e7%9a%84-jobstabbar">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">nonatomic</span>,<span style="color:#66d9ef">strong</span>,<span style="color:#66d9ef">readonly</span>)JobsTabBar <span style="color:#f92672">*</span>myTabBar;<span style="color:#f92672">///</span> myTabBar.humpOffsetY <span style="color:#960050;background-color:#1e0010">凸起的高度自定义，默认值</span><span style="color:#ae81ff">30</span>  offsetHeight</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>-(JobsTabBar <span style="color:#f92672">*</span>)<span style="color:#a6e22e">myTabBar</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>_myTabBar) {
+</span></span><span style="display:flex;"><span>        _myTabBar <span style="color:#f92672">=</span> JobsTabBar.new;
+</span></span><span style="display:flex;"><span>        _myTabBar.tabBarControllerConfigMutArr <span style="color:#f92672">=</span> self.tabBarControllerConfigMutArr;
+</span></span><span style="display:flex;"><span>        _myTabBar.alignmentType <span style="color:#f92672">=</span> ImageTopTitleBottom;
+</span></span><span style="display:flex;"><span>        [_myTabBar richElementsInViewWithModel:self.viewModel];
+</span></span><span style="display:flex;"><span>        self.jobsKVC(<span style="color:#e6db74">@&#34;tabBar&#34;</span>,_myTabBar);<span style="color:#75715e">/// KVC 进行替换
+</span></span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">return</span> _myTabBar;
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><h4 id="13滑动手势切换子控制器">1.3、滑动手势切换子控制器<a class="anchor" href="#13%e6%bb%91%e5%8a%a8%e6%89%8b%e5%8a%bf%e5%88%87%e6%8d%a2%e5%ad%90%e6%8e%a7%e5%88%b6%e5%99%a8">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// 关闭手势
+</span></span></span><span style="display:flex;"><span>-(<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">closePan</span>{
+</span></span><span style="display:flex;"><span>    self.view.panGR.enabled <span style="color:#f92672">=</span> NO;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 打开手势
+</span></span></span><span style="display:flex;"><span>-(<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">openPan</span>{
+</span></span><span style="display:flex;"><span>    self.view.numberOfTouchesRequired <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    self.view.numberOfTapsRequired <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#75715e">/// ⚠️注意：如果要设置长按手势，此属性必须设置为0⚠️
+</span></span></span><span style="display:flex;"><span>    self.view.minimumPressDuration <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>;
+</span></span><span style="display:flex;"><span>    self.view.numberOfTouchesRequired <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    self.view.allowableMovement <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    self.view.userInteractionEnabled <span style="color:#f92672">=</span> YES;
+</span></span><span style="display:flex;"><span>    self.view.target <span style="color:#f92672">=</span> self;
+</span></span><span style="display:flex;"><span>    @jobs_weakify(self)
+</span></span><span style="display:flex;"><span>    self.view.panGR_SelImp.selector <span style="color:#f92672">=</span> [self jobsSelectorBlock:<span style="color:#f92672">^</span><span style="color:#66d9ef">id</span> _Nullable(<span style="color:#66d9ef">id</span>  _Nullable target,
+</span></span><span style="display:flex;"><span>                                                                            UIPanGestureRecognizer <span style="color:#f92672">*</span>_Nullable pan) {
+</span></span><span style="display:flex;"><span>        @jobs_strongify(self)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (self.transitionCoordinator) <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (pan.state <span style="color:#f92672">==</span> UIGestureRecognizerStateBegan <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>            pan.state <span style="color:#f92672">==</span> UIGestureRecognizerStateChanged){
+</span></span><span style="display:flex;"><span>            [self beginInteractiveTransitionIfPossible:pan];
+</span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>    }];
+</span></span><span style="display:flex;"><span>    self.view.panGR.enabled <span style="color:#f92672">=</span> YES;<span style="color:#75715e">/// 必须在设置完Target和selector以后方可开启执行
+</span></span></span><span style="display:flex;"><span>}</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (<span style="color:#66d9ef">id</span><span style="color:#f92672">&lt;</span>UIViewControllerInteractiveTransitioning<span style="color:#f92672">&gt;</span>)<span style="color:#a6e22e">tabBarController:</span>(UITabBarController <span style="color:#f92672">*</span>)tabBarController
+</span></span><span style="display:flex;"><span>                     <span style="color:#a6e22e">interactionControllerForAnimationController:</span>(<span style="color:#66d9ef">id</span><span style="color:#f92672">&lt;</span>UIViewControllerAnimatedTransitioning<span style="color:#f92672">&gt;</span>)animationController{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (self.view.panGR.state <span style="color:#f92672">==</span> UIGestureRecognizerStateBegan <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>        self.view.panGR.state <span style="color:#f92672">==</span> UIGestureRecognizerStateChanged) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> [TransitionController.alloc initWithGestureRecognizer:self.view.panGR];
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><h4 id="14长按手势">1.4、长按手势<a class="anchor" href="#14%e9%95%bf%e6%8c%89%e6%89%8b%e5%8a%bf">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#f92672">-</span>(<span style="color:#66d9ef">void</span>)<span style="color:#960050;background-color:#1e0010">添加长按手势</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (UIView <span style="color:#f92672">*</span>subView <span style="color:#66d9ef">in</span> self.UITabBarButtonMutArr) {
+</span></span><span style="display:flex;"><span>        subView.tag <span style="color:#f92672">=</span> [self.UITabBarButtonMutArr indexOfObject:subView];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        subView.numberOfTouchesRequired <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        subView.numberOfTapsRequired <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#75715e">/// ⚠️注意：如果要设置长按手势，此属性必须设置为0⚠️
+</span></span></span><span style="display:flex;"><span>        subView.minimumPressDuration <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>;
+</span></span><span style="display:flex;"><span>        subView.numberOfTouchesRequired <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        subView.allowableMovement <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        subView.userInteractionEnabled <span style="color:#f92672">=</span> YES;
+</span></span><span style="display:flex;"><span>        subView.target <span style="color:#f92672">=</span> self;
+</span></span><span style="display:flex;"><span>        subView.longPressGR_SelImp.selector <span style="color:#f92672">=</span> [self jobsSelectorBlock:<span style="color:#f92672">^</span><span style="color:#66d9ef">id</span> _Nullable(<span style="color:#66d9ef">id</span> _Nullable target,
+</span></span><span style="display:flex;"><span>                                                                                    UILongPressGestureRecognizer <span style="color:#f92672">*</span>_Nullable longPressGR) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(self.gestureRecognizerBlock) self.gestureRecognizerBlock(longPressGR);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">switch</span> (longPressGR.state) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">case</span> UIGestureRecognizerStatePossible:{
+</span></span><span style="display:flex;"><span>                    NSLog(<span style="color:#e6db74">@&#34;没有触摸事件发生，所有手势识别的默认状态&#34;</span>);
+</span></span><span style="display:flex;"><span>                }<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">case</span> UIGestureRecognizerStateBegan:{
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (self.isFeedbackGenerator) {
+</span></span><span style="display:flex;"><span>                        [self feedbackGenerator];<span style="color:#75715e">/// 震动反馈
+</span></span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">/// 长按手势出菜单（高仿 Telegram）
+</span></span></span><span style="display:flex;"><span>                    [JobsPullListAutoSizeView initWithTargetView:self.UITabBarButtonMutArr[longPressGR.view.tag]
+</span></span><span style="display:flex;"><span>                                                      dataMutArr:self.pullListAutoSizeViewMutArr];
+</span></span><span style="display:flex;"><span>                    NSLog(<span style="color:#e6db74">@&#34;一个手势已经开始  但尚未改变或者完成时&#34;</span>);
+</span></span><span style="display:flex;"><span>                }<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">case</span> UIGestureRecognizerStateChanged:{
+</span></span><span style="display:flex;"><span>                    NSLog(<span style="color:#e6db74">@&#34;手势状态改变&#34;</span>);
+</span></span><span style="display:flex;"><span>                }<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">case</span> UIGestureRecognizerStateEnded:{<span style="color:#75715e">// = UIGestureRecognizerStateRecognized
+</span></span></span><span style="display:flex;"><span>                    NSLog(<span style="color:#e6db74">@&#34;手势完成&#34;</span>);
+</span></span><span style="display:flex;"><span>                }<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">case</span> UIGestureRecognizerStateCancelled:{
+</span></span><span style="display:flex;"><span>                    NSLog(<span style="color:#e6db74">@&#34;手势取消，恢复至Possible状态&#34;</span>);
+</span></span><span style="display:flex;"><span>                }<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">case</span> UIGestureRecognizerStateFailed:{
+</span></span><span style="display:flex;"><span>                    NSLog(<span style="color:#e6db74">@&#34;手势失败，恢复至Possible状态&#34;</span>);
+</span></span><span style="display:flex;"><span>                }<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            }<span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>        }];
+</span></span><span style="display:flex;"><span>        subView.longPressGR.enabled <span style="color:#f92672">=</span> YES;<span style="color:#75715e">/// 必须在设置完Target和selector以后方可开启执行
+</span></span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><h4 id="15支持ppbadgeviewtabbaritem计数小红点">1.5、支持<a href="https://github.com/jkpang/PPBadgeView"><strong><code>PPBadgeView</code></strong></a>：<code>TabBarItem</code>计数小红点<a class="anchor" href="#15%e6%94%af%e6%8c%81ppbadgeviewtabbaritem%e8%ae%a1%e6%95%b0%e5%b0%8f%e7%ba%a2%e7%82%b9">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>pod <span style="color:#e6db74">&#39;PPBadgeView&#39;</span> <span style="color:#75715e"># https://github.com/jkpang/PPBadgeView iOS自定义Badge组件, 支持UIView, UITabBarItem, UIBarButtonItem以及子类NO_SMP</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// 开启/关闭 PPBadgeView的效果,至少在viewDidLayoutSubviews后有效
+</span></span></span><span style="display:flex;"><span>-(<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">ppBadge:</span>(<span style="color:#66d9ef">BOOL</span>)open{
+</span></span><span style="display:flex;"><span>    self.isOpenPPBadge <span style="color:#f92672">=</span> open;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (open) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (UITabBarItem <span style="color:#f92672">*</span>item <span style="color:#66d9ef">in</span> self.tabBar.items) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> ([item.title isEqualToString:<span style="color:#e6db74">@&#34;首页&#34;</span>]) {
+</span></span><span style="display:flex;"><span>                [item pp_addBadgeWithText:<span style="color:#e6db74">@&#34;919+&#34;</span>];
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#pragma mark —— 动画
+</span></span></span><span style="display:flex;"><span>                [item.badgeView animationAlert];<span style="color:#75715e">//图片从小放大
+</span></span></span><span style="display:flex;"><span>                [item.badgeView shakerAnimationWithDuration:<span style="color:#ae81ff">2</span> height:<span style="color:#ae81ff">20</span>];<span style="color:#75715e">//重力弹跳动画效果
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">//            [UIView 视图上下一直来回跳动的动画:item.badgeView];
+</span></span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (self.isOpenPPBadge) {
+</span></span><span style="display:flex;"><span>		[item pp_increase];
+</span></span><span style="display:flex;"><span> }</span></span></code></pre></div><h4 id="16至少在-voidviewwillappearboolanimated以后的生命周期实现">1.6、至少在<code>-(void)viewWillAppear:(BOOL)animated</code>以后的生命周期，实现<a class="anchor" href="#16%e8%87%b3%e5%b0%91%e5%9c%a8-voidviewwillappearboolanimated%e4%bb%a5%e5%90%8e%e7%9a%84%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e5%ae%9e%e7%8e%b0">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (config.humpOffsetY <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//一般的图片
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 修改图片偏移量，上下，左右必须为相反数，否则图片会被压缩
+</span></span></span><span style="display:flex;"><span>    viewController.tabBarItem.imageInsets <span style="color:#f92672">=</span> UIEdgeInsetsMake(<span style="color:#f92672">-</span>config.humpOffsetY,
+</span></span><span style="display:flex;"><span>                                                             <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>                                                             <span style="color:#f92672">-</span>config.humpOffsetY <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>                                                             <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 修改文字偏移量
+</span></span></span><span style="display:flex;"><span>    viewController.tabBarItem.titlePositionAdjustment <span style="color:#f92672">=</span> UIOffsetMake(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);<span style="color:#75715e">/// titlePositionAdjustment是图文间距
+</span></span></span><span style="display:flex;"><span>}</span></span></code></pre></div><h4 id="17防止多次加载ui的特殊处理">1.7、防止多次加载UI的特殊处理<a class="anchor" href="#17%e9%98%b2%e6%ad%a2%e5%a4%9a%e6%ac%a1%e5%8a%a0%e8%bd%bdui%e7%9a%84%e7%89%b9%e6%ae%8a%e5%a4%84%e7%90%86">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>-(<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">viewWillAppear:</span>(<span style="color:#66d9ef">BOOL</span>)animated{
+</span></span><span style="display:flex;"><span>    [super viewWillAppear:animated];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @jobs_weakify(self)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> dispatch_once_t JobsTabbarVC_viewWillAppear_onceToken;
+</span></span><span style="display:flex;"><span>    dispatch_once(<span style="color:#f92672">&amp;</span>JobsTabbarVC_viewWillAppear_onceToken, <span style="color:#f92672">^</span>{
+</span></span><span style="display:flex;"><span>        @jobs_strongify(self)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/// TODO
+</span></span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><h4 id="18防止当子控制器为uiimagepickercontroller-引起的崩溃">1.8、防止当子控制器为<code>UIImagePickerController</code> 引起的崩溃<a class="anchor" href="#18%e9%98%b2%e6%ad%a2%e5%bd%93%e5%ad%90%e6%8e%a7%e5%88%b6%e5%99%a8%e4%b8%bauiimagepickercontroller-%e5%bc%95%e8%b5%b7%e7%9a%84%e5%b4%a9%e6%ba%83">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>UIViewController <span style="color:#f92672">*</span>viewController <span style="color:#f92672">=</span> self.childVCMutArr[i];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>[viewController isKindOfClass:UINavigationController.<span style="color:#66d9ef">class</span>]) {<span style="color:#75715e">/// 防止UIImagePickerController崩
+</span></span></span><span style="display:flex;"><span>    BaseNavigationVC <span style="color:#f92672">*</span>nav <span style="color:#f92672">=</span> [BaseNavigationVC.alloc initWithRootViewController:viewController];
+</span></span><span style="display:flex;"><span>    nav.title <span style="color:#f92672">=</span> config.title;
+</span></span><span style="display:flex;"><span>    [self.childVCMutArr replaceObjectAtIndex:i withObject:nav];<span style="color:#75715e">/// 替换元素，每个VC加Navigation
+</span></span></span><span style="display:flex;"><span>}</span></span></code></pre></div><h4 id="19强行自检跳转登录模块">1.9、强行自检跳转登录模块<a class="anchor" href="#19%e5%bc%ba%e8%a1%8c%e8%87%aa%e6%a3%80%e8%b7%b3%e8%bd%ac%e7%99%bb%e5%bd%95%e6%a8%a1%e5%9d%97">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// 对单个的 TabBarItem 进行的配置。这个类不能用作单例
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">JobsTabBarItemConfig</span> : <span style="color:#a6e22e">NSObject</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">nonatomic</span>,<span style="color:#66d9ef">assign</span>)<span style="color:#66d9ef">BOOL</span> isNeedCheckLogin;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">nonatomic</span>,<span style="color:#66d9ef">assign</span>)<span style="color:#66d9ef">BOOL</span> isNotNeedCheckLogin;<span style="color:#75715e">/// 优先级高于isNeedCheckLogin
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">nonatomic</span>,<span style="color:#66d9ef">assign</span>)<span style="color:#66d9ef">BOOL</span> isNeedjump;<span style="color:#75715e">/// 跳开处理，即不切控制器，而是做其他操作，比如弹一个提示框
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>-(<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">forcedLoginIndex:</span>(NSUInteger)index{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (JobsTabBarItemConfig <span style="color:#f92672">*</span>tabBarItemConfig <span style="color:#66d9ef">in</span> AppDelegate.tabBarItemConfigMutArr) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(tabBarItemConfig.isNeedCheckLogin){
+</span></span><span style="display:flex;"><span>            [self forcedLogin];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> YES;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">return</span> NO;
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><h4 id="110支持lottie动画">1.10、支持**<code>Lottie</code>**动画<a class="anchor" href="#110%e6%94%af%e6%8c%81lottie%e5%8a%a8%e7%94%bb">#</a></h4>
+<ul>
+<li>
+<p>关注实现类：<a href="https://github.com/295060456/JobsOCBaseConfigDemo/tree/main/JobsOCBaseConfigDemo/JobsOCBaseCustomizeUIKitCore/UIViewController/UIViewController&#43;Category/UIViewController&#43;Others/UIViewController&#43;Lottie"><strong>@interface UIViewController (Lottie)</strong></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ([self judgeLottieWithIndex:i]) {
+</span></span><span style="display:flex;"><span>    [self addLottieImage:config.lottieName];<span style="color:#75715e">// 有Lottie动画名，则优先创建Lottie动画
+</span></span></span><span style="display:flex;"><span>}</span></span></code></pre></div></li>
+</ul>
+<h3 id="2jobstabbar">2、<code>JobsTabBar</code><a class="anchor" href="#2jobstabbar">#</a></h3>
+<ul>
+<li>
+<p>对<code>UITabBarItem</code>上的图文位置有约束作用。在居中对齐的大前提下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">#ifndef ALIGNMENT_TYPE_ENUM_DEFINED
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ALIGNMENT_TYPE_ENUM_DEFINED
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">NS_ENUM</span>(NSInteger, AlignmentType) {
+</span></span><span style="display:flex;"><span>    ImageLeftTitleRight,<span style="color:#75715e">/// 图左，文字右
+</span></span></span><span style="display:flex;"><span>    ImageRightTitleLeft,<span style="color:#75715e">/// 图右，文字左
+</span></span></span><span style="display:flex;"><span>    ImageTopTitleBottom,<span style="color:#75715e">/// 图上，文字下
+</span></span></span><span style="display:flex;"><span>    ImageBottomTitleTop <span style="color:#75715e">/// 图下，文字上
+</span></span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif </span><span style="color:#75715e">/* ALIGNMENT_TYPE_ENUM_DEFINED */</span></span></span></code></pre></div></li>
+<li>
+<p>自定义 <strong>TabBar</strong> 的高度（适配横屏模式）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">///【覆写父类方法】自定义 TabBar 的高度
+</span></span></span><span style="display:flex;"><span>- (CGSize)<span style="color:#a6e22e">sizeThatFits:</span>(CGSize)size {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [self checkScreenOrientation_UIInterfaceOrientation:<span style="color:#f92672">^</span>CGSize(UIInterfaceOrientation data) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> (data) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> UIInterfaceOrientationPortraitUpsideDown:<span style="color:#75715e">/// 倒竖屏方向
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> UIInterfaceOrientationPortrait:{ <span style="color:#75715e">/// 竖屏方向
+</span></span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> [super sizeThatFits:size];
+</span></span><span style="display:flex;"><span>            }<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> UIInterfaceOrientationLandscapeLeft:<span style="color:#75715e">/// 左横屏方向
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> UIInterfaceOrientationLandscapeRight:{ <span style="color:#75715e">/// 右横屏方向
+</span></span></span><span style="display:flex;"><span>                    CGSize newSize <span style="color:#f92672">=</span> [super sizeThatFits:size];
+</span></span><span style="display:flex;"><span>                    newSize.height <span style="color:#f92672">=</span> JobsWidth(<span style="color:#ae81ff">80</span>); <span style="color:#75715e">/// 设定你想要的高度
+</span></span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> newSize;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> [super sizeThatFits:size];
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }];
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></li>
+<li>
+<p>获取 <strong>TabBar</strong> 的图片和文字，首先是需通过获取内部类<code>UITabBarButton</code>开始</p>
+<p>可以对每个 <strong>TabBaritem</strong> 的位置做调整</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">layoutSubviews</span> {
+</span></span><span style="display:flex;"><span>   [super layoutSubviews];
+</span></span><span style="display:flex;"><span>   NSMutableArray<span style="color:#f92672">&lt;</span>UIView <span style="color:#f92672">*&gt;</span> <span style="color:#f92672">*</span>tabBarButtons <span style="color:#f92672">=</span> NSMutableArray.array;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">for</span> (UIView <span style="color:#f92672">*</span>subview <span style="color:#66d9ef">in</span> self.subviews) {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> ([subview isKindOfClass:NSClassFromString(<span style="color:#e6db74">@&#34;UITabBarButton&#34;</span>)]) {
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//            subview.backgroundColor = JobsRandomColor; 
+</span></span></span><span style="display:flex;"><span>           [tabBarButtons addObject:subview];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>           UILabel <span style="color:#f92672">*</span>label <span style="color:#f92672">=</span> nil; <span style="color:#75715e">/// TabBar的文字
+</span></span></span><span style="display:flex;"><span>           UIImageView <span style="color:#f92672">*</span>imageView <span style="color:#f92672">=</span> nil; <span style="color:#75715e">/// TabBar的图片
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">for</span> (UIView <span style="color:#f92672">*</span>subSubview <span style="color:#66d9ef">in</span> subview.subviews) {
+</span></span><span style="display:flex;"><span>               <span style="color:#66d9ef">if</span> ([subSubview isKindOfClass:[UILabel <span style="color:#66d9ef">class</span>]]) {
+</span></span><span style="display:flex;"><span>                   label <span style="color:#f92672">=</span> (UILabel <span style="color:#f92672">*</span>)subSubview;
+</span></span><span style="display:flex;"><span>                   label.backgroundColor <span style="color:#f92672">=</span> JobsRedColor; 
+</span></span><span style="display:flex;"><span>                   [label sizeToFit];
+</span></span><span style="display:flex;"><span>               }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>               <span style="color:#66d9ef">if</span> ([subSubview isKindOfClass:[UIImageView <span style="color:#66d9ef">class</span>]]) {
+</span></span><span style="display:flex;"><span>                   imageView <span style="color:#f92672">=</span> (UIImageView <span style="color:#f92672">*</span>)subSubview;
+</span></span><span style="display:flex;"><span>               }
+</span></span><span style="display:flex;"><span>           }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>           [self layoutIfNeeded];
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">if</span> (label <span style="color:#f92672">&amp;&amp;</span> imageView) {
+</span></span><span style="display:flex;"><span>               [self alignLabel:label imageView:imageView inTabBarButton:subview];
+</span></span><span style="display:flex;"><span>           }
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>   }   
+</span></span><span style="display:flex;"><span>   CGFloat s <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; t <span style="color:#f92672">&lt;</span> self.tabBarControllerConfigMutArr.count ; t<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>       JobsTabBarCtrlConfig <span style="color:#f92672">*</span>tabBarControllerConfig <span style="color:#f92672">=</span> self.tabBarControllerConfigMutArr[t];
+</span></span><span style="display:flex;"><span>       UIView <span style="color:#f92672">*</span>tabBarButton <span style="color:#f92672">=</span> tabBarButtons[t];
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (t) {
+</span></span><span style="display:flex;"><span>           tabBarButton.resetOriginX(s <span style="color:#f92672">+</span> tabBarControllerConfig.xOffset);
+</span></span><span style="display:flex;"><span>       }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>           tabBarButton.resetOriginX(tabBarControllerConfig.xOffset);
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       s <span style="color:#f92672">+=</span> (tabBarControllerConfig.xOffset <span style="color:#f92672">+</span> tabBarControllerConfig.tabBarItemWidth);
+</span></span><span style="display:flex;"><span>       tabBarButton.resetWidth(tabBarControllerConfig.tabBarItemWidth);
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></li>
+</ul>
+<h2 id="三高度自定义tabbarvc-回到顶部">三、高度自定义TabBarVC <a href="#相关目录结构" style="font-size:17px; color:green;"><b>回到顶部</b></a><a class="anchor" href="#%e4%b8%89%e9%ab%98%e5%ba%a6%e8%87%aa%e5%ae%9a%e4%b9%89tabbarvc-%e5%9b%9e%e5%88%b0%e9%a1%b6%e9%83%a8">#</a></h2>
+<ul>
+<li>产生背景：系统的Api会有一些反人类思维的做法，会极大影响我们对于一些UI的布控
+<ul>
+<li><code>UITabBarItem</code>仅仅是针对<code>UITabBarController</code>的一个配置文件，而不是视图层。图片和文字是配置在<code>UITabBarItem</code>里面的</li>
+<li>当需要自定义 <code>UITabBarItem</code>中配置的图文位置，就相对比较吃力。特别是在横屏条件下，无法准确定位图文的生长周期，导致布局失败</li>
+</ul>
+</li>
+</ul>
+<h3 id="1jobscustomtabbarvc">1、<font color =red><code>JobsCustomTabBarVC</code></font><a class="anchor" href="#1jobscustomtabbarvc">#</a></h3>
+<ul>
+<li>
+<p>将系统的 <code>UITabBarItem</code>替换为按钮（<strong>UIButton</strong>）更加符合国人思维习惯</p>
+</li>
+<li>
+<p>（单例模式）配置文件<code>JobsCustomTabBarConfig</code></p>
+</li>
+<li>
+<p>对于<code>UITabBarItem</code>的图文配置转而面对<strong>UIButton</strong>的子控件（包含1个主标题、1个附标题、1个图）的设置</p>
+</li>
+<li>
+<p>在最新的Api中<strong>UIButton</strong>的配置将由<code>UIButtonConfiguration</code>接管。当使用了<code>UIButtonConfiguration</code>以后，老旧Api的配置<strong>UIButton</strong>的方式将会失效</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>-(BaseButton <span style="color:#f92672">*</span>)<span style="color:#a6e22e">titleBtn</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>_titleBtn) {
+</span></span><span style="display:flex;"><span>        @jobs_weakify(self)
+</span></span><span style="display:flex;"><span>        _titleBtn <span style="color:#f92672">=</span> [BaseButton.alloc jobsInitBtnByConfiguration:nil
+</span></span><span style="display:flex;"><span>                                                      background:nil
+</span></span><span style="display:flex;"><span>                                                  titleAlignment:UIButtonConfigurationTitleAlignmentAutomatic
+</span></span><span style="display:flex;"><span>                                                   textAlignment:NSTextAlignmentCenter
+</span></span><span style="display:flex;"><span>                                                subTextAlignment:NSTextAlignmentCenter
+</span></span><span style="display:flex;"><span>                                                     normalImage:nil
+</span></span><span style="display:flex;"><span>                                                  highlightImage:nil
+</span></span><span style="display:flex;"><span>                                                 attributedTitle:nil
+</span></span><span style="display:flex;"><span>                                         selectedAttributedTitle:nil
+</span></span><span style="display:flex;"><span>                                              attributedSubtitle:nil
+</span></span><span style="display:flex;"><span>                                                           title:nil
+</span></span><span style="display:flex;"><span>                                                        subTitle:nil
+</span></span><span style="display:flex;"><span>                                                       titleFont:nil
+</span></span><span style="display:flex;"><span>                                                    subTitleFont:nil
+</span></span><span style="display:flex;"><span>                                                        titleCor:nil
+</span></span><span style="display:flex;"><span>                                                     subTitleCor:nil
+</span></span><span style="display:flex;"><span>                                              titleLineBreakMode:NSLineBreakByWordWrapping
+</span></span><span style="display:flex;"><span>                                           subtitleLineBreakMode:NSLineBreakByWordWrapping
+</span></span><span style="display:flex;"><span>                                             baseBackgroundColor:nil
+</span></span><span style="display:flex;"><span>                                                    imagePadding:JobsWidth(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>                                                    titlePadding:JobsWidth(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>                                                  imagePlacement:NSDirectionalRectEdgeNone
+</span></span><span style="display:flex;"><span>                                      contentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter
+</span></span><span style="display:flex;"><span>                                        contentVerticalAlignment:UIControlContentVerticalAlignmentCenter
+</span></span><span style="display:flex;"><span>                                                   contentInsets:jobsSameDirectionalEdgeInsets(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>                                               cornerRadiusValue:JobsWidth(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>                                                 roundingCorners:UIRectCornerAllCorners
+</span></span><span style="display:flex;"><span>                                            roundingCornersRadii:CGSizeZero
+</span></span><span style="display:flex;"><span>                                                  layerBorderCor:nil
+</span></span><span style="display:flex;"><span>                                                     borderWidth:JobsWidth(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>                                                   primaryAction:nil
+</span></span><span style="display:flex;"><span>                                      longPressGestureEventBlock:nil
+</span></span><span style="display:flex;"><span>                                                 clickEventBlock:<span style="color:#f92672">^</span><span style="color:#66d9ef">id</span>(BaseButton <span style="color:#f92672">*</span>x) {
+</span></span><span style="display:flex;"><span>            @jobs_strongify(self)
+</span></span><span style="display:flex;"><span>            x.selected <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>x.selected;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (self.objectBlock) self.objectBlock(x);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>        }];
+</span></span><span style="display:flex;"><span>        [self addSubview:_titleBtn];
+</span></span><span style="display:flex;"><span>        [_titleBtn mas_makeConstraints:<span style="color:#f92672">^</span>(MASConstraintMaker <span style="color:#f92672">*</span>make) {
+</span></span><span style="display:flex;"><span>            make.left.equalTo(self).offset(self.viewModel.textModel.offsetXForEach);
+</span></span><span style="display:flex;"><span>            make.top.bottom.equalTo(self);
+</span></span><span style="display:flex;"><span>        }];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _titleBtn.jobsResetBtnTitle(self.titleModel.textModel.text);
+</span></span><span style="display:flex;"><span>    _titleBtn.jobsResetSubtitle((self.titleModel.subTextModel.text));
+</span></span><span style="display:flex;"><span>    _titleBtn.jobsResetImagePadding(self.titleModel.imageTitleSpace);
+</span></span><span style="display:flex;"><span>    _titleBtn.jobsResetTitlePadding(self.titleModel.titleSpace);
+</span></span><span style="display:flex;"><span>    _titleBtn.jobsResetBtnImage(self.titleModel.image);
+</span></span><span style="display:flex;"><span>    _titleBtn.jobsResetTitleLineBreakMode(self.titleModel.subTextModel.lineBreakMode);
+</span></span><span style="display:flex;"><span>    _titleBtn.jobsResetSubTitleLineBreakMode(self.titleModel.subTextModel.lineBreakMode);
+</span></span><span style="display:flex;"><span>    _titleBtn.jobsResetImagePlacement(self.titleModel.buttonEdgeInsetsStyle);
+</span></span><span style="display:flex;"><span>    _titleBtn.jobsResetTitleBaseForegroundColor(self.titleModel.textModel.textCor);
+</span></span><span style="display:flex;"><span>    _titleBtn.jobsResetBtnBgCor((self.titleModel.bgCor));
+</span></span><span style="display:flex;"><span>    [_titleBtn jobsSetBtnTitleFont:self.titleModel.textModel.font btnTitleCor:self.titleModel.textModel.textCor];
+</span></span><span style="display:flex;"><span>    [_titleBtn makeBtnLabelByShowingType:self.titleModel.textModel.labelShowingType];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 富文本的优先级最高，不括起来上述的设置无效
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(self.titleModel.textModel.attributedText){
+</span></span><span style="display:flex;"><span>        _titleBtn.jobsResetAttributedTitle(self.titleModel.textModel.attributedText);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(self.titleModel.subTextModel.attributedText){
+</span></span><span style="display:flex;"><span>        _titleBtn.jobsResetAttributedSubtitle(self.titleModel.subTextModel.attributedText);
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">return</span> _titleBtn;
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></li>
+</ul>
+<h3 id="2lztabbarcontroller">2、<font color=red><code>LZTabBarController</code></font><a class="anchor" href="#2lztabbarcontroller">#</a></h3>
+<ul>
+<li><code>@interface LZTabBarItem : UIView</code></li>
+<li>配置文件：<code>LZTabBarConfig</code></li>
+<li>将系统的 <code>UITabBarItem</code>替换为点击手势（<strong>UITapGestureRecognizer</strong>）更加符合国人思维习惯</li>
+<li><strong>UITapGestureRecognizer</strong>于<code>LZTabBarItem</code></li>
+</ul>
+<h2 id="四其他-回到顶部">四、其他 <a href="#相关目录结构" style="font-size:17px; color:green;"><b>回到顶部</b></a><a class="anchor" href="#%e5%9b%9b%e5%85%b6%e4%bb%96-%e5%9b%9e%e5%88%b0%e9%a1%b6%e9%83%a8">#</a></h2>
+<ul>
+<li>
+<p>生命周期</p>
+<ul>
+<li>
+<p><font color=red><strong><code>UITabBarController</code></strong> 执行完毕<code>-(void)viewWillAppear:(BOOL)animated</code>之后，会走挂载的控制器的生命周期，然后再调回来走**<code>UITabBarController</code>** 的**<code>-(void)viewDidAppear:(BOOL)animated</code>**</font></p>
+</li>
+<li>
+<p>&lt;font id=监听<code>TabBarItem</code>点击事件&gt;<strong>点击系统的<code>Tabbaritem</code>后，先后触发</strong></font></p>
+<pre tabindex="0"><code>- (void)tabBar:(UITabBar *)tabBar
+ didSelectItem:(UITabBarItem *)item;</code></pre><pre tabindex="0"><code>- (BOOL)tabBarController:(UITabBarController *)tabBarController
+shouldSelectViewController:(UIViewController *)viewController;</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (<span style="color:#66d9ef">id</span><span style="color:#f92672">&lt;</span>UIViewControllerAnimatedTransitioning<span style="color:#f92672">&gt;</span>)<span style="color:#a6e22e">tabBarController:</span>(UITabBarController <span style="color:#f92672">*</span>)tabBarController
+</span></span><span style="display:flex;"><span>           <span style="color:#a6e22e">animationControllerForTransitionFromViewController:</span>(UIViewController <span style="color:#f92672">*</span>)fromVC
+</span></span><span style="display:flex;"><span>                                             <span style="color:#a6e22e">toViewController:</span>(UIViewController <span style="color:#f92672">*</span>)toVC;</span></span></code></pre></div><pre tabindex="0"><code>- (void)tabBarController:(UITabBarController *)tabBarController 
+ didSelectViewController:(UIViewController *)viewController{
+    NSLog(@&#34;&#34;);
+}</code></pre><pre tabindex="0"><code>-(void)viewWillLayoutSubviews;</code></pre><pre tabindex="0"><code>-(void)viewDidLayoutSubviews</code></pre></li>
+<li>
+<p><code>self.viewControllers</code>被赋值以后，才会有<code> self.tabBar</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>系统配置文件，关注实现类：<code>@interface AppDelegate (TabBarCtr)</code></p>
+</li>
+<li>
+<p>使用<code>UITabBarController</code>的意义</p>
+<ul>
+<li>真正切换控制器的方法是对其self.<strong>selectedIndex</strong>进行赋值，如果切换失败，检查属性<code>self.viewControllers</code></li>
+</ul>
+</li>
+<li>
+<p>使用方式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">#ifndef ROOT_VIEW_CONTROLLER_H
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ROOT_VIEW_CONTROLLER_H
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//#define RootViewController AppDelegate.tabBarNavCtrl
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//#define RootViewController AppDelegate.tabBarVC
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define RootViewController AppDelegate.jobsTabBarNavCtrl
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//#define RootViewController AppDelegate.jobsCustomTabBarVC
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//#define RootViewController AppDelegate.lZTabBarNavCtrl
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//#define RootViewController AppDelegate.lZTabBarCtrl
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif // ROOT_VIEW_CONTROLLER_H</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">AppDelegate</span> : <span style="color:#a6e22e">UIResponder</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>
+</span></span><span style="display:flex;"><span>UIApplicationDelegate
+</span></span><span style="display:flex;"><span>,UNUserNotificationCenterDelegate
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// UI
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">nonatomic</span>,<span style="color:#66d9ef">strong</span>)UIWindow <span style="color:#f92672">*</span>window;<span style="color:#75715e">/// 仅仅为了iOS 13 版本向下兼容而存在
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// Data
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">readonly</span>,<span style="color:#66d9ef">strong</span>)NSPersistentCloudKitContainer <span style="color:#f92672">*</span>persistentContainer;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@property</span>(<span style="color:#66d9ef">nonatomic</span>,<span style="color:#66d9ef">assign</span>)<span style="color:#66d9ef">BOOL</span> allowOrentitaionRotation;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>+(<span style="color:#66d9ef">instancetype</span>)<span style="color:#a6e22e">sharedManager</span>;
+</span></span><span style="display:flex;"><span>+(<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">destroyInstance</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>-(<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">saveContext</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">application:</span>(UIApplication <span style="color:#f92672">*</span>)application
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">didFinishLaunchingWithOptions:</span>(NSDictionary <span style="color:#f92672">*</span>)launchOptions {
+</span></span><span style="display:flex;"><span>    self.window <span style="color:#f92672">=</span> JobsAppTools.sharedManager.makeAppDelegateWindow;
+</span></span><span style="display:flex;"><span>    self.window.rootViewController <span style="color:#f92672">=</span> RootViewController;
+</span></span><span style="display:flex;"><span>    [AppDelegate.tabBarVC ppBadge:YES];
+</span></span><span style="display:flex;"><span>    [self.window makeKeyAndVisible];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> YES;
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></li>
+<li>
+<p><a href="#KVC.tabBar">如果要在<code>UITabBarController</code>里面自定义TabBar，那么<strong>需要用KVC的方式进行替换</strong></a></p>
+</li>
+<li>
+<p>相关阅读</p>
+<ul>
+<li><a href="https://www.jianshu.com/p/a64348ba0b5b"><strong>iOS Tabbar各种定制</strong></a></li>
+<li><a href="https://blog.csdn.net/weixin_42012181/article/details/80846660"><strong>UITabBarController的selectedIndex属性不起作用？</strong></a></li>
+</ul>
+</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/uitableview.md/uitableview/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>UITableView 的使用指南</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90.md/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/" class="flex align-center">
+        <span>OC模型解析（参见JobsComment）</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#一相关目录结构">一、相关目录结构</a></li>
+    <li><a href="#二拓展系统tabbarvc-回到顶部">二、拓展系统TabBarVC <b>回到顶部</b></a>
+      <ul>
+        <li><a href="#1jobstabbarvc">1、<code>JobsTabBarVC</code></a>
+          <ul>
+            <li><a href="#11对横屏的适配">1.1、对横屏的适配</a></li>
+            <li><a href="#12对系统的-uitabbar-通过kvc的方式替换为自定义的-jobstabbar">1.2、对系统的 <code>UITabBar</code> 通过<strong>KVC</strong>的方式替换为自定义的 <code>JobsTabBar</code></a></li>
+            <li><a href="#13滑动手势切换子控制器">1.3、滑动手势切换子控制器</a></li>
+            <li><a href="#14长按手势">1.4、长按手势</a></li>
+            <li><a href="#15支持ppbadgeviewtabbaritem计数小红点">1.5、支持<strong><code>PPBadgeView</code></strong>：<code>TabBarItem</code>计数小红点</a></li>
+            <li><a href="#16至少在-voidviewwillappearboolanimated以后的生命周期实现">1.6、至少在<code>-(void)viewWillAppear:(BOOL)animated</code>以后的生命周期，实现</a></li>
+            <li><a href="#17防止多次加载ui的特殊处理">1.7、防止多次加载UI的特殊处理</a></li>
+            <li><a href="#18防止当子控制器为uiimagepickercontroller-引起的崩溃">1.8、防止当子控制器为<code>UIImagePickerController</code> 引起的崩溃</a></li>
+            <li><a href="#19强行自检跳转登录模块">1.9、强行自检跳转登录模块</a></li>
+            <li><a href="#110支持lottie动画">1.10、支持**<code>Lottie</code>**动画</a></li>
+          </ul>
+        </li>
+        <li><a href="#2jobstabbar">2、<code>JobsTabBar</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#三高度自定义tabbarvc-回到顶部">三、高度自定义TabBarVC <b>回到顶部</b></a>
+      <ul>
+        <li><a href="#1jobscustomtabbarvc">1、<code>JobsCustomTabBarVC</code></a></li>
+        <li><a href="#2lztabbarcontroller">2、<code>LZTabBarController</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#四其他-回到顶部">四、其他 <b>回到顶部</b></a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

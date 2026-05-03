@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>路由 | Jobs Docs</title>
+<meta name="keywords" content="Docs">
+<meta name="description" content="软件设计理念：高内聚、低耦合 无论是路由还是工程架构都需要根据实际项目来选择。比如你的工程就是小工程,然后还各种设计模式,这就会导致过度设计 提出思考：模块和模块之间进行相互调用的时候,需要进行文件的引用,这本身就是一种高耦合现象。 ## 相关资料来源： https://www.1024sou.com/article/347704.html https://">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%B7%AF%E7%94%B1/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abb7947e757589ea1d769bb54efb095f56e1ef13fdade0fe3e661c4d81b59898.css" integrity="sha256-q7eUfnV1ieoddpu1TvsJX1bh7xP9reD&#43;PmYcTYG1mJg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E5%85%B6%E4%BB%96.md/%E8%B7%AF%E7%94%B1/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Jobs Docs (Alt + H)">Jobs Docs</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      路由
+    </h1>
+    <div class="post-meta"><span title='2025-08-18 12:32:42 +0700 +0700'>August 18, 2025</span>&nbsp;·&nbsp;<span>1 min</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><h2 id="软件设计理念高内聚低耦合">软件设计理念：高内聚、低耦合<a hidden class="anchor" aria-hidden="true" href="#软件设计理念高内聚低耦合">#</a></h2>
+<p>无论是路由还是工程架构都需要根据实际项目来选择。比如你的工程就是小工程,然后还各种设计模式,这就会导致过度设计</p>
+<p>提出思考：模块和模块之间进行相互调用的时候,需要进行文件的引用,这本身就是一种高耦合现象。</p>
+<h2 id="相关资料来源">相关资料来源：<a hidden class="anchor" aria-hidden="true" href="#相关资料来源">#</a></h2>
+<p><a href="https://www.1024sou.com/article/347704.html">https://www.1024sou.com/article/347704.html</a>
+<a href="https://github.com/destinyzhao/RouterDemo">https://github.com/destinyzhao/RouterDemo</a>
+<a href="https://github.com/casatwy/CTMediator">https://github.com/casatwy/CTMediator</a></p>
+<p><a href="https://github.com/295060456/JobsBaseConfig">https://github.com/295060456/JobsBaseConfig</a></p>
+<h2 id="解决思路">解决思路：<a hidden class="anchor" aria-hidden="true" href="#解决思路">#</a></h2>
+<p><em>蘑菇街路由</em></p>
+<pre tabindex="0"><code>1、全局pch文件里面设置一个公有的、继承于NSObject的工具类,这个工具类的主要目的就是作为中间代理（mediator）;
+2、使用方式：
+在通常情况下：A文件需要使用B文件的内容,需要进行相关的引用;
+“蘑菇街路由”的处理方式：
+2.1、希望A文件面对一个中间代理（mediator）对象,而这个中间代理是全局化的,所以不需要引用,那么对于这个中间代理（mediator）通过字符串等方式对所需资源进行唤起。相当于A资源跳转B,但是在A资源里面并没有B资源的引用;
+2.2、一般的跳转都是页面(控制器ViewController)之间的跳转,但是通过中间代理（mediator）层索取到的资源是NSObject类型的,所以需要对其进行类型判断,以保证对外一定是输出控制器ViewController,当然这里的异常处理(非控制器ViewController的情况)根据具体业务需求来定;
+2.3、在需要进行传参（正向传值和反向传值）的行为动作进行“注册”;
+2.4、如果是正向传值,那么使用字典的形式;
+2.5、如果反向传值,这里考虑使用Block进行回调,那么这个Block的位置位于中间代理（mediator）层;
+2.6、中间代理（mediator）层,体现正向和反向传值,而对于任意对象添加属性这里用KVC的形式,实质上也是利用runtime的特性对其动态添加;
+</code></pre><p><em>我自己的解决思路</em></p>
+<pre tabindex="0"><code>1、相对于“蘑菇街路由”的处理方式,我的处理方式是利用系统自带的方案（iOS的反射机制）来处理:
+1.1、相同点都是利用字符串来进行唤起操作,相关方法有：NSClassFromString、NSSelectorFromString、NSSelectorFromString
+1.2、每一个类都有自己的协议列表、方法列表、属性列表,我们可以动态的获取然后进行调用;详见@interface NSObject (Class)
+1.3、更加高阶的操作是,在程序里面没有这个类,完全依据代码动态进行创建,包括这个类里面的协议、方法、属性...
+2、“蘑菇街路由”并没有深度处理“推出”一个页面的方式,就iOS系统架构而言,有且只有2种方案,而push的情况必须是父级存在Navigation的情况,如果没有则无法进行页面的展现,这种就十分不友好。
+2.1、程序员可选推出方案（枚举定义）、当push无效的时候（父级没有navigation）的情况下,改用present。就是说一定确保会展现页面;
+2.2、因为只有控制器推控制器,那么将上述方案,以分类的形式实现在UIViewController层,如果写到NSObject层有误导的风险;
+2.3、因为不确定正向传值的类型,所以选用id类型的属性,又因为传值这件事情又不仅仅体现在(控制器ViewController),任何对象之间都有信息通讯,所以定义在NSObject层;
+2.4、因为不确定回调参数的个数、以及是否包含返回值。这里我在@interface NSObject (CallBackInfoByBlock)里面定义了各种Block的形式;
+包括;
+2.4.1、不确定参数、确定参数(单形参和多形参)、确定参数的类型(基本数据类型、对象类型)、是否有返回值。在业务发展过程中,如果不够的可以在相关文件里面进行手动添加、这样方便追踪溯源、也方便复用、减轻代码量;
+2.5、对于传值、我更加倾向于用Model的形式,这样方便在编译期间检查问题,也可以使用点语法;
+2.6、对于数据层,需要拟定一个全局统一的标准,那么这个时候就需要用到协议l;详见文件夹BaseProtocol里面的定义
+2.6.1、关于文字的配置:
+2.6.1.1、富文本、富文本的配置信息
+2.6.1.2、普通文本、对齐方式、提行方式、字体、颜色...
+2.6.2、关于其他数据层的配置:
+2.6.2.1、图片:
+2.6.2.2、layer层：圆切角相关数据、视图的相关长宽高、透明度、相关对齐标准(上下左右的间距)
+2.6.2.3、关于UITableView、UICollectionView的相关配置信息：indexPath、section、row、item、lastPoint、index、currentPage、pageSize
+2.6.2.4、其他数据
+</code></pre><p><em>蘑菇街路由的劣势</em></p>
+<pre tabindex="0"><code>1、每一个跳转对象对应一个路由,导致组件个数翻倍,导致组件发布复杂,这样增加代码量,维护成本变大;
+2、传递image等对象类型麻烦,url不支持;
+3、回调block也很麻烦,是可以通过字典回调出来,但是需要文档写的比较清楚,使用者才能正确的使用;
+4、协议 - 类的 使用,也是比较繁琐,一般是该类的实例是一个单例对象,因为调用的都是 + 方法;
+5、在蘑菇街组件化架构中,存在了很多硬编码的URL和参数。在代码实现过程中 URL编写出错会导致调用失败,而且参数是一个字典类型,调用方不知道服务方需要哪些参数,这些都是个问题;
+6、基于runtime运行时,不支持Swift
+</code></pre>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/docs/">Docs</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Jobs Docs</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

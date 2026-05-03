@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>iOS 横竖屏UI切换 | Jobs Docs</title>
+<meta name="keywords" content="Docs">
+<meta name="description" content="一、第三方支援 ## 二、xcode 设置 ## 三、Info.plist 设置 iPhone 应用 iPad 应用 ## 四、代码处理 相关枚举说明 UIInterfaceOrientationMask用于指定应用支持的界面方向的位掩码。它的值可以组合使用，以定义应用程序支持的方向 UIInterfaceOrientation 描述界面当前的方向，用于确定">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.abb7947e757589ea1d769bb54efb095f56e1ef13fdade0fe3e661c4d81b59898.css" integrity="sha256-q7eUfnV1ieoddpu1TvsJX1bh7xP9reD&#43;PmYcTYG1mJg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh-cn" href="http://localhost:1313/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Jobs Docs (Alt + H)">Jobs Docs</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      iOS 横竖屏UI切换
+    </h1>
+    <div class="post-meta"><span title='2025-08-18 12:32:42 +0700 +0700'>August 18, 2025</span>&nbsp;·&nbsp;<span>5 min</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><div class="jobs-toc">
+  <details open>
+    <summary>Table of Contents</summary>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一第三方支援">一、第三方支援</a></li>
+    <li><a href="#二xcode-设置">二、xcode 设置</a></li>
+    <li><a href="#三infoplist-设置">三、<code>Info.plist</code> 设置</a></li>
+    <li><a href="#四代码处理">四、代码处理</a></li>
+    <li><a href="#五屏幕上下倒立不可用">五、屏幕上下倒立不可用</a></li>
+    <li><a href="#六横竖屏检测相关测评报告">六、横竖屏检测·相关测评报告</a>
+      <ul>
+        <li><a href="#1font-id锚定uidevicecurrentdeviceorientation锚定需要真机配合">1、&lt;font id=锚定<code>UIDevice.currentDevice.orientation</code>&gt;<strong>锚定<code>UIDevice.currentDevice.orientation</code></strong>（需要真机配合）</a></li>
+        <li><a href="#2font-id锚定场景方向uiinterfaceorientation锚定场景方向">2、&lt;font id=锚定场景方向<code>UIInterfaceOrientation</code>&gt;<strong>锚定场景方向<code>UIInterfaceOrientation</code></strong></a></li>
+        <li><a href="#3font-id锚定viewtraitcollectionverticalsizeclass锚定">3、&lt;font id=锚定<code>view.traitCollection.verticalSizeClass</code>&gt;<strong>锚定<code>view.traitCollection.verticalSizeClass</code></strong></a></li>
+        <li><a href="#七-测评结论">七、 测评结论</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </details>
+</div>
+<h2 id="一第三方支援">一、第三方支援<a hidden class="anchor" aria-hidden="true" href="#一第三方支援">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>pod <span style="color:#e6db74">&#39;HXRotationTool&#39;</span> <span style="color:#75715e"># https://github.com/TheLittleBoy/HXRotationTool</span>
+</span></span></code></pre></div><h2 id="二xcode-设置">二、xcode 设置<a hidden class="anchor" aria-hidden="true" href="#二xcode-设置">#</a></h2>
+<p><img alt="image-20240702165235414" loading="lazy" src="/posts/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2.md/%E6%A8%AA%E5%B1%8Fui%E5%88%87%E6%8D%A2/assets/image-20240702165235414.png"></p>
+<h2 id="三infoplist-设置">三、<code>Info.plist</code> 设置<a hidden class="anchor" aria-hidden="true" href="#三infoplist-设置">#</a></h2>
+<ul>
+<li>
+<p>iPhone 应用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;key&gt;</span>UISupportedInterfaceOrientations<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;array&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>UIInterfaceOrientationPortrait<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>UIInterfaceOrientationPortraitUpsideDown<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>UIInterfaceOrientationLandscapeLeft<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>UIInterfaceOrientationLandscapeRight<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/array&gt;</span>
+</span></span></code></pre></div></li>
+<li>
+<p>iPad 应用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;key&gt;</span>UISupportedInterfaceOrientations~ipad<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;array&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>UIInterfaceOrientationPortrait<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>UIInterfaceOrientationPortraitUpsideDown<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>UIInterfaceOrientationLandscapeLeft<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;string&gt;</span>UIInterfaceOrientationLandscapeRight<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/array&gt;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h2 id="四代码处理">四、代码处理<a hidden class="anchor" aria-hidden="true" href="#四代码处理">#</a></h2>
+<ul>
+<li>
+<p><font color=green><strong>相关枚举说明</strong></font></p>
+<ul>
+<li>
+<p><code>UIInterfaceOrientationMask</code>用于指定应用支持的界面方向的位掩码。它的值可以组合使用，以定义应用程序支持的方向</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">NS_OPTIONS</span>(NSUInteger, UIInterfaceOrientationMask) {
+</span></span><span style="display:flex;"><span>    UIInterfaceOrientationMaskPortrait <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> UIInterfaceOrientationPortrait),<span style="color:#75715e">/// 表示设备处于竖屏（Portrait）模式。
+</span></span></span><span style="display:flex;"><span>    UIInterfaceOrientationMaskLandscapeLeft <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> UIInterfaceOrientationLandscapeLeft),<span style="color:#75715e">/// 表示设备处于左横屏（Landscape Left）模式。
+</span></span></span><span style="display:flex;"><span>    UIInterfaceOrientationMaskLandscapeRight <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> UIInterfaceOrientationLandscapeRight),<span style="color:#75715e">/// 表示设备处于右横屏（Landscape Right）模式。
+</span></span></span><span style="display:flex;"><span>    UIInterfaceOrientationMaskPortraitUpsideDown <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> UIInterfaceOrientationPortraitUpsideDown),<span style="color:#75715e">/// 表示设备处于倒竖屏（Portrait Upside Down）模式。
+</span></span></span><span style="display:flex;"><span>    UIInterfaceOrientationMaskLandscape <span style="color:#f92672">=</span> (UIInterfaceOrientationMaskLandscapeLeft <span style="color:#f92672">|</span> UIInterfaceOrientationMaskLandscapeRight), <span style="color:#75715e">/// 表示设备可以处于任意横屏（Landscape）模式，包括左横屏和右横屏。
+</span></span></span><span style="display:flex;"><span>    UIInterfaceOrientationMaskAll <span style="color:#f92672">=</span> (UIInterfaceOrientationMaskPortrait <span style="color:#f92672">|</span> UIInterfaceOrientationMaskLandscapeLeft <span style="color:#f92672">|</span> UIInterfaceOrientationMaskLandscapeRight <span style="color:#f92672">|</span> UIInterfaceOrientationMaskPortraitUpsideDown),<span style="color:#75715e">/// 表示设备可以处于所有方向，包括竖屏、左横屏、右横屏和倒竖屏。
+</span></span></span><span style="display:flex;"><span>    UIInterfaceOrientationMaskAllButUpsideDown <span style="color:#f92672">=</span> (UIInterfaceOrientationMaskPortrait <span style="color:#f92672">|</span> UIInterfaceOrientationMaskLandscapeLeft <span style="color:#f92672">|</span> UIInterfaceOrientationMaskLandscapeRight),<span style="color:#75715e">/// 表示设备可以处于所有方向，但不包括倒竖屏。
+</span></span></span><span style="display:flex;"><span>} API_UNAVAILABLE(tvos);
+</span></span></code></pre></div></li>
+<li>
+<p><code>UIInterfaceOrientation</code> 描述界面当前的方向，用于确定应用界面是如何显示的。其值包括：</p>
+<ul>
+<li>通常与 <code>UIInterfaceOrientationMask</code> 中定义的支持方向进行比较</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">NS_ENUM</span>(NSInteger, UIInterfaceOrientation) {
+</span></span><span style="display:flex;"><span>    UIInterfaceOrientationUnknown            <span style="color:#f92672">=</span> UIDeviceOrientationUnknown, <span style="color:#75715e">/// 界面方向未知或不确定。这通常用于初始化或错误状态
+</span></span></span><span style="display:flex;"><span>    UIInterfaceOrientationPortrait           <span style="color:#f92672">=</span> UIDeviceOrientationPortrait, <span style="color:#75715e">/// 设备处于竖屏（Portrait）模式，即设备的顶部朝上
+</span></span></span><span style="display:flex;"><span>    UIInterfaceOrientationPortraitUpsideDown <span style="color:#f92672">=</span> UIDeviceOrientationPortraitUpsideDown,<span style="color:#75715e">/// 设备处于倒竖屏（Portrait Upside Down）模式，即设备的顶部朝下
+</span></span></span><span style="display:flex;"><span>    UIInterfaceOrientationLandscapeLeft      <span style="color:#f92672">=</span> UIDeviceOrientationLandscapeRight, <span style="color:#75715e">/// 设备处于左横屏（Landscape Left）模式。❤️注意，这个方向对应于设备顶部向右（而不是向左），这与其名称可能引起的直观理解不同❤️
+</span></span></span><span style="display:flex;"><span>    UIInterfaceOrientationLandscapeRight     <span style="color:#f92672">=</span> UIDeviceOrientationLandscapeLeft <span style="color:#75715e">/// 设备处于右横屏（Landscape Right）模式。同样地，这个方向对应于设备顶部向左
+</span></span></span><span style="display:flex;"><span>} API_UNAVAILABLE(tvos);
+</span></span></code></pre></div></li>
+<li>
+<p><code>UIDeviceOrientation</code> 描述<font color=red><strong>设备本身的物理方向</strong></font>，即设备如何被用户持握。其值包括：</p>
+<ul>
+<li>虽然它有时与 <code>UIInterfaceOrientation</code> 一致，但它们并不总是相同</li>
+<li>例如，在设备平放时（<code>UIDeviceOrientationFaceUp</code> 或 <code>UIDeviceOrientationFaceDown</code>）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">NS_ENUM</span>(NSInteger, UIDeviceOrientation) {
+</span></span><span style="display:flex;"><span>     UIDeviceOrientationUnknown, <span style="color:#75715e">/// 设备方向未知或不确定。这通常用于初始化或错误状态
+</span></span></span><span style="display:flex;"><span>     UIDeviceOrientationPortrait,            <span style="color:#75715e">/// 设备竖直放置，设备底部的 Home 键在底部（设备顶部朝上）
+</span></span></span><span style="display:flex;"><span>     UIDeviceOrientationPortraitUpsideDown,  <span style="color:#75715e">/// 设备竖直放置，设备底部的 Home 键在顶部（设备顶部朝下）
+</span></span></span><span style="display:flex;"><span>     UIDeviceOrientationLandscapeLeft,       <span style="color:#75715e">/// 设备水平放置，设备底部的 Home 键在右侧（设备顶部朝左）
+</span></span></span><span style="display:flex;"><span>     UIDeviceOrientationLandscapeRight,      <span style="color:#75715e">/// 设备水平放置，设备底部的 Home 键在左侧（设备顶部朝右）
+</span></span></span><span style="display:flex;"><span>     UIDeviceOrientationFaceUp,              <span style="color:#75715e">/// 设备平放，屏幕朝上
+</span></span></span><span style="display:flex;"><span>     UIDeviceOrientationFaceDown             <span style="color:#75715e">/// 设备平放，屏幕朝下
+</span></span></span><span style="display:flex;"><span>} API_UNAVAILABLE(tvos);
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><font color=blue><strong>代码示例</strong></font></p>
+<ul>
+<li>
+<p>在 <code>UITabBarController</code> 中适配横屏</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">MyTabBarController</span> : <span style="color:#a6e22e">UITabBarController</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">MyTabBarController</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">shouldAutorotate</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [self.selectedViewController shouldAutorotate];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (UIInterfaceOrientationMask)<span style="color:#a6e22e">supportedInterfaceOrientations</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [self.selectedViewController supportedInterfaceOrientations];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span></code></pre></div></li>
+<li>
+<p>在 <code>UINavigationController</code> 中适配横屏</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">MyNavigationController</span> : <span style="color:#a6e22e">UINavigationController</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">MyNavigationController</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">shouldAutorotate</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [self.topViewController shouldAutorotate];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (UIInterfaceOrientationMask)<span style="color:#a6e22e">supportedInterfaceOrientations</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [self.topViewController supportedInterfaceOrientations];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span></code></pre></div></li>
+<li>
+<p>确保所有子视图控制器正确实现了旋转方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">MyViewController</span> : <span style="color:#a6e22e">UIViewController</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">MyViewController</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">shouldAutorotate</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> YES;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- (UIInterfaceOrientationMask)<span style="color:#a6e22e">supportedInterfaceOrientations</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> UIInterfaceOrientationMaskAllButUpsideDown;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span></code></pre></div></li>
+<li>
+<p>关键方法说明</p>
+<ul>
+<li>
+<p>如果需要一进App就实现横屏转向，需要在<code>AppDelegate.m</code>里面实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (UIInterfaceOrientationMask)<span style="color:#a6e22e">application:</span>(UIApplication <span style="color:#f92672">*</span>)application 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">supportedInterfaceOrientationsForWindow:</span>(UIWindow <span style="color:#f92672">*</span>)window {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> UIInterfaceOrientationMaskLandscape;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>在具体的子控制器里面实现，决定这个控制器页面是否横屏</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// 决定当前界面是否开启自动转屏，如果返回NO，后面两个方法也不会被调用，只是会支持默认的方向
+</span></span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">shouldAutorotate</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> YES;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 当前控制器支持的屏幕旋转方向（在具体的控制器子类进行覆写）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// iPad设备上，默认返回值UIInterfaceOrientationMaskAllButUpSideDwon
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// iPhone设备上，默认返回值是UIInterfaceOrientationMaskAll
+</span></span></span><span style="display:flex;"><span>- (UIInterfaceOrientationMask)<span style="color:#a6e22e">supportedInterfaceOrientations</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> UIInterfaceOrientationMaskAll;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 设置进入界面默认支持的方向
+</span></span></span><span style="display:flex;"><span>- (UIInterfaceOrientation)<span style="color:#a6e22e">preferredInterfaceOrientationForPresentation</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [super preferredInterfaceOrientationForPresentation];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>通知监听<code>UIDeviceOrientationDidChangeNotification</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// 设备方向
+</span></span></span><span style="display:flex;"><span>JobsAddNotification(self,
+</span></span><span style="display:flex;"><span>                selectorBlocks(<span style="color:#f92672">^</span><span style="color:#66d9ef">id</span> _Nullable(<span style="color:#66d9ef">id</span> _Nullable weakSelf,
+</span></span><span style="display:flex;"><span>                                          <span style="color:#66d9ef">id</span> _Nullable arg){
+</span></span><span style="display:flex;"><span>    NSNotification <span style="color:#f92672">*</span>notification <span style="color:#f92672">=</span> (NSNotification <span style="color:#f92672">*</span>)arg;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>([notification.object isKindOfClass:NSNumber.<span style="color:#66d9ef">class</span>]){
+</span></span><span style="display:flex;"><span>        NSNumber <span style="color:#f92672">*</span>b <span style="color:#f92672">=</span> notification.object;
+</span></span><span style="display:flex;"><span>        NSLog(<span style="color:#e6db74">@&#34;SSS = %d&#34;</span>,b.boolValue);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    @jobs_strongify(self)
+</span></span><span style="display:flex;"><span>    NSLog(<span style="color:#e6db74">@&#34;通知传递过来的 = %@&#34;</span>,notification.object);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (UIDevice.currentDevice.orientation) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 处理竖屏方向的逻辑
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> UIDeviceOrientationPortrait:<span style="color:#75715e">/// 设备竖直向上，Home 按钮在下方
+</span></span></span><span style="display:flex;"><span>            NSLog(<span style="color:#e6db74">@&#34;系统通知：↓&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> UIDeviceOrientationPortraitUpsideDown:<span style="color:#75715e">/// 设备竖直向下，Home 按钮在上方
+</span></span></span><span style="display:flex;"><span>            NSLog(<span style="color:#e6db74">@&#34;系统通知：↑&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 处理横屏方向的逻辑
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> UIDeviceOrientationLandscapeLeft:<span style="color:#75715e">/// 设备水平，Home 按钮在右侧
+</span></span></span><span style="display:flex;"><span>            NSLog(<span style="color:#e6db74">@&#34;系统通知：→&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> UIDeviceOrientationLandscapeRight:<span style="color:#75715e">/// 设备水平，Home 按钮在左侧
+</span></span></span><span style="display:flex;"><span>            NSLog(<span style="color:#e6db74">@&#34;系统通知：←&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>},nil, self),UIDeviceOrientationDidChangeNotification,nil);
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h2 id="五屏幕上下倒立不可用">五、屏幕上下倒立<font color=red>不可用</font><a hidden class="anchor" aria-hidden="true" href="#五屏幕上下倒立不可用">#</a></h2>
+<ul>
+<li>技术上是可能的，但实际使用中可能受到限制</li>
+<li>目前涉及的iPhone全面屏（包括:<code>刘海屏 </code>或者 <code>动态岛</code>）系列，不支持倒立（上下颠倒）屏幕方向。这是 Apple 的设计决定，主要基于以下几个原因：
+<ul>
+<li>用户体验：刘海屏的设计使得倒立使用时，&ldquo;刘海&quot;或&quot;动态岛&quot;会位于屏幕底部，这可能会影响用户体验和交互</li>
+<li>硬件限制：前置摄像头、扬声器和各种传感器都集中在&quot;刘海&quot;区域，倒立使用可能会影响这些硬件的正常功能</li>
+<li>设计一致性：保持界面的一致性，避免在不同设备间出现使用差异</li>
+</ul>
+</li>
+<li>具体来说，以下 iPhone 型号不支持倒立屏幕：<strong>iPhone X</strong> 及之后的所有型号（包括 <strong>iPhone XS</strong>, <strong>XR</strong>, <strong>11</strong>, <strong>12</strong>, <strong>13</strong>, <strong>14</strong>, <strong>15</strong> 系列等）</li>
+<li>对于应用开发，如果 App 特别需要支持倒立显示（例如，为了在某些特殊场景下方便查看内容），可能需要考虑实现自定义的界面旋转逻辑，而不是依赖系统的屏幕旋转</li>
+</ul>
+<h2 id="六横竖屏检测相关测评报告">六、横竖屏检测·相关测评报告<a hidden class="anchor" aria-hidden="true" href="#六横竖屏检测相关测评报告">#</a></h2>
+<ul>
+<li>
+<p><font color=red size=10><strong>结论</strong></font></p>
+<ul>
+<li>
+<p>不要在<code>UITabBarController *</code> 和 挂载到的其子控制器上去做屏幕方向检测。因为涉及到应用程序初始化的中间过程，取值会是系统调整过程的中间值，不准确</p>
+</li>
+<li>
+<p><a href="#%E5%9C%A8%60AppDelegate%60%E9%87%8C%E9%9D%A2%E9%80%82%E9%85%8D"><strong>在<code>AppDelegate</code>里面适配</strong></a>是强制性的，所以<font color=red><strong>优先级最高</strong></font></p>
+</li>
+<li>
+<p>如果没有<a href="#%E5%9C%A8%60AppDelegate%60%E9%87%8C%E9%9D%A2%E9%80%82%E9%85%8D"><strong>在<code>AppDelegate</code>里面适配</strong></a>，在实操过程中考虑选用<code>UIDevice.currentDevice.orientation</code></p>
+</li>
+<li>
+<p><code>UIDevice.currentDevice.orientation</code>不是总是有效。在应用启动时，设备方向信息有时可能还没有完全初始化，这可能导致得到 <code>UIDeviceOrientationUnknown</code></p>
+</li>
+<li>
+<p><strong>如果一定要在<code>UITabBarController *</code> 和 挂载到的其子控制器上去做屏幕方向检测，那么使用枚举，标的物为人工强制性的对其赋值</strong></p>
+<p>全局的</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// 一进入App就横屏
+</span></span></span><span style="display:flex;"><span>- (UIInterfaceOrientationMask)<span style="color:#a6e22e">application:</span>(UIApplication <span style="color:#f92672">*</span>)application
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">supportedInterfaceOrientationsForWindow:</span>(UIWindow <span style="color:#f92672">*</span>)window {
+</span></span><span style="display:flex;"><span>    JobsAppTool.currentInterfaceOrientation <span style="color:#f92672">=</span> UIInterfaceOrientationLandscapeLeft <span style="color:#f92672">|</span> UIInterfaceOrientationLandscapeRight;
+</span></span><span style="display:flex;"><span>    JobsAppTool.currentDeviceOrientation <span style="color:#f92672">=</span> UIDeviceOrientationLandscapeLeft <span style="color:#f92672">|</span> UIDeviceOrientationLandscapeRight;
+</span></span><span style="display:flex;"><span>    JobsAppTool.currentInterfaceOrientationMask <span style="color:#f92672">=</span> UIInterfaceOrientationMaskLandscape;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> UIInterfaceOrientationMaskLandscape;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p><strong>其实系统有<u>3个维度</u>来综合评估当前是否为横屏</strong></p>
+<ul>
+<li>设备真实的方向（定义手机横卧为横屏）</li>
+<li><a href="#%E6%A8%AA%E5%B1%8F%E9%80%82%E9%85%8D"><strong>具体的某个控制器门内是否做了横屏适配</strong></a></li>
+<li><a href="#%E5%9C%A8%60AppDelegate%60%E9%87%8C%E9%9D%A2%E9%80%82%E9%85%8D"><strong>在<code>AppDelegate</code>里面适配</strong></a></li>
+</ul>
+</li>
+<li>
+<p>系统通知<code>UIDeviceOrientationDidChangeNotification</code>也是需要服从界面UI的生命周期，否则取值不成功</p>
+</li>
+</ul>
+</li>
+<li>
+<p><font id=横屏适配><strong>以下测评数据，各个相关的控制器均做了横屏适配</strong></font></p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">#pragma mark —— 在 当前控制器 中适配横屏
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// 适配横屏
+</span></span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">BOOL</span>)<span style="color:#a6e22e">shouldAutorotate</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> YES;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 当前控制器支持的屏幕旋转方向（在具体的控制器子类进行覆写）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// iPad设备上，默认返回值UIInterfaceOrientationMaskAllButUpSideDwon
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">/// iPhone设备上，默认返回值是UIInterfaceOrientationMaskAll
+</span></span></span><span style="display:flex;"><span>- (UIInterfaceOrientationMask)<span style="color:#a6e22e">supportedInterfaceOrientations</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> UIInterfaceOrientationMaskAllButUpsideDown;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 设置进入界面默认支持的方向
+</span></span></span><span style="display:flex;"><span>- (UIInterfaceOrientation)<span style="color:#a6e22e">preferredInterfaceOrientationForPresentation</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [super preferredInterfaceOrientationForPresentation];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>&lt;font id=在<code>AppDelegate</code>里面适配&gt;<strong>在<code>AppDelegate</code>里面适配</strong></font>：<code>- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window  </code><font color=red size=2><strong>优先级最高</strong></font></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>- (UIInterfaceOrientationMask)<span style="color:#a6e22e">application:</span>(UIApplication <span style="color:#f92672">*</span>)application
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">supportedInterfaceOrientationsForWindow:</span>(UIWindow <span style="color:#f92672">*</span>)window {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> UIInterfaceOrientationMaskLandscape;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>测评数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>DeviceOrientation d <span style="color:#f92672">=</span> self.getDeviceOrientation;
+</span></span><span style="display:flex;"><span>UIInterfaceOrientation s <span style="color:#f92672">=</span> self.getInterfaceOrientation;
+</span></span><span style="display:flex;"><span>UIDeviceOrientation f <span style="color:#f92672">=</span>  UIDevice.currentDevice.orientation;
+</span></span><span style="display:flex;"><span>NSLog(<span style="color:#e6db74">@&#34;&#34;</span>);
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="1font-id锚定uidevicecurrentdeviceorientation锚定需要真机配合">1、&lt;font id=锚定<code>UIDevice.currentDevice.orientation</code>&gt;<strong>锚定<code>UIDevice.currentDevice.orientation</code></strong></font>（需要真机配合）<a hidden class="anchor" aria-hidden="true" href="#1font-id锚定uidevicecurrentdeviceorientation锚定需要真机配合">#</a></h3>
+<ul>
+<li>
+<p><font color=red><strong>不</strong></font> <a href="#%E5%9C%A8%60AppDelegate%60%E9%87%8C%E9%9D%A2%E9%80%82%E9%85%8D"><strong>在<code>AppDelegate</code>里面适配</strong></a></p>
+<ul>
+<li>
+<p>当前设备横屏</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的<br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2>挂载到<code>UITabBarController</code>的子vc</font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p><strong>当前设备竖屏</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的<br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2>挂载到<code>UITabBarController</code>的子vc</font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#%E5%9C%A8%60AppDelegate%60%E9%87%8C%E9%9D%A2%E9%80%82%E9%85%8D"><strong>在<code>AppDelegate</code>里面适配</strong></a></p>
+<ul>
+<li>
+<p><strong>当前设备横屏</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的<br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2>挂载到<code>UITabBarController</code>的子vc</font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIDeviceOrientationLandscapeRight</strong></font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIDeviceOrientationLandscapeRight</strong></font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIDeviceOrientationLandscapeRight</strong></font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIDeviceOrientationLandscapeRight</strong></font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIDeviceOrientationLandscapeRight</strong></font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIDeviceOrientationLandscapeRight</strong></font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIDeviceOrientationLandscapeRight</strong></font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>当前设备竖屏</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的<br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2>挂载到<code>UITabBarController</code>的子vc</font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIDeviceOrientationUnknown</font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2font-id锚定场景方向uiinterfaceorientation锚定场景方向">2、&lt;font id=锚定场景方向<code>UIInterfaceOrientation</code>&gt;<strong>锚定场景方向<code>UIInterfaceOrientation</code></strong></font><a hidden class="anchor" aria-hidden="true" href="#2font-id锚定场景方向uiinterfaceorientation锚定场景方向">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>-(UIInterfaceOrientation)<span style="color:#a6e22e">getInterfaceOrientation</span>{
+</span></span><span style="display:flex;"><span>    UIInterfaceOrientation <span style="color:#66d9ef">__block</span> currentOrientation <span style="color:#f92672">=</span> UIInterfaceOrientationUnknown;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (@available(iOS <span style="color:#ae81ff">13.0</span>, <span style="color:#f92672">*</span>)) {
+</span></span><span style="display:flex;"><span>        [self getViewByBlock:<span style="color:#f92672">^</span><span style="color:#66d9ef">id</span> _Nullable(ComponentType componentType,
+</span></span><span style="display:flex;"><span>                                           UIView <span style="color:#f92672">*</span> _Nullable data) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">/// 获取当前窗口场景的界面方向
+</span></span></span><span style="display:flex;"><span>            currentOrientation <span style="color:#f92672">=</span> data.window.windowScene.interfaceOrientation;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> nil;
+</span></span><span style="display:flex;"><span>        }];
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        SuppressWdeprecatedDeclarationsWarning(currentOrientation <span style="color:#f92672">=</span> UIApplication.sharedApplication.statusBarOrientation;);
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">return</span> currentOrientation;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p><font color=red><strong>不</strong></font> <a href="#%E5%9C%A8%60AppDelegate%60%E9%87%8C%E9%9D%A2%E9%80%82%E9%85%8D"><strong>在<code>AppDelegate</code>里面适配</strong></a></p>
+<ul>
+<li>
+<p>当前设备横屏</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的<br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2>挂载到<code>UITabBarController</code>的子vc</font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationPortrait❌</font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p><strong>当前设备竖屏</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的生命周期方法</font></th>
+          <th style="text-align: center"><font size=2>挂载到<code>UITabBarController</code>的子vc</font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIInterfaceOrientationPortrait</strong></font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIInterfaceOrientationPortrait</strong></font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIInterfaceOrientationPortrait</strong></font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#%E5%9C%A8%60AppDelegate%60%E9%87%8C%E9%9D%A2%E9%80%82%E9%85%8D"><strong>在<code>AppDelegate</code>里面适配</strong></a></p>
+<ul>
+<li>
+<p><strong>当前设备横屏</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的<br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2>挂载到<code>UITabBarController</code>的子vc</font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIInterfaceOrientationLandscapeLeft</strong></font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIInterfaceOrientationLandscapeLeft</strong></font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIInterfaceOrientationLandscapeLeft</strong></font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>当前设备竖屏</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的<br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2>挂载到<code>UITabBarController</code>的子vc</font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationUnknown</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>UIInterfaceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>UIInterfaceOrientationLandscapeRight</strong></font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3font-id锚定viewtraitcollectionverticalsizeclass锚定">3、&lt;font id=锚定<code>view.traitCollection.verticalSizeClass</code>&gt;<strong>锚定<code>view.traitCollection.verticalSizeClass</code></strong></font><a hidden class="anchor" aria-hidden="true" href="#3font-id锚定viewtraitcollectionverticalsizeclass锚定">#</a></h3>
+<ul>
+<li>
+<p><strong><code>-(DeviceOrientation)getDeviceOrientation</code></strong></p>
+<ul>
+<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>-(DeviceOrientation)<span style="color:#a6e22e">getDeviceOrientation</span>{
+</span></span><span style="display:flex;"><span>    UIView <span style="color:#f92672">*</span>view <span style="color:#f92672">=</span> self.getView;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(view){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(view.traitCollection.verticalSizeClass <span style="color:#f92672">==</span> UIUserInterfaceSizeClassCompact){
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> DeviceOrientationLandscape;
+</span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> DeviceOrientationPortrait;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> DeviceOrientationUnknown;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span>-(UIView <span style="color:#f92672">*</span>_Nullable)<span style="color:#a6e22e">getView</span>{
+</span></span><span style="display:flex;"><span>    UIView <span style="color:#f92672">*</span>view <span style="color:#f92672">=</span> nil;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ([self isKindOfClass:UIView.<span style="color:#66d9ef">class</span>]) {
+</span></span><span style="display:flex;"><span>        view <span style="color:#f92672">=</span> (UIView <span style="color:#f92672">*</span>)self;
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> ([self isKindOfClass:UIViewController.<span style="color:#66d9ef">class</span>]){
+</span></span><span style="display:flex;"><span>        UIViewController <span style="color:#f92672">*</span>vc <span style="color:#f92672">=</span> (UIViewController <span style="color:#f92672">*</span>)self;
+</span></span><span style="display:flex;"><span>        view <span style="color:#f92672">=</span> vc.view;
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">return</span> view;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-objective-c" data-lang="objective-c"><span style="display:flex;"><span><span style="color:#75715e">/// 屏幕方向
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#ifndef DeviceOrientation_typedef
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define DeviceOrientation_typedef
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">NS_ENUM</span>(NSInteger, DeviceOrientation) {
+</span></span><span style="display:flex;"><span>    DeviceOrientationUnknown, <span style="color:#75715e">/// 未知方向
+</span></span></span><span style="display:flex;"><span>    DeviceOrientationPortrait,<span style="color:#75715e">/// 竖屏
+</span></span></span><span style="display:flex;"><span>    DeviceOrientationLandscape <span style="color:#75715e">/// 横屏
+</span></span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif </span><span style="color:#75715e">/* DeviceOrientation_typedef */</span><span style="color:#75715e">
+</span></span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><font color=red><strong>不</strong></font> <a href="#%E5%9C%A8%60AppDelegate%60%E9%87%8C%E9%9D%A2%E9%80%82%E9%85%8D"><strong>在<code>AppDelegate</code>里面适配</strong></a></p>
+<ul>
+<li>
+<p>当前设备横屏</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的<br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2>挂载到<code>UITabBarController</code>的子vc</font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p><strong>当前设备竖屏</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的<br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2>挂载到<code>UITabBarController</code>的子vc</font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait</font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait</font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#%E5%9C%A8%60AppDelegate%60%E9%87%8C%E9%9D%A2%E9%80%82%E9%85%8D"><strong>在<code>AppDelegate</code>里面适配</strong></a></p>
+<ul>
+<li>
+<p><strong>当前设备横屏</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController</code>的<br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2><font size=2>挂载到<code>UITabBarController</code>的子vc</font></font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>DeviceOrientationLandscape</strong></font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>DeviceOrientationLandscape</strong></font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>DeviceOrientationLandscape</strong></font></td>
+          <td style="text-align: center"><font color=red size=2><strong>DeviceOrientationLandscape</strong></font></td>
+          <td style="text-align: center"><font color=red size=2><strong>DeviceOrientationLandscape</strong></font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>当前设备竖屏</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center"><font size=2><code>UIViewController的</code><br/>生命周期方法</font></th>
+          <th style="text-align: center"><font size=2><font size=2>挂载到<code>UITabBarController</code>的子vc</font></font></th>
+          <th style="text-align: center"><font size=2>UITabBarController *</font></th>
+          <th style="text-align: center"><font size=2>普通UIViewController *</font></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><font size=2>- (void)<strong>viewDidLoad</strong></font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>DeviceOrientationLandscape</strong></font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewWillAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>DeviceOrientationLandscape</strong></font></td>
+      </tr>
+      <tr>
+          <td style="text-align: center"><font size=2>-(void)<strong>viewDidAppear</strong>:(BOOL)animated</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font size=2>DeviceOrientationPortrait❌</font></td>
+          <td style="text-align: center"><font color=red size=2><strong>DeviceOrientationLandscape</strong></font></td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="七-测评结论">七、 测评结论<a hidden class="anchor" aria-hidden="true" href="#七-测评结论">#</a></h3>
+<ul>
+<li>以上测评结论均来自iOS模拟器。其中<code>UIDevice.currentDevice.orientation</code>取值需要真机配合</li>
+<li>以上测评判定标准
+<ul>
+<li>如果配置了<code>- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window</code>为横屏模式（默认为竖屏模式），但是终值为竖屏，<strong>则为错误读取</strong></li>
+<li>如果不配置<code>- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window</code>为横屏模式（默认为竖屏模式），则以当前设备定位为准</li>
+</ul>
+</li>
+<li>对于页面，因为需要根据相关配置做自适应调整，那么以靠后的生命周期读取值为准
+<ul>
+<li>比如在<strong>viewController</strong>里面<code>-(void)viewDidAppear:(BOOL)animated</code>的值为最终系统在综合各种因素后调整后的值</li>
+<li><font color=red><strong>不要去关心中间值，以终值为准，这样方便定位我们从何时调用方法为有效调用</strong></font></li>
+</ul>
+</li>
+<li><strong>一般的架构是将<code>UITabBarController</code>及其子类作为根控制器，那么在呈现页面的时候，内部会去调整UI适配横竖屏。所以，<code>UITabBarController</code>及其子类以及挂载在上面的子控制器，均是需要在页面生命周期走完以后（即，<code>-(void)viewDidAppear:(BOOL)animated</code>以后）才能获取到正确的值</strong></li>
+<li><a href="#%E9%94%9A%E5%AE%9A%60UIDevice.currentDevice.orientation%60"><strong>如果锚定<code>UIDevice.currentDevice.orientation</code></strong></a>
+<ul>
+<li>不可用</li>
+</ul>
+</li>
+<li><a href="#%E9%94%9A%E5%AE%9A%E5%9C%BA%E6%99%AF%E6%96%B9%E5%90%91%60UIInterfaceOrientation%60"><strong>如果锚定场景方向<code>UIInterfaceOrientation</code></strong></a>
+<ul>
+<li>只在普通<code>UIViewController *</code>可用</li>
+</ul>
+</li>
+<li><a href="#%E9%94%9A%E5%AE%9A%60view.traitCollection.verticalSizeClass%60"><strong>如果锚定<code>view.traitCollection.verticalSizeClass</code></strong></a>
+<ul>
+<li>只在普通<code>UIViewController *</code>可用</li>
+</ul>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/docs/">Docs</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Jobs Docs</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
