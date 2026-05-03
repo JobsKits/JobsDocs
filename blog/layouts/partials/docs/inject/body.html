@@ -163,7 +163,7 @@
       brand.insertAdjacentElement("afterend", label);
     }
 
-    label.textContent = version;
+    label.textContent = "@" + version;
   }
 
   function hookMenuScroll() {
@@ -236,11 +236,13 @@
 </script>
 <!-- /jobsdocs-v12-runtime -->
 
-<!-- jobsdocs-v16-panel-focus-runtime -->
+<!-- jobsdocs-v18-panel-focus-runtime -->
 <script>
 (function () {
   var lastNotifyAt = 0;
   var shield = null;
+  var lastHeaderToggleAt = 0;
+  var lastHeaderToggleWhich = "";
 
   function postToParent(type, reason) {
     try {
@@ -306,6 +308,11 @@
     return target;
   }
 
+  function isInsidePanel(target) {
+    target = normalizeTarget(target);
+    return !!(target && target.closest && target.closest(".book-menu, .book-toc"));
+  }
+
   function isInsideActivePanel(target) {
     target = normalizeTarget(target);
     var panel = activePanel();
@@ -315,6 +322,12 @@
   function isHeaderControl(target) {
     target = normalizeTarget(target);
     return !!(target && target.closest && target.closest('label[for="menu-control"], label[for="toc-control"]'));
+  }
+
+  function panelLink(target) {
+    target = normalizeTarget(target);
+    if (!target || !target.closest) return null;
+    return target.closest(".book-menu a, .book-toc a");
   }
 
   function ensureShield() {
@@ -394,15 +407,19 @@
 
     if (which === "left") {
       if (!left) return;
-      var next = !left.checked;
-      left.checked = next;
+
+      var nextLeft = !left.checked;
+      left.checked = nextLeft;
+
       if (right) right.checked = false;
     }
 
     if (which === "right") {
       if (!right) return;
+
       var nextRight = !right.checked;
       right.checked = nextRight;
+
       if (left) left.checked = false;
     }
 
@@ -410,56 +427,85 @@
     unlockMusic(reason || ("toggle-" + which), true);
   }
 
+  function handleHeaderToggle(event, which) {
+    if (event.cancelable) event.preventDefault();
+    event.stopPropagation();
+    if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+
+    var now = Date.now();
+    if (lastHeaderToggleWhich === which && now - lastHeaderToggleAt < 260) {
+      unlockMusic("duplicate-header-" + which, true);
+      return;
+    }
+
+    lastHeaderToggleAt = now;
+    lastHeaderToggleWhich = which;
+
+    togglePanel(which, which + "-header-toggle");
+  }
+
   function hookHeaderButtons() {
     var leftButton = menuButton();
     var rightButton = tocButton();
 
-    if (leftButton && !leftButton.__jobsDocsV16ManualToggleHooked) {
-      leftButton.__jobsDocsV16ManualToggleHooked = true;
+    if (leftButton && !leftButton.__jobsDocsV18ManualToggleHooked) {
+      leftButton.__jobsDocsV18ManualToggleHooked = true;
       leftButton.setAttribute("role", "button");
       leftButton.setAttribute("tabindex", "0");
 
-      leftButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        togglePanel("left", "left-header-click");
-      }, true);
+      ["click", "pointerup", "touchend"].forEach(function (eventName) {
+        leftButton.addEventListener(eventName, function (event) {
+          handleHeaderToggle(event, "left");
+        }, true);
+      });
 
       leftButton.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          event.stopPropagation();
-          togglePanel("left", "left-header-key");
+          handleHeaderToggle(event, "left");
         }
       }, true);
     }
 
-    if (rightButton && !rightButton.__jobsDocsV16ManualToggleHooked) {
-      rightButton.__jobsDocsV16ManualToggleHooked = true;
+    if (rightButton && !rightButton.__jobsDocsV18ManualToggleHooked) {
+      rightButton.__jobsDocsV18ManualToggleHooked = true;
       rightButton.setAttribute("role", "button");
       rightButton.setAttribute("tabindex", "0");
 
-      rightButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        togglePanel("right", "right-header-click");
-      }, true);
+      ["click", "pointerup", "touchend"].forEach(function (eventName) {
+        rightButton.addEventListener(eventName, function (event) {
+          handleHeaderToggle(event, "right");
+        }, true);
+      });
 
       rightButton.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          event.stopPropagation();
-          togglePanel("right", "right-header-key");
+          handleHeaderToggle(event, "right");
         }
       }, true);
     }
   }
 
+  function hookPanelLinks() {
+    document.querySelectorAll(".book-menu a, .book-toc a").forEach(function (link) {
+      if (link.__jobsDocsV18PanelLinkHooked) return;
+
+      link.__jobsDocsV18PanelLinkHooked = true;
+
+      link.addEventListener("click", function () {
+        unlockMusic("panel-link-click", true);
+
+        window.setTimeout(function () {
+          closePanels("panel-link-close");
+        }, 0);
+      }, false);
+    });
+  }
+
   function hookPanelScroll() {
     document.querySelectorAll(".book-menu, .book-menu-content, .book-toc, .book-toc-content, .book-toc nav").forEach(function (element) {
-      if (element.__jobsDocsV16PanelScrollHooked) return;
+      if (element.__jobsDocsV18PanelScrollHooked) return;
 
-      element.__jobsDocsV16PanelScrollHooked = true;
+      element.__jobsDocsV18PanelScrollHooked = true;
       element.addEventListener("scroll", function () {
         unlockMusic("panel-scroll", true);
         postToParent("jobsdocs:panel-scroll", "panel-scroll");
@@ -472,7 +518,17 @@
     unlockMusic(event.type, strong);
 
     if (!isLeftOpen() && !isRightOpen()) return;
-    if (isInsideActivePanel(event.target) || isHeaderControl(event.target)) return;
+
+    if (isHeaderControl(event.target)) return;
+
+    var link = panelLink(event.target);
+    if (link && isInsideActivePanel(link)) {
+      return;
+    }
+
+    if (isInsideActivePanel(event.target) || isInsidePanel(event.target)) {
+      return;
+    }
 
     closePanels("outside-" + event.type);
 
@@ -481,8 +537,8 @@
   }
 
   function bindBackgroundGuards() {
-    if (document.__jobsDocsV16BackgroundGuardsHooked) return;
-    document.__jobsDocsV16BackgroundGuardsHooked = true;
+    if (document.__jobsDocsV18BackgroundGuardsHooked) return;
+    document.__jobsDocsV18BackgroundGuardsHooked = true;
 
     ["pointerdown", "touchstart", "click", "wheel", "touchmove"].forEach(function (eventName) {
       document.addEventListener(eventName, backgroundGuard, { capture: true, passive: false });
@@ -490,8 +546,8 @@
   }
 
   function bindAnyAction(target, label) {
-    if (!target || target.__jobsDocsV16AnyActionHooked) return;
-    target.__jobsDocsV16AnyActionHooked = true;
+    if (!target || target.__jobsDocsV18AnyActionHooked) return;
+    target.__jobsDocsV18AnyActionHooked = true;
 
     ["click", "pointerdown", "pointerup", "touchstart", "touchmove", "touchend", "mousedown", "mouseup", "keydown", "wheel", "scroll"].forEach(function (eventName) {
       target.addEventListener(eventName, function () {
@@ -503,6 +559,7 @@
 
   function boot() {
     hookHeaderButtons();
+    hookPanelLinks();
     hookPanelScroll();
     bindBackgroundGuards();
 
@@ -537,4 +594,4 @@
   });
 })();
 </script>
-<!-- /jobsdocs-v16-panel-focus-runtime -->
+<!-- /jobsdocs-v18-panel-focus-runtime -->

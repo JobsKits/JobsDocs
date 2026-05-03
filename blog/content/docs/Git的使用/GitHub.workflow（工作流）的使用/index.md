@@ -2,7 +2,7 @@
 title: "GitHub.workflow（工作流）的使用"
 date: 2026-05-03T16:29:51+08:00
 draft: false
-weight: 630
+weight: 650
 summary: "一、介绍 GitHub.workflow 通俗一点来讲，就是GitHub不仅提供存放代码的服务，还提供了一个虚拟机环境 运行GitHub.workflow需要在这台远程的GitHub虚拟机上安装必要的环境 GitHub Actions 是 GitHub 提供的一项服务，它允许您在 GitHub 仓库中定义和执行自动化工作流 这些工作流由事件触发，可以执行各种"
 bookCollapseSection: false
 ---

@@ -2,7 +2,7 @@
 title: "iOS 横竖屏UI切换"
 date: 2025-08-18T12:32:42+07:00
 draft: false
-weight: 480
+weight: 500
 summary: "一、第三方支援 ## 二、xcode 设置 ## 三、Info.plist 设置 iPhone 应用 iPad 应用 ## 四、代码处理 相关枚举说明 UIInterfaceOrientationMask用于指定应用支持的界面方向的位掩码。它的值可以组合使用，以定义应用程序支持的方向 UIInterfaceOrientation 描述界面当前的方向，用于确定"
 bookCollapseSection: false
 ---

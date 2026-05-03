@@ -2,7 +2,7 @@
 title: "mermaid"
 date: 2025-08-18T13:05:14+07:00
 draft: false
-weight: 640
+weight: 660
 summary: ""
 bookCollapseSection: false
 ---

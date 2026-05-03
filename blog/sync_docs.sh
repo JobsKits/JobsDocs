@@ -397,6 +397,12 @@ get_dir_title() {
     local dirname_value
 
     dirname_value="$(basename "$dir")"
+
+    # jobsdocs-v17-skip-rtfd-directory
+    # RTFD 是 macOS 富文本包，Hugo/Markdown 站点无法正确展示，统一跳过。
+    if [[ "$(to_lower "$dirname_value")" == *.rtfd ]]; then
+        return 0
+    fi
     dirname_value="$(strip_markdown_suffix "$dirname_value")"
 
     printf '%s' "$dirname_value"
@@ -651,11 +657,6 @@ should_skip_markdown() {
     if [[ "$filename" == *"更新记录"* || "$filename" == *"变更记录"* || "$filename" == *"版本记录"* || "$filename" == *"更新日志"* || "$filename" == *"发布记录"* ]]; then
         return 0
     fi
-
-    if [[ "$filename" == *"科学上网"* ]]; then
-        return 0
-    fi
-
     return 1
 }
 
@@ -1131,6 +1132,39 @@ sync_direct_pdfs_as_pages() {
     return
 }
 
+
+# jobsdocs-v17-descendant-markdown-start
+# 判断目录树下面是否存在任何可发布 Markdown。
+# 用于处理这种通用结构：
+#   A.md/
+#     B.md/
+#       B.md
+#     C.md/
+#       C.md
+#
+# 即使 A.md 自己没有直属 Markdown，它也应该作为可展开节点保留下来。
+dir_has_publishable_markdown_descendant() {
+    local dir="$1"
+    local file
+    local tmp_file
+
+    tmp_file="$(mktemp "${TMPDIR:-/tmp}/jobsdocs_desc_md.XXXXXX")"
+    find "$dir" -type f -name "*.md" -print0 > "$tmp_file"
+
+    while IFS= read -r -d '' file; do
+        if should_skip_markdown "$file"; then
+            continue
+        fi
+
+        rm -f "$tmp_file"
+        return 0
+    done < "$tmp_file"
+
+    rm -f "$tmp_file"
+    return 1
+}
+# jobsdocs-v17-descendant-markdown-end
+
 # 递归同步目录。
 # 核心规则：
 # 1. 根目录下的一级目录可以作为分类标题。
@@ -1195,7 +1229,7 @@ process_directory() {
         return
     fi
 
-    if [[ "$is_top_level" == "true" ]]; then
+    if [[ "$is_top_level" == "true" ]] || { is_markdown_named_dir_segment "$(basename "$source_dir")" && dir_has_publishable_markdown_descendant "$source_dir"; }; then
         dir_title="$(get_dir_title "$source_dir")"
         section_target_dir="$visible_parent_target_dir/$(make_safe_path_segment "$dir_title")"
 
@@ -1387,7 +1421,7 @@ EOF
       brand.insertAdjacentElement("afterend", label);
     }
 
-    label.textContent = version;
+    label.textContent = "@" + version;
   }
 
   function hookMenuScroll() {
@@ -1472,15 +1506,19 @@ EOF
 
 
 
-# jobsdocs-v16-panel-focus-runtime-start
-ensure_jobsdocs_v16_panel_focus_runtime() {
+
+
+# jobsdocs-v18-panel-focus-runtime-start
+ensure_jobsdocs_v18_panel_focus_runtime() {
     cat >> "$BODY_INJECTION_FILE" <<'EOF'
 
-<!-- jobsdocs-v16-panel-focus-runtime -->
+<!-- jobsdocs-v18-panel-focus-runtime -->
 <script>
 (function () {
   var lastNotifyAt = 0;
   var shield = null;
+  var lastHeaderToggleAt = 0;
+  var lastHeaderToggleWhich = "";
 
   function postToParent(type, reason) {
     try {
@@ -1546,6 +1584,11 @@ ensure_jobsdocs_v16_panel_focus_runtime() {
     return target;
   }
 
+  function isInsidePanel(target) {
+    target = normalizeTarget(target);
+    return !!(target && target.closest && target.closest(".book-menu, .book-toc"));
+  }
+
   function isInsideActivePanel(target) {
     target = normalizeTarget(target);
     var panel = activePanel();
@@ -1555,6 +1598,12 @@ ensure_jobsdocs_v16_panel_focus_runtime() {
   function isHeaderControl(target) {
     target = normalizeTarget(target);
     return !!(target && target.closest && target.closest('label[for="menu-control"], label[for="toc-control"]'));
+  }
+
+  function panelLink(target) {
+    target = normalizeTarget(target);
+    if (!target || !target.closest) return null;
+    return target.closest(".book-menu a, .book-toc a");
   }
 
   function ensureShield() {
@@ -1634,15 +1683,19 @@ ensure_jobsdocs_v16_panel_focus_runtime() {
 
     if (which === "left") {
       if (!left) return;
-      var next = !left.checked;
-      left.checked = next;
+
+      var nextLeft = !left.checked;
+      left.checked = nextLeft;
+
       if (right) right.checked = false;
     }
 
     if (which === "right") {
       if (!right) return;
+
       var nextRight = !right.checked;
       right.checked = nextRight;
+
       if (left) left.checked = false;
     }
 
@@ -1650,56 +1703,85 @@ ensure_jobsdocs_v16_panel_focus_runtime() {
     unlockMusic(reason || ("toggle-" + which), true);
   }
 
+  function handleHeaderToggle(event, which) {
+    if (event.cancelable) event.preventDefault();
+    event.stopPropagation();
+    if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+
+    var now = Date.now();
+    if (lastHeaderToggleWhich === which && now - lastHeaderToggleAt < 260) {
+      unlockMusic("duplicate-header-" + which, true);
+      return;
+    }
+
+    lastHeaderToggleAt = now;
+    lastHeaderToggleWhich = which;
+
+    togglePanel(which, which + "-header-toggle");
+  }
+
   function hookHeaderButtons() {
     var leftButton = menuButton();
     var rightButton = tocButton();
 
-    if (leftButton && !leftButton.__jobsDocsV16ManualToggleHooked) {
-      leftButton.__jobsDocsV16ManualToggleHooked = true;
+    if (leftButton && !leftButton.__jobsDocsV18ManualToggleHooked) {
+      leftButton.__jobsDocsV18ManualToggleHooked = true;
       leftButton.setAttribute("role", "button");
       leftButton.setAttribute("tabindex", "0");
 
-      leftButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        togglePanel("left", "left-header-click");
-      }, true);
+      ["click", "pointerup", "touchend"].forEach(function (eventName) {
+        leftButton.addEventListener(eventName, function (event) {
+          handleHeaderToggle(event, "left");
+        }, true);
+      });
 
       leftButton.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          event.stopPropagation();
-          togglePanel("left", "left-header-key");
+          handleHeaderToggle(event, "left");
         }
       }, true);
     }
 
-    if (rightButton && !rightButton.__jobsDocsV16ManualToggleHooked) {
-      rightButton.__jobsDocsV16ManualToggleHooked = true;
+    if (rightButton && !rightButton.__jobsDocsV18ManualToggleHooked) {
+      rightButton.__jobsDocsV18ManualToggleHooked = true;
       rightButton.setAttribute("role", "button");
       rightButton.setAttribute("tabindex", "0");
 
-      rightButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        togglePanel("right", "right-header-click");
-      }, true);
+      ["click", "pointerup", "touchend"].forEach(function (eventName) {
+        rightButton.addEventListener(eventName, function (event) {
+          handleHeaderToggle(event, "right");
+        }, true);
+      });
 
       rightButton.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          event.stopPropagation();
-          togglePanel("right", "right-header-key");
+          handleHeaderToggle(event, "right");
         }
       }, true);
     }
   }
 
+  function hookPanelLinks() {
+    document.querySelectorAll(".book-menu a, .book-toc a").forEach(function (link) {
+      if (link.__jobsDocsV18PanelLinkHooked) return;
+
+      link.__jobsDocsV18PanelLinkHooked = true;
+
+      link.addEventListener("click", function () {
+        unlockMusic("panel-link-click", true);
+
+        window.setTimeout(function () {
+          closePanels("panel-link-close");
+        }, 0);
+      }, false);
+    });
+  }
+
   function hookPanelScroll() {
     document.querySelectorAll(".book-menu, .book-menu-content, .book-toc, .book-toc-content, .book-toc nav").forEach(function (element) {
-      if (element.__jobsDocsV16PanelScrollHooked) return;
+      if (element.__jobsDocsV18PanelScrollHooked) return;
 
-      element.__jobsDocsV16PanelScrollHooked = true;
+      element.__jobsDocsV18PanelScrollHooked = true;
       element.addEventListener("scroll", function () {
         unlockMusic("panel-scroll", true);
         postToParent("jobsdocs:panel-scroll", "panel-scroll");
@@ -1712,7 +1794,17 @@ ensure_jobsdocs_v16_panel_focus_runtime() {
     unlockMusic(event.type, strong);
 
     if (!isLeftOpen() && !isRightOpen()) return;
-    if (isInsideActivePanel(event.target) || isHeaderControl(event.target)) return;
+
+    if (isHeaderControl(event.target)) return;
+
+    var link = panelLink(event.target);
+    if (link && isInsideActivePanel(link)) {
+      return;
+    }
+
+    if (isInsideActivePanel(event.target) || isInsidePanel(event.target)) {
+      return;
+    }
 
     closePanels("outside-" + event.type);
 
@@ -1721,8 +1813,8 @@ ensure_jobsdocs_v16_panel_focus_runtime() {
   }
 
   function bindBackgroundGuards() {
-    if (document.__jobsDocsV16BackgroundGuardsHooked) return;
-    document.__jobsDocsV16BackgroundGuardsHooked = true;
+    if (document.__jobsDocsV18BackgroundGuardsHooked) return;
+    document.__jobsDocsV18BackgroundGuardsHooked = true;
 
     ["pointerdown", "touchstart", "click", "wheel", "touchmove"].forEach(function (eventName) {
       document.addEventListener(eventName, backgroundGuard, { capture: true, passive: false });
@@ -1730,8 +1822,8 @@ ensure_jobsdocs_v16_panel_focus_runtime() {
   }
 
   function bindAnyAction(target, label) {
-    if (!target || target.__jobsDocsV16AnyActionHooked) return;
-    target.__jobsDocsV16AnyActionHooked = true;
+    if (!target || target.__jobsDocsV18AnyActionHooked) return;
+    target.__jobsDocsV18AnyActionHooked = true;
 
     ["click", "pointerdown", "pointerup", "touchstart", "touchmove", "touchend", "mousedown", "mouseup", "keydown", "wheel", "scroll"].forEach(function (eventName) {
       target.addEventListener(eventName, function () {
@@ -1743,6 +1835,7 @@ ensure_jobsdocs_v16_panel_focus_runtime() {
 
   function boot() {
     hookHeaderButtons();
+    hookPanelLinks();
     hookPanelScroll();
     bindBackgroundGuards();
 
@@ -1777,10 +1870,10 @@ ensure_jobsdocs_v16_panel_focus_runtime() {
   });
 })();
 </script>
-<!-- /jobsdocs-v16-panel-focus-runtime -->
+<!-- /jobsdocs-v18-panel-focus-runtime -->
 EOF
 }
-# jobsdocs-v16-panel-focus-runtime-end
+# jobsdocs-v18-panel-focus-runtime-end
 
 # 脚本主流程。
 main() {
@@ -1799,7 +1892,7 @@ main() {
     clean_obsolete_posts_dir
     ensure_body_injection
     ensure_jobsdocs_v12_runtime
-    ensure_jobsdocs_v16_panel_focus_runtime
+    ensure_jobsdocs_v18_panel_focus_runtime
 
     # 4. 创建 docs 根首页，并同步站点静态资源。
     ensure_docs_index

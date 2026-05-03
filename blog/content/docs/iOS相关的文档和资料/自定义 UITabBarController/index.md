@@ -2,7 +2,7 @@
 title: "自定义 UITabBarController"
 date: 2025-08-18T12:32:42+07:00
 draft: false
-weight: 420
+weight: 440
 summary: "一、相关目录结构 JobsTabBarVC：UITabBarController JobsTabBarItemConfig：NSObject UITabBarItem JobsTabBarItem：UITabBarItem UITabBarItem+TLAnimation UITabBar UITabBar+Ex UITabBar+TLAnimation J"
 bookCollapseSection: false
 ---
