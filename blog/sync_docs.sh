@@ -1070,12 +1070,16 @@ bookCollapseSection: false
 EOF
 }
 
-# 同步站点静态资源。
+# 检查站点静态图标。
+# 图标固定使用 Hugo 项目内的 static/icon.png。
+# 不再从 JobsDocs 根目录复制 icon.png，避免本地和线上图标来源不一致。
 sync_site_static_assets() {
-    mkdir -p "$BLOG_DIR/static"
+    local icon_file="$BLOG_DIR/static/icon.png"
 
-    if [[ -f "$ROOT_DIR/icon.png" ]]; then
-        cp -f "$ROOT_DIR/icon.png" "$BLOG_DIR/static/icon.png"
+    if [[ -f "$icon_file" ]]; then
+        log "Using site icon: $icon_file"
+    else
+        log "Warning: $icon_file 不存在，左上角图标可能无法显示。"
     fi
 }
 
