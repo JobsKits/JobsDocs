@@ -513,6 +513,7 @@ collect_direct_child_directories() {
 }
 
 # 复制 assets 资源。
+# Cloudflare Pages 构建环境不保证存在 rsync，所以这里使用 macOS / Linux 都自带的 cp。
 copy_assets() {
     local source_dir="$1"
     local target_dir="$2"
@@ -521,8 +522,10 @@ copy_assets() {
         return
     fi
 
+    rm -rf "$target_dir/assets"
     mkdir -p "$target_dir/assets"
-    rsync -a --delete "$source_dir/assets/" "$target_dir/assets/"
+
+    cp -R "$source_dir/assets/." "$target_dir/assets/"
 }
 
 # 复制直属 PDF，保证 Markdown 里的 PDF 相对链接可用。
@@ -1092,11 +1095,6 @@ check_dependencies() {
 
     if ! command -v git >/dev/null 2>&1; then
         log_error "git 未安装。"
-        missing_count=$((missing_count + 1))
-    fi
-
-    if ! command -v rsync >/dev/null 2>&1; then
-        log_error "rsync 未安装。"
         missing_count=$((missing_count + 1))
     fi
 
