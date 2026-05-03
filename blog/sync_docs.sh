@@ -444,34 +444,15 @@ should_skip_markdown() {
 }
 
 # 判断 PDF 是否应该跳过。
+# 当前 Cloudflare Pages 发布策略：所有 PDF 一律不发布，避免单文件大小限制和旧资源残留导致部署失败。
 should_skip_pdf() {
     local file="$1"
     local rel_path
-    local filename
-    local lower_filename
 
     rel_path="${file#$ROOT_DIR/}"
-    filename="$(basename "$file")"
-    lower_filename="$(to_lower "$filename")"
 
-    if should_skip_common_path "$rel_path"; then
-        return 0
-    fi
-
-    if [[ "$lower_filename" == license*.pdf ]]; then
-        return 0
-    fi
-
-    if [[ "$filename" == *"科学上网"* ]]; then
-        return 0
-    fi
-
-    if is_cloudflare_pages_oversized_file "$file"; then
-        log "Skipped PDF: $rel_path 超过 Cloudflare Pages 单文件 25MiB 限制。"
-        return 0
-    fi
-
-    return 1
+    log "Skipped PDF: $rel_path 已按发布策略排除。"
+    return 0
 }
 
 # 收集指定目录直属的可发布 Markdown 文件。
@@ -561,17 +542,10 @@ copy_assets() {
     cp -R "$source_dir/assets/." "$target_dir/assets/"
 }
 
-# 复制直属 PDF，保证 Markdown 里的 PDF 相对链接可用。
+# 复制直属 PDF。
+# 当前发布策略：PDF 全部排除，所以这里保持空实现。
 copy_same_dir_pdfs() {
-    local source_dir="$1"
-    local target_dir="$2"
-    local pdf_file
-
-    collect_direct_publishable_pdf_files "$source_dir"
-
-    for pdf_file in "${PUBLISHABLE_PDF_FILES[@]}"; do
-        cp "$pdf_file" "$target_dir/"
-    done
+    return
 }
 
 # 写入单个 Markdown 正文，移除 front matter、首个标题和 [toc]。
@@ -934,38 +908,9 @@ get_normal_leaf_target_dir() {
 }
 
 # 同步普通目录直属 PDF。
+# 当前发布策略：PDF 全部排除，所以这里保持空实现。
 sync_direct_pdfs_as_pages() {
-    local source_dir="$1"
-    local visible_parent_target_dir="$2"
-    local transparent_prefix="$3"
-    local pdf_file
-    local pdf_filename
-    local pdf_basename
-    local page_title
-    local page_dirname
-    local target_dir
-    local date_value
-
-    collect_direct_publishable_pdf_files "$source_dir"
-
-    if [[ "${#PUBLISHABLE_PDF_FILES[@]}" -eq 0 ]]; then
-        return
-    fi
-
-    for pdf_file in "${PUBLISHABLE_PDF_FILES[@]}"; do
-        pdf_filename="$(basename "$pdf_file")"
-        pdf_basename="${pdf_filename%.*}"
-        page_title="$(join_title_prefix "$transparent_prefix" "$pdf_basename")"
-        page_dirname="$(make_safe_path_segment "$page_title")"
-        target_dir="$visible_parent_target_dir/$page_dirname"
-        date_value="$(get_git_date "$pdf_file")"
-
-        write_pdf_page "$pdf_file" "$target_dir" "$page_title" "$date_value" "$WEIGHT_VALUE"
-
-        log "Synced PDF: ${pdf_file#$ROOT_DIR/} -> ${target_dir#$BLOG_DIR/}/index.md"
-
-        WEIGHT_VALUE=$((WEIGHT_VALUE + 10))
-    done
+    return
 }
 
 # 递归同步目录。
@@ -1083,6 +1028,12 @@ sync_root_markdown_files() {
     done
 }
 
+# 清空 Hugo 生成产物目录。
+# Cloudflare Pages 会校验 public 目录；如果这里残留旧 PDF，哪怕本次脚本跳过 PDF，部署也会失败。
+clean_public_dir() {
+    rm -rf "$BLOG_DIR/public"
+}
+
 # 清空 Hugo 自动同步生成的 docs 内容目录。
 clean_content_dir() {
     mkdir -p "$CONTENT_DIR"
@@ -1162,6 +1113,7 @@ main() {
     log "CONTENT_DIR: $CONTENT_DIR"
 
     # 3. 清空旧内容。
+    clean_public_dir
     clean_content_dir
     clean_obsolete_posts_dir
 

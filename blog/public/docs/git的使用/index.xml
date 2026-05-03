@@ -1,26 +1,349 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Git的使用 on Jobs Docs</title>
-    <link>http://localhost:1313/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
-    <description>Recent content in Git的使用 on Jobs Docs</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Sun, 03 May 2026 16:29:51 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>GitHub.workflow（工作流）的使用</title>
-      <link>http://localhost:1313/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github.workflow%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
-      <pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate>
-      <guid>http://localhost:1313/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github.workflow%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
-      <description>一、介绍 GitHub.workflow 通俗一点来讲，就是GitHub不仅提供存放代码的服务，还提供了一个虚拟机环境 运行GitHub.workflow需要在这台远程的GitHub虚拟机上安装必要的环境 GitHub Actions 是 GitHub 提供的一项服务，它允许您在 GitHub 仓库中定义和执行自动化工作流 这些工作流由事件触发，可以执行各种</description>
-    </item>
-    <item>
-      <title>mermaid</title>
-      <link>http://localhost:1313/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/mermaid/</link>
-      <pubDate>Mon, 18 Aug 2025 13:05:14 +0700</pubDate>
-      <guid>http://localhost:1313/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/mermaid/</guid>
-      <description>&lt;h1 id=&#34;mermaid&#34;&gt;mermaid&lt;a class=&#34;anchor&#34; href=&#34;#mermaid&#34;&gt;#&lt;/a&gt;&lt;/h1&gt;&#xA;&lt;pre class=&#34;mermaid&#34;&gt;classDiagram&#xA;class UIViewModelProtocol {&#xA;    +@property(nonatomic,strong,nullable)UITextModel *textModel;&#xA;    +@property(nonatomic,strong,nullable)UITextModel *subTextModel;&#xA;    +@property(nonatomic,strong,nullable)UITextModel *backBtnTitleModel;&#xA;    +@property(nonatomic,strong,nullable)UIButtonModel *buttonModel;&#xA;    +@property(nonatomic,strong,nullable)UIButtonModel *subButtonModel;&#xA;    +@property(nonatomic,strong,nullable)JobsReturnIDByIDBlock jobsBlock;&#xA;    +@property(nonatomic,strong,nullable)NSMutableArray &amp;lt;JobsReturnIDByIDBlock&amp;gt;*jobsBlockMutArr;&#xA;}&#xA;UIPictureAndBackGroundCorProtocol &amp;lt;|-- UIViewModelProtocol&#xA;UILocationProtocol &amp;lt;|-- UIViewModelProtocol&#xA;UIMarkProtocol &amp;lt;|-- UIViewModelProtocol&#xA;UIViewModelOthersProtocol &amp;lt;|-- UIViewModelProtocol&#xA;BaseButtonProtocol &amp;lt;|-- UIViewModelProtocol&#xA;UITextModelProtocol &amp;lt;|-- UIViewModelProtocol&#xA;&#xA;class UICollectionViewCellProtocol {&#xA;    +-(UICollectionView *)jobsGetCurrentCollectionView;&#xA;    +-(NSIndexPath *)jobsGetCurrentIndexPath;&#xA;    +-(NSInteger)jobsGetCurrentNumberOfSections;&#xA;    +-(NSInteger)jobsGetCurrentNumberOfItemsInSection;&#xA;    +-(UITextView *)getTextView;&#xA;    +-(UIButton *)getBgBtn;&#xA;}&#xA;BaseCellProtocol &amp;lt;|-- UICollectionViewCellProtocol&#xA;&#xA;class UIMarkProtocol {&#xA;    +@property(nonatomic,strong,nullable)NSIndexPath __block *indexPath;&#xA;    +@property(nonatomic,assign)NSInteger __block section;&#xA;    +@property(nonatomic,assign)NSInteger __block row;&#xA;    +@property(nonatomic,assign)NSInteger __block item;&#xA;    +@property(nonatomic,assign)CGPoint __block lastPoint;&#xA;    +@property(nonatomic,assign)NSInteger __block index;&#xA;    +@property(nonatomic,assign)NSInteger __block currentPage;&#xA;    +@property(nonatomic,assign)NSInteger __block pageSize;&#xA;    +@property(nonatomic,assign)BOOL __block isMark;&#xA;    +@property(nonatomic,assign)CGFloat presentUpHeight;&#xA;}&#xA;NSObject &amp;lt;|-- UIMarkProtocol&#xA;&#xA;class UIPictureAndBackGroundCorProtocol {&#xA;    +@property(nonatomic,strong,nullable)UIImage __block *image;&#xA;    +@property(nonatomic,strong,nullable)UIImage __block *bgImage;&#xA;    +@property(nonatomic,strong,nullable)NSString __block *imageURLString;&#xA;    +@property(nonatomic,strong,nullable)NSString __block *bgImageURLString;&#xA;    +@property(nonatomic,strong,nullable)UIColor __block *bgCor;&#xA;    +@property(nonatomic,strong,nullable)UIImage __block *backBtnIMG;&#xA;    +@property(nonatomic,strong,nullable)UIBackgroundConfiguration *bgConfig API_AVAILABLE(ios(14.0), tvos(14.0), watchos(7.0));&#xA;    +@property(nonatomic,strong,nullable)UIImage __block *selectedImage;&#xA;    +@property(nonatomic,strong,nullable)UIImage __block *bgSelectedImage;&#xA;    +@property(nonatomic,strong,nullable)NSString __block *selectedImageURLString;&#xA;    +@property(nonatomic,strong,nullable)NSString __block *bgSelectedImageURLString;&#xA;    +@property(nonatomic,strong,nullable)UIColor __block *bgSelectedCor;&#xA;    +@property(nonatomic,strong,nullable)UIImage __block *backBtnSelectedIMG;&#xA;    +@property(nonatomic,strong,nullable)UIBackgroundConfiguration *bgSelectedConfig API_AVAILABLE(ios(14.0), tvos(14.0), watchos(7.0));&#xA;    +@property(nonatomic,strong,nullable)UIImageView __block *bgImageView;&#xA;}&#xA;NSObject &amp;lt;|-- UIPictureAndBackGroundCorProtocol&#xA;&#xA;class BaseViewControllerProtocol {&#xA;    +- (void)updateStatusBarCor:(UIColor *_Nullable)cor;&#xA;    +-(void)restoreStatusBarCor:(UIColor *_Nullable)cor;&#xA;    +-(void)showUserInfo;&#xA;    +-(void)setGKNav;&#xA;    +-(void)setGKNavBackBtn;&#xA;    +@property(nonatomic,weak)UIViewController *fromVC;&#xA;    +@property(nonatomic,strong,nullable)SPAlertController *alertController;&#xA;    +@property(nonatomic,assign)ComingStyle pushOrPresent;&#xA;    +@property(nonatomic,assign)BOOL setupNavigationBarHidden;&#xA;    +@property(nonatomic,strong)UIView *statusBar;&#xA;}&#xA;BaseViewProtocol &amp;lt;|-- BaseViewControllerProtocol&#xA;&#xA;class AppToolsProtocol {&#xA;    +-(void)toLoginOrRegister:(CurrentPage)appDoorContentType;&#xA;    +-(void)toLogin;&#xA;    +-(void)forcedLogin;&#xA;    +-(void)popUpViewToLogout;&#xA;    +-(UITabBar *)getTabBar;&#xA;    +-(void)tabBarClosePan;&#xA;    +-(void)tabBarOpenPan;&#xA;    +-(void)jumpToHome;&#xA;    +-(NSMutableArray &amp;lt;UIViewController *&amp;gt;*)appRootVC;&#xA;    +-(BOOL)isRootVC;&#xA;    +-(NSString *)encodePicStr:(NSString *)picStr;&#xA;    +-(NSString *)decodePicStr:(NSString *)encodePicStr;&#xA;    +-(void)openGameWithUrl:(NSString *)url;&#xA;    +-(UIImage *)defaultHeaderImage;&#xA;    +-(NSString *)currentLanguage;&#xA;    +-(HTTPRequestHeaderLanguageType)currentLanguageType;&#xA;    +-(void)actionForHotLabel:(JobsHotLabelWithSingleLine *)hl;&#xA;}&#xA;BaseProtocol &amp;lt;|-- AppToolsProtocol&#xA;&#xA;class UIViewModelOthersProtocol {&#xA;    +-(BOOL)jobsVisible;&#xA;    +-(void)setJobsVisible:(BOOL)jobsVisible;&#xA;    +@property(nonatomic,strong,nullable)Class __block cls;&#xA;    +@property(nonatomic,strong,nullable)UIViewModel __block *viewModel;&#xA;    +@property(nonatomic,strong,nullable)NSMutableArray &amp;lt;UIViewModel *&amp;gt; __block *viewModelMutArr;&#xA;    +@property(nonatomic,strong,nullable)RACSignal __block *reqSignal;&#xA;    +@property(nonatomic,strong,nullable)NSString __block *internationalizationKEY;&#xA;    +@property(nonatomic,assign)NSUInteger __block jobsTag;&#xA;    +@property(nonatomic,assign)BOOL __block jobsSelected;&#xA;    +@property(nonatomic,assign)BOOL __block isMultiLineShows;&#xA;    +@property(nonatomic,assign)BOOL __block isTranslucent;&#xA;    +@property(nonatomic,assign)BOOL __block isVisible;&#xA;    +@property(nonatomic,assign)UILabelShowingType labelShowingType;&#xA;    +@property(nonatomic,strong,nullable)id __block data;&#xA;    +@property(nonatomic,strong,nullable)id __block requestParams;&#xA;    +@property(nonatomic,strong,nullable)NSMutableSet __block *jobsDataMutSet;&#xA;    +@property(nonatomic,strong,nullable)NSMutableArray __block *jobsDataMutArr;&#xA;    +@property(nonatomic,strong,nullable)NSMutableDictionary __block *jobsDataMutDic;&#xA;    +@property(nonatomic,strong,nullable)UIColor __block *layerBorderCor;&#xA;    +@property(nonatomic,assign)CGFloat __block layerBorderWidth;&#xA;    +@property(nonatomic,assign)CGFloat __block layerCornerRadius;&#xA;}&#xA;NSObject &amp;lt;|-- UIViewModelOthersProtocol&#xA;&#xA;class UITextModelProtocol {&#xA;    +@property(nonatomic,assign)NSTextAlignment __block textAlignment;&#xA;    +@property(nonatomic,assign)NSLineBreakMode __block lineBreakMode;&#xA;    +@property(nonatomic,assign)CGFloat __block textLineSpacing;&#xA;    +@property(nonatomic,copy)NSString __block *placeholder;&#xA;    +@property(nonatomic,strong)UIColor __block *placeholderColor;&#xA;    +@property(nonatomic,assign)NSInteger __block curWordCount;&#xA;    +@property(nonatomic,assign)NSInteger __block maxWordCount;&#xA;    +@property(nonatomic,strong,nullable)NSString __block *text;&#xA;    +@property(nonatomic,strong,nullable)UIFont __block *font;&#xA;    +@property(nonatomic,strong,nullable)UIColor __block *textCor;&#xA;    +@property(nonatomic,strong,nullable)NSAttributedString __block *attributedText API_AVAILABLE(ios(6.0));&#xA;    +@property(nonatomic,strong)NSMutableArray &amp;lt;RichTextConfig *&amp;gt;__block *titleAttributedDataMutArr;&#xA;    +@property(nonatomic,strong,nullable)NSString __block *selectedText;&#xA;    +@property(nonatomic,strong,nullable)UIFont __block *selectedFont;&#xA;    +@property(nonatomic,strong,nullable)UIColor __block *selectedTextCor;&#xA;    +@property(nonatomic,strong,nullable)NSAttributedString __block *selectedAttributedText API_AVAILABLE(ios(6.0));&#xA;    +@property(nonatomic,strong)NSMutableArray &amp;lt;RichTextConfig *&amp;gt;__block *selectedTitleAttributedDataMutArr;&#xA;}&#xA;NSObject &amp;lt;|-- UITextModelProtocol&#xA;&#xA;class BaseButtonProtocol {&#xA;    +-(void)richElementsInButtonWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)buttonWidthWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)buttonHeightWithModel:(id _Nullable)model;&#xA;    ++(CGSize)buttonSizeWithModel:(id _Nullable)model;&#xA;    ++(CGRect)buttonFrameWithModel:(id _Nullable)model;&#xA;    +-(CGFloat)buttonWidthWithModel:(id _Nullable)model;&#xA;    +-(CGFloat)buttonHeightWithModel:(id _Nullable)model;&#xA;    +-(CGSize)buttonSizeWithModel:(id _Nullable)model;&#xA;    +-(CGRect)buttonFrameWithModel:(id _Nullable)model;&#xA;    +@property(nonatomic,strong)UIFont *titleFont;&#xA;    +@property(nonatomic,assign)NSTextAlignment titleAlignment;&#xA;    +@property(nonatomic,assign)BOOL jobsSelected;&#xA;    +@property(nonatomic,strong)UIImage *normalImage;&#xA;    +@property(nonatomic,strong)UIImage *normalBackgroundImage;&#xA;    +@property(nonatomic,strong)NSString *normalTitle;&#xA;    +@property(nonatomic,strong)NSString *normalSubTitle;&#xA;    +@property(nonatomic,strong)UIColor *normalTitleColor;&#xA;    +@property(nonatomic,strong)UIColor *normalSubTitleColor;&#xA;    +@property(nonatomic,strong)NSAttributedString *normalAttributedTitle;&#xA;    +@property(nonatomic,strong)NSAttributedString *normalAttributedSubTitle;&#xA;    +@property(nonatomic,strong)UIImage *selectedImage;&#xA;    +@property(nonatomic,strong)UIImage *selectedBackgroundImage;&#xA;    +@property(nonatomic,strong)NSString *selectedTitle;&#xA;    +@property(nonatomic,strong)NSString *selectedSubTitle;&#xA;    +@property(nonatomic,strong)UIColor *selectedTitleColor;&#xA;    +@property(nonatomic,strong)UIColor *selectedSubTitleColor;&#xA;    +@property(nonatomic,strong)NSAttributedString *selectedAttributedTitle;&#xA;    +@property(nonatomic,strong)NSAttributedString *selectedAttributedSubTitle;&#xA;    +@property(nonatomic,strong)UIColor *btnBackgroundColor;&#xA;    +@property(nonatomic,assign)CGSize imageSize;&#xA;    +@property(nonatomic,assign)UIControlContentHorizontalAlignment contentHorizontalAlignment;&#xA;    +@property(nonatomic,assign)UIControlContentVerticalAlignment contentVerticalAlignment;&#xA;    +@property(nonatomic,assign)UIEdgeInsets contentEdgeInsets;&#xA;    +@property(nonatomic,readwrite,assign)NSDirectionalEdgeInsets contentInsets;&#xA;    +@property(nonatomic,assign)CGFloat contentSpacing;&#xA;    +@property(nonatomic,assign)NSLineBreakMode lineBreakMode;&#xA;    +@property(nonatomic,assign)CGFloat btnWidth;&#xA;    +@property(nonatomic,assign)CGRect textLabelFrame;&#xA;    +@property(nonatomic,assign)CGRect subTextLabelFrame;&#xA;    +@property(nonatomic,assign)CGRect imageViewFrame;&#xA;    +@property(nonatomic,assign)CGSize textLabelSize;&#xA;    +@property(nonatomic,assign)CGSize subTextLabelSize;&#xA;    +@property(nonatomic,assign)CGSize imageViewSize;&#xA;    +@property(nonatomic,assign)CGFloat textLabelWidth;&#xA;    +@property(nonatomic,assign)CGFloat subTextLabelWidth;&#xA;    +@property(nonatomic,assign)CGFloat imageViewWidth;&#xA;    +@property(nonatomic,assign)CGFloat textLabelHeight;&#xA;    +@property(nonatomic,assign)CGFloat subTextLabelHeight;&#xA;    +@property(nonatomic,assign)CGFloat imageViewHeight;&#xA;    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetX;&#xA;    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetY;&#xA;    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetWidth;&#xA;    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetHeight;&#xA;    +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetX;&#xA;    +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetY;&#xA;    +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetWidth;&#xA;    +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetHeight;&#xA;    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetX;&#xA;    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetY;&#xA;    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetWidth;&#xA;    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetHeight;&#xA;}&#xA;BaseViewProtocol &amp;lt;|-- BaseButtonProtocol&#xA;&#xA;class UITableViewCellProtocol {&#xA;    ++(instancetype)initTableViewCellWithStyle:(UITableViewCellStyle)style;&#xA;    ++(instancetype)cellStyleDefaultWithTableView:(UITableView *)tableView;&#xA;    ++(instancetype)cellStyleValue1WithTableView:(UITableView *)tableView;&#xA;    ++(instancetype)cellStyleValue2WithTableView:(UITableView *)tableView;&#xA;    ++(instancetype)cellStyleSubtitleWithTableView:(UITableView *)tableView;&#xA;    ++(void)settingForTableViewCell:(UITableViewCell *)tableViewCell;&#xA;    +-(UITableView *)jobsGetCurrentTableView;&#xA;    +-(NSIndexPath *)jobsGetCurrentIndexPath;&#xA;    +-(NSInteger)jobsGetCurrentNumberOfSections;&#xA;    +-(NSInteger)jobsGetCurrentNumberOfRowsInSection;&#xA;    +@property(nonatomic,assign)CGRect textLabelFrame;&#xA;    +@property(nonatomic,assign)CGRect detailTextLabelFrame;&#xA;    +@property(nonatomic,assign)CGRect imageViewFrame;&#xA;    +@property(nonatomic,assign)CGSize textLabelSize;&#xA;    +@property(nonatomic,assign)CGSize detailTextLabelSize;&#xA;    +@property(nonatomic,assign)CGSize imageViewSize;&#xA;    +@property(nonatomic,assign)CGFloat textLabelWidth;&#xA;    +@property(nonatomic,assign)CGFloat textLabelHeight;&#xA;    +@property(nonatomic,assign)CGFloat detailTextLabelWidth;&#xA;    +@property(nonatomic,assign)CGFloat detailTextLabelHeight;&#xA;    +@property(nonatomic,assign)CGFloat imageViewWidth;&#xA;    +@property(nonatomic,assign)CGFloat imageViewHeight;&#xA;    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetX;&#xA;    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetY;&#xA;    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetWidth;&#xA;    +@property(nonatomic,assign)CGFloat textLabelFrameOffsetHeight;&#xA;    +@property(nonatomic,assign)CGFloat detailTextLabelOffsetX;&#xA;    +@property(nonatomic,assign)CGFloat detailTextLabelOffsetY;&#xA;    +@property(nonatomic,assign)CGFloat detailTextLabelOffsetWidth;&#xA;    +@property(nonatomic,assign)CGFloat detailTextLabelOffsetHeight;&#xA;    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetX;&#xA;    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetY;&#xA;    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetWidth;&#xA;    +@property(nonatomic,assign)CGFloat imageViewFrameOffsetHeight;&#xA;}&#xA;BaseCellProtocol &amp;lt;|-- UITableViewCellProtocol&#xA;&#xA;class BaseCellProtocol {&#xA;    +-(void)richElementsInCellWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)cellHeightWithModel:(id _Nullable)model;&#xA;    ++(CGSize)cellSizeWithModel:(id _Nullable)model;&#xA;    +-(void)setCellBgImage:(UIImage *)bgImage;&#xA;    +-(UIButton *)getLeftBtn;&#xA;    +-(UIButton *)getRightBtn;&#xA;}&#xA;BaseViewProtocol &amp;lt;|-- BaseCellProtocol&#xA;&#xA;class BaseViewProtocol {&#xA;    +-(void)richElementsInViewWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)viewWidthWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)viewHeightWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)heightForFooterInSection:(id _Nullable)model;&#xA;    ++(CGFloat)heightForHeaderInSection:(id _Nullable)model;&#xA;    ++(CGSize)viewSizeWithModel:(id _Nullable)model;&#xA;    ++(CGRect)viewFrameWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)viewChangeXWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)viewChangeYWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)viewChangeWidthWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)viewChangeHeightWithModel:(id _Nullable)model;&#xA;    ++(CGSize)collectionReusableViewSizeWithModel:(id _Nullable)model;&#xA;    ++(CGFloat)widthByData:(UIViewModel *_Nonnull)data;&#xA;    ++(CGFloat)heightByData:(UIViewModel *_Nonnull)data;&#xA;    +-(CGFloat)viewWidthWithModel:(id _Nullable)model;&#xA;    +-(CGFloat)viewHeightWithModel:(id _Nullable)model;&#xA;    +-(CGFloat)heightForFooterInSection:(id _Nullable)model;&#xA;    +-(CGFloat)heightForHeaderInSection:(id _Nullable)model;&#xA;    +-(CGSize)viewSizeWithModel:(id _Nullable)model;&#xA;    +-(CGRect)viewFrameWithModel:(id _Nullable)model;&#xA;    +-(CGFloat)viewChangeXWithModel:(id _Nullable)model;&#xA;    +-(CGFloat)viewChangeYWithModel:(id _Nullable)model;&#xA;    +-(CGFloat)viewChangeWidthWithModel:(id _Nullable)model;&#xA;    +-(CGFloat)viewChangeHeightWithModel:(id _Nullable)model;&#xA;    +-(CGSize)collectionReusableViewSizeWithModel:(id _Nullable)model;&#xA;    +-(CGFloat)widthByData:(UIViewModel *_Nonnull)data;&#xA;    +-(CGFloat)heightByData:(UIViewModel *_Nonnull)data;&#xA;    +-(instancetype)initWithSize:(CGSize)thisViewSize;&#xA;    +-(void)pullToRefresh;&#xA;    +-(void)loadMoreRefresh;&#xA;    +-(UIViewModel *_Nullable)getViewModel;&#xA;    +@property(nonatomic,strong,nullable)JobsReturnIDByIDBlock jobsBackBlock;&#xA;    +@property(nonatomic,assign)UIRectCorner layoutSubviewsRectCorner;&#xA;    +@property(nonatomic,assign)CGSize layoutSubviewsRectCornerSize;&#xA;    +@property(nonatomic,strong)NSMutableArray &amp;lt;MASConstraint *&amp;gt;*constraintMutArr;&#xA;    +@property(nonatomic,assign)CGSize thisViewSize;&#xA;    +@property(nonatomic,assign)JobsHeaderFooterViewStyle headerFooterViewStyle;&#xA;}&#xA;BaseProtocol &amp;lt;|-- BaseViewProtocol&#xA;&#xA;class UILocationProtocol {&#xA;    +@property(nonatomic,assign)UIInterfaceOrientationMask currentInterfaceOrientationMask;&#xA;    +@property(nonatomic,assign)CGFloat __block cornerRadius;&#xA;    +@property(nonatomic,assign)UIRectCorner __block rectCorner;&#xA;    +@property(nonatomic,assign)CGSize __block cornerRadii;&#xA;    +@property(nonatomic,assign)CGFloat __block jobsWidth;&#xA;    +@property(nonatomic,assign)CGFloat __block jobsHeight;&#xA;    +@property(nonatomic,assign)CGFloat __block jobsTop;&#xA;    +@property(nonatomic,assign)CGFloat __block jobsLeft;&#xA;    +@property(nonatomic,assign)CGFloat __block jobsRight;&#xA;    +@property(nonatomic,assign)CGFloat __block jobsBottom;&#xA;    +@property(nonatomic,assign)CGFloat __block jobsOffsetX;&#xA;    +@property(nonatomic,assign)CGFloat __block jobsOffsetY;&#xA;    +@property(nonatomic,assign)CGSize __block jobsSize;&#xA;    +@property(nonatomic,assign)CGRect __block jobsRect;&#xA;    +@property(nonatomic,assign)CGPoint __block jobsPoint;&#xA;    +@property(nonatomic,assign)UILayoutConstraintAxis __block axis;&#xA;    +@property(nonatomic,assign)UIStackViewDistribution __block distribution;&#xA;    +@property(nonatomic,assign)UIStackViewAlignment __block alignment;&#xA;    +@property(nonatomic,assign)NSDirectionalRectEdge __block buttonEdgeInsetsStyle;&#xA;    +@property(nonatomic,assign)CGFloat __block imageTitleSpace;&#xA;    +@property(nonatomic,assign)CGFloat __block titleSpace;&#xA;    +@property(nonatomic,assign)CGFloat __block cellHeight;&#xA;    +@property(nonatomic,assign)CGFloat __block heightForHeaderInSection;&#xA;    +@property(nonatomic,assign)CGSize __block cellSize;&#xA;    +@property(nonatomic,assign)CGSize __block tableHeaderViewSize;&#xA;    +@property(nonatomic,assign)CGSize __block tableFooterViewSize;&#xA;    +@property(nonatomic,assign)BOOL __block usesTableViewHeaderView;&#xA;    +@property(nonatomic,assign)BOOL __block usesTableViewFooterView;&#xA;    +@property(nonatomic,assign)CGFloat __block offsetXForEach;&#xA;    +@property(nonatomic,assign)CGFloat __block offsetYForEach;&#xA;    +@property(nonatomic,assign)CGFloat __block offsetHeight;&#xA;    +@property(nonatomic,assign)CGFloat __block offsetWidth;&#xA;}&#xA;NSObject &amp;lt;|-- UILocationProtocol&#xA;&#xA;class BaseProtocol {&#xA;    +-(void)languageSwitchNotificationWithSelector:(SEL)aSelector;&#xA;    +-(void)changeTabBarItemTitle:(NSIndexPath *)indexPath;&#xA;    +-(JobsReturnIDByIDBlock _Nonnull)valueForKeyBlock;&#xA;    +-(JobsReturnBOOLByIDBlock _Nonnull)isKindOfClassBlock;&#xA;    +-(JobsReturnBOOLByIDBlock _Nonnull)isMemberOfClassBlock;&#xA;    ++(void)target:(id)target languageSwitchNotificationWithSelector:(SEL)aSelector;&#xA;    +-(void)monitorAppLanguage;&#xA;    +-(void)languageSwitchNotification:(nonnull NSNotification *)notification;&#xA;    ++(void)destroySingleton;&#xA;    ++(instancetype)sharedInstance;&#xA;    +@property(nonatomic,assign)BOOL isLock;&#xA;    +@property(nonatomic,strong)RACDisposable *racDisposable;&#xA;    +@property(nonatomic,copy)JobsReturnIDByIDBlock keyboardUpNotificationBlock;&#xA;    +@property(nonatomic,copy)JobsReturnIDByIDBlock keyboardDownNotificationBlock;&#xA;}&#xA;NSObject &amp;lt;|-- BaseProtocol&lt;/pre&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git的使用 on Jobs Docs</title><link>https://jobsdocs.ccwu.cc/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/</link><description>Recent content in Git的使用 on Jobs Docs</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 03 May 2026 16:29:51 +0800</lastBuildDate><atom:link href="https://jobsdocs.ccwu.cc/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/index.xml" rel="self" type="application/rss+xml"/><item><title>GitHub.workflow（工作流）的使用</title><link>https://jobsdocs.ccwu.cc/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github.workflow%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</link><pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate><guid>https://jobsdocs.ccwu.cc/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github.workflow%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</guid><description>一、介绍 GitHub.workflow 通俗一点来讲，就是GitHub不仅提供存放代码的服务，还提供了一个虚拟机环境 运行GitHub.workflow需要在这台远程的GitHub虚拟机上安装必要的环境 GitHub Actions 是 GitHub 提供的一项服务，它允许您在 GitHub 仓库中定义和执行自动化工作流 这些工作流由事件触发，可以执行各种</description></item><item><title>mermaid</title><link>https://jobsdocs.ccwu.cc/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/mermaid/</link><pubDate>Mon, 18 Aug 2025 13:05:14 +0700</pubDate><guid>https://jobsdocs.ccwu.cc/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/mermaid/</guid><description>&lt;h1 id="mermaid"&gt;mermaid&lt;a class="anchor" href="#mermaid"&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;pre class="mermaid"&gt;classDiagram
+class UIViewModelProtocol {
+ +@property(nonatomic,strong,nullable)UITextModel *textModel;
+ +@property(nonatomic,strong,nullable)UITextModel *subTextModel;
+ +@property(nonatomic,strong,nullable)UITextModel *backBtnTitleModel;
+ +@property(nonatomic,strong,nullable)UIButtonModel *buttonModel;
+ +@property(nonatomic,strong,nullable)UIButtonModel *subButtonModel;
+ +@property(nonatomic,strong,nullable)JobsReturnIDByIDBlock jobsBlock;
+ +@property(nonatomic,strong,nullable)NSMutableArray &amp;lt;JobsReturnIDByIDBlock&amp;gt;*jobsBlockMutArr;
+}
+UIPictureAndBackGroundCorProtocol &amp;lt;|-- UIViewModelProtocol
+UILocationProtocol &amp;lt;|-- UIViewModelProtocol
+UIMarkProtocol &amp;lt;|-- UIViewModelProtocol
+UIViewModelOthersProtocol &amp;lt;|-- UIViewModelProtocol
+BaseButtonProtocol &amp;lt;|-- UIViewModelProtocol
+UITextModelProtocol &amp;lt;|-- UIViewModelProtocol
+
+class UICollectionViewCellProtocol {
+ +-(UICollectionView *)jobsGetCurrentCollectionView;
+ +-(NSIndexPath *)jobsGetCurrentIndexPath;
+ +-(NSInteger)jobsGetCurrentNumberOfSections;
+ +-(NSInteger)jobsGetCurrentNumberOfItemsInSection;
+ +-(UITextView *)getTextView;
+ +-(UIButton *)getBgBtn;
+}
+BaseCellProtocol &amp;lt;|-- UICollectionViewCellProtocol
+
+class UIMarkProtocol {
+ +@property(nonatomic,strong,nullable)NSIndexPath __block *indexPath;
+ +@property(nonatomic,assign)NSInteger __block section;
+ +@property(nonatomic,assign)NSInteger __block row;
+ +@property(nonatomic,assign)NSInteger __block item;
+ +@property(nonatomic,assign)CGPoint __block lastPoint;
+ +@property(nonatomic,assign)NSInteger __block index;
+ +@property(nonatomic,assign)NSInteger __block currentPage;
+ +@property(nonatomic,assign)NSInteger __block pageSize;
+ +@property(nonatomic,assign)BOOL __block isMark;
+ +@property(nonatomic,assign)CGFloat presentUpHeight;
+}
+NSObject &amp;lt;|-- UIMarkProtocol
+
+class UIPictureAndBackGroundCorProtocol {
+ +@property(nonatomic,strong,nullable)UIImage __block *image;
+ +@property(nonatomic,strong,nullable)UIImage __block *bgImage;
+ +@property(nonatomic,strong,nullable)NSString __block *imageURLString;
+ +@property(nonatomic,strong,nullable)NSString __block *bgImageURLString;
+ +@property(nonatomic,strong,nullable)UIColor __block *bgCor;
+ +@property(nonatomic,strong,nullable)UIImage __block *backBtnIMG;
+ +@property(nonatomic,strong,nullable)UIBackgroundConfiguration *bgConfig API_AVAILABLE(ios(14.0), tvos(14.0), watchos(7.0));
+ +@property(nonatomic,strong,nullable)UIImage __block *selectedImage;
+ +@property(nonatomic,strong,nullable)UIImage __block *bgSelectedImage;
+ +@property(nonatomic,strong,nullable)NSString __block *selectedImageURLString;
+ +@property(nonatomic,strong,nullable)NSString __block *bgSelectedImageURLString;
+ +@property(nonatomic,strong,nullable)UIColor __block *bgSelectedCor;
+ +@property(nonatomic,strong,nullable)UIImage __block *backBtnSelectedIMG;
+ +@property(nonatomic,strong,nullable)UIBackgroundConfiguration *bgSelectedConfig API_AVAILABLE(ios(14.0), tvos(14.0), watchos(7.0));
+ +@property(nonatomic,strong,nullable)UIImageView __block *bgImageView;
+}
+NSObject &amp;lt;|-- UIPictureAndBackGroundCorProtocol
+
+class BaseViewControllerProtocol {
+ +- (void)updateStatusBarCor:(UIColor *_Nullable)cor;
+ +-(void)restoreStatusBarCor:(UIColor *_Nullable)cor;
+ +-(void)showUserInfo;
+ +-(void)setGKNav;
+ +-(void)setGKNavBackBtn;
+ +@property(nonatomic,weak)UIViewController *fromVC;
+ +@property(nonatomic,strong,nullable)SPAlertController *alertController;
+ +@property(nonatomic,assign)ComingStyle pushOrPresent;
+ +@property(nonatomic,assign)BOOL setupNavigationBarHidden;
+ +@property(nonatomic,strong)UIView *statusBar;
+}
+BaseViewProtocol &amp;lt;|-- BaseViewControllerProtocol
+
+class AppToolsProtocol {
+ +-(void)toLoginOrRegister:(CurrentPage)appDoorContentType;
+ +-(void)toLogin;
+ +-(void)forcedLogin;
+ +-(void)popUpViewToLogout;
+ +-(UITabBar *)getTabBar;
+ +-(void)tabBarClosePan;
+ +-(void)tabBarOpenPan;
+ +-(void)jumpToHome;
+ +-(NSMutableArray &amp;lt;UIViewController *&amp;gt;*)appRootVC;
+ +-(BOOL)isRootVC;
+ +-(NSString *)encodePicStr:(NSString *)picStr;
+ +-(NSString *)decodePicStr:(NSString *)encodePicStr;
+ +-(void)openGameWithUrl:(NSString *)url;
+ +-(UIImage *)defaultHeaderImage;
+ +-(NSString *)currentLanguage;
+ +-(HTTPRequestHeaderLanguageType)currentLanguageType;
+ +-(void)actionForHotLabel:(JobsHotLabelWithSingleLine *)hl;
+}
+BaseProtocol &amp;lt;|-- AppToolsProtocol
+
+class UIViewModelOthersProtocol {
+ +-(BOOL)jobsVisible;
+ +-(void)setJobsVisible:(BOOL)jobsVisible;
+ +@property(nonatomic,strong,nullable)Class __block cls;
+ +@property(nonatomic,strong,nullable)UIViewModel __block *viewModel;
+ +@property(nonatomic,strong,nullable)NSMutableArray &amp;lt;UIViewModel *&amp;gt; __block *viewModelMutArr;
+ +@property(nonatomic,strong,nullable)RACSignal __block *reqSignal;
+ +@property(nonatomic,strong,nullable)NSString __block *internationalizationKEY;
+ +@property(nonatomic,assign)NSUInteger __block jobsTag;
+ +@property(nonatomic,assign)BOOL __block jobsSelected;
+ +@property(nonatomic,assign)BOOL __block isMultiLineShows;
+ +@property(nonatomic,assign)BOOL __block isTranslucent;
+ +@property(nonatomic,assign)BOOL __block isVisible;
+ +@property(nonatomic,assign)UILabelShowingType labelShowingType;
+ +@property(nonatomic,strong,nullable)id __block data;
+ +@property(nonatomic,strong,nullable)id __block requestParams;
+ +@property(nonatomic,strong,nullable)NSMutableSet __block *jobsDataMutSet;
+ +@property(nonatomic,strong,nullable)NSMutableArray __block *jobsDataMutArr;
+ +@property(nonatomic,strong,nullable)NSMutableDictionary __block *jobsDataMutDic;
+ +@property(nonatomic,strong,nullable)UIColor __block *layerBorderCor;
+ +@property(nonatomic,assign)CGFloat __block layerBorderWidth;
+ +@property(nonatomic,assign)CGFloat __block layerCornerRadius;
+}
+NSObject &amp;lt;|-- UIViewModelOthersProtocol
+
+class UITextModelProtocol {
+ +@property(nonatomic,assign)NSTextAlignment __block textAlignment;
+ +@property(nonatomic,assign)NSLineBreakMode __block lineBreakMode;
+ +@property(nonatomic,assign)CGFloat __block textLineSpacing;
+ +@property(nonatomic,copy)NSString __block *placeholder;
+ +@property(nonatomic,strong)UIColor __block *placeholderColor;
+ +@property(nonatomic,assign)NSInteger __block curWordCount;
+ +@property(nonatomic,assign)NSInteger __block maxWordCount;
+ +@property(nonatomic,strong,nullable)NSString __block *text;
+ +@property(nonatomic,strong,nullable)UIFont __block *font;
+ +@property(nonatomic,strong,nullable)UIColor __block *textCor;
+ +@property(nonatomic,strong,nullable)NSAttributedString __block *attributedText API_AVAILABLE(ios(6.0));
+ +@property(nonatomic,strong)NSMutableArray &amp;lt;RichTextConfig *&amp;gt;__block *titleAttributedDataMutArr;
+ +@property(nonatomic,strong,nullable)NSString __block *selectedText;
+ +@property(nonatomic,strong,nullable)UIFont __block *selectedFont;
+ +@property(nonatomic,strong,nullable)UIColor __block *selectedTextCor;
+ +@property(nonatomic,strong,nullable)NSAttributedString __block *selectedAttributedText API_AVAILABLE(ios(6.0));
+ +@property(nonatomic,strong)NSMutableArray &amp;lt;RichTextConfig *&amp;gt;__block *selectedTitleAttributedDataMutArr;
+}
+NSObject &amp;lt;|-- UITextModelProtocol
+
+class BaseButtonProtocol {
+ +-(void)richElementsInButtonWithModel:(id _Nullable)model;
+ ++(CGFloat)buttonWidthWithModel:(id _Nullable)model;
+ ++(CGFloat)buttonHeightWithModel:(id _Nullable)model;
+ ++(CGSize)buttonSizeWithModel:(id _Nullable)model;
+ ++(CGRect)buttonFrameWithModel:(id _Nullable)model;
+ +-(CGFloat)buttonWidthWithModel:(id _Nullable)model;
+ +-(CGFloat)buttonHeightWithModel:(id _Nullable)model;
+ +-(CGSize)buttonSizeWithModel:(id _Nullable)model;
+ +-(CGRect)buttonFrameWithModel:(id _Nullable)model;
+ +@property(nonatomic,strong)UIFont *titleFont;
+ +@property(nonatomic,assign)NSTextAlignment titleAlignment;
+ +@property(nonatomic,assign)BOOL jobsSelected;
+ +@property(nonatomic,strong)UIImage *normalImage;
+ +@property(nonatomic,strong)UIImage *normalBackgroundImage;
+ +@property(nonatomic,strong)NSString *normalTitle;
+ +@property(nonatomic,strong)NSString *normalSubTitle;
+ +@property(nonatomic,strong)UIColor *normalTitleColor;
+ +@property(nonatomic,strong)UIColor *normalSubTitleColor;
+ +@property(nonatomic,strong)NSAttributedString *normalAttributedTitle;
+ +@property(nonatomic,strong)NSAttributedString *normalAttributedSubTitle;
+ +@property(nonatomic,strong)UIImage *selectedImage;
+ +@property(nonatomic,strong)UIImage *selectedBackgroundImage;
+ +@property(nonatomic,strong)NSString *selectedTitle;
+ +@property(nonatomic,strong)NSString *selectedSubTitle;
+ +@property(nonatomic,strong)UIColor *selectedTitleColor;
+ +@property(nonatomic,strong)UIColor *selectedSubTitleColor;
+ +@property(nonatomic,strong)NSAttributedString *selectedAttributedTitle;
+ +@property(nonatomic,strong)NSAttributedString *selectedAttributedSubTitle;
+ +@property(nonatomic,strong)UIColor *btnBackgroundColor;
+ +@property(nonatomic,assign)CGSize imageSize;
+ +@property(nonatomic,assign)UIControlContentHorizontalAlignment contentHorizontalAlignment;
+ +@property(nonatomic,assign)UIControlContentVerticalAlignment contentVerticalAlignment;
+ +@property(nonatomic,assign)UIEdgeInsets contentEdgeInsets;
+ +@property(nonatomic,readwrite,assign)NSDirectionalEdgeInsets contentInsets;
+ +@property(nonatomic,assign)CGFloat contentSpacing;
+ +@property(nonatomic,assign)NSLineBreakMode lineBreakMode;
+ +@property(nonatomic,assign)CGFloat btnWidth;
+ +@property(nonatomic,assign)CGRect textLabelFrame;
+ +@property(nonatomic,assign)CGRect subTextLabelFrame;
+ +@property(nonatomic,assign)CGRect imageViewFrame;
+ +@property(nonatomic,assign)CGSize textLabelSize;
+ +@property(nonatomic,assign)CGSize subTextLabelSize;
+ +@property(nonatomic,assign)CGSize imageViewSize;
+ +@property(nonatomic,assign)CGFloat textLabelWidth;
+ +@property(nonatomic,assign)CGFloat subTextLabelWidth;
+ +@property(nonatomic,assign)CGFloat imageViewWidth;
+ +@property(nonatomic,assign)CGFloat textLabelHeight;
+ +@property(nonatomic,assign)CGFloat subTextLabelHeight;
+ +@property(nonatomic,assign)CGFloat imageViewHeight;
+ +@property(nonatomic,assign)CGFloat textLabelFrameOffsetX;
+ +@property(nonatomic,assign)CGFloat textLabelFrameOffsetY;
+ +@property(nonatomic,assign)CGFloat textLabelFrameOffsetWidth;
+ +@property(nonatomic,assign)CGFloat textLabelFrameOffsetHeight;
+ +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetX;
+ +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetY;
+ +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetWidth;
+ +@property(nonatomic,assign)CGFloat subTextLabelFrameOffsetHeight;
+ +@property(nonatomic,assign)CGFloat imageViewFrameOffsetX;
+ +@property(nonatomic,assign)CGFloat imageViewFrameOffsetY;
+ +@property(nonatomic,assign)CGFloat imageViewFrameOffsetWidth;
+ +@property(nonatomic,assign)CGFloat imageViewFrameOffsetHeight;
+}
+BaseViewProtocol &amp;lt;|-- BaseButtonProtocol
+
+class UITableViewCellProtocol {
+ ++(instancetype)initTableViewCellWithStyle:(UITableViewCellStyle)style;
+ ++(instancetype)cellStyleDefaultWithTableView:(UITableView *)tableView;
+ ++(instancetype)cellStyleValue1WithTableView:(UITableView *)tableView;
+ ++(instancetype)cellStyleValue2WithTableView:(UITableView *)tableView;
+ ++(instancetype)cellStyleSubtitleWithTableView:(UITableView *)tableView;
+ ++(void)settingForTableViewCell:(UITableViewCell *)tableViewCell;
+ +-(UITableView *)jobsGetCurrentTableView;
+ +-(NSIndexPath *)jobsGetCurrentIndexPath;
+ +-(NSInteger)jobsGetCurrentNumberOfSections;
+ +-(NSInteger)jobsGetCurrentNumberOfRowsInSection;
+ +@property(nonatomic,assign)CGRect textLabelFrame;
+ +@property(nonatomic,assign)CGRect detailTextLabelFrame;
+ +@property(nonatomic,assign)CGRect imageViewFrame;
+ +@property(nonatomic,assign)CGSize textLabelSize;
+ +@property(nonatomic,assign)CGSize detailTextLabelSize;
+ +@property(nonatomic,assign)CGSize imageViewSize;
+ +@property(nonatomic,assign)CGFloat textLabelWidth;
+ +@property(nonatomic,assign)CGFloat textLabelHeight;
+ +@property(nonatomic,assign)CGFloat detailTextLabelWidth;
+ +@property(nonatomic,assign)CGFloat detailTextLabelHeight;
+ +@property(nonatomic,assign)CGFloat imageViewWidth;
+ +@property(nonatomic,assign)CGFloat imageViewHeight;
+ +@property(nonatomic,assign)CGFloat textLabelFrameOffsetX;
+ +@property(nonatomic,assign)CGFloat textLabelFrameOffsetY;
+ +@property(nonatomic,assign)CGFloat textLabelFrameOffsetWidth;
+ +@property(nonatomic,assign)CGFloat textLabelFrameOffsetHeight;
+ +@property(nonatomic,assign)CGFloat detailTextLabelOffsetX;
+ +@property(nonatomic,assign)CGFloat detailTextLabelOffsetY;
+ +@property(nonatomic,assign)CGFloat detailTextLabelOffsetWidth;
+ +@property(nonatomic,assign)CGFloat detailTextLabelOffsetHeight;
+ +@property(nonatomic,assign)CGFloat imageViewFrameOffsetX;
+ +@property(nonatomic,assign)CGFloat imageViewFrameOffsetY;
+ +@property(nonatomic,assign)CGFloat imageViewFrameOffsetWidth;
+ +@property(nonatomic,assign)CGFloat imageViewFrameOffsetHeight;
+}
+BaseCellProtocol &amp;lt;|-- UITableViewCellProtocol
+
+class BaseCellProtocol {
+ +-(void)richElementsInCellWithModel:(id _Nullable)model;
+ ++(CGFloat)cellHeightWithModel:(id _Nullable)model;
+ ++(CGSize)cellSizeWithModel:(id _Nullable)model;
+ +-(void)setCellBgImage:(UIImage *)bgImage;
+ +-(UIButton *)getLeftBtn;
+ +-(UIButton *)getRightBtn;
+}
+BaseViewProtocol &amp;lt;|-- BaseCellProtocol
+
+class BaseViewProtocol {
+ +-(void)richElementsInViewWithModel:(id _Nullable)model;
+ ++(CGFloat)viewWidthWithModel:(id _Nullable)model;
+ ++(CGFloat)viewHeightWithModel:(id _Nullable)model;
+ ++(CGFloat)heightForFooterInSection:(id _Nullable)model;
+ ++(CGFloat)heightForHeaderInSection:(id _Nullable)model;
+ ++(CGSize)viewSizeWithModel:(id _Nullable)model;
+ ++(CGRect)viewFrameWithModel:(id _Nullable)model;
+ ++(CGFloat)viewChangeXWithModel:(id _Nullable)model;
+ ++(CGFloat)viewChangeYWithModel:(id _Nullable)model;
+ ++(CGFloat)viewChangeWidthWithModel:(id _Nullable)model;
+ ++(CGFloat)viewChangeHeightWithModel:(id _Nullable)model;
+ ++(CGSize)collectionReusableViewSizeWithModel:(id _Nullable)model;
+ ++(CGFloat)widthByData:(UIViewModel *_Nonnull)data;
+ ++(CGFloat)heightByData:(UIViewModel *_Nonnull)data;
+ +-(CGFloat)viewWidthWithModel:(id _Nullable)model;
+ +-(CGFloat)viewHeightWithModel:(id _Nullable)model;
+ +-(CGFloat)heightForFooterInSection:(id _Nullable)model;
+ +-(CGFloat)heightForHeaderInSection:(id _Nullable)model;
+ +-(CGSize)viewSizeWithModel:(id _Nullable)model;
+ +-(CGRect)viewFrameWithModel:(id _Nullable)model;
+ +-(CGFloat)viewChangeXWithModel:(id _Nullable)model;
+ +-(CGFloat)viewChangeYWithModel:(id _Nullable)model;
+ +-(CGFloat)viewChangeWidthWithModel:(id _Nullable)model;
+ +-(CGFloat)viewChangeHeightWithModel:(id _Nullable)model;
+ +-(CGSize)collectionReusableViewSizeWithModel:(id _Nullable)model;
+ +-(CGFloat)widthByData:(UIViewModel *_Nonnull)data;
+ +-(CGFloat)heightByData:(UIViewModel *_Nonnull)data;
+ +-(instancetype)initWithSize:(CGSize)thisViewSize;
+ +-(void)pullToRefresh;
+ +-(void)loadMoreRefresh;
+ +-(UIViewModel *_Nullable)getViewModel;
+ +@property(nonatomic,strong,nullable)JobsReturnIDByIDBlock jobsBackBlock;
+ +@property(nonatomic,assign)UIRectCorner layoutSubviewsRectCorner;
+ +@property(nonatomic,assign)CGSize layoutSubviewsRectCornerSize;
+ +@property(nonatomic,strong)NSMutableArray &amp;lt;MASConstraint *&amp;gt;*constraintMutArr;
+ +@property(nonatomic,assign)CGSize thisViewSize;
+ +@property(nonatomic,assign)JobsHeaderFooterViewStyle headerFooterViewStyle;
+}
+BaseProtocol &amp;lt;|-- BaseViewProtocol
+
+class UILocationProtocol {
+ +@property(nonatomic,assign)UIInterfaceOrientationMask currentInterfaceOrientationMask;
+ +@property(nonatomic,assign)CGFloat __block cornerRadius;
+ +@property(nonatomic,assign)UIRectCorner __block rectCorner;
+ +@property(nonatomic,assign)CGSize __block cornerRadii;
+ +@property(nonatomic,assign)CGFloat __block jobsWidth;
+ +@property(nonatomic,assign)CGFloat __block jobsHeight;
+ +@property(nonatomic,assign)CGFloat __block jobsTop;
+ +@property(nonatomic,assign)CGFloat __block jobsLeft;
+ +@property(nonatomic,assign)CGFloat __block jobsRight;
+ +@property(nonatomic,assign)CGFloat __block jobsBottom;
+ +@property(nonatomic,assign)CGFloat __block jobsOffsetX;
+ +@property(nonatomic,assign)CGFloat __block jobsOffsetY;
+ +@property(nonatomic,assign)CGSize __block jobsSize;
+ +@property(nonatomic,assign)CGRect __block jobsRect;
+ +@property(nonatomic,assign)CGPoint __block jobsPoint;
+ +@property(nonatomic,assign)UILayoutConstraintAxis __block axis;
+ +@property(nonatomic,assign)UIStackViewDistribution __block distribution;
+ +@property(nonatomic,assign)UIStackViewAlignment __block alignment;
+ +@property(nonatomic,assign)NSDirectionalRectEdge __block buttonEdgeInsetsStyle;
+ +@property(nonatomic,assign)CGFloat __block imageTitleSpace;
+ +@property(nonatomic,assign)CGFloat __block titleSpace;
+ +@property(nonatomic,assign)CGFloat __block cellHeight;
+ +@property(nonatomic,assign)CGFloat __block heightForHeaderInSection;
+ +@property(nonatomic,assign)CGSize __block cellSize;
+ +@property(nonatomic,assign)CGSize __block tableHeaderViewSize;
+ +@property(nonatomic,assign)CGSize __block tableFooterViewSize;
+ +@property(nonatomic,assign)BOOL __block usesTableViewHeaderView;
+ +@property(nonatomic,assign)BOOL __block usesTableViewFooterView;
+ +@property(nonatomic,assign)CGFloat __block offsetXForEach;
+ +@property(nonatomic,assign)CGFloat __block offsetYForEach;
+ +@property(nonatomic,assign)CGFloat __block offsetHeight;
+ +@property(nonatomic,assign)CGFloat __block offsetWidth;
+}
+NSObject &amp;lt;|-- UILocationProtocol
+
+class BaseProtocol {
+ +-(void)languageSwitchNotificationWithSelector:(SEL)aSelector;
+ +-(void)changeTabBarItemTitle:(NSIndexPath *)indexPath;
+ +-(JobsReturnIDByIDBlock _Nonnull)valueForKeyBlock;
+ +-(JobsReturnBOOLByIDBlock _Nonnull)isKindOfClassBlock;
+ +-(JobsReturnBOOLByIDBlock _Nonnull)isMemberOfClassBlock;
+ ++(void)target:(id)target languageSwitchNotificationWithSelector:(SEL)aSelector;
+ +-(void)monitorAppLanguage;
+ +-(void)languageSwitchNotification:(nonnull NSNotification *)notification;
+ ++(void)destroySingleton;
+ ++(instancetype)sharedInstance;
+ +@property(nonatomic,assign)BOOL isLock;
+ +@property(nonatomic,strong)RACDisposable *racDisposable;
+ +@property(nonatomic,copy)JobsReturnIDByIDBlock keyboardUpNotificationBlock;
+ +@property(nonatomic,copy)JobsReturnIDByIDBlock keyboardDownNotificationBlock;
+}
+NSObject &amp;lt;|-- BaseProtocol&lt;/pre&gt;</description></item></channel></rss>
