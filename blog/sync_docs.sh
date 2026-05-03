@@ -1,4 +1,33 @@
 #!/usr/bin/env bash
+
+# jobsdocs-git-version-start
+STATIC_DIR="$BLOG_DIR/static"
+mkdir -p "$STATIC_DIR"
+
+JOBS_DOCS_GIT_COMMIT=""
+if command -v git >/dev/null 2>&1; then
+  JOBS_DOCS_GIT_COMMIT="$(git -C "$ROOT_DIR" rev-parse --short=7 HEAD 2>/dev/null || true)"
+fi
+
+if [ -z "$JOBS_DOCS_GIT_COMMIT" ] && [ -n "${CF_PAGES_COMMIT_SHA:-}" ]; then
+  JOBS_DOCS_GIT_COMMIT="$(printf "%.7s" "$CF_PAGES_COMMIT_SHA")"
+fi
+
+if [ -z "$JOBS_DOCS_GIT_COMMIT" ] && [ -n "${GITHUB_SHA:-}" ]; then
+  JOBS_DOCS_GIT_COMMIT="$(printf "%.7s" "$GITHUB_SHA")"
+fi
+
+if [ -z "$JOBS_DOCS_GIT_COMMIT" ]; then
+  JOBS_DOCS_GIT_COMMIT="unknown"
+fi
+
+cat > "$STATIC_DIR/jobs-git-version.js" <<EOF
+window.JOBS_DOCS_GIT_VERSION = "$JOBS_DOCS_GIT_COMMIT";
+EOF
+
+echo "Git Version: $JOBS_DOCS_GIT_COMMIT"
+# jobsdocs-git-version-end
+
 set -eo pipefail
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

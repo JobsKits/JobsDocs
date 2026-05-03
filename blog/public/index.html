@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-	<meta name="generator" content="Hugo 0.161.1"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=53994&amp;path=livereload" data-no-instant defer></script>
+	<meta name="generator" content="Hugo 0.161.1"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=56533&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8">
   <title>Jobs Docs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -227,7 +227,8 @@
     }
   </style>
 
-<style id="jobs-audio-v9-style">
+
+<style id="jobs-audio-v10-style">
   #jobs-audio-player.jobs-audio-player {
     position: fixed !important;
     z-index: 620 !important;
@@ -252,7 +253,8 @@
   }
 
   #jobs-audio-player.jobs-audio-player.is-layout-animated.is-docked,
-  #jobs-audio-player.jobs-audio-player.is-layout-animated.is-floating {
+  #jobs-audio-player.jobs-audio-player.is-layout-animated.is-floating,
+  #jobs-audio-player.jobs-audio-player.is-layout-animated.is-mobile-default {
     transition:
       left 0.22s ease,
       top 0.22s ease,
@@ -294,6 +296,12 @@
 
   #jobs-audio-player.is-autoplay-trying .jobs-audio-hint {
     display: none !important;
+  }
+
+  @media screen and (max-width: 56rem) {
+    #jobs-audio-player.jobs-audio-player {
+      max-width: calc(100vw - 24px) !important;
+    }
   }
 </style>
 
@@ -532,10 +540,10 @@
       var dragState = null;
       var layoutRaf = 0;
       var hookedDoc = null;
-      var hookedWin = null;
       var floatingPosition = null;
       var initialReady = false;
       var initialDockTries = 0;
+      var userDragged = false;
 
       player.classList.add("is-initial-positioning");
       player.classList.remove("is-layout-ready", "is-layout-animated");
@@ -556,6 +564,41 @@
         }
       }
 
+      function isMobileViewport() {
+        var width = window.innerWidth || document.documentElement.clientWidth;
+
+        if (width <= 896) {
+          return true;
+        }
+
+        try {
+          var win = frameWindow();
+          return !!(win && win.matchMedia && win.matchMedia("screen and (max-width: 56rem)").matches);
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function visualViewportRect() {
+        var vv = window.visualViewport;
+
+        if (vv) {
+          return {
+            width: vv.width,
+            height: vv.height,
+            left: vv.offsetLeft || 0,
+            top: vv.offsetTop || 0
+          };
+        }
+
+        return {
+          width: window.innerWidth || document.documentElement.clientWidth,
+          height: window.innerHeight || document.documentElement.clientHeight,
+          left: 0,
+          top: 0
+        };
+      }
+
       function toViewportRect(rect) {
         var frameRect = frame.getBoundingClientRect();
 
@@ -572,16 +615,6 @@
       function getMenu() {
         var doc = frameDocument();
         return doc ? doc.querySelector(".book-menu") : null;
-      }
-
-      function getMenuScroller() {
-        var doc = frameDocument();
-
-        if (!doc) {
-          return null;
-        }
-
-        return doc.querySelector(".book-menu-content") || doc.querySelector(".book-menu");
       }
 
       function getSearch() {
@@ -691,19 +724,23 @@
       }
 
       function floatingWidth() {
-        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        return Math.max(260, Math.min(340, viewportWidth - margin * 2));
+        var viewport = visualViewportRect();
+        return Math.max(280, Math.min(380, viewport.width - margin * 2));
+      }
+
+      function mobileWidth() {
+        var viewport = visualViewportRect();
+        return Math.max(280, Math.min(420, viewport.width - 24));
       }
 
       function clampFloating(x, y, width, height) {
-        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-        var maxX = Math.max(margin, viewportWidth - width - margin);
-        var maxY = Math.max(margin, viewportHeight - height - margin);
+        var viewport = visualViewportRect();
+        var maxX = Math.max(margin + viewport.left, viewport.left + viewport.width - width - margin);
+        var maxY = Math.max(margin + viewport.top, viewport.top + viewport.height - height - margin);
 
         return {
-          x: Math.min(Math.max(x, margin), maxX),
-          y: Math.min(Math.max(y, margin), maxY)
+          x: Math.min(Math.max(x, viewport.left + margin), maxX),
+          y: Math.min(Math.max(y, viewport.top + margin), maxY)
         };
       }
 
@@ -754,18 +791,41 @@
         markReady();
       }
 
+      function applyMobileDefaultPosition() {
+        mode = "mobile-default";
+        player.classList.add("is-mobile-default");
+        player.classList.remove("is-docked", "is-floating", "is-dragging", "is-dock-candidate");
+        setDockSpace(false);
+
+        var width = mobileWidth();
+        player.style.width = Math.round(width) + "px";
+
+        var viewport = visualViewportRect();
+        var rect = player.getBoundingClientRect();
+        var bottomGap = 18;
+        var x = viewport.left + (viewport.width - width) / 2;
+        var y = viewport.top + viewport.height - rect.height - bottomGap;
+
+        player.style.left = Math.round(x) + "px";
+        player.style.top = Math.round(Math.max(viewport.top + margin, y)) + "px";
+        player.style.right = "auto";
+        player.style.bottom = "auto";
+
+        markReady();
+      }
+
       function dockFallbackNearMenu() {
         var menuRect = getMenuRect();
         var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
 
         player.classList.add("is-docked");
-        player.classList.remove("is-floating", "is-dragging", "is-dock-candidate");
+        player.classList.remove("is-floating", "is-mobile-default", "is-dragging", "is-dock-candidate");
 
         if (menuRect) {
-          var width = Math.max(260, Math.min(menuRect.width - 36, 360));
+          var width = Math.max(280, Math.min(menuRect.width - 36, 380));
           player.style.width = Math.round(width) + "px";
           player.style.left = Math.round(menuRect.left + 18) + "px";
-          player.style.top = Math.round(menuRect.top + 112) + "px";
+          player.style.top = Math.round(menuRect.top + 124) + "px";
         } else {
           var fallbackWidth = floatingWidth();
           player.style.width = Math.round(fallbackWidth) + "px";
@@ -792,9 +852,14 @@
       }
 
       function dockPlayer(isInitial) {
+        if (isMobileViewport() && !userDragged) {
+          applyMobileDefaultPosition();
+          return;
+        }
+
         mode = "docked";
         player.classList.add("is-docked");
-        player.classList.remove("is-floating", "is-dragging", "is-dock-candidate");
+        player.classList.remove("is-floating", "is-mobile-default", "is-dragging", "is-dock-candidate");
 
         setDockSpace(true);
 
@@ -820,29 +885,33 @@
       function floatPlayer(x, y, width) {
         mode = "floating";
         player.classList.add("is-floating");
-        player.classList.remove("is-docked", "is-dragging", "is-dock-candidate");
+        player.classList.remove("is-docked", "is-mobile-default", "is-dragging", "is-dock-candidate");
         setDockSpace(false);
 
         var rect = player.getBoundingClientRect();
-        var nextWidth = width || Math.max(260, Math.min(rect.width || floatingWidth(), floatingWidth()));
-        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        var nextX = typeof x === "number" ? x : viewportWidth - nextWidth - margin;
-        var nextY = typeof y === "number" ? y : Math.max(92, margin);
+        var nextWidth = width || Math.max(280, Math.min(rect.width || floatingWidth(), floatingWidth()));
+        var viewport = visualViewportRect();
+        var nextX = typeof x === "number" ? x : viewport.left + viewport.width - nextWidth - margin;
+        var nextY = typeof y === "number" ? y : Math.max(viewport.top + 92, viewport.top + margin);
 
         applyFloatingPosition(nextX, nextY, nextWidth);
       }
 
       function snapFloating(x, y) {
         var rect = player.getBoundingClientRect();
-        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        var nextX = (x + rect.width / 2) < viewportWidth / 2
-          ? margin
-          : viewportWidth - rect.width - margin;
+        var viewport = visualViewportRect();
+        var nextX = (x + rect.width / 2) < (viewport.left + viewport.width / 2)
+          ? viewport.left + margin
+          : viewport.left + viewport.width - rect.width - margin;
 
         floatPlayer(nextX, y, rect.width);
       }
 
       function shouldDockAt(x, y, width, height) {
+        if (isMobileViewport()) {
+          return false;
+        }
+
         var slot = getDockSlot();
 
         if (!slot) {
@@ -861,6 +930,11 @@
       }
 
       function syncDockedFromMenu() {
+        if (isMobileViewport() && !userDragged) {
+          applyMobileDefaultPosition();
+          return;
+        }
+
         if (mode !== "docked") {
           return;
         }
@@ -884,6 +958,11 @@
         layoutRaf = window.requestAnimationFrame(function () {
           layoutRaf = 0;
           hookFrameMenu();
+
+          if (isMobileViewport() && !userDragged) {
+            applyMobileDefaultPosition();
+            return;
+          }
 
           if (mode === "docked") {
             syncDockedFromMenu();
@@ -914,7 +993,6 @@
 
       function hookFrameMenu() {
         var doc = frameDocument();
-        var win = frameWindow();
 
         if (!doc) {
           return;
@@ -928,10 +1006,6 @@
           hookScrollTarget(doc.querySelector(".book-menu-content"));
         }
 
-        if (win && win !== hookedWin) {
-          hookedWin = win;
-        }
-
         var control = doc.getElementById("menu-control");
 
         if (control && !control.__jobsAudioDockHooked) {
@@ -939,6 +1013,11 @@
 
           control.addEventListener("change", function () {
             window.setTimeout(function () {
+              if (isMobileViewport() && !userDragged) {
+                applyMobileDefaultPosition();
+                return;
+              }
+
               if (mode === "docked") {
                 dockPlayer(false);
               } else {
@@ -962,6 +1041,8 @@
 
         var rect = player.getBoundingClientRect();
 
+        userDragged = true;
+
         dragState = {
           pointerId: event.pointerId,
           startX: event.clientX,
@@ -973,7 +1054,7 @@
         };
 
         player.classList.add("is-dragging");
-        player.classList.remove("is-docked", "is-dock-candidate");
+        player.classList.remove("is-docked", "is-mobile-default", "is-dock-candidate");
         setDockSpace(false);
 
         player.style.width = Math.round(rect.width) + "px";
@@ -1038,7 +1119,6 @@
 
       frame.addEventListener("load", function () {
         hookedDoc = null;
-        hookedWin = null;
         initialDockTries = 0;
 
         window.setTimeout(function () {
@@ -1048,7 +1128,7 @@
 
         window.setTimeout(function () {
           hookFrameMenu();
-          if (mode === "docked") {
+          if (mode === "docked" || mode === "mobile-default") {
             dockPlayer(!initialReady);
           }
         }, 180);
@@ -1077,25 +1157,38 @@
         }
       });
 
-      window.addEventListener("resize", function () {
-        dockPlayer(false);
-      });
+      function viewportChanged() {
+        if (window.visualViewport) {
+          window.requestAnimationFrame(function () {
+            if (isMobileViewport() && !userDragged) {
+              applyMobileDefaultPosition();
+            } else {
+              dockPlayer(false);
+            }
+          });
+        } else {
+          dockPlayer(false);
+        }
+      }
 
+      window.addEventListener("resize", viewportChanged);
       window.addEventListener("orientationchange", function () {
-        window.setTimeout(function () {
-          dockPlayer(false);
-        }, 180);
-
-        window.setTimeout(function () {
-          dockPlayer(false);
-        }, 420);
+        window.setTimeout(viewportChanged, 180);
+        window.setTimeout(viewportChanged, 420);
       });
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", viewportChanged);
+        window.visualViewport.addEventListener("scroll", viewportChanged);
+      }
 
       window.JobsDocsMusicLayout = {
         dock: function () {
+          userDragged = false;
           dockPlayer(false);
         },
         float: function () {
+          userDragged = true;
           floatPlayer();
         },
         sync: function () {
@@ -1140,6 +1233,7 @@
         audio.autoplay = true;
         audio.preload = "auto";
         audio.muted = false;
+        audio.defaultMuted = false;
         audio.volume = 1;
 
         try {
@@ -1184,10 +1278,17 @@
         player.classList.add("is-autoplay-trying");
         player.classList.remove("is-waiting-gesture");
 
+        try {
+          if (audio.readyState === 0) {
+            audio.load();
+          }
+        } catch (error) {}
+
         var result;
 
         try {
           audio.muted = false;
+          audio.defaultMuted = false;
           audio.volume = 1;
           result = audio.play();
         } catch (error) {
@@ -1215,10 +1316,10 @@
 
         target.__jobsAudioAutoplayHooked = true;
 
-        ["pointerup", "touchend", "mouseup", "click", "keydown"].forEach(function (name) {
+        ["touchstart", "pointerdown", "mousedown", "click", "keydown"].forEach(function (name) {
           target.addEventListener(name, function () {
             tryPlay("gesture:" + name);
-          }, { capture: true });
+          }, { capture: true, passive: true });
         });
       }
 

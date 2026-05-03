@@ -1371,7 +1371,7 @@ body.jobs-audio-undocked-from-menu .jobs-book-brand-wrap {
 }
 
 
-/* v9: stable menu-anchored music player */
+/* v10: commit label, mobile player, Safari button fix */
 @media screen and (min-width: 56rem) {
   .book-menu {
     flex: 0 0 22rem !important;
@@ -1388,6 +1388,17 @@ body.jobs-audio-undocked-from-menu .jobs-book-brand-wrap {
   .book-page {
     min-width: 0 !important;
   }
+}
+
+.jobs-git-version {
+  margin: -0.35rem 1.1rem 0.85rem;
+  padding-left: 0.1rem;
+  color: var(--gray-500);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .jobs-audio-dock-space {
@@ -1413,4 +1424,168 @@ body.jobs-audio-undocked-from-menu .jobs-audio-dock-space {
   height: 0 !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 56rem) {
+  :root {
+    --jobs-mobile-header-height: 64px;
+    --jobs-mobile-header-total: 64px;
+  }
+
+  html {
+    scroll-padding-top: var(--jobs-mobile-header-total) !important;
+  }
+
+  body {
+    padding-top: var(--jobs-mobile-header-total) !important;
+    box-sizing: border-box !important;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .book-page {
+    padding-top: 10px !important;
+  }
+
+  .book-header,
+  .book-header.hidden {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 450 !important;
+    display: block !important;
+    width: 100% !important;
+    min-height: var(--jobs-mobile-header-height) !important;
+    margin: 0 !important;
+    padding: env(safe-area-inset-top, 0px) 10px 8px !important;
+    border-radius: 0 !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-bottom: 1px solid var(--jobs-border) !important;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.10) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-sizing: border-box !important;
+    transform: translateZ(0);
+  }
+
+  .book-header > .flex {
+    height: calc(var(--jobs-mobile-header-height) - 8px);
+    min-height: 54px;
+    gap: 10px !important;
+  }
+
+  .book-header label.jobs-mobile-menu-button,
+  .book-header label.jobs-mobile-toc-button {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 44px !important;
+    border-radius: 14px !important;
+    background: rgba(248, 250, 252, 0.96) !important;
+    border: 1px solid var(--jobs-border) !important;
+    color: var(--jobs-text) !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08) !important;
+    opacity: 1 !important;
+    overflow: hidden !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .book-header label.jobs-mobile-menu-button img,
+  .book-header label.jobs-mobile-toc-button img,
+  .book-header label.jobs-mobile-menu-button .book-icon,
+  .book-header label.jobs-mobile-toc-button .book-icon {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  .book-header label.jobs-mobile-menu-button::before {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 18px;
+    background:
+      linear-gradient(currentColor, currentColor) left top / 24px 3px no-repeat,
+      linear-gradient(currentColor, currentColor) left center / 24px 3px no-repeat,
+      linear-gradient(currentColor, currentColor) left bottom / 24px 3px no-repeat;
+    border-radius: 3px;
+  }
+
+  .book-header label.jobs-mobile-toc-button::before {
+    content: "";
+    display: block;
+    width: 22px;
+    height: 18px;
+    background:
+      linear-gradient(currentColor, currentColor) left top / 17px 3px no-repeat,
+      linear-gradient(currentColor, currentColor) left center / 17px 3px no-repeat,
+      linear-gradient(currentColor, currentColor) left bottom / 17px 3px no-repeat;
+    border-radius: 3px;
+    transform: translateX(-2px);
+  }
+
+  .book-header label.jobs-mobile-toc-button::after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    right: 11px;
+    top: 13px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow:
+      0 7px 0 currentColor,
+      0 14px 0 currentColor;
+  }
+
+  .book-header h3 {
+    min-width: 0 !important;
+    max-width: calc(100% - 108px) !important;
+    margin: 0 !important;
+    color: var(--jobs-text) !important;
+    font-size: 1.08rem !important;
+    font-weight: 800 !important;
+    line-height: 1.28 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .book-menu .book-menu-content {
+    padding-top: calc(12px + env(safe-area-inset-top, 0px)) !important;
+  }
+
+  .jobs-git-version {
+    margin: -0.2rem 1.1rem 0.75rem;
+    font-size: 0.68rem;
+  }
+}
+
+@media screen and (max-width: 56rem) and (prefers-color-scheme: dark) {
+  .book-header,
+  .book-header.hidden {
+    background: rgba(15, 23, 42, 0.94) !important;
+    border-bottom-color: rgba(51, 65, 85, 0.95) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.30) !important;
+  }
+
+  .book-header label.jobs-mobile-menu-button,
+  .book-header label.jobs-mobile-toc-button {
+    background: rgba(17, 24, 39, 0.96) !important;
+    border-color: rgba(71, 85, 105, 0.92) !important;
+    color: #e5e7eb !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  .book-header h3 {
+    color: #e5e7eb !important;
+  }
+
+  .jobs-git-version {
+    color: #94a3b8;
+  }
 }

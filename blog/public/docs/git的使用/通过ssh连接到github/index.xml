@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>通过SSH连接到GitHub on Jobs Docs</title>
-    <link>http://localhost:56264/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/</link>
+    <link>http://localhost:56533/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/</link>
     <description>Recent content in 通过SSH连接到GitHub on Jobs Docs</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate></lastBuildDate>
-    <atom:link href="http://localhost:56264/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:56533/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
