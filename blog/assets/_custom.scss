@@ -567,3 +567,278 @@ body.dark .book-toc nav {
     font-size: 1rem;
   }
 }
+/* =========================
+   2026-05-03 修复：系统色、移动端、代码块、rtfd 隐藏
+   ========================= */
+
+:root {
+  color-scheme: light dark;
+  --jobs-bg: #f4f7fb;
+  --jobs-surface: #ffffff;
+  --jobs-surface-soft: #f8fafc;
+  --jobs-border: #dbe4ee;
+  --jobs-text: #1f2937;
+  --jobs-text-soft: #64748b;
+  --jobs-code-bg: #f8fafc;
+  --jobs-code-text: #1e293b;
+  --jobs-code-border: #dbe4ee;
+  --jobs-code-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --jobs-bg: #0f172a;
+    --jobs-surface: #111827;
+    --jobs-surface-soft: #0f172a;
+    --jobs-border: #334155;
+    --jobs-text: #e5e7eb;
+    --jobs-text-soft: #cbd5e1;
+    --jobs-primary-soft: rgba(37, 99, 235, 0.20);
+    --jobs-code-bg: #1e293b;
+    --jobs-code-text: #e5e7eb;
+    --jobs-code-border: #475569;
+    --jobs-code-shadow: 0 10px 26px rgba(0, 0, 0, 0.26);
+  }
+}
+
+html,
+body {
+  background: var(--jobs-bg) !important;
+}
+
+body,
+.book-menu,
+.book-menu .book-menu-content,
+.book-page,
+.book-toc,
+.book-toc .book-toc-content {
+  color: var(--jobs-text);
+}
+
+.book-menu,
+.book-menu .book-menu-content,
+.book-toc,
+.book-toc .book-toc-content {
+  background: var(--jobs-surface-soft) !important;
+}
+
+.book-menu {
+  border-right-color: var(--jobs-border) !important;
+}
+
+.book-toc {
+  border-left-color: var(--jobs-border) !important;
+}
+
+.book-menu nav,
+.book-toc nav,
+.book-page {
+  background: var(--jobs-surface) !important;
+  border-color: var(--jobs-border) !important;
+}
+
+.book-search input {
+  background: var(--jobs-surface) !important;
+  color: var(--jobs-text) !important;
+  border-color: var(--jobs-border) !important;
+}
+
+.book-page h1,
+.book-page h2,
+.book-page h3,
+.book-page h4,
+.book-page h5,
+.book-page h6,
+.book-menu nav a,
+.book-menu summary,
+.book-brand a,
+.jobs-book-brand {
+  color: var(--jobs-text) !important;
+}
+
+.book-page p,
+.book-page li,
+.book-toc a {
+  color: var(--jobs-text-soft);
+}
+
+.book-page blockquote {
+  background: color-mix(in srgb, var(--jobs-primary-soft) 42%, var(--jobs-surface)) !important;
+  border-left-color: #60a5fa !important;
+}
+
+/* .rtfd 菜单项由 layouts/partials/docs/inject/body.html 中的 JS 删除；这里不要使用 :has/@supports selector，避免 Hugo ToCSS 构建失败。 */
+
+.markdown pre,
+.book-page pre,
+.markdown .highlight pre,
+.book-page .highlight pre,
+.markdown .chroma,
+.book-page .chroma {
+  background: var(--jobs-code-bg) !important;
+  color: var(--jobs-code-text) !important;
+  border: 1px solid var(--jobs-code-border) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--jobs-code-shadow) !important;
+}
+
+.markdown pre,
+.book-page pre {
+  padding: 14px 16px !important;
+  line-height: 1.75;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.markdown pre code,
+.book-page pre code,
+.markdown .highlight code,
+.book-page .highlight code {
+  background: transparent !important;
+  color: inherit !important;
+  border: 0 !important;
+  padding: 0 !important;
+  text-shadow: none !important;
+}
+
+.markdown code:not(pre code),
+.book-page code:not(pre code) {
+  background: color-mix(in srgb, var(--jobs-code-bg) 82%, var(--jobs-surface)) !important;
+  color: var(--jobs-code-text) !important;
+  border-color: var(--jobs-code-border) !important;
+}
+
+.markdown .highlight,
+.book-page .highlight {
+  background: transparent !important;
+}
+
+.markdown .highlight table,
+.book-page .highlight table {
+  box-shadow: none !important;
+  border-radius: 16px !important;
+}
+
+@media screen and (max-width: 56rem) {
+  html,
+  body {
+    min-width: 0 !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  .container {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .book-menu {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    z-index: 100 !important;
+    visibility: hidden;
+    width: 88vw !important;
+    max-width: 360px !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    transform: translateX(-104%);
+    transition: transform 0.22s ease, visibility 0.22s ease;
+    box-shadow: 14px 0 34px rgba(15, 23, 42, 0.18);
+  }
+
+  .book-menu .book-menu-content {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100dvh !important;
+    padding: 12px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #menu-control:checked ~ main .book-menu {
+    visibility: visible !important;
+    transform: translateX(0) !important;
+  }
+
+  #menu-control:checked ~ main .book-menu .book-menu-content {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  #menu-control:checked ~ main .book-page {
+    opacity: 1 !important;
+  }
+
+  #menu-control:checked ~ main .book-menu-overlay {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 90 !important;
+    background: rgba(15, 23, 42, 0.34);
+  }
+
+  .book-page {
+    min-width: 0 !important;
+    width: auto !important;
+    margin: 8px !important;
+    padding: 10px !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+  }
+
+  .book-header {
+    display: flex !important;
+    align-items: center !important;
+    min-height: 44px;
+    margin-bottom: 12px !important;
+  }
+
+  .book-header h3 {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .book-toc {
+    display: none !important;
+  }
+
+  .book-page h1 {
+    font-size: 1.72rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .book-page h2 {
+    font-size: 1.36rem !important;
+  }
+
+  .book-page p,
+  .book-page li {
+    font-size: 1rem !important;
+    line-height: 1.78 !important;
+  }
+
+  .book-page img,
+  .book-page video,
+  .book-page object,
+  .book-page iframe {
+    max-width: 100% !important;
+  }
+
+  .book-page table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .markdown pre,
+  .book-page pre {
+    max-width: 100%;
+    font-size: 0.88rem;
+    border-radius: 12px !important;
+  }
+}

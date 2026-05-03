@@ -111,6 +111,20 @@ ensure_body_injection() {
     });
   }
 
+  function removeUnsupportedRtfdMenuItems() {
+    document.querySelectorAll(".book-menu nav a[href]").forEach(function (link) {
+      var pathname = normalizePath(new URL(link.href, window.location.origin).pathname).toLowerCase();
+
+      if (pathname.indexOf("签名价格调研.rtfd") !== -1 || pathname.indexOf("%e7%ad%be%e5%90%8d%e4%bb%b7%e6%a0%bc%e8%b0%83%e7%a0%94.rtfd") !== -1) {
+        var item = link.closest("li");
+
+        if (item) {
+          item.remove();
+        }
+      }
+    });
+  }
+
   function setupContainerClickGuard() {
     document.addEventListener("click", function (event) {
       var link = event.target.closest && event.target.closest("a[href]");
@@ -141,22 +155,36 @@ ensure_body_injection() {
 
   function notifyShellMusic() {
     try {
-      if (window.parent && window.parent !== window) {
-        window.parent.postMessage({ type: "jobsdocs-user-gesture" }, window.location.origin);
+      if (!window.parent || window.parent === window) {
+        return;
       }
+
+      var parentMusic = window.parent.JobsDocsMusic;
+
+      if (parentMusic && typeof parentMusic.unlockFromFrame === "function") {
+        parentMusic.unlockFromFrame();
+        return;
+      }
+
+      window.parent.postMessage({ type: "jobsdocs:unlock-music" }, window.location.origin);
     } catch (error) {
-      // 忽略跨域或浏览器限制。
+      try {
+        window.parent.postMessage({ type: "jobsdocs:unlock-music" }, window.location.origin);
+      } catch (nestedError) {
+        // 忽略跨域或浏览器限制。
+      }
     }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     fixBrandIcon();
+    removeUnsupportedRtfdMenuItems();
     disableContainerLinks();
     setupContainerClickGuard();
   });
 
   ["pointerdown", "click", "touchstart", "keydown"].forEach(function (eventName) {
-    document.addEventListener(eventName, notifyShellMusic, { once: true, capture: true });
+    document.addEventListener(eventName, notifyShellMusic, { capture: true });
   });
 })();
 </script>
@@ -172,6 +200,7 @@ ensure_body_injection() {
   text-decoration: none !important;
 }
 </style>
+
 EOF
 }
 
@@ -522,6 +551,10 @@ should_skip_directory() {
     dirname_value="$(basename "$dir")"
 
     if should_skip_common_path "$rel_path/"; then
+        return 0
+    fi
+
+    if [[ "$(to_lower "$dirname_value")" == *.rtfd ]]; then
         return 0
     fi
 

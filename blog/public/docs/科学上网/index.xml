@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>科学上网 on Jobs Docs</title>
-    <link>http://localhost:1313/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</link>
+    <link>http://localhost:53994/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</link>
     <description>Recent content in 科学上网 on Jobs Docs</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <atom:link href="http://localhost:1313/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:53994/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

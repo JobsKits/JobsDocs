@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>FTP的配置 on Jobs Docs</title>
-    <link>http://localhost:1313/docs/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/</link>
+    <link>http://localhost:53994/docs/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/</link>
     <description>Recent content in FTP的配置 on Jobs Docs</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate></lastBuildDate>
-    <atom:link href="http://localhost:1313/docs/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:53994/docs/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
