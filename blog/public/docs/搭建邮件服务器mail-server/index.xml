@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>搭建邮件服务器（Mail server） on Jobs Docs</title>
-    <link>http://localhost:55041/docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8mail-server/</link>
+    <link>http://localhost:55522/docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8mail-server/</link>
     <description>Recent content in 搭建邮件服务器（Mail server） on Jobs Docs</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate></lastBuildDate>
-    <atom:link href="http://localhost:55041/docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8mail-server/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:55522/docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8mail-server/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

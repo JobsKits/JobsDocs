@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=53994&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=55041&amp;path=livereload" data-no-instant defer></script>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -11,7 +11,7 @@ https://github.com/alex-shpak/hugo-book
 <meta name="description" content="当前总行数：0 行 ## 1、准备工作 简介 Telegram.iOS 项目是一个开源项目，使用了一种模块化的开发方式，这使得其项目结构与普通的 iOS 项目有所不同。且但它的结构和配置相对复杂； 在Telegram.iOS 源代码里面是没有直接的.h、.m以及.swift这种常规化的代码；这么做的原因： 跨平台设计 代码混淆和压缩 最后因为是脚本生成代码，">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:55041/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
   <meta property="og:site_name" content="Jobs Docs">
   <meta property="og:title" content="Telegram.iOS 源代码学习笔记">
   <meta property="og:description" content="当前总行数：0 行 ## 1、准备工作 简介 Telegram.iOS 项目是一个开源项目，使用了一种模块化的开发方式，这使得其项目结构与普通的 iOS 项目有所不同。且但它的结构和配置相对复杂； 在Telegram.iOS 源代码里面是没有直接的.h、.m以及.swift这种常规化的代码；这么做的原因： 跨平台设计 代码混淆和压缩 最后因为是脚本生成代码，">
@@ -28,15 +28,15 @@ https://github.com/alex-shpak/hugo-book
 <title>Telegram.iOS 源代码学习笔记 | Jobs Docs</title>
 <link rel="icon" href="../../../favicon.png" >
 <link rel="manifest" href="../../../manifest.json">
-<link rel="canonical" href="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-<link rel="stylesheet" href="../../../book.min.cb859951da8897858787d63aeb3a6d20be668a57aeb0974852c597bb99d38494.css" integrity="sha256-y4WZUdqIl4WHh9Y66zptIL5mileusJdIUsWXu5nThJQ=" crossorigin="anonymous">
+<link rel="canonical" href="http://localhost:55041/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+<link rel="stylesheet" href="../../../book.min.2c963b10c82265034bb82dc85e098d0d7133accd3115f7fbdcf674f8e30edffa.css" integrity="sha256-LJY7EMgiZQNLuC3IXgmNDXEzrM0xFff73PZ0&#43;OMO3/o=" crossorigin="anonymous">
 
 
   <script defer src="../../../fuse.min.js"></script>
-  <script defer src="../../../zh-cn.search.min.bd1bb4f70194dba0218413433cc52b248456e889bc8b3807c5aa60042b9d03a1.js" integrity="sha256-vRu09wGU26AhhBNDPMUrJIRW6Im8izgHxapgBCudA6E=" crossorigin="anonymous"></script>
+  <script defer src="../../../zh-cn.search.min.265b21e8f7a8292424dcc5ae9c97acf7f9f204a79d13ec1790610594b98a5924.js" integrity="sha256-Jlsh6PeoKSQk3MWunJes9/nyBKedE&#43;wXkGEFlLmKWSQ=" crossorigin="anonymous"></script>
 
 
-<link rel="alternate" type="application/rss+xml" href="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" title="Jobs Docs" />
+<link rel="alternate" type="application/rss+xml" href="http://localhost:55041/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" title="Jobs Docs" />
 
   
 </head>

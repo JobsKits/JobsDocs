@@ -1127,3 +1127,245 @@ body.jobs-audio-undocked-from-menu .jobs-book-brand-wrap {
     -webkit-overflow-scrolling: touch;
   }
 }
+
+/* v5: 音乐播放器停靠位与代码阴影修正 */
+.jobs-audio-dock-space {
+  height: 0;
+  margin: 0 6px;
+  overflow: hidden;
+  transition: height 0.24s ease, margin 0.24s ease;
+}
+
+.jobs-audio-dock-space.is-active {
+  margin: 0 6px 12px;
+}
+
+.book-brand,
+.jobs-book-brand-wrap,
+.book-search {
+  transition: margin 0.24s ease, transform 0.24s ease;
+}
+
+body.jobs-audio-undocked-from-menu .book-brand,
+body.jobs-audio-undocked-from-menu .jobs-book-brand-wrap {
+  margin-bottom: 10px !important;
+}
+
+.markdown code,
+.book-page code {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.markdown p code,
+.book-page p code,
+.markdown li code,
+.book-page li code,
+.markdown td code,
+.book-page td code,
+.markdown blockquote code,
+.book-page blockquote code {
+  display: inline !important;
+  max-width: 100% !important;
+  padding: 0.12em 0.36em !important;
+  border: 1px solid rgba(37, 99, 235, 0.16) !important;
+  border-radius: 0.42em !important;
+  background: rgba(37, 99, 235, 0.08) !important;
+  color: #1e3a8a !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.markdown pre,
+.book-page pre,
+.markdown .highlight pre,
+.book-page .highlight pre,
+.markdown .chroma,
+.book-page .chroma {
+  background: #f8fafc !important;
+  color: #1e293b !important;
+  border: 1px solid #dbe4ee !important;
+  box-shadow: none !important;
+}
+
+.markdown pre code,
+.book-page pre code,
+.markdown .highlight code,
+.book-page .highlight code,
+.markdown .chroma code,
+.book-page .chroma code {
+  background: transparent !important;
+  color: inherit !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .markdown p code,
+  .book-page p code,
+  .markdown li code,
+  .book-page li code,
+  .markdown td code,
+  .book-page td code,
+  .markdown blockquote code,
+  .book-page blockquote code {
+    border-color: rgba(96, 165, 250, 0.28) !important;
+    background: rgba(96, 165, 250, 0.14) !important;
+    color: #bfdbfe !important;
+  }
+
+  .markdown pre,
+  .book-page pre,
+  .markdown .highlight pre,
+  .book-page .highlight pre,
+  .markdown .chroma,
+  .book-page .chroma {
+    background: #111827 !important;
+    color: #e5e7eb !important;
+    border-color: #334155 !important;
+  }
+}
+
+
+
+/* v6: mobile Safari fixed header and icon fix */
+:root {
+  --jobs-mobile-header-height: 64px;
+  --jobs-mobile-header-total: 64px;
+}
+
+@media screen and (max-width: 56rem) {
+  html {
+    scroll-padding-top: var(--jobs-mobile-header-total) !important;
+  }
+
+  body {
+    padding-top: var(--jobs-mobile-header-total) !important;
+    box-sizing: border-box !important;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .book-page {
+    padding-top: 10px !important;
+  }
+
+  .book-header,
+  .book-header.hidden {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 450 !important;
+    display: block !important;
+    width: 100% !important;
+    min-height: var(--jobs-mobile-header-height) !important;
+    margin: 0 !important;
+    padding: env(safe-area-inset-top, 0px) 10px 8px !important;
+    border-radius: 0 !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-bottom: 1px solid var(--jobs-border) !important;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.10) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-sizing: border-box !important;
+    transform: translateZ(0);
+  }
+
+  .book-header > .flex {
+    height: calc(var(--jobs-mobile-header-height) - 8px);
+    min-height: 54px;
+    gap: 10px !important;
+  }
+
+  .book-header label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 44px !important;
+    border-radius: 14px !important;
+    background: rgba(248, 250, 252, 0.96) !important;
+    border: 1px solid var(--jobs-border) !important;
+    color: var(--jobs-text) !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08) !important;
+    opacity: 1 !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .book-header label.jobs-empty-header-action {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .book-header .book-icon,
+  .book-header label img.book-icon {
+    display: block !important;
+    width: 26px !important;
+    height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+
+  .book-header h3 {
+    min-width: 0 !important;
+    max-width: calc(100% - 108px) !important;
+    margin: 0 !important;
+    color: var(--jobs-text) !important;
+    font-size: 1.08rem !important;
+    font-weight: 800 !important;
+    line-height: 1.28 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .book-menu {
+    top: 0 !important;
+  }
+
+  #menu-control:checked ~ main .book-menu {
+    top: 0 !important;
+  }
+
+  #menu-control:checked ~ main .book-menu-overlay {
+    z-index: 430 !important;
+  }
+
+  .book-menu .book-menu-content {
+    padding-top: calc(12px + env(safe-area-inset-top, 0px)) !important;
+  }
+
+  .book-toc {
+    z-index: 440 !important;
+  }
+}
+
+@media screen and (max-width: 56rem) and (prefers-color-scheme: dark) {
+  .book-header,
+  .book-header.hidden {
+    background: rgba(15, 23, 42, 0.94) !important;
+    border-bottom-color: rgba(51, 65, 85, 0.95) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.30) !important;
+  }
+
+  .book-header label {
+    background: rgba(17, 24, 39, 0.96) !important;
+    border-color: rgba(71, 85, 105, 0.92) !important;
+    color: #e5e7eb !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  .book-header .book-icon,
+  .book-header label img.book-icon {
+    filter: invert(1) brightness(1.45) contrast(1.02) !important;
+  }
+
+  .book-header h3 {
+    color: #e5e7eb !important;
+  }
+}

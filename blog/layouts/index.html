@@ -117,8 +117,14 @@
       box-shadow: 0 8px 18px rgba(37, 99, 235, 0.24);
     }
 
-    .jobs-audio-player.is-playing .jobs-audio-unlock {
+    .jobs-audio-unlock {
       display: none;
+    }
+
+    .jobs-audio-player.is-blocked .jobs-audio-unlock {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .jobs-audio-hint {
@@ -129,7 +135,6 @@
       line-height: 1.45;
     }
 
-    .jobs-audio-player.is-waiting-gesture .jobs-audio-hint,
     .jobs-audio-player.is-blocked .jobs-audio-hint {
       display: block;
     }
@@ -248,7 +253,7 @@
       <div class="jobs-audio-title">🎵 With an Orchid</div>
       <button id="jobs-music-unlock" class="jobs-audio-unlock" type="button" aria-label="开启背景音乐">开启音乐</button>
     </div>
-    <p id="jobs-audio-hint" class="jobs-audio-hint">移动端和新域名通常会禁止自动有声播放；点一下页面或按钮后才会出声。</p>
+    <p id="jobs-audio-hint" class="jobs-audio-hint">正在尝试自动播放；如果浏览器拦截，首次触摸/点击页面后会继续播放。</p>
     <audio id="jobs-bg-music" controls loop preload="auto" playsinline>
       <source src="{{ $musicURL }}" type="audio/mpeg">
       当前浏览器不支持 audio 标签。
@@ -463,8 +468,11 @@
       var margin = 12;
       var gap = 12;
       var dragState = null;
-      var isDocked = false;
-      var layoutTimer = 0;
+      var mode = "docked";
+      var layoutRaf = 0;
+      var hookedDoc = null;
+      var hookedWin = null;
+      var floatingPosition = null;
 
       function frameDocument() {
         try {
@@ -495,15 +503,18 @@
         };
       }
 
-      function mobileMenuClosed(doc) {
+      function isSmallScreen() {
         var win = frameWindow();
-        var isSmall = false;
 
         try {
-          isSmall = !!(win && win.matchMedia("screen and (max-width: 56rem)").matches);
-        } catch (error) {}
+          return !!(win && win.matchMedia("screen and (max-width: 56rem)").matches);
+        } catch (error) {
+          return (window.innerWidth || document.documentElement.clientWidth) <= 896;
+        }
+      }
 
-        if (!isSmall) {
+      function mobileMenuClosed(doc) {
+        if (!isSmallScreen()) {
           return false;
         }
 
@@ -562,40 +573,6 @@
         return rect;
       }
 
-      function getDockSlot() {
-        var doc = frameDocument();
-        var menuRect = getMenuRect();
-
-        if (!doc || !menuRect) {
-          return null;
-        }
-
-        var space = ensureDockSpace();
-        var search = doc.querySelector(".book-search");
-        var brand = doc.querySelector(".jobs-book-brand-wrap, .book-brand");
-
-        if (!space || !search) {
-          return null;
-        }
-
-        var searchRect = toViewportRect(search.getBoundingClientRect());
-        var spaceRect = toViewportRect(space.getBoundingClientRect());
-        var top = spaceRect.top;
-
-        if (!Number.isFinite(top) || top <= 0) {
-          var brandRect = brand ? toViewportRect(brand.getBoundingClientRect()) : null;
-          top = brandRect ? brandRect.bottom + gap : searchRect.top - player.offsetHeight - gap;
-        }
-
-        return {
-          left: Math.max(menuRect.left + 18, searchRect.left),
-          top: Math.max(10, top),
-          width: Math.max(260, Math.min(searchRect.width, menuRect.width - 28)),
-          menuLeft: menuRect.left,
-          menuRight: menuRect.right
-        };
-      }
-
       function setDockSpace(active) {
         var doc = frameDocument();
         var space = ensureDockSpace();
@@ -610,12 +587,41 @@
         space.style.height = active ? Math.ceil(player.offsetHeight + gap) + "px" : "0px";
       }
 
+      function getDockSlot() {
+        var doc = frameDocument();
+        var menuRect = getMenuRect();
+
+        if (!doc || !menuRect) {
+          return null;
+        }
+
+        var space = ensureDockSpace();
+        var search = doc.querySelector(".book-search");
+
+        if (!space || !search) {
+          return null;
+        }
+
+        var searchRect = toViewportRect(search.getBoundingClientRect());
+        var spaceRect = toViewportRect(space.getBoundingClientRect());
+        var left = Math.max(menuRect.left + 18, searchRect.left);
+        var width = Math.max(260, Math.min(searchRect.width, menuRect.width - 28));
+
+        return {
+          left: left,
+          top: spaceRect.top,
+          width: width,
+          menuLeft: menuRect.left,
+          menuRight: menuRect.right
+        };
+      }
+
       function floatingWidth() {
         var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
         return Math.max(260, Math.min(320, viewportWidth - margin * 2));
       }
 
-      function clamp(x, y, width, height) {
+      function clampFloating(x, y, width, height) {
         var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
         var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
         var maxX = Math.max(margin, viewportWidth - width - margin);
@@ -627,57 +633,77 @@
         };
       }
 
-      function applyPosition(x, y, width) {
+      function applyFloatingPosition(x, y, width) {
         if (width) {
           player.style.width = Math.round(width) + "px";
         }
 
         var rect = player.getBoundingClientRect();
-        var next = clamp(x, y, rect.width, rect.height);
+        var next = clampFloating(x, y, rect.width, rect.height);
 
         player.style.left = Math.round(next.x) + "px";
         player.style.top = Math.round(next.y) + "px";
         player.style.right = "auto";
         player.style.bottom = "auto";
+        floatingPosition = { x: next.x, y: next.y, width: rect.width };
       }
 
-      function dockPlayer() {
-        var slot = getDockSlot();
-
-        if (!slot) {
-          floatPlayer();
-          return;
-        }
-
-        isDocked = true;
-        player.classList.add("is-docked");
-        player.classList.remove("is-floating", "is-dock-candidate");
+      function applyDockPosition(slot) {
         player.style.width = Math.round(slot.width) + "px";
-        setDockSpace(true);
-
-        window.requestAnimationFrame(function () {
-          var nextSlot = getDockSlot() || slot;
-          applyPosition(nextSlot.left, nextSlot.top, nextSlot.width);
-        });
+        player.style.left = Math.round(slot.left) + "px";
+        player.style.top = Math.round(slot.top) + "px";
+        player.style.right = "auto";
+        player.style.bottom = "auto";
       }
 
-      function floatPlayer() {
-        isDocked = false;
+      function floatAsFallback() {
         player.classList.add("is-floating");
         player.classList.remove("is-docked", "is-dock-candidate");
         setDockSpace(false);
 
-        var width = floatingWidth();
-        player.style.width = Math.round(width) + "px";
         var rect = player.getBoundingClientRect();
-        var x = Math.max(margin, ((window.innerWidth || document.documentElement.clientWidth) - rect.width) / 2);
-        var y = (window.innerHeight || document.documentElement.clientHeight) - rect.height - margin;
+        var width = floatingPosition && floatingPosition.width ? floatingPosition.width : floatingWidth();
+        var x = floatingPosition ? floatingPosition.x : ((window.innerWidth || document.documentElement.clientWidth) - width) / 2;
+        var y = floatingPosition ? floatingPosition.y : (window.innerHeight || document.documentElement.clientHeight) - rect.height - margin;
+        applyFloatingPosition(x, y, width);
+      }
 
-        applyPosition(x, y, rect.width);
+      function dockPlayer() {
+        mode = "docked";
+        setDockSpace(true);
+        player.classList.add("is-docked");
+        player.classList.remove("is-floating", "is-dock-candidate");
+
+        window.requestAnimationFrame(function () {
+          var slot = getDockSlot();
+
+          if (!slot) {
+            floatAsFallback();
+            return;
+          }
+
+          setDockSpace(true);
+          applyDockPosition(slot);
+        });
+      }
+
+      function floatPlayer(x, y) {
+        mode = "floating";
+        player.classList.add("is-floating");
+        player.classList.remove("is-docked", "is-dock-candidate");
+        setDockSpace(false);
+
+        var rect = player.getBoundingClientRect();
+        var width = Math.max(260, Math.min(rect.width || floatingWidth(), floatingWidth()));
+        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        var nextX = typeof x === "number" ? x : (viewportWidth - width) / 2;
+        var nextY = typeof y === "number" ? y : (window.innerHeight || document.documentElement.clientHeight) - rect.height - margin;
+
+        applyFloatingPosition(nextX, nextY, width);
       }
 
       function snapFloating(x, y) {
-        isDocked = false;
+        mode = "floating";
         player.classList.add("is-floating");
         player.classList.remove("is-docked", "is-dock-candidate");
         setDockSpace(false);
@@ -686,7 +712,7 @@
         var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
         var nextX = (x + rect.width / 2) < viewportWidth / 2 ? margin : viewportWidth - rect.width - margin;
 
-        applyPosition(nextX, y, rect.width);
+        applyFloatingPosition(nextX, y, rect.width);
       }
 
       function shouldDockAt(x, width) {
@@ -700,8 +726,45 @@
         return centerX >= slot.menuLeft && centerX <= slot.menuRight;
       }
 
+      function syncLayoutSoon() {
+        if (layoutRaf) {
+          return;
+        }
+
+        layoutRaf = window.requestAnimationFrame(function () {
+          layoutRaf = 0;
+          hookFrameMenu();
+
+          if (mode === "docked") {
+            dockPlayer();
+            return;
+          }
+
+          if (floatingPosition) {
+            applyFloatingPosition(floatingPosition.x, floatingPosition.y, floatingPosition.width || floatingWidth());
+          }
+        });
+      }
+
+      function hookScrollTarget(target) {
+        if (!target || target.dataset && target.dataset.jobsAudioScrollHooked) {
+          return;
+        }
+
+        if (target.dataset) {
+          target.dataset.jobsAudioScrollHooked = "1";
+        }
+
+        target.addEventListener("scroll", function () {
+          if (mode === "docked") {
+            syncLayoutSoon();
+          }
+        }, { passive: true });
+      }
+
       function hookFrameMenu() {
         var doc = frameDocument();
+        var win = frameWindow();
 
         if (!doc) {
           return;
@@ -709,34 +772,39 @@
 
         ensureDockSpace();
 
+        if (doc !== hookedDoc) {
+          hookedDoc = doc;
+          hookScrollTarget(doc);
+          hookScrollTarget(doc.documentElement);
+          hookScrollTarget(doc.body);
+          hookScrollTarget(doc.querySelector(".book-menu"));
+          hookScrollTarget(doc.querySelector(".book-menu-content"));
+          hookScrollTarget(doc.querySelector(".container"));
+        }
+
+        if (win && win !== hookedWin) {
+          hookedWin = win;
+          win.addEventListener("scroll", function () {
+            if (mode === "docked") {
+              syncLayoutSoon();
+            }
+          }, { passive: true });
+        }
+
         var control = doc.getElementById("menu-control");
 
         if (control && !control.dataset.jobsAudioDockHooked) {
           control.dataset.jobsAudioDockHooked = "1";
           control.addEventListener("change", function () {
             window.setTimeout(function () {
-              if (control.checked || getMenuRect()) {
+              if (mode === "docked") {
                 dockPlayer();
-              } else {
+              } else if (!control.checked && isSmallScreen()) {
                 floatPlayer();
               }
-            }, 60);
+            }, 80);
           });
         }
-      }
-
-      function syncLayout() {
-        window.clearTimeout(layoutTimer);
-        layoutTimer = window.setTimeout(function () {
-          hookFrameMenu();
-
-          if (isDocked || getMenuRect()) {
-            dockPlayer();
-          } else {
-            var rect = player.getBoundingClientRect();
-            applyPosition(rect.left, rect.top, rect.width || floatingWidth());
-          }
-        }, 80);
       }
 
       if (window.PointerEvent) {
@@ -763,6 +831,7 @@
           player.classList.add("is-dragging");
           player.classList.remove("is-docked");
           player.style.width = Math.round(rect.width) + "px";
+          setDockSpace(false);
           player.setPointerCapture(event.pointerId);
           event.preventDefault();
         });
@@ -774,10 +843,10 @@
 
           var x = dragState.originX + event.clientX - dragState.startX;
           var y = dragState.originY + event.clientY - dragState.startY;
-          var next = clamp(x, y, dragState.width, dragState.height);
+          var next = clampFloating(x, y, dragState.width, dragState.height);
           var dockCandidate = shouldDockAt(next.x, dragState.width);
 
-          applyPosition(next.x, next.y, dragState.width);
+          applyFloatingPosition(next.x, next.y, dragState.width);
           player.classList.toggle("is-dock-candidate", dockCandidate);
           setDockSpace(dockCandidate);
           event.preventDefault();
@@ -810,8 +879,16 @@
       }
 
       frame.addEventListener("load", function () {
-        hookFrameMenu();
-        syncLayout();
+        hookedDoc = null;
+        hookedWin = null;
+        window.setTimeout(function () {
+          hookFrameMenu();
+          if (mode === "docked") {
+            dockPlayer();
+          } else {
+            syncLayoutSoon();
+          }
+        }, 80);
       });
 
       window.addEventListener("message", function (event) {
@@ -820,28 +897,24 @@
         }
 
         if (event.data && event.data.type === "jobsdocs:layout-change") {
-          syncLayout();
+          syncLayoutSoon();
         }
       });
 
-      window.addEventListener("resize", syncLayout);
+      window.addEventListener("resize", syncLayoutSoon);
       window.addEventListener("orientationchange", function () {
-        window.setTimeout(syncLayout, 180);
+        window.setTimeout(syncLayoutSoon, 180);
       });
 
       window.JobsDocsMusicLayout = {
         dock: dockPlayer,
-        float: floatPlayer,
-        sync: syncLayout
+        float: function () { floatPlayer(); },
+        sync: syncLayoutSoon
       };
 
       window.setTimeout(function () {
         hookFrameMenu();
-        if (getMenuRect()) {
-          dockPlayer();
-        } else {
-          floatPlayer();
-        }
+        dockPlayer();
       }, 120);
     })();
   </script>

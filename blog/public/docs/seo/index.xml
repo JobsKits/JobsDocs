@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>SEO on Jobs Docs</title>
-    <link>http://localhost:53994/docs/seo/</link>
+    <link>http://localhost:55041/docs/seo/</link>
     <description>Recent content in SEO on Jobs Docs</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate></lastBuildDate>
-    <atom:link href="http://localhost:53994/docs/seo/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:55041/docs/seo/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

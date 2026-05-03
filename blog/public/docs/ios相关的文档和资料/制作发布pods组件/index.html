@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=53994&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=55041&amp;path=livereload" data-no-instant defer></script>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -11,7 +11,7 @@ https://github.com/alex-shpak/hugo-book
 <meta name="description" content="一、.podspec 模板 普通模板 带子Pod的模版 ## 二、自检（QSA@Cocoapods） &gt; 命令行操作需要定位于此库路径下 自检不一定靠谱。因为自检的时候，可能用的是本地源。在最后推送到远端的时候，也会自检，以此为准 ## 三、推送 &gt; 命令行操作需要定位于此库路径下 推送到Github，并打对其打tag 注册邮箱会收到一封短信，需要进行点击确">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:55041/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/">
   <meta property="og:site_name" content="Jobs Docs">
   <meta property="og:title" content="制作(发布)Pods组件">
   <meta property="og:description" content="一、.podspec 模板 普通模板 带子Pod的模版 ## 二、自检（QSA@Cocoapods） &gt; 命令行操作需要定位于此库路径下 自检不一定靠谱。因为自检的时候，可能用的是本地源。在最后推送到远端的时候，也会自检，以此为准 ## 三、推送 &gt; 命令行操作需要定位于此库路径下 推送到Github，并打对其打tag 注册邮箱会收到一封短信，需要进行点击确">
@@ -28,15 +28,15 @@ https://github.com/alex-shpak/hugo-book
 <title>制作(发布)Pods组件 | Jobs Docs</title>
 <link rel="icon" href="../../../favicon.png" >
 <link rel="manifest" href="../../../manifest.json">
-<link rel="canonical" href="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/">
-<link rel="stylesheet" href="../../../book.min.cb859951da8897858787d63aeb3a6d20be668a57aeb0974852c597bb99d38494.css" integrity="sha256-y4WZUdqIl4WHh9Y66zptIL5mileusJdIUsWXu5nThJQ=" crossorigin="anonymous">
+<link rel="canonical" href="http://localhost:55041/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/">
+<link rel="stylesheet" href="../../../book.min.2c963b10c82265034bb82dc85e098d0d7133accd3115f7fbdcf674f8e30edffa.css" integrity="sha256-LJY7EMgiZQNLuC3IXgmNDXEzrM0xFff73PZ0&#43;OMO3/o=" crossorigin="anonymous">
 
 
   <script defer src="../../../fuse.min.js"></script>
-  <script defer src="../../../zh-cn.search.min.bd1bb4f70194dba0218413433cc52b248456e889bc8b3807c5aa60042b9d03a1.js" integrity="sha256-vRu09wGU26AhhBNDPMUrJIRW6Im8izgHxapgBCudA6E=" crossorigin="anonymous"></script>
+  <script defer src="../../../zh-cn.search.min.265b21e8f7a8292424dcc5ae9c97acf7f9f204a79d13ec1790610594b98a5924.js" integrity="sha256-Jlsh6PeoKSQk3MWunJes9/nyBKedE&#43;wXkGEFlLmKWSQ=" crossorigin="anonymous"></script>
 
 
-<link rel="alternate" type="application/rss+xml" href="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/index.xml" title="Jobs Docs" />
+<link rel="alternate" type="application/rss+xml" href="http://localhost:55041/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/index.xml" title="Jobs Docs" />
 
   
 </head>
