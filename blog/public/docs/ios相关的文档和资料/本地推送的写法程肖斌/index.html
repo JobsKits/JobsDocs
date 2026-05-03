@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=55041&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=53994&amp;path=livereload" data-no-instant defer></script>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -11,7 +11,7 @@ https://github.com/alex-shpak/hugo-book
 <meta name="description" content="- (IBAction)sendLocalPush:(UIButton *)sender { //8s后提醒 // UNTimeIntervalNotificationTrigger *trigger1 = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:8 repeats:NO]; //每周一早上 8：00 提醒我给起床 // NSDateComponents *components = [[NSDateComponents alloc] init]; // components.weekday = 2; // components.hour = 8; // UNCalendarNotificationTrigger *trigger3 = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:YES]; // // //需导入定位库 #import &lt;CoreLocation/CoreLocation.h&gt; // //一到距离(123.333, 123.344）点20米就喊我下车 // CLRegion *region = [[CLRegion alloc] initCircularRegionWithCenter:CLLocationCoordinate2DMake(123.333, 123.344) radius:20 identifier:@&#34;regionidentifier&#34;]; // // UNLocationNotificationTrigger *trigger4 = [UNLocationNotificationTrigger triggerWithRegion:region repeats:NO]; if (@available(iOS 10.0, *)) { UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init]; content.title = @&#34;this is Notifications&#34;; content.subtitle = @&#34;本地通知&#34;; content.body = @&#34;推送一条本地通知&#34;; content.badge = @1; content.userInfo = @{@&#34;type&#34;:@&#34;this is a userNotification&#34;}; //每小时重复 1 次喊我喝水 UNTimeIntervalNotificationTrigger *trigger2 = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:60 repeats:YES]; NSString *requestIdentifier = @&#34;sampleRequest&#34;; UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:requestIdentifier content:content trigger:trigger2]; UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter]; [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) { if (error) { NSLog(@&#34;本地消息推送失败：%@&#34;, error); } }]; } else { // Fallback on earlier versions } }">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:55041/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%E7%9A%84%E5%86%99%E6%B3%95%E7%A8%8B%E8%82%96%E6%96%8C/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%E7%9A%84%E5%86%99%E6%B3%95%E7%A8%8B%E8%82%96%E6%96%8C/">
   <meta property="og:site_name" content="Jobs Docs">
   <meta property="og:title" content="本地推送的写法（程肖斌）">
   <meta property="og:description" content="- (IBAction)sendLocalPush:(UIButton *)sender { //8s后提醒 // UNTimeIntervalNotificationTrigger *trigger1 = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:8 repeats:NO]; //每周一早上 8：00 提醒我给起床 // NSDateComponents *components = [[NSDateComponents alloc] init]; // components.weekday = 2; // components.hour = 8; // UNCalendarNotificationTrigger *trigger3 = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:YES]; // // //需导入定位库 #import &lt;CoreLocation/CoreLocation.h&gt; // //一到距离(123.333, 123.344）点20米就喊我下车 // CLRegion *region = [[CLRegion alloc] initCircularRegionWithCenter:CLLocationCoordinate2DMake(123.333, 123.344) radius:20 identifier:@&#34;regionidentifier&#34;]; // // UNLocationNotificationTrigger *trigger4 = [UNLocationNotificationTrigger triggerWithRegion:region repeats:NO]; if (@available(iOS 10.0, *)) { UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init]; content.title = @&#34;this is Notifications&#34;; content.subtitle = @&#34;本地通知&#34;; content.body = @&#34;推送一条本地通知&#34;; content.badge = @1; content.userInfo = @{@&#34;type&#34;:@&#34;this is a userNotification&#34;}; //每小时重复 1 次喊我喝水 UNTimeIntervalNotificationTrigger *trigger2 = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:60 repeats:YES]; NSString *requestIdentifier = @&#34;sampleRequest&#34;; UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:requestIdentifier content:content trigger:trigger2]; UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter]; [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) { if (error) { NSLog(@&#34;本地消息推送失败：%@&#34;, error); } }]; } else { // Fallback on earlier versions } }">
@@ -31,12 +31,12 @@ https://github.com/alex-shpak/hugo-book
 <title>本地推送的写法（程肖斌） | Jobs Docs</title>
 <link rel="icon" href="../../../favicon.png" >
 <link rel="manifest" href="../../../manifest.json">
-<link rel="canonical" href="http://localhost:55041/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%E7%9A%84%E5%86%99%E6%B3%95%E7%A8%8B%E8%82%96%E6%96%8C/">
-<link rel="stylesheet" href="../../../book.min.2c963b10c82265034bb82dc85e098d0d7133accd3115f7fbdcf674f8e30edffa.css" integrity="sha256-LJY7EMgiZQNLuC3IXgmNDXEzrM0xFff73PZ0&#43;OMO3/o=" crossorigin="anonymous">
+<link rel="canonical" href="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%E7%9A%84%E5%86%99%E6%B3%95%E7%A8%8B%E8%82%96%E6%96%8C/">
+<link rel="stylesheet" href="../../../book.min.9f5f03165b369b69ab7096c5c89976806395d402358873b7dba79e24991f277d.css" integrity="sha256-n18DFls2m2mrcJbFyJl2gGOV1AI1iHO326eeJJkfJ30=" crossorigin="anonymous">
 
 
   <script defer src="../../../fuse.min.js"></script>
-  <script defer src="../../../zh-cn.search.min.265b21e8f7a8292424dcc5ae9c97acf7f9f204a79d13ec1790610594b98a5924.js" integrity="sha256-Jlsh6PeoKSQk3MWunJes9/nyBKedE&#43;wXkGEFlLmKWSQ=" crossorigin="anonymous"></script>
+  <script defer src="../../../zh-cn.search.min.3889d4160b64dee6a042e0ecf1eaa4198fc8543339fb6e012f832a809ad46865.js" integrity="sha256-OInUFgtk3uagQuDs8eqkGY/IVDM5&#43;24BL4MqgJrUaGU=" crossorigin="anonymous"></script>
 
 
 

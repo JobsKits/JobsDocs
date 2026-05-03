@@ -453,8 +453,6 @@
       tryPlay();
     })();
   </script>
-
-
   <script>
     (function () {
       var frame = document.getElementById("jobs-docs-frame");
@@ -467,8 +465,8 @@
       var handle = player.querySelector(".jobs-audio-head") || player;
       var margin = 12;
       var gap = 12;
-      var dragState = null;
       var mode = "docked";
+      var dragState = null;
       var layoutRaf = 0;
       var hookedDoc = null;
       var hookedWin = null;
@@ -503,35 +501,62 @@
         };
       }
 
-      function isSmallScreen() {
-        var win = frameWindow();
+      function visibleEnough(rect) {
+        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
-        try {
-          return !!(win && win.matchMedia("screen and (max-width: 56rem)").matches);
-        } catch (error) {
-          return (window.innerWidth || document.documentElement.clientWidth) <= 896;
-        }
+        return (
+          rect &&
+          rect.width > 120 &&
+          rect.height > 80 &&
+          rect.right > 0 &&
+          rect.left < viewportWidth &&
+          rect.bottom > -200 &&
+          rect.top < viewportHeight + 200
+        );
       }
 
-      function mobileMenuClosed(doc) {
-        if (!isSmallScreen()) {
-          return false;
-        }
-
-        var control = doc && doc.getElementById("menu-control");
-        return !control || !control.checked;
-      }
-
-      function ensureDockSpace() {
+      function getMenu() {
         var doc = frameDocument();
 
         if (!doc) {
           return null;
         }
 
-        var search = doc.querySelector(".book-search");
+        return doc.querySelector(".book-menu");
+      }
 
-        if (!search || !search.parentNode) {
+      function getSearch() {
+        var doc = frameDocument();
+
+        if (!doc) {
+          return null;
+        }
+
+        return doc.querySelector(".book-search");
+      }
+
+      function getMenuRect() {
+        var menu = getMenu();
+
+        if (!menu) {
+          return null;
+        }
+
+        var rect = toViewportRect(menu.getBoundingClientRect());
+
+        if (!visibleEnough(rect) || rect.width < 220) {
+          return null;
+        }
+
+        return rect;
+      }
+
+      function ensureDockSpace() {
+        var doc = frameDocument();
+        var search = getSearch();
+
+        if (!doc || !search || !search.parentNode) {
           return null;
         }
 
@@ -541,36 +566,13 @@
           space = doc.createElement("div");
           space.id = "jobs-audio-dock-space";
           space.className = "jobs-audio-dock-space";
-          space.setAttribute("aria-hidden", "true");
-          search.parentNode.insertBefore(space, search);
-        } else if (space.nextElementSibling !== search) {
+        }
+
+        if (space.nextElementSibling !== search) {
           search.parentNode.insertBefore(space, search);
         }
 
         return space;
-      }
-
-      function getMenuRect() {
-        var doc = frameDocument();
-
-        if (!doc || mobileMenuClosed(doc)) {
-          return null;
-        }
-
-        var menu = doc.querySelector(".book-menu");
-
-        if (!menu) {
-          return null;
-        }
-
-        var rect = toViewportRect(menu.getBoundingClientRect());
-        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-
-        if (rect.width < 220 || rect.right <= 8 || rect.left >= viewportWidth - 8) {
-          return null;
-        }
-
-        return rect;
       }
 
       function setDockSpace(active) {
@@ -584,41 +586,51 @@
         doc.body.classList.toggle("jobs-audio-docked-in-menu", active);
         doc.body.classList.toggle("jobs-audio-undocked-from-menu", !active);
         space.classList.toggle("is-active", active);
-        space.style.height = active ? Math.ceil(player.offsetHeight + gap) + "px" : "0px";
+
+        if (active) {
+          space.style.height = Math.ceil(player.offsetHeight + gap) + "px";
+        } else {
+          space.style.height = "0px";
+        }
       }
 
       function getDockSlot() {
         var doc = frameDocument();
         var menuRect = getMenuRect();
+        var search = getSearch();
 
-        if (!doc || !menuRect) {
+        if (!doc || !menuRect || !search) {
           return null;
         }
 
         var space = ensureDockSpace();
-        var search = doc.querySelector(".book-search");
 
-        if (!space || !search) {
+        if (!space) {
           return null;
         }
 
         var searchRect = toViewportRect(search.getBoundingClientRect());
         var spaceRect = toViewportRect(space.getBoundingClientRect());
-        var left = Math.max(menuRect.left + 18, searchRect.left);
-        var width = Math.max(260, Math.min(searchRect.width, menuRect.width - 28));
+
+        var left = searchRect.width > 120 ? searchRect.left : menuRect.left + 18;
+        var width = searchRect.width > 120 ? searchRect.width : menuRect.width - 36;
+
+        width = Math.max(260, Math.min(width, menuRect.width - 28));
 
         return {
           left: left,
           top: spaceRect.top,
           width: width,
           menuLeft: menuRect.left,
-          menuRight: menuRect.right
+          menuRight: menuRect.right,
+          menuTop: menuRect.top,
+          menuBottom: menuRect.bottom
         };
       }
 
       function floatingWidth() {
         var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        return Math.max(260, Math.min(320, viewportWidth - margin * 2));
+        return Math.max(260, Math.min(340, viewportWidth - margin * 2));
       }
 
       function clampFloating(x, y, width, height) {
@@ -633,6 +645,19 @@
         };
       }
 
+      function markReady() {
+        player.classList.add("is-layout-ready");
+      }
+
+      function applyDockPosition(slot) {
+        player.style.width = Math.round(slot.width) + "px";
+        player.style.left = Math.round(slot.left) + "px";
+        player.style.top = Math.round(slot.top) + "px";
+        player.style.right = "auto";
+        player.style.bottom = "auto";
+        markReady();
+      }
+
       function applyFloatingPosition(x, y, width) {
         if (width) {
           player.style.width = Math.round(width) + "px";
@@ -645,77 +670,87 @@
         player.style.top = Math.round(next.y) + "px";
         player.style.right = "auto";
         player.style.bottom = "auto";
-        floatingPosition = { x: next.x, y: next.y, width: rect.width };
+
+        floatingPosition = {
+          x: next.x,
+          y: next.y,
+          width: rect.width
+        };
+
+        markReady();
       }
 
-      function applyDockPosition(slot) {
-        player.style.width = Math.round(slot.width) + "px";
-        player.style.left = Math.round(slot.left) + "px";
-        player.style.top = Math.round(slot.top) + "px";
+      function dockFallbackNearMenu() {
+        var menuRect = getMenuRect();
+        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
+        player.classList.add("is-docked");
+        player.classList.remove("is-floating", "is-dragging", "is-dock-candidate");
+
+        if (menuRect) {
+          var width = Math.max(260, Math.min(menuRect.width - 36, 340));
+          player.style.width = Math.round(width) + "px";
+          player.style.left = Math.round(menuRect.left + 18) + "px";
+          player.style.top = Math.round(menuRect.top + 110) + "px";
+        } else {
+          var fallbackWidth = floatingWidth();
+          player.style.width = Math.round(fallbackWidth) + "px";
+          player.style.left = Math.round((viewportWidth - fallbackWidth) / 2) + "px";
+          player.style.top = "92px";
+        }
+
         player.style.right = "auto";
         player.style.bottom = "auto";
-      }
-
-      function floatAsFallback() {
-        player.classList.add("is-floating");
-        player.classList.remove("is-docked", "is-dock-candidate");
-        setDockSpace(false);
-
-        var rect = player.getBoundingClientRect();
-        var width = floatingPosition && floatingPosition.width ? floatingPosition.width : floatingWidth();
-        var x = floatingPosition ? floatingPosition.x : ((window.innerWidth || document.documentElement.clientWidth) - width) / 2;
-        var y = floatingPosition ? floatingPosition.y : (window.innerHeight || document.documentElement.clientHeight) - rect.height - margin;
-        applyFloatingPosition(x, y, width);
+        markReady();
       }
 
       function dockPlayer() {
         mode = "docked";
-        setDockSpace(true);
         player.classList.add("is-docked");
-        player.classList.remove("is-floating", "is-dock-candidate");
+        player.classList.remove("is-floating", "is-dragging", "is-dock-candidate");
+
+        setDockSpace(true);
 
         window.requestAnimationFrame(function () {
+          setDockSpace(true);
+
           var slot = getDockSlot();
 
           if (!slot) {
-            floatAsFallback();
+            dockFallbackNearMenu();
             return;
           }
 
-          setDockSpace(true);
           applyDockPosition(slot);
         });
       }
 
-      function floatPlayer(x, y) {
+      function floatPlayer(x, y, width) {
         mode = "floating";
         player.classList.add("is-floating");
-        player.classList.remove("is-docked", "is-dock-candidate");
+        player.classList.remove("is-docked", "is-dragging", "is-dock-candidate");
         setDockSpace(false);
 
         var rect = player.getBoundingClientRect();
-        var width = Math.max(260, Math.min(rect.width || floatingWidth(), floatingWidth()));
+        var nextWidth = width || Math.max(260, Math.min(rect.width || floatingWidth(), floatingWidth()));
         var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        var nextX = typeof x === "number" ? x : (viewportWidth - width) / 2;
-        var nextY = typeof y === "number" ? y : (window.innerHeight || document.documentElement.clientHeight) - rect.height - margin;
+        var nextX = typeof x === "number" ? x : viewportWidth - nextWidth - margin;
+        var nextY = typeof y === "number" ? y : Math.max(92, margin);
 
-        applyFloatingPosition(nextX, nextY, width);
+        applyFloatingPosition(nextX, nextY, nextWidth);
       }
 
       function snapFloating(x, y) {
-        mode = "floating";
-        player.classList.add("is-floating");
-        player.classList.remove("is-docked", "is-dock-candidate");
-        setDockSpace(false);
-
         var rect = player.getBoundingClientRect();
         var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        var nextX = (x + rect.width / 2) < viewportWidth / 2 ? margin : viewportWidth - rect.width - margin;
+        var nextX = (x + rect.width / 2) < viewportWidth / 2
+          ? margin
+          : viewportWidth - rect.width - margin;
 
-        applyFloatingPosition(nextX, y, rect.width);
+        floatPlayer(nextX, y, rect.width);
       }
 
-      function shouldDockAt(x, width) {
+      function shouldDockAt(x, y, width, height) {
         var slot = getDockSlot();
 
         if (!slot) {
@@ -723,7 +758,14 @@
         }
 
         var centerX = x + width / 2;
-        return centerX >= slot.menuLeft && centerX <= slot.menuRight;
+        var centerY = y + height / 2;
+
+        return (
+          centerX >= slot.menuLeft &&
+          centerX <= slot.menuRight &&
+          centerY >= slot.menuTop - 80 &&
+          centerY <= slot.menuBottom + 80
+        );
       }
 
       function syncLayoutSoon() {
@@ -741,19 +783,21 @@
           }
 
           if (floatingPosition) {
-            applyFloatingPosition(floatingPosition.x, floatingPosition.y, floatingPosition.width || floatingWidth());
+            applyFloatingPosition(
+              floatingPosition.x,
+              floatingPosition.y,
+              floatingPosition.width || floatingWidth()
+            );
           }
         });
       }
 
       function hookScrollTarget(target) {
-        if (!target || target.dataset && target.dataset.jobsAudioScrollHooked) {
+        if (!target || target.__jobsAudioScrollHooked) {
           return;
         }
 
-        if (target.dataset) {
-          target.dataset.jobsAudioScrollHooked = "1";
-        }
+        target.__jobsAudioScrollHooked = true;
 
         target.addEventListener("scroll", function () {
           if (mode === "docked") {
@@ -774,16 +818,19 @@
 
         if (doc !== hookedDoc) {
           hookedDoc = doc;
+
           hookScrollTarget(doc);
           hookScrollTarget(doc.documentElement);
           hookScrollTarget(doc.body);
           hookScrollTarget(doc.querySelector(".book-menu"));
           hookScrollTarget(doc.querySelector(".book-menu-content"));
-          hookScrollTarget(doc.querySelector(".container"));
+          hookScrollTarget(doc.querySelector(".book-page"));
+          hookScrollTarget(doc.querySelector("main"));
         }
 
         if (win && win !== hookedWin) {
           hookedWin = win;
+
           win.addEventListener("scroll", function () {
             if (mode === "docked") {
               syncLayoutSoon();
@@ -793,87 +840,102 @@
 
         var control = doc.getElementById("menu-control");
 
-        if (control && !control.dataset.jobsAudioDockHooked) {
-          control.dataset.jobsAudioDockHooked = "1";
+        if (control && !control.__jobsAudioDockHooked) {
+          control.__jobsAudioDockHooked = true;
+
           control.addEventListener("change", function () {
             window.setTimeout(function () {
               if (mode === "docked") {
                 dockPlayer();
-              } else if (!control.checked && isSmallScreen()) {
-                floatPlayer();
+              } else {
+                syncLayoutSoon();
               }
-            }, 80);
+            }, 100);
           });
         }
       }
 
-      if (window.PointerEvent) {
-        handle.addEventListener("pointerdown", function (event) {
-          if (event.button !== undefined && event.button !== 0) {
-            return;
-          }
-
-          if (event.target.closest && event.target.closest("button, audio, input, a")) {
-            return;
-          }
-
-          var rect = player.getBoundingClientRect();
-          dragState = {
-            pointerId: event.pointerId,
-            startX: event.clientX,
-            startY: event.clientY,
-            originX: rect.left,
-            originY: rect.top,
-            width: rect.width,
-            height: rect.height
-          };
-
-          player.classList.add("is-dragging");
-          player.classList.remove("is-docked");
-          player.style.width = Math.round(rect.width) + "px";
-          setDockSpace(false);
-          player.setPointerCapture(event.pointerId);
-          event.preventDefault();
-        });
-
-        player.addEventListener("pointermove", function (event) {
-          if (!dragState || event.pointerId !== dragState.pointerId) {
-            return;
-          }
-
-          var x = dragState.originX + event.clientX - dragState.startX;
-          var y = dragState.originY + event.clientY - dragState.startY;
-          var next = clampFloating(x, y, dragState.width, dragState.height);
-          var dockCandidate = shouldDockAt(next.x, dragState.width);
-
-          applyFloatingPosition(next.x, next.y, dragState.width);
-          player.classList.toggle("is-dock-candidate", dockCandidate);
-          setDockSpace(dockCandidate);
-          event.preventDefault();
-        });
-
-        function finishDrag(event) {
-          if (!dragState || event.pointerId !== dragState.pointerId) {
-            return;
-          }
-
-          var rect = player.getBoundingClientRect();
-          var dockCandidate = shouldDockAt(rect.left, rect.width);
-
-          player.classList.remove("is-dragging");
-          dragState = null;
-
-          try {
-            player.releasePointerCapture(event.pointerId);
-          } catch (error) {}
-
-          if (dockCandidate) {
-            dockPlayer();
-          } else {
-            snapFloating(rect.left, rect.top);
-          }
+      function startDrag(event) {
+        if (event.button !== undefined && event.button !== 0) {
+          return;
         }
 
+        if (event.target.closest && event.target.closest("button, audio, input, a")) {
+          return;
+        }
+
+        var rect = player.getBoundingClientRect();
+
+        dragState = {
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          originX: rect.left,
+          originY: rect.top,
+          width: rect.width,
+          height: rect.height
+        };
+
+        player.classList.add("is-dragging");
+        player.classList.remove("is-docked", "is-dock-candidate");
+        setDockSpace(false);
+
+        player.style.width = Math.round(rect.width) + "px";
+
+        try {
+          player.setPointerCapture(event.pointerId);
+        } catch (error) {}
+
+        event.preventDefault();
+      }
+
+      function moveDrag(event) {
+        if (!dragState || event.pointerId !== dragState.pointerId) {
+          return;
+        }
+
+        var x = dragState.originX + event.clientX - dragState.startX;
+        var y = dragState.originY + event.clientY - dragState.startY;
+        var next = clampFloating(x, y, dragState.width, dragState.height);
+        var dockCandidate = shouldDockAt(next.x, next.y, dragState.width, dragState.height);
+
+        player.style.width = Math.round(dragState.width) + "px";
+        player.style.left = Math.round(next.x) + "px";
+        player.style.top = Math.round(next.y) + "px";
+        player.style.right = "auto";
+        player.style.bottom = "auto";
+
+        player.classList.toggle("is-dock-candidate", dockCandidate);
+        setDockSpace(dockCandidate);
+
+        event.preventDefault();
+      }
+
+      function finishDrag(event) {
+        if (!dragState || event.pointerId !== dragState.pointerId) {
+          return;
+        }
+
+        var rect = player.getBoundingClientRect();
+        var dockCandidate = shouldDockAt(rect.left, rect.top, rect.width, rect.height);
+
+        dragState = null;
+        player.classList.remove("is-dragging");
+
+        try {
+          player.releasePointerCapture(event.pointerId);
+        } catch (error) {}
+
+        if (dockCandidate) {
+          dockPlayer();
+        } else {
+          snapFloating(rect.left, rect.top);
+        }
+      }
+
+      if (window.PointerEvent) {
+        handle.addEventListener("pointerdown", startDrag);
+        player.addEventListener("pointermove", moveDrag);
         player.addEventListener("pointerup", finishDrag);
         player.addEventListener("pointercancel", finishDrag);
       }
@@ -881,14 +943,16 @@
       frame.addEventListener("load", function () {
         hookedDoc = null;
         hookedWin = null;
+
         window.setTimeout(function () {
           hookFrameMenu();
-          if (mode === "docked") {
-            dockPlayer();
-          } else {
-            syncLayoutSoon();
-          }
+          dockPlayer();
         }, 80);
+
+        window.setTimeout(function () {
+          hookFrameMenu();
+          dockPlayer();
+        }, 350);
       });
 
       window.addEventListener("message", function (event) {
@@ -904,18 +968,26 @@
       window.addEventListener("resize", syncLayoutSoon);
       window.addEventListener("orientationchange", function () {
         window.setTimeout(syncLayoutSoon, 180);
+        window.setTimeout(syncLayoutSoon, 420);
       });
 
       window.JobsDocsMusicLayout = {
         dock: dockPlayer,
-        float: function () { floatPlayer(); },
+        float: function () {
+          floatPlayer();
+        },
         sync: syncLayoutSoon
       };
 
       window.setTimeout(function () {
         hookFrameMenu();
         dockPlayer();
-      }, 120);
+      }, 60);
+
+      window.setTimeout(function () {
+        hookFrameMenu();
+        dockPlayer();
+      }, 300);
     })();
   </script>
 </body>
