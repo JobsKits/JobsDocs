@@ -1,6 +1,6 @@
 ---
 title: "Git 子模块使用"
-date: 2025-08-18T13:05:14+07:00
+date: 2026-05-03T16:29:51+08:00
 draft: false
 weight: 680
 summary: "先对用Git管理的文件夹创建远程仓库 ``` git submodule add"

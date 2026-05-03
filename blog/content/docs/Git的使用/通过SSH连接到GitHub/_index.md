@@ -1,6 +1,6 @@
 ---
 title: "通过SSH连接到GitHub"
-date: 2026-01-17T17:54:01+07:00
+date: 2026-05-03T16:29:51+08:00
 draft: false
 weight: 690
 summary: "一、生成SSH密钥🔑 > 尚未在本地计算机上生成SSH密钥🔑对 ## 二、确认 idrsa 真的存在 & 权限正确 ## 三、把 github.com 的 key 明确写进 ~/.ssh/config 建立~/.ssh/config并赋权 打开 open ~/.ssh/config 编辑 ~/.ssh/config > IdentitiesOnly yes "
