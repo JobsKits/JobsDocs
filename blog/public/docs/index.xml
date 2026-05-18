@@ -2,18 +2,67 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jobs Docs</title>
-    <link>http://localhost:53994/docs/</link>
+    <link>http://localhost:1313/docs/</link>
     <description>Recent content on Jobs Docs</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 08 Apr 2026 10:20:00 +0800</lastBuildDate>
-    <atom:link href="http://localhost:53994/docs/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 May 2026 18:37:49 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/docs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>足球盘口学习</title>
+      <link>http://localhost:1313/docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate>
+      <guid>http://localhost:1313/docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/</guid>
+      <description>当前总行数：176 行 ## 免责声明 珍惜生活，远离赌博 要提醒大家的是，外围博彩不但违反法律，同时存在巨大资金风险，安全无法得到保障； 而且玩法诱惑性比较强，玩家容易沉迷其中并大量流失彩金。 大家务必选择更安全、合法的国家彩票，虽然没有大小球玩法，但竞彩的总进球数以及猜比分和大小球息息相关，学会看大小球之后可以在这些玩法上有所斩获，祝大家杯赛期间一路红到</description>
+    </item>
+    <item>
+      <title>MacOS_Web服务器学习</title>
+      <link>http://localhost:1313/docs/macos_web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate>
+      <guid>http://localhost:1313/docs/macos_web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+      <description>一、前言 资料来源 Apache 、Tomcat、Nginx的区别 MacOS 自带tomcat和apache，但是建议都用brew重新下载进行额外的管理 查找用Homebrew管理的软件的安装路径（以tomat为例） ## 二、tomcat ### 1、tomcat的安装 ### 2、tomcat的开启/关闭/重启 进入tomcat安装目录下的libexe</description>
+    </item>
     <item>
       <title>Shell脚本代码片段</title>
-      <link>http://localhost:53994/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</link>
-      <pubDate>Wed, 08 Apr 2026 10:20:00 +0800</pubDate>
-      <guid>http://localhost:53994/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</guid>
-      <description>🎯 项目白皮书 虽然Shell脚本晦涩难懂，但相较于python等脚本，因为减少了一层系统封装调用，所以使得shell脚本具有更大的普适度 不会因为第三方Api更新而影响使用 也降低了某些潜在的兼容性等Bug的出现几率 增强了代码执行的效率 为了更好的规避Shell脚本的晦涩难懂，特此文件记录一些高频需求涉及到的Shell脚本代码片段 本文件下所有的Shel</description>
+      <link>http://localhost:1313/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</link>
+      <pubDate>Mon, 11 May 2026 18:37:49 +0800</pubDate>
+      <guid>http://localhost:1313/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</guid>
+      <description>🔥 前言 虽然Shell脚本晦涩难懂，但相较于python等脚本，因为减少了一层系统封装调用，所以使得shell脚本具有更大的普适度 不会因为第三方Api更新而影响使用 也降低了某些潜在的兼容性等Bug的出现几率 增强了代码执行的效率 为了更好的规避Shell脚本的晦涩难懂，特此文件记录一些高频需求涉及到的Shell脚本代码片段 本文件下所有的Shell脚本</description>
+    </item>
+    <item>
+      <title>ReactNative</title>
+      <link>http://localhost:1313/docs/reactnative/</link>
+      <pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate>
+      <guid>http://localhost:1313/docs/reactnative/</guid>
+      <description>当前总行数：366 行 ## 一、基础知识 脚本语言：必须在自己的环境下（解释器）运行，不能完全对接操作系统。比如，.js需要在操作系统里面安装了Node.js以后，才可以运行； ## 二、一些工具 ### 1、Node.js Node.js：是一个基于 Chrome V8 引擎的 JavaScript 运行环境。它的特点如下: 事件驱动与非阻塞I/O模型</description>
+    </item>
+    <item>
+      <title>CMake</title>
+      <link>http://localhost:1313/docs/cmake/</link>
+      <pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate>
+      <guid>http://localhost:1313/docs/cmake/</guid>
+      <description>构建 在软件开发中，“构建”指的是将源代码转换为可执行文件、库或其他分发格式的过程。这通常包括编译源代码、链接库和生成最终的可执行文件。构建系统是用于自动化和管理这一过程的工具。 构建的过程：（以下是构建过程的一般步骤） 编译（Compile）： 将源代码文件（如 .cpp 或 .c 文件）转换为目标文件（.o 或 .obj 文件）。这一步通常由编译器（如</description>
+    </item>
+    <item>
+      <title>JavaDoc</title>
+      <link>http://localhost:1313/docs/javadoc/</link>
+      <pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate>
+      <guid>http://localhost:1313/docs/javadoc/</guid>
+      <description>当前总行数：26 行 ## Lambda Lambda表达式是Java 8引入的一种简洁的语法,用于编写函数式接口的实例； 在Java 8之前没有Lambda表达式的时候，通常使用匿名内部类的方式来实现回调； 函数式接口是只有一个抽象方法的接口。Lambda表达式可以让代码变得更加简洁紧凑，更易读； 类似于OC中的Block 使用Lambda表达式v -&amp;gt;</description>
+    </item>
+    <item>
+      <title>天工开物</title>
+      <link>http://localhost:1313/docs/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/</link>
+      <pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate>
+      <guid>http://localhost:1313/docs/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/</guid>
+      <description>1、生命的定义：具备意识（广义上的趋利避害） 意识是智慧（逻辑）产生的必要前置条件； 高级智慧生命会更加表现为更强的逻辑思维能力； 低级别的生命仅仅会满足自身的必要循环，个体生存的乃至种族的繁荣； ## 2、元素周期表 放射性元素因为向外散发能量，不稳定，具有半衰期 | 周期/族 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 1</description>
+    </item>
+    <item>
+      <title>利用Quicktype自动建立数据模型</title>
+      <link>http://localhost:1313/docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate>
+      <guid>http://localhost:1313/docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/</guid>
+      <description>quicktype@网页端 ## 一、安装 &amp;gt; ``shell &amp;gt; quicktype &amp;ndash;version # 验证安装 &amp;gt; ` ### 1、手动安装 利用npm安装 利用Homebrew安装 ### 2、脚本安装 ## 二、在.zshrc里面配置全局函数 ### 使用方式 路径定位于目标文件夹，使用如下命令 qt qt swift qt dart 当目标文</description>
     </item>
   </channel>
 </rss>

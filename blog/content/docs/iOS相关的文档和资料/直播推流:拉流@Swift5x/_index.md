@@ -1,21 +1,24 @@
 ---
 title: "直播推流:拉流@Swift5x"
-date: 2026-05-03T16:29:51+08:00
+date: 2026-05-19T00:51:52+08:00
 draft: false
 weight: 380
-summary: "服务器（本地）：以MacOS和本地局域网为基础，辅以Homebrew ➤ node ➤ node-media-server@2.3.8 视频采集端：iOS@Swift5x➕ HaishinKit ➤ 输出视频流 服务器端（本地）：利用Apple主导的HLS技术切片成.ts格式，➤ 进行推流 因为是直播，所以.ts文件，滚动生成，阅后即焚 推流的效果（日志） "
+summary: "服务器（本地）：以MacOS和本地局域网为基础，辅以Homebrew ➤ node ➤ node-media-server@2.3.8 - 视频采集端：iOS@Swift5x➕ HaishinKit ➤ 输出视频流 - 服务器端（本地）：利用Apple主导的HLS技术切片成.ts格式，➤ 进行推流 因为是直播，所以.ts文件，滚动生成，阅后即焚 - 推流的效"
 bookCollapseSection: false
 ---
 
 
-* 服务器（本地）：以**MacOS**和本地局域网为基础，辅以[**Homebrew**](https://brew.sh/) ➤ [**node**](https://nodejs.org/en) ➤ [**node-media-server@2.3.8**](https://github.com/codivoire/node-media-server)
+![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 
-* 视频采集端：**iOS**@[**Swift**](https://www.swift.org/)5x➕ [**HaishinKit**](https://github.com/HaishinKit/HaishinKit.swift) ➤ 输出视频流
 
-* 服务器端（本地）：利用**Apple主导的HLS技术**切片成<font size=5>`*.ts`</font>格式，➤ 进行推流
+- 服务器（本地）：以**MacOS**和本地局域网为基础，辅以[**Homebrew**](https://brew.sh/) ➤ [**node**](https://nodejs.org/en) ➤ [**node-media-server@2.3.8**](https://github.com/codivoire/node-media-server)
+
+- 视频采集端：**iOS**@[**Swift**](https://www.swift.org/)5x➕ [**HaishinKit**](https://github.com/HaishinKit/HaishinKit.swift) ➤ 输出视频流
+
+- 服务器端（本地）：利用**Apple主导的HLS技术**切片成<font size=5>`*.ts`</font>格式，➤ 进行推流
   * 因为是直播，所以<font size=5>`*.ts`</font>文件，<font color=red>**滚动生成，阅后即焚**</font>
   
-* 推流的效果（日志）
+- 推流的效果（日志）
   
   * 建立推流成功输出
   
@@ -49,7 +52,7 @@ bookCollapseSection: false
     12/9/2025 11:09:01 74341 [INFO] [Transmuxing end] /live/jobs_test
     ```
   
-* 拉流的效果
+- 拉流的效果
   
   * [**Google@Chrome浏览器**](https://www.google.com/intl/zh-CN/chrome/)不支持**HLS**，[**需要做特殊处理**](#对Chrome的特殊处理)
   

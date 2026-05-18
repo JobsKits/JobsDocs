@@ -1,9 +1,9 @@
 ---
 title: "Shell脚本代码片段"
-date: 2026-04-08T10:20:00+08:00
+date: 2026-05-11T18:37:49+08:00
 draft: false
 weight: 570
-summary: "🎯 项目白皮书 虽然Shell脚本晦涩难懂，但相较于python等脚本，因为减少了一层系统封装调用，所以使得shell脚本具有更大的普适度 不会因为第三方Api更新而影响使用 也降低了某些潜在的兼容性等Bug的出现几率 增强了代码执行的效率 为了更好的规避Shell脚本的晦涩难懂，特此文件记录一些高频需求涉及到的Shell脚本代码片段 本文件下所有的Shel"
+summary: "🔥 前言 虽然Shell脚本晦涩难懂，但相较于python等脚本，因为减少了一层系统封装调用，所以使得shell脚本具有更大的普适度 不会因为第三方Api更新而影响使用 也降低了某些潜在的兼容性等Bug的出现几率 增强了代码执行的效率 为了更好的规避Shell脚本的晦涩难懂，特此文件记录一些高频需求涉及到的Shell脚本代码片段 本文件下所有的Shell脚本"
 bookCollapseSection: false
 ---
 
@@ -11,7 +11,7 @@ bookCollapseSection: false
 ![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
 
 
-## 🎯 <font id=目的>**项目白皮书**</font>
+## 🔥 <font id=前言>前言</font>
 
 * 虽然**Shell**脚本晦涩难懂，但相较于**python**等脚本，因为减少了一层系统封装调用，所以使得**shell**脚本具有更大的普适度
 
@@ -34,16 +34,220 @@ bookCollapseSection: false
   | 更现代更安全的语法             | ✅ 是                          | ❌ 否                |
   | **macOS** 默认支持             | ✅ 是（**Catalina** 之后默认） | ✅ 是                |
 
-## 💥 代码讲解 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 💥 代码讲解 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 🎯 **Debug** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 🎯 脚本标准基座（推荐复制到新脚本） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+> 后续写 `.command` 脚本时，优先使用这套基座。核心交互约定固定为：**回车跳过，输入任意字符后回车执行安装 / 更新 / 升级流程**。危险操作例外，例如删除、覆盖、强制 reset，必须单独要求输入 `YES`。
+
+```shell
+#!/bin/zsh
+
+# ============================= 基础路径 =============================
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
+SCRIPT_PATH="${SCRIPT_DIR}/$(basename -- "$0")"
+SCRIPT_BASENAME=$(basename "$0" | sed 's/\.[^.]*$//')
+LOG_FILE="/tmp/${SCRIPT_BASENAME}.log"
+
+# ============================= 彩色日志 =============================
+log()            { echo -e "$1" | tee -a "$LOG_FILE"; }
+color_echo()     { log "\033[1;32m$1\033[0m"; }
+info_echo()      { log "\033[1;34mℹ $1\033[0m"; }
+success_echo()   { log "\033[1;32m✔ $1\033[0m"; }
+warn_echo()      { log "\033[1;33m⚠ $1\033[0m"; }
+warm_echo()      { log "\033[1;33m$1\033[0m"; }
+note_echo()      { log "\033[1;35m➤ $1\033[0m"; }
+error_echo()     { log "\033[1;31m✖ $1\033[0m"; }
+err_echo()       { log "\033[1;31m$1\033[0m"; }
+debug_echo()     { log "\033[1;35m🐞 $1\033[0m"; }
+highlight_echo() { log "\033[1;36m🔹 $1\033[0m"; }
+gray_echo()      { log "\033[0;90m$1\033[0m"; }
+bold_echo()      { log "\033[1m$1\033[0m"; }
+underline_echo() { log "\033[4m$1\033[0m"; }
+
+# ============================= 通用交互 =============================
+# 回车=跳过；输入任意字符=执行。适合安装、更新、升级、自检等非危险步骤。
+ask_run() {
+  echo ""
+  note_echo "👉 $1"
+  gray_echo "【回车=跳过，任意字符=执行】"
+  local input
+  IFS= read -r "input?➤ "
+  [[ -n "$input" ]]
+}
+
+# 只用于危险操作：删除、覆盖、强制 reset、清空目录等。
+ask_yes() {
+  echo ""
+  warn_echo "⚠ $1"
+  gray_echo "必须输入 YES 才会继续；直接回车或其它输入都会取消。"
+  local input
+  IFS= read -r "input?➤ "
+  [[ "$input" == "YES" ]]
+}
+
+# ============================= 路径工具 =============================
+get_cpu_arch() {
+  [[ "$(uname -m)" == "arm64" ]] && echo "arm64" || echo "x86_64"
+}
+
+abs_path() {
+  local p="$1"
+  [[ -z "$p" ]] && return 1
+  p="${p//\"/}"
+  [[ "$p" != "/" ]] && p="${p%/}"
+
+  if [[ -d "$p" ]]; then
+    (cd "$p" 2>/dev/null && pwd -P)
+  elif [[ -f "$p" ]]; then
+    (cd "${p:h}" 2>/dev/null && printf "%s/%s\n" "$(pwd -P)" "${p:t}")
+  else
+    return 1
+  fi
+}
+
+# ============================= 环境变量写入 =============================
+# 参数1：要写入的 shell 配置文件；参数2：唯一标识；参数3：实际 shellenv 内容。
+inject_shellenv_block() {
+  local profile_file="$1"
+  local id="$2"
+  local shellenv="$3"
+  local header="# >>> ${id} 环境变量 >>>"
+  local footer="# <<< ${id} 环境变量 <<<"
+
+  if [[ -z "$profile_file" || -z "$id" || -z "$shellenv" ]]; then
+    error_echo "缺少参数：inject_shellenv_block <profile_file> <id> <shellenv>"
+    return 1
+  fi
+
+  [[ -f "$profile_file" ]] || touch "$profile_file"
+
+  if grep -Fq "$header" "$profile_file" || grep -Fq "$shellenv" "$profile_file"; then
+    info_echo "📌 已存在环境变量：$id"
+  else
+    {
+      echo ""
+      echo "$header"
+      echo "$shellenv"
+      echo "$footer"
+    } >> "$profile_file"
+    success_echo "✅ 已写入环境变量：$profile_file -> $id"
+  fi
+
+  eval "$shellenv"
+  success_echo "🟢 环境变量已在当前终端生效：$id"
+}
+
+# ============================= Homebrew 自检 =============================
+resolve_brew_bin() {
+  if command -v brew >/dev/null 2>&1; then
+    command -v brew
+  elif [[ -x "/opt/homebrew/bin/brew" ]]; then
+    echo "/opt/homebrew/bin/brew"
+  elif [[ -x "/usr/local/bin/brew" ]]; then
+    echo "/usr/local/bin/brew"
+  else
+    return 1
+  fi
+}
+
+install_homebrew() {
+  local arch="$(get_cpu_arch)"
+  local shell_path="${SHELL##*/}"
+  local profile_file=""
+  local brew_bin=""
+  local shellenv_cmd=""
+
+  if ! brew_bin="$(resolve_brew_bin)"; then
+    warn_echo "🧩 未检测到 Homebrew，正在安装...（架构：$arch）"
+
+    if [[ "$arch" == "arm64" ]]; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+        error_echo "Homebrew 安装失败（arm64）"
+        exit 1
+      }
+      brew_bin="/opt/homebrew/bin/brew"
+    else
+      arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+        error_echo "Homebrew 安装失败（x86_64）"
+        exit 1
+      }
+      brew_bin="/usr/local/bin/brew"
+    fi
+
+    success_echo "✅ Homebrew 安装成功"
+  else
+    info_echo "🍺 已检测到 Homebrew：$brew_bin"
+  fi
+
+  shellenv_cmd="eval \"\$(${brew_bin} shellenv)\""
+  case "$shell_path" in
+    zsh)   profile_file="$HOME/.zprofile" ;;
+    bash)  profile_file="$HOME/.bash_profile" ;;
+    *)     profile_file="$HOME/.profile" ;;
+  esac
+
+  inject_shellenv_block "$profile_file" "homebrew_env" "$shellenv_cmd"
+  eval "$(${brew_bin} shellenv)"
+
+  if ask_run "Homebrew 已安装。是否执行更新？将依次执行 brew update、brew upgrade、brew cleanup、brew doctor、brew -v"; then
+    info_echo "⏳ 正在更新 Homebrew..."
+    brew update  || { error_echo "brew update 失败"; return 1; }
+    brew upgrade || { error_echo "brew upgrade 失败"; return 1; }
+    brew cleanup || { error_echo "brew cleanup 失败"; return 1; }
+    brew doctor  || { warn_echo  "brew doctor 有警告/错误，请按提示处理"; }
+    brew -v      || { warn_echo  "打印 brew 版本失败，可忽略"; }
+    success_echo "✅ Homebrew 已更新"
+  else
+    note_echo "⏭️ 已跳过 Homebrew 更新"
+  fi
+}
+
+# Homebrew 软件包：未安装则安装；已安装则按统一交互决定是否升级。
+brew_install_or_upgrade() {
+  local formula="$1"
+  local command_name="${2:-$formula}"
+  [[ -z "$formula" ]] && { error_echo "缺少 formula"; return 1; }
+
+  if ! command -v "$command_name" >/dev/null 2>&1; then
+    note_echo "📦 未检测到 $command_name，正在安装 $formula..."
+    brew install "$formula" || { error_echo "$formula 安装失败"; return 1; }
+    success_echo "✅ $formula 安装成功"
+  else
+    if ask_run "$command_name 已安装。是否执行 brew upgrade $formula？"; then
+      info_echo "⏳ 正在升级 $formula..."
+      brew upgrade "$formula" || { error_echo "$formula 升级失败"; return 1; }
+      brew cleanup || { warn_echo "brew cleanup 执行时有警告"; }
+      success_echo "✅ $formula 已升级"
+    else
+      note_echo "⏭️ 已跳过 $formula 升级"
+    fi
+  fi
+}
+
+# ============================= 主入口 =============================
+main() {
+  clear
+  : > "$LOG_FILE"
+  info_echo "脚本路径：$SCRIPT_PATH"
+  info_echo "日志路径：$LOG_FILE"
+  # show_readme_and_wait
+  # install_homebrew
+  # brew_install_or_upgrade "fzf"
+}
+
+main "$@"
+```
+
+### 🎯 **Debug** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 echo "📄 SCRIPT_PATH = $SCRIPT_PATH"
 read "?👉 按下回车开始执行，或 Ctrl+C 取消..."
 ```
 
-### 🎯 **Logo** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 **Logo** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * ```shell
   print_logo() {
@@ -99,7 +303,7 @@ read "?👉 按下回车开始执行，或 Ctrl+C 取消..."
   }
   ```
 
-### 🎯 🖨️打印输出彩色函数 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 🖨️打印输出彩色函数 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * ```shell
   SCRIPT_BASENAME=$(basename "$0" | sed 's/\.[^.]*$//')   # 当前脚本名（去掉扩展名）
@@ -252,7 +456,7 @@ read "?👉 按下回车开始执行，或 Ctrl+C 取消..."
   > # _JobsPrint_Underline "🔗 文档地址：https://example.com"
   > ```
 
-### 🎯 📔日志输出 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 📔日志输出 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 # ✅ 日志输出（日志文件名 == 脚本文件名）
@@ -279,13 +483,13 @@ init_logging() {
 }
 ```
 
-### 🎯 打开系统设置 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 打开系统设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 open "x-apple.systempreferences:com.apple.preference.security?Privacy"
 ```
 
-### 🎯 等待用户输入后执行 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 等待用户输入后执行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * ```
   # ✅ 通用：回车跳过，任意字符执行
@@ -305,18 +509,18 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy"
 
 * ```shell
   wait_for_user_to_start() {
-    read '?XXX 任意键=跳过： ' sim_input
-    if [[ -z "$sim_input" ]]; then
-      # 系统检测到用户输入回车，开始执行
-    else
-      # 系统检测到用户输入任意键
-    fi
+    echo ""
+    note_echo "👉 ${1:-是否执行该步骤？}"
+    gray_echo "【回车=跳过，任意字符=执行】"
+    local sim_input
+    IFS= read -r "sim_input?➤ "
+    [[ -n "$sim_input" ]]
   }
   ```
   
   > ```shell
   > echo "准备执行 flutter clean..."
-  > if wait_for_user_to_start; then
+  > if wait_for_user_to_start "执行 flutter clean？"; then
   >   flutter clean
   > else
   >   echo "跳过 flutter clean"
@@ -358,7 +562,7 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy"
   > echo "✅ 卸载完成"
   > ```
 
-### 🎯 判断是否当前IP在🇨🇳中国（大陆地区）<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 判断是否当前IP在🇨🇳中国（大陆地区）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 is_in_china() {
@@ -373,9 +577,9 @@ is_in_china() {
 }
 ```
 
-### 🎯 [**git**](https://git-scm.com/) <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 [**git**](https://git-scm.com/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 1、目录判定 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 1、目录判定 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 is_git_repo() {
@@ -388,7 +592,7 @@ is_git_repo() {
 }
 ```
 
-#### 2、检测远程仓库 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 2、检测远程仓库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 ensure_git_remote() {
@@ -421,11 +625,11 @@ ensure_git_remote() {
 }
 ```
 
-### 🎯 获取系统变量 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 获取系统变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 1、路径 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 1、路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 1.1、<font color=red>**获取：脚本所在目录的绝对路径**</font> <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 1.1、<font color=red>**获取：脚本所在目录的绝对路径**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
   >- **${BASH_SOURCE[0]:-${(%):-%x}}**：获取当前脚本路径，兼容 **bash** 和 **zsh**。🔔 `:-` 是默认值语法（如果前者不存在就用后者）
   >  * **bash** 用 `BASH_SOURCE[0]`
@@ -453,7 +657,7 @@ cd "$SCRIPT_DIR" || {
 }
 ```
 
-##### 1.2、**获取：当前脚本文件名** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 1.2、**获取：当前脚本文件名** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
   > `basename "$0"`：提取脚本文件的**文件名**部分（去除路径）
 
@@ -461,20 +665,20 @@ cd "$SCRIPT_DIR" || {
   script_file="$(basename "$0")"
   ```
 
-##### 1.3、**获取：脚本路径** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 1.3、**获取：脚本路径** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
 SCRIPT_PATH="${SCRIPT_DIR}/$(basename -- "$0")"
 ```
 
-##### 1.4、**获取：桌面路径 **<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 1.4、**获取：桌面路径 **<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
   ```shell
   DESKTOP_PATH=~/Desktop
   ```
 
-##### 1.5、循环问正确（判断依据解耦自定义拓展）的路径，直到正确为止 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### 1.5、循环问正确（判断依据解耦自定义拓展）的路径，直到正确为止 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 #!/bin/zsh
@@ -559,7 +763,7 @@ main() {
 main "$@"
 ```
 
-#### 2、**获取：当前用户名** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 2、**获取：当前用户名** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
   > 用双引号 `"` 包裹起来，可以防止用户名中出现空格、特殊字符时发生错误
 
@@ -587,7 +791,7 @@ main "$@"
 | `id -un`  | 命令     | 当前有效用户的用户名（与 `whoami` 通常一样，但更底层）   |
 | `logname` | 命令     | 最初登录系统的用户（在 `sudo` 场景下可能与当前用户不同） |
 
-#### 3、**获取：🍏 Xcode 信息 **<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 3、**获取：🍏 Xcode 信息 **<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 print_xcode_info() {
@@ -601,7 +805,7 @@ print_xcode_info() {
 }
 ```
 
-#### 4、**获取：☕ Java 信息 ** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 4、**获取：☕ Java 信息 ** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 print_java_info() {
@@ -615,7 +819,7 @@ print_java_info() {
 }
 ```
 
-#### 5、**获取：🤖  [Android](https://www.android.com/) SDK 信息** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 5、**获取：🤖  [Android](https://www.android.com/) SDK 信息** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 print_android_sdk_info() {
@@ -640,7 +844,7 @@ print_android_sdk_info() {
 }
 ```
 
-### 🎯 生成桌面快捷方式 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 生成桌面快捷方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 shortcut_name="${flutter_project_name}.command"
@@ -652,7 +856,7 @@ if [[ ! -f "$shortcut_path" ]]; then
 fi
 ```
 
-### 🎯 转换路径为<font color=red>**绝对路径**</font> <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 转换路径为<font color=red>**绝对路径**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > **将用户输入的路径（文件或文件夹）转换为“绝对路径（不含软链接）”**，并去掉多余的双引号或末尾斜杠，增强兼容性。
 
@@ -673,7 +877,7 @@ abs_path() {
 }
 ```
 
-### 🎯 识别**`.xcodeproj`**  <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 识别**`.xcodeproj`**  <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 find_or_prompt_xcodeproj() {
@@ -695,7 +899,7 @@ find_or_prompt_xcodeproj() {
 }
 ```
 
-### 🎯 [**Android**](https://www.android.com/) 模拟器🤖<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 [**Android**](https://www.android.com/) 模拟器🤖<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 检查模拟器是否存在；启动一个可用的；设置并返回 `$device_id`
 
@@ -782,9 +986,9 @@ find_or_prompt_xcodeproj() {
   }
   ```
 
-### 🎯 **iOS** 模拟器📱<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 **iOS** 模拟器📱<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 1、（检测）防止假后台  <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 1、（检测）防止假后台  <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 如果是假后台：`xcrun simctl list devices | grep -E "Booted"` 控制台什么也不输出
 > 如果真后台：`xcrun simctl list devices | grep -E "Booted"` 控制台会有输出
@@ -808,7 +1012,7 @@ fix_fake_simulator() {
 }
 ```
 
-#### 2、📱关闭 **iOS** 模拟器 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 2、📱关闭 **iOS** 模拟器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 xcrun simctl shutdown all
@@ -822,13 +1026,13 @@ else
 fi
 ```
 
-#### 3、📱打开 **iOS** 模拟器 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 3、📱打开 **iOS** 模拟器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 open -a Simulator
 ```
 
-### 🎯 执行耗时 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 执行耗时 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 START_TIME=$(date +%s) # 放在最前面
@@ -843,7 +1047,7 @@ print_duration() {
 print_duration
 ```
 
-### 🎯 写文件 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 写文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 >* **追加写入**
 >
@@ -884,45 +1088,41 @@ print_duration
 >     ```
 >  
 
-#### 🎯 1、单行写文件（避免重复写入）<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 1、单行写文件（避免重复写入）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 inject_shellenv_block() {
-    local id="$1"           # 参数1：环境变量块 ID，如 "homebrew_env"
-    local shellenv="$2"     # 参数2：实际要写入的 shellenv 内容，如 'eval "$(/opt/homebrew/bin/brew shellenv)"'
-    local header="# >>> ${id} 环境变量 >>>"  # 自动生成注释头
+  local profile_file="$1"   # 参数1：要写入的配置文件，例如 "$HOME/.zprofile"
+  local id="$2"             # 参数2：环境变量块 ID，例如 "homebrew_env"
+  local shellenv="$3"       # 参数3：实际写入内容，例如 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+  local header="# >>> ${id} 环境变量 >>>"
+  local footer="# <<< ${id} 环境变量 <<<"
 
-    # 参数校验
-    if [[ -z "$id" || -z "$shellenv" ]]; then
-    error_echo "❌ 缺少参数：inject_shellenv_block <id> <shellenv>"
+  if [[ -z "$profile_file" || -z "$id" || -z "$shellenv" ]]; then
+    error_echo "❌ 缺少参数：inject_shellenv_block <profile_file> <id> <shellenv>"
     return 1
-    fi
+  fi
 
-    # 若用户未选择该 ID，则跳过写入
-    if [[ ! " ${selected_envs[*]} " =~ " $id " ]]; then
-    warn_echo "⏭️ 用户未选择写入环境：$id，跳过"
-    return 0
-    fi
+  [[ -f "$profile_file" ]] || touch "$profile_file"
 
-    # 避免重复写入
-    if grep -Fq "$header" "$PROFILE_FILE"; then
-      info_echo "📌 已存在 header：$header"
-    elif grep -Fq "$shellenv" "$PROFILE_FILE"; then
-      info_echo "📌 已存在 shellenv：$shellenv"
-    else
-      echo "" >> "$PROFILE_FILE"
-      echo "$header" >> "$PROFILE_FILE"
-      echo "$shellenv" >> "$PROFILE_FILE"
-      success_echo "✅ 已写入：$header"
-    fi
+  if grep -Fq "$header" "$profile_file" || grep -Fq "$shellenv" "$profile_file"; then
+    info_echo "📌 已存在环境变量：$id"
+  else
+    {
+      echo ""
+      echo "$header"
+      echo "$shellenv"
+      echo "$footer"
+    } >> "$profile_file"
+    success_echo "✅ 已写入：$profile_file -> $id"
+  fi
 
-    # 当前 shell 生效
-    eval "$shellenv"
-    success_echo "🟢 shellenv 已在当前终端生效"
+  eval "$shellenv"
+  success_echo "🟢 shellenv 已在当前终端生效：$id"
 }
 ```
 
-#### 🎯 2、多行写文件（避免重复写入）<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 2、多行写文件（避免重复写入）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 append_env_block() {
@@ -950,7 +1150,7 @@ append_env_block() {
 }
 ```
 
-#### 🎯 3、函数将内容插入到指定的文件顶部 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 3、函数将内容插入到指定的文件顶部 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 insert_block_to_profile_top() {
@@ -981,7 +1181,7 @@ insert_block_to_profile_top() {
 > insert_block_to_profile_top "$marker" "${block[@]}"
 > ```
 
-### 🎯 环境变量 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | shell 类型 | 默认配置文件      | macOS 默认用哪个❓                                            |
 | ---------- | ----------------- | ------------------------------------------------------------ |
@@ -993,19 +1193,19 @@ insert_block_to_profile_top() {
 arch=$(get_cpu_arch)
 
 if [[ "$arch" == "arm64" ]]; then
-  /// TODO
+  inject_shellenv_block "$HOME/.zprofile" "homebrew_env" 'eval "$(/opt/homebrew/bin/brew shellenv)"'
 else
-	/// TODO
+  inject_shellenv_block "$HOME/.bash_profile" "homebrew_env" 'eval "$(/usr/local/bin/brew shellenv)"'
 fi
 ```
 
-#### 🎯 1、写单行的环境变量 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 1、写单行的环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
-inject_shellenv_block "$HOME/.zprofile" 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+inject_shellenv_block "$HOME/.zprofile" "homebrew_env" 'eval "$(/opt/homebrew/bin/brew shellenv)"'
 ```
 
-#### 🎯 2、写多行的环境变量 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 2、写多行的环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 append_env_block "$HOME/.zshrc" \
@@ -1013,7 +1213,7 @@ append_env_block "$HOME/.zshrc" \
   'export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn'
 ```
 
-#### 🎯 3、🌐 环境变量格式化 <a href="#目的" style="font-size:17px; color:green;"><b>🔼 <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></b></a>
+#### 🎯 3、🌐 环境变量格式化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <font color=red>把环境变量 `$PATH` 中的路径项按冒号（`:`）拆分，并逐行打印每一项路径</font>
 
@@ -1044,7 +1244,7 @@ done
 /bin
 ```
 
-### 🎯 判断芯片架构（`ARM64` / `x86_64`）<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 判断芯片架构（`ARM64` / `x86_64`）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 get_cpu_arch() {
@@ -1052,15 +1252,13 @@ get_cpu_arch() {
 }
 ```
 
-### 🎯 [**SDKMAN**](https://sdkman.io/) <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 [**SDKMAN**](https://sdkman.io/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-```
-/// TODO
-```
+> 暂不把 **SDKMAN** 写进通用脚本基座。它更偏交互式 Java 生态管理，和 `Homebrew + jenv` 的职责有重叠。需要独立封装时，再按“安装、环境注入、版本切换、卸载回滚”四段式补充。
 
-### 🎯 💎[**Rubygems**](https://rubygems.org/) 自检安装 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 💎[**Rubygems**](https://rubygems.org/) 自检安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 🎯1、自检安装 💎**`Gem.CocoaPods`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯1、自检安装 💎**`Gem.CocoaPods`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 install_cocoaPods() {
@@ -1074,9 +1272,13 @@ install_cocoaPods() {
     sudo gem install cocoapods || { error_echo "❌ CocoaPods 安装失败（gem）"; exit 1; }
     success_echo "✅ CocoaPods 安装成功（gem）"
   else
-    info_echo "🔄 CocoaPods 已安装，正在通过 gem 升级..."
-    sudo gem update cocoapods || { error_echo "❌ CocoaPods 升级失败（gem）"; exit 1; }
-    success_echo "✅ CocoaPods 升级完成（gem）"
+    info_echo "🔄 CocoaPods 已安装。是否通过 gem 升级？"
+    if ask_run "执行 sudo gem update cocoapods？"; then
+      sudo gem update cocoapods || { error_echo "❌ CocoaPods 升级失败（gem）"; exit 1; }
+      success_echo "✅ CocoaPods 升级完成（gem）"
+    else
+      note_echo "⏭️ 已选择跳过 CocoaPods gem 升级"
+    fi
   fi
 
   info_echo "🔧 初始化 CocoaPods 仓库（pod setup）..."
@@ -1086,7 +1288,7 @@ install_cocoaPods() {
 }
 ```
 
-#### 🎯2、自检安装 💎**`Gem.bundler`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 🎯2、自检安装 💎**`Gem.bundler`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a>
 
 ```shell
 install_bundler() {
@@ -1100,9 +1302,13 @@ install_bundler() {
     sudo gem install bundler || { error_echo "❌ Bundler 安装失败（gem）"; exit 1; }
     success_echo "✅ Bundler 安装成功（gem）"
   else
-    info_echo "🔄 Bundler 已安装，正在升级..."
-    sudo gem update bundler || { error_echo "❌ Bundler 升级失败（gem）"; exit 1; }
-    success_echo "✅ Bundler 升级完成（gem）"
+    info_echo "🔄 Bundler 已安装。是否通过 gem 升级？"
+    if ask_run "执行 sudo gem update bundler？"; then
+      sudo gem update bundler || { error_echo "❌ Bundler 升级失败（gem）"; exit 1; }
+      success_echo "✅ Bundler 升级完成（gem）"
+    else
+      note_echo "⏭️ 已选择跳过 Bundler gem 升级"
+    fi
   fi
 
   info_echo "📦 当前 Bundler 版本："
@@ -1110,9 +1316,9 @@ install_bundler() {
 }
 ```
 
-### 🎯 🍺**`Homebrew`** 自检安装 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 🍺**`Homebrew`** 自检安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 🎯 1、自检安装 🍺**`Homebrew`** （自动架构判断，包含环境注入）<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 1、自检安装 🍺**`Homebrew`** （自动架构判断，包含环境注入）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 install_homebrew() {
@@ -1150,19 +1356,19 @@ install_homebrew() {
       bash)  profile_file="$HOME/.bash_profile" ;;
       *)     profile_file="$HOME/.profile" ;;
     esac
-    inject_shellenv_block "$profile_file" "$shellenv_cmd"
+    inject_shellenv_block "$profile_file" "homebrew_env" "$shellenv_cmd"
 
     # 立刻对当前会话生效（不等重开终端）
     eval "$(${brew_bin} shellenv)"
 
   else
     info_echo "🔄 Homebrew 已安装。是否执行更新？"
-    echo "👉 按 [Enter] 继续：将依次执行  brew update && brew upgrade && brew cleanup && brew doctor && brew -v"
-    echo "👉 输入任意字符后回车：跳过更新"
-    # 仅当“直接回车”时继续；其他输入一律跳过
+    echo "👉 直接按 [Enter]：跳过更新"
+    echo "👉 输入任意字符后回车：执行 brew update && brew upgrade && brew cleanup && brew doctor && brew -v"
+    # 仅当“输入任意字符”时执行；直接回车跳过
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在更新 Homebrew..."
       # 分步执行，任一步失败立即报错退出，方便定位
       brew update       || { error_echo "❌ brew update 失败"; return 1; }
@@ -1183,13 +1389,13 @@ install_homebrew() {
 arch=$(get_cpu_arch)
 
 if [[ "$arch" == "arm64" ]]; then
-  inject_shellenv_block "$HOME/.zprofile" 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+  inject_shellenv_block "$HOME/.zprofile" "homebrew_env" 'eval "$(/opt/homebrew/bin/brew shellenv)"'
 else
-  inject_shellenv_block "$HOME/.bash_profile" 'eval "$(/usr/local/bin/brew shellenv)"'
+  inject_shellenv_block "$HOME/.bash_profile" "homebrew_env" 'eval "$(/usr/local/bin/brew shellenv)"'
 fi
 ```
 
-#### 🎯 2、自检安装 🍺**`Homebrew.fzf`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 🎯 2、自检安装 🍺**`Homebrew.fzf`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a>
 
 ```shell
 install_fzf() {
@@ -1199,12 +1405,12 @@ install_fzf() {
     success_echo "✅ fzf 安装成功"
   else
     info_echo "🔄 fzf 已安装。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将依次执行  brew upgrade fzf && brew cleanup"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 brew upgrade fzf && brew cleanup"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 fzf..."
       brew upgrade fzf       || { error_echo "❌ fzf 升级失败"; return 1; }
       brew cleanup           || { warn_echo  "⚠️  brew cleanup 执行时有警告"; }
@@ -1230,7 +1436,7 @@ install_fzf() {
   > result=$(fzf_select "通过 Homebrew 安装" "通过 Git 安装" "取消")
   > ```
 
-#### 🎯 3、自检安装 🍺**`Homebrew.jq`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 3、自检安装 🍺**`Homebrew.jq`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 install_jq() {
@@ -1240,12 +1446,12 @@ install_jq() {
     success_echo "✅ jq 安装成功"
   else
     info_echo "🔄 jq 已安装。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将依次执行  brew upgrade jq && brew cleanup"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 brew upgrade jq && brew cleanup"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 jq..."
       brew upgrade jq         || { error_echo "❌ jq 升级失败"; return 1; }
       brew cleanup            || { warn_echo "⚠️ brew cleanup 执行时有警告"; }
@@ -1257,7 +1463,7 @@ install_jq() {
 }
 ```
 
-#### 🎯 4、自检安装 🍺**`Homebrew.dart`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 4、自检安装 🍺**`Homebrew.dart`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 install_dart() {
@@ -1268,12 +1474,12 @@ install_dart() {
     success_echo "✅ dart 安装成功"
   else
     info_echo "🔄 dart 已安装。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将依次执行  brew upgrade dart && brew cleanup"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 brew upgrade dart && brew cleanup"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 dart..."
       brew upgrade dart       || { error_echo "❌ dart 升级失败"; return 1; }
       brew cleanup            || { warn_echo "⚠️ brew cleanup 执行时有警告"; }
@@ -1285,7 +1491,7 @@ install_dart() {
 }
 ```
 
-#### 🎯 5、自检安装 🍺**`Homebrew.coreutils`**（提供 `realpath`）<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 5、自检安装 🍺**`Homebrew.coreutils`**（提供 `realpath`）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 install_coreutils() {
@@ -1295,12 +1501,12 @@ install_coreutils() {
     success_echo "✅ coreutils 安装成功"
   else
     info_echo "🔄 coreutils 已安装。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将依次执行  brew upgrade coreutils"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 brew upgrade coreutils"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 coreutils..."
       brew upgrade coreutils || { error_echo "❌ coreutils 升级失败"; return 1; }
       brew cleanup           || { warn_echo "⚠️ brew cleanup 执行时有警告"; }
@@ -1315,7 +1521,7 @@ install_coreutils() {
 }
 ```
 
-#### 🎯 6、自检安装 🍺**`Homebrew.bc`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 6、自检安装 🍺**`Homebrew.bc`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 install_bc() {
@@ -1325,12 +1531,12 @@ install_bc() {
     success_echo "✅ bc 安装成功"
   else
     info_echo "🔄 bc 已安装。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将依次执行  brew upgrade bc && brew cleanup"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 brew upgrade bc && brew cleanup"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 bc..."
       brew upgrade bc        || { error_echo "❌ bc 升级失败"; return 1; }
       brew cleanup           || { warn_echo "⚠️ brew cleanup 执行时有警告"; }
@@ -1342,7 +1548,7 @@ install_bc() {
 }
 ```
 
-#### 🎯 7、自检安装 🍺**`Homebrew.Gradle`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 7、自检安装 🍺**`Homebrew.Gradle`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 install_gradle() {
@@ -1352,12 +1558,12 @@ install_gradle() {
     success_echo "✅ Gradle 安装成功"
   else
     info_echo "🔄 Gradle 已安装。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将依次执行  brew upgrade gradle && brew cleanup"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 brew upgrade gradle && brew cleanup"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 Gradle..."
       brew upgrade gradle    || { error_echo "❌ Gradle 升级失败"; return 1; }
       brew cleanup           || { warn_echo "⚠️ brew cleanup 执行时有警告"; }
@@ -1373,7 +1579,7 @@ install_gradle() {
 }
 ```
 
-#### 🎯 8、自检安装 🍺**`Homebrew.jenv`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 8、自检安装 🍺**`Homebrew.jenv`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > [**Flutter**](https://flutter.dev/).[**Android**](https://www.android.com/)的运行和打包需要一个[**Java**](https://www.java.com/zh-CN/)环境（有必要和系统[**Java**](https://www.java.com/zh-CN/)环境进行区分开）
 >
@@ -1415,12 +1621,12 @@ install_rbenv() {
 
   else
     info_echo "🔄 rbenv 已安装。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将依次执行  brew upgrade rbenv ruby-build && brew cleanup"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 brew upgrade rbenv ruby-build && brew cleanup"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 rbenv..."
       brew upgrade rbenv ruby-build || { error_echo "❌ rbenv 升级失败"; return 1; }
       brew cleanup                  || { warn_echo  "⚠️ brew cleanup 执行时有警告"; }
@@ -1541,7 +1747,7 @@ install_rbenv() {
 >   }
 >   ```
 
-#### 🎯 9、自检安装 🍺**`Homebrew.cocoapods`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 9、自检安装 🍺**`Homebrew.cocoapods`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 install_cocoapods() {
@@ -1551,12 +1757,12 @@ install_cocoapods() {
     success_echo "✅ CocoaPods 安装成功"
   else
     info_echo "🔄 CocoaPods 已安装。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将依次执行  brew upgrade cocoapods && brew cleanup"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 brew upgrade cocoapods && brew cleanup"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 CocoaPods..."
       brew upgrade cocoapods || { error_echo "❌ CocoaPods 升级失败"; return 1; }
       brew cleanup           || { warn_echo "⚠️ brew cleanup 执行时有警告"; }
@@ -1571,9 +1777,9 @@ install_cocoapods() {
 }
 ```
 
-#### 🎯 10、自检安装 🍺**`Homebrew.Perl`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 10、自检安装 🍺**`Homebrew.Perl`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-```dart
+```shell
 ensure_perl_installed() {
   if ! brew list perl &>/dev/null; then
     warn_echo "📦 未检测到 Homebrew 安装的 Perl，正在安装..."
@@ -1584,12 +1790,12 @@ ensure_perl_installed() {
     success_echo "✅ Perl 安装成功"
   else
     info_echo "🔄 检测到 Perl。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将执行  brew upgrade perl && brew cleanup"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 brew upgrade perl && brew cleanup"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 Perl..."
       brew upgrade perl      || { error_echo "❌ Perl 升级失败"; return 1; }
       brew cleanup           || { warn_echo "⚠️ brew cleanup 执行时有警告"; }
@@ -1604,7 +1810,7 @@ ensure_perl_installed() {
 }
 ```
 
-#### 🎯 11、自检安装 **`Rbenv`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 11、自检安装 **`Rbenv`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > `rbenv` 是一个 **Ruby 版本管理工具**
 
@@ -1639,12 +1845,12 @@ install_rbenv() {
     fi
   else
     info_echo "🔄 rbenv 已安装。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将依次执行  brew upgrade rbenv ruby-build && brew cleanup"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 brew upgrade rbenv ruby-build && brew cleanup"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 rbenv..."
       brew upgrade rbenv ruby-build || { error_echo "❌ rbenv 升级失败"; return 1; }
       brew cleanup                  || { warn_echo "⚠️ brew cleanup 执行时有警告"; }
@@ -1662,7 +1868,7 @@ install_rbenv() {
 
 ```
 
-#### 🎯 12、官方安装 **`Ruby`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 12、官方安装 **`Ruby`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 # 1. 克隆 rbenv 到本地
@@ -1692,7 +1898,7 @@ rbenv global 3.3.0
 ruby -v
 ```
 
-### 🎯 删除🍺[**Homebrew**](https://brew.sh/) <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 删除🍺[**Homebrew**](https://brew.sh/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 # 1. 尝试 untap & 清理
@@ -1723,7 +1929,7 @@ if [[ -n "$brew_repo" ]]; then
 fi
 ```
 
-### 🎯自检安装 **`fvm`**（[**Dart**](https://dart.dev/)官方推荐） <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯自检安装 **`fvm`**（[**Dart**](https://dart.dev/)官方推荐） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > <font color=red>**安装`fvm`的大前提是预先安装`dart`环境 **</font>
 >
@@ -1737,15 +1943,15 @@ install_fvm() {
     success_echo "✅ fvm 安装成功"
 
     # ✅ 首次安装：写入并让当前会话立刻可用
-    inject_shellenv_block "fvm_env" 'export PATH="$HOME/.pub-cache/bin:$PATH"'
+    inject_shellenv_block "$HOME/.zshrc" "fvm_env" 'export PATH="$HOME/.pub-cache/bin:$PATH"'
   else
     info_echo "🔄 fvm 已安装。是否执行升级？"
-    echo "👉 按 [Enter] 继续：将执行  dart pub global activate fvm（幂等升级）"
-    echo "👉 输入任意字符后回车：跳过升级"
+    echo "👉 直接按 [Enter]：跳过升级"
+    echo "👉 输入任意字符后回车：执行 dart pub global activate fvm（幂等升级）"
 
     local confirm
     IFS= read -r confirm
-    if [[ -z "$confirm" ]]; then
+    if [[ -n "$confirm" ]]; then
       info_echo "⏳ 正在升级 fvm..."
       dart pub global activate fvm || { error_echo "❌ fvm 升级失败"; return 1; }
       success_echo "✅ fvm 已升级到最新版本"
@@ -1763,7 +1969,7 @@ install_fvm() {
 
 ```
 
-### 🎯 设置**`Ruby`**镜像源（根据 IP 自动判断）<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 设置**`Ruby`**镜像源（根据 IP 自动判断）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 set_gem_source() {
@@ -1781,9 +1987,9 @@ set_gem_source() {
 }
 ```
 
-### 🎯 镜像切换 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 镜像切换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 1、[**CocoaPods**](https://cocoapods.org/) 镜像切换 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 1、[**CocoaPods**](https://cocoapods.org/) 镜像切换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 switch_cocoapods_source() {
@@ -1804,7 +2010,7 @@ switch_cocoapods_source() {
 }
 ```
 
-#### 2、[**Ruby**](https://www.ruby-lang.org/en/)  镜像切换 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 2、[**Ruby**](https://www.ruby-lang.org/en/)  镜像切换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 set_gem_source() {
@@ -1823,7 +2029,7 @@ set_gem_source() {
 }
 ```
 
-### 🎯 检测本地[**Java**](https://www.java.com/zh-CN/)环境是否已经安装 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 检测本地[**Java**](https://www.java.com/zh-CN/)环境是否已经安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > **`command -v java`**：检查 `java` 命令是否存在于 `PATH` 中；
 >
@@ -1844,9 +2050,9 @@ else
 fi 
 ```
 
-### 🎯 [**Flutter**](https://flutter.dev/) <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 [**Flutter**](https://flutter.dev/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 🎯 1、判断当前目录是否为[**Flutter**](https://flutter.dev/)项目根目录 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 1、判断当前目录是否为[**Flutter**](https://flutter.dev/)项目根目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 is_flutter_project_root() {
@@ -1854,7 +2060,7 @@ is_flutter_project_root() {
 }
 ```
 
-#### 🎯 2、获取 [**Flutter**](https://flutter.dev/)项目名称  <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 2、获取 [**Flutter**](https://flutter.dev/)项目名称  <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 _get_flutter_project_name() {
@@ -1868,7 +2074,7 @@ _get_flutter_project_name() {
 }
 ```
 
-#### 🎯 3、判断[**Flutter**](https://flutter.dev/)文件是否是入口🚪<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 3、判断[**Flutter**](https://flutter.dev/)文件是否是入口🚪<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > <font color=red>**支持的**`main`**函数写法**</font>
 > `void main() {}`// 标准同步入口
@@ -1892,7 +2098,7 @@ _is_dart_entry_file() {
 }
 ```
 
-```dart
+```shell
 detect_entry() {
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
   SCRIPT_PATH="${SCRIPT_DIR}/$(basename -- "$0")"
@@ -1938,7 +2144,7 @@ detect_entry() {
 }
 ```
 
-#### 🎯 4、统一获取[**Flutter**](https://flutter.dev/)项目路径和[**Dart**](https://dart.dev/)入口文件路径 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 4、统一获取[**Flutter**](https://flutter.dev/)项目路径和[**Dart**](https://dart.dev/)入口文件路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 兼容用户拖入目录、拖入[**Dart**](https://dart.dev/)文件、或直接回车（默认为当前目录为[**Flutter**](https://flutter.dev/)项目根目录）三种用法
 
@@ -2011,9 +2217,9 @@ resolve_flutter_root() {
 }
 ```
 
-#### 🎯 5、[**FVM**](https://fvm.app/) 检测 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 5、[**FVM**](https://fvm.app/) 检测 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-```dart
+```shell
 detect_flutter_cmd() {
   script_path="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
   local fvm_config_path="$script_path/.fvm/fvm_config.json"
@@ -2027,9 +2233,9 @@ detect_flutter_cmd() {
 }
 ```
 
-```dart
-read '?📦 执行 flutter pub get？(回车=执行 / 任意键=跳过) ' run_get
-if [[ -z "$run_get" ]]; then
+```shell
+read '?📦 执行 flutter pub get？(回车=跳过 / 任意字符=执行) ' run_get
+if [[ -n "$run_get" ]]; then
   "${flutter_cmd[@]}" pub get
 else
   _color_echo yellow "⏭️ 跳过 pub get。"
@@ -2040,7 +2246,7 @@ fi
 >
 > 如果没有安装[**FVM**](https://fvm.app/) ，则 `flutter pub get`
 
-### 🎯 全更新 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 全更新 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **`.zshrc`**
 
@@ -2053,9 +2259,9 @@ fi
  }
  ```
 
-### 🎯 **`Git`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 **`Git`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 🎯 1、删除本地**`Git`**缓存目录 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 1、删除本地**`Git`**缓存目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 REPO_PATH="$HOME/.cocoapods/repos/cocoapods"
@@ -2067,7 +2273,7 @@ else
 fi
 ```
 
-#### 🎯 2、删除**`CDN`**源**`trunk`** <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 2、删除**`CDN`**源**`trunk`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 if pod repo list | grep -q "^trunk"; then
@@ -2078,14 +2284,14 @@ else
 fi
 ```
 
-#### 🎯 3、添加**`Git`**源<a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 3、添加**`Git`**源<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 print_green "🔗 正在添加 Git 源 https://github.com/CocoaPods/Specs.git ..."
 pod repo add cocoapods https://github.com/CocoaPods/Specs.git
 ```
 
-### 🎯判断两个文件内容是否一致 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯判断两个文件内容是否一致 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 # 判断源文件和目标文件内容是否完全一致
@@ -2098,7 +2304,7 @@ is_actions_plist_same() {
 }
 ```
 
-### 🎯重启 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯重启 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * App 名、进程名、`open -a` 用的名字，不一定是同一个东西
 
@@ -2214,9 +2420,9 @@ is_actions_plist_same() {
   }
   ```
 
-### 🎯 `Shell` <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 🎯 `Shell` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 🎯 1、切换`Shell` <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 1、切换`Shell` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 # ========== 获取所有可用 shell ==========
@@ -2241,14 +2447,14 @@ echo "🔧 正在切换默认 shell 为：$selected_shell"
 chsh -s "$selected_shell"
 ```
 
-#### 🎯 2、显示当前`Shell` <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 2、显示当前`Shell` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 echo "✅ 当前默认 shell 已更新为："
 dscl . -read ~/ UserShell
 ```
 
-#### 🎯 3、打开新的终端窗口并切换到脚本所在的目录 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 3、打开新的终端窗口并切换到脚本所在的目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 open_terminal_and_cd() {
@@ -2262,7 +2468,7 @@ EOF
 }
 ```
 
-#### 🎯 4、关闭终端窗口 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 4、关闭终端窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 close_terminal_window() {
@@ -2278,7 +2484,7 @@ close_terminal_window() {
 }
 ```
 
-#### 🎯 5、打开新的终端窗口 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 5、打开新的终端窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 open_terminal_and_cd() {
@@ -2297,7 +2503,7 @@ EOF
 > open_terminal_and_cd "$current_directory" # 打开新的终端窗口并切换到脚本所在的目录
 > ```
 
-#### 🎯 6、仅对当前`Shell`有效的临时环境 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### 🎯 6、仅对当前`Shell`有效的临时环境 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 # ================================== 通用开发环境变量配置 ==================================
@@ -2350,8 +2556,7 @@ export FLUTTER_STORAGE_BASE_URL="https://storage.flutter-io.cn"
 # export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
 
 # ✅ 手动注入某些环境变量块（如 fvm）
-# inject_shellenv_block "fvm_env" 'export PATH="$HOME/.pub-cache/bin:$PATH"'
+# inject_shellenv_block "$HOME/.zshrc" "fvm_env" 'export PATH="$HOME/.pub-cache/bin:$PATH"'
 ```
 
-<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的👉点我回到首页</a>
-
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

@@ -2,206 +2,206 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>iOS相关的文档和资料 on Jobs Docs</title>
-    <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/</link>
+    <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/</link>
     <description>Recent content in iOS相关的文档和资料 on Jobs Docs</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sun, 03 May 2026 16:29:51 +0800</lastBuildDate>
-    <atom:link href="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>关于WMZBanner的怪异写法探究</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/</link>
       <pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/</guid>
       <description>1、看懂宏定义 定义部分 调用环节 以上写法等同于👇🏻 ## 2、点语法的外界调用 定义部分 Hello.h文件 Hello.m文件 调用环节 在其他的类引入Hello.h</description>
     </item>
     <item>
       <title>iOS 锁的使用</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E9%94%81%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E9%94%81%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E9%94%81%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E9%94%81%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
       <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/// 获取颜色值&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;- (UIColor &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)&lt;span style=&#34;color:#a6e22e&#34;&gt;colorForKey:&lt;/span&gt;(NSString &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)key {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  pthread_rwlock_rdlock(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;_rwlock);&lt;span style=&#34;color:#75715e&#34;&gt;// 读写锁&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  UIColor &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;color &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; UIColor.redCor;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  pthread_rwlock_unlock(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;_rwlock);&lt;span style=&#34;color:#75715e&#34;&gt;// 读写锁&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; color;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     <item>
       <title>关于UITableViewCell和UICollectionViewCell圆切角&#43;Cell的偏移量</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/</guid>
       <description>一些公共的 这种方式，只能统一的设置同一种样式，并不能满足自定义需求 ## 1、关于UITableView.UITableViewCell ### 1.1、圆切角 #### 1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】 且不描边顶部 #### 1.1.2、除了最后一行以外，所有的cel</description>
     </item>
     <item>
       <title>定一行个数得出几行</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/</guid>
       <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-count:总个数&#34; data-lang=&#34;count:总个数&#34;&gt;num：一排定多少个&#xA;得出的结论是目前多少排&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;推演：&#xA;count   num     结论&#xA;0       3   (2/3) = 0&#xA;&#xA;1       3   (3/3) = 1&#xA;2       3   (4/3) = 1&#xA;3       3   (5/3) = 1&#xA;&#xA;4       3   (6/3) = 2&#xA;5       3   (7/3) = 2&#xA;6       3   (8/3) = 2&#xA;&#xA;7       3   (9/3) = 3&#xA;8       3   (10/3) = 3&#xA;9       3   (11/3) = 3&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;结论：&#xA;row = (count + (num - 1)) / num&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>时间按照【年-月份】分组</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/</guid>
       <description>DDWaterBillBaseModel.h DDWaterBillBaseModel.m</description>
     </item>
     <item>
       <title>关于RAC框架中的@符号进行宏定义唤起的探究</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/</guid>
       <description>1、RAC地址 ## 2、关于仿写RAC@宏定义 ## 3、核心探究 宏定义 调用 来自GPT-3.5的回答</description>
     </item>
     <item>
       <title>关于响应链的一些研究成果</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/</guid>
       <description>假设我们有一个VC1，VC1上面加盖一个View0 和 View1，点击VC跳转进VC2； 现在的需求是：点击View0不跳转，但是点击View1跳转 1、在View0的子类实现如下方法即可： 2、如果需要截断View1的事件响应，那么在View1里面实现 以上代码亲测有效 科普在前 子视图超出父视图的解决方案 ：在父视图里面写</description>
     </item>
     <item>
       <title>unknown class viewcontroller in interface builder file</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/unknown-class-viewcontroller-in-interface-builder-file/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/unknown-class-viewcontroller-in-interface-builder-file/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/unknown-class-viewcontroller-in-interface-builder-file/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/unknown-class-viewcontroller-in-interface-builder-file/</guid>
       <description>资料来源：https://blog.csdn.net/CC1991_/article/details/100803193 原因 解决方案</description>
     </item>
     <item>
       <title>iOS禁用返回手势</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/</guid>
       <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;-(void)viewDidAppear:(BOOL)animated{&#xA;    [super viewDidAppear:animated];&#xA;    // 禁用返回手势&#xA;    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {&#xA;        self.navigationController.interactivePopGestureRecognizer.enabled = NO;&#xA;        self.navigationController.interactivePopGestureRecognizer.delegate = nil;&#xA;    }&#xA;}// 与FD相互作用下 不起作用&#xA;&#xA;#import &amp;#34;UINavigationController+FDFullscreenPopGesture.h&amp;#34;&#xA;#import &amp;#34;UIScrollView+FDFullscreenPopGesture.h&amp;#34;&#xA;&#xA;- (void)viewDidLoad {&#xA;  [super viewDidLoad];&#xA;  self.fd_interactivePopDisabled = YES;&#xA;}&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>iOS资源文件夹的区别</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
       <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Xcode 有黄色文件夹 和 蓝色文件夹 来管理资源&#xA;&#xA;区别：黄色文件夹内容会进入编译期，蓝色文件夹不进入编译期&#xA;其中bundle资源文件也不会进入编译期&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>N宫格问题</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/</guid>
       <description>N宫格问题 当前Value对应的Row 排 一排 M 个 一共count item宽 itemW item高 itemH 承接的父视图 width 、height 左边距offsetLeft 右边距offsetRight 上边距offsetTop 下边距offsetBottom 所在index的Value 1 2 3 4 5 6 7 8 9 【3宫格】 1</description>
     </item>
     <item>
       <title>路由</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B7%AF%E7%94%B1/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B7%AF%E7%94%B1/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B7%AF%E7%94%B1/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B7%AF%E7%94%B1/</guid>
       <description>软件设计理念：高内聚、低耦合 无论是路由还是工程架构都需要根据实际项目来选择。比如你的工程就是小工程,然后还各种设计模式,这就会导致过度设计 提出思考：模块和模块之间进行相互调用的时候,需要进行文件的引用,这本身就是一种高耦合现象。 ## 相关资料来源： &lt;a href=&#34;https://www.1024sou.com/article/347704.html&#34;&gt;https://www.1024sou.com/article/347704.html&lt;/a&gt; https://</description>
     </item>
     <item>
       <title>精确度量 iOS App 的启动时间</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app-%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app-%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app-%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app-%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/</guid>
       <description>参考资料来源：https://www.jianshu.com/p/c14987eee107 方法一： Edit scheme &amp;ndash;&amp;gt; Run &amp;ndash;&amp;gt; Arguments 中将环境变量 DYLDPRINTSTATISTICS 设为 1，就可以看到 main 之前各个阶段的时间消耗。 方法二： Edit scheme &amp;ndash;&amp;gt; Run &amp;ndash;&amp;gt; Arguments</description>
     </item>
     <item>
       <title>UICollectionView点击事件</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/</guid>
       <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;UICollectionView &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;似乎不能直接响应&lt;/span&gt;touchBegan&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;只能用手势&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.userInteractionEnabled &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; YES;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.target &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.tapGRSEL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; NSStringFromSelector(&lt;span style=&#34;color:#66d9ef&#34;&gt;@selector&lt;/span&gt;(endEditing));&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.numberOfTouchesRequired &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.numberOfTapsRequired &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _collectionView.tapGR.enabled &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; YES;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt;)endEditing{&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [self.view endEditing:YES];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;BOOL&lt;/span&gt;)gestureRecognizer:(UIGestureRecognizer &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)gestureRecognizer&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      shouldReceiveTouch:(UITouch &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)touch{&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;// 判断如果点击的View是UICollectionView就可以执行手势方法，否则不执行&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ([touch.view isKindOfClass:UICollectionView.&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt;]) {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; YES;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   }&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; NO;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;UIGestureRecognizerDelegate&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     <item>
       <title>JobsKit 序</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jobskit-%E5%BA%8F/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jobskit-%E5%BA%8F/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jobskit-%E5%BA%8F/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jobskit-%E5%BA%8F/</guid>
       <description>我们的驱动力和目标： ## 附件：稳定版仓库Bitbucket，Github在不断更新 个人GitHub地址</description>
     </item>
     <item>
       <title>优秀的关于音视频处理的文献资料</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/</guid>
       <description>资料来源： &lt;a href=&#34;https://github.com/huizai0705/VideoRecorderiOS&#34;&gt;https://github.com/huizai0705/VideoRecorderiOS&lt;/a&gt; &lt;a href=&#34;https://github.com/lmf12/SimpleCam&#34;&gt;https://github.com/lmf12/SimpleCam&lt;/a&gt; &lt;a href=&#34;https://github.com/alstonwei/RepeatPlayer&#34;&gt;https://github.com/alstonwei/RepeatPlayer&lt;/a&gt; &lt;a href=&#34;https://github.com/huizai0705/VideoRecorderiOS&#34;&gt;https://github.com/huizai0705/VideoRecorderiOS&lt;/a&gt; htt</description>
     </item>
     <item>
       <title>Xcode资料下载</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/</guid>
       <description>&lt;a href=&#34;https://developer.apple.com/download/more/&#34;&gt;https://developer.apple.com/download/more/&lt;/a&gt;</description>
     </item>
     <item>
       <title>读取本地plist</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/</guid>
       <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+ (TYFSITE)&lt;span style=&#34;color:#a6e22e&#34;&gt;siteType&lt;/span&gt;{&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; NSInteger site &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; dispatch_once_t dispatchOnce;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    dispatch_once(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;dispatchOnce, &lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;{&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        NSString &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;filePath &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[NSBundle mainBundle] pathForResource:&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;MetaData&amp;#34;&lt;/span&gt; ofType:&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;plist&amp;#34;&lt;/span&gt;];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        NSFileManager &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;fm &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [NSFileManager defaultManager];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ([fm fileExistsAtPath:filePath]) {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            NSDictionary &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;config &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[NSDictionary alloc] initWithContentsOfFile:filePath];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            NSString &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;appTypeStr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; config[&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;appType&amp;#34;&lt;/span&gt;];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            site &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; appTypeStr.integerValue;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    });&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; site;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     <item>
       <title>谁说HTTP GET就不能通过Body来发送数据呢？</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B0%81%E8%AF%B4http-get%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B0%81%E8%AF%B4http-get%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B0%81%E8%AF%B4http-get%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B0%81%E8%AF%B4http-get%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/</guid>
       <description>&lt;a href=&#34;https://juejin.cn/post/6844903685206573069&#34;&gt;https://juejin.cn/post/6844903685206573069&lt;/a&gt;</description>
     </item>
     <item>
       <title>iOS 状态栏颜色的修改</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/</guid>
       <description>全局修改 局部修改</description>
     </item>
     <item>
       <title>本地推送的写法（程肖斌）</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%E7%9A%84%E5%86%99%E6%B3%95%E7%A8%8B%E8%82%96%E6%96%8C/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%E7%9A%84%E5%86%99%E6%B3%95%E7%A8%8B%E8%82%96%E6%96%8C/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%E7%9A%84%E5%86%99%E6%B3%95%E7%A8%8B%E8%82%96%E6%96%8C/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%E7%9A%84%E5%86%99%E6%B3%95%E7%A8%8B%E8%82%96%E6%96%8C/</guid>
       <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-objective-c&#34; data-lang=&#34;objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;- (&lt;span style=&#34;color:#66d9ef&#34;&gt;IBAction&lt;/span&gt;)&lt;span style=&#34;color:#a6e22e&#34;&gt;sendLocalPush:&lt;/span&gt;(UIButton &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)sender {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//8s后提醒&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    UNTimeIntervalNotificationTrigger *trigger1 = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:8 repeats:NO];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//每周一早上 8：00 提醒我给起床&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    NSDateComponents *components = [[NSDateComponents alloc] init];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    components.weekday = 2;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    components.hour = 8;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    UNCalendarNotificationTrigger *trigger3 = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:YES];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    //需导入定位库   #import &amp;lt;CoreLocation/CoreLocation.h&amp;gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    //一到距离(123.333, 123.344）点20米就喊我下车&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    CLRegion *region = [[CLRegion alloc] initCircularRegionWithCenter:CLLocationCoordinate2DMake(123.333, 123.344) radius:20 identifier:@&amp;#34;regionidentifier&amp;#34;];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//    UNLocationNotificationTrigger *trigger4 = [UNLocationNotificationTrigger triggerWithRegion:region repeats:NO];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (@available(iOS &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)) {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      UNMutableNotificationContent &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;content &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[UNMutableNotificationContent alloc] init];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      content.title &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;this is Notifications&amp;#34;&lt;/span&gt;;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      content.subtitle &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;本地通知&amp;#34;&lt;/span&gt;;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      content.body &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;推送一条本地通知&amp;#34;&lt;/span&gt;;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      content.badge &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;@1&lt;/span&gt;;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      content.userInfo &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;@{&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;this is a userNotification&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;}&lt;/span&gt;;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;//每小时重复 1 次喊我喝水&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      UNTimeIntervalNotificationTrigger &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;trigger2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt; repeats:YES];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      NSString &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;requestIdentifier &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;sampleRequest&amp;#34;&lt;/span&gt;;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      UNNotificationRequest &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;request &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [UNNotificationRequest requestWithIdentifier:requestIdentifier content:content trigger:trigger2];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      UNUserNotificationCenter &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;center &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [UNUserNotificationCenter currentNotificationCenter];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      [center addNotificationRequest:request withCompletionHandler:&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;(NSError &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; _Nullable error) {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (error) {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              NSLog(&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;本地消息推送失败：%@&amp;#34;&lt;/span&gt;, error);&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          }&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      }];&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;// Fallback on earlier versions&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     <item>
       <title>正则表达式的相关判定</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E7%9B%B8%E5%85%B3%E5%88%A4%E5%AE%9A/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E7%9B%B8%E5%85%B3%E5%88%A4%E5%AE%9A/</link>
       <pubDate>Sun, 03 May 2026 16:29:51 +0800</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E7%9B%B8%E5%85%B3%E5%88%A4%E5%AE%9A/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E7%9B%B8%E5%85%B3%E5%88%A4%E5%AE%9A/</guid>
       <description>正则表达式的相关判定 - 1、检查一个手机号是否为中国的手机号 - 2、正则表达式匹配某一段字符串 - 2.1、正则表达式匹配英文（大小写）、空格、任意字符串（例如：Jobs）、数字、中文字符（繁 + 简） - 2.2、正则表达式匹配中文字符 - 2.3、正则表达式匹配 Emoji - 2.4、正则表达式匹配网页地址 - 2.5、正则表达式匹配特殊字符 -</description>
     </item>
     <item>
       <title>iOS 本地通知配置</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5%E9%85%8D%E7%BD%AE/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5%E9%85%8D%E7%BD%AE/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5%E9%85%8D%E7%BD%AE/</guid>
       <description>一、在AppDelegate里面进行配置 ## 二、相关工具类 JobsLocalNotificationModel JobsMakeLocalNotification ## 三、相关调用 * ```objective-c [JobsMakeLocalNotification.new triggerLocalNotification:JobsLocalNot</description>
     </item>
     <item>
       <title>自定义 UITabBarController</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/</link>
       <pubDate>Mon, 18 Aug 2025 12:32:42 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/</guid>
       <description>一、相关目录结构 JobsTabBarVC：UITabBarController JobsTabBarItemConfig：NSObject UITabBarItem JobsTabBarItem：UITabBarItem UITabBarItem+TLAnimation UITabBar UITabBar+Ex UITabBar+TLAnimation J</description>
     </item>
     <item>
       <title>JXCategoryView框架的使用01</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801/</link>
       <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801/</guid>
       <description>当前总行数：0 行 ## 其他功能 ## 一些共同的准备工作 ## 图文结合 方式一 方式二 方式三 方式四 公共部分</description>
     </item>
     <item>
       <title>JXCategoryView框架的使用02（结合使用 JXPagerView）</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8-jxpagerview/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8-jxpagerview/</link>
       <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8-jxpagerview/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8-jxpagerview/</guid>
       <description>当前总行数：0 行 一些共同的准备工作 Demo = JXPagerView + JXCategoryView 用JXPagerView管理的区别：</description>
     </item>
     <item>
       <title>配置info.plist</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo.plist/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo.plist/</link>
       <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo.plist/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo.plist/</guid>
       <description>Open As Source Code，添加以下信息 ### 开权限： 多语言化 Localizable.strings ### 添加外部字体： ### 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在Info.plist中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 当你的应用在iOS 9中需要使用 Q</description>
     </item>
     <item>
       <title>MJExtension用法</title>
-      <link>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/mjextension%E7%94%A8%E6%B3%95/</link>
+      <link>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/mjextension%E7%94%A8%E6%B3%95/</link>
       <pubDate>Wed, 05 Nov 2025 09:49:14 +0700</pubDate>
-      <guid>http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/mjextension%E7%94%A8%E6%B3%95/</guid>
+      <guid>http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/mjextension%E7%94%A8%E6%B3%95/</guid>
       <description>MyVCModel.h MyVCModel.m</description>
     </item>
   </channel>

@@ -1,1 +1,1 @@
-window.JOBS_DOCS_GIT_VERSION = "b9ed51d";
+window.JOBS_DOCS_GIT_VERSION = "6045de3";

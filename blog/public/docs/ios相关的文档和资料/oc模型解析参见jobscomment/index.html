@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=53994&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -11,7 +11,7 @@ https://github.com/alex-shpak/hugo-book
 <meta name="description" content="一、关注 @implementation BaseModel 值得注意的一点：如果是直接model网络数据的模型，无法手动在本类添加自定义的属性，则，必须用分类！ 比如： ## 二、网络返回值 ➤ .json文件">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90%E5%8F%82%E8%A7%81jobscomment/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90%E5%8F%82%E8%A7%81jobscomment/">
   <meta property="og:site_name" content="Jobs Docs">
   <meta property="og:title" content="OC模型解析（参见JobsComment）">
   <meta property="og:description" content="一、关注 @implementation BaseModel 值得注意的一点：如果是直接model网络数据的模型，无法手动在本类添加自定义的属性，则，必须用分类！ 比如： ## 二、网络返回值 ➤ .json文件">
@@ -28,15 +28,15 @@ https://github.com/alex-shpak/hugo-book
 <title>OC模型解析（参见JobsComment） | Jobs Docs</title>
 <link rel="icon" href="../../../favicon.png" >
 <link rel="manifest" href="../../../manifest.json">
-<link rel="canonical" href="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90%E5%8F%82%E8%A7%81jobscomment/">
+<link rel="canonical" href="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90%E5%8F%82%E8%A7%81jobscomment/">
 <link rel="stylesheet" href="../../../book.min.b06496c7bffd0bc7b45ca5288518447db1fe440d751309e3dae05eceda711e49.css" integrity="sha256-sGSWx7/9C8e0XKUohRhEfbH&#43;RA11Ewnj2uBeztpxHkk=" crossorigin="anonymous">
 
 
   <script defer src="../../../fuse.min.js"></script>
-  <script defer src="../../../zh-cn.search.min.a91fa82877284fca1375502895598e274e2d741cc068af61db625c20ae1a322e.js" integrity="sha256-qR&#43;oKHcoT8oTdVAolVmOJ04tdBzAaK9h22JcIK4aMi4=" crossorigin="anonymous"></script>
+  <script defer src="../../../zh-cn.search.min.98c2b10aba7cea5880ae1c2bce93b0868b752a6728c1b39025a412fa1f71becb.js" integrity="sha256-mMKxCrp86liArhwrzpOwhot1KmcowbOQJaQS&#43;h9xvss=" crossorigin="anonymous"></script>
 
 
-<link rel="alternate" type="application/rss+xml" href="http://localhost:53994/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90%E5%8F%82%E8%A7%81jobscomment/index.xml" title="Jobs Docs" />
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90%E5%8F%82%E8%A7%81jobscomment/index.xml" title="Jobs Docs" />
 
   
 </head>
@@ -55,7 +55,7 @@ https://github.com/alex-shpak/hugo-book
      target="_blank"
      rel="noopener noreferrer"
      aria-label="Open JobsKits GitHub">
-    <img class="jobs-brand-icon" src="../../../icon.png?v=1777831918" alt="Jobs Docs" loading="eager" decoding="sync">
+    <img class="jobs-brand-icon" src="../../../icon.png?v=1779125300" alt="Jobs Docs" loading="eager" decoding="sync">
     <span class="jobs-brand-title">Jobs Docs</span>
   </a>
 </h2>
@@ -96,11 +96,6 @@ https://github.com/alex-shpak/hugo-book
     <a href="../../../docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/" class="">
       足球盘口学习</a>
   
-
-          
-  <ul>
-    
-  </ul>
 
         </li>
       
@@ -172,11 +167,6 @@ https://github.com/alex-shpak/hugo-book
     <a href="../../../docs/macos_web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="">
       MacOS_Web服务器学习</a>
   
-
-          
-  <ul>
-    
-  </ul>
 
         </li>
       
@@ -1054,11 +1044,6 @@ https://github.com/alex-shpak/hugo-book
       ReactNative</a>
   
 
-          
-  <ul>
-    
-  </ul>
-
         </li>
       
     
@@ -1072,11 +1057,6 @@ https://github.com/alex-shpak/hugo-book
     <a href="../../../docs/cmake/" class="">
       CMake</a>
   
-
-          
-  <ul>
-    
-  </ul>
 
         </li>
       
@@ -1253,11 +1233,6 @@ https://github.com/alex-shpak/hugo-book
       JavaDoc</a>
   
 
-          
-  <ul>
-    
-  </ul>
-
         </li>
       
     
@@ -1290,11 +1265,6 @@ https://github.com/alex-shpak/hugo-book
     <a href="../../../docs/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/" class="">
       天工开物</a>
   
-
-          
-  <ul>
-    
-  </ul>
 
         </li>
       
@@ -1347,11 +1317,6 @@ https://github.com/alex-shpak/hugo-book
     <a href="../../../docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" class="">
       利用Quicktype自动建立数据模型</a>
   
-
-          
-  <ul>
-    
-  </ul>
 
         </li>
       
@@ -1625,7 +1590,7 @@ https://github.com/alex-shpak/hugo-book
  
   </main>
 
-  <script src="../../../jobs-container-routes.js?v=1777831918"></script>
+  <script src="../../../jobs-container-routes.js?v=1779125300"></script>
 
 <script>
 (function () {
@@ -1698,7 +1663,7 @@ https://github.com/alex-shpak/hugo-book
   }
 
   function fixBrandIcon() {
-    var nextSrc = "\/icon.png?v=1777831918";
+    var nextSrc = "\/icon.png?v=1779125300";
 
     document.querySelectorAll(".jobs-brand-icon").forEach(function (img) {
       img.setAttribute("src", nextSrc);
@@ -1757,7 +1722,7 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-<script src="../../../jobs-git-version.js?v=1777831918"></script>
+<script src="../../../jobs-git-version.js?v=1779125300"></script>
 <script>
 (function () {
   function postToShell(type, reason) {
