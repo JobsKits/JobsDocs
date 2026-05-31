@@ -87,6 +87,11 @@
   
 * 命令行授权（跳转浏览器）后部署
   
+  ```
+  npx wrangler login  # 先登陆 cloudflare (需要授权跳转)
+  npx wrangler deploy # 后部署 edgetunnel
+  ```
+  
   ```shell
   Last login: Wed Apr 29 11:04:38 on ttys000
   ➜  Desktop /Users/jobs/Documents/Github/edgetunnel 
@@ -140,7 +145,7 @@
   | ![image-20260429140748217](./assets/image-20260429140748217.png) |
   | ![image-20260429141144251](./assets/image-20260429141144251.png) |
   | ![image-20260429143242204](./assets/image-20260429143242204.png) |
-
+  
   | 图1 | 图2 |
   |---|---|
   | ![image-20260429143403984](./assets/image-20260429143403984.png) | ![image-20260429143819128](./assets/image-20260429143819128.png) |
