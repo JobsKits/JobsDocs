@@ -1,11 +1,12 @@
 ---
 title: "3D@Demo"
-date: 2026-05-19T20:33:27+08:00
+date: 2026-06-01T05:08:26+08:00
 draft: false
 weight: 720
 summary: "这个示例给你一个不需要 3D 素材、不需要模型文件、不需要外部 JS 库的 3D 效果图。 它用： - HTML - CSS 3D - 原生 JavaScript 实现了： - 鼠标拖动旋转 - 鼠标滚轮缩放 - 点击节点查看说明 - 细胞教材模式 - 代码地图模式 ## 立刻查看 直接双击打开： ## 在 Markdown 里放入口 普通 Markdown"
 bookCollapseSection: false
 ---
+
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -15,10 +16,6 @@ bookCollapseSection: false
   style="border:0; display:block;"
   allowfullscreen>
 </iframe>
-
-[toc]
-
----
 
 这个示例给你一个**不需要 3D 素材、不需要模型文件、不需要外部 JS 库**的 3D 效果图。
 
@@ -33,9 +30,20 @@ bookCollapseSection: false
 - 鼠标拖动旋转
 - 鼠标滚轮缩放
 - 点击节点查看说明
-Markdown 里放入口
+- 细胞教材模式
+- 代码地图模式
 
-普通 [**Markdown**](https://markdown.cn) 文件不适合直接运行复杂 JS。更稳的做法是：
+## 立刻查看
+
+直接双击打开：
+
+```text
+index.html
+```
+
+## 在 Markdown 里放入口
+
+普通 Markdown 文件不适合直接运行复杂 JS。更稳的做法是：
 
 ```md
 ## 3D 交互演示
@@ -56,7 +64,7 @@ Markdown 里放入口
 
 ## 放到 GitHub README 的现实做法
 
-[**GitHub**](https://github.com) README 会限制 JS，所以不要指望 README 里面直接拖动。
+GitHub README 会限制 JS，所以不要指望 README 里面直接拖动。
 
 更稳的结构是：
 

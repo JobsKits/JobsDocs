@@ -1,12 +1,11 @@
 ---
 title: "【MacOS】配置本地的直播服务器"
-date: 2026-05-03T16:29:51+08:00
+date: 2026-06-01T05:08:26+08:00
 draft: false
 weight: 390
 summary: "一、实践目的 服务器（本地）：以MacOS和本地局域网为基础，辅以Homebrew ➤ node ➤ node-media-server@2.3.8 视频采集端：iOS@Swift5x➕ HaishinKit ➤ 输出视频流 服务器端（本地）：利用Apple主导的HLS技术切片成.ts格式，➤ 进行推流 因为是直播，所以.ts文件，滚动生成，阅后即焚 推流的"
 bookCollapseSection: false
 ---
-
 
 
 <iframe
@@ -17,6 +16,7 @@ bookCollapseSection: false
   style="border:0; display:block;"
   allowfullscreen>
 </iframe>
+
 
 ## 一、实践目的
 

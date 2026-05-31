@@ -8,21 +8,21 @@ https://github.com/alex-shpak/hugo-book
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="1、苹果端上架 ### 1.1、一些基础知识 #### 1.1.1、一个完整可用的.ipa包，包括： 签名区段（Code Signature Section）： 验证应用程序的完整性，确保代码没有被篡改； 由 Apple 的签名工具（如 codesign）在应用打包过程中生成； 位置：位于应用二进制文件的一个独立区域，通常标记为 LINKEDIT 段中# ">
+<meta name="description" content="1、苹果端上架 ### 1.1、一些基础知识 #### 1.1.1、一个完整可用的.ipa包，包括： 签名区段（Code Signature Section）： 验证应用程序的完整性，确保代码没有被篡改； 由 Apple 的签名工具（如 codesign）在应用打包过程中生成； 位置：位于应用二进制文件的一个独立区域，通常标记为 LINKEDIT 段中的 c">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E5%88%86%E5%8F%91%E6%B5%81%E7%A8%8B/">
 	<meta property="og:site_name" content="Jobs Docs">
 	<meta property="og:title" content="移动端上架（分发）流程">
-	<meta property="og:description" content="1、苹果端上架 ### 1.1、一些基础知识 #### 1.1.1、一个完整可用的.ipa包，包括： 签名区段（Code Signature Section）： 验证应用程序的完整性，确保代码没有被篡改； 由 Apple 的签名工具（如 codesign）在应用打包过程中生成； 位置：位于应用二进制文件的一个独立区域，通常标记为 LINKEDIT 段中#">
+	<meta property="og:description" content="1、苹果端上架 ### 1.1、一些基础知识 #### 1.1.1、一个完整可用的.ipa包，包括： 签名区段（Code Signature Section）： 验证应用程序的完整性，确保代码没有被篡改； 由 Apple 的签名工具（如 codesign）在应用打包过程中生成； 位置：位于应用二进制文件的一个独立区域，通常标记为 LINKEDIT 段中的 c">
 	<meta property="og:locale" content="zh_cn">
 	<meta property="og:type" content="website">
 
 
 	<meta itemprop="name" content="移动端上架（分发）流程">
-	<meta itemprop="description" content="1、苹果端上架 ### 1.1、一些基础知识 #### 1.1.1、一个完整可用的.ipa包，包括： 签名区段（Code Signature Section）： 验证应用程序的完整性，确保代码没有被篡改； 由 Apple 的签名工具（如 codesign）在应用打包过程中生成； 位置：位于应用二进制文件的一个独立区域，通常标记为 LINKEDIT 段中#">
-	<meta itemprop="datePublished" content="2025-09-12T12:26:14+07:00">
-	<meta itemprop="dateModified" content="2025-09-12T12:26:14+07:00">
+	<meta itemprop="description" content="1、苹果端上架 ### 1.1、一些基础知识 #### 1.1.1、一个完整可用的.ipa包，包括： 签名区段（Code Signature Section）： 验证应用程序的完整性，确保代码没有被篡改； 由 Apple 的签名工具（如 codesign）在应用打包过程中生成； 位置：位于应用二进制文件的一个独立区域，通常标记为 LINKEDIT 段中的 c">
+	<meta itemprop="datePublished" content="2026-06-01T05:08:26+08:00">
+	<meta itemprop="dateModified" content="2026-06-01T05:08:26+08:00">
 	<meta itemprop="wordCount" content="708">
 
 <title>移动端上架（分发）流程 | Jobs Docs</title>
@@ -33,7 +33,7 @@ https://github.com/alex-shpak/hugo-book
 
 
   <script defer src="../../../fuse.min.js"></script>
-  <script defer src="../../../zh-cn.search.min.74775e52c05bbc0b64f71865d39bb1d2e711a78885920d35e71ba884580d49af.js" integrity="sha256-dHdeUsBbvAtk9xhl05ux0ucRp4iFkg015xuohFgNSa8=" crossorigin="anonymous"></script>
+  <script defer src="../../../zh-cn.search.min.6a61d68e80f235181caaf80737c8a5e420563dbd4371e70530c5befc3348a996.js" integrity="sha256-amHWjoDyNRgcqvgHN8il5CBWPb1DcecFMMW&#43;/DNIqZY=" crossorigin="anonymous"></script>
 
 
 <link rel="alternate" type="application/rss+xml" href="http://localhost:1313/docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E5%88%86%E5%8F%91%E6%B5%81%E7%A8%8B/index.xml" title="Jobs Docs" />
@@ -55,7 +55,7 @@ https://github.com/alex-shpak/hugo-book
      target="_blank"
      rel="noopener noreferrer"
      aria-label="Open JobsKits GitHub">
-    <img class="jobs-brand-icon" src="../../../icon.png?v=1780258808" alt="Jobs Docs" loading="eager" decoding="sync">
+    <img class="jobs-brand-icon" src="../../../icon.png?v=1780261990" alt="Jobs Docs" loading="eager" decoding="sync">
     <span class="jobs-brand-title">Jobs Docs</span>
   </a>
 </h2>
@@ -1414,8 +1414,14 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品" /></p>
-<hr>
+  <article class="markdown book-article"><iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
 <h2 id="1苹果端上架">1、苹果端上架<a class="anchor" href="#1%e8%8b%b9%e6%9e%9c%e7%ab%af%e4%b8%8a%e6%9e%b6">#</a></h2>
 <h3 id="11一些基础知识">1.1、一些基础知识<a class="anchor" href="#11%e4%b8%80%e4%ba%9b%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86">#</a></h3>
 <h4 id="111一个完整可用的ipa包包括">1.1.1、一个完整可用的<code>*.ipa</code>包，包括：<a class="anchor" href="#111%e4%b8%80%e4%b8%aa%e5%ae%8c%e6%95%b4%e5%8f%af%e7%94%a8%e7%9a%84ipa%e5%8c%85%e5%8c%85%e6%8b%ac">#</a></h4>
@@ -1484,7 +1490,7 @@ https://github.com/alex-shpak/hugo-book
 <p>它在 <strong>数字证书</strong> 和 <strong>加密密钥</strong> 管理中非常常见，尤其在 iOS 开发中；</p>
 </li>
 <li>
-<p>通过 <strong><a href="https://developer.apple.com/xcode"><strong>Xcode</strong></a></strong> 和 <strong>命令行工具</strong>（如 <code>codesign</code>）使用 <code>*.p12</code> 文件进行签名；</p>
+<p>通过 <strong>Xcode</strong> 和 <strong>命令行工具</strong>（如 <code>codesign</code>）使用 <code>*.p12</code> 文件进行签名；</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>codesign -s <span style="color:#e6db74">&#34;iPhone Developer: Your Name (XXXXXXXXXX)&#34;</span> --deep --force /path/to/your/app.app</span></span></code></pre></div></li>
 <li>
 <p>可以方便地从一个开发环境导出，传输到另一个开发环境或与他人共享；</p>
@@ -1584,7 +1590,7 @@ https://github.com/alex-shpak/hugo-book
 <ul>
 <li><strong>创建 App</strong>
 <ul>
-<li>登录 App Store Connect</li>
+<li>登录 <a href="https://appstoreconnect.apple.com/"><strong>App Store Connect</strong></a></li>
 <li>在 <strong>我的 App</strong> 中，点击 <strong>+</strong> 创建新应用，填写基本信息：
 <ul>
 <li>应用名称</li>
@@ -1625,7 +1631,7 @@ https://github.com/alex-shpak/hugo-book
 <p><strong>App 审核</strong></p>
 <ul>
 <li>
-<p>App Store 审核指南</p>
+<p><a href="https://developer.apple.com/app-store/review/"><strong>App Store 审核指南</strong></a></p>
 </li>
 <li>
 <p><strong>审核时间</strong>：</p>
@@ -1996,7 +2002,7 @@ https://github.com/alex-shpak/hugo-book
  
   </main>
 
-  <script src="../../../jobs-container-routes.js?v=1780258808"></script>
+  <script src="../../../jobs-container-routes.js?v=1780261990"></script>
 
 <script>
 (function () {
@@ -2069,7 +2075,7 @@ https://github.com/alex-shpak/hugo-book
   }
 
   function fixBrandIcon() {
-    var nextSrc = "\/icon.png?v=1780258808";
+    var nextSrc = "\/icon.png?v=1780261990";
 
     document.querySelectorAll(".jobs-brand-icon").forEach(function (img) {
       img.setAttribute("src", nextSrc);
@@ -2128,7 +2134,7 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-<script src="../../../jobs-git-version.js?v=1780258808"></script>
+<script src="../../../jobs-git-version.js?v=1780261990"></script>
 <script>
 (function () {
   function postToShell(type, reason) {

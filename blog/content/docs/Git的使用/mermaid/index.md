@@ -1,11 +1,12 @@
 ---
 title: "mermaid"
-date: 2025-08-18T13:05:14+07:00
+date: 2026-06-01T05:08:26+08:00
 draft: false
 weight: 660
 summary: ""
 bookCollapseSection: false
 ---
+
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"

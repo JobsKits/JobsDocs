@@ -1,8 +1,8 @@
 ---
 title: "搭建邮件服务器（Mail server）"
-date: 2026-05-03T16:29:51+08:00
+date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 730
+weight: 740
 summary: "搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、 电子邮件系统中的邮件交换记录(PTR Record) - 2、搭建流程 - 2.1、连接VPS - 2.1.1、相关准备工作 - 2.1.2、运行下列代码 - 2.2、更改主机名为mail，更改当前计算机的完"
 bookCollapseSection: false
 ---

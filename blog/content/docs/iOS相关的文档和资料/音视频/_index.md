@@ -1,12 +1,11 @@
 ---
 title: "音视频"
-date: 2025-11-05T09:49:14+07:00
+date: 2026-06-01T05:08:26+08:00
 draft: false
 weight: 540
 summary: "🔥前言 🔼 🔽 对音视频相关概念的总结和梳理 ## 1、相关协议 🔼 🔽 ### 1.1、TCP/IP 协议簇 🔼 🔽 TCP/IP 协议簇的构成 用于网络通信的协议族，是互联网的核心协议；（本质是数据的加密和解密） 定义了计算机如何通过网络相互通信； TCP/IP 的常见应用场景： 文件传输：通过 FTP 协议上传和下载文件； 网页浏览：通过 HTTP/H"
 bookCollapseSection: false
 ---
-
 
 
 <iframe
@@ -17,6 +16,7 @@ bookCollapseSection: false
   style="border:0; display:block;"
   allowfullscreen>
 </iframe>
+
 
 ## 🔥<font id=前言>前言</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 

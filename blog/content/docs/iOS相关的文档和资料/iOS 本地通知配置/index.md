@@ -1,12 +1,11 @@
 ---
 title: "iOS 本地通知配置"
-date: 2025-08-18T12:32:42+07:00
+date: 2026-06-01T05:08:26+08:00
 draft: false
 weight: 420
 summary: "一、在AppDelegate里面进行配置 ## 二、相关工具类 JobsLocalNotificationModel JobsMakeLocalNotification ## 三、相关调用 * ```objective-c [JobsMakeLocalNotification.new triggerLocalNotification:JobsLocalNot"
 bookCollapseSection: false
 ---
-
 
 
 <iframe
@@ -17,6 +16,7 @@ bookCollapseSection: false
   style="border:0; display:block;"
   allowfullscreen>
 </iframe>
+
 
 ## 一、在`AppDelegate`里面进行配置
 

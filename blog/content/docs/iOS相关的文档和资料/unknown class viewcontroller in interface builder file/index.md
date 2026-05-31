@@ -1,6 +1,6 @@
 ---
 title: "unknown class viewcontroller in interface builder file"
-date: 2025-08-18T12:32:42+07:00
+date: 2026-06-01T05:08:26+08:00
 draft: false
 weight: 190
 summary: "资料来源：https://blog.csdn.net/CC1991_/article/details/100803193 原因 解决方案"

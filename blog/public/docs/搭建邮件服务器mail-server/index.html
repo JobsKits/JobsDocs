@@ -8,21 +8,21 @@ https://github.com/alex-shpak/hugo-book
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" 搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、 电子邮件系统中的邮件交换记录(PTR Record) - 2、搭建流程 - 2.1、连接VPS - 2.1.1、相关准备工作 - 2.1.2、运行下列代码 - 2.2、更改主机名为mail，更改当前计算机 ">
+<meta name="description" content="搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、 电子邮件系统中的邮件交换记录(PTR Record) - 2、搭建流程 - 2.1、连接VPS - 2.1.1、相关准备工作 - 2.1.2、运行下列代码 - 2.2、更改主机名为mail，更改当前计算机的完">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8mail-server/">
 	<meta property="og:site_name" content="Jobs Docs">
 	<meta property="og:title" content="搭建邮件服务器（Mail server）">
-	<meta property="og:description" content="搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、 电子邮件系统中的邮件交换记录(PTR Record) - 2、搭建流程 - 2.1、连接VPS - 2.1.1、相关准备工作 - 2.1.2、运行下列代码 - 2.2、更改主机名为mail，更改当前计算机">
+	<meta property="og:description" content="搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、 电子邮件系统中的邮件交换记录(PTR Record) - 2、搭建流程 - 2.1、连接VPS - 2.1.1、相关准备工作 - 2.1.2、运行下列代码 - 2.2、更改主机名为mail，更改当前计算机的完">
 	<meta property="og:locale" content="zh_cn">
 	<meta property="og:type" content="website">
 
 
 	<meta itemprop="name" content="搭建邮件服务器（Mail server）">
-	<meta itemprop="description" content="搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、 电子邮件系统中的邮件交换记录(PTR Record) - 2、搭建流程 - 2.1、连接VPS - 2.1.1、相关准备工作 - 2.1.2、运行下列代码 - 2.2、更改主机名为mail，更改当前计算机">
-	<meta itemprop="datePublished" content="2026-05-03T16:29:51+08:00">
-	<meta itemprop="dateModified" content="2026-05-03T16:29:51+08:00">
+	<meta itemprop="description" content="搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、 电子邮件系统中的邮件交换记录(PTR Record) - 2、搭建流程 - 2.1、连接VPS - 2.1.1、相关准备工作 - 2.1.2、运行下列代码 - 2.2、更改主机名为mail，更改当前计算机的完">
+	<meta itemprop="datePublished" content="2026-06-01T05:08:26+08:00">
+	<meta itemprop="dateModified" content="2026-06-01T05:08:26+08:00">
 	<meta itemprop="wordCount" content="1115">
 
 <title>搭建邮件服务器（Mail server） | Jobs Docs</title>
@@ -33,7 +33,7 @@ https://github.com/alex-shpak/hugo-book
 
 
   <script defer src="../../fuse.min.js"></script>
-  <script defer src="../../zh-cn.search.min.74775e52c05bbc0b64f71865d39bb1d2e711a78885920d35e71ba884580d49af.js" integrity="sha256-dHdeUsBbvAtk9xhl05ux0ucRp4iFkg015xuohFgNSa8=" crossorigin="anonymous"></script>
+  <script defer src="../../zh-cn.search.min.6a61d68e80f235181caaf80737c8a5e420563dbd4371e70530c5befc3348a996.js" integrity="sha256-amHWjoDyNRgcqvgHN8il5CBWPb1DcecFMMW&#43;/DNIqZY=" crossorigin="anonymous"></script>
 
 
 <link rel="alternate" type="application/rss+xml" href="http://localhost:1313/docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8mail-server/index.xml" title="Jobs Docs" />
@@ -55,7 +55,7 @@ https://github.com/alex-shpak/hugo-book
      target="_blank"
      rel="noopener noreferrer"
      aria-label="Open JobsKits GitHub">
-    <img class="jobs-brand-icon" src="../../icon.png?v=1780258808" alt="Jobs Docs" loading="eager" decoding="sync">
+    <img class="jobs-brand-icon" src="../../icon.png?v=1780261990" alt="Jobs Docs" loading="eager" decoding="sync">
     <span class="jobs-brand-title">Jobs Docs</span>
   </a>
 </h2>
@@ -1428,8 +1428,14 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品" /></p>
-<hr>
+  <article class="markdown book-article"><iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
 <ul>
 <li><a href="#%e6%90%ad%e5%bb%ba%e9%82%ae%e4%bb%b6%e6%9c%8d%e5%8a%a1%e5%99%a8mail-server">搭建邮件服务器（Mail server）</a>
 <ul>
@@ -1915,7 +1921,7 @@ Acme.sh 目前支持 cloudflare, dnspod, cloudxns, godaddy 以及 ovh 等数十�
  
   </main>
 
-  <script src="../../jobs-container-routes.js?v=1780258808"></script>
+  <script src="../../jobs-container-routes.js?v=1780261990"></script>
 
 <script>
 (function () {
@@ -1988,7 +1994,7 @@ Acme.sh 目前支持 cloudflare, dnspod, cloudxns, godaddy 以及 ovh 等数十�
   }
 
   function fixBrandIcon() {
-    var nextSrc = "\/icon.png?v=1780258808";
+    var nextSrc = "\/icon.png?v=1780261990";
 
     document.querySelectorAll(".jobs-brand-icon").forEach(function (img) {
       img.setAttribute("src", nextSrc);
@@ -2047,7 +2053,7 @@ Acme.sh 目前支持 cloudflare, dnspod, cloudxns, godaddy 以及 ovh 等数十�
 
 
 
-<script src="../../jobs-git-version.js?v=1780258808"></script>
+<script src="../../jobs-git-version.js?v=1780261990"></script>
 <script>
 (function () {
   function postToShell(type, reason) {

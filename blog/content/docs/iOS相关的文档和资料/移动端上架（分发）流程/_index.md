@@ -1,12 +1,11 @@
 ---
 title: "移动端上架（分发）流程"
-date: 2025-09-12T12:26:14+07:00
+date: 2026-06-01T05:08:26+08:00
 draft: false
 weight: 510
 summary: "1、苹果端上架 ### 1.1、一些基础知识 #### 1.1.1、一个完整可用的.ipa包，包括： 签名区段（Code Signature Section）： 验证应用程序的完整性，确保代码没有被篡改； 由 Apple 的签名工具（如 codesign）在应用打包过程中生成； 位置：位于应用二进制文件的一个独立区域，通常标记为 LINKEDIT 段中的 c"
 bookCollapseSection: false
 ---
-
 
 
 <iframe
@@ -17,6 +16,7 @@ bookCollapseSection: false
   style="border:0; display:block;"
   allowfullscreen>
 </iframe>
+
 
 ## 1、苹果端上架
 
