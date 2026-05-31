@@ -8,6 +8,15 @@ bookCollapseSection: false
 ---
 
 
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 资料来源：https://blog.csdn.net/CC1991_/article/details/100803193
 
 *原因*

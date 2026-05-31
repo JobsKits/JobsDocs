@@ -1,4 +1,14 @@
 # iOS项目工程化
+
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 - [iOS项目工程化](#ios项目工程化)
   - [1. Git配置](#1-git配置)
   - [2. rbenv安装和shell设置](#2-rbenv安装和shell设置)

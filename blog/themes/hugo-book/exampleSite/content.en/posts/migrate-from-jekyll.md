@@ -9,6 +9,15 @@ title: Migrate to Hugo from Jekyll
 weight: 10
 ---
 
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 ## Move static content to `static`
 Jekyll has a rule that any directory not starting with `_` will be copied as-is to the `_site` output. Hugo keeps all static content under `static`. You should therefore move it all there.
 With Jekyll, something that looked like

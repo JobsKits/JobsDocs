@@ -1,5 +1,14 @@
 # Details
 
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 Details shortcode is a helper for `details` html5 element. To collapse the details either omit the `open`
 keyword when using positional arguments or set `open=false` when using parameters.
 

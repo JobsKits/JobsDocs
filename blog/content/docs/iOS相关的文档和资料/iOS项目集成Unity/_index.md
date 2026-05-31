@@ -9,6 +9,15 @@ bookCollapseSection: false
 
 
 
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 ## 前言
 
 * 配置Unity是比较繁琐的，特别是对于以往开发过程中没有接触过此类操作的人员比较虐心，因为包含了很多代码能力以外的经验。笔者退出此文以保姆式教学，助力避坑以求高效开发

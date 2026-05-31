@@ -1,5 +1,14 @@
 # Markdown 里的可拖动 3D 演示
 
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 这个示例给你一个**不需要 3D 素材、不需要模型文件、不需要外部 JS 库**的 3D 效果图。
 
 它用：

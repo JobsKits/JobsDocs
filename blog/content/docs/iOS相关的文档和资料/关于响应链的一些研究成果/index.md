@@ -7,6 +7,15 @@ summary: "假设我们有一个VC1，VC1上面加盖一个View0 和 View1，点�
 bookCollapseSection: false
 ---
 
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 **假设我们有一个VC1，VC1上面加盖一个View0 和 View1，点击VC跳转进VC2；**
 **现在的需求是：点击View0不跳转，但是点击View1跳转**
 

@@ -9,6 +9,15 @@ bookCollapseSection: false
 
 
 
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 ## 一、前言
 
 * 直播项目的核心难点，在于视频数据的处理，以及礼物特效

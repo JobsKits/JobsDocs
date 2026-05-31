@@ -1,5 +1,14 @@
 # Tabs
 
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 Tabs let you organize content by context, for example installation instructions for each supported platform.
 
 ```tpl

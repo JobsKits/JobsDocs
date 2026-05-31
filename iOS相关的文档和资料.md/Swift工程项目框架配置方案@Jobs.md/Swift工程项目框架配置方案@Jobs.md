@@ -1,5 +1,14 @@
 # [**Swift**](https://www.swift.org/)工程项目框架配置方案@JobsKits
 
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 [toc]
 
 ## 一、<font id=一些基本的原则>一些基本的原则</font>

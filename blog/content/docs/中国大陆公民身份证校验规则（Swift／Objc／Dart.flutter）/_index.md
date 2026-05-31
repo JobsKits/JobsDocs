@@ -8,7 +8,14 @@ bookCollapseSection: false
 ---
 
 
-![Jobs倾情奉献](https://picsum.photos/1500/400 "Jobs出品，必属精品")
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
 
 
 ![中国公民身份证校验规则](./assets/中国公民身份证校验规则.jpg)

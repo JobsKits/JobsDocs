@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>科学上网【自建 OVZ 机型的 VPS 】 on Jobs Docs</title>
-    <link>http://localhost:1313/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E8%87%AA%E5%BB%BA-ovz-%E6%9C%BA%E5%9E%8B%E7%9A%84-vps-/</link>
-    <description>Recent content in 科学上网【自建 OVZ 机型的 VPS 】 on Jobs Docs</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate></lastBuildDate>
-    <atom:link href="http://localhost:1313/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E8%87%AA%E5%BB%BA-ovz-%E6%9C%BA%E5%9E%8B%E7%9A%84-vps-/index.xml" rel="self" type="application/rss+xml" />
-  </channel>
+	<channel>
+		<title>科学上网【自建 OVZ 机型的 VPS 】 on Jobs Docs</title>
+		<link>http://localhost:1313/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E8%87%AA%E5%BB%BA-ovz-%E6%9C%BA%E5%9E%8B%E7%9A%84-vps-/</link>
+		<description>Recent content in 科学上网【自建 OVZ 机型的 VPS 】 on Jobs Docs</description>
+		<generator>Hugo</generator>
+		<language>zh-cn</language>
+		
+		
+		
+		
+			<lastBuildDate></lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E8%87%AA%E5%BB%BA-ovz-%E6%9C%BA%E5%9E%8B%E7%9A%84-vps-/index.xml" rel="self" type="application/rss+xml" />
+	</channel>
 </rss>

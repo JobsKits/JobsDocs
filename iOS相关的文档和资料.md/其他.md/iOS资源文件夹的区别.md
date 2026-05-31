@@ -1,5 +1,14 @@
 # iOS资源文件夹的区别
 
+<iframe
+  src="https://dragonir.github.io/3d/#/earth"
+  title="Jobs出品，必属精品"
+  width="100%"
+  height="400"
+  style="border:0; display:block;"
+  allowfullscreen>
+</iframe>
+
 ```
 Xcode 有黄色文件夹 和 蓝色文件夹 来管理资源
 
