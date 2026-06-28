@@ -32,7 +32,7 @@
 * 利用[**Homebrew**](https://brew.sh/)安装
 
   ```shell
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   
   brew install quicktype
   ```
@@ -40,11 +40,11 @@
 ### 2、脚本安装
 
 ```shell
-#!/usr/bin/env bash
+#!$SYSTEM_USR_DIR/bin/env bash
 
 # ================================== 日志与输出函数 ==================================
 SCRIPT_BASENAME=$(basename "$0" | sed 's/\.[^.]*$//')   # 当前脚本名（去掉扩展名）
-LOG_FILE="/tmp/${SCRIPT_BASENAME}.log"                  # 设置对应的日志文件路径
+LOG_FILE="$TMPDIR/${SCRIPT_BASENAME}.log"                  # 设置对应的日志文件路径
 
 log()            { echo -e "$1" | tee -a "$LOG_FILE"; }
 color_echo()     { log "\033[1;32m$1\033[0m"; }         # ✅ 正常绿色输出
@@ -64,7 +64,7 @@ underline_echo() { log "\033[4m$1\033[0m"; }            # 🔗 下划线
 # ================================== 写入 Homebrew shellenv ==================================
 inject_shellenv_block() {
     local profile_file="$1"   # 比如 ~/.zprofile
-    local shellenv="$2"       # 比如 eval "$(/opt/homebrew/bin/brew shellenv)"
+    local shellenv="$2"       # 比如 eval "$($(brew --prefix)/bin/brew shellenv)"
     local header="# >>> brew shellenv (auto) >>>"
 
     if [[ -z "$profile_file" || -z "$shellenv" ]]; then
@@ -109,17 +109,17 @@ install_homebrew() {
         warn_echo "🧩 未检测到 Homebrew，正在安装中...（架构：$arch）"
 
         if [[ "$arch" == "arm64" ]]; then
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+            $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
                 error_echo "❌ Homebrew 安装失败（arm64）"
                 exit 1
             }
-            brew_bin="/opt/homebrew/bin/brew"
+            brew_bin="$(brew --prefix)/bin/brew"
         else
-            arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+            arch -x86_64 $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
                 error_echo "❌ Homebrew 安装失败（x86_64）"
                 exit 1
             }
-            brew_bin="/usr/local/bin/brew"
+            brew_bin="$(brew --prefix)/bin/brew"
         fi
 
         success_echo "✅ Homebrew 安装成功"

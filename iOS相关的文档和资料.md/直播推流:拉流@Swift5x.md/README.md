@@ -30,7 +30,7 @@
       StreamPath: '/live/jobs_test',
       args: [Object: null prototype] {}
     }
-    12/9/2025 11:07:45 74341 [INFO] [Transmuxing HLS] /live/jobs_test to /Users/mac/Documents/Gits/JobsDocs/直播推流:拉流@Swift5x/local-live-server/media/live/jobs_test/index.m3u8
+    12/9/2025 11:07:45 74341 [INFO] [Transmuxing HLS] /live/jobs_test to $HOME/Documents/Gits/JobsDocs/直播推流:拉流@Swift5x/local-live-server/media/live/jobs_test/index.m3u8
     12/9/2025 11:07:45 74341 [INFO] [rtmp connect] id=4LJDLZKI ip=::ffff:127.0.0.1 app=live args={"app":"live","flashVer":"LNX 9,0,124,2","tcUrl":"rtmp://127.0.0.1:1935/live","fpad":false,"capabilities":15,"audioCodecs":4071,"videoCodecs":252,"videoFunction":1}
     12/9/2025 11:07:45 74341 [INFO] [rtmp play] Join stream. id=4LJDLZKI streamPath=/live/jobs_test  streamId=1 
     12/9/2025 11:07:45 74341 [INFO] [rtmp publish] Handle audio. id=QJ4MR2YV streamPath=/live/jobs_test sound_format=10 sound_type=2 sound_size=1 sound_rate=3 codec_name=AAC 48000 1ch

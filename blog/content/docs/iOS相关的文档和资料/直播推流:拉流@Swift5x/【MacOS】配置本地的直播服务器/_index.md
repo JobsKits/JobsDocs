@@ -39,7 +39,7 @@ bookCollapseSection: false
       StreamPath: '/live/jobs_test',
       args: [Object: null prototype] {}
     }
-    12/9/2025 11:07:45 74341 [INFO] [Transmuxing HLS] /live/jobs_test to /Users/mac/Documents/Gits/JobsDocs/直播推流:拉流@Swift5x/local-live-server/media/live/jobs_test/index.m3u8
+    12/9/2025 11:07:45 74341 [INFO] [Transmuxing HLS] /live/jobs_test to $HOME/Documents/Gits/JobsDocs/直播推流:拉流@Swift5x/local-live-server/media/live/jobs_test/index.m3u8
     12/9/2025 11:07:45 74341 [INFO] [rtmp connect] id=4LJDLZKI ip=::ffff:127.0.0.1 app=live args={"app":"live","flashVer":"LNX 9,0,124,2","tcUrl":"rtmp://127.0.0.1:1935/live","fpad":false,"capabilities":15,"audioCodecs":4071,"videoCodecs":252,"videoFunction":1}
     12/9/2025 11:07:45 74341 [INFO] [rtmp play] Join stream. id=4LJDLZKI streamPath=/live/jobs_test  streamId=1 
     12/9/2025 11:07:45 74341 [INFO] [rtmp publish] Handle audio. id=QJ4MR2YV streamPath=/live/jobs_test sound_format=10 sound_type=2 sound_size=1 sound_rate=3 codec_name=AAC 48000 1ch
@@ -82,7 +82,7 @@ bookCollapseSection: false
 * [**Homebrew**](https://brew.sh/) ➤ [**node**](https://nodejs.org/en) ➤ [**node-media-server@2.3.8**](https://github.com/codivoire/node-media-server)
 
   ```shell
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   brew install node
   npm install node-media-server@2.3.8 # 一定是要2.3.8稳定
   ```
@@ -148,7 +148,7 @@ brew install ffmpeg
   
     // ✅ v2.x 官方写法：这里才是真正启动 HLS 转封装
     trans: {
-      ffmpeg: '/opt/homebrew/bin/ffmpeg', // 你机器上的 ffmpeg 路径
+      ffmpeg: '$(brew --prefix)/bin/ffmpeg', // 你机器上的 ffmpeg 路径
       tasks: [
         {
           app: 'live', // rtmp://IP:1935/live/xxx 里的 live

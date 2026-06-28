@@ -317,7 +317,7 @@ sudo apt-get purge vim #Debian/Ubuntu 命令
 
 #### 2.2.2、更改主机名为`mail`，更改当前计算机的完整域名为`mail.jobs996.top`
 
-*编辑`/etc/hosts`文件*
+*编辑`$SYSTEM_CONFIG_DIR/hosts`文件*
 
 ```shell
 127.0.0.1	localhost
@@ -330,7 +330,7 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 ```
 
-*编辑`/etc/hostname`文件*
+*编辑`$SYSTEM_CONFIG_DIR/hostname`文件*
 
 ```
 mail
@@ -412,7 +412,7 @@ https://jobs996.top/iredadmin   邮件服务器后台管理
 # 卸载 iRedMail 软件包
 sudo apt-get remove --purge iredmail
 # 删除 iRedMail 目录
-sudo rm -rf /var/www/iredadmin /var/vmail /opt/iredapd /opt/iredmail
+sudo rm -rf $WEB_ROOT_DIR/iredadmin $MAIL_STORAGE_DIR $APP_INSTALL_PREFIX/iredapd $APP_INSTALL_PREFIX/iredmail
 # 删除 iRedMail 用户和组
 sudo deluser --remove-home iredapd
 sudo deluser --remove-home vmail
@@ -429,7 +429,7 @@ sudo reboot
 */root/iRedMail-1.6.3/config*
 
 ```shell
-export STORAGE_BASE_DIR='/var/vmail'
+export STORAGE_BASE_DIR='$MAIL_STORAGE_DIR'
 export WEB_SERVER='NGINX'
 export BACKEND_ORIG='MARIADB'
 export BACKEND='MYSQL'
@@ -494,7 +494,7 @@ yum install -y socat    #CentOS 命令
 ```
 
 ```shell
-root@mail:~# ~/.acme.sh/acme.sh --issue -d mail.jobs996.top --webroot /var/www/html
+root@mail:~# ~/.acme.sh/acme.sh --issue -d mail.jobs996.top --webroot $WEB_ROOT_DIR/html
 [Tue 30 May 2023 10:53:16 PM CEST] Using CA: https://acme.zerossl.com/v2/DV90
 [Tue 30 May 2023 10:53:16 PM CEST] Creating domain key
 [Tue 30 May 2023 10:53:16 PM CEST] The domain key is here: /root/.acme.sh/mail.jobs996.top_ecc/mail.jobs996.top.key
@@ -585,8 +585,8 @@ Acme.sh 目前支持 cloudflare, dnspod, cloudxns, godaddy 以及 ovh 等数十�
 
 ```shell
 ~/.acme.sh/acme.sh --installcert -d mail.jobs996.top
---key-file /etc/pki/tls/private/iRedMail.key 
---fullchain-file /etc/pki/tls/certs/iRedMail.crt
+--key-file $SYSTEM_CONFIG_DIR/pki/tls/private/iRedMail.key 
+--fullchain-file $SYSTEM_CONFIG_DIR/pki/tls/certs/iRedMail.crt
 ```
 
 

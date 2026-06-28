@@ -189,7 +189,7 @@ SYMROOT="${DD_ROOT}/Build/Products"
 OBJROOT="${DD_ROOT}/Build/Intermediates"
 mkdir -p "${SYMROOT}" "${OBJROOT}"
 
-DEV_DIR="${DEVELOPER_DIR:-$(/usr/bin/xcode-select -p)}"
+DEV_DIR="${DEVELOPER_DIR:-$($SYSTEM_USR_DIR/bin/xcode-select -p)}"
 
 echo "▶︎ A: UNITY_PROJ = ${UNITY_PROJ}"
 echo "▶︎ A: host CONFIGURATION = ${CONFIGURATION}"
@@ -200,14 +200,14 @@ echo "▶︎ A: DEVELOPER_DIR = ${DEV_DIR}"
 
 # 关键：不用 -derivedDataPath（否则会要求 -scheme）
 # 同时用干净环境避免主工程 WRAPPER_NAME/PRODUCT_NAME 污染 Unity build
-/usr/bin/env -i \
+$SYSTEM_USR_DIR/bin/env -i \
   PATH="${PATH}" \
   HOME="${HOME}" \
   USER="${USER}" \
   LANG="${LANG:-en_US.UTF-8}" \
-  TMPDIR="${TMPDIR:-/tmp}" \
+  TMPDIR="${TMPDIR:-$TMPDIR}" \
   DEVELOPER_DIR="${DEV_DIR}" \
-  /usr/bin/xcodebuild \
+  $SYSTEM_USR_DIR/bin/xcodebuild \
     -project "${UNITY_PROJ}" \
     -target "UnityFramework" \
     -configuration "${UNITY_CONF}" \
@@ -233,7 +233,7 @@ if [ ! -d "${SRC_FW}" ]; then
 fi
 
 rm -rf "${DST_FW}"
-/usr/bin/ditto "${SRC_FW}" "${DST_FW}"
+$SYSTEM_USR_DIR/bin/ditto "${SRC_FW}" "${DST_FW}"
 
 echo "✅ A: staged UnityFramework.framework into BUILT_PRODUCTS_DIR"
 ```
@@ -264,7 +264,7 @@ echo "▶︎ B: embedded -> ${DST_FW}"
 
 # 手动 codesign（因为你已经从 Embed Frameworks/UI 里删掉了 UnityFramework.framework）
 if [[ -n "${EXPANDED_CODE_SIGN_IDENTITY:-}" && "${CODE_SIGNING_ALLOWED:-YES}" != "NO" ]]; then
-  /usr/bin/codesign --force --sign "${EXPANDED_CODE_SIGN_IDENTITY}" \
+  $SYSTEM_USR_DIR/bin/codesign --force --sign "${EXPANDED_CODE_SIGN_IDENTITY}" \
     --preserve-metadata=identifier,entitlements \
     "${DST_FW}"
   echo "▶︎ B: codesigned"

@@ -30,11 +30,11 @@ ssh-keygen -t rsa -b 4096 -C "lg295060456@gmail.com"
 Last login: Sat Jan 17 14:20:11 on ttys000
 ➜  Desktop ssh-keygen -t rsa -b 4096 -C "lg295060456@gmail.com"
 Generating public/private rsa key pair.
-Enter file in which to save the key (/Users/jobs/.ssh/id_rsa): 
-Enter passphrase for "/Users/jobs/.ssh/id_rsa" (empty for no passphrase): 
+Enter file in which to save the key (~/.ssh/id_rsa): 
+Enter passphrase for "~/.ssh/id_rsa" (empty for no passphrase): 
 Enter same passphrase again: 
-Your identification has been saved in /Users/jobs/.ssh/id_rsa
-Your public key has been saved in /Users/jobs/.ssh/id_rsa.pub
+Your identification has been saved in ~/.ssh/id_rsa
+Your public key has been saved in ~/.ssh/id_rsa.pub
 The key fingerprint is:
 SHA256:Fdvu/MXEYvmoomwjooZvPoR3gX1FlvmYrmmubfZDs7A lg295060456@gmail.com
 The key's randomart image is:
@@ -111,7 +111,7 @@ ssh-add ~/.ssh/id_rsa
 ➜  Desktop eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 Agent pid 9880
-Identity added: /Users/jobs/.ssh/id_rsa (lg295060456@gmail.com)
+Identity added: ~/.ssh/id_rsa (lg295060456@gmail.com)
 ```
 
 ## 六、添加公钥🔑 ➤ [Github](https://github.com)

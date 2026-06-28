@@ -88,7 +88,7 @@ brew update && brew doctor
 ```
 Already up-to-date.
 ==> Tapping homebrew/core
-Cloning into '/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core'...
+Cloning into '$(brew --prefix)/Homebrew$SYSTEM_LIBRARY_DIR/Taps/homebrew/homebrew-core'...
 remote: Enumerating objects: 1725002, done.
 remote: Counting objects: 100% (97675/97675), done.
 remote: Compressing objects: 100% (1197/1197), done.
@@ -97,12 +97,12 @@ error: 4190 bytes of body are still expected
 fetch-pack: unexpected disconnect while reading sideband packet
 fatal: early EOF
 fatal: fetch-pack: invalid index-pack output
-Error: Failure while executing; `git clone https://github.com/Homebrew/homebrew-core /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core --origin=origin --template= --config core.fsmonitor=false` exited with 128.
+Error: Failure while executing; `git clone https://github.com/Homebrew/homebrew-core $(brew --prefix)/Homebrew$SYSTEM_LIBRARY_DIR/Taps/homebrew/homebrew-core --origin=origin --template= --config core.fsmonitor=false` exited with 128.
 ```
 
 则需要执行
 ```
-rm -rf “/usr/local/Homebrew/Library/Taps/Homebrew/homebrew-core”
+rm -rf “$(brew --prefix)/Homebrew$SYSTEM_LIBRARY_DIR/Taps/Homebrew/homebrew-core”
 ```
 然后执行
 ```
@@ -183,20 +183,20 @@ gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
 
 ⚠️ ruby更新到3.2.2后 pod --version 报错
 ```
-/Users/lym/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/activesupport-7.1.1/lib/active_support/core_ext/array/conversions.rb:108:in `<class:Array>': undefined method `deprecator' for ActiveSupport:Module (NoMethodError)
+$HOME/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/activesupport-7.1.1/lib/active_support/core_ext/array/conversions.rb:108:in `<class:Array>': undefined method `deprecator' for ActiveSupport:Module (NoMethodError)
 
   deprecate to_default_s: :to_s, deprecator: ActiveSupport.deprecator
                                                           ^^^^^^^^^^^
 Did you mean?  deprecate_constant
-    from /Users/lym/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/activesupport-7.1.1/lib/active_support/core_ext/array/conversions.rb:8:in `<top (required)>'
-    from <internal:/Users/lym/.rbenv/versions/3.2.2/lib/ruby/site_ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:86:in `require'
-    from <internal:/Users/lym/.rbenv/versions/3.2.2/lib/ruby/site_ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:86:in `require'
-    from /Users/lym/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/cocoapods-1.13.0/lib/cocoapods.rb:9:in `<top (required)>'
-    from <internal:/Users/lym/.rbenv/versions/3.2.2/lib/ruby/site_ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:86:in `require'
-    from <internal:/Users/lym/.rbenv/versions/3.2.2/lib/ruby/site_ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:86:in `require'
-    from /Users/lym/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/cocoapods-1.13.0/bin/pod:36:in `<top (required)>'
-    from /Users/lym/.rbenv/versions/3.2.2/bin/pod:25:in `load'
-    from /Users/lym/.rbenv/versions/3.2.2/bin/pod:25:in `<main>'
+    from $HOME/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/activesupport-7.1.1/lib/active_support/core_ext/array/conversions.rb:8:in `<top (required)>'
+    from <internal:$HOME/.rbenv/versions/3.2.2/lib/ruby/site_ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:86:in `require'
+    from <internal:$HOME/.rbenv/versions/3.2.2/lib/ruby/site_ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:86:in `require'
+    from $HOME/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/cocoapods-1.13.0/lib/cocoapods.rb:9:in `<top (required)>'
+    from <internal:$HOME/.rbenv/versions/3.2.2/lib/ruby/site_ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:86:in `require'
+    from <internal:$HOME/.rbenv/versions/3.2.2/lib/ruby/site_ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:86:in `require'
+    from $HOME/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/cocoapods-1.13.0/bin/pod:36:in `<top (required)>'
+    from $HOME/.rbenv/versions/3.2.2/bin/pod:25:in `load'
+    from $HOME/.rbenv/versions/3.2.2/bin/pod:25:in `<main>'
 ```
 
 处理方法：
@@ -243,7 +243,7 @@ $ ./scripts/setup.sh
 脚本内容：
 
 ```
-#!/bin/sh
+# shell: sh
 
 # Install ruby using rbenv
 ruby_version=`cat .ruby-version`

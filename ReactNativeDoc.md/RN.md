@@ -51,9 +51,9 @@
 
   * ```bash
     This package has installed:
-    	•	Node.js v20.12.2 to /usr/local/bin/node
-    	•	npm v10.5.0 to /usr/local/bin/npm
-    Make sure that /usr/local/bin is in your $PATH.
+    	•	Node.js v20.12.2 to $(brew --prefix)/bin/node
+    	•	npm v10.5.0 to $(brew --prefix)/bin/npm
+    Make sure that $(brew --prefix)/bin is in your $PATH.
     ```
 
   * ```bash
@@ -274,10 +274,10 @@ For more details, see https://github.com/react-native-community/cli/blob/main/do
   
   Run instructions for Android:
     • Have an Android emulator running (quickest way to get started), or a device connected.
-    • cd "/Users/jobs/Desktop/AwesomeProject3" && npx react-native run-android
+    • cd "~/Desktop/AwesomeProject3" && npx react-native run-android
   
   Run instructions for iOS:
-    • cd "/Users/jobs/Desktop/AwesomeProject3/ios"
+    • cd "~/Desktop/AwesomeProject3/ios"
     
     • Install Cocoapods
       • bundle install # you need to run this only once in your project.
@@ -376,9 +376,9 @@ Try using a new directory name, or moving these files.
 
 error Command failed.
 Exit code: 1
-Command: /opt/homebrew/bin/create-expo-app
+Command: $(brew --prefix)/bin/create-expo-app
 Arguments: AwesomeProject
-Directory: /Users/jobs/Desktop
+Directory: ~/Desktop
 Output:
 
 info Visit https://yarnpkg.com/en/docs/cli/create for documentation about this command.
@@ -444,7 +444,7 @@ To run your project, navigate to the directory and run one of the following yarn
 > awesomeproject@1.0.0 ios
 > expo start --ios
 
-Starting project at /Users/jobs/Desktop/AwesomeProject
+Starting project at ~/Desktop/AwesomeProject
 (node:19943) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Starting Metro Bundler
@@ -500,7 +500,7 @@ iOS Bundled 7769ms (node_modules/expo/AppEntry.js)
 > awesomeproject@1.0.0 android
 > expo start --android
 
-Starting project at /Users/jobs/Desktop/AwesomeProject
+Starting project at ~/Desktop/AwesomeProject
 (node:21311) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Starting Metro Bundler
@@ -516,7 +516,7 @@ https://developer.android.com/studio/run/device.html#developer-device-options. I
 ```bash
 ➜  Desktop cd AwesomeProject
 ➜  AwesomeProject git:(master) npx expo start
-Starting project at /Users/jobs/Desktop/AwesomeProject
+Starting project at ~/Desktop/AwesomeProject
 (node:9875) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Starting Metro Bundler
@@ -527,7 +527,7 @@ node:events:497
 Error: EMFILE: too many open files, watch
     at FSEvent.FSWatcher._handle.onchange (node:internal/fs/watchers:207:21)
 Emitted 'error' event on NodeWatcher instance at:
-    at FSWatcher._checkedEmitError (/Users/jobs/Desktop/AwesomeProject/node_modules/metro-file-map/src/watchers/NodeWatcher.js:82:12)
+    at FSWatcher._checkedEmitError (~/Desktop/AwesomeProject/node_modules/metro-file-map/src/watchers/NodeWatcher.js:82:12)
     at FSWatcher.emit (node:events:519:28)
     at FSEvent.FSWatcher._handle.onchange (node:internal/fs/watchers:213:12) {
   errno: -24,

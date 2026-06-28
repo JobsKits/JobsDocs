@@ -22,7 +22,7 @@
 提示：可以通过以下命令重命名刚创建的分支：
 提示：
 提示：	git branch -m <name>
-已初始化空的 Git 仓库于 /Users/jobs/Documents/GitHub/JobsOCKit/.git/
+已初始化空的 Git 仓库于 ~/Documents/GitHub/JobsOCKit/.git/
 ➜  JobsOCKit git:(master) ✗ git submodule add https://github.com/295060456/JobsBlock ./JobsBlock
 向索引中添加位于 'JobsBlock' 的已存在的仓库
 ➜  JobsOCKit git:(master) ✗ git remote add origin git@github.com:295060456/JobsOCKit.git

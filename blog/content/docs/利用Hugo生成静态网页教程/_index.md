@@ -43,7 +43,7 @@ flowchart LR
 * [**Homebrew**](https://brew.sh/)
 
   ```shell
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   ```
 
 ## 2、安装配置
@@ -67,11 +67,11 @@ flowchart LR
   ```shell
   Last login: Wed Apr  8 10:28:06 on ttys000
   ➜  Desktop hugo new site JobsBlog
-  Congratulations! Your new Hugo project was created in /Users/jobs/Desktop/JobsBlog.
+  Congratulations! Your new Hugo project was created in ~/Desktop/JobsBlog.
   
   Just a few more steps...
   
-  1. Change the current directory to /Users/jobs/Desktop/JobsBlog.
+  1. Change the current directory to ~/Desktop/JobsBlog.
   2. Create or install a theme:
      - Create a new theme with the command "hugo new theme <THEMENAME>"
      - Or, install a theme from https://themes.gohugo.io/
@@ -130,10 +130,10 @@ flowchart LR
 
   ```shell
   Last login: Wed Apr  8 10:48:22 on ttys000
-  ➜  Desktop /Users/jobs/Desktop/JobsBlog 
+  ➜  Desktop ~/Desktop/JobsBlog 
   ➜  JobsBlog hugo server --theme=hyde --buildDrafts
-  Watching for changes in /Users/jobs/Desktop/JobsBlog/archetypes, /Users/jobs/Desktop/JobsBlog/assets, /Users/jobs/Desktop/JobsBlog/content/post, /Users/jobs/Desktop/JobsBlog/data, /Users/jobs/Desktop/JobsBlog/i18n, /Users/jobs/Desktop/JobsBlog/layouts, /Users/jobs/Desktop/JobsBlog/static, /Users/jobs/Desktop/JobsBlog/themes/hyde/archetypes, /Users/jobs/Desktop/JobsBlog/themes/hyde/assets/css, /Users/jobs/Desktop/JobsBlog/themes/hyde/layouts/{_default,partials}, ... and 1 more
-  Watching for config changes in /Users/jobs/Desktop/JobsBlog/hugo.toml
+  Watching for changes in ~/Desktop/JobsBlog/archetypes, ~/Desktop/JobsBlog/assets, ~/Desktop/JobsBlog/content/post, ~/Desktop/JobsBlog/data, ~/Desktop/JobsBlog/i18n, ~/Desktop/JobsBlog/layouts, ~/Desktop/JobsBlog/static, ~/Desktop/JobsBlog/themes/hyde/archetypes, ~/Desktop/JobsBlog/themes/hyde/assets/css, ~/Desktop/JobsBlog/themes/hyde/layouts/{_default,partials}, ... and 1 more
+  Watching for config changes in ~/Desktop/JobsBlog/hugo.toml
   Start building sites … 
   hugo v0.160.0+extended+withdeploy darwin/arm64 BuildDate=2026-04-04T13:32:34Z VendorInfo=Homebrew
   

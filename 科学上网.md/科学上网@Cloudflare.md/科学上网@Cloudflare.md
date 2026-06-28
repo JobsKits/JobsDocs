@@ -47,7 +47,7 @@
   
     ```shell
     # 因为MacOS的安全策略所限制，成功安装完成v2rayn以后，需要执行如下命令
-    xattr -cr /Applications/v2rayN.app 
+    xattr -cr $APPLICATIONS_DIR/v2rayN.app 
     ```
   
     * **Apple** 芯片 ➤ **v2rayN-macos-arm64.dmg**
@@ -101,7 +101,7 @@
   
   ```shell
   Last login: Wed Apr 29 11:04:38 on ttys000
-  ➜  Desktop /Users/jobs/Documents/Github/edgetunnel 
+  ➜  Desktop ../../../edgetunnel 
   ➜  edgetunnel git:(main) npx wrangler login
   
    ⛅️ wrangler 4.86.0

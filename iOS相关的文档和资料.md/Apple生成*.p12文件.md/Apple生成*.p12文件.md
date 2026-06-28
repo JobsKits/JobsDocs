@@ -50,7 +50,7 @@
 * 目前最新版的MacOS系统进入`钥匙串访问 (Keychain Access)`的方式
 
   ```shell
-  open /System/Library/CoreServices/Applications/
+  open $SYSTEM_DIR/Library/CoreServices$APPLICATIONS_DIR/
   ```
 
   ![image-20250908203759555](./assets/image-20250908203759555.png)

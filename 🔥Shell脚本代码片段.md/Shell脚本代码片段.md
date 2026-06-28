@@ -21,9 +21,9 @@
 
 * 为了更好的规避**Shell**脚本的晦涩难懂，特此文件记录一些高频需求涉及到的**Shell**脚本代码片段
 
-* <font color=red>本文件下所有的**Shell**脚本都将使用`#!/bin/zsh`语法</font>
+* <font color=red>本文件下所有的**Shell**脚本都将使用`# shell: zsh`语法</font>
 
-  | 特性                           | `#!/bin/zsh`（推荐）          | `#!/bin/sh`（兼容） |
+  | 特性                           | `# shell: zsh`（推荐）          | `# shell: sh`（兼容） |
   | ------------------------------ | ----------------------------- | ------------------- |
   | 默认交互功能（补全、高亮等）   | ✅ 强                          | ❌ 弱                |
   | 支持数组                       | ✅ 原生支持                    | ❌ 基本不支持        |
@@ -42,13 +42,13 @@
 > 后续写 `.command` 脚本时，优先使用这套基座。核心交互约定固定为：**回车跳过，输入任意字符后回车执行安装 / 更新 / 升级流程**。危险操作例外，例如删除、覆盖、强制 reset，必须单独要求输入 `YES`。
 
 ```shell
-#!/bin/zsh
+# shell: zsh
 
 # ============================= 基础路径 =============================
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
 SCRIPT_PATH="${SCRIPT_DIR}/$(basename -- "$0")"
 SCRIPT_BASENAME=$(basename "$0" | sed 's/\.[^.]*$//')
-LOG_FILE="/tmp/${SCRIPT_BASENAME}.log"
+LOG_FILE="$TMPDIR/${SCRIPT_BASENAME}.log"
 
 # ============================= 彩色日志 =============================
 log()            { echo -e "$1" | tee -a "$LOG_FILE"; }
@@ -143,10 +143,10 @@ inject_shellenv_block() {
 resolve_brew_bin() {
   if command -v brew >/dev/null 2>&1; then
     command -v brew
-  elif [[ -x "/opt/homebrew/bin/brew" ]]; then
-    echo "/opt/homebrew/bin/brew"
-  elif [[ -x "/usr/local/bin/brew" ]]; then
-    echo "/usr/local/bin/brew"
+  elif [[ -x "$(brew --prefix)/bin/brew" ]]; then
+    echo "$(brew --prefix)/bin/brew"
+  elif [[ -x "$(brew --prefix)/bin/brew" ]]; then
+    echo "$(brew --prefix)/bin/brew"
   else
     return 1
   fi
@@ -163,17 +163,17 @@ install_homebrew() {
     warn_echo "🧩 未检测到 Homebrew，正在安装...（架构：$arch）"
 
     if [[ "$arch" == "arm64" ]]; then
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+      $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
         error_echo "Homebrew 安装失败（arm64）"
         exit 1
       }
-      brew_bin="/opt/homebrew/bin/brew"
+      brew_bin="$(brew --prefix)/bin/brew"
     else
-      arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+      arch -x86_64 $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
         error_echo "Homebrew 安装失败（x86_64）"
         exit 1
       }
-      brew_bin="/usr/local/bin/brew"
+      brew_bin="$(brew --prefix)/bin/brew"
     fi
 
     success_echo "✅ Homebrew 安装成功"
@@ -307,7 +307,7 @@ read "?👉 按下回车开始执行，或 Ctrl+C 取消..."
 
 * ```shell
   SCRIPT_BASENAME=$(basename "$0" | sed 's/\.[^.]*$//')   # 当前脚本名（去掉扩展名）
-  LOG_FILE="/tmp/${SCRIPT_BASENAME}.log"                  # 设置对应的日志文件路径
+  LOG_FILE="$TMPDIR/${SCRIPT_BASENAME}.log"                  # 设置对应的日志文件路径
   
   log()            { echo -e "$1" | tee -a "$LOG_FILE"; }
   color_echo()     { log "\033[1;32m$1\033[0m"; }         # ✅ 正常绿色输出
@@ -342,7 +342,7 @@ read "?👉 按下回车开始执行，或 Ctrl+C 取消..."
 * ```shell
   # ============================= 日志输出函数 =============================
   # 默认日志文件路径（可被外部覆盖）
-  LOG_FILE="${LOG_FILE:-/tmp/script_log.txt}"
+  LOG_FILE="${LOG_FILE:-$TMPDIR/script_log.txt}"
   # 通用日志输出（含日志落盘）
   log() {
     local msg="$1"
@@ -558,7 +558,7 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy"
   > echo "准备执行危险操作：卸载 XXX"
   > wait_for_user_to_start
   > # 真正的卸载命令放这里
-  > rm -rf /usr/local/XXX
+  > rm -rf $(brew --prefix)/XXX
   > echo "✅ 卸载完成"
   > ```
 
@@ -681,11 +681,11 @@ SCRIPT_PATH="${SCRIPT_DIR}/$(basename -- "$0")"
 ##### 1.5、循环问正确（判断依据解耦自定义拓展）的路径，直到正确为止 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
-#!/bin/zsh
+# shell: zsh
 
 # ✅ 彩色输出函数
 SCRIPT_BASENAME=$(basename "$0" | sed 's/\.[^.]*$//')   # 当前脚本名（去掉扩展名）
-LOG_FILE="/tmp/${SCRIPT_BASENAME}.log"                  # 设置对应的日志文件路径
+LOG_FILE="$TMPDIR/${SCRIPT_BASENAME}.log"                  # 设置对应的日志文件路径
 
 log()            { echo -e "$1" | tee -a "$LOG_FILE"; }
 color_echo()     { log "\033[1;32m$1\033[0m"; }        # ✅ 正常绿色输出
@@ -1094,7 +1094,7 @@ print_duration
 inject_shellenv_block() {
   local profile_file="$1"   # 参数1：要写入的配置文件，例如 "$HOME/.zprofile"
   local id="$2"             # 参数2：环境变量块 ID，例如 "homebrew_env"
-  local shellenv="$3"       # 参数3：实际写入内容，例如 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+  local shellenv="$3"       # 参数3：实际写入内容，例如 'eval "$($(brew --prefix)/bin/brew shellenv)"'
   local header="# >>> ${id} 环境变量 >>>"
   local footer="# <<< ${id} 环境变量 <<<"
 
@@ -1193,16 +1193,16 @@ insert_block_to_profile_top() {
 arch=$(get_cpu_arch)
 
 if [[ "$arch" == "arm64" ]]; then
-  inject_shellenv_block "$HOME/.zprofile" "homebrew_env" 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+  inject_shellenv_block "$HOME/.zprofile" "homebrew_env" 'eval "$($(brew --prefix)/bin/brew shellenv)"'
 else
-  inject_shellenv_block "$HOME/.bash_profile" "homebrew_env" 'eval "$(/usr/local/bin/brew shellenv)"'
+  inject_shellenv_block "$HOME/.bash_profile" "homebrew_env" 'eval "$($(brew --prefix)/bin/brew shellenv)"'
 fi
 ```
 
 #### 🎯 1、写单行的环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
-inject_shellenv_block "$HOME/.zprofile" "homebrew_env" 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+inject_shellenv_block "$HOME/.zprofile" "homebrew_env" 'eval "$($(brew --prefix)/bin/brew shellenv)"'
 ```
 
 #### 🎯 2、写多行的环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
@@ -1234,14 +1234,14 @@ done
 ```
 
 ```shell
-/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin 
+$(brew --prefix)/bin:$(brew --prefix)/bin:$SYSTEM_USR_DIR/bin:$SYSTEM_BIN_DIR 
 
 =>
 
-/usr/local/bin
-/opt/homebrew/bin
-/usr/bin
-/bin
+$(brew --prefix)/bin
+$(brew --prefix)/bin
+$SYSTEM_USR_DIR/bin
+$SYSTEM_BIN_DIR
 ```
 
 ### 🎯 判断芯片架构（`ARM64` / `x86_64`）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
@@ -1332,19 +1332,19 @@ install_homebrew() {
     warn_echo "🧩 未检测到 Homebrew，正在安装中...（架构：$arch）"
 
     if [[ "$arch" == "arm64" ]]; then
-      # Apple Silicon 原生 Homebrew（/opt/homebrew）
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+      # Apple Silicon 原生 Homebrew（$(brew --prefix)）
+      $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
         error_echo "❌ Homebrew 安装失败（arm64）"
         exit 1
       }
-      brew_bin="/opt/homebrew/bin/brew"
+      brew_bin="$(brew --prefix)/bin/brew"
     else
       # Intel 或在 Apple Silicon 下装一份 Intel 版 Homebrew（需要 Rosetta）
-      arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+      arch -x86_64 $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
         error_echo "❌ Homebrew 安装失败（x86_64）"
         exit 1
       }
-      brew_bin="/usr/local/bin/brew"
+      brew_bin="$(brew --prefix)/bin/brew"
     fi
 
     success_echo "✅ Homebrew 安装成功"
@@ -1389,9 +1389,9 @@ install_homebrew() {
 arch=$(get_cpu_arch)
 
 if [[ "$arch" == "arm64" ]]; then
-  inject_shellenv_block "$HOME/.zprofile" "homebrew_env" 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+  inject_shellenv_block "$HOME/.zprofile" "homebrew_env" 'eval "$($(brew --prefix)/bin/brew shellenv)"'
 else
-  inject_shellenv_block "$HOME/.bash_profile" "homebrew_env" 'eval "$(/usr/local/bin/brew shellenv)"'
+  inject_shellenv_block "$HOME/.bash_profile" "homebrew_env" 'eval "$($(brew --prefix)/bin/brew shellenv)"'
 fi
 ```
 
@@ -1517,7 +1517,7 @@ install_coreutils() {
   fi
 
   # 确保 coreutils 提供的命令优先级最高
-  export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+  export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
 }
 ```
 
@@ -1671,10 +1671,10 @@ install_rbenv() {
 >     echo "🧭 正在检测架构并添加 brew 安装的 Java 版本到 jenv..."
 >   
 >     if [[ "$(uname -m)" == "arm64" ]]; then
->       base_path="/opt/homebrew/opt"
+>       base_path="$(brew --prefix)/opt"
 >       echo "🐹 当前为 Apple Silicon (ARM64)"
 >     else
->       base_path="/usr/local/opt"
+>       base_path="$(brew --prefix)/opt"
 >       echo "🧠 当前为 Intel x86_64 架构"
 >     fi
 >   
@@ -1700,7 +1700,7 @@ install_rbenv() {
 >   ```shell
 >   jenv_add() {
 >   	for v in 8 11 17 21; do
->       path="/opt/homebrew/opt/openjdk@${v}/libexec/openjdk.jdk/Contents/Home"
+>       path="$(brew --prefix)/opt/openjdk@${v}/libexec/openjdk.jdk/Contents/Home"
 >       [[ -x "$path/bin/java" ]] && jenv add "$path"
 >     done
 >   
@@ -1723,9 +1723,9 @@ install_rbenv() {
 >     echo "🧹 开始移除所有通过 Homebrew 安装并注册到 jenv 的 Java 版本..."
 >                               
 >     if [[ "$(uname -m)" == "arm64" ]]; then
->       base_path="/opt/homebrew/opt"
+>       base_path="$(brew --prefix)/opt"
 >     else
->       base_path="/usr/local/opt"
+>       base_path="$(brew --prefix)/opt"
 >     fi
 >                               
 >     found=false
@@ -1773,7 +1773,7 @@ install_cocoapods() {
   fi
 
   # ✅ 打印版本并写入日志
-  pod --version | tee -a "${LOG_FILE:-/tmp/install.log}"
+  pod --version | tee -a "${LOG_FILE:-$TMPDIR/install.log}"
 }
 ```
 
@@ -1806,7 +1806,7 @@ ensure_perl_installed() {
   fi
 
   # 🔍 打印版本并写入日志
-  perl -v | head -n 2 | tee -a "${LOG_FILE:-/tmp/install.log}"
+  perl -v | head -n 2 | tee -a "${LOG_FILE:-$TMPDIR/install.log}"
 }
 ```
 
@@ -1906,21 +1906,21 @@ brew untap homebrew/core || true
 brew cleanup || true
 
 # 2. 官方卸载脚本（HEAD 版）
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+$SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
 
 # 3. 手动删除常见路径（Intel 和 M 系）
-sudo rm -rf /usr/local/Caskroom/
-sudo rm -rf /usr/local/Frameworks/
-sudo rm -rf /usr/local/Homebrew/
-sudo rm -rf /usr/local/bin/
-sudo rm -rf /usr/local/etc/
-sudo rm -rf /usr/local/include/
-sudo rm -rf /usr/local/lib/
-sudo rm -rf /usr/local/opt/
-sudo rm -rf /usr/local/sbin/
-sudo rm -rf /usr/local/share/
-sudo rm -rf /usr/local/var/
-sudo rm -rf /opt/homebrew/
+sudo rm -rf $(brew --prefix)/Caskroom/
+sudo rm -rf $(brew --prefix)/Frameworks/
+sudo rm -rf $(brew --prefix)/Homebrew/
+sudo rm -rf $(brew --prefix)/bin/
+sudo rm -rf $(brew --prefix)/etc/
+sudo rm -rf $(brew --prefix)/include/
+sudo rm -rf $(brew --prefix)/lib/
+sudo rm -rf $(brew --prefix)/opt/
+sudo rm -rf $(brew --prefix)/sbin/
+sudo rm -rf $(brew --prefix)/share/
+sudo rm -rf $(brew --prefix)/var/
+sudo rm -rf $(brew --prefix)/
 
 # 4. 修复 fatal: Could not resolve HEAD 错误
 brew_repo=$(brew --repo homebrew/core 2>/dev/null)
@@ -1964,7 +1964,7 @@ install_fvm() {
   fi
 
   # 🔍 输出当前版本并写入日志
-  fvm --version | tee -a "${LOG_FILE:-/tmp/install.log}"
+  fvm --version | tee -a "${LOG_FILE:-$TMPDIR/install.log}"
 }
 
 ```
@@ -2426,7 +2426,7 @@ is_actions_plist_same() {
 
 ```shell
 # ========== 获取所有可用 shell ==========
-available_shells=($(cat /etc/shells | grep -E "^/"))
+available_shells=($(cat $SYSTEM_CONFIG_DIR/shells | grep -E "^/"))
 
 if [[ ${#available_shells[@]} -eq 0 ]]; then
     echo "❌ 无法读取可用 shell"
@@ -2515,7 +2515,7 @@ export ANDROID_HOME="${ANDROID_HOME:-$HOME/Library/Android/sdk}"
 export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
 
 # ✅ Android cmdline tools Homebrew 安装路径（可选备用）
-export PATH="/opt/homebrew/share/android-commandlinetools/cmdline-tools/latest/bin:$PATH"
+export PATH="$(brew --prefix)/share/android-commandlinetools/cmdline-tools/latest/bin:$PATH"
 
 # ✅ Dart pub 全局工具路径（如 fvm）
 export PATH="$HOME/.pub-cache/bin:$PATH"
@@ -2524,7 +2524,7 @@ export PATH="$HOME/.pub-cache/bin:$PATH"
 export PATH="$HOME/fvm/default/bin:$PATH"
 
 # ✅ Homebrew.coreutils
-export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
 
 # ✅ 检测本地项目内 FVM，并加入本地 flutter 路径（自动支持 .fvm 项目）
 if [[ -d ".fvm/flutter_sdk" ]]; then
@@ -2543,9 +2543,9 @@ fi
 
 # ✅ Homebrew 安装路径加入 PATH（根据芯片架构区分，确保 brew 可用）
 if [[ "$(uname -m)" == "arm64" ]]; then
-  export PATH="/opt/homebrew/bin:$PATH"
+  export PATH="$(brew --prefix)/bin:$PATH"
 else
-  export PATH="/usr/local/bin:$PATH"
+  export PATH="$(brew --prefix)/bin:$PATH"
 fi
 
 # ✅ Flutter 镜像源（可选：解决国内访问慢的问题）
@@ -2553,7 +2553,7 @@ export PUB_HOSTED_URL="https://pub.flutter-io.cn"
 export FLUTTER_STORAGE_BASE_URL="https://storage.flutter-io.cn"
 
 # ✅ Xcode 工具路径（必要时强制指定 Xcode 命令路径）
-# export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
+# export DEVELOPER_DIR="$APPLICATIONS_DIR/Xcode.app/Contents/Developer"
 
 # ✅ 手动注入某些环境变量块（如 fvm）
 # inject_shellenv_block "$HOME/.zshrc" "fvm_env" 'export PATH="$HOME/.pub-cache/bin:$PATH"'

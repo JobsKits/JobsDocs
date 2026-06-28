@@ -33,7 +33,7 @@ bookCollapseSection: false
 * 查找用[**Homebrew**](https://brew.sh/)管理的软件的安装路径（以`tomat`为例）
 
   ```shell
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   ```
 
   ```shell
@@ -85,7 +85,7 @@ apachectl restart
 #### 5.2、因为是只读所以需要加写权限，然后将默认的8080更改为8081，以及80更改为81（防止其他程序抢夺端口）
 
 ```shell
-open /etc/apache2/httpd.conf
+open $SYSTEM_CONFIG_DIR/apache2/httpd.conf
 ```
 
 ```xml

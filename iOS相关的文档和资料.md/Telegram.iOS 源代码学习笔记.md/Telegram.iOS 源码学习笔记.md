@@ -68,7 +68,7 @@
 
     * Python（可以利用[**Homebrew**](https://brew.sh/)）安装
     
-      <font color=red>**macOS 自带一个较旧版本的 Python (`/usr/bin/python`)，建议使用 `python3` 指令运行新安装的 Python。**</font>
+      <font color=red>**macOS 自带一个较旧版本的 Python (`$SYSTEM_USR_DIR/bin/python`)，建议使用 `python3` 指令运行新安装的 Python。**</font>
 
       ```shell
       brew install python
@@ -87,13 +87,13 @@
     
       ```shell
       xcode-select --install
-      xcode-select -p # 验证安装是否成功。如果返回路径 /Library/Developer/CommandLineTools，则表示安装成功。
+      xcode-select -p # 验证安装是否成功。如果返回路径 $SYSTEM_LIBRARY_DIR/Developer/CommandLineTools，则表示安装成功。
       ```
     
       在某些情况下需要首先进行移除安装，重置环境
     
       ```shell
-      sudo rm -rf /Library/Developer/CommandLineTools
+      sudo rm -rf $SYSTEM_LIBRARY_DIR/Developer/CommandLineTools
       xcode-select --install
       ```
     
@@ -180,7 +180,7 @@
   * 必须依赖正确安装配置的**Xcode Command Line Tools**（包括系统存在此程序，以及指向的关联路径正确）如若不然，运行下列👇🏻进行修复：
 
     ```shell
-    ➜  ~ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+    ➜  ~ sudo xcode-select --switch $APPLICATIONS_DIR/Xcode.app/Contents/Developer
     ```
     
   * 因为脚本是指定Xcode的版本，如果基于某些Xcode预览版，脚本或许无法正确运行，例如：
@@ -219,13 +219,13 @@
     INFO: Invocation ID: f8fb790a-5482-4431-9952-b512c655ee02
     INFO: Options provided by the client:
       Inherited 'common' options: --isatty=1 --terminal_columns=151
-    INFO: Reading rc options for 'run' from /Users/admin/Documents/GitHub/Telegram.iOS/Telegram-iOS/xcodeproj.bazelrc:
-      Inherited 'build' options: --announce_rc --features=swift.use_global_module_cache --verbose_failures --experimental_remote_cache_async --features=swift.enable_batch_mode --swiftcopt=-j9 --define=buildNumber=10000 --define=telegramVersion=11.6 --disk_cache=/Users/admin/telegram-bazel-cache --override_repository=build_configuration=/Users/admin/Documents/GitHub/Telegram.iOS/Telegram-iOS/build-input/configuration-repository --//Telegram:disableExtensions --//Telegram:disableStripping --features=-swift.debug_prefix_map
-    INFO: Reading rc options for 'run' from /Users/admin/Documents/GitHub/Telegram.iOS/Telegram-iOS/.bazelrc:
+    INFO: Reading rc options for 'run' from $HOME/Documents/GitHub/Telegram.iOS/Telegram-iOS/xcodeproj.bazelrc:
+      Inherited 'build' options: --announce_rc --features=swift.use_global_module_cache --verbose_failures --experimental_remote_cache_async --features=swift.enable_batch_mode --swiftcopt=-j9 --define=buildNumber=10000 --define=telegramVersion=11.6 --disk_cache=$HOME/telegram-bazel-cache --override_repository=build_configuration=$HOME/Documents/GitHub/Telegram.iOS/Telegram-iOS/build-input/configuration-repository --//Telegram:disableExtensions --//Telegram:disableStripping --features=-swift.debug_prefix_map
+    INFO: Reading rc options for 'run' from $HOME/Documents/GitHub/Telegram.iOS/Telegram-iOS/.bazelrc:
       Inherited 'build' options: --action_env=ZERO_AR_DATE=1 --apple_platform_type=ios --enable_platform_specific_config --apple_crosstool_top=@local_config_apple_cc//:toolchain --crosstool_top=@local_config_apple_cc//:toolchain --host_crosstool_top=@local_config_apple_cc//:toolchain --cxxopt=-std=c++17 --per_file_copt=third-party/webrtc/.*.cpp$,@-std=c++17 --per_file_copt=third-party/webrtc/.*.cc$,@-std=c++17 --per_file_copt=third-party/webrtc/.*.mm$,@-std=c++17 --per_file_copt=submodules/LottieMeshSwift/LottieMeshBinding/Sources/.*.mm$,@-std=c++17 --per_file_copt=submodules/LottieCpp/lottiecpp/Sources/.*.mm$,@-std=c++17 --per_file_copt=submodules/LottieCpp/lottiecpp/Sources/.*.cpp$,@-std=c++17 --per_file_copt=submodules/LottieCpp/lottiecpp/PlatformSpecific/Darwin/Sources/.*.mm$,@-std=c++17 --per_file_copt=submodules/LottieCpp/lottiecpp/PlatformSpecific/Darwin/Sources/.*.cpp$,@-std=c++17 --per_file_copt=Tests/LottieMetalTest/SoftwareLottieRenderer/Sources/.*.cpp$,@-std=c++17 --per_file_copt=Tests/LottieMetalTest/SoftwareLottieRenderer/Sources/.*.mm$,@-std=c++17 --swiftcopt=-whole-module-optimization --per_file_copt=.*.m$,@-fno-objc-msgsend-selector-stubs --per_file_copt=.*.mm$,@-fno-objc-msgsend-selector-stubs --features=debug_prefix_map_pwd_is_dot --features=swift.cacheable_swiftmodules --features=swift.debug_prefix_map --features=swift.enable_vfsoverlays --strategy=Genrule=standalone --spawn_strategy=standalone --strategy=SwiftCompile=standalone --define RULES_SWIFT_BUILD_DUMMY_WORKER=1 --noenable_bzlmod
-    INFO: Found applicable config definition common:rules_xcodeproj_generator in file /private/var/tmp/_bazel_admin/466e7bf10140e50c663f198d86f49651/execroot/__main__/bazel-out/darwin_arm64-fastbuild/bin/Telegram/Telegram_xcodeproj.bazelrc: --config=rules_xcodeproj
-    INFO: Found applicable config definition common:rules_xcodeproj in file /private/var/folders/z8/vw_qs5sn679_j_yhqltmcr3m0000gn/T/tmp.P7venwj1Pl/pre_xcodeproj.bazelrc: --xcode_version=16A242d --repo_env=DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer --repo_env=USE_CLANG_CL=16A242d --repo_env=XCODE_VERSION=16A242d
-    INFO: Found applicable config definition common:rules_xcodeproj in file /private/var/tmp/_bazel_admin/466e7bf10140e50c663f198d86f49651/execroot/__main__/bazel-out/darwin_arm64-fastbuild/bin/Telegram/Telegram_xcodeproj.bazelrc: --verbose_failures --cache_computed_file_digests=500000 --compilation_mode=dbg --experimental_action_cache_store_output_metadata --experimental_convenience_symlinks=ignore --experimental_use_cpp_compile_action_args_params_file --define=apple.experimental.tree_artifact_outputs=1 --features=apple.swizzle_absolute_xcttestsourcelocation --features=oso_prefix_is_pwd --features=relative_ast_path --features=swift.cacheable_swiftmodules --features=swift.index_while_building --features=swift.use_global_index_store --features=swift.use_global_module_cache --nolegacy_important_outputs --show_result=0 --noworker_sandboxing --spawn_strategy=remote,worker,local
+    INFO: Found applicable config definition common:rules_xcodeproj_generator in file $TMPDIR/_bazel_admin/466e7bf10140e50c663f198d86f49651/execroot/__main__/bazel-out/darwin_arm64-fastbuild/bin/Telegram/Telegram_xcodeproj.bazelrc: --config=rules_xcodeproj
+    INFO: Found applicable config definition common:rules_xcodeproj in file $TMPDIR/z8/vw_qs5sn679_j_yhqltmcr3m0000gn/T$TMPDIR.P7venwj1Pl/pre_xcodeproj.bazelrc: --xcode_version=16A242d --repo_env=DEVELOPER_DIR=$APPLICATIONS_DIR/Xcode.app/Contents/Developer --repo_env=USE_CLANG_CL=16A242d --repo_env=XCODE_VERSION=16A242d
+    INFO: Found applicable config definition common:rules_xcodeproj in file $TMPDIR/_bazel_admin/466e7bf10140e50c663f198d86f49651/execroot/__main__/bazel-out/darwin_arm64-fastbuild/bin/Telegram/Telegram_xcodeproj.bazelrc: --verbose_failures --cache_computed_file_digests=500000 --compilation_mode=dbg --experimental_action_cache_store_output_metadata --experimental_convenience_symlinks=ignore --experimental_use_cpp_compile_action_args_params_file --define=apple.experimental.tree_artifact_outputs=1 --features=apple.swizzle_absolute_xcttestsourcelocation --features=oso_prefix_is_pwd --features=relative_ast_path --features=swift.cacheable_swiftmodules --features=swift.index_while_building --features=swift.use_global_index_store --features=swift.use_global_module_cache --nolegacy_important_outputs --show_result=0 --noworker_sandboxing --spawn_strategy=remote,worker,local
     INFO: Analyzed target @@rules_xcodeproj_generated//generator/Telegram/Telegram_xcodeproj:Telegram_xcodeproj (729 packages loaded, 30857 targets configured).
     INFO: From Compiling Swift module @@com_github_apple_swift_argument_parser//:ArgumentParser [for tool]:
     external/com_github_apple_swift_argument_parser/Sources/ArgumentParser/Usage/DumpHelpGenerator.swift:12:22: warning: using '@_implementationOnly' without enabling library evolution for 'ArgumentParser' may lead to instability during execution
@@ -409,7 +409,7 @@
     INFO: Elapsed time: 58.582s, Critical Path: 27.08s
     INFO: 2777 processes: 186 internal, 2591 local.
     INFO: Build completed successfully, 2777 total actions
-    INFO: Running command line: /private/var/tmp/_bazel_admin/466e7bf10140e50c663f198d86f49651/rules_xcodeproj.noindex/build_output_base/execroot/__main__/bazel-out/darwin_arm64-dbg/bin/external/rules_xcodeproj_generated/generator/Telegram/Telegram_xcodeproj/Telegram_xcodeproj-installer.sh --xcodeproj_bazelrc /private/var/tmp/_bazel_admin/466e7bf10140e50c663f198d86f49651/execroot/__main__/bazel-out/darwin_arm64-fastbuild/bin/Telegram/Telegram_xcodeproj-runner.sh.runfiles/__main__/Telegram/Telegram_xcodeproj.bazelrc --extra_flags_bazelrc /private/var/tmp/_bazel_admin/466e7bf10140e50c663f198d86f49651/execroot/__main__/bazel-out/darwin_arm64-fastbuild/bin/Telegram/Telegram_xcodeproj-runner.sh.runfiles/__main__/Telegram/Telegram_xcodeproj-extra-flags.bazelrc --bazel_path /Users/admin/Documents/GitHub/Telegram.iOS/Telegram-iOS/build-input/bazel-7.3.1-darwin-arm64 --execution_root /private/var/tmp/_bazel_admin/466e7bf10140e50c663f198d86f49651/execroot/__main__
+    INFO: Running command line: $TMPDIR/_bazel_admin/466e7bf10140e50c663f198d86f49651/rules_xcodeproj.noindex/build_output_base/execroot/__main__/bazel-out/darwin_arm64-dbg/bin/external/rules_xcodeproj_generated/generator/Telegram/Telegram_xcodeproj/Telegram_xcodeproj-installer.sh --xcodeproj_bazelrc $TMPDIR/_bazel_admin/466e7bf10140e50c663f198d86f49651/execroot/__main__/bazel-out/darwin_arm64-fastbuild/bin/Telegram/Telegram_xcodeproj-runner.sh.runfiles/__main__/Telegram/Telegram_xcodeproj.bazelrc --extra_flags_bazelrc $TMPDIR/_bazel_admin/466e7bf10140e50c663f198d86f49651/execroot/__main__/bazel-out/darwin_arm64-fastbuild/bin/Telegram/Telegram_xcodeproj-runner.sh.runfiles/__main__/Telegram/Telegram_xcodeproj-extra-flags.bazelrc --bazel_path $HOME/Documents/GitHub/Telegram.iOS/Telegram-iOS/build-input/bazel-7.3.1-darwin-arm64 --execution_root $TMPDIR/_bazel_admin/466e7bf10140e50c663f198d86f49651/execroot/__main__
     Updated project at "Telegram/Telegram.xcodeproj"
     ➜  Telegram-iOS git:(master) ✗ 
     ```

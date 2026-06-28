@@ -341,7 +341,7 @@ git show --no-patch --pretty=%P 这里写ID
 * 脚本执行
 
   ```shell
-  #!/bin/zsh
+  # shell: zsh
   
   # 红色提示：确保脚本与 .git 文件夹在同一目录
   echo "\033[31m确保该脚本与 .git 文件夹在同一目录下！\033[0m"
@@ -422,7 +422,7 @@ git show --no-patch --pretty=%P 这里写ID
 
     ```shell
     Last login: Wed Jul 17 10:27:35 on ttys000
-    ➜  Desktop /Users/user/Desktop/q 
+    ➜  Desktop $HOME/Desktop/q 
     ➜  q git:(main) git pull Jobs.Office main --allow-unrelated-histories
     
     From https://git.betzz.cc/fm_ios/fm.ios

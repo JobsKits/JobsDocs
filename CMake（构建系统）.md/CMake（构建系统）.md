@@ -38,7 +38,7 @@
 
     ```
     # 先安装Homebrew环境
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     # 利用Homebrew安装cmake
     brew install cmake
     ```

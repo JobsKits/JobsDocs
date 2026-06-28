@@ -50,7 +50,7 @@ Corresponding pseudo commands:
 
     git clone https://github.com/spf13/hugo
     cd hugo
-    /path/to/where/you/installed/hugo server --source=./docs
+    <path-to>/where/you/installed/hugo server --source=./docs
     > 29 pages created
     > 0 tags index created
     > in 27 ms
@@ -65,12 +65,12 @@ Stop the Hugo process by hitting Ctrl+C.
 
 Now we are going to run hugo again, but this time with hugo in watch mode.
 
-    /path/to/hugo/from/step/1/hugo server --source=./docs --watch
+    <path-to>/hugo/from/step/1/hugo server --source=./docs --watch
     > 29 pages created
     > 0 tags index created
     > in 27 ms
     > Web Server is available at http://localhost:1313
-    > Watching for changes in /Users/spf13/Code/hugo/docs/content
+    > Watching for changes in $HOME/Code/hugo/docs/content
     > Press ctrl+c to stop
 
 

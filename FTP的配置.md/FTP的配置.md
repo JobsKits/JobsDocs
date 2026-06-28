@@ -90,7 +90,7 @@ root@mail:~# sudo systemctl status vsftpd
       Tasks: 1 (limit: 1074)
      Memory: 584.0K
      CGroup: /system.slice/vsftpd.service
-             └─86197 /usr/sbin/vsftpd /etc/vsftpd.conf
+             └─86197 $SYSTEM_USR_DIR/sbin/vsftpd $SYSTEM_CONFIG_DIR/vsftpd.conf
 
 May 28 20:18:24 mail systemd[1]: Starting vsftpd FTP server...
 May 28 20:18:24 mail systemd[1]: Started vsftpd FTP server.
@@ -108,7 +108,7 @@ May 28 20:18:24 mail systemd[1]: Started vsftpd FTP server.
 sudo useradd -m ftp_client
 sudo passwd ftp_client
 
-useradd -d /home/ftpUser/ -g ftp -s /sbin/nologin ftpUser
+useradd -d /home/ftpUser/ -g ftp -s $SYSTEM_SBIN_DIR/nologin ftpUser
 ```
 
 *创建示例文本 **testfile.txt***
@@ -164,13 +164,13 @@ sudo systemctl restart vsftpd
 ### 5.1、备份
 
 ```shell
-sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.bak
+sudo cp $SYSTEM_CONFIG_DIR/vsftpd.conf $SYSTEM_CONFIG_DIR/vsftpd.conf.bak
 ```
 
 ### 5.2、编辑
 
 ```
-vi /etc/vsftpd.conf
+vi $SYSTEM_CONFIG_DIR/vsftpd.conf
 ```
 
 ```bash
@@ -182,21 +182,21 @@ anon_upload_enable=NO                  #匿名用户不可以上传文件
 anon_mkdir_write_enable=NO            #匿名用户不可以修改文件 
 xferlog_enable=YES                    #启用一个日志文件，用于详细记录上传和下载。                
 use_localtime=YES                      #使用本地时间而不是GMT 
-vsftpd_log_file=/var/log/vsftpd.log    #vsftpd日志存放位置 
+vsftpd_log_file=$SYSTEM_LOG_DIR/vsftpd.log    #vsftpd日志存放位置 
 dual_log_enable=YES                    #用户登陆日志 
 connect_from_port_20=YES              #开启20端口      
-xferlog_file=/var/log/xferlog          #记录上传下载文件的日志 
+xferlog_file=$SYSTEM_LOG_DIR/xferlog          #记录上传下载文件的日志 
 xferlog_std_format=YES                #记录日志使用标准格式 
 idle_session_timeout=600              #登陆之后超时时间60秒，登陆之后，一分钟不操作，就会断开连接。 
 chroot_local_user=YES                  #用于指定用户列表文件中的用户,是否允许切换到上级目录      
 listen=YES                            #开启监听 
 pam_service_name=vsftpd.vu            #验证文件的名字 
 userlist_enable=YES                    #允许由userlist_file指定文件中的用户登录FTP服务器                    
-tcp_wrappers=YES                      #支持tcp_wrappers,限制访问(/etc/hosts.allow,/etc/hosts.deny) 
+tcp_wrappers=YES                      #支持tcp_wrappers,限制访问($SYSTEM_CONFIG_DIR/hosts.allow,$SYSTEM_CONFIG_DIR/hosts.deny) 
 guest_enable=YES                      #起用虚拟用户 
 guest_username=taokey                  #虚拟用户名 
 
-#user_config_dir=/etc/vsftpd/vsftpuser  #虚拟用户配置文件路径 
+#user_config_dir=$SYSTEM_CONFIG_DIR/vsftpd/vsftpuser  #虚拟用户配置文件路径 
 local_root=/home/ftpUser/ #自定义ftp上传路径（注意文件夹权限）
 pasv_min_port=35000  
 pasv_max_port=45000 
@@ -214,7 +214,7 @@ sudo systemctl restart vsftpd
 ### 5.4、查看端口
 
 ```shell
-root@mail:/etc# netstat -ntlp lgrep vsftpd
+root@mail:$SYSTEM_CONFIG_DIR# netstat -ntlp lgrep vsftpd
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
 tcp        0      0 0.0.0.0:19999           0.0.0.0:*               LISTEN      42767/netdata       
@@ -230,7 +230,7 @@ tcp        0      0 127.0.0.1:9998          0.0.0.0:*               LISTEN      
 tcp        0      0 0.0.0.0:110             0.0.0.0:*               LISTEN      38824/dovecot       
 tcp        0      0 0.0.0.0:143             0.0.0.0:*               LISTEN      38824/dovecot       
 tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      28354/nginx: master 
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      770/sshd: /usr/sbin 
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      770/sshd: $SYSTEM_USR_DIR/sbin 
 tcp        0      0 0.0.0.0:25              0.0.0.0:*               LISTEN      17592/master        
 tcp        0      0 127.0.0.1:8125          0.0.0.0:*               LISTEN      42767/netdata       
 tcp        0      0 0.0.0.0:4190            0.0.0.0:*               LISTEN      38824/dovecot       
@@ -241,11 +241,11 @@ tcp6       0      0 :::110                  :::*                    LISTEN      
 tcp6       0      0 :::143                  :::*                    LISTEN      38824/dovecot       
 tcp6       0      0 :::80                   :::*                    LISTEN      28354/nginx: master 
 tcp6       0      0 :::21                   :::*                    LISTEN      112244/vsftpd       
-tcp6       0      0 :::22                   :::*                    LISTEN      770/sshd: /usr/sbin 
+tcp6       0      0 :::22                   :::*                    LISTEN      770/sshd: $SYSTEM_USR_DIR/sbin 
 tcp6       0      0 :::25                   :::*                    LISTEN      17592/master        
 tcp6       0      0 ::1:8125                :::*                    LISTEN      42767/netdata       
 tcp6       0      0 :::4190                 :::*                    LISTEN      38824/dovecot       
-root@mail:/etc# 
+root@mail:$SYSTEM_CONFIG_DIR# 
 ```
 
 ### 5.5、防火墙
@@ -353,12 +353,12 @@ apt-get install openbsd-inetd
 # 安装 telnetd
 apt-get install telnetd
 
-# 验证安装：成功安装完之后，/etc/inetd.conf 的内容会多了一行
-cat /etc/inetd.conf | grep telnet 输出：
-telnet stream tcp nowait telnetd /usr/sbin/tcpd /usr/sbin/in.telnetd
+# 验证安装：成功安装完之后，$SYSTEM_CONFIG_DIR/inetd.conf 的内容会多了一行
+cat $SYSTEM_CONFIG_DIR/inetd.conf | grep telnet 输出：
+telnet stream tcp nowait telnetd $SYSTEM_USR_DIR/sbin/tcpd $SYSTEM_USR_DIR/sbin/in.telnetd
 
 # 重启 openbsd-inetd
-/etc/init.d/openbsd-inetd restart
+$SYSTEM_CONFIG_DIR/init.d/openbsd-inetd restart
 
 # 这个时候重复第一步操作，则有输出:
 netstat -a | grep telnet 输出：
