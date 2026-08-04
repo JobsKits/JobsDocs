@@ -2,7 +2,7 @@
 title: "Git 子模块使用"
 date: 2026-08-04T15:56:10+08:00
 draft: false
-weight: 740
+weight: 670
 summary: "## 🔥 前言 > 子模块不是“父仓自动跟踪另一个目录的全部内容”，而是父仓记录另一个 Git 仓库的特定提交。理解 gitlink、.gitmodules、子模块工作树和 .git/modules 四层状态，才能正确处理克隆、更新、改名、删除与恢复。 ## 一、状态模型 🔼 🔽 | 状态 | 存放位置 | 作用 | | --- | --- | --- | "
 bookCollapseSection: false
 ---
