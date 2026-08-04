@@ -1,3 +1,4 @@
+# `Mermaid` 类图输入样例
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -7,6 +8,16 @@
   style="border:0; display:block;"
   allowfullscreen>
 </iframe>
+
+[toc]
+
+---
+
+## 🔥 <font id=前言>前言</font>
+
+> 这是 GitHub Actions 与 Mermaid CLI 的复杂输入样例，用于验证 Markdown 内 `mermaid` fenced code block 的解析。图中 Objective-C 协议内容只代表样例快照，不作为当前 Jobs iOS API 的权威文档。
+
+## 一、类图样例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 classDiagram
@@ -358,3 +369,5 @@ class BaseProtocol {
 }
 NSObject <|-- BaseProtocol
 ```
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

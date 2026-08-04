@@ -7,44 +7,74 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch:
+
+concurrency:
+  group: mermaid-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  MERMAID_INPUT: README.md
+  MERMAID_OUTPUT: diagram.png
+  MERMAID_CLI_VERSION: 11.16.0
 
 jobs:
-  build:
+  verify:
+    name: Verify Mermaid rendering
     runs-on: ubuntu-latest
     permissions:
-      contents: write # 对当前github仓库具有写的权限
-
+      contents: read
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.PAT }} # 计划稍后使用自己的 PAT `git push` 对不同的存储库执行操作
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Render diagrams without writing to the repository
+        run: |
+          npx --yes "@mermaid-js/mermaid-cli@${MERMAID_CLI_VERSION}" \
+            --input "${MERMAID_INPUT}" \
+            --output "${RUNNER_TEMP}/${MERMAID_OUTPUT}"
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'  # 使用最新版本的 Node.js
-        
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y chromium-browser
-        npm install -g @mermaid-js/mermaid-cli
-
-    - name: Generate Diagrams
-      run: |
-        npx mmdc -i README.md -o diagram.png
-        ls -la # 列出当前目录中的文件
-
-    - name: Show current directory structure
-      run: ls -R
-        
-    - name: Commit and push diagrams
-      if: success()
-      run: |
-        git config --global user.name 'github-actions'
-        git config --global user.email 'github-actions@github.com'
-        git add diagram-*.png
-        git commit -m 'Auto-Generate Mermaid diagrams'
-        git push https://${{ github.actor }}:${{ secrets.PAT }}@github.com/${{ github.repository }}.git HEAD:main
+  publish:
+    name: Publish Mermaid diagrams
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
+    needs:
+      - verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Generate diagrams
+        run: |
+          npx --yes "@mermaid-js/mermaid-cli@${MERMAID_CLI_VERSION}" \
+            --input "${MERMAID_INPUT}" \
+            --output "${MERMAID_OUTPUT}"
+      - name: Commit generated diagrams when changed
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          mapfile -d '' generated_files < <(find . -maxdepth 1 -type f -name 'diagram*.png' -print0)
+          if (( ${#generated_files[@]} == 0 )); then
+            echo 'No generated diagram files.'
+            exit 1
+          fi
+          git add -- "${generated_files[@]}"
+          if git diff --cached --quiet; then
+            echo 'No generated diagram changes.'
+            exit 0
+          fi
+          git commit -m 'docs: update generated Mermaid diagrams'
+          git push

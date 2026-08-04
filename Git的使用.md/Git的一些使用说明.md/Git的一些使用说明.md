@@ -1,541 +1,357 @@
-# Git的一些使用说明
+# `Git` 的一些使用说明
 
-<iframe
-  src="https://dragonir.github.io/3d/#/earth"
-  title="Jobs出品，必属精品"
-  width="100%"
-  height="400"
-  style="border:0; display:block;"
-  allowfullscreen>
-</iframe>
+![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
 [toc]
 
-## 🎯 <font id=目的>**项目白皮书**</font>
+---
 
-* 此文档，主要的受众是 [**Git**](https://git-scm.com/) 的中高阶使用者
+## 🔥 <font id=前言>前言</font>
 
-## 一、高频实用命令 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+> 面向已经会使用 `add`、`commit`、`fetch`、`pull` 和 `push` 的开发者，集中说明远端、配置、rebase、cherry-pick、历史改写、stash 恢复和无共同历史合并。临时故障先看 [Git 故障诊断与恢复手册](../Git故障诊断与恢复.md/Git故障诊断与恢复.md)。
 
-### 1、👀查看@当前仓库 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 一、高频观察命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-```shell
-git remote                 # 只看名字
-git remote -v              # 名字 + URL（fetch/push）
-git remote get-url --all origin     # 只看 origin 的所有 URL
-git remote show origin              # 详细信息（默认分支、跟踪分支等）
-git remote show -n origin           # 同上但不连网
-git config --get remote.origin.url  # 只取一个 URL
-```
-
-### 2、👀查看@所有子模块一起看（含嵌套） <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 1.1、仓库、分支与状态
 
 ```shell
-git submodule foreach --recursive 'echo "[$name]"; git remote -v; echo'
+git rev-parse --show-toplevel
+git status --short --branch
+git branch --verbose --verbose
+git log --oneline --graph --decorate --all -30
+git worktree list
 ```
 
-### 3、👀查看@针对某个子模块目录 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
- ```shell
- git submodule foreach --recursive 'echo "[$name]"; git remote -v; echo'
- ```
-
-### 4、修改 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 1.2、远端
 
 ```shell
-git remote add origin <url>                # 添加
-git remote set-url origin <new-url>        # 改 URL
-git remote rename origin upstream          # 改名
-git remote remove origin                   # 删除
+git remote
+git remote -v
+git remote get-url --all origin
+git remote show origin
+git remote show -n origin
+git config --get-all remote.origin.url
+git config --get-all remote.origin.fetch
 ```
 
-## 二、进阶使用必修 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- `git remote show origin` 会联系远端并展示跟踪关系、HEAD 分支和 stale 引用；`-n` 不查询远端，只使用本地缓存。
+- 一个远端可以配置多个 Fetch URL 或 Push URL，排错时用 `--all` / `--get-all`，不要只看第一条。
 
-### 1、什么是变基（rebase） <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+修改远端：
 
-* 变基（rebase）是 Git 中的一种操作，用于在改变分支基础（即分支的起点）的同时，将提交历史重新应用到新的基础上
+```shell
+git remote add origin <url>
+git remote set-url origin <new-url>
+git remote set-url --add --push origin <push-url>
+git remote rename origin upstream
+git remote remove origin
+```
 
-* 变基的主要作用是使提交历史更加线性和整洁，特别是在处理分支合并和多分支协作时
+### 1.3、子模块远端
 
-#### 1.2、变基的基本概念 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+查看全部已初始化子模块，包括嵌套子模块：
 
-假设我们有以下提交历史：
+```shell
+git submodule foreach --recursive 'printf "[%s]\n" "$name"; git remote -v; printf "\n"'
+```
 
-```markdown
-A---B---C---D  (main)
+查看指定子模块：
+
+```shell
+git -C <submodule-path> remote -v
+```
+
+## 二、配置文件与优先级
+
+### 2.1、配置层级
+
+Git 配置不是只有 `.git/config`：
+
+| 层级 | 常用命令 | 典型位置 | 优先级 |
+| --- | --- | --- | --- |
+| 系统 | `git config --system` | Git 安装或系统配置目录 | 低 |
+| 用户 | `git config --global` | `~/.gitconfig` 或 XDG 配置 | 中 |
+| 仓库 | `git config --local` | 当前仓库的 Git config | 高 |
+| worktree | `git config --worktree` | 启用扩展后的 worktree 配置 | 更具体 |
+| 命令行 | `git -c key=value ...` | 仅本次进程 | 最高 |
+
+查值时同时看来源：
+
+```shell
+git config --list --show-origin --show-scope
+git config --show-origin --get-all pull.rebase
+```
+
+### 2.2、仓库配置示例
+
+```ini
+[core]
+  repositoryformatversion = 0
+  filemode = true
+  bare = false
+  logallrefupdates = true
+  ignorecase = true
+  precomposeunicode = true
+[remote "origin"]
+  url = git@github.com:OWNER/REPOSITORY.git
+  fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+  remote = origin
+  merge = refs/heads/main
+[pull]
+  rebase = false
+```
+
+- `core.repositoryformatversion`：仓库格式版本。不要手工改成未知值。
+- `core.filemode`：是否把可执行位变化视为内容变化；它不表示 Git 跟踪全部 Unix 权限。
+- `core.bare`：`true` 表示裸仓库，没有普通工作区，常用于服务器端仓库。
+- `core.logallrefupdates`：控制分支等引用是否记录 reflog。
+- `core.ignoreCase`：Git 在大小写不敏感文件系统上的兼容提示。Git 会在 init/clone 时探测；手工改错可能造成异常行为。
+- `core.precomposeUnicode`：macOS Git 对文件名 Unicode 分解/合成的兼容设置，用于跨 macOS、Linux 和 Windows 协作。
+- `remote.<name>.url`：远端地址。
+- `remote.<name>.fetch`：refspec；示例把全部远端分支映射到 `refs/remotes/origin/*`，前导 `+`允许对应远端跟踪引用接受非快进更新。
+- `branch.<name>.remote` 与 `branch.<name>.merge`：共同定义当前分支的 upstream。
+- `pull.rebase`：控制 Pull 的整合方式；也可以在单次命令中用 `--rebase`、`--no-rebase` 或 `--ff-only` 覆盖。
+
+## 三、`rebase`
+
+### 3.1、模型
+
+Rebase 选出当前分支相对上游独有的提交，把分支临时移到新基点，再按顺序重放这些提交。它重写提交对象，因此提交 ID 会变化。
+
+```text
+A---B---C---D  main
      \
-      E---F---G  (feature)
-```
+      E---F---G  feature
 
-如果我们想将 `feature` 分支变基到 `main` 分支的最新提交（即 `D`），可以使用以下命令：
-
-```shell
-git checkout feature
+git switch feature
 git rebase main
+
+A---B---C---D  main
+             \
+              E'---F'---G'  feature
 ```
 
-变基操作会重新应用 `feature` 分支上的提交（E、F、G），使它们基于 `main` 分支的最新提交（D），结果如下：
+### 3.2、价值与代价
 
-```markdown
-A---B---C---D  (main)
-              \
-               E'---F'---G'  (feature)
-```
+- 价值：让主题分支基于新上游继续开发、整理本地提交、减少不必要的 merge commit。
+- 代价：提交 ID 改变；已发布分支需要非快进推送；协作者若仍基于旧提交继续工作，会产生重复提交或覆盖风险。
+- Rebase 不是“不可逆”。操作进行中可用 `git rebase --abort`；完成后旧分支尖端通常仍能从分支 reflog 找到。但 reflog 有保留期限，对象也可能被垃圾回收，因此不能把恢复能力理解为永久备份。
 
-#### 1.3、变基的优点 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-* **保持提交历史线性**：变基可以消除合并提交，使历史记录看起来更加整洁和直观
-* **简化日志查看**：线性的提交历史使 `git log` 更容易阅读和理解
-* **冲突处理集中**：变基过程中处理冲突一次性解决，而不是在合并时处理多次冲突
-
-#### 1.4、变基的缺点 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-* **改变提交哈希**：由于变基重新应用提交，原有提交（E、F、G）的哈希会改变。这意味着变基后的提交（E'、F'、G'）和原来的提交是不同的
-* **协作冲突**：如果变基的分支已经被推送到远程仓库，其他开发者基于这些提交工作后进行变基，可能会引起混乱和冲突
-* **不可逆性**：变基操作对历史进行了重写，尤其在共享分支上使用时，需要特别小心
-
-#### 1.5、变基的用法 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-* **变基到另一个分支：**
-
-  ```shell
-  git checkout feature
-  git rebase main
-  ```
-
-* **交互式变基（修改、重排、合并提交）：**
-
-  ```shell
-  git rebase -i main
-  ```
-
-  使用交互式变基可以更精细地控制每个提交的变基过程。
-
-* **解决冲突后继续变基：** 如果变基过程中发生冲突，可以手动解决冲突，然后使用以下命令继续变基
-
-  ```shell
-  git rebase --continue
-  ```
-
-* **中止变基：** 如果变基过程中遇到问题，想要取消变基，可以使用：
-
-  ```shell
-  git rebase --abort
-  ```
-
-### 2、🍒遴选（`cherry-pick`） <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-> 形象比喻👉`cherry-pick`：摘樱桃🍒
-
-* `git cherry-pick` 是[**https://git-scm.com/**](Git) 中的一条命令，用于将某个（或多个）特定提交的更改从一个分支复制到另一个分支
-* 与普通的合并或变基操作不同，`cherry-pick` 是选择性地提取单个提交
-* 这在需要将某些特定更改应用到另一个分支时非常有用，而不必合并整个分支的所有更改
-
-#### 2.1、基本用法 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-* 假设我们有以下提交历史：
-
-  ```markdown
-  A---B---C---D  (main)
-       \
-        E---F---G  (feature)
-  ```
-
-* 现在，我们想把 `feature` 分支上的提交 `F` 应用到 `main` 分支上。我们可以使用 `git cherry-pick` 来完成这个操作
-
-  #### 1.1、操作步骤 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-  * **切换到目标分支**（即你希望将提交应用到的分支）：
-
-    ```shell
-    git checkout main
-    ```
-
-  * **执行`cherry-pick`命令**，将特定提交应用到当前分支：
-
-    ```shell
-    git cherry-pick <commit-hash>
-    ```
-
-    在这个例子中，如果我们要将 `F` 提交应用到 `main` 分支，我们可以这样做：
-
-    ```shell
-    git cherry-pick <hash-of-F>
-    ```
-
-  #### 1.2、示例 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-  * 假设我们有如下的提交历史，并且提交 `F` 的哈希是 `abc123`：
-
-    ```shell
-    git checkout main
-    git cherry-pick abc123
-    ```
-
-  * 执行完上述命令后，`main` 分支的提交历史将变为：
-
-    ```markdown
-    A---B---C---D---F  (main)
-         \
-          E---F---G  (feature)
-    ```
-
-  * ```shell
-    git add <resolved-files>
-    git cherry-pick --continue
-    ```
-
-  #### 1.3、解决冲突 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-  * 如果在执行 `cherry-pick` 时遇到冲突，Git 会暂停操作并提示你解决冲突。你需要手动解决冲突，然后使用以下命令继续：
-
-    ```shell
-    git add <resolved-files>
-    git cherry-pick --continue
-    ```
-
-  * 如果你想中止 `cherry-pick` 操作，可以使用：
-
-    ```shell
-    git cherry-pick --abort
-    ```
-
-  #### 1.4、🍒批量遴选 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-  * 可以一次性 `cherry-pick` 多个提交，使用以下命令：
-
-    ```shell
-    git cherry-pick <commit-hash-1> <commit-hash-2> ...
-    ```
-
-    或者使用提交范围：这将 `cherry-pick` 从 `start-commit-hash` 之后到 `end-commit-hash` 的所有提交。
-
-    ```shell
-    git cherry-pick <start-commit-hash>..<end-commit-hash>
-    ```
-
-  #### 1.5、注意事项 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-  * **提交历史变更**：`cherry-pick` 会创建新的提交，并且新提交的哈希与原来的不同
-  * **适用于单独更改**：当你只需要将某些特定更改应用到另一个分支时，`cherry-pick` 非常有用。如果需要合并整个分支的更改，使用 `merge` 或 `rebase` 可能更合适
-  * **冲突风险**：与所有涉及代码合并的操作一样，`cherry-pick` 也可能导致冲突，特别是在目标分支有不同更改的情况下
-  * `git cherry-pick` 是一个强大的工具，允许你选择性地将特定提交从一个分支复制到另一个分支。它在处理特定修复、功能或更改时非常有用，但在使用时需要注意冲突和提交历史的变更
-
-## 三、[**Git**](https://git-scm.com/)的配置文件`config` <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-* [**Git**](https://git-scm.com/) 的配置文件 `.git/config` 存储了关于该仓库的配置信息
-
-* 该文件是纯文本文件，使用 INI 格式
-
-* ```ini
-  [core]
-  	repositoryformatversion = 0
-  	filemode = true
-  	bare = false
-  	logallrefupdates = true
-  	ignorecase = true
-  	precomposeunicode = true
-  [remote "Jobs.Office"]
-  	url = https://git.betzz.cc/fm_ios/fm.ios.git
-  	fetch = +refs/heads/*:refs/remotes/Jobs.Office/*
-  [remote "Jobs.Github"]
-  	url = git@github.com:295060456/JobsOCBaseConfigDemo.git
-  	fetch = +refs/heads/*:refs/remotes/Jobs.Github/*
-  [branch "main"]
-  	remote = Jobs.Github
-  	merge = refs/heads/main
-  [pull]
-  	rebase = false
-  ```
-
-  * `[core]` 部分包含了一些核心配置选项，这些选项影响 Git 的基本行为
-    * **repositoryformatversion**: 指定仓库的格式版本。默认值是 0
-    * **filemode**: 指示 Git 是否追踪文件的可执行权限（即是否追踪文件的权限变化）。如果设置为 `true`，Git 会记录文件权限的变化
-    * 表示该仓库是否是裸仓库。裸仓库是没有工作目录的仓库，通常用于远程存储
-    * **logallrefupdates**: 如果设置为 `true`，Git 会记录所有引用（refs）的更新情况
-    * **ignorecase**: 表示是否忽略文件名的大小写。在不区分大小写的文件系统上应设置为 `true`
-    * **precomposeunicode**: 在 MacOS 上，用于处理 Unicode 正规化问题。设置为 `true` 以解决文件名在不同环境下显示不一致的问题
-  * `[remote]` 部分定义了远程仓库的信息。可以有多个 `[remote "<name>"]` 部分来定义多个远程仓库
-    * **url**: 远程仓库的 URL 地址
-    * **fetch**: 指定从远程仓库拉取哪些引用（refs）。`+refs/heads/*:refs/remotes/<remote>/*` 表示**拉取所有分支并在本地创建相应的远程跟踪分支**
-  * `[branch]` 部分定义了分支的配置信息，主要包括跟踪的远程分支
-    * **remote**: 指定分支关联的远程仓库名
-    * **merge**: 指定分支关联的远程分支。当执行 `git pull` 或 `git merge` 时，会合并此远程分支的更改
-
-## 四、切换分支 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 1、期望将高亮的此分支用作主分支 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-![preview](./assets/preview.webp)
-
-* 方法一：强制推送（如果是个人仓库或团队同意）
-
-  ```shell
-  # 先切换到目标提交
-  git checkout 2282b85
-  # 强制更新 main 分支指向这个提交
-  git branch -f main 2282b85
-  # 切换到 main 分支
-  git checkout main
-  # 强制推送到远程（注意：这会重写远程历史，需要远程服务器开放回滚权限）
-  git push origin main --force
-  ```
-
-* <font color=red>方法二：创建新分支替代 `main`（更安全）</font>
-
-  ```shell
-  # 基于目标提交创建新分支
-  git checkout -b new-main 2282b85
-  # 推送新分支
-  git push origin new-main
-  # 在 GitHub/GitLab 等平台上将 new-main 设为默认分支
-  # 然后删除旧的 main 分支
-  git push origin --delete main
-  git branch -D main
-  # 重命名本地分支
-  git branch -m new-main main
-  ```
-
-* 方法三：`Reset` 方式（如果你在 `main` 分支上）
-
-  ```shell
-  # 确保在 main 分支
-  git checkout main
-  # 重置到目标提交
-  git reset --hard 2282b85
-  # 强制推送
-  git push origin main --force
-  ```
-
-### 2、切分支找源头 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 3.3、常用命令
 
 ```shell
-git show --no-patch --pretty=%P 这里写ID 
+git switch feature
+git rebase main
+git rebase --continue
+git rebase --skip
+git rebase --abort
+git rebase --show-current-patch
 ```
 
-## 五、误删除本地已储藏的恢复原理和方案 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-* 在 SourceTree 中，如果你 **误删了已储藏的变更（stash）**，恢复的可能性取决于你是否还有相关的 Git 记录尚未被垃圾回收（Git GC）；
-* 如果此记录已经被提交到远程服务器，那么本地的Git将会清除垃圾，从而找不到误删的记录；
-
-* ```shell
-  git fsck --lost-found
-  ```
-
-  ```shell
-  # 类似如下的输出
-  dangling commit abcdef1234567890...
-  ```
-
-  ```shell
-  # 查看该 dangling commit 的内容
-  git show abcdef1234567890
-  ```
-
-  ```shell
-  # 确定需要恢复：
-  # 这会创建一个新分支，把你的 stash 内容恢复出来。
-  git checkout -b recover-stash abcdef1234567890
-  ```
-
-* 脚本执行
-
-  ```shell
-  # shell: zsh
-  
-  # 红色提示：确保脚本与 .git 文件夹在同一目录
-  echo "\033[31m确保该脚本与 .git 文件夹在同一目录下！\033[0m"
-  
-  # 检查是否存在 .git 文件夹
-  if [ ! -d ".git" ]; then
-    echo "❌ 错误：未在 Git 仓库根目录下运行。请确保此脚本与 .git 文件夹位于同一目录。"
-    exit 1
-  fi
-  
-  echo "🔍 正在查找所有 dangling 对象..."
-  git fsck --lost-found > .fsck_temp
-  
-  current_branch=$(git rev-parse --abbrev-ref HEAD)
-  echo "✅ 当前分支：$current_branch"
-  
-  mkdir -p recovered/blobs
-  
-  # 恢复 commits（合并为未提交状态）
-  cat .fsck_temp | grep 'dangling commit' | cut -d ' ' -f 3 | while read commit_sha; do
-      branch_name="recovered-commit-$commit_sha"
-      echo "🔄 恢复 commit $commit_sha 为临时分支 $branch_name"
-      git branch $branch_name $commit_sha
-  
-      echo "⚙️ 合并 $branch_name 到 $current_branch（不提交）"
-      git merge --allow-unrelated-histories --no-commit $branch_name
-  done
-  
-  # 恢复 trees（包装为临时 commit 后合并，不提交）
-  cat .fsck_temp | grep 'dangling tree' | cut -d ' ' -f 3 | while read tree_sha; do
-      commit_sha=$(echo "tree $tree_sha" | git commit-tree $tree_sha -m "恢复 tree $tree_sha")
-      branch_name="recovered-tree-$tree_sha"
-      echo "🌲 恢复 tree $tree_sha 为临时 commit：$commit_sha（分支 $branch_name）"
-      git branch $branch_name $commit_sha
-  
-      echo "⚙️ 合并 $branch_name 到 $current_branch（不提交）"
-      git merge --allow-unrelated-histories --no-commit $branch_name
-  done
-  
-  # 恢复 blobs（保存在 recovered/blobs，已 add 但不 commit）
-  cat .fsck_temp | grep 'dangling blob' | cut -d ' ' -f 3 | while read blob_sha; do
-      filename="recovered/blobs/$blob_sha.txt"
-      echo "📄 恢复 blob $blob_sha 到文件 $filename"
-      git cat-file -p $blob_sha > $filename
-      git add $filename
-  done
-  
-  rm .fsck_temp
-  
-  echo ""
-  echo "✅ 所有内容已恢复并合并到当前分支（未提交）"
-  echo "👉 请手动查看变更，确认无误后再执行 commit"
-  ```
-
-
-## 六、实操案例 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 1、同一个文件夹（文件内容相同），但是来自于2个不同的远程仓库 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-* <font color=red>**fatal: refusing to merge unrelated histories**</font> 表明正在尝试**合并两个没有共同提交历史的分支**
-
-  * 要解决这个问题，你可以使用 `--allow-unrelated-histories` 选项来强制 [**Git**](https://git-scm.com/) 合并这两个独立的历史记录
-
-    ```shell
-    git --no-optional-locks -c color.branch=false -c color.diff=false -c color.status=false -c diff.mnemonicprefix=false -c core.quotepath=false -c credential.helper=sourcetree fetch Jobs.Office 
-    From https://git.betzz.cc/fm_ios/fm.ios
-     * [new branch]      main       -> Jobs.Office/main
-    
-    
-    git --no-optional-locks -c color.branch=false -c color.diff=false -c color.status=false -c diff.mnemonicprefix=false -c core.quotepath=false -c credential.helper=sourcetree pull --commit --rebase=false Jobs.Office main 
-    From https://git.betzz.cc/fm_ios/fm.ios
-     * branch            main       -> FETCH_HEAD
-    fatal: refusing to merge unrelated histories
-    Completed with errors, see above
-    ```
-
-  * 分支分叉的问题。[**Git**](https://git-scm.com/) 需要指定如何合并分支
-
-    ```shell
-    Last login: Wed Jul 17 10:27:35 on ttys000
-    ➜  Desktop $HOME/Desktop/q 
-    ➜  q git:(main) git pull Jobs.Office main --allow-unrelated-histories
-    
-    From https://git.betzz.cc/fm_ios/fm.ios
-     * branch            main       -> FETCH_HEAD
-    hint: You have divergent branches and need to specify how to reconcile them.
-    hint: You can do so by running one of the following commands sometime before
-    hint: your next pull:
-    hint: 
-    hint:   git config pull.rebase false  # merge
-    hint:   git config pull.rebase true   # rebase
-    hint:   git config pull.ff only       # fast-forward only
-    hint: 
-    hint: You can replace "git config" with "git config --global" to set a default
-    hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-    hint: or --ff-only on the command line to override the configured default per
-    hint: invocation.
-    fatal: Need to specify how to reconcile divergent branches.
-    ```
-
-#### 1.1、自动合并 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-* 设置（本地仓库）合并策略为 merge
-
-  ```shell
-  git config pull.rebase false
-  ```
-
-  或者
-
-  设置（全局所有仓库）合并策略为 merge
-
-  ```shell
-  git config --global pull.rebase false
-  ```
-
-* ```shell
-  git pull Jobs.Office main --allow-unrelated-histories
-  ```
-
-#### 1.2、手动合并 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-* ```shell
-  git fetch Jobs.Office
-  ```
-
-* ```shell
-  git merge Jobs.Office/main --allow-unrelated-histories
-  ```
-
-
-#### 1.3、如果有冲突，解决冲突 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+交互式整理当前分支最近 5 个提交：
 
 ```shell
-git add .
-git commit -m "Resolve merge conflicts"
+git rebase -i HEAD~5
 ```
 
-#### 1.4、同步远程仓库 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+完成后查找原分支尖端：
 
- ```shell
- git push Office main
- ```
+```shell
+git reflog show feature --date=iso
+```
 
-### 2、实操总结 <a href="#目的" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 3.4、发布后的安全推送
 
-* 远程空仓库有2种方式：
+```shell
+git fetch origin
+expected_remote_commit="$(git rev-parse refs/remotes/origin/feature)"
+git push --force-with-lease=feature:"$expected_remote_commit" origin HEAD:feature
+```
 
-  * （直接推送）直接本地获取到仓库地址，直接本地发起push同步。**如果本地仓库是新创建的，那么之前的远程的历史记录将不会存在**
+裸 `--force` 可能覆盖不在本地历史中的远端新提交。`--force-with-lease` 也不是团队沟通的替代品；共享主分支仍应遵守保护规则。
 
-    * 更适合于：
+## 四、`cherry-pick`
 
-      * 新创建的本地仓库准备推送到一个空的远程仓库
+### 4.1、语义
 
-      * 已有完整代码的本地仓库初次设置远程仓库地址并进行首次推送
+`git cherry-pick` 把已有提交引入的变化应用到当前分支，通常为每个被选提交创建一个新的提交。新提交内容可能相同，但父提交、提交者时间和提交 ID 通常不同。
 
-  * （先拉取再推送）远程仓库pull以后，本地同步以后，再同步远程仓库
+```shell
+git switch <target-branch>
+git cherry-pick <commit>
+```
 
-    * 更适合于：
-      * 需要确保本地仓库和远程仓库一致性
-      * 多人协作开发的项目，确保所有开发者都能获取最新的远程仓库状态
-      * 需要保留和获取远程仓库的完整历史记录和分支信息
+适合：
 
-* 即便是文件内容一致，也需要进行同步（分支等）
+- 把修复回移到维护分支。
+- 只引入主题分支的一部分提交。
+- 在不合并整条分支的前提下复用独立改动。
 
-* 上述问题是因为虽然本地文件和远程仓库文件一致（没有什么需要合并的冲突），仅仅是**没有共同提交历史**
+不适合：
 
-* <font color =red>**如果是远程仓库已经存在代码，需要和本地仓库进行匹配，就会遇到上述问题**</font>
+- 需要保留完整分支关系时。
+- 同一批提交会长期在多个分支反复双向挑选时；这会增加重复变更与冲突识别难度。
 
-* 如果是远程仓库为新建的空仓库，那么可以本地通过配置git.config的方式进行（`.git`是隐藏文件夹）
+### 4.2、冲突与中止
 
-  ![image-20240717112347963](./assets/image-20240717112347963.png)
+```shell
+git status
+git add <resolved-paths>
+git cherry-pick --continue
+git cherry-pick --skip
+git cherry-pick --abort
+git cherry-pick --quit
+```
 
-  * 或者通过第三方的[**Git**](https://git-scm.com/).GUI软件，进行添加设置（这里以**sourcetree**为例）
+- `--abort` 返回本次序列开始前的状态。
+- `--quit` 只清除 sequencer 状态，不保证把工作区恢复到开始前。
 
-  ![image-20240717112129523](./assets/image-20240717112129523.png)
+### 4.3、多个提交与范围
 
-  ![image-20240717112150661](./assets/image-20240717112150661.png)
+```shell
+git cherry-pick <commit-1> <commit-2>
+git cherry-pick A..B
+git cherry-pick A^..B
+```
 
-  ![image-20240717112201074](./assets/image-20240717112201074.png)
+- `A..B` 表示从 B 可达但从 A 不可达的提交，通常不包含 A。
+- 在线性历史中需要同时包含 A 到 B，常用 `A^..B`。
+- 范围会触发一次 revision walk；复杂分叉先用 `git log --oneline A..B` 核对实际集合和顺序。
+- 跨公开维护分支回移修复时可考虑 `-x`，在提交信息中记录来源提交。
 
-<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的👉点我回到首页</a>
+## 五、让主分支指向另一个历史位置
 
+![主分支历史示意](./assets/preview.webp)
 
+### 5.1、先明确三种不同目标
 
+| 目标 | 是否改写历史 | 推荐方式 |
+| --- | --- | --- |
+| 从旧提交继续新开发，但保留现有 `main` | 否 | 从目标提交创建新分支。 |
+| 更换托管平台默认分支 | 不一定 | 推送新分支，在平台设置中切换默认分支。 |
+| 让远端 `main` 回退到旧提交 | 是 | 团队确认后重置本地分支，再用带预期值的 lease 推送。 |
 
+### 5.2、安全保留旧历史
 
+```shell
+git switch --create new-main <target-commit>
+git push --set-upstream origin new-main
+```
 
+然后在 GitHub / GitLab 的仓库设置中把 `new-main` 设为默认分支。确认分支保护、CI、部署、Pull Request 基线和协作者都已迁移后，再决定是否删除旧分支。很多托管平台不允许直接删除默认或受保护分支。
 
+### 5.3、确需改写 `main`
 
+```shell
+git fetch origin
+expected_remote_commit="$(git rev-parse refs/remotes/origin/main)"
+git branch backup/main-before-rewrite "$expected_remote_commit"
+git switch main
+git reset --hard <target-commit>
+git push --force-with-lease=main:"$expected_remote_commit" origin main:main
+```
 
+- `reset --hard` 会覆盖工作区和索引；执行前确认没有需要保留的本地修改。
+- 本地备份分支只存在本机；重要时同步推送到受控的远端备份分支。
+- 改写主分支会影响所有协作者、开放 Pull Request、发布与部署，不是个人仓库外的常规操作。
 
+## 六、误删 `stash` 的恢复
 
+### 6.1、先纠正两个误区
 
+- Push 到远端不会直接清理本地 dangling 对象。删除时机由本地引用、reflog 过期、自动维护、`git gc` / `git prune` 和相关配置决定。
+- `git fsck` 找到的每个 dangling commit 不一定都是 stash。不能把全部候选自动合并进当前分支。
 
+### 6.2、恢复顺序
 
+先查 reflog：
 
+```shell
+git reflog show --all --date=iso
+git log -g --all --oneline --decorate
+```
+
+如果 stash 引用与 reflog 已不存在，再找悬空对象：
+
+```shell
+git fsck --full --no-reflogs --unreachable
+```
+
+逐个检查候选：
+
+```shell
+git show --stat <candidate-commit>
+git show --no-patch --pretty=raw <candidate-commit>
+git diff <candidate-commit>^1 <candidate-commit>
+```
+
+确认是目标 stash 后，先恢复 stash 引用：
+
+```shell
+git stash store -m 'recovered stash' <candidate-commit>
+git stash list
+git stash show --stat stash@{0}
+```
+
+或者先创建保护分支，只读检查其文件树：
+
+```shell
+git branch recover/stash-candidate <candidate-commit>
+```
+
+### 6.3、恢复边界
+
+- stash 可能由多个父提交分别保存工作区、索引和可选的未跟踪内容；只比较一个父提交可能看不全。
+- `git fsck --lost-found` 可以把 dangling 对象写到 `.git/lost-found`，但不会替你识别哪个对象最正确。
+- 对象已经被垃圾回收且不存在于远端、备份、文件系统快照或其它克隆时，Git 无法恢复。
+
+## 七、合并无共同历史的仓库
+
+`fatal: refusing to merge unrelated histories` 表示两个提交图没有共同祖先。文件内容相同不代表提交历史相关。
+
+### 7.1、先确认是不是配错远端
+
+```shell
+git remote -v
+git fetch <remote>
+git log --oneline --graph --decorate --all -30
+git merge-base HEAD <remote>/<branch> || true
+```
+
+如果本应是同一项目却没有共同祖先，优先核对：
+
+- 是否连接了错误仓库。
+- 是否有人重新初始化 `.git` 后强推。
+- 是否下载源码压缩包后重新 `git init`。
+- 是否把两个独立项目误放到同一远端。
+
+### 7.2、确认要合并两个独立历史
+
+```shell
+git fetch <remote>
+git merge <remote>/<branch> --allow-unrelated-histories
+```
+
+如有冲突：
+
+```shell
+git status
+git add <resolved-paths>
+git commit
+```
+
+- `--allow-unrelated-histories` 只允许 Git 进入合并，不会自动判断哪边内容正确。
+- 不需要先全局设置 `pull.rebase`。把 Fetch 与 Merge 拆开，意图更清楚，也避免意外影响以后所有 Pull。
+- 两个项目只是暂时需要互相引用时，submodule、subtree、包管理或保持独立仓库可能比永久合并历史更合适。
+
+## 八、官方资料
+
+- [**Git 配置**](https://git-scm.com/docs/git-config)
+- [**Git Rebase**](https://git-scm.com/docs/git-rebase)
+- [**Git Cherry-pick**](https://git-scm.com/docs/git-cherry-pick)
+- [**Git Push**](https://git-scm.com/docs/git-push)
+- [**Git Reflog**](https://git-scm.com/docs/git-reflog)
+- [**Git Fsck**](https://git-scm.com/docs/git-fsck)
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
