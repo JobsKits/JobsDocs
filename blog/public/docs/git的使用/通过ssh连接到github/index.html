@@ -8,22 +8,22 @@ https://github.com/alex-shpak/hugo-book
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="一、生成SSH密钥🔑 &gt; 尚未在本地计算机上生成SSH密钥🔑对 ## 二、确认 idrsa 真的存在 &amp; 权限正确 ## 三、把 github.com 的 key 明确写进 /.ssh/config 建立/.ssh/config并赋权 打开 open ~/.ssh/config 编辑 ~/.ssh/config &gt; IdentitiesOnly yes">
+<meta name="description" content="🔥 前言 &gt; SSH 用本机私钥证明身份，GitHub 账户只保存公钥。私钥、私钥口令、Token 和 Cookie 不得上传到仓库或发给他人；公钥虽然不是秘密，也应避免在通用示例中固化个人邮箱和机器身份。 ## 一、先检查已有密钥 🔼 🔽 常见公钥文件： - ided25519.pub - idecdsa.pub - idrsa.pub 如果已有受信# ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/">
 	<meta property="og:site_name" content="Jobs Docs">
 	<meta property="og:title" content="通过SSH连接到GitHub">
-	<meta property="og:description" content="一、生成SSH密钥🔑 &gt; 尚未在本地计算机上生成SSH密钥🔑对 ## 二、确认 idrsa 真的存在 &amp; 权限正确 ## 三、把 github.com 的 key 明确写进 /.ssh/config 建立/.ssh/config并赋权 打开 open ~/.ssh/config 编辑 ~/.ssh/config &gt; IdentitiesOnly yes">
+	<meta property="og:description" content="🔥 前言 &gt; SSH 用本机私钥证明身份，GitHub 账户只保存公钥。私钥、私钥口令、Token 和 Cookie 不得上传到仓库或发给他人；公钥虽然不是秘密，也应避免在通用示例中固化个人邮箱和机器身份。 ## 一、先检查已有密钥 🔼 🔽 常见公钥文件： - ided25519.pub - idecdsa.pub - idrsa.pub 如果已有受信#">
 	<meta property="og:locale" content="zh_cn">
 	<meta property="og:type" content="website">
 
 
 	<meta itemprop="name" content="通过SSH连接到GitHub">
-	<meta itemprop="description" content="一、生成SSH密钥🔑 &gt; 尚未在本地计算机上生成SSH密钥🔑对 ## 二、确认 idrsa 真的存在 &amp; 权限正确 ## 三、把 github.com 的 key 明确写进 /.ssh/config 建立/.ssh/config并赋权 打开 open ~/.ssh/config 编辑 ~/.ssh/config &gt; IdentitiesOnly yes">
-	<meta itemprop="datePublished" content="2026-06-01T05:08:26+08:00">
-	<meta itemprop="dateModified" content="2026-06-01T05:08:26+08:00">
-	<meta itemprop="wordCount" content="258">
+	<meta itemprop="description" content="🔥 前言 &gt; SSH 用本机私钥证明身份，GitHub 账户只保存公钥。私钥、私钥口令、Token 和 Cookie 不得上传到仓库或发给他人；公钥虽然不是秘密，也应避免在通用示例中固化个人邮箱和机器身份。 ## 一、先检查已有密钥 🔼 🔽 常见公钥文件： - ided25519.pub - idecdsa.pub - idrsa.pub 如果已有受信#">
+	<meta itemprop="datePublished" content="2026-08-04T15:56:10+08:00">
+	<meta itemprop="dateModified" content="2026-08-04T15:56:10+08:00">
+	<meta itemprop="wordCount" content="458">
 
 <title>通过SSH连接到GitHub | Jobs Docs</title>
 <link rel="icon" href="../../../favicon.png" >
@@ -33,7 +33,7 @@ https://github.com/alex-shpak/hugo-book
 
 
   <script defer src="../../../fuse.min.js"></script>
-  <script defer src="../../../zh-cn.search.min.6a61d68e80f235181caaf80737c8a5e420563dbd4371e70530c5befc3348a996.js" integrity="sha256-amHWjoDyNRgcqvgHN8il5CBWPb1DcecFMMW&#43;/DNIqZY=" crossorigin="anonymous"></script>
+  <script defer src="../../../zh-cn.search.min.377d983b320c24f968ed98a2629e25ebd9262658bac7785523264ae30e4dfcf2.js" integrity="sha256-N32YOzIMJPlo7ZiiYp4l69kmJli6x3hVIyZK4w5N/PI=" crossorigin="anonymous"></script>
 
 
 <link rel="alternate" type="application/rss+xml" href="http://localhost:1313/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/index.xml" title="Jobs Docs" />
@@ -55,7 +55,7 @@ https://github.com/alex-shpak/hugo-book
      target="_blank"
      rel="noopener noreferrer"
      aria-label="Open JobsKits GitHub">
-    <img class="jobs-brand-icon" src="../../../icon.png?v=1780261990" alt="Jobs Docs" loading="eager" decoding="sync">
+    <img class="jobs-brand-icon" src="../../../icon.png?v=1785830427" alt="Jobs Docs" loading="eager" decoding="sync">
     <span class="jobs-brand-title">Jobs Docs</span>
   </a>
 </h2>
@@ -85,6 +85,20 @@ https://github.com/alex-shpak/hugo-book
 
   
   <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/jobsdocs-%E7%9F%A5%E8%AF%86%E5%BA%93%E5%AE%A1%E8%AE%A1%E5%8F%B0%E8%B4%A6/" class="">
+      JobsDocs 知识库审计台账</a>
+  
+
+        </li>
+      
     
       
         <li>
@@ -205,6 +219,20 @@ https://github.com/alex-shpak/hugo-book
   <ul>
     
   </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8%E7%9B%AE%E6%A0%87%E6%9C%AF%E8%AF%AD%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%90%88%E8%A7%84%E5%AE%9E%E9%AA%8C%E8%B7%AF%E7%BA%BF/" class="">
+      iOS 逆向工程入门：目标、术语、工具与合规实验路线</a>
+  
 
         </li>
       
@@ -1021,6 +1049,20 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="../../../docs/ffmpeg-8.1.2-%E6%9E%B6%E6%9E%84%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E5%87%BD%E6%95%B0%E4%B8%8E%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%8C/" class="">
+      FFmpeg 8.1.2 架构、核心源码函数与面试手册</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="../../../docs/%E5%88%B6%E4%BD%9Cunity/" class="">
       制作Unity</a>
   
@@ -1087,6 +1129,25 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="../../../docs/graphify-out/" class="">
+      graphify-out</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="../../../docs/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99swiftobjcdart.flutter/" class="">
       中国大陆公民身份证校验规则（Swift/Objc/Dart.flutter）</a>
   
@@ -1125,7 +1186,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a>
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/" class="">
       Git的使用</a>
   
 
@@ -1139,8 +1200,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github.workflow%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/" class="">
-      GitHub.workflow（工作流）的使用</a>
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD%E4%B8%8E%E6%81%A2%E5%A4%8D%E6%89%8B%E5%86%8C/" class="">
+      Git 故障诊断与恢复手册</a>
   
 
         </li>
@@ -1153,8 +1214,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/mermaid/" class="">
-      mermaid</a>
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github-actions-%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="">
+      GitHub Actions 工作流</a>
   
 
         </li>
@@ -1167,8 +1228,36 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" class="">
-      Git的一些使用说明</a>
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/mermaid-%E7%B1%BB%E5%9B%BE%E8%BE%93%E5%85%A5%E6%A0%B7%E4%BE%8B/" class="">
+      Mermaid 类图输入样例</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E4%B8%8E%E6%97%A5%E5%B8%B8%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="">
+      Git 核心原理与日常工作流</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" class="">
+      Git 的一些使用说明</a>
   
 
           
@@ -1213,6 +1302,20 @@ https://github.com/alex-shpak/hugo-book
   <ul>
     
   </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E4%BB%93%E5%BA%93%E6%B2%BB%E7%90%86%E4%B8%8E%E9%AB%98%E7%BA%A7%E5%B7%A5%E5%85%B7/" class="">
+      Git 仓库治理与高级工具</a>
+  
 
         </li>
       
@@ -1386,13 +1489,23 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#一生成ssh密钥">一、生成<code>SSH</code>密钥🔑</a></li>
-    <li><a href="#二确认-id_rsa-真的存在--权限正确">二、确认 <code>id_rsa</code> 真的存在 &amp; 权限正确</a></li>
-    <li><a href="#三把-githubcom-的-key-明确写进-sshconfig">三、把 <code>github.com</code> 的 key 明确写进 <code>~/.ssh/config</code></a></li>
-    <li><a href="#四id_rsa--macos-keychain--agent">四、<code>id_rsa</code> ➤ macOS Keychain + agent</a></li>
-    <li><a href="#五添加ssh密钥--ssh代理">五、添加<code>SSH</code>密钥🔑 ➤ <code>SSH</code>代理</a></li>
-    <li><a href="#六添加公钥--github">六、添加公钥🔑 ➤ Github</a></li>
-    <li><a href="#七命令测试ssh连接是否正常">七、命令测试<code>SSH</code>连接是否正常</a></li>
+    <li><a href="#-前言">🔥 前言</a></li>
+    <li><a href="#一先检查已有密钥--">一、先检查已有密钥 <b>🔼</b> <b>🔽</b></a></li>
+    <li><a href="#二生成新密钥">二、生成新密钥</a></li>
+    <li><a href="#三权限与文件结构">三、权限与文件结构</a></li>
+    <li><a href="#四配置-sshconfig">四、配置 <code>~/.ssh/config</code></a>
+      <ul>
+        <li><a href="#41单一-github-账号">4.1、单一 GitHub 账号</a></li>
+        <li><a href="#42多个-github-账号">4.2、多个 GitHub 账号</a></li>
+      </ul>
+    </li>
+    <li><a href="#五加入-ssh-agent-与-macos-keychain">五、加入 <code>ssh-agent</code> 与 macOS Keychain</a></li>
+    <li><a href="#六把公钥添加到-github">六、把公钥添加到 GitHub</a></li>
+    <li><a href="#七校验主机身份并测试">七、校验主机身份并测试</a></li>
+    <li><a href="#八切换仓库远端到-ssh">八、切换仓库远端到 SSH</a></li>
+    <li><a href="#九端口-22-被阻断">九、端口 <code>22</code> 被阻断</a></li>
+    <li><a href="#十常见故障">十、常见故障</a></li>
+    <li><a href="#十一官方资料">十一、官方资料</a></li>
   </ul>
 </nav>
 
@@ -1405,99 +1518,191 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><iframe
-  src="https://dragonir.github.io/3d/#/earth"
-  title="Jobs出品，必属精品"
-  width="100%"
-  height="400"
-  style="border:0; display:block;"
-  allowfullscreen>
-</iframe>
-<h2 id="一生成ssh密钥">一、生成<code>SSH</code>密钥🔑<a class="anchor" href="#%e4%b8%80%e7%94%9f%e6%88%90ssh%e5%af%86%e9%92%a5">#</a></h2>
+  <article class="markdown book-article"><p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品" /></p>
+<hr>
+<h2 id="-前言">🔥 <font id=前言>前言</font><a class="anchor" href="#-%e5%89%8d%e8%a8%80">#</a></h2>
 <blockquote class='book-hint '>
-<p>尚未在本地计算机上生成<code>SSH</code>密钥🔑对</p>
-</blockquote><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -t rsa -b <span style="color:#ae81ff">4096</span> -C <span style="color:#e6db74">&#34;lg295060456@gmail.com&#34;</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Last login: Sat Jan <span style="color:#ae81ff">17</span> 14:20:11 on ttys000
-</span></span><span style="display:flex;"><span>➜  Desktop ssh-keygen -t rsa -b <span style="color:#ae81ff">4096</span> -C <span style="color:#e6db74">&#34;lg295060456@gmail.com&#34;</span>
-</span></span><span style="display:flex;"><span>Generating public/private rsa key pair.
-</span></span><span style="display:flex;"><span>Enter file in which to save the key <span style="color:#f92672">(</span>/Users/jobs/.ssh/id_rsa<span style="color:#f92672">)</span>: 
-</span></span><span style="display:flex;"><span>Enter passphrase <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#34;/Users/jobs/.ssh/id_rsa&#34;</span> <span style="color:#f92672">(</span>empty <span style="color:#66d9ef">for</span> no passphrase<span style="color:#f92672">)</span>: 
-</span></span><span style="display:flex;"><span>Enter same passphrase again: 
-</span></span><span style="display:flex;"><span>Your identification has been saved in /Users/jobs/.ssh/id_rsa
-</span></span><span style="display:flex;"><span>Your public key has been saved in /Users/jobs/.ssh/id_rsa.pub
-</span></span><span style="display:flex;"><span>The key fingerprint is:
-</span></span><span style="display:flex;"><span>SHA256:Fdvu/MXEYvmoomwjooZvPoR3gX1FlvmYrmmubfZDs7A lg295060456@gmail.com
-</span></span><span style="display:flex;"><span>The key<span style="color:#960050;background-color:#1e0010">&#39;</span>s randomart image is:
-</span></span><span style="display:flex;"><span>+---<span style="color:#f92672">[</span>RSA 4096<span style="color:#f92672">]</span>----+
-</span></span><span style="display:flex;"><span>|       .oo.      |
-</span></span><span style="display:flex;"><span>|       .+  +     |
-</span></span><span style="display:flex;"><span>|   o   . +o .    |
-</span></span><span style="display:flex;"><span>|  . o . o...   o |
-</span></span><span style="display:flex;"><span>| .   o .S   . + o|
-</span></span><span style="display:flex;"><span>|. o . . +  o . * |
-</span></span><span style="display:flex;"><span>| + .   * o  o . +|
-</span></span><span style="display:flex;"><span>|. + ..E.<span style="color:#f92672">=</span> .  o . |
-</span></span><span style="display:flex;"><span>| <span style="color:#f92672">=</span>+o.Bo+++ .. .  |
-</span></span><span style="display:flex;"><span>+----<span style="color:#f92672">[</span>SHA256<span style="color:#f92672">]</span>-----+</span></span></code></pre></div><h2 id="二确认-id_rsa-真的存在--权限正确">二、确认 <code>id_rsa</code> 真的存在 &amp; 权限正确<a class="anchor" href="#%e4%ba%8c%e7%a1%ae%e8%ae%a4-id_rsa-%e7%9c%9f%e7%9a%84%e5%ad%98%e5%9c%a8--%e6%9d%83%e9%99%90%e6%ad%a3%e7%a1%ae">#</a></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ls -la ~/.ssh/id_rsa ~/.ssh/id_rsa.pub
-</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">600</span> ~/.ssh/id_rsa
-</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">644</span> ~/.ssh/id_rsa.pub</span></span></code></pre></div><h2 id="三把-githubcom-的-key-明确写进-sshconfig">三、把 <code>github.com</code> 的 key 明确写进 <code>~/.ssh/config</code><a class="anchor" href="#%e4%b8%89%e6%8a%8a-githubcom-%e7%9a%84-key-%e6%98%8e%e7%a1%ae%e5%86%99%e8%bf%9b-sshconfig">#</a></h2>
+<p>SSH 用本机私钥证明身份，GitHub 账户只保存公钥。私钥、私钥口令、Token 和 Cookie 不得上传到仓库或发给他人；公钥虽然不是秘密，也应避免在通用示例中固化个人邮箱和机器身份。</p>
+</blockquote><h2 id="一先检查已有密钥--">一、先检查已有密钥 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#%e4%b8%80%e5%85%88%e6%a3%80%e6%9f%a5%e5%b7%b2%e6%9c%89%e5%af%86%e9%92%a5--">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ls -al ~/.ssh
+</span></span><span style="display:flex;"><span>ssh-add -l</span></span></code></pre></div><p>常见公钥文件：</p>
 <ul>
-<li>
-<p>建立<code>~/.ssh/config</code>并赋权</p>
-<pre tabindex="0"><code>mkdir -p ~/.ssh
-touch ~/.ssh/config
-chmod 600 ~/.ssh/config</code></pre></li>
-<li>
-<p>打开 <code>open ~/.ssh/config</code></p>
-<pre tabindex="0"><code>open ~/.ssh/config</code></pre></li>
-<li>
-<p>编辑 <code>~/.ssh/config</code></p>
-<blockquote class='book-hint '>
-<p><code>IdentitiesOnly yes</code> 很关键：强制只用你指定的 key，避免 Sourcetree/ssh 乱试其它 identity 导致失败或卡住。</p>
-</blockquote><pre tabindex="0"><code>Host github.com
+<li><code>id_ed25519.pub</code></li>
+<li><code>id_ecdsa.pub</code></li>
+<li><code>id_rsa.pub</code></li>
+</ul>
+<p>如果已有受信任且仍安全的密钥，可以复用；不要每次认证失败都覆盖默认密钥。先确认失败来自密钥选择、agent、Host 配置还是仓库权限。</p>
+<h2 id="二生成新密钥">二、生成新密钥<a class="anchor" href="#%e4%ba%8c%e7%94%9f%e6%88%90%e6%96%b0%e5%af%86%e9%92%a5">#</a></h2>
+<p>GitHub 当前默认推荐 Ed25519：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -t ed25519 -C <span style="color:#e6db74">&#39;your_email@example.com&#39;</span></span></span></code></pre></div><p>旧系统不支持 Ed25519 时再使用 RSA 4096：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-keygen -t rsa -b <span style="color:#ae81ff">4096</span> -C <span style="color:#e6db74">&#39;your_email@example.com&#39;</span></span></span></code></pre></div><p>交互时：</p>
+<ol>
+<li>默认文件名通常是 <code>~/.ssh/id_ed25519</code>。</li>
+<li>已有同名密钥时不要直接覆盖，改用可辨认的名字，例如 <code>id_ed25519_github_personal</code>。</li>
+<li>建议设置私钥口令；遗失私钥口令无法从公钥反推，只能换新密钥。</li>
+</ol>
+<h2 id="三权限与文件结构">三、权限与文件结构<a class="anchor" href="#%e4%b8%89%e6%9d%83%e9%99%90%e4%b8%8e%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir -p ~/.ssh
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">700</span> ~/.ssh
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">600</span> ~/.ssh/id_ed25519
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">644</span> ~/.ssh/id_ed25519.pub
+</span></span><span style="display:flex;"><span>touch ~/.ssh/config
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">600</span> ~/.ssh/config</span></span></code></pre></div><ul>
+<li>私钥只允许当前用户读写。</li>
+<li>公钥可读不等于应到处复制；保留可识别标题，方便以后撤销旧设备。</li>
+<li><code>~/.ssh/config</code> 可能包含内部主机、用户名和路径，分享前脱敏。</li>
+</ul>
+<h2 id="四配置-sshconfig">四、配置 <code>~/.ssh/config</code><a class="anchor" href="#%e5%9b%9b%e9%85%8d%e7%bd%ae-sshconfig">#</a></h2>
+<h3 id="41单一-github-账号">4.1、单一 GitHub 账号<a class="anchor" href="#41%e5%8d%95%e4%b8%80-github-%e8%b4%a6%e5%8f%b7">#</a></h3>
+<pre tabindex="0"><code class="language-sshconfig" data-lang="sshconfig">Host github.com
   HostName github.com
   User git
-  IdentityFile ~/.ssh/id_rsa
-  IdentitiesOnly yes
   AddKeysToAgent yes
-  UseKeychain yes</code></pre></li>
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes</code></pre><ul>
+<li>
+<p><code>User git</code> 是 GitHub SSH 的固定用户，不是 GitHub 登录名。</p>
+</li>
+<li>
+<p><code>IdentitiesOnly yes</code> 让 SSH 只尝试显式配置的密钥，避免 agent 中密钥过多导致认证失败。</p>
+</li>
+<li>
+<p><code>UseKeychain yes</code> 适用于 macOS 保存私钥口令；未给私钥设置口令时可以省略。</p>
+</li>
+<li>
+<p>非 Apple OpenSSH 若不认识 <code>UseKeychain</code>，可在对应 Host 块前加入：</p>
+<pre tabindex="0"><code class="language-sshconfig" data-lang="sshconfig">IgnoreUnknown UseKeychain</code></pre></li>
 </ul>
-<h2 id="四id_rsa--macos-keychain--agent">四、<code>id_rsa</code> ➤ macOS Keychain + agent<a class="anchor" href="#%e5%9b%9bid_rsa--macos-keychain--agent">#</a></h2>
-<blockquote class='book-hint '>
-<p>让 GUI 程序也能用</p>
-</blockquote><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-add --apple-use-keychain ~/.ssh/id_rsa
-</span></span><span style="display:flex;"><span>ssh-add -l</span></span></code></pre></div><h2 id="五添加ssh密钥--ssh代理">五、添加<code>SSH</code>密钥🔑 ➤ <code>SSH</code>代理<a class="anchor" href="#%e4%ba%94%e6%b7%bb%e5%8a%a0ssh%e5%af%86%e9%92%a5--ssh%e4%bb%a3%e7%90%86">#</a></h2>
+<h3 id="42多个-github-账号">4.2、多个 GitHub 账号<a class="anchor" href="#42%e5%a4%9a%e4%b8%aa-github-%e8%b4%a6%e5%8f%b7">#</a></h3>
+<pre tabindex="0"><code class="language-sshconfig" data-lang="sshconfig">Host github-personal
+  HostName github.com
+  User git
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519_github_personal
+  IdentitiesOnly yes
+
+Host github-work
+  HostName github.com
+  User git
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519_github_work
+  IdentitiesOnly yes</code></pre><p>远端 URL 使用 Host 别名：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git remote set-url origin git@github-personal:OWNER/REPOSITORY.git</span></span></code></pre></div><p>本地 commit 身份与 SSH 登录身份是两套配置，还要按仓库设置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git config user.name <span style="color:#e6db74">&#39;Your Name&#39;</span>
+</span></span><span style="display:flex;"><span>git config user.email <span style="color:#e6db74">&#39;your_email@example.com&#39;</span></span></span></code></pre></div><h2 id="五加入-ssh-agent-与-macos-keychain">五、加入 <code>ssh-agent</code> 与 macOS Keychain<a class="anchor" href="#%e4%ba%94%e5%8a%a0%e5%85%a5-ssh-agent-%e4%b8%8e-macos-keychain">#</a></h2>
+<p>有口令的 macOS 私钥：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+</span></span><span style="display:flex;"><span>ssh-add -l</span></span></code></pre></div><p>没有口令时：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh-add ~/.ssh/id_ed25519
+</span></span><span style="display:flex;"><span>ssh-add -l</span></span></code></pre></div><p>如果当前会话没有 agent，再启动：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>eval <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>ssh-agent -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span></span></span></code></pre></div><ul>
+<li><code>ssh-agent</code> 缓存的是解锁后的密钥使用能力，不会把私钥上传给 GitHub。</li>
+<li>Sourcetree 与终端可能使用不同 Git/SSH 实现。排错时先确认 Sourcetree 使用系统 Git 还是内置 Git，以及是否走系统 OpenSSH。</li>
+</ul>
+<h2 id="六把公钥添加到-github">六、把公钥添加到 GitHub<a class="anchor" href="#%e5%85%ad%e6%8a%8a%e5%85%ac%e9%92%a5%e6%b7%bb%e5%8a%a0%e5%88%b0-github">#</a></h2>
+<p>复制公钥：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pbcopy &lt; ~/.ssh/id_ed25519.pub</span></span></code></pre></div><p>打开 GitHub 设置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>open <span style="color:#e6db74">&#39;https://github.com/settings/ssh/new&#39;</span></span></span></code></pre></div><p>然后：</p>
+<ol>
+<li><code>Title</code> 写明设备和用途，例如 <code>MacBook-Pro-2026</code>。</li>
+<li><code>Key type</code> 选择 Authentication Key；用于签名时要按 GitHub 要求单独登记 Signing Key。</li>
+<li><code>Key</code> 只粘贴 <code>.pub</code> 文件内容，绝不能粘贴无 <code>.pub</code> 后缀的私钥。</li>
+<li>旧设备、丢失设备或不再使用的密钥及时撤销。</li>
+</ol>
+<p>历史界面截图只用于识别入口，GitHub 页面布局可能变化：</p>
+<p><img src="./assets/image-20231007055435866.png" alt="GitHub SSH 设置入口" /></p>
+<p><img src="./assets/image-20231007055515204.png" alt="GitHub SSH Key 列表" /></p>
+<p><img src="./assets/image-20231007055536132.png" alt="GitHub 新增 SSH Key" /></p>
+<p>也可以使用已登录的 <a href="https://cli.github.com/"><strong>GitHub CLI</strong></a>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>gh ssh-key add ~/.ssh/id_ed25519.pub --type authentication --title <span style="color:#e6db74">&#39;MacBook-Pro-2026&#39;</span></span></span></code></pre></div><h2 id="七校验主机身份并测试">七、校验主机身份并测试<a class="anchor" href="#%e4%b8%83%e6%a0%a1%e9%aa%8c%e4%b8%bb%e6%9c%ba%e8%ba%ab%e4%bb%bd%e5%b9%b6%e6%b5%8b%e8%af%95">#</a></h2>
+<p>首次连接会询问是否信任 GitHub 主机密钥。不要只因为域名看起来正确就直接输入 <code>yes</code>；把终端显示的指纹与 <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints">GitHub 官方 SSH Key 指纹</a> 对比。</p>
+<p>测试：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh -T git@github.com</span></span></code></pre></div><p>首次成功通常会显示 GitHub 已认证你的账号，但不提供 shell access。该命令可能以退出码 <code>1</code> 结束，这是 GitHub 不提供交互 shell 的预期行为，不能只看退出码判断认证失败。</p>
+<p><img src="./assets/image-20231007055634328.png" alt="SSH 连接测试" /></p>
+<p>详细诊断：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh -vT git@github.com</span></span></code></pre></div><p>重点看：</p>
 <ul>
-<li>运行以下命令来将生成的SSH密钥添加到SSH代理，以便您可以在不重复输入密码的情况下使用它：</li>
+<li>实际匹配了哪个 Host 块。</li>
+<li>尝试了哪个 <code>IdentityFile</code>。</li>
+<li>agent 是否提供对应密钥。</li>
+<li>服务器最终接受了哪把公钥。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>eval <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>ssh-agent -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>ssh-add ~/.ssh/id_rsa</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>➜  Desktop eval <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>ssh-agent -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>ssh-add ~/.ssh/id_rsa
-</span></span><span style="display:flex;"><span>Agent pid <span style="color:#ae81ff">9880</span>
-</span></span><span style="display:flex;"><span>Identity added: /Users/jobs/.ssh/id_rsa <span style="color:#f92672">(</span>lg295060456@gmail.com<span style="color:#f92672">)</span></span></span></code></pre></div><h2 id="六添加公钥--github">六、添加公钥🔑 ➤ <a href="https://github.com">Github</a><a class="anchor" href="#%e5%85%ad%e6%b7%bb%e5%8a%a0%e5%85%ac%e9%92%a5--github">#</a></h2>
+<h2 id="八切换仓库远端到-ssh">八、切换仓库远端到 SSH<a class="anchor" href="#%e5%85%ab%e5%88%87%e6%8d%a2%e4%bb%93%e5%ba%93%e8%bf%9c%e7%ab%af%e5%88%b0-ssh">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git remote -v
+</span></span><span style="display:flex;"><span>git remote set-url origin git@github.com:OWNER/REPOSITORY.git
+</span></span><span style="display:flex;"><span>git remote get-url --all origin
+</span></span><span style="display:flex;"><span>git ls-remote origin</span></span></code></pre></div><p><code>ssh -T</code> 成功只证明账号级 SSH 认证成功；<code>git ls-remote</code> 才同时验证仓库 URL 和当前账号对目标仓库的读取权限。Push 权限还要另行验证。</p>
+<h2 id="九端口-22-被阻断">九、端口 <code>22</code> 被阻断<a class="anchor" href="#%e4%b9%9d%e7%ab%af%e5%8f%a3-22-%e8%a2%ab%e9%98%bb%e6%96%ad">#</a></h2>
+<p>GitHub 提供经 <code>ssh.github.com:443</code> 的 SSH 入口。先测试：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh -T -p <span style="color:#ae81ff">443</span> git@ssh.github.com</span></span></code></pre></div><p>需要长期使用时：</p>
+<pre tabindex="0"><code class="language-sshconfig" data-lang="sshconfig">Host github.com
+  HostName ssh.github.com
+  Port 443
+  User git
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes</code></pre><p>企业代理可能仍阻断或检查 443；不要通过关闭 Host Key 校验绕过安全策略。</p>
+<h2 id="十常见故障">十、常见故障<a class="anchor" href="#%e5%8d%81%e5%b8%b8%e8%a7%81%e6%95%85%e9%9a%9c">#</a></h2>
+<table>
+	<thead>
+			<tr>
+					<th>现象</th>
+					<th>可能原因</th>
+					<th>处理</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>Permission denied (publickey)</code></td>
+					<td>公钥未加入账号、选错私钥、agent 未加载、账号无仓库权限</td>
+					<td>用 <code>ssh -vT</code> 看实际密钥，再查 GitHub Key 列表和仓库权限。</td>
+			</tr>
+			<tr>
+					<td><code>Too many authentication failures</code></td>
+					<td>agent 提供了过多密钥</td>
+					<td>为 Host 设置 <code>IdentityFile</code> 与 <code>IdentitiesOnly yes</code>。</td>
+			</tr>
+			<tr>
+					<td>终端成功、Sourcetree 失败</td>
+					<td>Sourcetree 使用不同 Git/SSH 或不同环境</td>
+					<td>统一到系统 Git/OpenSSH，核对自定义客户端设置。</td>
+			</tr>
+			<tr>
+					<td>每次都要求输入口令</td>
+					<td>Keychain 未保存、Host 块未匹配或 key 未加入 agent</td>
+					<td>查 <code>ssh -G github.com</code> 和 <code>ssh-add -l</code>。</td>
+			</tr>
+			<tr>
+					<td>Host Key changed</td>
+					<td>GitHub 轮换、DNS/代理变化或潜在中间人</td>
+					<td>停止连接，先核对官方公告和指纹；不要直接删除 known_hosts 后盲信。</td>
+			</tr>
+			<tr>
+					<td><code>Repository not found</code></td>
+					<td>远端 URL 错、仓库被移动/删除，或认证账号无权访问</td>
+					<td><code>git remote -v</code>、<code>ssh -T</code>、<code>git ls-remote origin</code> 分层核对。</td>
+			</tr>
+			<tr>
+					<td><code>Bad owner or permissions on ~/.ssh/config</code></td>
+					<td>目录或配置权限过宽</td>
+					<td>修正 <code>~/.ssh</code> 为 <code>700</code>、config 与私钥为 <code>600</code>。</td>
+			</tr>
+	</tbody>
+</table>
+<p>查看 SSH 最终解析结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ssh -G github.com | grep -E <span style="color:#e6db74">&#39;^(hostname|user|port|identityfile|identitiesonly) &#39;</span></span></span></code></pre></div><h2 id="十一官方资料">十一、官方资料<a class="anchor" href="#%e5%8d%81%e4%b8%80%e5%ae%98%e6%96%b9%e8%b5%84%e6%96%99">#</a></h2>
 <ul>
-<li>
-<p>打开<code>~/.ssh/id_rsa.pub</code>文件并复制其中的内容</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pbcopy &lt; ~/.ssh/id_rsa.pub</span></span></code></pre></div></li>
-<li>
-<p>然后登录到 <a href="https://github.com/settings/ssh/new">https://github.com/settings/ssh/new</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>open https://github.com/settings/ssh/new</span></span></code></pre></div></li>
-<li>
-<p>转到您的帐户设置，点击<code>SSH and GPG keys</code></p>
-</li>
-<li>
-<p>然后点击<code>New SSH key</code></p>
-</li>
-<li>
-<p>将复制的公钥内容粘贴到&quot;Key&quot;字段中，并为该密钥提供一个标题</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat ~/.ssh/id_rsa.pub</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>➜  Desktop cat ~/.ssh/id_rsa.pub
-</span></span><span style="display:flex;"><span>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC09QFwwcZOnwX5qfiHdYqPNispoWiC72iOMdPk+xX30uvpgDZCUPCD9tWZi5UeoqN0htQLagYjW88EMDTl16pGHZDv9ohCrXyFM7Aer6UJNSWEYf5c2ghvK4zBeoja6X714vtBbI9Vj1L/NcJ61aKsKV/3cYGLFbynHwUrxMm/NbrWa4TV18UCQ0bZN3hwAonr5OWKBGmHIPMYwYoyqm8JQGVVhQWX4WqOjRClOImw/DmGia/NYnU3UeZO+iPCmq5zRLpHkhVm7LK/y/NqAJbZFPgk5E0PScZK8hkbye5UJqUyjHgRzvswT3IqeV2k2mc87icOxVqkqzqNN99nisI5eLV+jyfxVE2+80s8sVSuxRyMonMQBfWO+tO/s0oGDGXJuZ6K9swmk9pphOAOOamMNHqlqN2yN3hL8YtNviCoCTDaxTTswZyrHgXvrE03plAnszxkv2HbniDSldOYa+v9YzMmG6ZJtrlQJN/r7s8jRwhJBb6sBlwqL45B3y0+VOUXr4+Eoc+/A2xy4lOpVaD86B96ks3hm2l1oXMnsoCLJwzLQ25jLcM2rux69DOhGhTw1TvjaRGx22knjDIaTuEDLpuZ20yRCt/xgUaG8oygU3O955jS4Glw3P8wAfKoSf2PlW9tOQn+L/bCdcUho8lmJjueougNvW2keuM9nSoIHQ<span style="color:#f92672">==</span> lg295060456@gmail.com</span></span></code></pre></div><p><img src="./assets/image-20231007055435866.png" alt="image-20231007055435866" /></p>
-<p><img src="./assets/image-20231007055515204.png" alt="image-20231007055515204" /></p>
-<p><img src="./assets/image-20231007055536132.png" alt="image-20231007055536132" /></p>
-</li>
+<li><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys"><strong>检查已有 SSH Key</strong></a></li>
+<li><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=mac"><strong>生成 SSH Key 并加入 agent</strong></a></li>
+<li><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"><strong>把 SSH Key 加入 GitHub</strong></a></li>
+<li><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection"><strong>测试 SSH 连接</strong></a></li>
+<li><a href="https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port"><strong>经 HTTPS 端口使用 SSH</strong></a></li>
 </ul>
-<h2 id="七命令测试ssh连接是否正常">七、命令测试<code>SSH</code>连接是否正常<a class="anchor" href="#%e4%b8%83%e5%91%bd%e4%bb%a4%e6%b5%8b%e8%af%95ssh%e8%bf%9e%e6%8e%a5%e6%98%af%e5%90%a6%e6%ad%a3%e5%b8%b8">#</a></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -T git@github.com</span></span></code></pre></div><p><img src="./assets/image-20231007055634328.png" alt="image-20231007055634328" /></p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
 </article>
  
       
@@ -1534,8 +1739,8 @@ chmod 600 ~/.ssh/config</code></pre></li>
     </span>
     <span>
     
-      <a href="../../../docs/javadoc/" class="flex align-center">
-        <span>JavaDoc</span>
+      <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E4%BB%93%E5%BA%93%E6%B2%BB%E7%90%86%E4%B8%8E%E9%AB%98%E7%BA%A7%E5%B7%A5%E5%85%B7/" class="flex align-center">
+        <span>Git 仓库治理与高级工具</span>
         <img src="../../../icons/forward.svg" class="book-icon" alt="Forward" />
       </a>
     
@@ -1571,13 +1776,23 @@ chmod 600 ~/.ssh/config</code></pre></li>
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#一生成ssh密钥">一、生成<code>SSH</code>密钥🔑</a></li>
-    <li><a href="#二确认-id_rsa-真的存在--权限正确">二、确认 <code>id_rsa</code> 真的存在 &amp; 权限正确</a></li>
-    <li><a href="#三把-githubcom-的-key-明确写进-sshconfig">三、把 <code>github.com</code> 的 key 明确写进 <code>~/.ssh/config</code></a></li>
-    <li><a href="#四id_rsa--macos-keychain--agent">四、<code>id_rsa</code> ➤ macOS Keychain + agent</a></li>
-    <li><a href="#五添加ssh密钥--ssh代理">五、添加<code>SSH</code>密钥🔑 ➤ <code>SSH</code>代理</a></li>
-    <li><a href="#六添加公钥--github">六、添加公钥🔑 ➤ Github</a></li>
-    <li><a href="#七命令测试ssh连接是否正常">七、命令测试<code>SSH</code>连接是否正常</a></li>
+    <li><a href="#-前言">🔥 前言</a></li>
+    <li><a href="#一先检查已有密钥--">一、先检查已有密钥 <b>🔼</b> <b>🔽</b></a></li>
+    <li><a href="#二生成新密钥">二、生成新密钥</a></li>
+    <li><a href="#三权限与文件结构">三、权限与文件结构</a></li>
+    <li><a href="#四配置-sshconfig">四、配置 <code>~/.ssh/config</code></a>
+      <ul>
+        <li><a href="#41单一-github-账号">4.1、单一 GitHub 账号</a></li>
+        <li><a href="#42多个-github-账号">4.2、多个 GitHub 账号</a></li>
+      </ul>
+    </li>
+    <li><a href="#五加入-ssh-agent-与-macos-keychain">五、加入 <code>ssh-agent</code> 与 macOS Keychain</a></li>
+    <li><a href="#六把公钥添加到-github">六、把公钥添加到 GitHub</a></li>
+    <li><a href="#七校验主机身份并测试">七、校验主机身份并测试</a></li>
+    <li><a href="#八切换仓库远端到-ssh">八、切换仓库远端到 SSH</a></li>
+    <li><a href="#九端口-22-被阻断">九、端口 <code>22</code> 被阻断</a></li>
+    <li><a href="#十常见故障">十、常见故障</a></li>
+    <li><a href="#十一官方资料">十一、官方资料</a></li>
   </ul>
 </nav>
 
@@ -1589,7 +1804,7 @@ chmod 600 ~/.ssh/config</code></pre></li>
  
   </main>
 
-  <script src="../../../jobs-container-routes.js?v=1780261990"></script>
+  <script src="../../../jobs-container-routes.js?v=1785830427"></script>
 
 <script>
 (function () {
@@ -1662,7 +1877,7 @@ chmod 600 ~/.ssh/config</code></pre></li>
   }
 
   function fixBrandIcon() {
-    var nextSrc = "\/icon.png?v=1780261990";
+    var nextSrc = "\/icon.png?v=1785830427";
 
     document.querySelectorAll(".jobs-brand-icon").forEach(function (img) {
       img.setAttribute("src", nextSrc);
@@ -1721,7 +1936,7 @@ chmod 600 ~/.ssh/config</code></pre></li>
 
 
 
-<script src="../../../jobs-git-version.js?v=1780261990"></script>
+<script src="../../../jobs-git-version.js?v=1785830427"></script>
 <script>
 (function () {
   function postToShell(type, reason) {

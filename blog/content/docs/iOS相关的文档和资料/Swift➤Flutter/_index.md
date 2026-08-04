@@ -2,7 +2,7 @@
 title: "Swift➤Flutter"
 date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 520
+weight: 540
 summary: "一、前言 ### 1、实践目的：iOS项目主工程（Swift）集成和在个别页面调用Flutter页面 ### 2、经验总结 Flutter官方文档 ➤ 将 Flutter module 集成到 iOS 项目 集成Flutter页面，绝对不是只引入单个的.dart文件，而是需要将整个Flutter工程文件全部集成（Flutter 里面还包含各种依赖） iOS主"
 bookCollapseSection: false
 ---

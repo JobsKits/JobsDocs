@@ -1,8 +1,8 @@
 ---
 title: "Telegram.iOS 源代码学习笔记"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-06-28T15:48:06+08:00
 draft: false
-weight: 400
+weight: 420
 summary: "当前总行数：0 行 ## 1、准备工作 简介 Telegram.iOS 项目是一个开源项目，使用了一种模块化的开发方式，这使得其项目结构与普通的 iOS 项目有所不同。且但它的结构和配置相对复杂； 在Telegram.iOS 源代码里面是没有直接的.h、.m以及.swift这种常规化的代码；这么做的原因： 跨平台设计 代码混淆和压缩 最后因为是脚本生成代码，"
 bookCollapseSection: false
 ---

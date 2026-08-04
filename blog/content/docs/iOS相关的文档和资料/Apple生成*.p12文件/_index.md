@@ -1,8 +1,8 @@
 ---
 title: "Apple生成*.p12文件"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-06-28T15:48:06+08:00
 draft: false
-weight: 460
+weight: 480
 summary: "一、什么是.p12文件？ .p12 文件全称 PKCS#12 (Personal Information Exchange) 它里面同时打包了： - 证书 (.cer) - 私钥 (.key) 并且通常会有一个导出密码保护。 ## 二、.p12文件的用处 > ⚠️ 注意事项 > > - .p12 一定要安全保存，泄露出去别人就能用它伪造推送或签名。 > - "
 bookCollapseSection: false
 ---

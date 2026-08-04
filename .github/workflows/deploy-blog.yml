@@ -7,20 +7,19 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  deployments: write
+  contents: write
 
 concurrency:
-  group: deploy-blog-production
-  cancel-in-progress: false
+  group: generate-blog-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   HUGO_VERSION: 0.161.1
   HUGO_SHA256: 9b82cf3211b2321f189a005dd157e6f4bd5c65f2bf5e9eefd2f5e0803c12103c
 
 jobs:
-  deploy:
-    name: Build and deploy
+  generate:
+    name: Generate and commit
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -28,6 +27,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          persist-credentials: true
 
       - name: Install Hugo
         shell: bash
@@ -41,24 +41,23 @@ jobs:
           chmod +x "${RUNNER_TEMP}/hugo"
           printf '%s\n' "${RUNNER_TEMP}" >> "${GITHUB_PATH}"
 
-      - name: Sync JobsDocs content
+      - name: Generate blog files
         shell: bash
-        env:
-          BLOG_DIR: ${{ github.workspace }}/blog
-          ROOT_DIR: ${{ github.workspace }}
         run: |
-          chmod +x blog/sync_docs.sh
-          ./blog/sync_docs.sh
+          chmod +x blog/install.command
+          ./blog/install.command --ci
 
-      - name: Build Hugo site
+      - name: Commit generated files
         shell: bash
-        working-directory: blog
-        run: hugo --gc --minify --baseURL "https://jobsdocs.ccwu.cc/"
+        run: |
+          git add --all -- blog
 
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy blog/public --project-name=jobsdocs --branch=main
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          if git diff --cached --quiet; then
+            echo "Blog files are already up to date."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(blog): 自动生成站点产物"
+          git push origin HEAD:main

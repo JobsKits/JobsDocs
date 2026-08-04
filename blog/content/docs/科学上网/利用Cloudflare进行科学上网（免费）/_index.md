@@ -1,8 +1,8 @@
 ---
 title: "利用Cloudflare进行科学上网（免费）"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-06-28T15:48:06+08:00
 draft: false
-weight: 40
+weight: 50
 summary: "一、🔥 前言 ### 1、📖 参考资料 👉2026 最强 Cloudflare 免费节点！永久可用+免费域名｜10分钟搭建｜解锁 ChatGPT / Gemini ！ ### 2、🔨 所需工具 需要的相关账户 Google账户 Github账户 注册域名（永久免费） dnshe digitalplat 云服务器提供商（不推荐国内大厂：阿里云/腾讯云） 推荐 "
 bookCollapseSection: false
 ---
@@ -108,7 +108,7 @@ bookCollapseSection: false
   
   ```shell
   Last login: Wed Apr 29 11:04:38 on ttys000
-  ➜  Desktop ../../../../../../edgetunnel 
+  ➜  Desktop ../../../edgetunnel 
   ➜  edgetunnel git:(main) npx wrangler login
   
    ⛅️ wrangler 4.86.0

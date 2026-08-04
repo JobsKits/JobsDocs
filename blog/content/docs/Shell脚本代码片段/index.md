@@ -1,8 +1,8 @@
 ---
 title: "Shell脚本代码片段"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-06-28T15:48:06+08:00
 draft: false
-weight: 570
+weight: 590
 summary: "🔥 前言 虽然Shell脚本晦涩难懂，但相较于python等脚本，因为减少了一层系统封装调用，所以使得shell脚本具有更大的普适度 不会因为第三方Api更新而影响使用 也降低了某些潜在的兼容性等Bug的出现几率 增强了代码执行的效率 为了更好的规避Shell脚本的晦涩难懂，特此文件记录一些高频需求涉及到的Shell脚本代码片段 本文件下所有的Shell脚本"
 bookCollapseSection: false
 ---

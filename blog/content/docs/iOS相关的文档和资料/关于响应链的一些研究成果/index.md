@@ -2,7 +2,7 @@
 title: "关于响应链的一些研究成果"
 date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 180
+weight: 200
 summary: "假设我们有一个VC1，VC1上面加盖一个View0 和 View1，点击VC跳转进VC2； 现在的需求是：点击View0不跳转，但是点击View1跳转 1、在View0的子类实现如下方法即可： 2、如果需要截断View1的事件响应，那么在View1里面实现 以上代码亲测有效 科普在前 子视图超出父视图的解决方案 ：在父视图里面写"
 bookCollapseSection: false
 ---

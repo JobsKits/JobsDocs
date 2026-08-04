@@ -1,8 +1,8 @@
 ---
 title: "MacOS_Web服务器学习"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-06-28T15:48:06+08:00
 draft: false
-weight: 50
+weight: 60
 summary: "一、前言 资料来源 Apache 、Tomcat、Nginx的区别 MacOS 自带tomcat和apache，但是建议都用brew重新下载进行额外的管理 查找用Homebrew管理的软件的安装路径（以tomat为例） ## 二、tomcat ### 1、tomcat的安装 ### 2、tomcat的开启/关闭/重启 进入tomcat安装目录下的libexe"
 bookCollapseSection: false
 ---

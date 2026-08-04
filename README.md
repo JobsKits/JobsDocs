@@ -29,9 +29,9 @@
 
 ### 2.1、先记结论
 
-- `./blog/install.command` 不是远端发布脚本。它负责同步 JobsDocs 文档、启动 Hugo 本地服务并打开 `http://localhost:1313/`，用于发布前预览。
+- `./blog/install.command` 是博客文件的统一生成入口：默认双击时同步文档并启动本地预览；传入 `--ci` 时无交互完成一次正式构建后退出。
 - 正式站点由 [**Cloudflare Pages**](https://pages.cloudflare.com/) 托管，项目名为 `jobsdocs`，线上地址为 `https://jobsdocs.ccwu.cc/`。
-- 站点原有 Cloudflare Pages Git 集成已经能够随 `main` 推送自动构建；新增的 `./.github/workflows/deploy-blog.yml` 用于把发布入口收口到 GitHub Actions，并补充手动发布能力。
+- `./.github/workflows/deploy-blog.yml` 会在 `main` 收到推送后运行 `./blog/install.command --ci`，再把生成的 `./blog` 文件提交回 `main`；Cloudflare Pages Git 集成负责发布这个生成提交。
 
 ### 2.2、本地同步与预览
 
@@ -50,7 +50,7 @@
 
 ### 2.3、自动发布与手动发布
 
-- 自动发布：提交代码并推送到远端 `main` 分支，`Deploy Blog` 工作流会同步文档、构建 Hugo 站点并部署到 Cloudflare Pages。
+- 自动发布：提交源码并推送到远端 `main` 分支，`Deploy Blog` 工作流会同步文档、生成 Hugo 站点，并由 `github-actions[bot]` 把变化提交回 `main`。
 
   ```shell
   git push origin main
@@ -61,27 +61,19 @@
 
   ```mermaid
   flowchart LR
-      A["推送 main 或手动运行"] --> B["同步 JobsDocs 文档"]
-      B --> C["Hugo 构建 blog/public"]
-      C --> D["Wrangler 上传"]
-      D --> E["Cloudflare Pages 正式站点"]
+      A["推送 main 或手动运行"] --> B["install.command --ci"]
+      B --> C["生成 blog/content 与 blog/public"]
+      C --> D["机器人提交生成文件到 main"]
+      D --> E["Cloudflare Pages Git 集成发布"]
   ```
 
-### 2.4、首次启用 GitHub Actions 发布
+### 2.4、GitHub Actions 运行边界
 
-1. 在 Cloudflare 创建 API Token，权限选择 `Account` → `Cloudflare Pages` → `Edit`，资源范围只授权站点所在账户。
-2. 在 GitHub 仓库打开 `Settings` → `Secrets and variables` → `Actions`，新增两个 Repository secrets：
-
-   | Secret 名称             | 内容                     |
-   | ----------------------- | ------------------------ |
-   | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 账户 ID       |
-   | `CLOUDFLARE_API_TOKEN`  | 上一步创建的 API Token   |
-
-3. Cloudflare Pages 原有 Git 集成如果仍开启自动生产部署，需要先在 `jobsdocs` 项目中关闭生产分支的自动部署，避免一次 `git push` 同时触发 Cloudflare 内建部署和 GitHub Actions 部署。
-4. 推送一次 `main`，或手动运行 `Deploy Blog`，确认 `Build Hugo site` 与 `Deploy to Cloudflare Pages` 均成功。
-5. 打开 `https://jobsdocs.ccwu.cc/jobs-git-version.js`，确认其中的短提交号与本次发布提交一致。
-
-> 未配置上述两个 Secrets 时，工作流可以被触发，但 Cloudflare 部署步骤会因缺少凭据而失败。
+- 工作流使用 GitHub 自动提供的 `GITHUB_TOKEN` 写回本仓库，不需要 Cloudflare API Token、账户 ID 或其它 Repository secrets。
+- 机器人提交使用仓库自身的 `GITHUB_TOKEN` 推送，不会再次触发同一个 GitHub Actions 工作流，因此不会递归提交。
+- Cloudflare Pages 继续保持 Git 自动生产部署；机器人生成提交进入 `main` 后，由 Cloudflare 完成正式发布。
+- 如果 `Commit generated files` 报 `403` 或分支保护错误，需要检查仓库 `Settings` → `Actions` → `General` 中的 Workflow permissions，以及 `main` 的分支规则是否允许 GitHub Actions 写入。
+- 打开 `https://jobsdocs.ccwu.cc/jobs-git-version.js`，可以核对线上短提交号是否已更新。
 
 ## 三、维护规则 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 

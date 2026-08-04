@@ -1,0 +1,2649 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="🔥 前言 &gt; Git 的命令不是对“同一份代码”做不同操作，而是在工作区、索引、对象库和引用之间移动内容或指针。先知道命令影响哪一层，再决定怎样提交、整合、撤销和恢复。 ## 一、对象、快照与引用 🔼 🔽 ### 1.1、四类核心对象 | 对象 | 保存什么 | 关键事实 | | — | — | — | | blob | 文件内容 | 不直# ">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2e3440">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E4%B8%8E%E6%97%A5%E5%B8%B8%E5%B7%A5%E4%BD%9C%E6%B5%81/">
+	<meta property="og:site_name" content="Jobs Docs">
+	<meta property="og:title" content="Git 核心原理与日常工作流">
+	<meta property="og:description" content="🔥 前言 &gt; Git 的命令不是对“同一份代码”做不同操作，而是在工作区、索引、对象库和引用之间移动内容或指针。先知道命令影响哪一层，再决定怎样提交、整合、撤销和恢复。 ## 一、对象、快照与引用 🔼 🔽 ### 1.1、四类核心对象 | 对象 | 保存什么 | 关键事实 | | — | — | — | | blob | 文件内容 | 不直#">
+	<meta property="og:locale" content="zh_cn">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="docs">
+		<meta property="article:published_time" content="2026-08-04T15:56:10+08:00">
+		<meta property="article:modified_time" content="2026-08-04T15:56:10+08:00">
+
+
+	<meta itemprop="name" content="Git 核心原理与日常工作流">
+	<meta itemprop="description" content="🔥 前言 &gt; Git 的命令不是对“同一份代码”做不同操作，而是在工作区、索引、对象库和引用之间移动内容或指针。先知道命令影响哪一层，再决定怎样提交、整合、撤销和恢复。 ## 一、对象、快照与引用 🔼 🔽 ### 1.1、四类核心对象 | 对象 | 保存什么 | 关键事实 | | — | — | — | | blob | 文件内容 | 不直#">
+	<meta itemprop="datePublished" content="2026-08-04T15:56:10+08:00">
+	<meta itemprop="dateModified" content="2026-08-04T15:56:10+08:00">
+	<meta itemprop="wordCount" content="646">
+
+<title>Git 核心原理与日常工作流 | Jobs Docs</title>
+<link rel="icon" href="../../../favicon.png" >
+<link rel="manifest" href="../../../manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E4%B8%8E%E6%97%A5%E5%B8%B8%E5%B7%A5%E4%BD%9C%E6%B5%81/">
+<link rel="stylesheet" href="../../../book.min.b06496c7bffd0bc7b45ca5288518447db1fe440d751309e3dae05eceda711e49.css" integrity="sha256-sGSWx7/9C8e0XKUohRhEfbH&#43;RA11Ewnj2uBeztpxHkk=" crossorigin="anonymous">
+
+
+  <script defer src="../../../fuse.min.js"></script>
+  <script defer src="../../../zh-cn.search.min.377d983b320c24f968ed98a2629e25ebd9262658bac7785523264ae30e4dfcf2.js" integrity="sha256-N32YOzIMJPlo7ZiiYp4l69kmJli6x3hVIyZK4w5N/PI=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-docs">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand jobs-book-brand-wrap">
+  <a class="jobs-book-brand"
+     href="https://github.com/JobsKits"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Open JobsKits GitHub">
+    <img class="jobs-brand-icon" src="../../../icon.png?v=1785830427" alt="Jobs Docs" loading="eager" decoding="sync">
+    <span class="jobs-brand-title">Jobs Docs</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/jobsdocs-%E7%9F%A5%E8%AF%86%E5%BA%93%E5%AE%A1%E8%AE%A1%E5%8F%B0%E8%B4%A6/" class="">
+      JobsDocs 知识库审计台账</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/" class="">
+      足球盘口学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a>
+      科学上网</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E8%87%AA%E5%BB%BA-ovz-%E6%9C%BA%E5%9E%8B%E7%9A%84-vps-/" class="">
+      科学上网【自建 OVZ 机型的 VPS 】</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E5%88%A9%E7%94%A8cloudflare%E8%BF%9B%E8%A1%8C%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E5%85%8D%E8%B4%B9/" class="">
+      利用Cloudflare进行科学上网（免费）</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/macos_web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="">
+      MacOS_Web服务器学习</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="">
+      区块链</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E8%BF%90%E7%BB%B4%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF/" class="">
+      运维成长路线</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8%E7%9B%AE%E6%A0%87%E6%9C%AF%E8%AF%AD%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%90%88%E8%A7%84%E5%AE%9E%E9%AA%8C%E8%B7%AF%E7%BA%BF/" class="">
+      iOS 逆向工程入门：目标、术语、工具与合规实验路线</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a>
+      iOS相关的文档和资料</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/yykit%E8%B0%83%E7%A0%94/" class="">
+      YYKit调研</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swift%E7%9B%B4%E6%92%AD%E9%A1%B9%E7%9B%AE%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%A0%94%E8%AE%A8/" class="">
+      Swift直播项目核心技术研讨</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%90%8C%E4%B8%80%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E5%9B%BE%E6%A0%87%E5%92%8C%E5%90%8D%E7%A7%B0/" class="">
+      同一应用，设置不同图标和名称</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Ewmzbanner%E7%9A%84%E6%80%AA%E5%BC%82%E5%86%99%E6%B3%95%E6%8E%A2%E7%A9%B6/" class="">
+      关于WMZBanner的怪异写法探究</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E9%94%81%E7%9A%84%E4%BD%BF%E7%94%A8/" class="">
+      iOS 锁的使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Euitableviewcell%E5%92%8Cuicollectionviewcell%E5%9C%86%E5%88%87%E8%A7%92&#43;cell%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F/" class="">
+      关于UITableViewCell和UICollectionViewCell圆切角&#43;Cell的偏移量</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%AE%9A%E4%B8%80%E8%A1%8C%E4%B8%AA%E6%95%B0%E5%BE%97%E5%87%BA%E5%87%A0%E8%A1%8C/" class="">
+      定一行个数得出几行</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%97%B6%E9%97%B4%E6%8C%89%E7%85%A7%E5%B9%B4-%E6%9C%88%E4%BB%BD%E5%88%86%E7%BB%84/" class="">
+      时间按照【年-月份】分组</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8Erac%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84@%E7%AC%A6%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%94%A4%E8%B5%B7%E7%9A%84%E6%8E%A2%E7%A9%B6/" class="">
+      关于RAC框架中的@符号进行宏定义唤起的探究</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%85%B3%E4%BA%8E%E5%93%8D%E5%BA%94%E9%93%BE%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C/" class="">
+      关于响应链的一些研究成果</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/unknown-class-viewcontroller-in-interface-builder-file/" class="">
+      unknown class viewcontroller in interface builder file</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E7%A6%81%E7%94%A8%E8%BF%94%E5%9B%9E%E6%89%8B%E5%8A%BF/" class="">
+      iOS禁用返回手势</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E5%8C%BA%E5%88%AB/" class="">
+      iOS资源文件夹的区别</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/n%E5%AE%AB%E6%A0%BC%E9%97%AE%E9%A2%98/" class="">
+      N宫格问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B7%AF%E7%94%B1/" class="">
+      路由</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%B2%BE%E7%A1%AE%E5%BA%A6%E9%87%8F-ios-app-%E7%9A%84%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4/" class="">
+      精确度量 iOS App 的启动时间</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/uicollectionview%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6/" class="">
+      UICollectionView点击事件</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jobskit-%E5%BA%8F/" class="">
+      JobsKit 序</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E4%BC%98%E7%A7%80%E7%9A%84%E5%85%B3%E4%BA%8E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%9A%84%E6%96%87%E7%8C%AE%E8%B5%84%E6%96%99/" class="">
+      优秀的关于音视频处理的文献资料</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/xcode%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/" class="">
+      Xcode资料下载</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%AF%BB%E5%8F%96%E6%9C%AC%E5%9C%B0plist/" class="">
+      读取本地plist</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%B0%81%E8%AF%B4http-get%E5%B0%B1%E4%B8%8D%E8%83%BD%E9%80%9A%E8%BF%87body%E6%9D%A5%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%91%A2/" class="">
+      谁说HTTP GET就不能通过Body来发送数据呢？</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E7%8A%B6%E6%80%81%E6%A0%8F%E9%A2%9C%E8%89%B2%E7%9A%84%E4%BF%AE%E6%94%B9/" class="">
+      iOS 状态栏颜色的修改</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81%E7%9A%84%E5%86%99%E6%B3%95%E7%A8%8B%E8%82%96%E6%96%8C/" class="">
+      本地推送的写法（程肖斌）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E5%8A%9F%E8%83%BD%E8%B7%B3%E8%BD%AC%E5%85%B6%E4%BB%96app%E5%A6%82%E6%9E%9C%E6%9C%AC%E6%9C%BA%E4%B8%8D%E5%AD%98%E5%9C%A8%E5%88%99%E8%BF%9B%E8%A1%8C%E4%B8%8B%E8%BD%BD/" class="">
+      iOS功能：跳转其他App,如果本机不存在,则进行下载</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E5%A4%9A%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE/" class="">
+      iOS 多语言环境设置</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="">
+      iOS项目多环境配置</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E7%9B%B8%E5%85%B3%E5%88%A4%E5%AE%9A/" class="">
+      正则表达式的相关判定</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swiftpackagedependence%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="">
+      SwiftPackageDependence使用指南🧭</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/" class="">
+      直播推流:拉流@Swift5x</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%9B%B4%E6%92%AD%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81@swift5x/macos%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%9A%84%E7%9B%B4%E6%92%AD%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">
+      【MacOS】配置本地的直播服务器</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/telegram.ios-%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="">
+      Telegram.iOS 源代码学习笔记</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swift%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88@jobskits/" class="">
+      Swift工程项目框架配置方案@JobsKits</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E6%9C%AC%E5%9C%B0%E9%80%9A%E7%9F%A5%E9%85%8D%E7%BD%AE/" class="">
+      iOS 本地通知配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/uitableview-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="">
+      UITableView 的使用指南</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E8%87%AA%E5%AE%9A%E4%B9%89-uitabbarcontroller/" class="">
+      自定义 UITabBarController</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/oc%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90%E5%8F%82%E8%A7%81jobscomment/" class="">
+      OC模型解析（参见JobsComment）</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/apple%E7%94%9F%E6%88%90.p12%E6%96%87%E4%BB%B6/" class="">
+      Apple生成*.p12文件</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A801/" class="">
+      JXCategoryView框架的使用01</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/jxcategoryview%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A802%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8-jxpagerview/" class="">
+      JXCategoryView框架的使用02（结合使用 JXPagerView）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E5%88%B6%E4%BD%9C%E5%8F%91%E5%B8%83pods%E7%BB%84%E4%BB%B6/" class="">
+      制作(发布)Pods组件</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios-%E6%A8%AA%E7%AB%96%E5%B1%8Fui%E5%88%87%E6%8D%A2/" class="">
+      iOS 横竖屏UI切换</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%B8%8A%E6%9E%B6%E5%88%86%E5%8F%91%E6%B5%81%E7%A8%8B/" class="">
+      移动端上架（分发）流程</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/swiftflutter/" class="">
+      Swift➤Flutter</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%85%8D%E7%BD%AEinfo.plist/" class="">
+      配置info.plist</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/%E9%9F%B3%E8%A7%86%E9%A2%91/" class="">
+      音视频</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/ios%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90unity/" class="">
+      iOS项目集成Unity</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ios%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E5%92%8C%E8%B5%84%E6%96%99/mjextension%E7%94%A8%E6%B3%95/" class="">
+      MJExtension用法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" class="">
+      Shell脚本代码片段</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ffmpeg-8.1.2-%E6%9E%B6%E6%9E%84%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E5%87%BD%E6%95%B0%E4%B8%8E%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%8C/" class="">
+      FFmpeg 8.1.2 架构、核心源码函数与面试手册</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E5%88%B6%E4%BD%9Cunity/" class="">
+      制作Unity</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/reactnative/" class="">
+      ReactNative</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/cmake/" class="">
+      CMake</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/seo/" class="">
+      SEO</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/graphify-out/" class="">
+      graphify-out</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E5%85%AC%E6%B0%91%E8%BA%AB%E4%BB%BD%E8%AF%81%E6%A0%A1%E9%AA%8C%E8%A7%84%E5%88%99swiftobjcdart.flutter/" class="">
+      中国大陆公民身份证校验规则（Swift/Objc/Dart.flutter）</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/ftp%E7%9A%84%E9%85%8D%E7%BD%AE/" class="">
+      FTP的配置</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/" class="">
+      Git的使用</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E6%95%85%E9%9A%9C%E8%AF%8A%E6%96%AD%E4%B8%8E%E6%81%A2%E5%A4%8D%E6%89%8B%E5%86%8C/" class="">
+      Git 故障诊断与恢复手册</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/github-actions-%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="">
+      GitHub Actions 工作流</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/mermaid-%E7%B1%BB%E5%9B%BE%E8%BE%93%E5%85%A5%E6%A0%B7%E4%BE%8B/" class="">
+      Mermaid 类图输入样例</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E4%B8%8E%E6%97%A5%E5%B8%B8%E5%B7%A5%E4%BD%9C%E6%B5%81/" class="active">
+      Git 核心原理与日常工作流</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" class="">
+      Git 的一些使用说明</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E5%AD%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/" class="">
+      Git 子模块使用</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E5%88%B0github/" class="">
+      通过SSH连接到GitHub</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E4%BB%93%E5%BA%93%E6%B2%BB%E7%90%86%E4%B8%8E%E9%AB%98%E7%BA%A7%E5%B7%A5%E5%85%B7/" class="">
+      Git 仓库治理与高级工具</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/javadoc/" class="">
+      JavaDoc</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/macos%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E7%83%AD%E7%82%B9/" class="">
+      MacOS配置个人热点🛜</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/3d@demo/" class="">
+      3D@Demo</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E5%A4%A9%E5%B7%A5%E5%BC%80%E7%89%A9/" class="">
+      天工开物</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E6%90%AD%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8mail-server/" class="">
+      搭建邮件服务器（Mail server）</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E5%88%A9%E7%94%A8hugo%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%95%99%E7%A8%8B/" class="">
+      利用Hugo生成静态网页教程</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="../../../docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" class="">
+      利用Quicktype自动建立数据模型</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="../../../icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Git 核心原理与日常工作流</h3>
+
+  <label for="toc-control">
+    
+    <img src="../../../icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#-前言">🔥 前言</a></li>
+    <li><a href="#一对象快照与引用--">一、对象、快照与引用 <b>🔼</b> <b>🔽</b></a>
+      <ul>
+        <li><a href="#11四类核心对象">1.1、四类核心对象</a></li>
+        <li><a href="#12四层可变状态">1.2、四层可变状态</a></li>
+      </ul>
+    </li>
+    <li><a href="#二创建克隆与识别仓库">二、创建、克隆与识别仓库</a>
+      <ul>
+        <li><a href="#21新仓库">2.1、新仓库</a></li>
+        <li><a href="#22克隆">2.2、克隆</a></li>
+        <li><a href="#23先确认自己在哪个仓库">2.3、先确认自己在哪个仓库</a></li>
+      </ul>
+    </li>
+    <li><a href="#三文件生命周期与暂存">三、文件生命周期与暂存</a>
+      <ul>
+        <li><a href="#31观察再暂存">3.1、观察再暂存</a></li>
+        <li><a href="#32状态含义">3.2、状态含义</a></li>
+      </ul>
+    </li>
+    <li><a href="#四提交设计与身份">四、提交设计与身份</a>
+      <ul>
+        <li><a href="#41提交前核对">4.1、提交前核对</a></li>
+        <li><a href="#42修改最后一次提交">4.2、修改最后一次提交</a></li>
+      </ul>
+    </li>
+    <li><a href="#五分支合并与冲突">五、分支、合并与冲突</a>
+      <ul>
+        <li><a href="#51分支是可移动引用">5.1、分支是可移动引用</a></li>
+        <li><a href="#52整合前先更新观察面">5.2、整合前先更新观察面</a></li>
+        <li><a href="#53冲突不是随机覆盖">5.3、冲突不是随机覆盖</a></li>
+      </ul>
+    </li>
+    <li><a href="#六撤销与恢复决策表">六、撤销与恢复决策表</a></li>
+    <li><a href="#七远端协作">七、远端协作</a>
+      <ul>
+        <li><a href="#71远端本地分支与远端跟踪引用">7.1、远端、本地分支与远端跟踪引用</a></li>
+        <li><a href="#72fetchpull-与-push">7.2、Fetch、Pull 与 Push</a></li>
+      </ul>
+    </li>
+    <li><a href="#八忽略规则属性与跨平台文件名">八、忽略规则、属性与跨平台文件名</a>
+      <ul>
+        <li><a href="#81三类忽略来源">8.1、三类忽略来源</a></li>
+        <li><a href="#82gitattributes">8.2、<code>.gitattributes</code></a></li>
+        <li><a href="#83大小写与-unicode">8.3、大小写与 Unicode</a></li>
+      </ul>
+    </li>
+    <li><a href="#九标签与发布点">九、标签与发布点</a></li>
+    <li><a href="#十可复核的日常流程">十、可复核的日常流程</a></li>
+    <li><a href="#十一官方资料">十一、官方资料</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品" /></p>
+<hr>
+<h2 id="-前言">🔥 <font id=前言>前言</font><a class="anchor" href="#-%e5%89%8d%e8%a8%80">#</a></h2>
+<blockquote class='book-hint '>
+<p>Git 的命令不是对“同一份代码”做不同操作，而是在工作区、索引、对象库和引用之间移动内容或指针。先知道命令影响哪一层，再决定怎样提交、整合、撤销和恢复。</p>
+</blockquote><h2 id="一对象快照与引用--">一、对象、快照与引用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a><a class="anchor" href="#%e4%b8%80%e5%af%b9%e8%b1%a1%e5%bf%ab%e7%85%a7%e4%b8%8e%e5%bc%95%e7%94%a8--">#</a></h2>
+<h3 id="11四类核心对象">1.1、四类核心对象<a class="anchor" href="#11%e5%9b%9b%e7%b1%bb%e6%a0%b8%e5%bf%83%e5%af%b9%e8%b1%a1">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>对象</th>
+					<th>保存什么</th>
+					<th>关键事实</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>blob</td>
+					<td>文件内容</td>
+					<td>不直接保存文件名。相同内容可复用同一对象。</td>
+			</tr>
+			<tr>
+					<td>tree</td>
+					<td>目录快照</td>
+					<td>把名称、模式与 blob / 子 tree / gitlink 关联起来。</td>
+			</tr>
+			<tr>
+					<td>commit</td>
+					<td>根 tree、父提交、作者、提交者、时间与消息</td>
+					<td>Commit 保存快照和关系，不是只保存一份 diff。</td>
+			</tr>
+			<tr>
+					<td>annotated tag</td>
+					<td>标签名之外的说明、打标签者、时间和可选签名</td>
+					<td>轻量标签只是一个 ref，不创建 tag 对象。</td>
+			</tr>
+	</tbody>
+</table>
+<p>常用观察命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git cat-file -t &lt;object-id&gt;
+</span></span><span style="display:flex;"><span>git cat-file -p &lt;object-id&gt;
+</span></span><span style="display:flex;"><span>git ls-tree -r HEAD
+</span></span><span style="display:flex;"><span>git show --stat --summary HEAD</span></span></code></pre></div><h3 id="12四层可变状态">1.2、四层可变状态<a class="anchor" href="#12%e5%9b%9b%e5%b1%82%e5%8f%af%e5%8f%98%e7%8a%b6%e6%80%81">#</a></h3>
+<pre class="mermaid">flowchart LR
+  W[&#34;工作区&#34;] --&gt;|git add| I[&#34;索引&#34;]
+  I --&gt;|git commit| C[&#34;提交对象&#34;]
+  R[&#34;refs/heads/*&#34;] --&gt;|指向| C
+  H[&#34;HEAD&#34;] --&gt;|通常符号指向| R
+  C --&gt;|git restore --staged| I
+  I --&gt;|git restore --worktree| W</pre><script src="../../../mermaid.min.js"></script><script>mermaid.initialize({"flowchart":{"useMaxWidth":true},"theme":"default"})</script><ul>
+<li>工作区：当前磁盘文件。</li>
+<li>索引：下一次提交的候选快照，也承载冲突的多阶段条目。</li>
+<li>对象库：不可变对象集合；对象存在不等于有分支仍引用它。</li>
+<li>引用：分支、标签和远端跟踪分支等可移动名字。</li>
+<li><code>HEAD</code> 通常是当前分支的符号引用；检出某个提交时会成为 detached HEAD。</li>
+</ul>
+<h2 id="二创建克隆与识别仓库">二、创建、克隆与识别仓库<a class="anchor" href="#%e4%ba%8c%e5%88%9b%e5%bb%ba%e5%85%8b%e9%9a%86%e4%b8%8e%e8%af%86%e5%88%ab%e4%bb%93%e5%ba%93">#</a></h2>
+<h3 id="21新仓库">2.1、新仓库<a class="anchor" href="#21%e6%96%b0%e4%bb%93%e5%ba%93">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir project
+</span></span><span style="display:flex;"><span>cd project
+</span></span><span style="display:flex;"><span>git init --initial-branch<span style="color:#f92672">=</span>main
+</span></span><span style="display:flex;"><span>git status</span></span></code></pre></div><p>初始化不会替你创建首次提交、远端或忽略规则。</p>
+<h3 id="22克隆">2.2、克隆<a class="anchor" href="#22%e5%85%8b%e9%9a%86">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git clone &lt;repository-url&gt;
+</span></span><span style="display:flex;"><span>git -C &lt;repository-directory&gt; remote -v
+</span></span><span style="display:flex;"><span>git -C &lt;repository-directory&gt; branch --verbose --verbose</span></span></code></pre></div><p>Clone 通常会创建远端 <code>origin</code>、远端跟踪引用和一个跟踪默认远端分支的本地分支。它不保证自动初始化子模块；含子模块时使用 <code>--recurse-submodules</code> 或克隆后执行 <code>git submodule update --init --recursive</code>。</p>
+<h3 id="23先确认自己在哪个仓库">2.3、先确认自己在哪个仓库<a class="anchor" href="#23%e5%85%88%e7%a1%ae%e8%ae%a4%e8%87%aa%e5%b7%b1%e5%9c%a8%e5%93%aa%e4%b8%aa%e4%bb%93%e5%ba%93">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git rev-parse --show-toplevel
+</span></span><span style="display:flex;"><span>git rev-parse --git-dir
+</span></span><span style="display:flex;"><span>git rev-parse --git-common-dir
+</span></span><span style="display:flex;"><span>git status --short --branch</span></span></code></pre></div><p>子模块、linked worktree 和普通仓库的 Git 目录结构不同。脚本不能只用“当前目录是否有 <code>.git/</code> 文件夹”判断仓库根。</p>
+<h2 id="三文件生命周期与暂存">三、文件生命周期与暂存<a class="anchor" href="#%e4%b8%89%e6%96%87%e4%bb%b6%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e4%b8%8e%e6%9a%82%e5%ad%98">#</a></h2>
+<h3 id="31观察再暂存">3.1、观察再暂存<a class="anchor" href="#31%e8%a7%82%e5%af%9f%e5%86%8d%e6%9a%82%e5%ad%98">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git status --short --branch
+</span></span><span style="display:flex;"><span>git diff
+</span></span><span style="display:flex;"><span>git diff --cached
+</span></span><span style="display:flex;"><span>git diff --check
+</span></span><span style="display:flex;"><span>git add --patch
+</span></span><span style="display:flex;"><span>git diff --cached --stat</span></span></code></pre></div><ul>
+<li><code>git diff</code> 默认比较工作区与索引。</li>
+<li><code>git diff --cached</code> 比较索引与 <code>HEAD</code>。</li>
+<li><code>git add --patch</code> 按 hunk 选择内容，适合把混杂修改拆成语义清晰的提交。</li>
+<li><code>git add -A -- .</code> 在当前路径范围统一记录新增、修改和删除；执行位置会影响范围。</li>
+</ul>
+<h3 id="32状态含义">3.2、状态含义<a class="anchor" href="#32%e7%8a%b6%e6%80%81%e5%90%ab%e4%b9%89">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>状态</th>
+					<th>含义</th>
+					<th>常用动作</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>untracked</td>
+					<td>文件未进入索引</td>
+					<td>审查后 <code>git add</code>，或加入忽略规则。</td>
+			</tr>
+			<tr>
+					<td>tracked + modified</td>
+					<td>工作区不同于索引</td>
+					<td><code>git diff</code> 审查，再暂存或恢复。</td>
+			</tr>
+			<tr>
+					<td>staged</td>
+					<td>索引不同于 <code>HEAD</code></td>
+					<td><code>git diff --cached</code> 审查，再 Commit。</td>
+			</tr>
+			<tr>
+					<td>deleted</td>
+					<td>工作区或索引记录删除</td>
+					<td>确认是有意删除，不要只为消除红色状态而恢复。</td>
+			</tr>
+			<tr>
+					<td>unmerged</td>
+					<td>索引存在冲突阶段</td>
+					<td>解决冲突后 <code>git add</code>，不能直接普通 Commit 绕过。</td>
+			</tr>
+	</tbody>
+</table>
+<p>停止跟踪但保留工作区文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git rm --cached -- &lt;path&gt;</span></span></code></pre></div><p>这只影响后续提交；已经存在于历史中的内容不会因此从旧提交消失。</p>
+<h2 id="四提交设计与身份">四、提交设计与身份<a class="anchor" href="#%e5%9b%9b%e6%8f%90%e4%ba%a4%e8%ae%be%e8%ae%a1%e4%b8%8e%e8%ba%ab%e4%bb%bd">#</a></h2>
+<h3 id="41提交前核对">4.1、提交前核对<a class="anchor" href="#41%e6%8f%90%e4%ba%a4%e5%89%8d%e6%a0%b8%e5%af%b9">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git diff --cached --check
+</span></span><span style="display:flex;"><span>git diff --cached --stat
+</span></span><span style="display:flex;"><span>git diff --cached
+</span></span><span style="display:flex;"><span>git config --show-origin --get-regexp <span style="color:#e6db74">&#39;^user\.(name|email)$&#39;</span>
+</span></span><span style="display:flex;"><span>git commit</span></span></code></pre></div><p>一个可审查提交应尽量满足：</p>
+<ul>
+<li>只完成一个清晰目的。</li>
+<li>代码、测试、文档和必要配置保持一致。</li>
+<li>不混入构建产物、临时日志、凭据和无关格式化。</li>
+<li>提交消息说明结果和原因，不重复文件名列表。</li>
+</ul>
+<h3 id="42修改最后一次提交">4.2、修改最后一次提交<a class="anchor" href="#42%e4%bf%ae%e6%94%b9%e6%9c%80%e5%90%8e%e4%b8%80%e6%ac%a1%e6%8f%90%e4%ba%a4">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git commit --amend</span></span></code></pre></div><p>Amend 会创建新提交并移动当前分支，提交 ID 改变。只在提交尚未共享，或团队明确允许改写时使用；已经发布的修复通常追加新提交或使用 <code>git revert</code> 更安全。</p>
+<h2 id="五分支合并与冲突">五、分支、合并与冲突<a class="anchor" href="#%e4%ba%94%e5%88%86%e6%94%af%e5%90%88%e5%b9%b6%e4%b8%8e%e5%86%b2%e7%aa%81">#</a></h2>
+<h3 id="51分支是可移动引用">5.1、分支是可移动引用<a class="anchor" href="#51%e5%88%86%e6%94%af%e6%98%af%e5%8f%af%e7%a7%bb%e5%8a%a8%e5%bc%95%e7%94%a8">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git branch --all --verbose --verbose
+</span></span><span style="display:flex;"><span>git switch --create feature/example
+</span></span><span style="display:flex;"><span>git switch main
+</span></span><span style="display:flex;"><span>git branch --merged
+</span></span><span style="display:flex;"><span>git branch --no-merged</span></span></code></pre></div><p>创建分支不会复制整个工作区。删除分支只是删除名字；只要提交仍被其它引用或 reflog 保留，对象可能继续存在。</p>
+<h3 id="52整合前先更新观察面">5.2、整合前先更新观察面<a class="anchor" href="#52%e6%95%b4%e5%90%88%e5%89%8d%e5%85%88%e6%9b%b4%e6%96%b0%e8%a7%82%e5%af%9f%e9%9d%a2">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git fetch --prune origin
+</span></span><span style="display:flex;"><span>git log --oneline --graph --decorate --all -30
+</span></span><span style="display:flex;"><span>git merge-base HEAD origin/main</span></span></code></pre></div><p>常见整合策略：</p>
+<table>
+	<thead>
+			<tr>
+					<th>策略</th>
+					<th>历史结果</th>
+					<th>适用边界</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>fast-forward</td>
+					<td>只移动分支引用</td>
+					<td>当前分支没有独有提交。</td>
+			</tr>
+			<tr>
+					<td>merge commit</td>
+					<td>保留两条父历史</td>
+					<td>需要保留分支整合节点或共享分支不宜改写。</td>
+			</tr>
+			<tr>
+					<td>rebase</td>
+					<td>重放并改写当前分支独有提交</td>
+					<td>适合尚未共享的主题分支整理。</td>
+			</tr>
+			<tr>
+					<td>squash merge</td>
+					<td>把主题变化压成一个新提交</td>
+					<td>平台合并时简化主线，但不保留每个主题提交。</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="53冲突不是随机覆盖">5.3、冲突不是随机覆盖<a class="anchor" href="#53%e5%86%b2%e7%aa%81%e4%b8%8d%e6%98%af%e9%9a%8f%e6%9c%ba%e8%a6%86%e7%9b%96">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git status
+</span></span><span style="display:flex;"><span>git diff --name-only --diff-filter<span style="color:#f92672">=</span>U
+</span></span><span style="display:flex;"><span>git diff --cc</span></span></code></pre></div><p>解决后：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git add -- &lt;resolved-paths&gt;
+</span></span><span style="display:flex;"><span>git status</span></span></code></pre></div><p>然后执行当前流程对应的 <code>git merge --continue</code>、<code>git rebase --continue</code> 或 <code>git cherry-pick --continue</code>。放弃时也必须使用同一流程对应的 <code>--abort</code>。</p>
+<p><code>ours</code> / <code>theirs</code> 的含义会随 merge、rebase 等上下文改变，不能把它们永久理解成“本地”和“远端”。先看 <code>HEAD</code>、当前操作和冲突基线。</p>
+<h2 id="六撤销与恢复决策表">六、撤销与恢复决策表<a class="anchor" href="#%e5%85%ad%e6%92%a4%e9%94%80%e4%b8%8e%e6%81%a2%e5%a4%8d%e5%86%b3%e7%ad%96%e8%a1%a8">#</a></h2>
+<table>
+	<thead>
+			<tr>
+					<th>目标</th>
+					<th>命令方向</th>
+					<th>主要影响</th>
+					<th>风险</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>取消某路径的暂存，保留工作区</td>
+					<td><code>git restore --staged -- &lt;path&gt;</code></td>
+					<td>索引</td>
+					<td>低，仍要检查工作区。</td>
+			</tr>
+			<tr>
+					<td>丢弃 tracked 文件的未暂存修改</td>
+					<td><code>git restore --worktree -- &lt;path&gt;</code></td>
+					<td>工作区</td>
+					<td>会覆盖未提交内容。</td>
+			</tr>
+			<tr>
+					<td>公开历史中撤销某提交</td>
+					<td><code>git revert &lt;commit&gt;</code></td>
+					<td>新建反向提交</td>
+					<td>保留历史，可能冲突。</td>
+			</tr>
+			<tr>
+					<td>移动当前分支但保留索引和工作区</td>
+					<td><code>git reset --soft &lt;target&gt;</code></td>
+					<td>引用</td>
+					<td>改写当前分支历史。</td>
+			</tr>
+			<tr>
+					<td>移动分支并重置索引，保留工作区</td>
+					<td><code>git reset --mixed &lt;target&gt;</code></td>
+					<td>引用、索引</td>
+					<td>默认 reset 模式。</td>
+			</tr>
+			<tr>
+					<td>让分支、索引和工作区都匹配目标</td>
+					<td><code>git reset --hard &lt;target&gt;</code></td>
+					<td>引用、索引、工作区</td>
+					<td>会覆盖 tracked 修改。</td>
+			</tr>
+	</tbody>
+</table>
+<p>执行改写前先：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git status --short --branch
+</span></span><span style="display:flex;"><span>git diff
+</span></span><span style="display:flex;"><span>git diff --cached
+</span></span><span style="display:flex;"><span>git reflog -20 --date<span style="color:#f92672">=</span>iso</span></span></code></pre></div><ul>
+<li><code>reset</code> 的提交级形式会移动当前分支或 detached HEAD；路径级形式主要修改索引，语义不同。</li>
+<li><code>restore</code> 默认不会删除 untracked 文件。</li>
+<li><code>revert</code> 对 merge commit 需要用 <code>-m &lt;parent-number&gt;</code> 指定主线，选择错误会得到相反语义。</li>
+<li>reflog 是本地、会过期的恢复线索，不是永久备份。</li>
+</ul>
+<h2 id="七远端协作">七、远端协作<a class="anchor" href="#%e4%b8%83%e8%bf%9c%e7%ab%af%e5%8d%8f%e4%bd%9c">#</a></h2>
+<h3 id="71远端本地分支与远端跟踪引用">7.1、远端、本地分支与远端跟踪引用<a class="anchor" href="#71%e8%bf%9c%e7%ab%af%e6%9c%ac%e5%9c%b0%e5%88%86%e6%94%af%e4%b8%8e%e8%bf%9c%e7%ab%af%e8%b7%9f%e8%b8%aa%e5%bc%95%e7%94%a8">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git remote -v
+</span></span><span style="display:flex;"><span>git remote show origin
+</span></span><span style="display:flex;"><span>git branch --verbose --verbose
+</span></span><span style="display:flex;"><span>git <span style="color:#66d9ef">for</span>-each-ref --format<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;%(refname:short) %(upstream:short)&#39;</span> refs/heads/</span></span></code></pre></div><p><code>origin/main</code> 是本地远端跟踪引用，不是服务器上的分支本体。它只反映最后一次成功 Fetch 后本地知道的状态。</p>
+<h3 id="72fetchpull-与-push">7.2、Fetch、Pull 与 Push<a class="anchor" href="#72fetchpull-%e4%b8%8e-push">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git fetch --prune origin
+</span></span><span style="display:flex;"><span>git pull --ff-only
+</span></span><span style="display:flex;"><span>git push --set-upstream origin feature/example</span></span></code></pre></div><ul>
+<li>Fetch 下载对象并更新引用，不整合当前工作分支。</li>
+<li>Pull 是 Fetch 加 merge/rebase 等整合；团队应明确 <code>--ff-only</code>、<code>--rebase</code> 或 <code>--no-rebase</code>，不要依赖含糊默认值。</li>
+<li>Push 把本地对象和引用更新请求发送给远端；服务器权限、保护规则和 Hook 决定是否接受。</li>
+<li><code>--prune</code> 删除的是远端已经不存在的本地远端跟踪引用，不会删除本地普通分支。</li>
+</ul>
+<h2 id="八忽略规则属性与跨平台文件名">八、忽略规则、属性与跨平台文件名<a class="anchor" href="#%e5%85%ab%e5%bf%bd%e7%95%a5%e8%a7%84%e5%88%99%e5%b1%9e%e6%80%a7%e4%b8%8e%e8%b7%a8%e5%b9%b3%e5%8f%b0%e6%96%87%e4%bb%b6%e5%90%8d">#</a></h2>
+<h3 id="81三类忽略来源">8.1、三类忽略来源<a class="anchor" href="#81%e4%b8%89%e7%b1%bb%e5%bf%bd%e7%95%a5%e6%9d%a5%e6%ba%90">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>来源</th>
+					<th>是否提交</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>.gitignore</code></td>
+					<td>是</td>
+					<td>团队共享的生成物、缓存与本地配置规则。</td>
+			</tr>
+			<tr>
+					<td><code>.git/info/exclude</code></td>
+					<td>否</td>
+					<td>当前克隆私有忽略。</td>
+			</tr>
+			<tr>
+					<td><code>core.excludesFile</code></td>
+					<td>否</td>
+					<td>当前用户跨仓库全局忽略。</td>
+			</tr>
+	</tbody>
+</table>
+<p>诊断规则来源：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git check-ignore --verbose --no-index &lt;path&gt;</span></span></code></pre></div><p>忽略规则不自动停止跟踪已经进入索引的文件；需要明确执行 <code>git rm --cached</code> 并提交索引变化。</p>
+<h3 id="82gitattributes">8.2、<code>.gitattributes</code><a class="anchor" href="#82gitattributes">#</a></h3>
+<p>示例：</p>
+<pre tabindex="0"><code class="language-gitattributes" data-lang="gitattributes">* text=auto
+*.sh text eol=lf
+*.command text eol=lf
+*.bat text eol=crlf
+*.png binary</code></pre><p>属性可控制文本规范化、diff/merge driver、export-ignore 与语言统计等行为。修改换行策略后先在独立提交中执行并审查：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git add --renormalize .
+</span></span><span style="display:flex;"><span>git diff --cached --stat</span></span></code></pre></div><p>不要同时混入业务逻辑修改，否则真实差异会被全库换行变化淹没。</p>
+<h3 id="83大小写与-unicode">8.3、大小写与 Unicode<a class="anchor" href="#83%e5%a4%a7%e5%b0%8f%e5%86%99%e4%b8%8e-unicode">#</a></h3>
+<p>macOS、Windows 和 Linux 的文件系统行为可能不同。只改大小写时使用临时名分两步记录：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git mv oldname temporary-name
+</span></span><span style="display:flex;"><span>git mv temporary-name NewName</span></span></code></pre></div><p>不要随意全局修改 <code>core.ignoreCase</code> 或 <code>core.precomposeUnicode</code>；它们通常由 Git 初始化时根据文件系统探测，错误配置会制造重复路径、无法检出或大小写碰撞。</p>
+<h2 id="九标签与发布点">九、标签与发布点<a class="anchor" href="#%e4%b9%9d%e6%a0%87%e7%ad%be%e4%b8%8e%e5%8f%91%e5%b8%83%e7%82%b9">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git tag --list
+</span></span><span style="display:flex;"><span>git tag --annotate v1.0.0 --message <span style="color:#e6db74">&#39;Release v1.0.0&#39;</span>
+</span></span><span style="display:flex;"><span>git show v1.0.0
+</span></span><span style="display:flex;"><span>git push origin v1.0.0</span></span></code></pre></div><ul>
+<li>普通 <code>git push</code> 默认不一定推送本地标签；需要显式推送目标标签。<code>--follow-tags</code> 只会随所推送提交补充可达且缺失的 annotated tag，不包含全部轻量标签。</li>
+<li>已发布标签应视为不可变发布标识。确需移动时要同步说明旧对象、新对象、制品和下游缓存影响。</li>
+<li>Git tag 不等同于 GitHub Release；Release 是托管平台在 tag 之上的说明与资产层。</li>
+</ul>
+<h2 id="十可复核的日常流程">十、可复核的日常流程<a class="anchor" href="#%e5%8d%81%e5%8f%af%e5%a4%8d%e6%a0%b8%e7%9a%84%e6%97%a5%e5%b8%b8%e6%b5%81%e7%a8%8b">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git status --short --branch
+</span></span><span style="display:flex;"><span>git fetch --prune origin
+</span></span><span style="display:flex;"><span>git switch main
+</span></span><span style="display:flex;"><span>git pull --ff-only
+</span></span><span style="display:flex;"><span>git switch --create feature/example
+</span></span><span style="display:flex;"><span>git add --patch
+</span></span><span style="display:flex;"><span>git diff --cached --check
+</span></span><span style="display:flex;"><span>git diff --cached
+</span></span><span style="display:flex;"><span>git commit
+</span></span><span style="display:flex;"><span>git push --set-upstream origin feature/example</span></span></code></pre></div><p>这不是所有团队的唯一流程。使用 trunk-based、GitHub Flow、Git Flow 或 release branch 时，应把分支寿命、合并方式、发布权限和回滚策略写进仓库规范，而不是靠个人记忆。</p>
+<h2 id="十一官方资料">十一、官方资料<a class="anchor" href="#%e5%8d%81%e4%b8%80%e5%ae%98%e6%96%b9%e8%b5%84%e6%96%99">#</a></h2>
+<ul>
+<li><a href="https://git-scm.com/docs/user-manual"><strong>Git 用户手册</strong></a></li>
+<li><a href="https://git-scm.com/docs/gitglossary"><strong>gitglossary</strong></a></li>
+<li><a href="https://git-scm.com/docs/git-add"><strong>git-add</strong></a></li>
+<li><a href="https://git-scm.com/docs/git-commit"><strong>git-commit</strong></a></li>
+<li><a href="https://git-scm.com/docs/git-switch"><strong>git-switch</strong></a></li>
+<li><a href="https://git-scm.com/docs/git-merge"><strong>git-merge</strong></a></li>
+<li><a href="https://git-scm.com/docs/git-restore"><strong>git-restore</strong></a></li>
+<li><a href="https://git-scm.com/docs/git-reset"><strong>git-reset</strong></a></li>
+<li><a href="https://git-scm.com/docs/git-revert"><strong>git-revert</strong></a></li>
+<li><a href="https://git-scm.com/docs/gitignore"><strong>gitignore</strong></a></li>
+<li><a href="https://git-scm.com/docs/gitattributes"><strong>gitattributes</strong></a></li>
+<li><a href="https://git-scm.com/docs/git-tag"><strong>git-tag</strong></a></li>
+</ul>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/mermaid-%E7%B1%BB%E5%9B%BE%E8%BE%93%E5%85%A5%E6%A0%B7%E4%BE%8B/" class="flex align-center">
+        <img src="../../../icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>Mermaid 类图输入样例</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="../../../docs/git%E7%9A%84%E4%BD%BF%E7%94%A8/git-%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" class="flex align-center">
+        <span>Git 的一些使用说明</span>
+        <img src="../../../icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#-前言">🔥 前言</a></li>
+    <li><a href="#一对象快照与引用--">一、对象、快照与引用 <b>🔼</b> <b>🔽</b></a>
+      <ul>
+        <li><a href="#11四类核心对象">1.1、四类核心对象</a></li>
+        <li><a href="#12四层可变状态">1.2、四层可变状态</a></li>
+      </ul>
+    </li>
+    <li><a href="#二创建克隆与识别仓库">二、创建、克隆与识别仓库</a>
+      <ul>
+        <li><a href="#21新仓库">2.1、新仓库</a></li>
+        <li><a href="#22克隆">2.2、克隆</a></li>
+        <li><a href="#23先确认自己在哪个仓库">2.3、先确认自己在哪个仓库</a></li>
+      </ul>
+    </li>
+    <li><a href="#三文件生命周期与暂存">三、文件生命周期与暂存</a>
+      <ul>
+        <li><a href="#31观察再暂存">3.1、观察再暂存</a></li>
+        <li><a href="#32状态含义">3.2、状态含义</a></li>
+      </ul>
+    </li>
+    <li><a href="#四提交设计与身份">四、提交设计与身份</a>
+      <ul>
+        <li><a href="#41提交前核对">4.1、提交前核对</a></li>
+        <li><a href="#42修改最后一次提交">4.2、修改最后一次提交</a></li>
+      </ul>
+    </li>
+    <li><a href="#五分支合并与冲突">五、分支、合并与冲突</a>
+      <ul>
+        <li><a href="#51分支是可移动引用">5.1、分支是可移动引用</a></li>
+        <li><a href="#52整合前先更新观察面">5.2、整合前先更新观察面</a></li>
+        <li><a href="#53冲突不是随机覆盖">5.3、冲突不是随机覆盖</a></li>
+      </ul>
+    </li>
+    <li><a href="#六撤销与恢复决策表">六、撤销与恢复决策表</a></li>
+    <li><a href="#七远端协作">七、远端协作</a>
+      <ul>
+        <li><a href="#71远端本地分支与远端跟踪引用">7.1、远端、本地分支与远端跟踪引用</a></li>
+        <li><a href="#72fetchpull-与-push">7.2、Fetch、Pull 与 Push</a></li>
+      </ul>
+    </li>
+    <li><a href="#八忽略规则属性与跨平台文件名">八、忽略规则、属性与跨平台文件名</a>
+      <ul>
+        <li><a href="#81三类忽略来源">8.1、三类忽略来源</a></li>
+        <li><a href="#82gitattributes">8.2、<code>.gitattributes</code></a></li>
+        <li><a href="#83大小写与-unicode">8.3、大小写与 Unicode</a></li>
+      </ul>
+    </li>
+    <li><a href="#九标签与发布点">九、标签与发布点</a></li>
+    <li><a href="#十可复核的日常流程">十、可复核的日常流程</a></li>
+    <li><a href="#十一官方资料">十一、官方资料</a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  <script src="../../../jobs-container-routes.js?v=1785830427"></script>
+
+<script>
+(function () {
+  function normalizePath(path) {
+    try {
+      return decodeURI(path);
+    } catch (error) {
+      return path;
+    }
+  }
+
+  function isContainerRoute(pathname) {
+    var currentPath = normalizePath(pathname);
+    var routes = window.JOBS_CONTAINER_ROUTES || [];
+
+    return routes.some(function (route) {
+      var routePath = normalizePath(new URL(route, window.location.origin).pathname);
+      return currentPath === routePath;
+    });
+  }
+
+  function disableContainerLinks() {
+    var routes = window.JOBS_CONTAINER_ROUTES || [];
+
+    routes.forEach(function (route) {
+      var routePath = normalizePath(new URL(route, window.location.origin).pathname);
+
+      document.querySelectorAll("a[href]").forEach(function (link) {
+        var linkPath = normalizePath(new URL(link.href, window.location.origin).pathname);
+
+        if (linkPath === routePath) {
+          link.classList.add("jobs-container-link");
+          link.setAttribute("aria-disabled", "true");
+          link.setAttribute("tabindex", "-1");
+        }
+      });
+    });
+  }
+
+  function removeUnsupportedRtfdMenuItems() {
+    document.querySelectorAll(".book-menu nav a[href]").forEach(function (link) {
+      var pathname = normalizePath(new URL(link.href, window.location.origin).pathname).toLowerCase();
+
+      if (pathname.indexOf("签名价格调研.rtfd") !== -1 || pathname.indexOf("%e7%ad%be%e5%90%8d%e4%bb%b7%e6%a0%bc%e8%b0%83%e7%a0%94.rtfd") !== -1) {
+        var item = link.closest("li");
+
+        if (item) {
+          item.remove();
+        }
+      }
+    });
+  }
+
+  function setupContainerClickGuard() {
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest && event.target.closest("a[href]");
+
+      if (!link) {
+        return;
+      }
+
+      var pathname = new URL(link.href, window.location.origin).pathname;
+
+      if (isContainerRoute(pathname)) {
+        event.preventDefault();
+        event.stopPropagation();
+        link.blur();
+      }
+    }, true);
+  }
+
+  function fixBrandIcon() {
+    var nextSrc = "\/icon.png?v=1785830427";
+
+    document.querySelectorAll(".jobs-brand-icon").forEach(function (img) {
+      img.setAttribute("src", nextSrc);
+      img.setAttribute("loading", "eager");
+      img.setAttribute("decoding", "sync");
+    });
+  }
+
+  function notifyShellMusic() {
+    try {
+      if (!window.parent || window.parent === window) {
+        return;
+      }
+
+      var parentMusic = window.parent.JobsDocsMusic;
+
+      if (parentMusic && typeof parentMusic.unlockFromFrame === "function") {
+        parentMusic.unlockFromFrame();
+        return;
+      }
+
+      window.parent.postMessage({ type: "jobsdocs:unlock-music" }, window.location.origin);
+    } catch (error) {
+      try {
+        window.parent.postMessage({ type: "jobsdocs:unlock-music" }, window.location.origin);
+      } catch (nestedError) {
+        
+      }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    fixBrandIcon();
+    removeUnsupportedRtfdMenuItems();
+    disableContainerLinks();
+    setupContainerClickGuard();
+  });
+
+  ["pointerdown", "click", "touchstart", "keydown"].forEach(function (eventName) {
+    document.addEventListener(eventName, notifyShellMusic, { capture: true });
+  });
+})();
+</script>
+
+<style>
+.jobs-container-link {
+  cursor: default !important;
+  pointer-events: auto !important;
+}
+
+.jobs-container-link:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+</style>
+
+
+
+<script src="../../../jobs-git-version.js?v=1785830427"></script>
+<script>
+(function () {
+  function postToShell(type, reason) {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage(
+          {
+            type: type,
+            reason: reason || type
+          },
+          window.location.origin
+        );
+      }
+    } catch (error) {}
+  }
+
+  function ensureGitVersionLabel() {
+    var brand = document.querySelector(".book-brand");
+
+    if (!brand) {
+      return;
+    }
+
+    var version = String(window.JOBS_DOCS_GIT_VERSION || "unknown").slice(0, 7);
+    var label = document.querySelector(".jobs-git-version");
+
+    if (!label) {
+      label = document.createElement("div");
+      label.className = "jobs-git-version";
+      brand.insertAdjacentElement("afterend", label);
+    }
+
+    label.textContent = "@" + version;
+  }
+
+  function hookMenuScroll() {
+    document.querySelectorAll(".book-menu, .book-menu-content").forEach(function (element) {
+      if (element.__jobsDocsV12MenuScrollHooked) {
+        return;
+      }
+
+      element.__jobsDocsV12MenuScrollHooked = true;
+
+      element.addEventListener("scroll", function () {
+        postToShell("jobsdocs:menu-scroll", "menu-scroll");
+      }, { passive: true });
+    });
+  }
+
+  function hookUserActionUnlock() {
+    [
+      "click",
+      "pointerdown",
+      "pointerup",
+      "touchstart",
+      "touchmove",
+      "touchend",
+      "mousedown",
+      "mouseup",
+      "keydown",
+      "wheel",
+      "scroll"
+    ].forEach(function (eventName) {
+      document.addEventListener(eventName, function () {
+        postToShell("jobsdocs:any-user-action", eventName);
+        postToShell("jobsdocs:unlock-music", eventName);
+      }, { capture: true, passive: true });
+    });
+  }
+
+  function boot() {
+    ensureGitVersionLabel();
+    hookMenuScroll();
+    postToShell("jobsdocs:layout-change", "boot");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+
+  window.addEventListener("load", boot);
+  window.addEventListener("resize", function () {
+    boot();
+    postToShell("jobsdocs:layout-change", "resize");
+  });
+
+  window.addEventListener("orientationchange", function () {
+    window.setTimeout(function () {
+      boot();
+      postToShell("jobsdocs:layout-change", "orientationchange");
+    }, 180);
+
+    window.setTimeout(function () {
+      boot();
+      postToShell("jobsdocs:layout-change", "orientationchange-late");
+    }, 420);
+  });
+
+  hookUserActionUnlock();
+})();
+</script>
+
+
+
+<script>
+(function () {
+  var lastNotifyAt = 0;
+  var shield = null;
+  var lastHeaderToggleAt = 0;
+  var lastHeaderToggleWhich = "";
+
+  function postToParent(type, reason) {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: type, reason: reason || type }, window.location.origin);
+      }
+    } catch (error) {}
+  }
+
+  function directParentPlay(reason) {
+    try {
+      if (window.parent && window.parent !== window && typeof window.parent.JobsDocsTryPlayMusic === "function") {
+        window.parent.JobsDocsTryPlayMusic("iframe:" + reason, true);
+      }
+    } catch (error) {}
+  }
+
+  function unlockMusic(reason, force) {
+    var now = Date.now();
+    if (!force && now - lastNotifyAt < 100) return;
+    lastNotifyAt = now;
+
+    directParentPlay(reason);
+    postToParent("jobsdocs:any-user-action", reason);
+    postToParent("jobsdocs:unlock-music", reason);
+  }
+
+  function menuControl() {
+    return document.getElementById("menu-control");
+  }
+
+  function tocControl() {
+    return document.getElementById("toc-control");
+  }
+
+  function menuButton() {
+    return document.querySelector('label[for="menu-control"]');
+  }
+
+  function tocButton() {
+    return document.querySelector('label[for="toc-control"]');
+  }
+
+  function isLeftOpen() {
+    var control = menuControl();
+    return !!(control && control.checked);
+  }
+
+  function isRightOpen() {
+    var control = tocControl();
+    return !!(control && control.checked);
+  }
+
+  function activePanel() {
+    if (isLeftOpen()) return document.querySelector(".book-menu");
+    if (isRightOpen()) return document.querySelector(".book-toc");
+    return null;
+  }
+
+  function normalizeTarget(target) {
+    if (!target) return null;
+    if (target.nodeType !== 1) return target.parentElement;
+    return target;
+  }
+
+  function isInsidePanel(target) {
+    target = normalizeTarget(target);
+    return !!(target && target.closest && target.closest(".book-menu, .book-toc"));
+  }
+
+  function isInsideActivePanel(target) {
+    target = normalizeTarget(target);
+    var panel = activePanel();
+    return !!(target && panel && panel.contains(target));
+  }
+
+  function isHeaderControl(target) {
+    target = normalizeTarget(target);
+    return !!(target && target.closest && target.closest('label[for="menu-control"], label[for="toc-control"]'));
+  }
+
+  function panelLink(target) {
+    target = normalizeTarget(target);
+    if (!target || !target.closest) return null;
+    return target.closest(".book-menu a, .book-toc a");
+  }
+
+  function ensureShield() {
+    if (shield && shield.parentNode) return shield;
+
+    shield = document.createElement("div");
+    shield.className = "jobs-panel-touch-shield";
+    shield.setAttribute("aria-hidden", "true");
+
+    ["click", "pointerdown", "touchstart", "wheel"].forEach(function (eventName) {
+      shield.addEventListener(eventName, function (event) {
+        unlockMusic("shield:" + eventName, true);
+        closePanels("shield-close");
+
+        if (event.cancelable) event.preventDefault();
+        event.stopPropagation();
+      }, { capture: true, passive: eventName !== "touchstart" && eventName !== "wheel" });
+    });
+
+    document.body.appendChild(shield);
+    return shield;
+  }
+
+  function removeShield() {
+    if (shield && shield.parentNode) shield.parentNode.removeChild(shield);
+  }
+
+  function focusPanel() {
+    var panel = activePanel();
+    if (!panel) return;
+
+    if (!panel.hasAttribute("tabindex")) panel.setAttribute("tabindex", "-1");
+
+    try {
+      panel.focus({ preventScroll: true });
+    } catch (error) {
+      try { panel.focus(); } catch (_) {}
+    }
+  }
+
+  function syncPanelState() {
+    var leftOpen = isLeftOpen();
+    var rightOpen = isRightOpen();
+    var anyOpen = leftOpen || rightOpen;
+
+    document.documentElement.classList.toggle("jobs-panel-open", anyOpen);
+    document.body.classList.toggle("jobs-panel-open", anyOpen);
+    document.documentElement.classList.toggle("jobs-left-panel-open", leftOpen);
+    document.body.classList.toggle("jobs-left-panel-open", leftOpen);
+    document.documentElement.classList.toggle("jobs-right-panel-open", rightOpen);
+    document.body.classList.toggle("jobs-right-panel-open", rightOpen);
+
+    if (anyOpen) {
+      ensureShield();
+      window.setTimeout(focusPanel, 0);
+    } else {
+      removeShield();
+    }
+
+    postToParent("jobsdocs:layout-change", anyOpen ? "panel-open" : "panel-close");
+  }
+
+  function closePanels(reason) {
+    var left = menuControl();
+    var right = tocControl();
+
+    if (left) left.checked = false;
+    if (right) right.checked = false;
+
+    syncPanelState();
+    unlockMusic(reason || "close-panels", true);
+  }
+
+  function togglePanel(which, reason) {
+    var left = menuControl();
+    var right = tocControl();
+
+    if (which === "left") {
+      if (!left) return;
+
+      var nextLeft = !left.checked;
+      left.checked = nextLeft;
+
+      if (right) right.checked = false;
+    }
+
+    if (which === "right") {
+      if (!right) return;
+
+      var nextRight = !right.checked;
+      right.checked = nextRight;
+
+      if (left) left.checked = false;
+    }
+
+    syncPanelState();
+    unlockMusic(reason || ("toggle-" + which), true);
+  }
+
+  function handleHeaderToggle(event, which) {
+    if (event.cancelable) event.preventDefault();
+    event.stopPropagation();
+    if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+
+    var now = Date.now();
+    if (lastHeaderToggleWhich === which && now - lastHeaderToggleAt < 260) {
+      unlockMusic("duplicate-header-" + which, true);
+      return;
+    }
+
+    lastHeaderToggleAt = now;
+    lastHeaderToggleWhich = which;
+
+    togglePanel(which, which + "-header-toggle");
+  }
+
+  function hookHeaderButtons() {
+    var leftButton = menuButton();
+    var rightButton = tocButton();
+
+    if (leftButton && !leftButton.__jobsDocsV18ManualToggleHooked) {
+      leftButton.__jobsDocsV18ManualToggleHooked = true;
+      leftButton.setAttribute("role", "button");
+      leftButton.setAttribute("tabindex", "0");
+
+      ["click", "pointerup", "touchend"].forEach(function (eventName) {
+        leftButton.addEventListener(eventName, function (event) {
+          handleHeaderToggle(event, "left");
+        }, true);
+      });
+
+      leftButton.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          handleHeaderToggle(event, "left");
+        }
+      }, true);
+    }
+
+    if (rightButton && !rightButton.__jobsDocsV18ManualToggleHooked) {
+      rightButton.__jobsDocsV18ManualToggleHooked = true;
+      rightButton.setAttribute("role", "button");
+      rightButton.setAttribute("tabindex", "0");
+
+      ["click", "pointerup", "touchend"].forEach(function (eventName) {
+        rightButton.addEventListener(eventName, function (event) {
+          handleHeaderToggle(event, "right");
+        }, true);
+      });
+
+      rightButton.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          handleHeaderToggle(event, "right");
+        }
+      }, true);
+    }
+  }
+
+  function hookPanelLinks() {
+    document.querySelectorAll(".book-menu a, .book-toc a").forEach(function (link) {
+      if (link.__jobsDocsV18PanelLinkHooked) return;
+
+      link.__jobsDocsV18PanelLinkHooked = true;
+
+      link.addEventListener("click", function () {
+        unlockMusic("panel-link-click", true);
+
+        window.setTimeout(function () {
+          closePanels("panel-link-close");
+        }, 0);
+      }, false);
+    });
+  }
+
+  function hookPanelScroll() {
+    document.querySelectorAll(".book-menu, .book-menu-content, .book-toc, .book-toc-content, .book-toc nav").forEach(function (element) {
+      if (element.__jobsDocsV18PanelScrollHooked) return;
+
+      element.__jobsDocsV18PanelScrollHooked = true;
+      element.addEventListener("scroll", function () {
+        unlockMusic("panel-scroll", true);
+        postToParent("jobsdocs:panel-scroll", "panel-scroll");
+      }, { passive: true });
+    });
+  }
+
+  function backgroundGuard(event) {
+    var strong = /touchstart|pointerdown|mousedown|click|keydown/.test(event.type);
+    unlockMusic(event.type, strong);
+
+    if (!isLeftOpen() && !isRightOpen()) return;
+
+    if (isHeaderControl(event.target)) return;
+
+    var link = panelLink(event.target);
+    if (link && isInsideActivePanel(link)) {
+      return;
+    }
+
+    if (isInsideActivePanel(event.target) || isInsidePanel(event.target)) {
+      return;
+    }
+
+    closePanels("outside-" + event.type);
+
+    if (event.cancelable) event.preventDefault();
+    event.stopPropagation();
+  }
+
+  function bindBackgroundGuards() {
+    if (document.__jobsDocsV18BackgroundGuardsHooked) return;
+    document.__jobsDocsV18BackgroundGuardsHooked = true;
+
+    ["pointerdown", "touchstart", "click", "wheel", "touchmove"].forEach(function (eventName) {
+      document.addEventListener(eventName, backgroundGuard, { capture: true, passive: false });
+    });
+  }
+
+  function bindAnyAction(target, label) {
+    if (!target || target.__jobsDocsV18AnyActionHooked) return;
+    target.__jobsDocsV18AnyActionHooked = true;
+
+    ["click", "pointerdown", "pointerup", "touchstart", "touchmove", "touchend", "mousedown", "mouseup", "keydown", "wheel", "scroll"].forEach(function (eventName) {
+      target.addEventListener(eventName, function () {
+        var strong = /touchstart|pointerdown|mousedown|click|keydown/.test(eventName);
+        unlockMusic(label + ":" + eventName, strong);
+      }, { capture: true, passive: true });
+    });
+  }
+
+  function boot() {
+    hookHeaderButtons();
+    hookPanelLinks();
+    hookPanelScroll();
+    bindBackgroundGuards();
+
+    bindAnyAction(window, "window");
+    bindAnyAction(document, "document");
+    bindAnyAction(document.documentElement, "html");
+    bindAnyAction(document.body, "body");
+
+    document.querySelectorAll(".book-page, main, .book-menu, .book-menu-content, .book-toc, .book-toc-content").forEach(function (element) {
+      bindAnyAction(element, element.className || element.tagName || "element");
+    });
+
+    syncPanelState();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+
+  window.addEventListener("load", boot);
+  window.addEventListener("pageshow", boot);
+  window.addEventListener("resize", function () {
+    boot();
+    postToParent("jobsdocs:layout-change", "resize");
+  });
+
+  window.addEventListener("orientationchange", function () {
+    window.setTimeout(boot, 180);
+    window.setTimeout(boot, 420);
+  });
+})();
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

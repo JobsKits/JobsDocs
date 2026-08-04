@@ -10,9 +10,16 @@
 		
 		
 		
-			<lastBuildDate>Mon, 01 Jun 2026 05:08:26 +0800</lastBuildDate>
+			<lastBuildDate>Tue, 04 Aug 2026 15:56:10 +0800</lastBuildDate>
 		
 			<atom:link href="http://localhost:1313/docs/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>JobsDocs 知识库审计台账</title>
+				<link>http://localhost:1313/docs/jobsdocs-%E7%9F%A5%E8%AF%86%E5%BA%93%E5%AE%A1%E8%AE%A1%E5%8F%B0%E8%B4%A6/</link>
+				<pubDate>Tue, 04 Aug 2026 15:56:10 +0800</pubDate>
+				<guid>http://localhost:1313/docs/jobsdocs-%E7%9F%A5%E8%AF%86%E5%BA%93%E5%AE%A1%E8%AE%A1%E5%8F%B0%E8%B4%A6/</guid>
+				<description>&lt;h2 id=&#34;一审计目标-本台账用于持续记录-jobsdocs-的查漏补缺进度审计标准不是作者目前知道什么而是尽量还原知识对象本身的边界前提例外和失败模式并让读者能够验证执行诊断和恢复-任何主题只有同时满足下列条件才标记为已审计-1-事实正确命令参数对象关系和因果表述能够被官方文档标准源码或可复现实验支持-2-范围完整&#34;&gt;一、审计目标 本台账用于持续记录 JobsDocs 的查漏补缺进度。审计标准不是“作者目前知道什么”，而是尽量还原知识对象本身的边界、前提、例外和失败模式，并让读者能够验证、执行、诊断和恢复。 任何主题只有同时满足下列条件，才标记为“已审计”： 1. 事实正确：命令、参数、对象关系和因果表述能够被官方文档、标准、源码或可复现实验支持。 2. 范围完整：&lt;a class=&#34;anchor&#34; href=&#34;#%e4%b8%80%e5%ae%a1%e8%ae%a1%e7%9b%ae%e6%a0%87-%e6%9c%ac%e5%8f%b0%e8%b4%a6%e7%94%a8%e4%ba%8e%e6%8c%81%e7%bb%ad%e8%ae%b0%e5%bd%95-jobsdocs-%e7%9a%84%e6%9f%a5%e6%bc%8f%e8%a1%a5%e7%bc%ba%e8%bf%9b%e5%ba%a6%e5%ae%a1%e8%ae%a1%e6%a0%87%e5%87%86%e4%b8%8d%e6%98%af%e4%bd%9c%e8%80%85%e7%9b%ae%e5%89%8d%e7%9f%a5%e9%81%93%e4%bb%80%e4%b9%88%e8%80%8c%e6%98%af%e5%b0%bd%e9%87%8f%e8%bf%98%e5%8e%9f%e7%9f%a5%e8%af%86%e5%af%b9%e8%b1%a1%e6%9c%ac%e8%ba%ab%e7%9a%84%e8%be%b9%e7%95%8c%e5%89%8d%e6%8f%90%e4%be%8b%e5%a4%96%e5%92%8c%e5%a4%b1%e8%b4%a5%e6%a8%a1%e5%bc%8f%e5%b9%b6%e8%ae%a9%e8%af%bb%e8%80%85%e8%83%bd%e5%a4%9f%e9%aa%8c%e8%af%81%e6%89%a7%e8%a1%8c%e8%af%8a%e6%96%ad%e5%92%8c%e6%81%a2%e5%a4%8d-%e4%bb%bb%e4%bd%95%e4%b8%bb%e9%a2%98%e5%8f%aa%e6%9c%89%e5%90%8c%e6%97%b6%e6%bb%a1%e8%b6%b3%e4%b8%8b%e5%88%97%e6%9d%a1%e4%bb%b6%e6%89%8d%e6%a0%87%e8%ae%b0%e4%b8%ba%e5%b7%b2%e5%ae%a1%e8%ae%a1-1-%e4%ba%8b%e5%ae%9e%e6%ad%a3%e7%a1%ae%e5%91%bd%e4%bb%a4%e5%8f%82%e6%95%b0%e5%af%b9%e8%b1%a1%e5%85%b3%e7%b3%bb%e5%92%8c%e5%9b%a0%e6%9e%9c%e8%a1%a8%e8%bf%b0%e8%83%bd%e5%a4%9f%e8%a2%ab%e5%ae%98%e6%96%b9%e6%96%87%e6%a1%a3%e6%a0%87%e5%87%86%e6%ba%90%e7%a0%81%e6%88%96%e5%8f%af%e5%a4%8d%e7%8e%b0%e5%ae%9e%e9%aa%8c%e6%94%af%e6%8c%81-2-%e8%8c%83%e5%9b%b4%e5%ae%8c%e6%95%b4&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;</description>
+			</item>
 			<item>
 				<title>足球盘口学习</title>
 				<link>http://localhost:1313/docs/%E8%B6%B3%E7%90%83%E7%9B%98%E5%8F%A3%E5%AD%A6%E4%B9%A0/</link>
@@ -23,28 +30,42 @@
 			<item>
 				<title>MacOS_Web服务器学习</title>
 				<link>http://localhost:1313/docs/macos_web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
-				<pubDate>Mon, 01 Jun 2026 05:08:26 +0800</pubDate>
+				<pubDate>Sun, 28 Jun 2026 15:48:06 +0800</pubDate>
 				<guid>http://localhost:1313/docs/macos_web%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
 				<description>一、前言 资料来源 Apache 、Tomcat、Nginx的区别 MacOS 自带tomcat和apache，但是建议都用brew重新下载进行额外的管理 查找用Homebrew管理的软件的安装路径（以tomat为例） ## 二、tomcat ### 1、tomcat的安装 ### 2、tomcat的开启/关闭/重启 进入tomcat安装目录下的libexe</description>
 			</item>
 			<item>
+				<title>iOS 逆向工程入门：目标、术语、工具与合规实验路线</title>
+				<link>http://localhost:1313/docs/ios-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8%E7%9B%AE%E6%A0%87%E6%9C%AF%E8%AF%AD%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%90%88%E8%A7%84%E5%AE%9E%E9%AA%8C%E8%B7%AF%E7%BA%BF/</link>
+				<pubDate>Tue, 04 Aug 2026 15:56:10 +0800</pubDate>
+				<guid>http://localhost:1313/docs/ios-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8%E7%9B%AE%E6%A0%87%E6%9C%AF%E8%AF%AD%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%90%88%E8%A7%84%E5%AE%9E%E9%AA%8C%E8%B7%AF%E7%BA%BF/</guid>
+				<description>&lt;h2 id=&#34;-前言--ios-逆向工程不是天然违法也不等于破解它是一组在缺少完整源码调试信息或设计文档时通过二进制运行状态日志和系统行为理解软件的技术是否合法取决于目标归属授权范围所在地法律软件协议知识产权隐私数据以及是否绕过访问控制本篇不是法律意见所有实验只针对自己编写的-app公开教学样本模拟器或书面授权目标-本文面&#34;&gt;🔥 前言 &amp;gt; iOS 逆向工程不是天然违法，也不等于“破解”。它是一组在缺少完整源码、调试信息或设计文档时，通过二进制、运行状态、日志和系统行为理解软件的技术。是否合法，取决于目标归属、授权范围、所在地法律、软件协议、知识产权、隐私数据以及是否绕过访问控制。本篇不是法律意见，所有实验只针对自己编写的 App、公开教学样本、模拟器或书面授权目标。 本文面&lt;a class=&#34;anchor&#34; href=&#34;#-%e5%89%8d%e8%a8%80--ios-%e9%80%86%e5%90%91%e5%b7%a5%e7%a8%8b%e4%b8%8d%e6%98%af%e5%a4%a9%e7%84%b6%e8%bf%9d%e6%b3%95%e4%b9%9f%e4%b8%8d%e7%ad%89%e4%ba%8e%e7%a0%b4%e8%a7%a3%e5%ae%83%e6%98%af%e4%b8%80%e7%bb%84%e5%9c%a8%e7%bc%ba%e5%b0%91%e5%ae%8c%e6%95%b4%e6%ba%90%e7%a0%81%e8%b0%83%e8%af%95%e4%bf%a1%e6%81%af%e6%88%96%e8%ae%be%e8%ae%a1%e6%96%87%e6%a1%a3%e6%97%b6%e9%80%9a%e8%bf%87%e4%ba%8c%e8%bf%9b%e5%88%b6%e8%bf%90%e8%a1%8c%e7%8a%b6%e6%80%81%e6%97%a5%e5%bf%97%e5%92%8c%e7%b3%bb%e7%bb%9f%e8%a1%8c%e4%b8%ba%e7%90%86%e8%a7%a3%e8%bd%af%e4%bb%b6%e7%9a%84%e6%8a%80%e6%9c%af%e6%98%af%e5%90%a6%e5%90%88%e6%b3%95%e5%8f%96%e5%86%b3%e4%ba%8e%e7%9b%ae%e6%a0%87%e5%bd%92%e5%b1%9e%e6%8e%88%e6%9d%83%e8%8c%83%e5%9b%b4%e6%89%80%e5%9c%a8%e5%9c%b0%e6%b3%95%e5%be%8b%e8%bd%af%e4%bb%b6%e5%8d%8f%e8%ae%ae%e7%9f%a5%e8%af%86%e4%ba%a7%e6%9d%83%e9%9a%90%e7%a7%81%e6%95%b0%e6%8d%ae%e4%bb%a5%e5%8f%8a%e6%98%af%e5%90%a6%e7%bb%95%e8%bf%87%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e6%9c%ac%e7%af%87%e4%b8%8d%e6%98%af%e6%b3%95%e5%be%8b%e6%84%8f%e8%a7%81%e6%89%80%e6%9c%89%e5%ae%9e%e9%aa%8c%e5%8f%aa%e9%92%88%e5%af%b9%e8%87%aa%e5%b7%b1%e7%bc%96%e5%86%99%e7%9a%84-app%e5%85%ac%e5%bc%80%e6%95%99%e5%ad%a6%e6%a0%b7%e6%9c%ac%e6%a8%a1%e6%8b%9f%e5%99%a8%e6%88%96%e4%b9%a6%e9%9d%a2%e6%8e%88%e6%9d%83%e7%9b%ae%e6%a0%87-%e6%9c%ac%e6%96%87%e9%9d%a2&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;</description>
+			</item>
+			<item>
 				<title>Shell脚本代码片段</title>
 				<link>http://localhost:1313/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</link>
-				<pubDate>Mon, 01 Jun 2026 05:08:26 +0800</pubDate>
+				<pubDate>Sun, 28 Jun 2026 15:48:06 +0800</pubDate>
 				<guid>http://localhost:1313/docs/shell%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</guid>
 				<description>🔥 前言 虽然Shell脚本晦涩难懂，但相较于python等脚本，因为减少了一层系统封装调用，所以使得shell脚本具有更大的普适度 不会因为第三方Api更新而影响使用 也降低了某些潜在的兼容性等Bug的出现几率 增强了代码执行的效率 为了更好的规避Shell脚本的晦涩难懂，特此文件记录一些高频需求涉及到的Shell脚本代码片段 本文件下所有的Shell脚本</description>
 			</item>
 			<item>
+				<title>FFmpeg 8.1.2 架构、核心源码函数与面试手册</title>
+				<link>http://localhost:1313/docs/ffmpeg-8.1.2-%E6%9E%B6%E6%9E%84%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E5%87%BD%E6%95%B0%E4%B8%8E%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%8C/</link>
+				<pubDate>Tue, 04 Aug 2026 15:56:10 +0800</pubDate>
+				<guid>http://localhost:1313/docs/ffmpeg-8.1.2-%E6%9E%B6%E6%9E%84%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E5%87%BD%E6%95%B0%E4%B8%8E%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%8C/</guid>
+				<description>&lt;h2 id=&#34;-前言--这不是一份只教命令的速查表而是一份面向音视频面试源码追问和工程落地的-ffmpeg-手册阅读主线是先能说清整体架构再能画出数据流最后能解释关键结构体关键函数状态机时间戳和平台打包---文档版本基线ffmpeg-812-hoare---ffmpeg-发布日期2026-06-17---文档版本核验日期20&#34;&gt;🔥 前言 &amp;gt; 这不是一份只教命令的速查表，而是一份面向音视频面试、源码追问和工程落地的 FFmpeg 手册。阅读主线是：先能说清整体架构，再能画出数据流，最后能解释关键结构体、关键函数、状态机、时间戳和平台打包。 - 文档版本基线：FFmpeg 8.1.2 &amp;ldquo;Hoare&amp;rdquo;。 - FFmpeg 发布日期：2026-06-17。 - 文档版本核验日期：20&lt;a class=&#34;anchor&#34; href=&#34;#-%e5%89%8d%e8%a8%80--%e8%bf%99%e4%b8%8d%e6%98%af%e4%b8%80%e4%bb%bd%e5%8f%aa%e6%95%99%e5%91%bd%e4%bb%a4%e7%9a%84%e9%80%9f%e6%9f%a5%e8%a1%a8%e8%80%8c%e6%98%af%e4%b8%80%e4%bb%bd%e9%9d%a2%e5%90%91%e9%9f%b3%e8%a7%86%e9%a2%91%e9%9d%a2%e8%af%95%e6%ba%90%e7%a0%81%e8%bf%bd%e9%97%ae%e5%92%8c%e5%b7%a5%e7%a8%8b%e8%90%bd%e5%9c%b0%e7%9a%84-ffmpeg-%e6%89%8b%e5%86%8c%e9%98%85%e8%af%bb%e4%b8%bb%e7%ba%bf%e6%98%af%e5%85%88%e8%83%bd%e8%af%b4%e6%b8%85%e6%95%b4%e4%bd%93%e6%9e%b6%e6%9e%84%e5%86%8d%e8%83%bd%e7%94%bb%e5%87%ba%e6%95%b0%e6%8d%ae%e6%b5%81%e6%9c%80%e5%90%8e%e8%83%bd%e8%a7%a3%e9%87%8a%e5%85%b3%e9%94%ae%e7%bb%93%e6%9e%84%e4%bd%93%e5%85%b3%e9%94%ae%e5%87%bd%e6%95%b0%e7%8a%b6%e6%80%81%e6%9c%ba%e6%97%b6%e9%97%b4%e6%88%b3%e5%92%8c%e5%b9%b3%e5%8f%b0%e6%89%93%e5%8c%85---%e6%96%87%e6%a1%a3%e7%89%88%e6%9c%ac%e5%9f%ba%e7%ba%bfffmpeg-812-hoare---ffmpeg-%e5%8f%91%e5%b8%83%e6%97%a5%e6%9c%9f2026-06-17---%e6%96%87%e6%a1%a3%e7%89%88%e6%9c%ac%e6%a0%b8%e9%aa%8c%e6%97%a5%e6%9c%9f20&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;</description>
+			</item>
+			<item>
 				<title>ReactNative</title>
 				<link>http://localhost:1313/docs/reactnative/</link>
-				<pubDate>Mon, 01 Jun 2026 05:08:26 +0800</pubDate>
+				<pubDate>Sun, 28 Jun 2026 15:48:06 +0800</pubDate>
 				<guid>http://localhost:1313/docs/reactnative/</guid>
 				<description>当前总行数：366 行 ## 一、基础知识 脚本语言：必须在自己的环境下（解释器）运行，不能完全对接操作系统。比如，.js需要在操作系统里面安装了Node.js以后，才可以运行； ## 二、一些工具 ### 1、Node.js Node.js：是一个基于 Chrome V8 引擎的 JavaScript 运行环境。它的特点如下: 事件驱动与非阻塞I/O模型</description>
 			</item>
 			<item>
 				<title>CMake</title>
 				<link>http://localhost:1313/docs/cmake/</link>
-				<pubDate>Mon, 01 Jun 2026 05:08:26 +0800</pubDate>
+				<pubDate>Sun, 28 Jun 2026 15:48:06 +0800</pubDate>
 				<guid>http://localhost:1313/docs/cmake/</guid>
 				<description>构建 在软件开发中，“构建”指的是将源代码转换为可执行文件、库或其他分发格式的过程。这通常包括编译源代码、链接库和生成最终的可执行文件。构建系统是用于自动化和管理这一过程的工具。 构建的过程：（以下是构建过程的一般步骤） 编译（Compile）： 将源代码文件（如 .cpp 或 .c 文件）转换为目标文件（.o 或 .obj 文件）。这一步通常由编译器（如</description>
 			</item>
@@ -72,7 +93,7 @@
 			<item>
 				<title>利用Quicktype自动建立数据模型</title>
 				<link>http://localhost:1313/docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/</link>
-				<pubDate>Mon, 01 Jun 2026 05:08:26 +0800</pubDate>
+				<pubDate>Sun, 28 Jun 2026 15:48:06 +0800</pubDate>
 				<guid>http://localhost:1313/docs/%E5%88%A9%E7%94%A8quicktype%E8%87%AA%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/</guid>
 				<description>quicktype@网页端 ## 一、安装 &amp;gt; ``shell &amp;gt; quicktype &amp;ndash;version # 验证安装 &amp;gt; ` ### 1、手动安装 利用npm安装 利用Homebrew安装 ### 2、脚本安装 ## 二、在.zshrc里面配置全局函数 ### 使用方式 路径定位于目标文件夹，使用如下命令 qt qt swift qt dart 当目标文</description>
 			</item>

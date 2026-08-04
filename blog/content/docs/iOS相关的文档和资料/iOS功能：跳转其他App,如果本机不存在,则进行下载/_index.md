@@ -2,7 +2,7 @@
 title: "iOS功能：跳转其他App,如果本机不存在,则进行下载"
 date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 330
+weight: 350
 summary: "1、资料来源 https://www.jianshu.com/p/5d813fbba559 ## 2、跳转对方App的方法 ## 3、对方App跳转自己App的方法"
 bookCollapseSection: false
 ---
