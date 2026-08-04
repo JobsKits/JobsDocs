@@ -2,7 +2,7 @@
 title: "谁说HTTP GET就不能通过Body来发送数据呢？"
 date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 440
+weight: 320
 summary: "https://juejin.cn/post/6844903685206573069"
 bookCollapseSection: false
 ---

@@ -129,6 +129,153 @@
 </style>
 
 
+<!-- jobsdocs-theme-runtime -->
+<button id="jobs-theme-toggle" class="jobs-theme-toggle" type="button">
+  <span class="jobs-theme-toggle-label">黑夜模式</span>
+</button>
+<script>
+(function () {
+  var bootstrap = window.JOBS_DOCS_THEME_BOOTSTRAP || {};
+  var storageKey = bootstrap.storageKey || "jobsdocs.theme";
+  var root = document.documentElement;
+  var mediaQuery = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  var button = null;
+
+  function normalizeTheme(theme) {
+    return theme === "dark" || theme === "light" ? theme : null;
+  }
+
+  function readStoredTheme() {
+    try {
+      return normalizeTheme(window.localStorage.getItem(storageKey));
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function systemTheme() {
+    return mediaQuery && mediaQuery.matches ? "dark" : "light";
+  }
+
+  function updateThemeColor(theme) {
+    var meta = document.querySelector('meta[name="theme-color"][data-jobs-theme-color]');
+
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "theme-color";
+      meta.setAttribute("data-jobs-theme-color", "true");
+      document.head.appendChild(meta);
+    }
+
+    meta.content = theme === "dark" ? "#0f172a" : "#f4f7fb";
+  }
+
+  function syncButton(theme) {
+    if (!button) {
+      return;
+    }
+
+    var nextThemeName = theme === "dark" ? "白天模式" : "黑夜模式";
+    var label = button.querySelector(".jobs-theme-toggle-label");
+
+    if (label) {
+      label.textContent = nextThemeName;
+    }
+
+    button.setAttribute("aria-label", "切换为" + nextThemeName);
+    button.setAttribute("title", "切换为" + nextThemeName);
+    button.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+  }
+
+  function applyTheme(theme, persist) {
+    var nextTheme = normalizeTheme(theme) || systemTheme();
+
+    root.setAttribute("data-jobs-theme", nextTheme);
+    root.style.colorScheme = nextTheme;
+
+    if (document.body) {
+      document.body.classList.toggle("dark", nextTheme === "dark");
+      document.body.classList.toggle("light", nextTheme === "light");
+    }
+
+    if (persist) {
+      try {
+        window.localStorage.setItem(storageKey, nextTheme);
+      } catch (error) {}
+    }
+
+    updateThemeColor(nextTheme);
+    syncButton(nextTheme);
+    return nextTheme;
+  }
+
+  function notifyParent(theme) {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: "jobsdocs:theme-changed", theme: theme }, window.location.origin);
+      }
+    } catch (error) {}
+  }
+
+  function toggleTheme() {
+    var currentTheme = normalizeTheme(root.getAttribute("data-jobs-theme")) || systemTheme();
+    var nextTheme = applyTheme(currentTheme === "dark" ? "light" : "dark", true);
+
+    notifyParent(nextTheme);
+  }
+
+  function boot() {
+    button = document.getElementById("jobs-theme-toggle");
+
+    if (button) {
+      button.hidden = window.parent !== window;
+
+      if (!button.__jobsThemeHooked) {
+        button.__jobsThemeHooked = true;
+        button.addEventListener("click", toggleTheme);
+      }
+    }
+
+    applyTheme(readStoredTheme() || bootstrap.theme || systemTheme(), false);
+  }
+
+  window.addEventListener("message", function (event) {
+    if (event.origin !== window.location.origin || !event.data || event.data.type !== "jobsdocs:set-theme") {
+      return;
+    }
+
+    applyTheme(event.data.theme, false);
+  });
+
+  window.addEventListener("storage", function (event) {
+    if (event.key === storageKey) {
+      applyTheme(normalizeTheme(event.newValue) || systemTheme(), false);
+    }
+  });
+
+  if (mediaQuery) {
+    var handleSystemThemeChange = function () {
+      if (!readStoredTheme()) {
+        applyTheme(systemTheme(), false);
+      }
+    };
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", handleSystemThemeChange);
+    } else if (typeof mediaQuery.addListener === "function") {
+      mediaQuery.addListener(handleSystemThemeChange);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+<!-- /jobsdocs-theme-runtime -->
+
 <!-- jobsdocs-v12-runtime -->
 <script src="{{ "jobs-git-version.js" | relURL }}?v={{ now.Unix }}"></script>
 <script>

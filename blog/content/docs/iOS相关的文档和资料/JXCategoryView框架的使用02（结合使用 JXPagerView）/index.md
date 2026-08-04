@@ -2,7 +2,7 @@
 title: "JXCategoryView框架的使用02（结合使用 JXPagerView）"
 date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 60
+weight: 500
 summary: "当前总行数：0 行 一些共同的准备工作 Demo = JXPagerView + JXCategoryView 用JXPagerView管理的区别："
 bookCollapseSection: false
 ---

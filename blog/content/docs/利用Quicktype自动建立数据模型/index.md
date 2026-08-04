@@ -2,7 +2,7 @@
 title: "利用Quicktype自动建立数据模型"
 date: 2026-06-28T15:48:06+08:00
 draft: false
-weight: 780
+weight: 830
 summary: "quicktype@网页端 ## 一、安装 > ``shell > quicktype --version # 验证安装 > ` ### 1、手动安装 利用npm安装 利用Homebrew安装 ### 2、脚本安装 ## 二、在.zshrc里面配置全局函数 ### 使用方式 路径定位于目标文件夹，使用如下命令 qt qt swift qt dart 当目标文"
 bookCollapseSection: false
 ---

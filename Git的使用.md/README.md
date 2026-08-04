@@ -34,7 +34,7 @@ flowchart TD
   B -->|Push| F[权限、保护规则与非快进]
   C --> G{是否含子模块}
   G -->|是| H[gitlink、.gitmodules 与子模块工作树]
-  G -->|否| I[锁、冲突、Hook、签名、身份]
+  G -->|否| I[index.lock、冲突、Hook、签名、身份]
   D --> J{是否出现 refs/remotes 路径冲突}
   J -->|是| K[远端引用 D/F 或大小写碰撞]
   J -->|否| L[网络、代理、SSH、Token、权限]
@@ -54,6 +54,7 @@ flowchart TD
 
 - `git fetch` 与 `git pull` 不是同一动作：Fetch 下载对象并更新远端跟踪引用；Pull 在 Fetch 之后还会把远端历史整合进当前分支。
 - `git add` 修改索引，`git commit` 从索引创建提交。界面显示“无法 Commit”时，根因经常发生在暂存阶段，而不是提交对象创建阶段。
+- 遇到 `.git/index.lock` 时不能直接删除：先确认锁文件没有被进程持有、同一仓库没有 Git 索引写进程，再把残留锁移动到 `.git/jobs-stale-lock-backups/` 留档；Jobs Commit 修复动作会按这个边界自动处理。
 - `git reset --hard` 会让工作区和索引匹配目标提交；`git clean` 会删除未跟踪内容。没有确认可恢复来源前，不把它们当通用修复命令。
 - 强制推送优先使用带明确预期值的 `--force-with-lease=<分支>:<预期提交>`；裸 `--force` 可能覆盖他人已经推送的提交。
 
@@ -67,7 +68,7 @@ flowchart TD
 
 ## 五、维护规则
 
-- 修复脚本新增一种错误识别、状态变更或安全边界时，同步更新故障手册。
+- 修复脚本新增一种错误识别、状态变更或安全边界时，同步更新故障手册与本知识地图的行为摘要。
 - Git、GitHub Actions、Node.js、SSH 或 Sourcetree 上游行为变化时，先核对官方文档，再更新示例版本和结论。
 - 危险命令必须同时说明影响对象、恢复条件和更安全替代方案。
 - 示例中的邮箱、仓库名、Token、SSH 公钥和提交 ID 使用占位符；不得把私人凭据或可复用秘密写进文档。

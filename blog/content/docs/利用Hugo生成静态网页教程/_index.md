@@ -2,7 +2,7 @@
 title: "利用Hugo生成静态网页教程"
 date: 2026-06-28T15:48:06+08:00
 draft: false
-weight: 550
+weight: 820
 summary: "Hugo中文文档 ## 一、核心特点 > 没有后端、没有数据库、速度极快 ## 1、环境配置 推荐终端：Oh-My-Zsh Homebrew ## 2、安装配置 推荐利用Homebrew自动安装配置Hugo 验证 ## 3、生成站点 hugo new site JobsBlog 目录结构 ### 3.2、创建一些页面资源 创建文章页面 创建第一篇文章，放到 "
 bookCollapseSection: false
 ---

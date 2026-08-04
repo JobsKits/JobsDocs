@@ -13,6 +13,30 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a">
   <meta name="color-scheme" content="light dark">
 
+  <script>
+    (function () {
+      var storageKey = "jobsdocs.theme";
+      var storedTheme = null;
+
+      try {
+        storedTheme = window.localStorage.getItem(storageKey);
+      } catch (error) {}
+
+      if (storedTheme !== "light" && storedTheme !== "dark") {
+        storedTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      }
+
+      document.documentElement.setAttribute("data-jobs-theme", storedTheme);
+      document.documentElement.style.colorScheme = storedTheme;
+      window.JOBS_DOCS_THEME_BOOTSTRAP = {
+        storageKey: storageKey,
+        theme: storedTheme
+      };
+    })();
+  </script>
+
   <style>
     :root {
       color-scheme: light dark;
@@ -37,6 +61,28 @@
         --jobs-player-title: #f9fafb;
         --jobs-player-hint: #cbd5e1;
       }
+    }
+
+    :root[data-jobs-theme="light"] {
+      color-scheme: light;
+      --jobs-shell-bg: #f4f7fb;
+      --jobs-frame-bg: #f4f7fb;
+      --jobs-player-bg: rgba(255, 255, 255, 0.94);
+      --jobs-player-border: rgba(219, 228, 238, 0.95);
+      --jobs-player-shadow: 0 12px 34px rgba(15, 23, 42, 0.16);
+      --jobs-player-title: #1f2937;
+      --jobs-player-hint: #64748b;
+    }
+
+    :root[data-jobs-theme="dark"] {
+      color-scheme: dark;
+      --jobs-shell-bg: #0f172a;
+      --jobs-frame-bg: #0f172a;
+      --jobs-player-bg: rgba(17, 24, 39, 0.94);
+      --jobs-player-border: rgba(51, 65, 85, 0.95);
+      --jobs-player-shadow: 0 16px 38px rgba(0, 0, 0, 0.38);
+      --jobs-player-title: #f9fafb;
+      --jobs-player-hint: #cbd5e1;
     }
 
     html,
@@ -170,6 +216,60 @@
 
       .jobs-audio-player audio {
         height: 34px;
+      }
+    }
+
+    .jobs-theme-toggle {
+      position: fixed;
+      right: max(18px, env(safe-area-inset-right, 0px));
+      bottom: max(18px, env(safe-area-inset-bottom, 0px));
+      z-index: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 96px;
+      min-height: 46px;
+      padding: 10px 16px;
+      border: 1px solid var(--jobs-player-border);
+      border-radius: 999px;
+      background: var(--jobs-player-bg);
+      color: var(--jobs-player-title);
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: var(--jobs-player-shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+    }
+
+    .jobs-theme-toggle:hover {
+      border-color: #60a5fa;
+      transform: translateY(-2px);
+    }
+
+    .jobs-theme-toggle:focus-visible {
+      outline: 3px solid rgba(59, 130, 246, 0.42);
+      outline-offset: 3px;
+    }
+
+    @media screen and (max-width: 56rem) {
+      .jobs-theme-toggle {
+        right: max(12px, env(safe-area-inset-right, 0px));
+        bottom: max(12px, env(safe-area-inset-bottom, 0px));
+        min-width: 88px;
+        min-height: 44px;
+        padding: 9px 14px;
+        font-size: 0.82rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .jobs-theme-toggle {
+        transition: none;
       }
     }
 
@@ -330,6 +430,10 @@
     {{- end }}
   </div>
 
+  <button id="jobs-theme-toggle" class="jobs-theme-toggle" type="button">
+    <span class="jobs-theme-toggle-label">黑夜模式</span>
+  </button>
+
   <div id="jobs-audio-player" class="jobs-audio-player is-waiting-gesture is-floating" aria-label="背景音乐控制台">
     <div class="jobs-audio-head" title="拖动音乐控制台">
       <div class="jobs-audio-title">🎵 With an Orchid</div>
@@ -341,6 +445,137 @@
       当前浏览器不支持 audio 标签。
     </audio>
   </div>
+
+  <script>
+    (function () {
+      var bootstrap = window.JOBS_DOCS_THEME_BOOTSTRAP || {};
+      var storageKey = bootstrap.storageKey || "jobsdocs.theme";
+      var root = document.documentElement;
+      var mediaQuery = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+      var frame = document.getElementById("jobs-docs-frame");
+      var button = document.getElementById("jobs-theme-toggle");
+
+      function normalizeTheme(theme) {
+        return theme === "dark" || theme === "light" ? theme : null;
+      }
+
+      function readStoredTheme() {
+        try {
+          return normalizeTheme(window.localStorage.getItem(storageKey));
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function systemTheme() {
+        return mediaQuery && mediaQuery.matches ? "dark" : "light";
+      }
+
+      function updateThemeColor(theme) {
+        var meta = document.querySelector('meta[name="theme-color"][data-jobs-theme-color]');
+
+        if (!meta) {
+          meta = document.createElement("meta");
+          meta.name = "theme-color";
+          meta.setAttribute("data-jobs-theme-color", "true");
+          document.head.appendChild(meta);
+        }
+
+        meta.content = theme === "dark" ? "#0f172a" : "#f4f7fb";
+      }
+
+      function syncButton(theme) {
+        if (!button) {
+          return;
+        }
+
+        var nextThemeName = theme === "dark" ? "白天模式" : "黑夜模式";
+        var label = button.querySelector(".jobs-theme-toggle-label");
+
+        if (label) {
+          label.textContent = nextThemeName;
+        }
+
+        button.setAttribute("aria-label", "切换为" + nextThemeName);
+        button.setAttribute("title", "切换为" + nextThemeName);
+        button.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+      }
+
+      function sendThemeToFrame(theme) {
+        try {
+          if (frame && frame.contentWindow) {
+            frame.contentWindow.postMessage({ type: "jobsdocs:set-theme", theme: theme }, window.location.origin);
+          }
+        } catch (error) {}
+      }
+
+      function applyTheme(theme, persist, notifyFrame) {
+        var nextTheme = normalizeTheme(theme) || systemTheme();
+
+        root.setAttribute("data-jobs-theme", nextTheme);
+        root.style.colorScheme = nextTheme;
+
+        if (persist) {
+          try {
+            window.localStorage.setItem(storageKey, nextTheme);
+          } catch (error) {}
+        }
+
+        updateThemeColor(nextTheme);
+        syncButton(nextTheme);
+
+        if (notifyFrame) {
+          sendThemeToFrame(nextTheme);
+        }
+
+        return nextTheme;
+      }
+
+      if (button) {
+        button.addEventListener("click", function () {
+          var currentTheme = normalizeTheme(root.getAttribute("data-jobs-theme")) || systemTheme();
+
+          applyTheme(currentTheme === "dark" ? "light" : "dark", true, true);
+        });
+      }
+
+      if (frame) {
+        frame.addEventListener("load", function () {
+          sendThemeToFrame(normalizeTheme(root.getAttribute("data-jobs-theme")) || systemTheme());
+        });
+      }
+
+      window.addEventListener("message", function (event) {
+        if (event.origin !== window.location.origin || !event.data || event.data.type !== "jobsdocs:theme-changed") {
+          return;
+        }
+
+        applyTheme(event.data.theme, true, true);
+      });
+
+      window.addEventListener("storage", function (event) {
+        if (event.key === storageKey) {
+          applyTheme(normalizeTheme(event.newValue) || systemTheme(), false, true);
+        }
+      });
+
+      if (mediaQuery) {
+        var handleSystemThemeChange = function () {
+          if (!readStoredTheme()) {
+            applyTheme(systemTheme(), false, true);
+          }
+        };
+
+        if (typeof mediaQuery.addEventListener === "function") {
+          mediaQuery.addEventListener("change", handleSystemThemeChange);
+        } else if (typeof mediaQuery.addListener === "function") {
+          mediaQuery.addListener(handleSystemThemeChange);
+        }
+      }
+
+      applyTheme(readStoredTheme() || bootstrap.theme || systemTheme(), false, true);
+    })();
+  </script>
 
   <script>
     (function () {

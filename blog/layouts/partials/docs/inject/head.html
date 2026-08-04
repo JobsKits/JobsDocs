@@ -1,0 +1,25 @@
+<script>
+(function () {
+  var storageKey = "jobsdocs.theme";
+  var root = document.documentElement;
+  var storedTheme = null;
+
+  try {
+    storedTheme = window.localStorage.getItem(storageKey);
+  } catch (error) {}
+
+  if (storedTheme !== "light" && storedTheme !== "dark") {
+    storedTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  root.setAttribute("data-jobs-theme", storedTheme);
+  root.style.colorScheme = storedTheme;
+  root.classList.toggle("jobs-theme-embedded", window.parent !== window);
+  window.JOBS_DOCS_THEME_BOOTSTRAP = {
+    storageKey: storageKey,
+    theme: storedTheme
+  };
+})();
+</script>

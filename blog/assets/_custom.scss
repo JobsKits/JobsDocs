@@ -2010,3 +2010,207 @@ body.jobs-audio-undocked-from-menu .jobs-audio-dock-space {
   }
 }
 /* jobsdocs-v19-mobile-toc-drawer-end */
+
+/* =========================
+   Jobs Docs 手动主题切换
+   ========================= */
+
+:root[data-jobs-theme="light"] {
+  color-scheme: light;
+  --body-background: #ffffff;
+  --body-background-tint: none;
+  --body-font-color: #1f2937;
+  --color-link: #1d4ed8;
+  --color-visited-link: #6d28d9;
+  --icon-filter: none;
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-500: #64748b;
+  --jobs-bg: #f4f7fb;
+  --jobs-surface: #ffffff;
+  --jobs-surface-soft: #f8fafc;
+  --jobs-border: #dbe4ee;
+  --jobs-text: #1f2937;
+  --jobs-text-soft: #64748b;
+  --jobs-primary-soft: #eaf2ff;
+  --jobs-code-bg: #f8fafc;
+  --jobs-code-text: #1e293b;
+  --jobs-code-border: #dbe4ee;
+  --jobs-code-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+:root[data-jobs-theme="dark"] {
+  color-scheme: dark;
+  --body-background: #0f172a;
+  --body-background-tint: none;
+  --body-font-color: #e5e7eb;
+  --color-link: #93c5fd;
+  --color-visited-link: #c4b5fd;
+  --icon-filter: brightness(0) invert(1);
+  --gray-100: #1e293b;
+  --gray-200: #334155;
+  --gray-500: #cbd5e1;
+  --jobs-bg: #0f172a;
+  --jobs-surface: #111827;
+  --jobs-surface-soft: #0f172a;
+  --jobs-border: #334155;
+  --jobs-text: #e5e7eb;
+  --jobs-text-soft: #cbd5e1;
+  --jobs-primary-soft: rgba(37, 99, 235, 0.20);
+  --jobs-code-bg: #1e293b;
+  --jobs-code-text: #e5e7eb;
+  --jobs-code-border: #475569;
+  --jobs-code-shadow: 0 10px 26px rgba(0, 0, 0, 0.26);
+}
+
+:root[data-jobs-theme="light"] body,
+:root[data-jobs-theme="light"] .book-menu,
+:root[data-jobs-theme="light"] .book-menu .book-menu-content,
+:root[data-jobs-theme="light"] .book-toc,
+:root[data-jobs-theme="light"] .book-toc .book-toc-content {
+  background: var(--jobs-bg) !important;
+  color: var(--jobs-text) !important;
+}
+
+:root[data-jobs-theme="light"] .book-menu nav,
+:root[data-jobs-theme="light"] .book-toc nav,
+:root[data-jobs-theme="light"] .book-page,
+:root[data-jobs-theme="light"] .book-search input {
+  background: var(--jobs-surface) !important;
+  color: var(--jobs-text) !important;
+  border-color: var(--jobs-border) !important;
+}
+
+:root[data-jobs-theme="light"] .book-page h1,
+:root[data-jobs-theme="light"] .book-page h2,
+:root[data-jobs-theme="light"] .book-page h3,
+:root[data-jobs-theme="light"] .book-page h4,
+:root[data-jobs-theme="light"] .book-page h5,
+:root[data-jobs-theme="light"] .book-page h6,
+:root[data-jobs-theme="light"] .book-menu nav a,
+:root[data-jobs-theme="light"] .book-menu summary,
+:root[data-jobs-theme="light"] .book-brand a,
+:root[data-jobs-theme="light"] .jobs-book-brand {
+  color: var(--jobs-text) !important;
+}
+
+:root[data-jobs-theme="dark"] body,
+:root[data-jobs-theme="dark"] .book-menu,
+:root[data-jobs-theme="dark"] .book-menu .book-menu-content,
+:root[data-jobs-theme="dark"] .book-toc,
+:root[data-jobs-theme="dark"] .book-toc .book-toc-content {
+  background: var(--jobs-bg) !important;
+  color: var(--jobs-text) !important;
+}
+
+:root[data-jobs-theme="dark"] .book-menu nav,
+:root[data-jobs-theme="dark"] .book-toc nav,
+:root[data-jobs-theme="dark"] .book-page,
+:root[data-jobs-theme="dark"] .book-search input {
+  background: var(--jobs-surface) !important;
+  color: var(--jobs-text) !important;
+  border-color: var(--jobs-border) !important;
+}
+
+:root[data-jobs-theme="dark"] .book-page h1,
+:root[data-jobs-theme="dark"] .book-page h2,
+:root[data-jobs-theme="dark"] .book-page h3,
+:root[data-jobs-theme="dark"] .book-page h4,
+:root[data-jobs-theme="dark"] .book-page h5,
+:root[data-jobs-theme="dark"] .book-page h6,
+:root[data-jobs-theme="dark"] .book-menu nav a,
+:root[data-jobs-theme="dark"] .book-menu summary,
+:root[data-jobs-theme="dark"] .book-brand a,
+:root[data-jobs-theme="dark"] .jobs-book-brand {
+  color: var(--jobs-text) !important;
+}
+
+:root[data-jobs-theme="dark"] .book-page p,
+:root[data-jobs-theme="dark"] .book-page li,
+:root[data-jobs-theme="dark"] .book-toc a,
+:root[data-jobs-theme="dark"] .jobs-git-version {
+  color: var(--jobs-text-soft) !important;
+}
+
+:root[data-jobs-theme="dark"] .book-page blockquote {
+  background: rgba(37, 99, 235, 0.12) !important;
+}
+
+:root[data-jobs-theme="dark"] body.jobs-right-panel-open .book-toc,
+:root[data-jobs-theme="dark"] body.jobs-right-panel-open .book-toc .book-toc-content,
+:root[data-jobs-theme="dark"] body.jobs-right-panel-open .book-toc nav {
+  background: #111827 !important;
+  color: #e5e7eb !important;
+  border-color: #334155 !important;
+}
+
+:root[data-jobs-theme="dark"] body.jobs-right-panel-open .book-toc::before {
+  color: #f9fafb !important;
+  border-bottom-color: #334155 !important;
+}
+
+:root[data-jobs-theme="dark"] body.jobs-right-panel-open .book-toc a {
+  color: #dbeafe !important;
+  background: rgba(30, 41, 59, 0.96) !important;
+  border-color: rgba(148, 163, 184, 0.24) !important;
+}
+
+.jobs-theme-toggle {
+  position: fixed;
+  right: calc(18px + env(safe-area-inset-right, 0px));
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  z-index: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 96px;
+  min-height: 46px;
+  padding: 10px 16px;
+  border: 1px solid var(--jobs-border);
+  border-radius: 999px;
+  background: var(--jobs-surface);
+  background: color-mix(in srgb, var(--jobs-surface) 90%, transparent);
+  color: var(--jobs-text);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.jobs-theme-toggle:hover {
+  border-color: #60a5fa;
+  transform: translateY(-2px);
+}
+
+.jobs-theme-toggle:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.42);
+  outline-offset: 3px;
+}
+
+.jobs-theme-toggle[hidden],
+html.jobs-theme-embedded .jobs-theme-toggle {
+  display: none !important;
+}
+
+@media screen and (max-width: 56rem) {
+  .jobs-theme-toggle {
+    right: calc(12px + env(safe-area-inset-right, 0px));
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    min-width: 88px;
+    min-height: 44px;
+    padding: 9px 14px;
+    font-size: 0.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jobs-theme-toggle {
+    transition: none;
+  }
+}
