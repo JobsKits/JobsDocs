@@ -1,8 +1,8 @@
 ---
 title: "Git 故障诊断与恢复手册"
-date: 2026-08-04T15:56:10+08:00
+date: 2026-08-04T21:57:42+08:00
 draft: false
-weight: 690
+weight: 630
 summary: "## 🔥 前言 > 这是一份“先恢复开发节奏，再追根因”的故障手册。目标不是背诵清理命令，而是先判断失败发生在工作区、索引、本地对象库、引用、远端传输还是托管平台，然后只修改真正阻塞的那一层。 ## 一、六层状态模型 🔼 🔽 | 层 | 典型对象 | 常用观察命令 | 常见故障 | | --- | --- | --- | --- | | 工作区 | 当前文件"
 bookCollapseSection: false
 ---
@@ -82,7 +82,7 @@ git add --dry-run -A -- .
 | `nothing to commit` | 索引没有相对 `HEAD` 的变化 | 看 `git diff --cached`；需要提交的内容先暂存。 |
 | `unmerged files` | merge/rebase/cherry-pick 冲突未解决 | `git status`，解决每个冲突后 `git add`，再执行对应 `--continue`。 |
 | `Author identity unknown` | `user.name` / `user.email` 缺失 | 先查配置来源，再按仓库或全局设置。 |
-| `index.lock: File exists` | 另一个 Git 进程仍在运行，或进程异常退出留下旧锁 | 先确认进程；只在没有 Git 进程时移走旧锁。 |
+| `Unable to create '.git/index.lock': File exists` | 另一个 Git 索引写进程仍在运行，或进程异常退出留下旧锁 | 进入 3.4；仍被占用时停止，确认残留后移动留档，不直接删除。 |
 | Hook 返回非零 | `pre-commit`、`commit-msg` 等校验失败 | 直接运行 Hook 或查看输出；`--no-verify` 只用于定位，不是长期修复。 |
 | GPG / SSH signing failed | 签名程序、密钥、agent 或 pinentry 异常 | 查 `commit.gpgsign`、`gpg.format` 与 signing key。 |
 | `.gitmodules` / gitlink 报错 | 子模块配置、路径与索引模式 `160000` 不一致 | 进入 3.5 子模块预检。 |
@@ -115,18 +115,29 @@ find "$(git rev-parse --git-path hooks)" -maxdepth 1 -type f -perm -u+x -print
 ### 3.4、锁文件
 
 ```shell
-ps aux | grep '[g]it'
-find "$(git rev-parse --git-dir)" -maxdepth 2 -name '*.lock' -print
+git_dir="$(git rev-parse --absolute-git-dir)"
+index_lock="${git_dir}/index.lock"
+
+find "$git_dir" -maxdepth 2 -name '*.lock' -print
+if [[ -e "$index_lock" ]]; then
+  stat -f 'path=%N size=%z inode=%i modified=%Sm' "$index_lock"
+  lsof -nP -- "$index_lock"
+fi
+pgrep -alf git
 ```
 
 处理原则：
 
-1. 先退出正在操作同一仓库的 Git 客户端、编辑器任务和 Sourcetree 动作。
-2. 确认没有 Git 进程仍使用该仓库。
-3. 把明确的旧锁移动到备份位置，而不是直接批量删除。
-4. 重新运行最小只读命令，例如 `git status`，确认仓库恢复。
+1. 先通过 `git rev-parse --absolute-git-dir` 找到当前 worktree 真正使用的 Git 元数据目录，不固定假设锁一定在工作区根目录的 `.git` 文件夹内。
+2. 同时检查 `lsof` 的精确锁文件占用和同一仓库内的 Git 索引写进程；仅凭“界面没有弹窗”或 `ps` 没看见明显命令，不能认定锁已经失效。
+3. 锁仍被进程持有，或存在 `add`、`commit`、`rm`、`reset`、`checkout`、`merge`、`rebase`、`stash`、`update-index` 等写索引进程时，立即停止；不要杀进程，也不要移动锁。
+4. 只有锁是普通文件、无人持有、没有索引写进程，并且检测前后设备号与 inode 没变化时，才把它视为残留锁。
+5. 残留锁移动到 `${git_dir}/jobs-stale-lock-backups/index.lock.<时间>.stale` 留档，不直接 `rm`；这样既解除阻塞，也保留异常现场。
+6. 移动后先运行 `git ls-files --stage` 验证现有索引可读，再用 `git add --dry-run -A -- .` 验证暂存入口；索引不可读时应恢复锁并停止。
 
-### 3.5、子模块与 Jobs Commit 修复脚本
+[**Jobs SourceTree Commit 修复动作**](https://github.com/JobsKits/SourceTree.sh/tree/main/%E3%80%90MacOS%40SourceTree%E3%80%91%F0%9F%93%A5%E4%BF%AE%E5%A4%8DGit%E6%97%A0%E6%B3%95Commit.command) 已自动实现以上边界：活锁拒绝处理，残留锁留档后验证索引，再进入后续暂存与子模块流程。
+
+### 3.5、残留锁、子模块与 Jobs Commit 修复脚本
 
 父仓索引用模式 `160000` 记录子模块提交，也称 gitlink；父仓不会直接提交子模块工作区里的文件修改。
 
@@ -138,15 +149,16 @@ git config --file .gitmodules --get-regexp '^submodule\..*\.(path|url)$'
 
 [**Jobs SourceTree Commit 修复动作**](https://github.com/JobsKits/SourceTree.sh/tree/main/%E3%80%90MacOS%40SourceTree%E3%80%91%F0%9F%93%A5%E4%BF%AE%E5%A4%8DGit%E6%97%A0%E6%B3%95Commit.command) 当前实现的核心流程是：
 
-1. 有 `.gitmodules` 变更时先执行 `git add -A -- .gitmodules`，满足删除或迁移 gitlink 前的配置一致性要求。
-2. 从索引读取全部 `160000` gitlink，检查缺失、空目录、路径迁移和 `.git/core.worktree` 错位。
-3. 缺失工作树按 `.gitmodules` 尝试 `git submodule update --init --recursive`。
-4. 如果父仓锁定提交已经无法从新克隆子模块取到，但脚本得到一个有效且 clean 的当前 `HEAD`，会保留这个工作树；后续全量暂存可能让父仓 gitlink 改指该 `HEAD`，必须人工判断这个依赖升级是否正确。
-5. 同一 `.gitmodules` section 改路径时，会在旧路径不存在、URL 与 gitdir remote 能相互验证等条件下同步 `.gitmodules`、`core.worktree` 与新旧 gitlink；条件不足时停止。
-6. 已登记到 `.gitmodules` 的同源副本如果借用了旧路径 gitdir，会尝试复制独立 gitdir；当前 Sourcetree 书签自身借错 gitdir 时，也可能把它转换为独立 Git 工作树。
-7. 子模块内部有真实修改时保留原样并报告；父仓提交仍只记录 gitlink 指向，不会包含子模块未提交文件。
-8. 预检通过后执行 `git add -A -- .`，用一次完整索引刷新替代 Sourcetree 对单个路径的分步 `add` / `rm`。
-9. 脚本不会执行 `commit`、`push`、`reset`、`clean`，不使用 `git add -f`，但会修改索引、Git 元数据，并可能访问子模块远端；执行后必须检查暂存区。
+1. 先检查真实 gitdir 下的 `index.lock`：活锁或索引写进程存在时停止；确认是残留锁时移动到 `jobs-stale-lock-backups`，并验证现有索引可读。
+2. 有 `.gitmodules` 变更时先执行 `git add -A -- .gitmodules`，满足删除或迁移 gitlink 前的配置一致性要求。
+3. 从索引读取全部 `160000` gitlink，检查缺失、空目录、路径迁移和 `.git/core.worktree` 错位。
+4. 缺失工作树按 `.gitmodules` 尝试 `git submodule update --init --recursive`。
+5. 如果父仓锁定提交已经无法从新克隆子模块取到，但脚本得到一个有效且 clean 的当前 `HEAD`，会保留这个工作树；后续全量暂存可能让父仓 gitlink 改指该 `HEAD`，必须人工判断这个依赖升级是否正确。
+6. 同一 `.gitmodules` section 改路径时，会在旧路径不存在、URL 与 gitdir remote 能相互验证等条件下同步 `.gitmodules`、`core.worktree` 与新旧 gitlink；条件不足时停止。
+7. 已登记到 `.gitmodules` 的同源副本如果借用了旧路径 gitdir，会尝试复制独立 gitdir；当前 Sourcetree 书签自身借错 gitdir 时，也可能把它转换为独立 Git 工作树。
+8. 子模块内部有真实修改时保留原样并报告；父仓提交仍只记录 gitlink 指向，不会包含子模块未提交文件。
+9. 预检通过后执行 `git add -A -- .`，用一次完整索引刷新替代 Sourcetree 对单个路径的分步 `add` / `rm`。
+10. 脚本不会终止 Git 进程，不直接删除锁，也不会执行 `commit`、`push`、`reset`、`clean` 或 `git add -f`；但会修改索引、Git 元数据，并可能访问子模块远端，执行后必须检查暂存区。
 
 ### 3.6、运行 Commit 修复动作
 
@@ -157,7 +169,14 @@ git status --short --branch
 git diff --cached -- .gitmodules
 git diff --cached --submodule
 git ls-files -s | awk '$1 == 160000 { print $2, $4 }'
+git_dir="$(git rev-parse --absolute-git-dir)"
+if [[ -d "${git_dir}/jobs-stale-lock-backups" ]]; then
+  find "${git_dir}/jobs-stale-lock-backups" -maxdepth 1 -type f -name 'index.lock.*.stale' -print
+fi
 ```
+
+- 报告 `index.lock 正被进程持有` 或“仍有可能修改索引的 Git 进程”时，脚本会返回失败并保留原锁；先完成或退出对应 Git 操作，再重新运行。
+- 报告“已归档无人占用的残留 `index.lock`”时，日志会给出精确备份路径；修复后仍需检查暂存范围，不能把“锁已解除”等同于“所有变更都应该提交”。
 
 终端独立运行时，不要把 `~` 放进单引号；使用明确安装根目录：
 

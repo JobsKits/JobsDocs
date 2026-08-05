@@ -2,7 +2,7 @@
 title: "科学上网【自建 OVZ 机型的 VPS 】"
 date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 40
+weight: 820
 summary: "科学上网【自建 OVZ 机型的 VPS 】 - 1、前言 - 2、使用到的工具 - 3、流程 - 3.1、Namesilo - 3.1.1、身份认证 - 3.1.2、 DNS管理 - 3.2、Cloudflare - 3.2.1、注册 - 3.2.2、添加站点 - 3.2.3、选择（Free）计划 - 3.2.4、查看记录 - 3.2.5、更改您的名称服务器"
 bookCollapseSection: false
 ---

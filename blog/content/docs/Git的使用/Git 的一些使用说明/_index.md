@@ -2,7 +2,7 @@
 title: "Git 的一些使用说明"
 date: 2026-08-04T15:56:10+08:00
 draft: false
-weight: 730
+weight: 640
 summary: "## 🔥 前言 > 面向已经会使用 add、commit、fetch、pull 和 push 的开发者，集中说明远端、配置、rebase、cherry-pick、历史改写、stash 恢复和无共同历史合并。临时故障先看 Git 故障诊断与恢复手册。 ## 一、高频观察命令 🔼 🔽 ### 1.1、仓库、分支与状态 ### 1.2、远端 - git remot"
 bookCollapseSection: false
 ---

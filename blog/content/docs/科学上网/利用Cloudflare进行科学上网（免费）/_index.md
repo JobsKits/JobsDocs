@@ -2,7 +2,7 @@
 title: "利用Cloudflare进行科学上网（免费）"
 date: 2026-06-28T15:48:06+08:00
 draft: false
-weight: 50
+weight: 810
 summary: "一、🔥 前言 ### 1、📖 参考资料 👉2026 最强 Cloudflare 免费节点！永久可用+免费域名｜10分钟搭建｜解锁 ChatGPT / Gemini ！ ### 2、🔨 所需工具 需要的相关账户 Google账户 Github账户 注册域名（永久免费） dnshe digitalplat 云服务器提供商（不推荐国内大厂：阿里云/腾讯云） 推荐 "
 bookCollapseSection: false
 ---
