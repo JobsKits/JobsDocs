@@ -2,7 +2,7 @@
 title: "graphify-out"
 date: 2026-08-04T15:56:10+08:00
 draft: false
-weight: 770
+weight: 780
 summary: "Corpus Check - 27 files · ~185,019 words - Verdict: corpus is large enough that graph structure adds value. ## Summary - 433 nodes · 473 edges · 35 communities (31 shown, 4 thin om"
 bookCollapseSection: false
 ---

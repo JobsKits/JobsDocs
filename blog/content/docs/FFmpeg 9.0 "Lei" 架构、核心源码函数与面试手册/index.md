@@ -1,9 +1,9 @@
 ---
-title: "FFmpeg 8.1.2 架构、核心源码函数与面试手册"
+title: "FFmpeg 9.0 \"Lei\" 架构、核心源码函数与面试手册"
 date: 2026-08-06T07:26:51+08:00
 draft: false
-weight: 730
-summary: "## 🔥 前言 > 这不是一份只教命令的速查表，而是一份面向音视频面试、源码追问和工程落地的 FFmpeg 手册。阅读主线是：先能说清整体架构，再能画出数据流，最后能解释关键结构体、关键函数、状态机、时间戳和平台打包。 - 文档版本基线：FFmpeg 8.1.2 \"Hoare\"。 - FFmpeg 发布日期：2026-06-17。 - 文档版本核验日期：20"
+weight: 740
+summary: "## 🔥 前言 > 这不是一份只教命令的速查表，而是一份面向音视频面试、源码追问和工程落地的 FFmpeg 手册。阅读主线是：先能说清整体架构，再能画出数据流，最后能解释关键结构体、关键函数、状态机、时间戳和平台打包。本文还沿用雷霄骅“架构图 + 函数调用链 + 源码拆解 + 最小示例”的学习方式，把 FFmpeg 9.0 面试主干函数逐句拆开。 - 文档版"
 bookCollapseSection: false
 ---
 
@@ -15,13 +15,15 @@ bookCollapseSection: false
 
 ## 🔥 <font id=前言>前言</font>
 
-> 这不是一份只教命令的速查表，而是一份面向音视频面试、源码追问和工程落地的 FFmpeg 手册。阅读主线是：先能说清整体架构，再能画出数据流，最后能解释关键结构体、关键函数、状态机、时间戳和平台打包。
+> 这不是一份只教命令的速查表，而是一份面向音视频面试、源码追问和工程落地的 FFmpeg 手册。阅读主线是：先能说清整体架构，再能画出数据流，最后能解释关键结构体、关键函数、状态机、时间戳和平台打包。本文还沿用雷霄骅“架构图 + 函数调用链 + 源码拆解 + 最小示例”的学习方式，把 FFmpeg 9.0 面试主干函数逐句拆开。
 
-- 文档版本基线：[`FFmpeg 8.1.2 "Hoare"`](https://ffmpeg.org/download.html)。
-- FFmpeg 发布日期：`2026-06-17`。
-- 文档版本核验日期：`2026-08-04`，时区 `Asia/Shanghai`。
+- 文档版本基线：[`FFmpeg 9.0 "Lei"`](https://ffmpeg.org/download.html)。
+- FFmpeg 发布日期：`2026-08-04`。
+- 9.0 发布分支切出日期：`2026-06-26`。
+- 文档版本核验日期：`2026-08-05`，时区 `Asia/Shanghai`。
 - 选型口径：以核验日的“最新稳定发行版”为准，不以每日变化的 `master` / snapshot 作为面试源码基线。
-- 源码定位口径：公开 API 以 FFmpeg 8.1.2 的头文件和官方文档为准；`fftools` 内部函数不承诺跨版本兼容。
+- 源码定位口径：公开 API 与内部调用链以 [`n9.0`](https://github.com/FFmpeg/FFmpeg/tree/n9.0) tag 为准；`fftools` 和 `ff_*` 内部函数不承诺跨版本兼容。
+- 拆解口径：不大段复制源码，而是按语句块说明“这一句检查什么、改变什么状态、失败时往哪里走”，并给出可运行的现代 API 示例。
 
 > 一句话先定性：[`FFmpeg`](https://ffmpeg.org) 不是“一个转码函数”，而是“一组音视频基础库 + 三个主要命令行工具 + 一套可裁剪、可跨平台编译的构建系统”。
 
@@ -78,27 +80,43 @@ FFmpeg 是分层流水线架构。最下层由 `libavutil` 提供公共数据结
 
 ## 二、版本基线与库版本
 
-### 2.1、为什么选 FFmpeg 8.1.2
+### 2.1、为什么选 FFmpeg 9.0 "Lei"
 
-截至 `2026-08-04`，FFmpeg 官方下载页把 `8.1.2 "Hoare"` 标为 8.1 分支的最新稳定版。该版本发布于 `2026-06-17`，8.1 分支于 `2026-03-08` 从 `master` 切出。
+截至 `2026-08-05`，FFmpeg 官方下载页把 [`9.0 "Lei"`](https://ffmpeg.org/download.html#release_9.0) 标为最新稳定版。该版本发布于 `2026-08-04`，9.0 分支于 `2026-06-26` 从 `master` 切出。本文固定到 `n9.0` tag，避免源码行号和内部调用链随着 `master` 漂移。
 
 官方同时说明：发行分支适合发行商和系统集成；开发分支更新更快、接受全部新功能和修复。面试或稳定工程复盘最好固定到明确 tag，线上跟进安全修复时再评估新版或开发分支。
 
-### 2.2、FFmpeg 8.1.2 的库版本
+### 2.2、为什么代号叫“Lei”：雷霄骅留下的学习方法
+
+FFmpeg 官方发布页和 `n9.0` 源码确认本次代号为 **“Lei”**；关于命名所纪念的人物，本文按用户提供的[《FFmpeg 9.0 发布，代号“Lei”，纪念中国开发者雷霄骅》](https://m.toutiao.com/is/0QimRSzhD2Q/)报道记录为雷霄骅（常用账号 `leixiaohua1020`）。这里把“官方可核验事实”和“报道给出的命名背景”分开写，避免把二手解释冒充 FFmpeg 官方原话。
+
+雷霄骅的重要价值，不只是写过多少篇文章，而是把当时难以进入的 FFmpeg 学习路径拆成了中文开发者能跟下去的步骤：先画整体结构，再沿函数调用关系进入源码，最后用“最简单的播放器、编码器、解封装器、封装器、推流器”等小工程验证。其公开博客更新停留在 2016 年前后，旧代码对应的 FFmpeg API 已明显变化，但这套方法没有过时。
+
+本文借鉴的是方法，不是照搬旧文：
+
+1. **固定版本。** 所有函数都落到 `n9.0`，先看当前实现，再讨论历史差异。
+2. **先图后码。** 先知道函数在协议、解封装、解码、滤镜、编码、封装中的位置。
+3. **逐句问作用。** 每个判断都回答它保护了什么状态，每次引用操作都回答所有权去哪了。
+4. **沿调用链下钻。** 从公开 API 追到关键 `ff_*` 内部函数，再追具体 demuxer/codec 回调。
+5. **用最小程序闭环。** 示例坚持现代 send/receive、引用计数和统一 cleanup，不复制已废弃 API。
+
+> 重要边界：FFmpeg 全仓规模很大，“逐行拆完整个仓库”不适合放进一篇面试手册。本文先对面试最常问的主干函数做**语句级拆解**；具体 H.264/HEVC/AAC codec 的熵解码、运动补偿、DSP 和汇编优化，按文末路线继续分专题。
+
+### 2.3、FFmpeg 9.0 的库版本
 
 | 组件 | 版本 | 主要职责 |
 | --- | --- | --- |
-| `libavutil` | `60.26.102` | 公共数据结构、内存、日志、时间、像素/采样格式、硬件上下文等 |
-| `libavcodec` | `62.28.102` | 音频、视频、字幕编解码和 bitstream filter |
-| `libavformat` | `62.12.102` | 协议、I/O、探测、解封装、封装 |
-| `libavdevice` | `62.3.102` | 摄像头、麦克风、屏幕、音频设备等输入输出设备 |
-| `libavfilter` | `11.14.102` | 音视频滤镜图、格式协商、帧处理 |
-| `libswscale` | `9.5.102` | 图像缩放、像素格式和部分颜色空间转换 |
-| `libswresample` | `6.3.102` | 音频重采样、采样格式转换、声道重混 |
+| `libavutil` | `61.1.100` | 公共数据结构、内存、日志、时间、像素/采样格式、硬件上下文等 |
+| `libavcodec` | `63.1.100` | 音频、视频、字幕编解码和 bitstream filter |
+| `libavformat` | `63.1.100` | 协议、I/O、探测、解封装、封装 |
+| `libavdevice` | `63.1.100` | 摄像头、麦克风、屏幕、音频设备等输入输出设备 |
+| `libavfilter` | `12.1.100` | 音视频滤镜图、格式协商、帧处理 |
+| `libswscale` | `10.1.100` | 图像缩放、像素格式和部分颜色空间转换 |
+| `libswresample` | `7.1.100` | 音频重采样、采样格式转换、声道重混 |
 
-### 2.3、版本号怎么理解
+### 2.4、版本号怎么理解
 
-- FFmpeg 发行版号，例如 `8.1.2`，描述整个项目的发布。
+- FFmpeg 发行版号，例如 `9.0`，描述整个项目的发布。
 - 各 `libav*` 库有独立的 `major.minor.micro`。
 - 库的 `major` 变化可能包含 ABI/API 不兼容变化；不能看到 FFmpeg 只升了一个发行版号，就假定旧二进制一定兼容。
 - 运行时可用 `ffmpeg -version`、`ffmpeg -buildconf` 和 `ffmpeg -libraries` 核对真实二进制，不要只看文件名。
@@ -111,6 +129,21 @@ ffmpeg -codecs
 ffmpeg -filters
 ffmpeg -hwaccels
 ```
+
+### 2.5、9.0 版本变化：面试怎么说
+
+FFmpeg 9.0 是一次 major release。官方 Changelog 列出的代表性变化包括：
+
+- Animated WebP decoder/demuxer。
+- HE-AAC 960（DAB+）解码。
+- ProRes RAW 的 VideoToolbox 硬件加速。
+- APV Vulkan 硬件加速与 `v360_vulkan` 滤镜。
+- `transpose_cuda`、AMF 帧率转换与更完整的 HDR 能力。
+- MP4 muxer 的 LCEVC track、Playdate 视频 encoder/muxer。
+- ONNX Runtime DNN 后端增加 GPU provider。
+- 移除独立 CELT 解码（不等于移除 Opus 内的 CELT 模式），并清理一批旧 NVENC 选项/旧 SDK 支持。
+
+**面试核心回答：** 新功能可以背代表项，但工程升级最先看的不是功能列表，而是各库 major ABI、废弃 API、第三方依赖、硬件 SDK 下限、现有补丁和产物许可证。FFmpeg 9.0 的多个库 major 已提升，不能拿 8.x 的头文件与 9.0 动态库混装。
 
 ## 三、FFmpeg 到底由什么组成
 
@@ -483,7 +516,7 @@ fprintf(stderr, "FFmpeg error: %s\n", errbuf);
 
 队列中最容易出错的是浅拷贝 `AVPacket` / `AVFrame` 结构体而没有增加 buffer 引用。跨线程或异步保存时，要明确使用 `ref`、`clone` 或 `move_ref`，并明确由谁 `unref`。
 
-## 七、FFmpeg 8.1.2 命令行前端的源码主线
+## 七、FFmpeg 9.0 命令行前端与核心函数逐句拆解
 
 ### 7.1、先区分两类函数
 
@@ -494,7 +527,7 @@ fprintf(stderr, "FFmpeg error: %s\n", errbuf);
 
 ### 7.2、`ffmpeg` CLI 主调用链
 
-FFmpeg 8.1.2 中可以抓住这条主线：
+FFmpeg 9.0 中可以抓住这条主线：
 
 ```text
 main()                                  fftools/ffmpeg.c
@@ -529,7 +562,7 @@ main()                                  fftools/ffmpeg.c
 
 **作用：** 命令行进程总入口，初始化日志/网络/设备和调度器，解析参数并搭建任务图，调用 `transcode()`，最后统一清理与返回退出码。
 
-**不要答错：** `main()` 自己不逐帧完成所有解码编码；FFmpeg 8.1.2 的主工作由调度器中的组件任务驱动。
+**不要答错：** `main()` 自己不逐帧完成所有解码编码；FFmpeg 9.0 的主工作由调度器中的组件任务驱动。
 
 #### 7.3.2、`ffmpeg_parse_options()`
 
@@ -547,7 +580,7 @@ main()                                  fftools/ffmpeg.c
 
 **作用：** 启动 scheduler，等待各组件运行，处理终端按键和进度输出，停止调度，给所有输出写 trailer，并打印最终报告。
 
-**源码重点：** 8.1.2 的 `transcode()` 主循环围绕 `sch_start()`、`sch_wait()`、`sch_stop()`，不是老版本里单线程不断挑选下一个输出流的 `transcode_step()` 模型。
+**源码重点：** 9.0 的 `transcode()` 主循环围绕 `sch_start()`、`sch_wait()`、`sch_stop()`，不是老版本里单线程不断挑选下一个输出流的 `transcode_step()` 模型。
 
 #### 7.3.5、`sch_start()` / `sch_wait()` / `sch_stop()`
 
@@ -557,120 +590,468 @@ main()                                  fftools/ffmpeg.c
 
 ### 7.4、源码阅读顺序
 
-1. [`fftools/ffmpeg.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/fftools/ffmpeg.c)：先看 `main()` 和 `transcode()`。
-2. [`fftools/ffmpeg_opt.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/fftools/ffmpeg_opt.c)：看参数分组和任务图搭建。
-3. [`fftools/ffmpeg_sched.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/fftools/ffmpeg_sched.c)：看 scheduler 节点、队列、线程与连接。
-4. [`fftools/ffmpeg_demux.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/fftools/ffmpeg_demux.c)：看输入、读包和 demux task。
-5. [`fftools/ffmpeg_dec.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/fftools/ffmpeg_dec.c)：看 packet 如何进入 decoder。
-6. [`fftools/ffmpeg_filter.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/fftools/ffmpeg_filter.c)：看滤镜图配置和帧流动。
-7. [`fftools/ffmpeg_enc.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/fftools/ffmpeg_enc.c)：看 frame 如何进入 encoder。
-8. [`fftools/ffmpeg_mux.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/fftools/ffmpeg_mux.c)：看 packet 排序、写出和 trailer。
+1. [`fftools/ffmpeg.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg.c)：先看 `main()` 和 `transcode()`。
+2. [`fftools/ffmpeg_opt.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_opt.c)：看参数分组和任务图搭建。
+3. [`fftools/ffmpeg_sched.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_sched.c)：看 scheduler 节点、队列、线程与连接。
+4. [`fftools/ffmpeg_demux.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_demux.c)：看输入、读包和 demux task。
+5. [`fftools/ffmpeg_dec.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_dec.c)：看 packet 如何进入 decoder。
+6. [`fftools/ffmpeg_filter.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_filter.c)：看滤镜图配置和帧流动。
+7. [`fftools/ffmpeg_enc.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_enc.c)：看 frame 如何进入 encoder。
+8. [`fftools/ffmpeg_mux.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_mux.c)：看 packet 排序、写出和 trailer。
 9. 最后再追进 `libavformat`、`libavcodec`、`libavfilter` 的公共 API 和内部实现。
 
 ### 7.5、重点公开函数的源码落点
 
 | 源码文件 | 重点入口 | 阅读时要抓住什么 |
 | --- | --- | --- |
-| [`libavformat/demux.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libavformat/demux.c) | `avformat_open_input()`、`avformat_find_stream_info()`、`av_read_frame()` | 输入探测、demuxer 回调、内部 packet 缓冲和流信息分析 |
-| [`libavformat/seek.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libavformat/seek.c) | `av_seek_frame()`、`avformat_seek_file()` | 时间基、索引、关键帧与格式私有 seek 回调 |
-| [`libavformat/mux.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libavformat/mux.c) | `avformat_write_header()`、`av_write_frame()`、`av_interleaved_write_frame()`、`av_write_trailer()` | 包校验、时间戳、交织队列和 muxer 写回调 |
-| [`libavcodec/avcodec.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libavcodec/avcodec.c) | `avcodec_open2()`、codec 公共状态管理 | 公共 context 如何进入具体 codec 实现 |
-| [`libavcodec/decode.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libavcodec/decode.c) | decoder send/receive 相关实现 | packet 缓冲、内部 bitstream filter、frame 输出和 drain |
-| [`libavcodec/encode.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libavcodec/encode.c) | encoder send/receive 相关实现 | frame 输入、packet 输出、内部缓存和 EOF 状态 |
-| [`libavfilter/graphparser.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libavfilter/graphparser.c) | filter 字符串解析 | 文本描述如何变成 filter 节点与连接 |
-| [`libavfilter/avfiltergraph.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libavfilter/avfiltergraph.c) | graph 配置与格式协商 | link 配置、格式选择、自动转换和执行准备 |
-| [`libavfilter/buffersrc.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libavfilter/buffersrc.c) / [`buffersink.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libavfilter/buffersink.c) | `av_buffersrc_add_frame_flags()` / `av_buffersink_get_frame()` | 应用如何把 frame 送进图并取回结果 |
-| [`libswresample/swresample.c`](https://github.com/FFmpeg/FFmpeg/blob/n8.1.2/libswresample/swresample.c) | `swr_init()`、`swr_convert()` | sample 缓冲、延迟、格式和声道转换 |
+| [`libavformat/demux.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/demux.c) | `avformat_open_input()`、`avformat_find_stream_info()`、`av_read_frame()` | 输入探测、demuxer 回调、内部 packet 缓冲和流信息分析 |
+| [`libavformat/seek.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/seek.c) | `av_seek_frame()`、`avformat_seek_file()` | 时间基、索引、关键帧与格式私有 seek 回调 |
+| [`libavformat/mux.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/mux.c) | `avformat_write_header()`、`av_write_frame()`、`av_interleaved_write_frame()`、`av_write_trailer()` | 包校验、时间戳、交织队列和 muxer 写回调 |
+| [`libavcodec/avcodec.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavcodec/avcodec.c) | `avcodec_open2()`、codec 公共状态管理 | 公共 context 如何进入具体 codec 实现 |
+| [`libavcodec/decode.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavcodec/decode.c) | decoder send/receive 相关实现 | packet 缓冲、内部 bitstream filter、frame 输出和 drain |
+| [`libavcodec/encode.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavcodec/encode.c) | encoder send/receive 相关实现 | frame 输入、packet 输出、内部缓存和 EOF 状态 |
+| [`libavfilter/graphparser.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavfilter/graphparser.c) | filter 字符串解析 | 文本描述如何变成 filter 节点与连接 |
+| [`libavfilter/avfiltergraph.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavfilter/avfiltergraph.c) | graph 配置与格式协商 | link 配置、格式选择、自动转换和执行准备 |
+| [`libavfilter/buffersrc.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavfilter/buffersrc.c) / [`buffersink.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavfilter/buffersink.c) | `av_buffersrc_add_frame_flags()` / `av_buffersink_get_frame()` | 应用如何把 frame 送进图并取回结果 |
+| [`libswresample/swresample.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libswresample/swresample.c) | `swr_init()`、`swr_convert()` | sample 缓冲、延迟、格式和声道转换 |
 
 函数实现可能被薄包装再转到内部 `ff_*` 函数，也可能在后续版本拆文件。面试时先解释公开语义，再沿当前 tag 追内部实现；不要把某个内部函数名背成永久 API。
 
-## 八、最小解码伪代码：把函数串起来
+### 7.6、逐句读源码前先定四条规则
 
-下面代码突出调用关系和状态机，省略了产品级超时、硬件解码、音画同步、像素转换和完整错误标签：
+1. **公开契约先于内部实现。** 先读头文件里参数、所有权和返回码，再看 `.c` 文件为什么这样实现。
+2. **按语句块，不按字符翻译。** 连续的声明、检查、分配、回调、清理分别构成一个意图单元。
+3. **看到 `goto fail` 不先批判。** C 里多个资源按相反顺序统一释放，单一清理出口通常比复制多份错误分支更安全。
+4. **看到函数指针就找具体实现。** `iformat->read_packet` 只是抽象入口，MP4、FLV、MPEG-TS 会落到不同 demuxer 回调。
+
+面试时可用这套六问检查任何函数：
+
+```text
+它在哪一层？
+它接收什么、产出什么？
+进入函数前要求什么状态？
+它修改了哪个上下文或缓冲？
+引用/所有权是否变化？
+0、EAGAIN、EOF、普通负值分别怎么处理？
+```
+
+### 7.7、`main()`：从命令行进入调度器
+
+源码：[`fftools/ffmpeg.c:981-1058`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg.c#L981-L1058)
+
+| 语句范围 | 逐句作用 | 为什么存在 |
+| --- | --- | --- |
+| `981-987` | 声明 `Scheduler *sch = NULL`、返回码和 benchmark 时间 | 指针先置空，后面的统一清理即使提前失败也安全 |
+| `988` | `init_dynload()` | 处理平台动态加载前置工作，属于进程级初始化 |
+| `990` | 关闭 `stderr` 缓冲 | Windows 运行时需要及时显示日志和进度 |
+| `992-993` | 设置日志去重并先解析 loglevel | 后续初始化阶段的日志也要服从用户指定级别 |
+| `995-998` | 条件注册设备并初始化网络 | device 受构建宏控制；network 是协议层前置工作 |
+| `1000` | 打印 banner | 把版本、编译选项和库版本暴露给排障者 |
+| `1002-1006` | 分配 scheduler，失败映射为 `ENOMEM` | 9.0 CLI 把转码组件交给调度器组织，而不是在 `main` 里逐帧跑 |
+| `1008-1011` | 解析参数，同时打开输入/输出并搭建任务图 | 这里不是“只解析字符串”，而是把 CLI 变成可执行拓扑 |
+| `1013-1024` | 检查没有任务、没有输出两种非法状态 | 早失败，避免启动线程后才发现没有有效输出 |
+| `1030-1031` | 记录基准时间并进入 `transcode(sch)` | 真正运行边界从这里开始 |
+| `1032-1041` | 可选打印用户态、内核态、墙钟耗时 | `-benchmark` 的数据来源 |
+| `1043-1044` | 把信号退出和 error-rate 超限映射成特定退出码 | CLI 退出码是脚本/CI 的公共契约 |
+| `1046-1057` | 统一 cleanup、释放 scheduler、打印退出码并返回 | 所有提前失败都汇入同一资源收口 |
+
+**面试一句话：** `main()` 负责进程级初始化、参数到任务图的转换、启动转码和统一收尾；它不是逐包逐帧的媒体循环。
+
+### 7.8、`ffmpeg_parse_options()`：参数不是一张全局字典
+
+源码：[`fftools/ffmpeg_opt.c:1424-1504`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_opt.c#L1424-L1504)
+
+| 语句范围 | 逐句作用 | 面试重点 |
+| --- | --- | --- |
+| `1426-1431` | 创建全局选项上下文、解析上下文并清零 | 清零保证失败清理能判断哪些数组已初始化 |
+| `1433-1439` | `split_commandline()` 把线性参数拆为 global/input/output/decoder groups | 解释了为什么同一个 `-c:v` 放在 `-i` 前后语义可能不同 |
+| `1441-1446` | 应用全局选项 | 日志、线程等全局配置与单文件配置分层 |
+| `1448-1449` | 初始化终端和信号处理 | `q`、Ctrl-C、进度刷新依赖这里 |
+| `1451-1457` | 先创建复杂滤镜图 | 后续输入输出打开时才能把流绑定到已有图节点 |
+| `1459-1471` | 分别通过 `ifile_open`、`of_open` 打开输入和输出组 | `open_files()` 复用遍历框架，具体行为由回调决定 |
+| `1473-1478` | 创建 loopback decoder | 处理输出回送到滤镜等特殊拓扑，不是普通输入 decoder 的同义词 |
+| `1480-1491` | 完成未绑定 filter pad、校验一致性、修正起始时间并应用同步偏移 | 参数解析最终产物是时间关系正确的可运行图 |
+| `1493-1503` | 释放临时 filter 描述与解析上下文，失败时输出统一错误 | 即使成功也要释放“搭图用的临时数据”，运行对象已由 scheduler 持有 |
+
+### 7.9、`transcode()`：9.0 主循环为什么看不到 decode/encode
+
+源码：[`fftools/ffmpeg.c:887-935`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg.c#L887-L935)
+
+| 语句范围 | 逐句作用 | 为什么看不到 `avcodec_send_packet()` |
+| --- | --- | --- |
+| `892-894` | 打印流映射，并用原子变量标记初始化结束 | 组件线程开始工作前，拓扑和全局状态必须稳定 |
+| `896-898` | `sch_start()` 启动调度器 | demux/decode/filter/encode/mux 的任务线程从这里并发运行 |
+| `900-904` | 打印交互提示并记录起始时间 | 只影响 CLI 交互与统计 |
+| `906-919` | `sch_wait()` 定时等待；检查信号和键盘；周期打印报告 | 主线程是监督者，不是每帧执行者 |
+| `921` | `sch_stop()` 停止任务并合并转码时间 | 让组件有序结束，而不是直接杀线程 |
+| `923-927` | 遍历输出写 trailer，并用 `err_merge` 合并错误 | 一个输出失败不能把其它输出的收尾直接跳过 |
+| `929-934` | 恢复终端、打印最终报告、返回 | 完成用户可见的最后状态 |
+
+真正的 packet/frame 处理分散在 `ffmpeg_demux.c`、`ffmpeg_dec.c`、`ffmpeg_filter.c`、`ffmpeg_enc.c` 和 `ffmpeg_mux.c` 的任务函数中。若面试官拿老版本 `transcode_step()` 追问，应先报版本差异，再回答 9.0 的 scheduler 模型。
+
+### 7.10、`avformat_open_input()`：打开、探测和读头
+
+源码：[`libavformat/demux.c:231-375`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/demux.c#L231-L375)
+
+| 语句范围 | 逐句作用 | 深一层解释 |
+| --- | --- | --- |
+| `241-248` | 若调用方没预建 context 就分配；校验 `av_class` | 既支持最简调用，也支持调用方预设 interrupt/custom IO |
+| `249-259` | 接受显式 format，复制 options，识别 custom IO，并应用 context 选项 | options 会被逐层消费，未识别项最后返还给调用方 |
+| `261-268` | 保存 URL，调用 `init_input()` 打开 I/O/探测 format，并记录 `probe_score` | 探测分数表示格式判断可信度，不是网络质量分数 |
+| `270-290` | 继承 protocol 白/黑名单并校验 format whitelist | 这是协议安全边界，尤其适合处理不可信输入 |
+| `292-300` | 跳过指定前导字节，检查序列图文件名模式 | 同一公开入口也支持 image sequence 等特殊输入 |
+| `302-316` | 初始化未知时间戳，分配 demuxer 私有数据并应用私有选项 | `priv_data` 才是 MP4/FLV 等具体 demuxer 的私有状态 |
+| `318-327` | 预读 ID3，再调用具体 demuxer 的 `read_header` 回调 | 公共层到具体格式实现的关键动态分派点 |
+| `329-355` | 合并 metadata、解析封面/章节、记录 data offset、更新内部 codec context | 容器头与附加 metadata 在此收口 |
+| `357-362` | 返回未消费 options，把成功 context 写回 `*ps` | `AVFormatContext **` 允许函数内部分配并交回调用方 |
+| `364-374` | 失败时按阶段调用 `read_close`、关非自定义 I/O、释放 context 并置空 `*ps` | 自定义 I/O 不由这里擅自关闭，避免双重释放 |
+
+**调用链抓手：** `avformat_open_input → init_input → avio_open2/format probe → AVInputFormat.read_header`。它不解码，也不等于 `avformat_find_stream_info()`。
+
+### 7.11、`av_read_frame()`：名字叫 frame，产出却是 packet
+
+源码：[`libavformat/demux.c:1588-1681`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/demux.c#L1588-L1681)
+
+先记真实调用链：
+
+```text
+av_read_frame()
+└── read_frame_internal()
+    └── ff_read_packet()
+        └── AVInputFormat.read_packet()
+            ├── mov_read_packet()      MP4/MOV 示例
+            ├── flv_read_packet()      FLV 示例
+            └── mpegts_read_packet()   MPEG-TS 示例
+```
+
+逐句拆解：
+
+| 语句范围 | 作用 | 为什么这样设计 |
+| --- | --- | --- |
+| `1590-1594` | 取内部 format 状态，读取 `AVFMT_FLAG_GENPTS`，准备 EOF/stream 变量 | PTS 补全是可选的较重路径 |
+| `1596-1603` | 未启用 `GENPTS` 时，优先从 packet buffer 取，否则直接 `read_frame_internal()` | 普通路径尽量少做前瞻，降低延迟 |
+| `1605-1649` | 启用 `GENPTS` 时查看后续同流 packet，借 DTS/B 帧关系推断缺失 PTS | 不前瞻就无法为部分容器补显示时间 |
+| `1651-1658` | 缓冲不足时继续读；若已有缓存又读到非 `EAGAIN` 错误，进入 EOF 补齐流程 | 文件尾仍可能有已缓存、可修复时间戳的 packet |
+| `1660-1665` | 把新 packet 放进内部队列；失败则 unref | 队列必须持有引用，错误路径不能泄漏 |
+| `1668-1673` | 取 stream；必要时为关键帧维护通用索引 | 支持缺少私有索引能力的格式进行 seek |
+| `1675-1680` | 把内部相对时间戳归一化后返回 | 内部哨兵时间基不能泄漏给公共 API 调用方 |
+
+再下一层 [`ff_read_packet()`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/demux.c#L629-L691) 会先尝试释放探测缓存，再调用具体 demuxer 的 `read_packet`，把 packet 变为引用计数对象，更新时间戳并按需继续 codec probe。这里仍然没有发生音视频解码。
+
+### 7.12、`avcodec_send_packet()` / `avcodec_receive_frame()`：解码状态机
+
+发送端源码：[`libavcodec/decode.c:730-761`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavcodec/decode.c#L730-L761)
+
+| 语句范围 | 逐句作用 | 返回码含义 |
+| --- | --- | --- |
+| `732-737` | 取内部 decode context，检查 codec 已打开且确实是 decoder | 不满足返回 `EINVAL` |
+| `739-743` | 已进入 drain 则拒绝新包；拒绝“data 非空但 size 为 0”的歧义包 | drain 后送新数据返回 `EOF`；非法包返回 `EINVAL` |
+| `745-750` | 有效 packet 到来时先检查内部 `buffer_pkt` 是否空，再 `av_packet_ref()` | 缓冲未消费返回 `EAGAIN`；成功只增加引用，不抢走调用方对象所有权 |
+| `751-752` | `NULL`/空 packet 把 `draining_started` 置 1 | 表示不再有新输入，请输出延迟帧 |
+| `754-758` | 若输出缓冲为空且尚未 drain，机会式调用内部解码一次 | 降低第一次 receive 的工作量，但不保证“一 send 就一 frame” |
+| `760` | 返回 0 | 只代表输入已接受，不代表已经产出 frame |
+
+接收端先经过 [`avcodec_receive_frame_flags()`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavcodec/avcodec.c#L707-L723)：它第一句就 `av_frame_unref(frame)`，然后检查 codec 状态，再分派到 decoder 或 encoder reconstruction 路径。decoder 进入 [`ff_decode_receive_frame()`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavcodec/decode.c#L817-L846)：
+
+1. 内部已有 `buffer_frame` 就用 `av_frame_move_ref()` 直接交给调用方。
+2. 否则进入 `decode_receive_frame_internal()`，按 frame-thread 或普通路径调用具体 codec。
+3. 对输出 frame 做合法性校验。
+4. 视频按配置应用 cropping。
+5. 成功后递增 `frame_num`；失败前先 unref 半成品。
+
+**所有权结论：** `send_packet` 成功后调用方仍拥有 packet 对象，可以立即 `av_packet_unref()`；decoder 内部若还需要数据，已经持有自己的引用。`receive_frame` 成功后 frame 持有引用计数 buffer，调用方用完要 `av_frame_unref()`。
+
+### 7.13、`avcodec_send_frame()` / `avcodec_receive_packet()`：编码状态机
+
+源码：[`libavcodec/encode.c:544-596`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavcodec/encode.c#L544-L596)
+
+| 语句范围 | 逐句作用 | 面试重点 |
+| --- | --- | --- |
+| `546-556` | 检查 codec 已打开且为 encoder、未 drain、输入 frame buffer 为空 | buffer 未消费就返回 `EAGAIN`，要求先 receive packet |
+| `558-564` | `frame == NULL` 进入 drain；否则引用/校验输入 frame | caller 仍拥有原 frame，encoder 可持有引用 |
+| `566-570` | 若内部 packet buffer 为空，机会式编码一次 | send 成功不等于立刻有 packet |
+| `572-574` | 递增输入 frame 计数并返回 | 计数的是已接受输入，不等于输出 packet 数 |
+| `582-585` | receive 开头先 unref 调用方传入的旧 packet，再校验 encoder | packet 对象可以安全循环复用 |
+| `587-593` | 内部已有 buffer 就 move_ref，否则继续调用具体 encoder | 输出引用直接转移给调用方，减少复制 |
+
+音频编码要额外回答 `frame_size`：固定帧长 encoder 通常要求 `nb_samples == frame_size`，最后一帧是否可变取决于 codec capability；视频编码还要正确设置 `frame->pts` 和 encoder `time_base`。
+
+### 7.14、`av_interleaved_write_frame()`：交织、时间戳与引用转移
+
+源码：[`libavformat/mux.c:1223-1236`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/mux.c#L1223-L1236)
+
+| 语句范围 | 逐句作用 | 面试重点 |
+| --- | --- | --- |
+| `1227-1231` | packet 非空时进入 `write_packets_common(..., interleaved=1)`；错误时也 unref | 返回后 packet 都是空白状态，成功失败都不能继续依赖原引用 |
+| `1232-1235` | packet 为 `NULL` 时刷新 interleave queue | 这里的 `NULL` 是“刷新封装交织队列”，与 decoder drain 语义不同 |
+
+内部链路是：
+
+```text
+write_packets_common
+→ check_packet / prepare_input_packet
+→ 自动 bitstream filter（若需要）
+→ write_packet_common
+→ interleaved_write_packet
+→ interleave_packet                按各流 DTS 决定谁先写
+→ write_packet
+→ AVOutputFormat.write_packet      具体 MP4/FLV/TS muxer
+```
+
+调用前必须把 `pkt->stream_index` 指向输出 stream，并用 `av_packet_rescale_ts()` 把时间戳从 encoder/输入流时间基换到输出 stream 时间基。公开契约明确：引用计数 packet 的引用由该函数接管，返回时 packet 为空，即使发生错误也是如此。
+
+### 7.15、面试官随手截一段函数，如何现场回答
+
+假设看到 `avcodec_send_packet()` 中“内部 packet 非空就返回 `EAGAIN`”这几句，可以这样说：
+
+> 这是 decoder 输入侧背压。FFmpeg 内部只允许当前缓冲 packet 被消费后再接收新输入；如果缓冲仍占用，返回 `EAGAIN` 让调用方先循环 `avcodec_receive_frame()`。它防止新 packet 覆盖旧 packet，也说明 send/receive 是状态机，不是一包一帧。调用方取空输出后要重送同一个 packet，不能把 `EAGAIN` 当丢包理由。
+
+再追问“为什么 `av_packet_ref()` 而不是 memcpy”时答：packet 的 data 通常由引用计数 buffer 持有，结构体浅拷贝不能正确延长底层数据生命周期；`av_packet_ref()` 增加引用并复制属性，既避免整段压缩数据复制，也保证调用方 unref 后 decoder 仍能安全使用。
+
+## 八、FFmpeg 9.0 最小可编译示例
+
+以下示例按 `n9.0` 公共头文件编写，已使用 Clang 的 `-Wall -Wextra -Werror` 对 FFmpeg 9.0 头文件完成语法检查。为突出主线，仍省略产品级网络超时、取消、硬件帧、渲染和音画同步。
+
+编译方式：
+
+```shell
+cc -std=c11 -Wall -Wextra -Werror probe_media.c \
+  -o probe_media \
+  $(pkg-config --cflags --libs libavformat libavcodec libavutil)
+
+cc -std=c11 -Wall -Wextra -Werror decode_video.c \
+  -o decode_video \
+  $(pkg-config --cflags --libs libavformat libavcodec libavutil)
+```
+
+### 8.1、示例一：打开输入并打印每条流
+
+这个程序验证 `avformat_open_input → avformat_find_stream_info → AVStream/codecpar` 主线。
 
 ```c
-AVFormatContext *fmt = NULL;
-AVCodecContext *dec = NULL;
-const AVCodec *codec = NULL;
-AVPacket *pkt = av_packet_alloc();
-AVFrame *frame = av_frame_alloc();
-int video_index = -1;
-int ret = 0;
+#include <stdio.h>
 
-ret = avformat_open_input(&fmt, input_url, NULL, NULL);
-if (ret < 0) goto end;
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libavutil/avutil.h>
 
-ret = avformat_find_stream_info(fmt, NULL);
-if (ret < 0) goto end;
-
-video_index = av_find_best_stream(fmt,
-                                  AVMEDIA_TYPE_VIDEO,
-                                  -1,
-                                  -1,
-                                  &codec,
-                                  0);
-if (video_index < 0) goto end;
-
-dec = avcodec_alloc_context3(codec);
-if (!dec) goto end;
-
-ret = avcodec_parameters_to_context(
-    dec,
-    fmt->streams[video_index]->codecpar
-);
-if (ret < 0) goto end;
-
-ret = avcodec_open2(dec, codec, NULL);
-if (ret < 0) goto end;
-
-while ((ret = av_read_frame(fmt, pkt)) >= 0) {
-    if (pkt->stream_index == video_index) {
-        ret = avcodec_send_packet(dec, pkt);
-        if (ret < 0) {
-            av_packet_unref(pkt);
-            goto end;
-        }
-
-        while ((ret = avcodec_receive_frame(dec, frame)) >= 0) {
-            consume_video_frame(frame);
-            av_frame_unref(frame);
-        }
-
-        if (ret != AVERROR(EAGAIN) && ret != AVERROR_EOF) {
-            av_packet_unref(pkt);
-            goto end;
-        }
-    }
-
-    av_packet_unref(pkt);
+static void print_error(const char *where, int err)
+{
+    char text[AV_ERROR_MAX_STRING_SIZE] = {0};
+    av_strerror(err, text, sizeof(text));
+    fprintf(stderr, "%s: %s\n", where, text);
 }
 
-/* 输入 EOF 后 drain decoder，取出 B 帧等内部缓存。 */
-if (ret == AVERROR_EOF) {
-    ret = avcodec_send_packet(dec, NULL);
-    if (ret >= 0) {
-        while ((ret = avcodec_receive_frame(dec, frame)) >= 0) {
-            consume_video_frame(frame);
-            av_frame_unref(frame);
-        }
+int main(int argc, char **argv)
+{
+    AVFormatContext *fmt = NULL;
+    int ret = 0;
+
+    if (argc != 2) {
+        fprintf(stderr, "usage: %s input\n", argv[0]);
+        return 2;
     }
-}
+
+    ret = avformat_open_input(&fmt, argv[1], NULL, NULL);
+    if (ret < 0) {
+        print_error("avformat_open_input", ret);
+        goto end;
+    }
+
+    ret = avformat_find_stream_info(fmt, NULL);
+    if (ret < 0) {
+        print_error("avformat_find_stream_info", ret);
+        goto end;
+    }
+
+    av_dump_format(fmt, 0, argv[1], 0);
+    for (unsigned i = 0; i < fmt->nb_streams; i++) {
+        const AVStream *st = fmt->streams[i];
+        const AVCodecParameters *par = st->codecpar;
+        const char *type = av_get_media_type_string(par->codec_type);
+        printf("stream=%u type=%s codec=%s time_base=%d/%d\n",
+               i,
+               type ? type : "unknown",
+               avcodec_get_name(par->codec_id),
+               st->time_base.num,
+               st->time_base.den);
+    }
 
 end:
-av_packet_free(&pkt);
-av_frame_free(&frame);
-avcodec_free_context(&dec);
-avformat_close_input(&fmt);
+    avformat_close_input(&fmt);
+    return ret < 0 ? 1 : 0;
+}
+```
+
+逐句抓重点：
+
+- `fmt` 初始为 `NULL`，允许 `avformat_open_input()` 内部分配。
+- `avformat_find_stream_info()` 可能继续读包做探测，所以直播场景要控制探测成本。
+- `AVStream->codecpar` 是参数描述，不是已经打开的 decoder。
+- `avformat_close_input(&fmt)` 同时关闭输入并把指针置空；即使前面失败，统一收口也安全。
+
+### 8.2、示例二：完整打开 decoder、读包、取帧并 drain
+
+```c
+#include <stdio.h>
+
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libavutil/avutil.h>
+
+static void print_error(const char *where, int err)
+{
+    char text[AV_ERROR_MAX_STRING_SIZE] = {0};
+    av_strerror(err, text, sizeof(text));
+    fprintf(stderr, "%s: %s\n", where, text);
+}
+
+static int receive_frames(AVCodecContext *dec, AVFrame *frame, int *count)
+{
+    int ret;
+
+    while ((ret = avcodec_receive_frame(dec, frame)) >= 0) {
+        printf("frame=%d pts=%lld size=%dx%d format=%d\n",
+               ++*count,
+               (long long)frame->pts,
+               frame->width,
+               frame->height,
+               frame->format);
+        av_frame_unref(frame);
+    }
+
+    return ret;
+}
+
+int main(int argc, char **argv)
+{
+    AVFormatContext *fmt = NULL;
+    AVCodecContext *dec = NULL;
+    const AVCodec *codec = NULL;
+    AVPacket *pkt = NULL;
+    AVFrame *frame = NULL;
+    int video_index = -1;
+    int frame_count = 0;
+    int ret = 0;
+
+    if (argc != 2) {
+        fprintf(stderr, "usage: %s input\n", argv[0]);
+        return 2;
+    }
+
+    ret = avformat_open_input(&fmt, argv[1], NULL, NULL);
+    if (ret < 0) goto fail;
+
+    ret = avformat_find_stream_info(fmt, NULL);
+    if (ret < 0) goto fail;
+
+    video_index = av_find_best_stream(fmt, AVMEDIA_TYPE_VIDEO,
+                                      -1, -1, &codec, 0);
+    if (video_index < 0) {
+        ret = video_index;
+        goto fail;
+    }
+
+    dec = avcodec_alloc_context3(codec);
+    if (!dec) {
+        ret = AVERROR(ENOMEM);
+        goto fail;
+    }
+
+    ret = avcodec_parameters_to_context(
+        dec, fmt->streams[video_index]->codecpar
+    );
+    if (ret < 0) goto fail;
+
+    dec->pkt_timebase = fmt->streams[video_index]->time_base;
+    ret = avcodec_open2(dec, codec, NULL);
+    if (ret < 0) goto fail;
+
+    pkt = av_packet_alloc();
+    frame = av_frame_alloc();
+    if (!pkt || !frame) {
+        ret = AVERROR(ENOMEM);
+        goto fail;
+    }
+
+    while ((ret = av_read_frame(fmt, pkt)) >= 0) {
+        if (pkt->stream_index != video_index) {
+            av_packet_unref(pkt);
+            continue;
+        }
+
+        ret = avcodec_send_packet(dec, pkt);
+        av_packet_unref(pkt);
+        if (ret < 0) goto fail;
+
+        ret = receive_frames(dec, frame, &frame_count);
+        if (ret != AVERROR(EAGAIN) && ret != AVERROR_EOF)
+            goto fail;
+    }
+
+    if (ret != AVERROR_EOF) goto fail;
+
+    ret = avcodec_send_packet(dec, NULL);
+    if (ret < 0) goto fail;
+
+    ret = receive_frames(dec, frame, &frame_count);
+    if (ret != AVERROR_EOF) goto fail;
+
+    ret = 0;
+
+fail:
+    if (ret < 0) print_error("decode", ret);
+    av_packet_free(&pkt);
+    av_frame_free(&frame);
+    avcodec_free_context(&dec);
+    avformat_close_input(&fmt);
+    return ret < 0 ? 1 : 0;
+}
 ```
 
 **这段代码最容易被追问的点：**
 
 - `av_read_frame()` 拿到的是 packet，不是 decoded frame。
-- 每个 packet 用完都 `av_packet_unref()`，packet 对象本身循环复用。
-- 每次 send 后 receive 要循环，因为可能输出多帧。
-- `EAGAIN` 是状态切换，不是普通失败。
-- 输入 EOF 后还要 send `NULL` drain decoder。
-- 真正工程中还要处理 `av_read_frame()` 的 `EAGAIN`、网络超时、取消、格式变化和并发队列。
+- 非目标 stream 也必须 `av_packet_unref()`。
+- `send_packet()` 返回后即可 unref 调用方 packet，因为 decoder 需要时会持有自己的引用。
+- 每次 send 后 receive 要循环，因为可能输出零到多帧。
+- receive 的 `EAGAIN` 表示继续送输入，不是码流损坏。
+- 输入 EOF 后 send `NULL` drain，最终以 receive 返回 `AVERROR_EOF` 为结束。
+- 真正工程中还要处理非阻塞输入的 `EAGAIN`、interrupt callback、seek 后 flush、格式变化、硬件帧和跨线程队列。
+
+### 8.3、示例三：转封装写包的核心循环
+
+下面片段假设输入输出 stream 已一一建立、输出 header 已写好，重点只看时间基和 packet 所有权：
+
+```c
+while ((ret = av_read_frame(in_fmt, pkt)) >= 0) {
+    AVStream *in_st;
+    AVStream *out_st;
+
+    if (pkt->stream_index >= stream_mapping_size ||
+        stream_mapping[pkt->stream_index] < 0) {
+        av_packet_unref(pkt);
+        continue;
+    }
+
+    in_st = in_fmt->streams[pkt->stream_index];
+    pkt->stream_index = stream_mapping[pkt->stream_index];
+    out_st = out_fmt->streams[pkt->stream_index];
+
+    av_packet_rescale_ts(pkt, in_st->time_base, out_st->time_base);
+    pkt->pos = -1;
+
+    ret = av_interleaved_write_frame(out_fmt, pkt);
+    /* 这里不再 unref：该函数返回时 pkt 已为空，包括错误返回。 */
+    if (ret < 0)
+        goto fail;
+}
+
+if (ret == AVERROR_EOF)
+    ret = av_write_trailer(out_fmt);
+```
+
+**追问答案：** stream copy 不解码，但仍要映射 stream index、换算时间基、按 DTS 交织，并可能经过自动 bitstream filter；所以它不是“原文件字节复制”。
 
 ## 九、源码函数高频追问与答案
 
@@ -857,12 +1238,13 @@ make install
 
 ### 11.3、FFmpegKitNext：当前最接近“一站式跨平台打包”
 
-截至 `2026-08-04`：
+截至 `2026-08-05`：
 
 - 旧 `FFmpegKit` 已退休并归档；不要照旧博客继续集成历史二进制。
-- 原作者维护的 `FFmpegKitNext` 是官方延续项目。
+- `FFmpegKitNext` 自称是 `FFmpegKit` 的正式延续项目；它与 FFmpeg 项目/商标持有人并非同一个项目。
 - 它支持 Android、iOS/iPadOS、Linux、macOS、tvOS、visionOS、Web、Flutter 和 React Native。
 - 当前列出的 `FFmpegKitNext 8.1.1` 基于 `FFmpeg 8.1.2`，发布于 `2026-07-28`。
+- **它当前还不是 FFmpeg 9.0 构建方案。** 要求 `n9.0` 产物时，不能因为项目名写着 FFmpeg 就默认已经同步；应等待其版本表明确列出 9.0，或基于 `n9.0` 自建并验证现有 wrapper/patch。
 - 它不再向 Maven Central、CocoaPods、pub.dev、npm 发布开箱即用包，而是推荐使用 Nix 在本地为目标平台构建。
 
 **评价：** 它解决了“每个平台脚本、wrapper API、依赖和产物组织”的大部分重复劳动，但它仍不是 GUI，也没有替你取消许可证和目标架构选择。
@@ -1027,7 +1409,7 @@ VFR 视频帧间隔不固定，容器和 packet/frame 自带时间戳才是主�
 
 **核心回答：**
 
-先看 `ffmpeg -version` 和 `-buildconf`，再看 `-formats`、`-codecs`、`-encoders`、`-decoders`、`-filters`、`-protocols`、`-hwaccels`。同样写着 FFmpeg 8.1.2 的两个二进制，configure 选项不同，能力和许可证都可能不同。
+先看 `ffmpeg -version` 和 `-buildconf`，再看 `-formats`、`-codecs`、`-encoders`、`-decoders`、`-filters`、`-protocols`、`-hwaccels`。同样写着 FFmpeg 9.0 的两个二进制，configure 选项不同，能力和许可证都可能不同。
 
 ## 十五、易错旧 API 与现代写法
 
@@ -1041,7 +1423,7 @@ VFR 视频帧间隔不固定，容器和 packet/frame 自带时间戳才是主�
 | 旧 `channel_layout` 位掩码 | 使用 `AVChannelLayout` 相关 API |
 | `swr_alloc_set_opts()` | 使用 `swr_alloc_set_opts2()` |
 
-面试时如果题目来自旧版本，先回答它在当时的作用，再补一句“现代 API 已改为……”。不要只说旧函数“错了”，也不要把旧代码直接搬到 8.1.2。
+面试时如果题目来自旧版本，先回答它在当时的作用，再补一句“FFmpeg 9.0 的现代 API 已改为……”。不要只说旧函数“错了”，也不要把雷霄骅旧文或其它旧代码直接搬到 9.0；保留分析方法，更新 API、结构体字段和所有权规则。
 
 ## 十六、复习路线
 
@@ -1074,27 +1456,35 @@ write_header / write_frame / write_trailer
 - 正常 decode + EOF drain。
 - seek + flush + 从关键帧向目标帧推进。
 
-### 16.4、第四轮：走读 8.1.2 源码
+### 16.4、第四轮：走读 9.0 源码
 
 从 `fftools/ffmpeg.c` 的 `main()` 和 `transcode()` 开始，只沿一条路径追；不要第一天扎进 H.264 decoder 内部。先掌握调度边界和公开 API，再读某个具体 codec 的 parser、DSP、bitstream 和多线程实现。
+
+推荐按“Lei 式小闭环”重复：选一个函数 → 画一张调用图 → 对每个条件和引用操作写一句解释 → 运行一个最小例子 → 用 LLDB/GDB 在关键入口断点 → 记录 9.0 与旧文的差异。
 
 ## 十七、官方与项目资料
 
 - [**FFmpeg 官方首页**](https://ffmpeg.org/)
-- [**FFmpeg 8.1.2 下载与版本信息**](https://ffmpeg.org/download.html)
+- [**FFmpeg 9.0 下载与版本信息**](https://ffmpeg.org/download.html#release_9.0)
+- [**FFmpeg 9.0 Release Notes**](https://github.com/FFmpeg/FFmpeg/blob/n9.0/RELEASE_NOTES)
+- [**FFmpeg 9.0 Changelog**](https://github.com/FFmpeg/FFmpeg/blob/n9.0/Changelog)
 - [**FFmpeg 官方 About：工具与库职责**](https://ffmpeg.org/about.html)
-- [**FFmpeg 官方 API 文档**](https://ffmpeg.org/doxygen/trunk/)
-- [**FFmpeg send/receive API 状态机**](https://ffmpeg.org/doxygen/trunk/group__lavc__encdec.html)
-- [**libavformat 公开 API**](https://ffmpeg.org/doxygen/trunk/avformat_8h.html)
-- [**FFmpeg 官方示例目录（8.1.2）**](https://github.com/FFmpeg/FFmpeg/tree/n8.1.2/doc/examples)
-- [**FFmpeg 8.1.2 源码 tag**](https://github.com/FFmpeg/FFmpeg/tree/n8.1.2)
+- [**FFmpeg 在线 API 文档**](https://ffmpeg.org/doxygen/trunk/)（页面跟随开发分支，精确核对 9.0 时以下列 tag 头文件为准）
+- [**FFmpeg 9.0 send/receive API 契约：`avcodec.h`**](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavcodec/avcodec.h#L2315-L2442)
+- [**FFmpeg 9.0 libavformat 公开 API：`avformat.h`**](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/avformat.h)
+- [**FFmpeg 官方示例目录（9.0）**](https://github.com/FFmpeg/FFmpeg/tree/n9.0/doc/examples)
+- [**FFmpeg 9.0 源码 tag**](https://github.com/FFmpeg/FFmpeg/tree/n9.0)
 - [**FFmpeg 许可证与合规说明**](https://ffmpeg.org/legal.html)
+- [**“Lei”纪念背景延伸报道（用户提供）**](https://m.toutiao.com/is/0QimRSzhD2Q/)
+- [**雷霄骅 CSDN 博客：leixiaohua1020**](https://blog.csdn.net/leixiaohua1020)
+- [**雷霄骅最简单 FFmpeg 示例项目归档**](https://gitee.com/organizations/leixiaohua/projects)
+- [**Simplest FFmpeg Video Encoder 项目说明归档**](https://sourceforge.net/p/simplestffmpegvideoencoder/wiki/)
 - [**FFmpegKitNext**](https://github.com/arthenica/ffmpeg-kit-next)
 - [**media-autobuild_suite**](https://github.com/m-ab-s/media-autobuild_suite)
 - [**BtbN FFmpeg-Builds**](https://github.com/BtbN/FFmpeg-Builds)
 - [**Shutter Encoder**](https://www.shutterencoder.com/)
 - [**HandBrake**](https://handbrake.fr/)
 
-> 资料状态核验日期统一为 `2026-08-04`。第三方项目会继续变化，实际打包前应再次确认维护状态、目标 FFmpeg 版本、产物 ABI 和许可证。
+> 资料状态核验日期统一为 `2026-08-05`，时区 `Asia/Shanghai`。第三方项目会继续变化，实际打包前应再次确认维护状态、目标 FFmpeg 版本、产物 ABI 和许可证。
 
 <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
