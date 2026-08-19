@@ -2,7 +2,7 @@
 title: "通过SSH连接到GitHub"
 date: 2026-08-04T15:56:10+08:00
 draft: false
-weight: 650
+weight: 130
 summary: "## 🔥 前言 > SSH 用本机私钥证明身份，GitHub 账户只保存公钥。私钥、私钥口令、Token 和 Cookie 不得上传到仓库或发给他人；公钥虽然不是秘密，也应避免在通用示例中固化个人邮箱和机器身份。 ## 一、先检查已有密钥 🔼 🔽 常见公钥文件： - ided25519.pub - idecdsa.pub - idrsa.pub 如果已有受信"
 bookCollapseSection: false
 ---

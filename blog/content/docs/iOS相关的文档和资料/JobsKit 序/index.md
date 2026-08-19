@@ -2,7 +2,7 @@
 title: "JobsKit 序"
 date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 380
+weight: 630
 summary: "我们的驱动力和目标： ## 附件：稳定版仓库Bitbucket，Github在不断更新 个人GitHub地址"
 bookCollapseSection: false
 ---
