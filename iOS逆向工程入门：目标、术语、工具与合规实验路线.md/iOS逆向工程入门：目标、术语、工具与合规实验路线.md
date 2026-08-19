@@ -305,11 +305,15 @@ sequenceDiagram
 
 初学者先使用下面五件套，不需要一上来安装大量工具：
 
-1. Xcode：构建自己的 Debug / Release 样本，管理 dSYM，在可视化界面中使用 LLDB。
-2. Terminal + Xcode Command Line Tools：查看包、Mach-O、符号、签名和 Entitlements。
-3. LLDB：动态断点、调用栈、寄存器、镜像和反汇编。
-4. Hopper 或 Ghidra 二选一：建立静态分析的函数、伪代码和交叉引用视角。
-5. Instruments：验证耗时、内存、线程和系统调用表现。
+1、Xcode：构建自己的 Debug / Release 样本，管理 dSYM，在可视化界面中使用 LLDB。
+
+2、Terminal + Xcode Command Line Tools：查看包、Mach-O、符号、签名和 Entitlements。
+
+3、LLDB：动态断点、调用栈、寄存器、镜像和反汇编。
+
+4、Hopper 或 Ghidra 二选一：建立静态分析的函数、伪代码和交叉引用视角。
+
+5、Instruments：验证耗时、内存、线程和系统调用表现。
 
 ### 6.2、系统自带与 Apple 工具
 
@@ -377,6 +381,22 @@ Frida 不是入门第一步。先学会 LLDB、调用约定和 Runtime，再用 
 - `Cycript`：历史上常见的运行时交互工具。现代学习路线优先 LLDB 和 Frida，不建议从过时教程起步。
 - `Theos`、Tweak、重签名工具：与越狱插件、注入和修改链条联系紧密，不属于本文的合规入门路线。
 - “脱壳”：常指处理加密保护后的可执行内容。不要把获取或处理第三方 App 二进制当作学习起点；直接使用自己构建的 Lab App。
+
+### 6.7、专题文档索引
+
+截图里的工具不是一条可以按顺序批量安装的“武器清单”，而是分布在不同观察层的能力。下面按专题统一管理，每个文件都从原理、工具地图、自有 Lab、风险边界和完成标准展开：
+
+| 专题 | 覆盖工具与能力 | 文档 |
+| --- | --- | --- |
+| 静态分析 | IDA Pro、Hopper Disassembler、Mach-O、交叉引用、伪代码 | [《静态分析》](../静态分析.md/静态分析.md) |
+| 动态分析 | LLDB、Cycript、Frida、ASLR、调用栈、只读追踪 | [《动态分析》](../动态分析.md/动态分析.md) |
+| 网络分析 | Charles、mitmproxy、Wireshark、HTTPS、TLS、Socket | [《网络分析》](../网络分析.md/网络分析.md) |
+| 注入工具 | cyinject、yololib、insert_dylib、optool、install_name_tool | [《注入工具》](../注入工具.md/注入工具.md) |
+| 砸壳工具 | CrackXI、dumpdecrypted、FairPlay、现代替代实验 | [《砸壳工具》](../砸壳工具.md/砸壳工具.md) |
+| Hook 工具 | MobileSubstrate、fishhook、HookZz、Dobby、Substitute | [《Hook 工具》](../Hook工具.md/Hook工具.md) |
+| 签名与命令行 | 签名、脱壳、class-dump、`ssh`、`ps`、`ls` 与 Mach-O 命令 | [《签名、脱壳、class-dump 与常用命令行工具》](../签名、脱壳、class-dump与常用命令行工具.md/签名、脱壳、class-dump与常用命令行工具.md) |
+
+推荐顺序：静态分析 → LLDB 动态验证 → 网络分层 → 签名与命令行；注入、砸壳和 Hook 放在掌握 Mach-O、dyld、Runtime 与授权边界之后。
 
 ---
 

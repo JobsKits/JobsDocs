@@ -142,16 +142,15 @@ git config --file .gitmodules --get-regexp '^submodule\..*\.(path|url)$'
 
 [**Jobs SourceTree Commit 修复动作**](https://github.com/JobsKits/SourceTree.sh/tree/main/%E3%80%90MacOS%40SourceTree%E3%80%91%F0%9F%93%A5%E4%BF%AE%E5%A4%8DGit%E6%97%A0%E6%B3%95Commit.command) 当前实现的核心流程是：
 
-1. 先检查真实 gitdir 下的 `index.lock`：活锁或索引写进程存在时停止；确认是残留锁时移动到 `jobs-stale-lock-backups`，并验证现有索引可读。
-2. 有 `.gitmodules` 变更时先执行 `git add -A -- .gitmodules`，满足删除或迁移 gitlink 前的配置一致性要求。
-3. 从索引读取全部 `160000` gitlink，检查缺失、空目录、路径迁移和 `.git/core.worktree` 错位。
-4. 缺失工作树按 `.gitmodules` 尝试 `git submodule update --init --recursive`。
-5. 如果父仓锁定提交已经无法从新克隆子模块取到，但脚本得到一个有效且 clean 的当前 `HEAD`，会保留这个工作树；后续全量暂存可能让父仓 gitlink 改指该 `HEAD`，必须人工判断这个依赖升级是否正确。
-6. 同一 `.gitmodules` section 改路径时，会在旧路径不存在、URL 与 gitdir remote 能相互验证等条件下同步 `.gitmodules`、`core.worktree` 与新旧 gitlink；条件不足时停止。
-7. 已登记到 `.gitmodules` 的同源副本如果借用了旧路径 gitdir，会尝试复制独立 gitdir；当前 Sourcetree 书签自身借错 gitdir 时，也可能把它转换为独立 Git 工作树。
-8. 子模块内部有真实修改时保留原样并报告；父仓提交仍只记录 gitlink 指向，不会包含子模块未提交文件。
-9. 预检通过后执行 `git add -A -- .`，用一次完整索引刷新替代 Sourcetree 对单个路径的分步 `add` / `rm`。
-10. 脚本不会终止 Git 进程，不直接删除锁，也不会执行 `commit`、`push`、`reset`、`clean` 或 `git add -f`；但会修改索引、Git 元数据，并可能访问子模块远端，执行后必须检查暂存区。
+1. `C01` 工作树定位：核对当前路径、`.git` 指针、gitdir 与 `core.worktree`；只在旧路径失效或当前目录可安全独立化时修复绑定。
+2. `C02` 索引锁：检查真实 gitdir 下的 `index.lock`；活锁或索引写进程存在时停止，确认残留后移动到 `jobs-stale-lock-backups` 并验证索引可读。
+3. `C03` `.gitmodules` 顺序：有配置变化时先执行 `git add -A -- .gitmodules`，满足删除或迁移 gitlink 前的配置一致性要求。
+4. `C04` 嵌套工作树：扫描未完成的子模块路径迁移、借用旧 gitdir 的同源副本及 `.git/core.worktree` 错位；路径、索引登记和 URL 不能相互证明时停止。
+5. `C05` 子模块一致性：从索引读取全部模式 `160000` 的 gitlink，检查缺失、空目录、迁移、退役和内部真实修改；缺失工作树按 `.gitmodules` 尝试 `git submodule update --init --recursive`。
+6. `C06` 完整索引刷新：前置检查通过后只执行一次 `git add -A -- .`，统一记录新增、修改、删除、重命名和文件/同名目录形态互换。
+7. `C07` 解锁复验：确认没有遗留 `index.lock`，再执行 `git ls-files --stage` 与 `git add --dry-run -A -- .`；二者通过只代表索引/暂存入口已解锁。
+
+如果父仓锁定提交已经无法从新克隆子模块取到，但脚本得到有效且 clean 的当前 `HEAD`，后续全量暂存可能让父仓 gitlink 改指该 `HEAD`，必须人工判断依赖升级是否正确。子模块内部真实修改会保持原样；脚本不会终止 Git 进程，不直接删除锁，也不会执行 `commit`、`push`、`reset`、`clean` 或 `git add -f`。Hook、作者身份、签名、未解决冲突和系统资源问题不属于 `C07` 的解锁承诺。
 
 ### 3.6、运行 Commit 修复动作
 
@@ -223,12 +222,13 @@ Git 引用名映射为层级路径。远端从 `release` 迁移到 `release/v2` 
 
 安全顺序：
 
-1. 先正常 `git fetch --prune`，只在命中特定引用路径冲突时进入修复。
-2. 用 `git ls-remote --heads <远端>` 读取远端真实分支，不能只相信本地缓存。
-3. 只提取错误明确点名的目标分支，不扫描并删除整个远端引用空间。
-4. 先执行 `git remote prune <远端>` 清理远端已删除的跟踪引用。
-5. 如果 loose ref 或 reflog 仍造成文件/目录阻塞，把精确路径移动到备份区。
-6. 再次 Fetch，并以退出码和目标引用是否生成作为成功条件。
+1. `F01` 先正常执行 `git fetch --prune`；成功时立即停止，不创建备份目录。
+2. F01 失败后只在错误明确命中远端引用路径冲突时继续；用 `git ls-remote --heads <远端>` 读取远端真实分支，并只提取错误点名的目标分支。
+3. `F02` 执行 `git remote prune <远端>` 清理失效远端跟踪引用，然后立即重新 Fetch；成功时停止。
+4. `F03` 处理大小写前缀碰撞：执行 Git 原生 `git pack-refs --all`，让有效引用继续保存在 `packed-refs`，并按 Git 默认行为清理已打包的 loose refs；备份碰撞 reflog 后立即重新 Fetch。
+5. `F04` 只备份 `foo` 文件阻止创建 `foo/bar` 目录的前缀 loose ref/reflog，然后立即重新 Fetch。
+6. `F05` 只备份 `foo/` 目录阻止创建 `foo` 文件的同名 loose ref/reflog 目录，然后立即重新 Fetch。
+7. 每次复试都以 Git 退出码为解锁判据；最近一次错误如果转为网络、认证、并发锁等其它故障，或 F01–F05 全部未通过，脚本停止扩大修改范围并返回失败。
 
 [**Jobs SourceTree Fetch 修复动作**](https://github.com/JobsKits/SourceTree.sh/tree/main/%E3%80%90MacOS%40SourceTree%E3%80%91%F0%9F%93%A5%E4%BF%AE%E5%A4%8DGit%E6%97%A0%E6%B3%95Fetch.command) 已按上述边界实现，备份写入当前仓库 Git 元数据下的：
 
@@ -238,7 +238,7 @@ Git 引用名映射为层级路径。远端从 `release` 迁移到 `release/v2` 
 └── logs/refs/remotes/...
 ```
 
-脚本不执行 Pull、merge、rebase、commit、push、reset 或 checkout；它只更新 Fetch 本来就会更新的远端跟踪状态，并移动本次明确阻塞的 loose ref/reflog。网络、DNS、代理、认证、权限、真实并发锁和磁盘故障不属于该脚本的修复范围。
+脚本不执行 Pull、merge、rebase、commit、push、reset 或 checkout；它只更新 Fetch 本来就会更新的远端跟踪状态、用 Git 原生 `pack-refs` 改变引用的存储形态，并移动本次明确阻塞的 loose ref/reflog。`pack-refs` 不改变引用 OID 或提交历史。网络、DNS、代理、认证、权限、真实并发锁和磁盘故障不属于该脚本的修复范围。
 
 ### 4.4、为什么不直接删除整个 `refs/remotes/origin`
 
@@ -276,7 +276,7 @@ git remote show <remote>
 git status --short --branch
 ```
 
-Fetch 动作的日志文件为 `【MacOS@SourceTree】📥修复Git无法Fetch.log`；它会记录两次 Fetch 输出、远端选择、备份路径和最终退出结果。备份属于 Git 元数据排错证据，不应在未确认恢复完成前删除。
+Fetch 动作的日志文件为 `【MacOS@SourceTree】📥修复Git无法Fetch.log`；它会记录 F01–F05 的执行顺序、每次实际 Fetch 复试、远端选择、错误分支、备份路径和最终退出结果。备份属于 Git 元数据排错证据，不应在未确认恢复完成前删除。
 
 ## 五、无法 `Pull`
 
@@ -394,6 +394,7 @@ GIT_CURL_VERBOSE=1 git fetch origin
 
 - [**git-add**](https://git-scm.com/docs/git-add)：索引与 `-A` 语义。
 - [**git-fetch**](https://git-scm.com/docs/git-fetch)：远端跟踪引用、refspec 与 pruning。
+- [**git-pack-refs**](https://git-scm.com/docs/git-pack-refs)：把 loose refs 收进 `packed-refs`，并在默认策略下清理已打包的 loose 路径。
 - [**git-submodule**](https://git-scm.com/docs/git-submodule)：子模块初始化、更新、同步和路径。
 - [**git-reflog**](https://git-scm.com/docs/git-reflog)：本地引用历史与过期。
 - [**git-fsck**](https://git-scm.com/docs/git-fsck)：对象连通性、dangling 与 lost-found。
