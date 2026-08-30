@@ -2,7 +2,7 @@
 title: "优秀的关于音视频处理的文献资料"
 date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 600
+weight: 610
 summary: "资料来源： https://github.com/huizai0705/VideoRecorderiOS https://github.com/lmf12/SimpleCam https://github.com/alstonwei/RepeatPlayer https://github.com/huizai0705/VideoRecorderiOS htt"
 bookCollapseSection: false
 ---

@@ -2,7 +2,7 @@
 title: "iOS 逆向专题：网络分析"
 date: 2026-08-19T12:45:49+08:00
 draft: false
-weight: 60
+weight: 70
 summary: "## 🔥 前言 > 网络分析的第一步不是“抓包”，而是先判断要看应用层 HTTP(S)、TLS 会话元数据，还是 TCP / UDP / QUIC 等传输层数据。Charles、mitmproxy 与 Wireshark 位于不同观察层，不能互相简单替代。本专题仅调试自有 App、自有服务和明确授权流量。 ## 一、三种工具分别看什么 🔼 🔽 ### 1.1"
 bookCollapseSection: false
 ---

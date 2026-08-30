@@ -2,7 +2,7 @@
 title: "iOS 开发为什么普遍不用“拖拉拽”可视化 UI"
 date: 2026-08-19T12:45:49+08:00
 draft: false
-weight: 840
+weight: 860
 summary: "## 🔥 前言 > 先纠正一个容易误解的前提：现代 iOS 开发不是“完全不用可视化 UI”，而是很多中大型项目不再把 Storyboard / XIB 当作页面结构的唯一事实来源。现在更常见的是“代码声明界面 + 实时预览 + 自动化验证”，其中 SwiftUI 本身就是这种变化的代表。 拖拉拽解决的是“快速摆出一个界面”；工程团队真正长期面对的，却是多人"
 bookCollapseSection: false
 ---

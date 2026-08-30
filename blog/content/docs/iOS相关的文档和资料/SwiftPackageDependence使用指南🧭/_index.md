@@ -2,7 +2,7 @@
 title: "SwiftPackageDependence使用指南🧭"
 date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 690
+weight: 700
 summary: "一、集成 Xcode 👉 File 👉 Add Package Dependencies ## 二、删除（涉及到3处） Xcode 👉 File 👉 Add Package Dependencies 工程x.xcodeproj 👉 PROJECT 👉 Package Dependencies 工程x.xcodeproj 👉 TARGETS 👉 General"
 bookCollapseSection: false
 ---

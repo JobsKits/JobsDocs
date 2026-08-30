@@ -2,7 +2,7 @@
 title: "GitHub Actions 工作流"
 date: 2026-08-04T15:56:10+08:00
 draft: false
-weight: 150
+weight: 160
 summary: "## 🔥 前言 > GitHub Actions 是 GitHub 的事件驱动自动化平台。它不仅能跑 CI/CD，也能做定时任务、发布、依赖更新、文档生成和仓库治理；权限、外部 Action、第三方依赖与不受信任 Pull Request 同时构成供应链边界。 ## 一、核心模型 🔼 🔽 | 概念 | 含义 | 关键边界 | | --- | --- | --"
 bookCollapseSection: false
 ---

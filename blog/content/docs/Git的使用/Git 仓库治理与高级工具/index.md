@@ -2,7 +2,7 @@
 title: "Git 仓库治理与高级工具"
 date: 2026-08-04T15:56:10+08:00
 draft: false
-weight: 180
+weight: 190
 summary: "## 🔥 前言 > 高级 Git 的价值不在于命令更冷门，而在于能缩小历史、工作区、性能和安全问题的搜索空间。本文覆盖 revision 选择、worktree、stash、rerere、bisect、Hook、签名、稀疏仓库、LFS、离线备份与维护边界。 ## 一、Revision 选择与历史查询 🔼 🔽 ### 1.1、常用选择器 | 语法 | 含义 |"
 bookCollapseSection: false
 ---

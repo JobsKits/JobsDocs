@@ -2,7 +2,7 @@
 title: "ReactNative"
 date: 2026-06-28T15:48:06+08:00
 draft: false
-weight: 730
+weight: 740
 summary: "当前总行数：366 行 ## 一、基础知识 脚本语言：必须在自己的环境下（解释器）运行，不能完全对接操作系统。比如，.js需要在操作系统里面安装了Node.js以后，才可以运行； ## 二、一些工具 ### 1、Node.js Node.js：是一个基于 Chrome V8 引擎的 JavaScript 运行环境。它的特点如下: 事件驱动与非阻塞I/O模型 "
 bookCollapseSection: false
 ---

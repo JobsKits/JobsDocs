@@ -2,7 +2,7 @@
 title: "iOS项目多环境配置"
 date: 2026-06-01T05:08:26+08:00
 draft: false
-weight: 430
+weight: 440
 summary: "一、打开项目并找到 🔼 🔽 * 找到build setting 👉搜索 Swift Compiler - Custom Floags 。这里就是第一步添加的环境，然后在里面添加宏定义变量 ## 三、代码中使用 🔼 🔽 > 一定要先判断自定义的宏定义，在判断系统的debug和release，系统的宏优先级更高，所以会每次都进入系统宏的条件中 ## 四、配置 P"
 bookCollapseSection: false
 ---

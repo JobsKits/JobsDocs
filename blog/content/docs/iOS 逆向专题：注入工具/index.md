@@ -2,7 +2,7 @@
 title: "iOS 逆向专题：注入工具"
 date: 2026-08-19T12:45:49+08:00
 draft: false
-weight: 820
+weight: 840
 summary: "## 🔥 前言 > “注入”不是一个单独命令，而是一条由 Mach-O 修改、动态库加载、签名、进程权限和运行时初始化组成的链。cyinject、yololib、insertdylib、optool、installnametool 处在不同环节，不能把名字列在一起就当成同类替代品。本专题只讲原理、证据和自有 Lab 边界，不提供对第三方 App 的注入或防护"
 bookCollapseSection: false
 ---

@@ -2,7 +2,7 @@
 title: "iOS 逆向专题：砸壳工具"
 date: 2026-08-19T12:45:49+08:00
 draft: false
-weight: 830
+weight: 850
 summary: "## 🔥 前言 > “砸壳”通常指取得 App Store FairPlay 保护内容在运行时解密后的可执行页，并重建便于分析的 Mach-O。这个主题天然涉及平台保护和软件权利。本专题只解释术语、历史工具与合规替代路线，不提供提取第三方 App、规避 FairPlay 或重新分发解密二进制的方法。 ## 一、先分清“加密、签名、压缩、混淆” 🔼 🔽 ###"
 bookCollapseSection: false
 ---
