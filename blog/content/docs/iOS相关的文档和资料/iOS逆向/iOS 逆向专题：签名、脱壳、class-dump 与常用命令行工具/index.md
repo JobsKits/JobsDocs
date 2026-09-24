@@ -2,7 +2,7 @@
 title: "iOS 逆向专题：签名、脱壳、class-dump 与常用命令行工具"
 date: 2026-09-24T15:45:28+08:00
 draft: false
-weight: 450
+weight: 460
 summary: "## 🔥 前言 > 本专题把容易混在一起的签名、脱壳、类声明恢复和终端观察工具放回各自层次。命令均用于自己的 .app、Mach-O、dSYM 或明确授权样本；ssh、ps、ls 只演示本机或自管实验设备的运维观察，不包含第三方设备访问、凭据获取或防护绕过。 ## 一、代码签名到底证明什么 🔼 🔽 ### 1.1、四个核心作用 1、身份：哪个 Team / "
 bookCollapseSection: false
 ---

@@ -2,7 +2,7 @@
 title: "iOS 逆向专题：Hook 工具"
 date: 2026-09-24T15:45:28+08:00
 draft: false
-weight: 460
+weight: 470
 summary: "## 🔥 前言 > Hook 是让调用在到达原目标前后经过观察或替代逻辑。Objective-C 消息替换、Mach-O 符号重绑定和 ARM64 Inline Hook 原理不同。MobileSubstrate、fishhook、HookZz、Dobby、Substitute 也不是同一层工具。本专题只在自有 Lab 中讲机制与检测，不提供修改第三方 Ap"
 bookCollapseSection: false
 ---
