@@ -2,7 +2,7 @@
 title: "Python 相关经验与面试手册"
 date: 2026-08-30T21:41:48+08:00
 draft: false
-weight: 880
+weight: 910
 summary: "## 🔥 前言 > 写给已经会 Swift / Objective-C，但还不熟悉 Python 的 Jobs。目标是看懂脚本、自己改工具、知道库怎么安装、界面怎么做、产物怎么交付，并能把关键原理在面试中讲清楚。 本文参考《Swift相关经验》《OC相关经验》的专题、对比表、短 Demo 与选型方式；采用“问题 → 期望回答 → 短 Demo 与预期结果 →"
 bookCollapseSection: false
 ---
