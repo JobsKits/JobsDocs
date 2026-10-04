@@ -1,15 +1,15 @@
 ---
 title: "SSH ➤ Github"
-date: 2026-09-24T15:49:31+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 10
-summary: "一、生成SSH密钥🔑 > 尚未在本地计算机上生成SSH密钥🔑对 ## 二、确认 idrsa 真的存在 & 权限正确 ## 三、把 github.com 的 key 明确写进 ~/.ssh/config 建立~/.ssh/config并赋权 打开 open ~/.ssh/config 编辑 ~/.ssh/config > IdentitiesOnly yes "
+summary: "一、生成SSH密钥🔑 🔼 🔽 > 尚未在本地计算机上生成SSH密钥🔑对 ## 二、确认 idrsa 真的存在 & 权限正确 🔼 🔽 ## 三、把 github.com 的 key 明确写进 ~/.ssh/config 🔼 🔽 建立~/.ssh/config并赋权 打开 open ~/.ssh/config 编辑 ~/.ssh/config > Identit"
 bookCollapseSection: false
 ---
 
 
 
-## <span id="前言">一、生成`SSH`密钥🔑 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一、生成`SSH`密钥🔑 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 尚未在本地计算机上生成`SSH`密钥🔑对
 

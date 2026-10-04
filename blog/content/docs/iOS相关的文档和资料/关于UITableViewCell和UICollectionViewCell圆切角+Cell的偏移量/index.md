@@ -1,9 +1,9 @@
 ---
 title: "关于UITableViewCell和UICollectionViewCell圆切角+Cell的偏移量"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 840
-summary: "一些公共的 这种方式，只能统一的设置同一种样式，并不能满足自定义需求 ## 1、关于UITableView.UITableViewCell ### 1.1、圆切角 #### 1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】 且不描边顶部 #### 1.1.2、除了最后一行以外，所有的cel"
+summary: "一些公共的 🔼 🔽 这种方式，只能统一的设置同一种样式，并不能满足自定义需求 ## 1、关于UITableView.UITableViewCell 🔼 🔽 ### 1.1、圆切角 🔼 🔽 #### 1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】 🔼 🔽 且不描边顶部 #### 1.1.2"
 bookCollapseSection: false
 ---
 
@@ -18,7 +18,7 @@ bookCollapseSection: false
 </iframe>
 
 
-## <span id="前言">一些公共的 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一些公共的 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objective-c
 @implementation UITableViewCell (BaseCellProtocol)

@@ -1,9 +1,9 @@
 ---
 title: "iOS 本地通知配置"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 550
-summary: "一、在AppDelegate里面进行配置 ## 二、相关工具类 JobsLocalNotificationModel JobsMakeLocalNotification ## 三、相关调用 * ```objective-c [JobsMakeLocalNotification.new triggerLocalNotification:JobsLocalNot"
+summary: "一、在AppDelegate里面进行配置 🔼 🔽 ## 二、相关工具类 🔼 🔽 JobsLocalNotificationModel JobsMakeLocalNotification ## 三、相关调用 🔼 🔽 * ```objective-c [JobsMakeLocalNotification.new triggerLocalNotification:"
 bookCollapseSection: false
 ---
 
@@ -18,7 +18,7 @@ bookCollapseSection: false
 </iframe>
 
 
-## <span id="前言">一、在`AppDelegate`里面进行配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一、在`AppDelegate`里面进行配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
   ```objective-c
   #import "AppDelegate.h"

@@ -1,6 +1,6 @@
 ---
 title: "iOS项目集成Unity"
-date: 2026-06-28T15:48:06+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 860
 summary: "前言 配置Unity是比较繁琐的，特别是对于以往开发过程中没有接触过此类操作的人员比较虐心，因为包含了很多代码能力以外的经验。笔者退出此文以保姆式教学，助力避坑以求高效开发 如果需要iOS模拟器也支持Unity，则需要Unity侧提供关于iOS模拟器的SDK包，否则只能做条件编译 如需条件编译，不要把主工程的配置项改的乱七八糟。利用.xcconfig的优先级"
@@ -27,7 +27,7 @@ bookCollapseSection: false
   * 集成了Unity，对项目包的大小会有显著增长，对此敏感的研发人员，需要有一定的心理准备
   * Unity会占用主线程，会影响UI刷新导致一个1秒左右的卡顿（Xcode会提示紫色的警告），且接管系统**UIWindow**，所以仅仅能够集成是远远不够的
 
-## <span id="前言">一、前置条件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一、前置条件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 在 <font size=5>**`unity.app`**</font> 里面导出关于**iOS**侧的工程项目 ➤ 包含 <font size=5>`UnityFramework.framwork`</font>
 

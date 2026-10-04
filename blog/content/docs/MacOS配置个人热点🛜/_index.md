@@ -1,9 +1,9 @@
 ---
 title: "MacOS配置个人热点🛜"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 890
-summary: "前言 如果MacOS当前信号输入源是Wi-Fi，则无法配置个人热点 必须打开Wi-Fi 成功标志 ## 一、系统设置👉通用👉共享👉配件与互联网👉互联网共享 ## 二、查看信号源 ### 三、按照图示进行配置 > 共享以下来源的连接（信息入口） > 使用以下端口共享给设备（信息出口） 如果是网线直接插入Mac电脑（一般会显示以太网） * 如果网线是通过USBH"
+summary: "前言 如果MacOS当前信号输入源是Wi-Fi，则无法配置个人热点 必须打开Wi-Fi 成功标志 ## 一、系统设置👉通用👉共享👉配件与互联网👉互联网共享 🔼 🔽 ## 二、查看信号源 🔼 🔽 ### 三、按照图示进行配置 🔼 🔽 > 共享以下来源的连接（信息入口） > 使用以下端口共享给设备（信息出口） 如果是网线直接插入Mac电脑（一般会显示以太网） *"
 bookCollapseSection: false
 ---
 
@@ -29,7 +29,7 @@ bookCollapseSection: false
 
 
 
-## <span id="前言">一、系统设置👉通用👉共享👉配件与互联网👉互联网共享 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一、系统设置👉通用👉共享👉配件与互联网👉互联网共享 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 <img src="./assets/image-20251114095404827.png" alt="image-20250930094106140" style="zoom:67%;" />
 
 ## 二、查看信号源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>

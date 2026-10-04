@@ -1,9 +1,9 @@
 ---
 title: "OC模型解析（参见JobsComment）"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 320
-summary: "一、关注 @implementation BaseModel 值得注意的一点：如果是直接model网络数据的模型，无法手动在本类添加自定义的属性，则，必须用分类！ 比如： ## 二、网络返回值 ➤ .json文件"
+summary: "一、关注 @implementation BaseModel 🔼 🔽 值得注意的一点：如果是直接model网络数据的模型，无法手动在本类添加自定义的属性，则，必须用分类！ 比如： ## 二、网络返回值 ➤ .json文件 🔼 🔽 我是有底线的➤点我回到首页"
 bookCollapseSection: false
 ---
 
@@ -24,7 +24,7 @@ bookCollapseSection: false
 
 ![模型解析03](./assets/模型解析03.jpg)
 
-## <span id="前言">一、关注 `@implementation BaseModel` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一、关注 `@implementation BaseModel` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objective-c
 /// 装载本地假数据

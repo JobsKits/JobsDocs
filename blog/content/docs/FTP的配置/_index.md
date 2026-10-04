@@ -1,9 +1,9 @@
 ---
 title: "FTP的配置"
-date: 2026-06-28T15:48:06+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 210
-summary: "FTP = File Transfer Protocol = 文件传输协议 FTP主要有两种：FTP协议和SFTP协议。 ## 1、前置条件 资料来源 Akamai/Install VSFTPD on Ubuntu 20.04 ## 2、VSFTPD的安装步骤 ## 3、创建一个FTP用户 创建示例文本 testfile.txt 打开与本地主机上运行的VSF"
+summary: "FTP = File Transfer Protocol = 文件传输协议 FTP主要有两种：FTP协议和SFTP协议。 ## 1、前置条件 🔼 🔽 资料来源 Akamai/Install VSFTPD on Ubuntu 20.04 ## 2、VSFTPD的安装步骤 🔼 🔽 ## 3、创建一个FTP用户 🔼 🔽 创建示例文本 testfile.txt 打开"
 bookCollapseSection: false
 ---
 
@@ -50,7 +50,7 @@ SFTP协议（Secure Shell FTP，安全壳FTP）是FTP协议的安全版本。
 SFTP协议通过加密数据传输，提供更高的安全性。SFTP协议使用SSH协议进行数据传输和控制连接。SFTP协议也需要通过用户名和密码进行身份验证。
 ```
 
-## <span id="前言">1、前置条件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 1、前置条件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *资料来源*
 

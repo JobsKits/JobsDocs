@@ -1,9 +1,9 @@
 ---
 title: "iOS 多语言环境设置"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 580
-summary: "一、目标 App语言跟随当前手机系统语言 用户主动切换当前App语言，即：App语言不同于手机系统语言 ## 二、参考资料 3分钟实现iOS语言本地化/国际化（图文详解） iOS App内语言切换（国际化） 在iOS App内优雅的动态切换语言 iOS国际化 （多语言） Demos-LanguageSettingsDemo iOS - 多语言本地化 ## 三"
+summary: "一、目标 🔼 🔽 App语言跟随当前手机系统语言 用户主动切换当前App语言，即：App语言不同于手机系统语言 ## 二、参考资料 🔼 🔽 3分钟实现iOS语言本地化/国际化（图文详解） iOS App内语言切换（国际化） 在iOS App内优雅的动态切换语言 iOS国际化 （多语言） Demos-LanguageSettingsDemo iOS - 多语言"
 bookCollapseSection: false
 ---
 
@@ -18,7 +18,7 @@ bookCollapseSection: false
 </iframe>
 
 
-## <span id="前言">一、目标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一、目标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * **App**语言跟随当前手机系统语言
 * 用户主动切换当前App语言，即：**App**语言不同于手机系统语言

@@ -1,9 +1,9 @@
 ---
 title: "优秀的关于音视频处理的文献资料"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 800
-summary: "资料来源： https://github.com/huizai0705/VideoRecorderiOS https://github.com/lmf12/SimpleCam https://github.com/alstonwei/RepeatPlayer https://github.com/huizai0705/VideoRecorderiOS htt"
+summary: "资料来源： 🔼 🔽 https://github.com/huizai0705/VideoRecorderiOS https://github.com/lmf12/SimpleCam https://github.com/alstonwei/RepeatPlayer https://github.com/huizai0705/VideoRecorderiOS"
 bookCollapseSection: false
 ---
 
@@ -17,7 +17,7 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
-## <span id="前言">资料来源： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 资料来源： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 https://github.com/huizai0705/VideoRecorder_iOS
 https://github.com/lmf12/SimpleCam

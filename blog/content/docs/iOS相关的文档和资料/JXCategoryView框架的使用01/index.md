@@ -1,9 +1,9 @@
 ---
 title: "JXCategoryView框架的使用01"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 400
-summary: "当前总行数：0 行 ## 其他功能 ## 一些共同的准备工作 ## 图文结合 方式一 方式二 方式三 方式四 公共部分"
+summary: "当前总行数：0 行 ## 其他功能 🔼 🔽 ## 一些共同的准备工作 🔼 🔽 ## 图文结合 🔼 🔽 方式一 方式二 方式三 方式四 公共部分 我是有底线的➤点我回到首页"
 bookCollapseSection: false
 ---
 
@@ -19,7 +19,7 @@ bookCollapseSection: false
 
 当前总行数：0 行
 
-## <span id="前言">其他功能 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 其他功能 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objective-c
 /// 手动跳转到某个指定的页面
