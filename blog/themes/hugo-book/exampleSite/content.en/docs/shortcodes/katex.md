@@ -2,7 +2,7 @@
 title: KaTeX
 ---
 
-# KaTeX
+# <span id="前言">KaTeX</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -25,10 +25,10 @@ create a `katex.json` file in your `assets` folder!
 {{< katex />}}
 
 
-## Activation
+## Activation <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 KaTeX is activated on the page by first use of the shortcode or render block. you can force activation with empty `{{</* katex /*/>}}` and use delimiters defined in configuration in `assets/katex.json`.
 
-## Rendering as block
+## Rendering as block <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 {{% columns %}}
 
@@ -70,7 +70,7 @@ $$
 
 {{% /columns %}}
 
-## Rendering inline 
+## Rendering inline <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
 When KaTeX is active on the page it is possible to write inline expressions.  
 
 | Code | Output |
@@ -78,7 +78,7 @@ When KaTeX is active on the page it is possible to write inline expressions.
 | `{{</* katex >}}\pi(x){{< /katex */>}}` | {{< katex >}}\pi(x){{< /katex >}} |
 | `\\( \pi(x) \\)` | \\( \pi(x) \\) |
 
-## Configuration
+## Configuration <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 KaTeX configuration could be adjusted by editing `assets/katex.json` file. For example to enabled inline delimiters `$..$` put content below into the file.
 
 ```json
@@ -92,3 +92,4 @@ KaTeX configuration could be adjusted by editing `assets/katex.json` file. For e
 }
 ```
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

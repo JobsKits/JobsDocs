@@ -1,4 +1,4 @@
-# iOS项目集成Unity
+# <span id="前言">iOS项目集成Unity</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -11,7 +11,7 @@
 
 [toc]
 
-## 前言
+## <span id="前言">前言</span>
 
 * 配置Unity是比较繁琐的，特别是对于以往开发过程中没有接触过此类操作的人员比较虐心，因为包含了很多代码能力以外的经验。笔者退出此文以保姆式教学，助力避坑以求高效开发
 * **如果需要iOS模拟器也支持Unity，则需要Unity侧提供关于iOS模拟器的SDK包**，否则只能做[条件编译](#条件编译)
@@ -20,7 +20,7 @@
   * 集成了Unity，对项目包的大小会有显著增长，对此敏感的研发人员，需要有一定的心理准备
   * Unity会占用主线程，会影响UI刷新导致一个1秒左右的卡顿（Xcode会提示紫色的警告），且接管系统**UIWindow**，所以仅仅能够集成是远远不够的
 
-## 一、前置条件
+## 一、前置条件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 在 <font size=5>**`unity.app`**</font> 里面导出关于**iOS**侧的工程项目 ➤ 包含 <font size=5>`UnityFramework.framwork`</font>
 
@@ -39,11 +39,11 @@
 
     ![image-20251213133612641](./assets/image-20251213133612641.png)
 
-## 二、<font id=无差别导入>无差别导入</font>（适用于Unity侧提供的iOS包兼容iOS模拟器和实体设备）
+## 二、<font id=无差别导入>无差别导入</font>（适用于Unity侧提供的iOS包兼容iOS模拟器和实体设备） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1、**`选中主 App`** ➤ **`TARGETS`** ➤ **`General`** 
+### 1、**`选中主 App`** ➤ **`TARGETS`** ➤ **`General`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
 
-#### 1.1、<font id=如果是条件编译，那么这一步跳过>**`Frameworks, Libraries, and Embedded Content`**</font> ➤ <font color=red>**如果是[条件编译](#条件编译)，那么这一步跳过**</font>
+#### 1.1、<font id=如果是条件编译，那么这一步跳过>**`Frameworks, Libraries, and Embedded Content`**</font> ➤ <font color=red>**如果是[条件编译](#条件编译)，那么这一步跳过**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 点 `+` → 选择 `UnityFramework.framework`（在 `Unity-iPhone` → `Products` 下面）
 
@@ -73,17 +73,17 @@
   </tr>
     </table>
 
-### 2、**`选中主 App`** ➤ **`TARGETS`** ➤ **`Build Settings`** ➤ 
+### 2、**`选中主 App`** ➤ **`TARGETS`** ➤ **`Build Settings`** ➤ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
 
-#### 2.1、`Other Linker Flags` 里加：`-ObjC`
+#### 2.1、`Other Linker Flags` 里加：`-ObjC` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20251213134247612](./assets/image-20251213134247612.png)
 
-#### 2.2、 `Framework Search Paths` 里加：`"$(SRCROOT)/Unity"`
+#### 2.2、 `Framework Search Paths` 里加：`"$(SRCROOT)/Unity"` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20251213134550621](./assets/image-20251213134550621.png)
 
-#### 2.3、 `Library Search Paths` 里加：
+#### 2.3、 `Library Search Paths` 里加： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * `$(PROJECT_DIR)/Unity/xcode_effectTest/Il2CppOutputProject/IL2CPP/build/deploy_arm64`
 * `$(PROJECT_DIR)/Unity/xcode_effectTest/Il2CppOutputProject/IL2CPP/build/deploy_x86_64`
@@ -91,7 +91,7 @@
 
 ![image-20251213134746369](./assets/image-20251213134746369.png)
 
-#### 2.4、`Header Search Paths` 里加：
+#### 2.4、`Header Search Paths` 里加： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - `"$(SRCROOT)/Unity/xcode_effectTest/Classes"`
   
@@ -101,7 +101,7 @@
 
 ![image-20251213135025916](./assets/image-20251213135025916.png)
 
-#### 2.5、`Runpath Search Paths` 里确保有：`@executable_path/Frameworks`
+#### 2.5、`Runpath Search Paths` 里确保有：`@executable_path/Frameworks` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20251213135438685](./assets/image-20251213135438685.png)
 
@@ -143,20 +143,20 @@
       </tr>
     </table>
 
-## 三、<font id=条件编译 color=red>条件编译</font>（适用于Unity侧提供的iOS包只支持实体设备，而不兼容iOS模拟器）
+## 三、<font id=条件编译 color=red>条件编译</font>（适用于Unity侧提供的iOS包只支持实体设备，而不兼容iOS模拟器） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * **原因是不同设备的CPU架构不一样，涉及到的底层的CPU指令集不同**
 * 条件编译的操作只是在[**无差别导入**](#无差别导入)操作基础上进行一些细微的升级
 
-### 1、[跳过 `Frameworks, Libraries, and Embedded Content`](#如果是条件编译，那么这一步跳过)
+### 1、[跳过 `Frameworks, Libraries, and Embedded Content`](#如果是条件编译，那么这一步跳过) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2、**`选中主 App`** ➤ **`TARGETS`** ➤ **`Build Phases`** 
+### 2、**`选中主 App`** ➤ **`TARGETS`** ➤ **`Build Phases`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
 
 ![image-20251213141335148](./assets/image-20251213141335148.png)
 
 ![image-20251213141715771](./assets/image-20251213141715771.png)
 
-#### 2.1、脚本A ➤ 去掉勾选`Based on dependency analysis`
+#### 2.1、脚本A ➤ 去掉勾选`Based on dependency analysis` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 set -euo pipefail
@@ -231,7 +231,7 @@ $SYSTEM_USR_DIR/bin/ditto "${SRC_FW}" "${DST_FW}"
 echo "✅ A: staged UnityFramework.framework into BUILT_PRODUCTS_DIR"
 ```
 
-#### 2.2、脚本B ➤ 去掉勾选`Based on dependency analysis`
+#### 2.2、脚本B ➤ 去掉勾选`Based on dependency analysis` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 set -euo pipefail
@@ -266,13 +266,13 @@ else
 fi
 ```
 
-### 3、<font id=xcconfig>配置 `*.xcconfig`</font>
+### 3、<font id=xcconfig>配置 `*.xcconfig`</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 3.1、挂载`*.xcconfig`
+#### 3.1、挂载`*.xcconfig` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20251213142301146](./assets/image-20251213142301146.png)
 
-#### 3.2、`JobsConfig.xcconfig`
+#### 3.2、`JobsConfig.xcconfig` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 //
@@ -316,7 +316,7 @@ HEADER_SEARCH_PATHS    = $(inherited)
 OTHER_CFLAGS           = $(inherited)
 ```
 
-## 四、经验交流
+## 四、经验交流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * Unity **2019.3** 之前没有 `UnityFramework` 这个玩法，要用老的 `main.mm` hack，比较操心，如果 Unity 很旧，建议升级，否则会非常折磨
 
@@ -388,3 +388,5 @@ OTHER_CFLAGS           = $(inherited)
     ```
     
     
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

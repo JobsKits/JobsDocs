@@ -29,7 +29,7 @@ bookCollapseSection: false
 
 ## 一、面试先背这组结论 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、30 秒介绍 FFmpeg
+### 1.1、30 秒介绍 FFmpeg <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：什么是 FFmpeg？**
 
@@ -56,7 +56,7 @@ FFmpeg 是一个跨平台多媒体框架。它通过 `libavformat` 处理协议�
 
 </details>
 
-### 1.2、10 秒架构回答
+### 1.2、10 秒架构回答 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：FFmpeg 的架构是什么？**
 
@@ -64,7 +64,7 @@ FFmpeg 是一个跨平台多媒体框架。它通过 `libavformat` 处理协议�
 
 FFmpeg 是分层流水线架构。最下层由 `libavutil` 提供公共数据结构、内存、时间和日志能力；中间层由 `libavformat`、`libavcodec`、`libavfilter`、`libswscale`、`libswresample` 等库完成媒体处理；最上层的 `fftools` 把命令行参数解析成输入、解码、滤镜、编码和输出任务，并由调度器并行驱动这些组件。
 
-### 1.3、函数题的万能回答模板
+### 1.3、函数题的万能回答模板 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 面试官突然指着一个函数问“它干嘛的”，按下面五步回答：
 
@@ -78,15 +78,15 @@ FFmpeg 是分层流水线架构。最下层由 `libavutil` 提供公共数据结
 
 > `avcodec_send_packet()` 属于 `libavcodec` 的解码输入端，把含压缩码流的 `AVPacket` 送进已经由 `avcodec_open2()` 打开的解码器。它不保证一包立刻对应一帧；送入后要循环调用 `avcodec_receive_frame()` 取出零到多帧。`EAGAIN` 表示要先取输出，送 `NULL` 表示开始 drain，最终由 receive 返回 `AVERROR_EOF`。
 
-## 二、版本基线与库版本
+## 二、版本基线与库版本 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、为什么选 FFmpeg 9.0 "Lei"
+### 2.1、为什么选 FFmpeg 9.0 "Lei" <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 截至 `2026-08-05`，FFmpeg 官方下载页把 [`9.0 "Lei"`](https://ffmpeg.org/download.html#release_9.0) 标为最新稳定版。该版本发布于 `2026-08-04`，9.0 分支于 `2026-06-26` 从 `master` 切出。本文固定到 `n9.0` tag，避免源码行号和内部调用链随着 `master` 漂移。
 
 官方同时说明：发行分支适合发行商和系统集成；开发分支更新更快、接受全部新功能和修复。面试或稳定工程复盘最好固定到明确 tag，线上跟进安全修复时再评估新版或开发分支。
 
-### 2.2、为什么代号叫“Lei”：雷霄骅留下的学习方法
+### 2.2、为什么代号叫“Lei”：雷霄骅留下的学习方法 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 FFmpeg 官方发布页和 `n9.0` 源码确认本次代号为 **“Lei”**；关于命名所纪念的人物，本文按用户提供的[《FFmpeg 9.0 发布，代号“Lei”，纪念中国开发者雷霄骅》](https://m.toutiao.com/is/0QimRSzhD2Q/)报道记录为雷霄骅（常用账号 `leixiaohua1020`）。这里把“官方可核验事实”和“报道给出的命名背景”分开写，避免把二手解释冒充 FFmpeg 官方原话。
 
@@ -102,7 +102,7 @@ FFmpeg 官方发布页和 `n9.0` 源码确认本次代号为 **“Lei”**；关
 
 > 重要边界：FFmpeg 全仓规模很大，“逐行拆完整个仓库”不适合放进一篇面试手册。本文先对面试最常问的主干函数做**语句级拆解**；具体 H.264/HEVC/AAC codec 的熵解码、运动补偿、DSP 和汇编优化，按文末路线继续分专题。
 
-### 2.3、FFmpeg 9.0 的库版本
+### 2.3、FFmpeg 9.0 的库版本 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 组件 | 版本 | 主要职责 |
 | --- | --- | --- |
@@ -114,7 +114,7 @@ FFmpeg 官方发布页和 `n9.0` 源码确认本次代号为 **“Lei”**；关
 | `libswscale` | `10.1.100` | 图像缩放、像素格式和部分颜色空间转换 |
 | `libswresample` | `7.1.100` | 音频重采样、采样格式转换、声道重混 |
 
-### 2.4、版本号怎么理解
+### 2.4、版本号怎么理解 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - FFmpeg 发行版号，例如 `9.0`，描述整个项目的发布。
 - 各 `libav*` 库有独立的 `major.minor.micro`。
@@ -130,7 +130,7 @@ ffmpeg -filters
 ffmpeg -hwaccels
 ```
 
-### 2.5、9.0 版本变化：面试怎么说
+### 2.5、9.0 版本变化：面试怎么说 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 FFmpeg 9.0 是一次 major release。官方 Changelog 列出的代表性变化包括：
 
@@ -145,9 +145,9 @@ FFmpeg 9.0 是一次 major release。官方 Changelog 列出的代表性变化�
 
 **面试核心回答：** 新功能可以背代表项，但工程升级最先看的不是功能列表，而是各库 major ABI、废弃 API、第三方依赖、硬件 SDK 下限、现有补丁和产物许可证。FFmpeg 9.0 的多个库 major 已提升，不能拿 8.x 的头文件与 9.0 动态库混装。
 
-## 三、FFmpeg 到底由什么组成
+## 三、FFmpeg 到底由什么组成 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、工具层
+### 3.1、工具层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 工具 | 定位 | 高频用途 |
 | --- | --- | --- |
@@ -155,7 +155,7 @@ FFmpeg 9.0 是一次 major release。官方 Changelog 列出的代表性变化�
 | `ffprobe` | 媒体分析工具 | 查看流、包、帧、格式、时长、时间戳和 metadata |
 | `ffplay` | 基于 FFmpeg 库和 SDL 的轻量播放器 | 调试流、验证解码和滤镜，不是完整商用播放器 |
 
-### 3.2、库层
+### 3.2、库层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 库 | 面试表达 | 常见对象/函数 |
 | --- | --- | --- |
@@ -167,7 +167,7 @@ FFmpeg 9.0 是一次 major release。官方 Changelog 列出的代表性变化�
 | `libswscale` | “视频格式变换层” | `SwsContext`、`sws_scale()` |
 | `libswresample` | “音频格式变换层” | `SwrContext`、`swr_convert()` |
 
-### 3.3、源码目录地图
+### 3.3、源码目录地图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 FFmpeg/
@@ -185,7 +185,7 @@ FFmpeg/
 └── Makefile             # 构建入口
 ```
 
-### 3.4、接口表驱动，而不是巨型 `switch`
+### 3.4、接口表驱动，而不是巨型 `switch` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 FFmpeg 大量模块使用“统一接口 + 具体实现函数表”的方式解耦：
 
@@ -203,9 +203,9 @@ FFmpeg 大量模块使用“统一接口 + 具体实现函数表”的方式解�
 - 编译时可以按 `configure` 结果裁剪未使用模块。
 - 新增 codec、demuxer、muxer、filter 时主要是实现对应接口并进入组件列表。
 
-## 四、完整数据流与三条关键路径
+## 四、完整数据流与三条关键路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、转码主链路
+### 4.1、转码主链路 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart LR
@@ -223,7 +223,7 @@ flowchart LR
     L --> M["URL / 文件 / 网络"]
 ```
 
-### 4.2、播放路径
+### 4.2、播放路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 读取 → 解封装 → 解码 → 音视频时钟同步 → 渲染音频/视频
@@ -231,7 +231,7 @@ flowchart LR
 
 播放比“解码成功”多了同步、队列、缓冲、丢帧、暂停、seek、倍速和设备渲染。`ffplay` 值得研究，但不能把它等同于完整播放器架构。
 
-### 4.3、stream copy 路径
+### 4.3、stream copy 路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 读取 → 解封装 → 必要的 bitstream filter / 时间戳换算 → 重新封装 → 写出
@@ -245,9 +245,9 @@ ffmpeg -i input.mp4 -c copy output.mkv
 
 这里没有解码和重编码，因此速度快、无重编码质量损失。但它仍可能遇到容器不兼容、extradata 形式差异、时间戳和 bitstream filter 问题。
 
-## 五、核心数据结构：面试必须能讲清
+## 五、核心数据结构：面试必须能讲清 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、结构体关系
+### 5.1、结构体关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 结构体 | 一句话职责 | 关键字段/关系 |
 | --- | --- | --- |
@@ -262,7 +262,7 @@ ffmpeg -i input.mp4 -c copy output.mkv
 | `AVFilterGraph` | 一张滤镜有向图 | 多个 `AVFilterContext` 与 link |
 | `AVDictionary` | 字符串键值参数 | 向 demuxer、decoder、muxer 等传私有选项 |
 
-### 5.2、`AVPacket` 和 `AVFrame` 的区别
+### 5.2、`AVPacket` 和 `AVFrame` 的区别 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：Packet 和 Frame 是一一对应吗？**
 
@@ -277,7 +277,7 @@ ffmpeg -i input.mp4 -c copy output.mkv
 - `AVPacket` 不是 MPEG-TS 固定 188 字节包的同义词；它是 FFmpeg 的通用压缩数据对象。
 - `AVFrame` 对音频来说往往是一批每声道 samples，不等于“一个瞬时采样点”。
 
-### 5.3、`AVCodecParameters` 和 `AVCodecContext`
+### 5.3、`AVCodecParameters` 和 `AVCodecContext` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
@@ -285,7 +285,7 @@ ffmpeg -i input.mp4 -c copy output.mkv
 
 反向写输出流时，通常在 encoder 参数确定后调用 `avcodec_parameters_from_context()`，把编码参数复制给输出 `AVStream->codecpar`。
 
-### 5.4、时间基、PTS、DTS
+### 5.4、时间基、PTS、DTS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 名词 | 含义 |
 | --- | --- |
@@ -309,9 +309,9 @@ av_packet_rescale_ts(pkt, src_time_base, dst_time_base);
 
 有 B 帧时显示顺序和解码顺序可能不同，因此 `PTS != DTS` 很正常。muxer 通常要求 DTS 单调，音画同步通常围绕各自 PTS 和主时钟展开。
 
-## 六、公开 API 核心函数：按流水线记忆
+## 六、公开 API 核心函数：按流水线记忆 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、总调用顺序
+### 6.1、总调用顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 avformat_open_input
@@ -333,7 +333,7 @@ avformat_open_input
   → unref / free / close
 ```
 
-### 6.2、输入、探测和解封装函数
+### 6.2、输入、探测和解封装函数 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 函数 | 核心作用 | 高频陷阱 |
 | --- | --- | --- |
@@ -346,7 +346,7 @@ avformat_open_input
 | `avformat_seek_file()` | 在 `min_ts/ts/max_ts` 范围内做更精细的 seek | 时间戳单位由 `stream_index` 决定，不能默认毫秒 |
 | `avformat_close_input()` | 关闭输入、释放相关上下文并把指针置空 | 自定义 `AVIOContext` 的 buffer/opaque 仍要按自身所有权清理 |
 
-#### 6.2.1、`avformat_open_input()` 到底做了什么
+#### 6.2.1、`avformat_open_input()` 到底做了什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 可以按下面的层次理解，不要死背每一个内部函数名：
 
@@ -358,7 +358,7 @@ avformat_open_input
 
 它不负责解码，也不保证容器头里缺失的帧率、时长和 codec 细节已经全部推断出来，所以通常紧跟 `avformat_find_stream_info()`。
 
-#### 6.2.2、`av_read_frame()` 到底做了什么
+#### 6.2.2、`av_read_frame()` 到底做了什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 它位于 `libavformat`，核心是让具体 demuxer 继续从输入读取并产出一条流的压缩 `AVPacket`。调用方通过 `pkt->stream_index` 分流给音频、视频、字幕等 decoder。
 
@@ -371,7 +371,7 @@ avformat_open_input
 
 每次处理完 packet 后要 `av_packet_unref()`，否则循环中会持续持有底层 buffer 引用。
 
-### 6.3、解码函数
+### 6.3、解码函数 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 函数 | 核心作用 | 高频陷阱 |
 | --- | --- | --- |
@@ -384,7 +384,7 @@ avformat_open_input
 | `avcodec_flush_buffers()` | 清掉 codec 内部缓存并重置状态 | seek 后常用；不能代替正常 EOF drain |
 | `avcodec_free_context()` | 关闭并释放 context，将指针置空 | 与早期手动 `avcodec_close()` 的习惯区分 |
 
-#### 6.3.1、send/receive 状态机
+#### 6.3.1、send/receive 状态机 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 stateDiagram-v2
@@ -406,7 +406,7 @@ stateDiagram-v2
 - `EAGAIN` 不是失败；send 端的 `EAGAIN` 让你先 receive，receive 端的 `EAGAIN` 让你再 send。
 - EOF 时向 send 端传 `NULL` 进入 draining，再 receive 到 `AVERROR_EOF`，否则 B 帧或音频缓存可能丢尾。
 
-### 6.4、编码函数
+### 6.4、编码函数 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 函数 | 核心作用 | 高频陷阱 |
 | --- | --- | --- |
@@ -427,7 +427,7 @@ stateDiagram-v2
 → send frame / receive packet
 ```
 
-### 6.5、滤镜函数
+### 6.5、滤镜函数 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 函数 | 核心作用 | 高频陷阱 |
 | --- | --- | --- |
@@ -442,7 +442,7 @@ stateDiagram-v2
 
 滤镜图是有向图，不只是链。它能做分支、合并、多输入，例如 overlay、amix、concat。格式不兼容时，FFmpeg 可能自动插入 scale/aresample；面试时应说“有格式协商”，不要说“滤镜永远原样传帧”。
 
-### 6.6、视频缩放与像素格式转换
+### 6.6、视频缩放与像素格式转换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 函数 | 核心作用 |
 | --- | --- |
@@ -453,7 +453,7 @@ stateDiagram-v2
 
 常见用途：`YUV420P → RGB`、解码尺寸到渲染尺寸、编码前像素格式转换。不要把 `sws_scale()` 只说成“缩放”，它也承担像素格式转换。
 
-### 6.7、音频重采样
+### 6.7、音频重采样 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 函数 | 核心作用 |
 | --- | --- |
@@ -465,7 +465,7 @@ stateDiagram-v2
 
 音频重采样可能有内部延迟，输出 sample 数不一定等于输入 sample 数。结束时还要考虑用空输入 drain 剩余 samples，输出 buffer 容量应结合 `swr_get_delay()` 和 `av_rescale_rnd()` 计算。
 
-### 6.8、输出、封装和写文件
+### 6.8、输出、封装和写文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 函数 | 核心作用 | 高频陷阱 |
 | --- | --- | --- |
@@ -492,7 +492,7 @@ ret = av_interleaved_write_frame(output_format_context, packet);
 
 `av_interleaved_write_frame()` 会按多流时间戳交织，并按 API 约定接管/释放传入 packet 的引用；调用后不要继续依赖原 packet 内容。`av_write_frame()` 不做同等程度的交织管理，对调用方时序要求更高。
 
-### 6.9、内存、引用和错误处理
+### 6.9、内存、引用和错误处理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 函数 | 作用 |
 | --- | --- |
@@ -516,16 +516,16 @@ fprintf(stderr, "FFmpeg error: %s\n", errbuf);
 
 队列中最容易出错的是浅拷贝 `AVPacket` / `AVFrame` 结构体而没有增加 buffer 引用。跨线程或异步保存时，要明确使用 `ref`、`clone` 或 `move_ref`，并明确由谁 `unref`。
 
-## 七、FFmpeg 9.0 命令行前端与核心函数逐句拆解
+## 七、FFmpeg 9.0 命令行前端与核心函数逐句拆解 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、先区分两类函数
+### 7.1、先区分两类函数 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - `avformat_*`、`avcodec_*`、`avfilter_*` 等是库的公开 API，业务 App 主要调用它们。
 - `fftools/ffmpeg*.c` 里的 `main()`、`transcode()`、`sch_*()` 等是 `ffmpeg` 命令行工具的内部实现，不等于公共 SDK API。
 
 面试官给出源码片段时先看路径。看到 `fftools/`，答“CLI orchestration”；看到 `libavcodec/`，答“codec 层”；看到 `libavformat/`，答“容器/I/O 层”。
 
-### 7.2、`ffmpeg` CLI 主调用链
+### 7.2、`ffmpeg` CLI 主调用链 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 FFmpeg 9.0 中可以抓住这条主线：
 
@@ -556,39 +556,39 @@ main()                                  fftools/ffmpeg.c
 └── sch_free()
 ```
 
-### 7.3、重点内部函数卡片
+### 7.3、重点内部函数卡片 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 7.3.1、`main()`
+#### 7.3.1、`main()` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **作用：** 命令行进程总入口，初始化日志/网络/设备和调度器，解析参数并搭建任务图，调用 `transcode()`，最后统一清理与返回退出码。
 
 **不要答错：** `main()` 自己不逐帧完成所有解码编码；FFmpeg 9.0 的主工作由调度器中的组件任务驱动。
 
-#### 7.3.2、`ffmpeg_parse_options()`
+#### 7.3.2、`ffmpeg_parse_options()` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **作用：** 把线性的命令行拆成全局参数、输入组、输出组和 decoder 组，然后创建复杂滤镜、打开输入和输出，构造后续调度需要的节点与连接。
 
 **为什么参数顺序重要：** `-c:v`、`-ss` 等选项可能属于某个输入或输出组；CLI 不是把所有参数放进一个全局字典。
 
-#### 7.3.3、`open_files()`
+#### 7.3.3、`open_files()` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **作用：** 通用遍历某类参数组，对每组初始化 `OptionsContext`、解析组选项，并通过函数指针分别调用 `ifile_open`、`of_open` 或 `dec_create`。
 
 **架构价值：** 它把“遍历和错误处理”与“具体打开哪种对象”分开，是典型的回调式复用。
 
-#### 7.3.4、`transcode()`
+#### 7.3.4、`transcode()` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **作用：** 启动 scheduler，等待各组件运行，处理终端按键和进度输出，停止调度，给所有输出写 trailer，并打印最终报告。
 
 **源码重点：** 9.0 的 `transcode()` 主循环围绕 `sch_start()`、`sch_wait()`、`sch_stop()`，不是老版本里单线程不断挑选下一个输出流的 `transcode_step()` 模型。
 
-#### 7.3.5、`sch_start()` / `sch_wait()` / `sch_stop()`
+#### 7.3.5、`sch_start()` / `sch_wait()` / `sch_stop()` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **作用：** 启动已构造的 demux、decode、filter、encode、mux 等任务；等待完成或定时醒来；最终停止任务、合并结果并完成收尾。
 
 **面试加分点：** FFmpeg CLI 自 2023 年完成重大多线程重构后，主要转码组件可以并行运行。多线程的价值是提高流水线并行度和 CPU 利用率；如果绝大部分时间都耗在单个 encoder，上层调度并行不会凭空带来数量级提升。
 
-### 7.4、源码阅读顺序
+### 7.4、源码阅读顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. [`fftools/ffmpeg.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg.c)：先看 `main()` 和 `transcode()`。
 2. [`fftools/ffmpeg_opt.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_opt.c)：看参数分组和任务图搭建。
@@ -600,7 +600,7 @@ main()                                  fftools/ffmpeg.c
 8. [`fftools/ffmpeg_mux.c`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_mux.c)：看 packet 排序、写出和 trailer。
 9. 最后再追进 `libavformat`、`libavcodec`、`libavfilter` 的公共 API 和内部实现。
 
-### 7.5、重点公开函数的源码落点
+### 7.5、重点公开函数的源码落点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 源码文件 | 重点入口 | 阅读时要抓住什么 |
 | --- | --- | --- |
@@ -617,7 +617,7 @@ main()                                  fftools/ffmpeg.c
 
 函数实现可能被薄包装再转到内部 `ff_*` 函数，也可能在后续版本拆文件。面试时先解释公开语义，再沿当前 tag 追内部实现；不要把某个内部函数名背成永久 API。
 
-### 7.6、逐句读源码前先定四条规则
+### 7.6、逐句读源码前先定四条规则 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. **公开契约先于内部实现。** 先读头文件里参数、所有权和返回码，再看 `.c` 文件为什么这样实现。
 2. **按语句块，不按字符翻译。** 连续的声明、检查、分配、回调、清理分别构成一个意图单元。
@@ -635,7 +635,7 @@ main()                                  fftools/ffmpeg.c
 0、EAGAIN、EOF、普通负值分别怎么处理？
 ```
 
-### 7.7、`main()`：从命令行进入调度器
+### 7.7、`main()`：从命令行进入调度器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 源码：[`fftools/ffmpeg.c:981-1058`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg.c#L981-L1058)
 
@@ -657,7 +657,7 @@ main()                                  fftools/ffmpeg.c
 
 **面试一句话：** `main()` 负责进程级初始化、参数到任务图的转换、启动转码和统一收尾；它不是逐包逐帧的媒体循环。
 
-### 7.8、`ffmpeg_parse_options()`：参数不是一张全局字典
+### 7.8、`ffmpeg_parse_options()`：参数不是一张全局字典 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 源码：[`fftools/ffmpeg_opt.c:1424-1504`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_opt.c#L1424-L1504)
 
@@ -673,7 +673,7 @@ main()                                  fftools/ffmpeg.c
 | `1480-1491` | 完成未绑定 filter pad、校验一致性、修正起始时间并应用同步偏移 | 参数解析最终产物是时间关系正确的可运行图 |
 | `1493-1503` | 释放临时 filter 描述与解析上下文，失败时输出统一错误 | 即使成功也要释放“搭图用的临时数据”，运行对象已由 scheduler 持有 |
 
-### 7.9、`transcode()`：9.0 主循环为什么看不到 decode/encode
+### 7.9、`transcode()`：9.0 主循环为什么看不到 decode/encode <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 源码：[`fftools/ffmpeg.c:887-935`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg.c#L887-L935)
 
@@ -689,7 +689,7 @@ main()                                  fftools/ffmpeg.c
 
 真正的 packet/frame 处理分散在 `ffmpeg_demux.c`、`ffmpeg_dec.c`、`ffmpeg_filter.c`、`ffmpeg_enc.c` 和 `ffmpeg_mux.c` 的任务函数中。若面试官拿老版本 `transcode_step()` 追问，应先报版本差异，再回答 9.0 的 scheduler 模型。
 
-### 7.10、`avformat_open_input()`：打开、探测和读头
+### 7.10、`avformat_open_input()`：打开、探测和读头 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 源码：[`libavformat/demux.c:231-375`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/demux.c#L231-L375)
 
@@ -708,7 +708,7 @@ main()                                  fftools/ffmpeg.c
 
 **调用链抓手：** `avformat_open_input → init_input → avio_open2/format probe → AVInputFormat.read_header`。它不解码，也不等于 `avformat_find_stream_info()`。
 
-### 7.11、`av_read_frame()`：名字叫 frame，产出却是 packet
+### 7.11、`av_read_frame()`：名字叫 frame，产出却是 packet <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 源码：[`libavformat/demux.c:1588-1681`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/demux.c#L1588-L1681)
 
@@ -738,7 +738,7 @@ av_read_frame()
 
 再下一层 [`ff_read_packet()`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/demux.c#L629-L691) 会先尝试释放探测缓存，再调用具体 demuxer 的 `read_packet`，把 packet 变为引用计数对象，更新时间戳并按需继续 codec probe。这里仍然没有发生音视频解码。
 
-### 7.12、`avcodec_send_packet()` / `avcodec_receive_frame()`：解码状态机
+### 7.12、`avcodec_send_packet()` / `avcodec_receive_frame()`：解码状态机 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 发送端源码：[`libavcodec/decode.c:730-761`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavcodec/decode.c#L730-L761)
 
@@ -761,7 +761,7 @@ av_read_frame()
 
 **所有权结论：** `send_packet` 成功后调用方仍拥有 packet 对象，可以立即 `av_packet_unref()`；decoder 内部若还需要数据，已经持有自己的引用。`receive_frame` 成功后 frame 持有引用计数 buffer，调用方用完要 `av_frame_unref()`。
 
-### 7.13、`avcodec_send_frame()` / `avcodec_receive_packet()`：编码状态机
+### 7.13、`avcodec_send_frame()` / `avcodec_receive_packet()`：编码状态机 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 源码：[`libavcodec/encode.c:544-596`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavcodec/encode.c#L544-L596)
 
@@ -776,7 +776,7 @@ av_read_frame()
 
 音频编码要额外回答 `frame_size`：固定帧长 encoder 通常要求 `nb_samples == frame_size`，最后一帧是否可变取决于 codec capability；视频编码还要正确设置 `frame->pts` 和 encoder `time_base`。
 
-### 7.14、`av_interleaved_write_frame()`：交织、时间戳与引用转移
+### 7.14、`av_interleaved_write_frame()`：交织、时间戳与引用转移 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 源码：[`libavformat/mux.c:1223-1236`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/libavformat/mux.c#L1223-L1236)
 
@@ -800,7 +800,7 @@ write_packets_common
 
 调用前必须把 `pkt->stream_index` 指向输出 stream，并用 `av_packet_rescale_ts()` 把时间戳从 encoder/输入流时间基换到输出 stream 时间基。公开契约明确：引用计数 packet 的引用由该函数接管，返回时 packet 为空，即使发生错误也是如此。
 
-### 7.15、面试官随手截一段函数，如何现场回答
+### 7.15、面试官随手截一段函数，如何现场回答 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 假设看到 `avcodec_send_packet()` 中“内部 packet 非空就返回 `EAGAIN`”这几句，可以这样说：
 
@@ -808,7 +808,7 @@ write_packets_common
 
 再追问“为什么 `av_packet_ref()` 而不是 memcpy”时答：packet 的 data 通常由引用计数 buffer 持有，结构体浅拷贝不能正确延长底层数据生命周期；`av_packet_ref()` 增加引用并复制属性，既避免整段压缩数据复制，也保证调用方 unref 后 decoder 仍能安全使用。
 
-## 八、FFmpeg 9.0 最小可编译示例
+## 八、FFmpeg 9.0 最小可编译示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 以下示例按 `n9.0` 公共头文件编写，已使用 Clang 的 `-Wall -Wextra -Werror` 对 FFmpeg 9.0 头文件完成语法检查。为突出主线，仍省略产品级网络超时、取消、硬件帧、渲染和音画同步。
 
@@ -824,7 +824,7 @@ cc -std=c11 -Wall -Wextra -Werror decode_video.c \
   $(pkg-config --cflags --libs libavformat libavcodec libavutil)
 ```
 
-### 8.1、示例一：打开输入并打印每条流
+### 8.1、示例一：打开输入并打印每条流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 这个程序验证 `avformat_open_input → avformat_find_stream_info → AVStream/codecpar` 主线。
 
@@ -890,7 +890,7 @@ end:
 - `AVStream->codecpar` 是参数描述，不是已经打开的 decoder。
 - `avformat_close_input(&fmt)` 同时关闭输入并把指针置空；即使前面失败，统一收口也安全。
 
-### 8.2、示例二：完整打开 decoder、读包、取帧并 drain
+### 8.2、示例二：完整打开 decoder、读包、取帧并 drain <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```c
 #include <stdio.h>
@@ -1019,7 +1019,7 @@ fail:
 - 输入 EOF 后 send `NULL` drain，最终以 receive 返回 `AVERROR_EOF` 为结束。
 - 真正工程中还要处理非阻塞输入的 `EAGAIN`、interrupt callback、seek 后 flush、格式变化、硬件帧和跨线程队列。
 
-### 8.3、示例三：转封装写包的核心循环
+### 8.3、示例三：转封装写包的核心循环 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 下面片段假设输入输出 stream 已一一建立、输出 header 已写好，重点只看时间基和 packet 所有权：
 
@@ -1053,9 +1053,9 @@ if (ret == AVERROR_EOF)
 
 **追问答案：** stream copy 不解码，但仍要映射 stream index、换算时间基、按 DTS 交织，并可能经过自动 bitstream filter；所以它不是“原文件字节复制”。
 
-## 九、源码函数高频追问与答案
+## 九、源码函数高频追问与答案 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 9.1、`avformat_open_input()` 和 `avformat_find_stream_info()` 为什么分开
+### 9.1、`avformat_open_input()` 和 `avformat_find_stream_info()` 为什么分开 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
@@ -1065,19 +1065,19 @@ if (ret == AVERROR_EOF)
 
 可以，但后续可用信息可能不完整。若协议和封装保证头信息充分、业务又极度在意首开延迟，可以评估跳过或限制探测；不能机械删除后假定所有流参数仍正确。
 
-### 9.2、为什么 `av_read_frame()` 返回的是 `AVPacket`
+### 9.2、为什么 `av_read_frame()` 返回的是 `AVPacket` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 它属于 demux 层，这里的“frame”更接近某条流的一个压缩数据单元。真正的原始帧要把 packet 送进 decoder，再从 `avcodec_receive_frame()` 得到 `AVFrame`。
 
-### 9.3、`avcodec_parameters_to_context()` 是否会打开 decoder
+### 9.3、`avcodec_parameters_to_context()` 是否会打开 decoder <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 不会。它只复制 codec 参数。必须再调用 `avcodec_open2()` 才建立可工作的 codec 实例。
 
-### 9.4、为什么 send 成功后 receive 可能是 `EAGAIN`
+### 9.4、为什么 send 成功后 receive 可能是 `EAGAIN` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
@@ -1087,7 +1087,7 @@ decoder 可能需要更多输入才能输出完整帧，也可能存在重排序
 
 合法状态机不应让两端同时卡死为 `EAGAIN`。send 返回 `EAGAIN` 意味着应先 receive；receive 返回 `EAGAIN` 意味着需要 send 新输入。
 
-### 9.5、flush 和 drain 有什么区别
+### 9.5、flush 和 drain 有什么区别 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
@@ -1096,37 +1096,37 @@ decoder 可能需要更多输入才能输出完整帧，也可能存在重排序
 
 结束播放时只 flush 会丢尾；seek 后只 drain 也不能清除旧时间线状态。
 
-### 9.6、`av_packet_unref()` 和 `av_packet_free()` 有什么区别
+### 9.6、`av_packet_unref()` 和 `av_packet_free()` 有什么区别 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 `unref` 释放当前 packet 对数据 buffer 的引用，但保留 packet 对象以便复用；`free` 连 packet 对象一起释放并把指针置空。高频循环通常每轮 `unref`，退出时 `free`。
 
-### 9.7、`av_frame_make_writable()` 为什么必要
+### 9.7、`av_frame_make_writable()` 为什么必要 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 `AVFrame` 底层 buffer 可能被多个引用共享。直接修改会污染其它持有者；`av_frame_make_writable()` 确保当前 frame 独占可写 buffer，必要时 copy-on-write。
 
-### 9.8、`av_interleaved_write_frame()` 比 `av_write_frame()` 多做什么
+### 9.8、`av_interleaved_write_frame()` 比 `av_write_frame()` 多做什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 它会缓存并按照不同 stream 的 DTS 交织写出，适合音视频多流；`av_write_frame()` 更接近直接交给 muxer，调用方要自己保证包顺序满足格式要求。
 
-### 9.9、seek 为什么经常不是精确落在目标帧
+### 9.9、seek 为什么经常不是精确落在目标帧 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 视频通常只能从关键帧独立解码。常规策略是 seek 到目标之前最近的关键帧，flush decoder，再向前解码并丢弃早于目标时间的帧，最终显示目标附近第一帧。
 
-### 9.10、`sws_scale()` 和 filter `scale` 怎么选
+### 9.10、`sws_scale()` 和 filter `scale` 怎么选 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 只做明确的一次像素格式/尺寸转换，`libswscale` 直接高效；复杂媒体处理链、动态参数、与其它滤镜组合时用 `libavfilter` 更自然。filter 内部也可能使用 scale 能力，两者不是完全割裂。
 
-### 9.11、软解和硬解怎么切换
+### 9.11、软解和硬解怎么切换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
@@ -1136,15 +1136,15 @@ decoder 可能需要更多输入才能输出完整帧，也可能存在重排序
 
 不一定。分辨率很小、频繁 GPU/CPU 回读、后续滤镜只支持软件帧或硬件队列配置不当时，传输和同步成本可能抵消收益。
 
-### 9.12、自定义 I/O 怎么做
+### 9.12、自定义 I/O 怎么做 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 分配 buffer，使用 `avio_alloc_context()` 提供 read/write/seek 回调，把得到的 `AVIOContext` 放到 `AVFormatContext->pb`，并设置 `AVFMT_FLAG_CUSTOM_IO` 等正确语义。关闭时要区分 FFmpeg 持有的上下文与调用方持有的 opaque/buffer，避免双重释放。
 
-## 十、为什么 FFmpeg 官方只发布源代码，我们还需要编译
+## 十、为什么 FFmpeg 官方只发布源代码，我们还需要编译 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 10.1、可直接说出口的回答
+### 10.1、可直接说出口的回答 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：为什么 FFmpeg 只发布源代码，我们用还需要编译？**
 
@@ -1152,7 +1152,7 @@ decoder 可能需要更多输入才能输出完整帧，也可能存在重排序
 
 FFmpeg 官方项目负责维护可移植源码和稳定发布，不直接承诺覆盖所有平台组合的通用二进制。二进制会受到操作系统、CPU 架构、ABI、编译器、系统 SDK、外部 codec、硬件加速、体积裁剪以及 LGPL/GPL/nonfree 选项影响，所以不存在“一份包通吃所有平台”。如果只是使用命令行，通常不必自己编译，可以从 FFmpeg 官方下载页链接的系统包或第三方预编译包安装；只有要嵌入 App、裁剪功能、启用特定库/硬件、固定 ABI 或调试源码时才需要编译。
 
-### 10.2、为什么无法只发一个万能二进制
+### 10.2、为什么无法只发一个万能二进制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 维度 | 典型差异 |
 | --- | --- |
@@ -1165,7 +1165,7 @@ FFmpeg 官方项目负责维护可移植源码和稳定发布，不直接承诺�
 | 许可证 | 默认 LGPL；启用 GPL 组件后整体许可变化；`--enable-nonfree` 产物不可再分发 |
 | 性能与调试 | 汇编优化、LTO、debug symbols、sanitizer、CPU baseline |
 
-### 10.3、编译本质上在做什么
+### 10.3、编译本质上在做什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 源码
@@ -1207,7 +1207,7 @@ make install
 
 真正落地还要补 `cflags`、`ldflags`、平台最低版本、多架构合并、外部依赖和最终包格式，因此实际命令会明显更长。
 
-### 10.4、许可证不是编译后的附属问题
+### 10.4、许可证不是编译后的附属问题 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - FFmpeg 默认主要是 `LGPL v2.1+`。
 - 启用 `--enable-gpl` 或 GPL 组件后，FFmpeg 构建的许可会切到 GPL。
@@ -1215,9 +1215,9 @@ make install
 - 商业产品还要评估动态/静态链接、对应源码提供、修改说明、第三方库许可证和编解码专利。
 - 这部分不是法律意见，实际商业发行应让法务按最终 `ffmpeg -buildconf` 和依赖清单审查。
 
-## 十一、有没有一站式 GUI 软件打包 FFmpeg
+## 十一、有没有一站式 GUI 软件打包 FFmpeg <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 11.1、先给结论
+### 11.1、先给结论 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：瞄准具体平台打包 FFmpeg，命令太麻烦，有没有一站式 GUI？**
 
@@ -1225,7 +1225,7 @@ make install
 
 如果“打包”指把视频转成另一种格式，有成熟 GUI；如果“打包”指把 FFmpeg 编译成 iOS `XCFramework`、Android `AAR/.so`、Windows/Linux 库，目前没有 FFmpeg 官方提供、同时覆盖所有平台和许可证组合的通用 GUI。最接近一站式的是平台构建脚本、可复现构建系统和预编译发行包，而不是拖拽式 GUI。
 
-### 11.2、按真实目标选工具
+### 11.2、按真实目标选工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 真实目标 | 推荐路径 | 是否 GUI | 能否产出嵌入式 SDK |
 | --- | --- | --- | --- |
@@ -1236,7 +1236,7 @@ make install
 | Windows/Linux 直接拿构建 | [**BtbN FFmpeg-Builds**](https://github.com/BtbN/FFmpeg-Builds) 或官方页列出的构建 | 否 | 视包型而定，先核对 license/ABI |
 | 团队长期维护多平台产物 | 固定 tag + Docker/Nix/CI + 构建清单 + 制品仓库 | 否 | 是，最可审计和可复现 |
 
-### 11.3、FFmpegKitNext：当前最接近“一站式跨平台打包”
+### 11.3、FFmpegKitNext：当前最接近“一站式跨平台打包” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 截至 `2026-08-05`：
 
@@ -1249,14 +1249,14 @@ make install
 
 **评价：** 它解决了“每个平台脚本、wrapper API、依赖和产物组织”的大部分重复劳动，但它仍不是 GUI，也没有替你取消许可证和目标架构选择。
 
-### 11.4、Shutter Encoder 和 HandBrake 能做什么、不能做什么
+### 11.4、Shutter Encoder 和 HandBrake 能做什么、不能做什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - `Shutter Encoder` 是基于 FFmpeg 的图形化媒体转换工具，适合剪切、转码、封装、字幕、队列和分析。
 - `HandBrake` 是跨 Windows/macOS/Linux 的图形化视频转码器，适合将常见输入转成主流交付格式。
 - 它们解决的是“使用 FFmpeg 能力处理媒体”，不是“为你的 App 编译 FFmpeg SDK”。
 - GUI 导出的视频不能代替 `libavcodec.a`、`libavformat.so`、`FFmpeg.xcframework` 或 Android `AAR`。
 
-### 11.5、选择流程
+### 11.5、选择流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart TD
@@ -1271,9 +1271,9 @@ flowchart TD
     H -->|否| J["固定 tag + Docker/Nix/CI 自建可复现流水线"]
 ```
 
-## 十二、各平台打包时真正要决定的事项
+## 十二、各平台打包时真正要决定的事项 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 12.1、Apple 平台
+### 12.1、Apple 平台 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 明确 iOS、iOS Simulator、macOS、Mac Catalyst、tvOS、visionOS 的目标集合。
 - 分别构建真机/模拟器所需 slice，再组合 `XCFramework`。
@@ -1281,7 +1281,7 @@ flowchart TD
 - 需要硬解时核对 VideoToolbox 与目标系统可用性。
 - App Store 上架前核对动态/静态链接、许可证文档和使用的外部库。
 
-### 12.2、Android
+### 12.2、Android <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 确定 ABI：通常至少考虑 `arm64-v8a`，按产品需要加入 `armeabi-v7a`、`x86_64`。
 - 固定 NDK 版本、API level、STL/链接策略。
@@ -1289,14 +1289,14 @@ flowchart TD
 - MediaCodec 硬件路径和软件 decoder 的 frame 格式/生命周期不同。
 - 多 ABI 会显著增大 App 包体，必须裁剪不需要的 codec、muxer、filter 和 protocol。
 
-### 12.3、Windows 与 Linux
+### 12.3、Windows 与 Linux <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - Windows 区分 MSVC/MinGW、UCRT、静态/动态和目标架构。
 - Linux 预编译包必须关注 glibc baseline，不能只看 `x86_64`。
 - 服务端容器可以用固定基础镜像构建，避免宿主库版本漂移。
 - 有 GPU 时还要对齐驱动、CUDA/NVENC headers、VAAPI/QSV 环境。
 
-### 12.4、每个构建产物必须留的证据
+### 12.4、每个构建产物必须留的证据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 FFmpeg tag / commit
@@ -1313,9 +1313,9 @@ ffmpeg -version / -buildconf 输出
 
 没有这份清单，所谓“一站式打包”很容易变成一份无法复现、无法审计、出问题也无法定位的二进制。
 
-## 十三、命令题背后的架构题
+## 十三、命令题背后的架构题 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 13.1、转封装为什么快
+### 13.1、转封装为什么快 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 ffmpeg -i input.mp4 -c copy output.mkv
@@ -1323,7 +1323,7 @@ ffmpeg -i input.mp4 -c copy output.mkv
 
 **答案：** packet 从 demuxer 直接走向 muxer，跳过 decoder、filter 和 encoder；CPU 成本主要在 I/O、解析、时间戳和封装。
 
-### 13.2、普通转码经过哪些层
+### 13.2、普通转码经过哪些层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 ffmpeg -i input.mov -c:v libx264 -c:a aac output.mp4
@@ -1331,7 +1331,7 @@ ffmpeg -i input.mov -c:v libx264 -c:a aac output.mp4
 
 **答案：** 输入 I/O → MOV demux → video/audio packet → decoder → raw frame → 必要格式转换/filter → H.264/AAC encoder → MP4 mux → 输出 I/O。
 
-### 13.3、滤镜为什么会触发重编码
+### 13.3、滤镜为什么会触发重编码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 ffmpeg -i input.mp4 -vf scale=1280:-2 output.mp4
@@ -1339,7 +1339,7 @@ ffmpeg -i input.mp4 -vf scale=1280:-2 output.mp4
 
 **答案：** filter 处理的是解码后的 `AVFrame`。既然 packet 已经解码为原始帧，处理后必须重新编码才能放回压缩流，所以通常不能和对应流的 `-c copy` 同时成立。
 
-### 13.4、`ffprobe` 如何帮助排查
+### 13.4、`ffprobe` 如何帮助排查 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 ffprobe \
@@ -1359,9 +1359,9 @@ ffprobe -v error -select_streams v:0 -show_frames input.mp4
 
 `-show_packets` 观察 demux 后的压缩包和 PTS/DTS；`-show_frames` 观察解码/分析后的帧属性。两者不要混为一谈。
 
-## 十四、综合面试题：问题、回答、追问
+## 十四、综合面试题：问题、回答、追问 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 14.1、为什么音画会不同步
+### 14.1、为什么音画会不同步 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
@@ -1371,7 +1371,7 @@ ffprobe -v error -select_streams v:0 -show_frames input.mp4
 
 音频持续送给硬件播放时通常更适合做主时钟；没有音频时可用视频或外部时钟。视频根据与主时钟的差值延迟、立即显示或丢帧。
 
-### 14.2、直播首开慢怎么排查
+### 14.2、直播首开慢怎么排查 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
@@ -1381,37 +1381,37 @@ ffprobe -v error -select_streams v:0 -show_frames input.mp4
 
 可能识别错格式、拿不到完整 stream 参数、误判帧率/时长，甚至选不到正确 decoder。
 
-### 14.3、为什么不能只看平均帧率算时间戳
+### 14.3、为什么不能只看平均帧率算时间戳 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 VFR 视频帧间隔不固定，容器和 packet/frame 自带时间戳才是主依据。`avg_frame_rate` 是统计值，不是每帧严格节拍。
 
-### 14.4、多线程从哪里来
+### 14.4、多线程从哪里来 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 有三层：codec 内部 frame/slice threading；FFmpeg CLI scheduler 让 demux、decode、filter、encode、mux 等组件流水线并行；业务播放器/服务自己的读取、解码、渲染/写出队列。线程越多不一定越快，还受依赖关系、队列、内存带宽和单个 encoder 瓶颈影响。
 
-### 14.5、为什么有时换容器也需要 bitstream filter
+### 14.5、为什么有时换容器也需要 bitstream filter <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 同一种 codec 在不同容器/传输中可能要求不同码流封装形式，例如 H.264/H.265 的 length-prefixed 与 Annex B。bitstream filter 在不完整解码的前提下改写压缩码流或 extradata，使 packet 满足目标 muxer/协议。
 
-### 14.6、如何避免 FFmpeg 内存泄漏
+### 14.6、如何避免 FFmpeg 内存泄漏 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 建立严格的 alloc/open/ref 与 free/close/unref 对应表；循环中及时 unref；跨线程队列明确增加/转移引用；所有错误分支走统一 cleanup；自定义 AVIO 的 buffer、opaque 和 context 明确所有权；用 ASan/Leaks/Valgrind 等验证，而不是只观察一次转码。
 
-### 14.7、如何判断一个构建支持什么能力
+### 14.7、如何判断一个构建支持什么能力 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **核心回答：**
 
 先看 `ffmpeg -version` 和 `-buildconf`，再看 `-formats`、`-codecs`、`-encoders`、`-decoders`、`-filters`、`-protocols`、`-hwaccels`。同样写着 FFmpeg 9.0 的两个二进制，configure 选项不同，能力和许可证都可能不同。
 
-## 十五、易错旧 API 与现代写法
+## 十五、易错旧 API 与现代写法 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 老文章常见写法 | 当前思路 |
 | --- | --- |
@@ -1425,9 +1425,9 @@ VFR 视频帧间隔不固定，容器和 packet/frame 自带时间戳才是主�
 
 面试时如果题目来自旧版本，先回答它在当时的作用，再补一句“FFmpeg 9.0 的现代 API 已改为……”。不要只说旧函数“错了”，也不要把雷霄骅旧文或其它旧代码直接搬到 9.0；保留分析方法，更新 API、结构体字段和所有权规则。
 
-## 十六、复习路线
+## 十六、复习路线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 16.1、第一轮：先会画图
+### 16.1、第一轮：先会画图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 默画：
 
@@ -1436,7 +1436,7 @@ AVIO → Demux → AVPacket → Decode → AVFrame
      → Filter/Sws/Swr → Encode → AVPacket → Mux → AVIO
 ```
 
-### 16.2、第二轮：背对象和函数对
+### 16.2、第二轮：背对象和函数对 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 AVFormatContext / AVStream / AVIOContext
@@ -1451,18 +1451,18 @@ frame_unref / frame_free
 write_header / write_frame / write_trailer
 ```
 
-### 16.3、第三轮：手写两个状态机
+### 16.3、第三轮：手写两个状态机 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 正常 decode + EOF drain。
 - seek + flush + 从关键帧向目标帧推进。
 
-### 16.4、第四轮：走读 9.0 源码
+### 16.4、第四轮：走读 9.0 源码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 从 `fftools/ffmpeg.c` 的 `main()` 和 `transcode()` 开始，只沿一条路径追；不要第一天扎进 H.264 decoder 内部。先掌握调度边界和公开 API，再读某个具体 codec 的 parser、DSP、bitstream 和多线程实现。
 
 推荐按“Lei 式小闭环”重复：选一个函数 → 画一张调用图 → 对每个条件和引用操作写一句解释 → 运行一个最小例子 → 用 LLDB/GDB 在关键入口断点 → 记录 9.0 与旧文的差异。
 
-## 十七、官方与项目资料
+## 十七、官方与项目资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [**FFmpeg 官方首页**](https://ffmpeg.org/)
 - [**FFmpeg 9.0 下载与版本信息**](https://ffmpeg.org/download.html#release_9.0)

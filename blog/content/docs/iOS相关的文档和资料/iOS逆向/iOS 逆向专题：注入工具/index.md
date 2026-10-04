@@ -19,7 +19,7 @@ bookCollapseSection: false
 
 ## 一、先理解动态库为什么会被加载 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、加载链条
+### 1.1、加载链条 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart LR
@@ -32,7 +32,7 @@ flowchart LR
 
 任何一个环节不满足，结果都可能是启动失败、镜像未加载、签名无效或进程被系统终止。
 
-### 1.2、三种完全不同的“注入”语境
+### 1.2、三种完全不同的“注入”语境 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 语境 | 发生时机 | 本质 |
 | --- | --- | --- |
@@ -42,9 +42,9 @@ flowchart LR
 
 讨论工具前必须先说清是哪一种，否则同一句“把 dylib 注入进去”可能对应完全不同的安全条件。
 
-## 二、工具地图
+## 二、工具地图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、它们分别做什么
+### 2.1、它们分别做什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 工具 | 主要位置 | 关键认识 |
 | --- | --- | --- |
@@ -56,17 +56,17 @@ flowchart LR
 
 工具“能改文件”不等于改完能在当前 iOS 启动。平台 Slice、Load Command 空间、路径、签名、Entitlements、Hardened Runtime 和系统策略都会参与判定。
 
-### 2.2、为什么 `install_name_tool` 不等于 `insert_dylib`
+### 2.2、为什么 `install_name_tool` 不等于 `insert_dylib` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 `install_name_tool` 擅长修改已经存在的 `LC_ID_DYLIB`、依赖路径和 RPath。向一个没有预留空间的 Mach-O 新增加载命令，需要处理 Header 空间、偏移和签名失效等额外问题。两者不能只按“都能改动态库路径”归为同一能力。
 
-## 三、代码签名为什么总出现在注入问题里
+## 三、代码签名为什么总出现在注入问题里 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、修改一个字节都会改变签名覆盖内容
+### 3.1、修改一个字节都会改变签名覆盖内容 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Mach-O 的代码签名会覆盖代码页及相关元数据。文件期工具改变 Load Command 后，原签名通常不再成立。重新签名也不是“让任何文件合法运行”，它还受到 Provisioning Profile、Team、Entitlements、Bundle 结构和目标设备信任链约束。
 
-### 3.2、常见失败层次
+### 3.2、常见失败层次 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 现象 | 优先检查 |
 | --- | --- |
@@ -76,9 +76,9 @@ Mach-O 的代码签名会覆盖代码页及相关元数据。文件期工具改�
 | 架构不匹配 | App 与 dylib 的 Slice / 平台 |
 | 启动即终止 | Entitlements、平台政策、Hardened Runtime、设备日志 |
 
-## 四、自有 Lab 的安全学习路线
+## 四、自有 Lab 的安全学习路线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、优先使用正常链接建立基准
+### 4.1、优先使用正常链接建立基准 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1、创建自己的 App 和自己的 Dynamic Framework。
 
@@ -98,7 +98,7 @@ codesign --verify --deep --strict --verbose=2 "/path/to/ReverseLab.app"
 
 这条路线能学到 dyld、RPath、签名和镜像加载的核心知识，不需要从第三方二进制改写开始。
 
-### 4.2、文件期工具只做隔离副本实验
+### 4.2、文件期工具只做隔离副本实验 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 如果研究 `insert_dylib`、`optool` 或 `yololib` 的文件结构行为：
 
@@ -111,9 +111,9 @@ codesign --verify --deep --strict --verbose=2 "/path/to/ReverseLab.app"
 
 本专题刻意不写可直接复用于第三方 App 的操作命令。
 
-## 五、今天应该怎样看待这些旧工具
+## 五、今天应该怎样看待这些旧工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、读旧教程时的翻译表
+### 5.1、读旧教程时的翻译表 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 旧教程句子 | 现代阅读方式 |
 | --- | --- |
@@ -122,17 +122,17 @@ codesign --verify --deep --strict --verbose=2 "/path/to/ReverseLab.app"
 | “在任意进程加载” | 现代系统受进程权限、平台安全策略和调试授权约束 |
 | “命令执行无报错” | 只能证明工具退出码，不能证明 Mach-O 或 App 正确 |
 
-### 5.2、工具活跃度也是证据的一部分
+### 5.2、工具活跃度也是证据的一部分 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 很多注入工具诞生于较早的 iOS、Mach-O 和越狱生态。使用前应查看仓库最后提交、Issue、支持架构和许可证，并用当前 Apple 工具交叉验证。历史价值不等于当前生产适用性。
 
-## 六、学完标准与资料
+## 六、学完标准与资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、学完应该会什么
+### 6.1、学完应该会什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 你应能解释文件期与运行期注入的区别，读懂 `LC_LOAD_DYLIB` / `LC_RPATH`，说明修改 Mach-O 为什么破坏签名，并用自有 Framework Lab 验证 dyld 加载链，而不是只会复制一条旧命令。
 
-### 6.2、资料
+### 6.2、资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [**Apple：Dynamic Library Programming Topics**](https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/000-Introduction/Introduction.html)
 - [**Apple：Code Signing Guide**](https://developer.apple.com/library/archive/documentation/Security/Conceptual/CodeSigningGuide/Introduction/Introduction.html)

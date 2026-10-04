@@ -1,4 +1,4 @@
-# Buttons
+# <span id="前言">Buttons</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -11,7 +11,7 @@
 
 Buttons are styled links that can lead to local page or external link.
 
-## Example
+## Example <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```tpl
 {{</* button relref="/" [class="..."] */>}}Get Home{{</* /button */>}}
@@ -20,3 +20,5 @@ Buttons are styled links that can lead to local page or external link.
 
 {{<button href="/">}}Get Home{{</button>}}
 {{<button href="https://github.com/alex-shpak/hugo-book">}}Contribute{{</button>}}
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

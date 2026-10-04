@@ -18,7 +18,7 @@ bookCollapseSection: false
 </iframe>
 
 
-## 一、什么是`*.p12`文件？
+## <span id="前言">一、什么是`*.p12`文件？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
 * `.p12` 文件全称 **PKCS#12 (Personal Information Exchange)**
 * 它里面同时打包了：
@@ -26,7 +26,7 @@ bookCollapseSection: false
   - **私钥 (.key)**
 * 并且通常会有一个导出密码保护。
 
-## 二、`*.p12`文件的用处
+## 二、`*.p12`文件的用处 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > ⚠️ 注意事项
 >
@@ -42,9 +42,9 @@ bookCollapseSection: false
 * 跨平台证书移交
   * 如果你换了 Mac，没法直接迁移钥匙串，可以直接导出 `.p12`，在新 Mac 上导入，就能继续使用同一个证书和私钥。
 
-## 三、生成流程
+## 三、生成流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1、打开：钥匙串访问 (Keychain Access)🔑
+### 1、打开：钥匙串访问 (Keychain Access)🔑 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 后期的MacOS将“钥匙串”归为“密码”
 
@@ -62,7 +62,7 @@ bookCollapseSection: false
 
   ![image-20250908203759555](./assets/image-20250908203759555.png)
 
-### 2、从证书颁发机构请求证书
+### 2、从证书颁发机构请求证书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 输入邮箱、常用名称，选择 “存储到磁盘”，得到 `.certSigningRequest` 文件
 
@@ -72,7 +72,7 @@ bookCollapseSection: false
   <img src="./assets/image-20250908204740854.png" alt="图2" width="33%"/>
 </p>
 
-### 3、在 [**Apple Developer**](https://developer.apple.com/) 生成 `.cer`
+### 3、在 [**Apple Developer**](https://developer.apple.com/) 生成 `.cer` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 特殊地区需要打开VPN，苹果官网限制某些地区的IP登录 [**Apple Developer**](https://developer.apple.com/) 
 
@@ -105,7 +105,7 @@ bookCollapseSection: false
 
   ![image-20250908211508056](./assets/image-20250908211508056.png)
 
-### 4、导入 `.cer` 并导出私钥
+### 4、导入 `.cer` 并导出私钥 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 双击 `.cer` 文件导入到 **钥匙串**
 
@@ -129,3 +129,4 @@ bookCollapseSection: false
 
   ![image-20250908212704967](./assets/image-20250908212704967.png)
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

@@ -38,7 +38,7 @@ bookCollapseSection: false
 
 本目录内的 `.github/workflows/generate_diagrams.yml` 是可复制的示例。因为它不在 `JobsDocs` 仓库根目录的 `.github/workflows/`，不会自动成为本仓库的有效 Workflow。
 
-## 二、触发器
+## 二、触发器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```yaml
 on:
@@ -63,9 +63,9 @@ on:
 
 ![运行记录](./assets/image-20240707005554875.png)
 
-## 三、权限与凭据
+## 三、权限与凭据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、优先使用 `GITHUB_TOKEN`
+### 3.1、优先使用 `GITHUB_TOKEN` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 GitHub 会为每个 Job 自动创建短期 `GITHUB_TOKEN`，权限只在当前仓库和当前 Job 的授权范围内有效。对当前仓库提交生成物通常不需要个人 PAT：
 
@@ -76,7 +76,7 @@ permissions:
 
 `actions/checkout` 默认可以让后续 Git 命令继续使用该 Token；同仓库 `git push` 不需要把 Token 拼进 URL。
 
-### 3.2、最小权限
+### 3.2、最小权限 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 没有写入需求时显式写：
 
@@ -89,7 +89,7 @@ permissions:
 - 来自 fork 的 `pull_request` 不会获得普通仓库 Secret，`GITHUB_TOKEN` 通常为只读；不要设计“PR 验证顺便推回主分支”。
 - `pull_request_target` 运行在目标仓库上下文，可能持有更高权限。不能在高权限 Job 中直接 checkout 并执行不受信任 PR 的代码。
 
-### 3.3、什么时候才用额外 Token
+### 3.3、什么时候才用额外 Token <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 可能需要 GitHub App installation token 或细粒度 PAT 的场景：
 
@@ -116,7 +116,7 @@ Repository Secret 历史入口：
 
 ![新增 Repository Secret](./assets/image-20240704143425822.png)
 
-## 四、第三方 Action 与依赖安全
+## 四、第三方 Action 与依赖安全 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - `uses: owner/action@v7` 的 major tag 方便更新，但 tag 可移动；高安全场景固定到经过核验的完整 commit SHA。
 - SHA 固定不会自动获得安全修复，需要 Dependabot 或定期审计主动更新。
@@ -124,9 +124,9 @@ Repository Secret 历史入口：
 - `npm install -g <package>` 不可复现。示例至少固定明确版本；正式项目优先提交 `package.json` 与 lockfile，再用 `npm ci`。
 - 不在日志中输出整个 `github` context、Secret 或含认证信息的远端 URL。
 
-## 五、Mermaid 自动生成示例
+## 五、Mermaid 自动生成示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、目标
+### 5.1、目标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. Push、Pull Request 和手动运行都验证 Mermaid CLI 能解析输入。
 2. 只有 `main` 的 Push 或在 `main` 上手动运行才写回生成图。
@@ -134,7 +134,7 @@ Repository Secret 历史入口：
 4. 同一分支的并发发布互斥，避免自动提交相互抢占。
 5. 没有生成变化时正常结束，不让空 commit 导致 Workflow 失败。
 
-### 5.2、工作流
+### 5.2、工作流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 把本目录的示例复制到目标仓库根目录：
 
@@ -168,7 +168,7 @@ env:
 
 截至 2026-08-04，示例使用 `actions/checkout@v7`、`actions/setup-node@v7`、Node.js 24 LTS 和 Mermaid CLI `11.16.0`。版本会演进，维护时必须重新核对上游，不只修改日期。
 
-### 5.3、输入要求
+### 5.3、输入要求 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Markdown 输入必须包含合法的 Mermaid fenced code block：
 
@@ -183,9 +183,9 @@ flowchart LR
 - 一个 Markdown 有多张 Mermaid 图时，CLI 可能生成带序号的多个输出；暂存路径要覆盖 `diagram*.png`。
 - `mermaid.md` 是复杂输入样例，不代表 GitHub Actions 知识本身。
 
-## 六、写回仓库的安全实现
+## 六、写回仓库的安全实现 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、不要把 PAT 拼进 URL
+### 6.1、不要把 PAT 拼进 URL <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 错误方向：
 
@@ -199,7 +199,7 @@ https://<actor>:<token>@github.com/<repository>.git
 git push
 ```
 
-### 6.2、只提交真实变化
+### 6.2、只提交真实变化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 mapfile -d '' generated_files < <(find . -maxdepth 1 -type f -name 'diagram*.png' -print0)
@@ -220,9 +220,9 @@ git push
 - Bash 数组配合 NUL 分隔输入，既兼容空格和特殊字符，也显式处理“没有生成任何文件”的异常情况。
 - 工作流自动 Push 使用仓库 `GITHUB_TOKEN` 时，通常不会再次触发普通 Push Workflow，从而避免递归运行；如果改用 PAT 或 GitHub App token，必须重新设计防递归条件。
 
-## 七、本地验证
+## 七、本地验证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、直接验证命令
+### 7.1、直接验证命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 node --version
@@ -232,7 +232,7 @@ npx --yes @mermaid-js/mermaid-cli@11.16.0 \
   --output diagram.png
 ```
 
-### 7.2、`act`
+### 7.2、`act` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [**act**](https://github.com/nektos/act) 可以在本地用容器模拟部分 GitHub Actions：
 
@@ -246,7 +246,7 @@ act workflow_dispatch
 - 本地通过不能证明 GitHub-hosted Runner 一定通过；最终仍要在目标仓库验证。
 - 测试 Secret 使用专门的测试值，不能把生产 Secret 写进命令历史或普通文件。
 
-## 八、常见故障
+## 八、常见故障 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 现象 | 原因方向 | 处理 |
 | --- | --- | --- |
@@ -259,7 +259,7 @@ act workflow_dispatch
 | Mermaid CLI 找不到浏览器 | Puppeteer/Runner 依赖、CLI 版本或沙箱问题 | 先使用 CLI 官方安装策略与 GitHub-hosted Runner；不要随意关闭所有沙箱。 |
 | 自动提交形成无限循环 | 使用了会触发新 Push 事件的 PAT/App token，且无条件限制 | 改用 `GITHUB_TOKEN` 或增加 actor、路径、消息和并发保护。 |
 
-## 九、官方资料
+## 九、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [**GitHub Actions 文档**](https://docs.github.com/en/actions)
 - [**Workflow 语法**](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)

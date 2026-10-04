@@ -1,4 +1,4 @@
-# `FTP`的配置
+# <span id="前言">`FTP`的配置</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -42,7 +42,7 @@ SFTP协议（Secure Shell FTP，安全壳FTP）是FTP协议的安全版本。
 SFTP协议通过加密数据传输，提供更高的安全性。SFTP协议使用SSH协议进行数据传输和控制连接。SFTP协议也需要通过用户名和密码进行身份验证。
 ```
 
-## 1、前置条件
+## 1、前置条件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *资料来源*
 
@@ -72,7 +72,7 @@ sudo apt update
 apt install selinux-utils
 ```
 
-## 2、`VSFTPD`的安装步骤
+## 2、`VSFTPD`的安装步骤 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 sudo apt install vsftpd ftp ufw -y # UFW 防火墙
@@ -96,7 +96,7 @@ May 28 20:18:24 mail systemd[1]: Starting vsftpd FTP server...
 May 28 20:18:24 mail systemd[1]: Started vsftpd FTP server.
 ```
 
-## 3、创建一个`FTP`用户
+## 3、创建一个`FTP`用户 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 服务器IP:45.86.65.212
@@ -153,21 +153,21 @@ exit
 quit
 ```
 
-## 4、重启`VSFTPD`
+## 4、重启`VSFTPD` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 sudo systemctl restart vsftpd
 ```
 
-## 5、`vsftpd`的配置文件（vsftpd.conf）
+## 5、`vsftpd`的配置文件（vsftpd.conf） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、备份
+### 5.1、备份 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 sudo cp $SYSTEM_CONFIG_DIR/vsftpd.conf $SYSTEM_CONFIG_DIR/vsftpd.conf.bak
 ```
 
-### 5.2、编辑
+### 5.2、编辑 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 vi $SYSTEM_CONFIG_DIR/vsftpd.conf
@@ -205,13 +205,13 @@ pasv_promiscuous=YES
 anon_other_write_enable=YES
 ```
 
-### 5.3、关闭并保存配置文件。并重启`vsftpd`
+### 5.3、关闭并保存配置文件。并重启`vsftpd` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 sudo systemctl restart vsftpd
 ```
 
-### 5.4、查看端口
+### 5.4、查看端口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 root@mail:$SYSTEM_CONFIG_DIR# netstat -ntlp lgrep vsftpd
@@ -248,18 +248,18 @@ tcp6       0      0 :::4190                 :::*                    LISTEN      
 root@mail:$SYSTEM_CONFIG_DIR# 
 ```
 
-### 5.5、防火墙
+### 5.5、防火墙 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 ```
 
-### 5.7、黑白名单
+### 5.7、黑白名单 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 
 ```
 
-## 6、访问
+## 6、访问 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 1、打开 FTP 客户端程序（例如 FileZilla，CuteFTP，WinSCP 等），并输入要连接的 FTP 服务器的主机名或 IP 地址和端口号;
@@ -282,7 +282,7 @@ ftp 45.86.65.212
 
 ![image-20230529092144158](./assets/image-20230529092144158.png)
 
-## 7、服务器的访问
+## 7、服务器的访问 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 https://wangchujiang.com/linux-command/c/ssh.html
 
@@ -412,3 +412,4 @@ https://blog.csdn.net/whbttst/article/details/96428805
 
 
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

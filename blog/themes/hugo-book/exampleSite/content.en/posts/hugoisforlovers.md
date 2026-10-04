@@ -25,7 +25,7 @@ categories = [
 menu = "main"
 +++
 
-## Step 1. Install Hugo
+## <span id="前言">Step 1. Install Hugo <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
 Go to [Hugo releases](https://github.com/spf13/hugo/releases) and download the
 appropriate version for your OS and architecture.
@@ -34,7 +34,7 @@ Save it somewhere specific as we will be using it in the next step.
 
 More complete instructions are available at [Install Hugo](https://gohugo.io/getting-started/installing/)
 
-## Step 2. Build the Docs
+## Step 2. Build the Docs <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Hugo has its own example site which happens to also be the documentation site
 you are reading right now.
@@ -59,7 +59,7 @@ Corresponding pseudo commands:
 
 Once you've gotten here, follow along the rest of this page on your local build.
 
-## Step 3. Change the docs site
+## Step 3. Change the docs site <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Stop the Hugo process by hitting Ctrl+C.
 
@@ -94,6 +94,8 @@ Refresh the browser and observe that the typo is now fixed.
 Notice how quick that was. Try to refresh the site before it's finished building. I double dare you.
 Having nearly instant feedback enables you to have your creativity flow without waiting for long builds.
 
-## Step 4. Have fun
+## Step 4. Have fun <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 The best way to learn something is to play with it.
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

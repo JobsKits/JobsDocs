@@ -27,13 +27,13 @@
 
 ## 二、Blog 预览与发布 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、先记结论
+### 2.1、先记结论 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - `./blog/install.command` 是博客文件的统一生成入口：默认双击时同步文档并启动本地预览；传入 `--ci` 时无交互完成一次正式构建后退出。
 - 正式站点由 [**Cloudflare Pages**](https://pages.cloudflare.com/) 托管，项目名为 `jobsdocs`，线上地址为 `https://jobsdocs.ccwu.cc/`。
 - `./.github/workflows/deploy-blog.yml` 会在 `main` 收到推送后运行 `./blog/install.command --ci`，再把生成的 `./blog` 文件提交回 `main`；Cloudflare Pages Git 集成负责发布这个生成提交。
 
-### 2.2、本地同步与预览
+### 2.2、本地同步与预览 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 可以双击 `./blog/install.command`，也可以在终端执行：
 
@@ -48,7 +48,7 @@
 - 停止本地预览：回到运行脚本的终端，按 `Control + C`。
 - 本地预览日志位于系统临时目录中的 `install.log`。
 
-### 2.3、自动发布与手动发布
+### 2.3、自动发布与手动发布 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 自动发布：提交源码并推送到远端 `main` 分支，`Deploy Blog` 工作流会同步文档、生成 Hugo 站点，并由 `github-actions[bot]` 把变化提交回 `main`。
 
@@ -67,7 +67,7 @@
       D --> E["Cloudflare Pages Git 集成发布"]
   ```
 
-### 2.4、GitHub Actions 运行边界
+### 2.4、GitHub Actions 运行边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 工作流使用 GitHub 自动提供的 `GITHUB_TOKEN` 写回本仓库，不需要 Cloudflare API Token、账户 ID 或其它 Repository secrets。
 - 机器人提交使用仓库自身的 `GITHUB_TOKEN` 推送，不会再次触发同一个 GitHub Actions 工作流，因此不会递归提交。

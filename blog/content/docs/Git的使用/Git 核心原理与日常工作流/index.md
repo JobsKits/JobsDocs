@@ -19,7 +19,7 @@ bookCollapseSection: false
 
 ## 一、对象、快照与引用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、四类核心对象
+### 1.1、四类核心对象 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 对象 | 保存什么 | 关键事实 |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ git ls-tree -r HEAD
 git show --stat --summary HEAD
 ```
 
-### 1.2、四层可变状态
+### 1.2、四层可变状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart LR
@@ -55,9 +55,9 @@ flowchart LR
 - 引用：分支、标签和远端跟踪分支等可移动名字。
 - `HEAD` 通常是当前分支的符号引用；检出某个提交时会成为 detached HEAD。
 
-## 二、创建、克隆与识别仓库
+## 二、创建、克隆与识别仓库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、新仓库
+### 2.1、新仓库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 mkdir project
@@ -68,7 +68,7 @@ git status
 
 初始化不会替你创建首次提交、远端或忽略规则。
 
-### 2.2、克隆
+### 2.2、克隆 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git clone <repository-url>
@@ -78,7 +78,7 @@ git -C <repository-directory> branch --verbose --verbose
 
 Clone 通常会创建远端 `origin`、远端跟踪引用和一个跟踪默认远端分支的本地分支。它不保证自动初始化子模块；含子模块时使用 `--recurse-submodules` 或克隆后执行 `git submodule update --init --recursive`。
 
-### 2.3、先确认自己在哪个仓库
+### 2.3、先确认自己在哪个仓库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git rev-parse --show-toplevel
@@ -89,9 +89,9 @@ git status --short --branch
 
 子模块、linked worktree 和普通仓库的 Git 目录结构不同。脚本不能只用“当前目录是否有 `.git/` 文件夹”判断仓库根。
 
-## 三、文件生命周期与暂存
+## 三、文件生命周期与暂存 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、观察再暂存
+### 3.1、观察再暂存 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git status --short --branch
@@ -107,7 +107,7 @@ git diff --cached --stat
 - `git add --patch` 按 hunk 选择内容，适合把混杂修改拆成语义清晰的提交。
 - `git add -A -- .` 在当前路径范围统一记录新增、修改和删除；执行位置会影响范围。
 
-### 3.2、状态含义
+### 3.2、状态含义 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 状态 | 含义 | 常用动作 |
 | --- | --- | --- |
@@ -125,9 +125,9 @@ git rm --cached -- <path>
 
 这只影响后续提交；已经存在于历史中的内容不会因此从旧提交消失。
 
-## 四、提交设计与身份
+## 四、提交设计与身份 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、提交前核对
+### 4.1、提交前核对 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git diff --cached --check
@@ -144,7 +144,7 @@ git commit
 - 不混入构建产物、临时日志、凭据和无关格式化。
 - 提交消息说明结果和原因，不重复文件名列表。
 
-### 4.2、修改最后一次提交
+### 4.2、修改最后一次提交 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git commit --amend
@@ -152,9 +152,9 @@ git commit --amend
 
 Amend 会创建新提交并移动当前分支，提交 ID 改变。只在提交尚未共享，或团队明确允许改写时使用；已经发布的修复通常追加新提交或使用 `git revert` 更安全。
 
-## 五、分支、合并与冲突
+## 五、分支、合并与冲突 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、分支是可移动引用
+### 5.1、分支是可移动引用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git branch --all --verbose --verbose
@@ -166,7 +166,7 @@ git branch --no-merged
 
 创建分支不会复制整个工作区。删除分支只是删除名字；只要提交仍被其它引用或 reflog 保留，对象可能继续存在。
 
-### 5.2、整合前先更新观察面
+### 5.2、整合前先更新观察面 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git fetch --prune origin
@@ -183,7 +183,7 @@ git merge-base HEAD origin/main
 | rebase | 重放并改写当前分支独有提交 | 适合尚未共享的主题分支整理。 |
 | squash merge | 把主题变化压成一个新提交 | 平台合并时简化主线，但不保留每个主题提交。 |
 
-### 5.3、冲突不是随机覆盖
+### 5.3、冲突不是随机覆盖 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git status
@@ -202,7 +202,7 @@ git status
 
 `ours` / `theirs` 的含义会随 merge、rebase 等上下文改变，不能把它们永久理解成“本地”和“远端”。先看 `HEAD`、当前操作和冲突基线。
 
-## 六、撤销与恢复决策表
+## 六、撤销与恢复决策表 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 目标 | 命令方向 | 主要影响 | 风险 |
 | --- | --- | --- | --- |
@@ -227,9 +227,9 @@ git reflog -20 --date=iso
 - `revert` 对 merge commit 需要用 `-m <parent-number>` 指定主线，选择错误会得到相反语义。
 - reflog 是本地、会过期的恢复线索，不是永久备份。
 
-## 七、远端协作
+## 七、远端协作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、远端、本地分支与远端跟踪引用
+### 7.1、远端、本地分支与远端跟踪引用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git remote -v
@@ -240,7 +240,7 @@ git for-each-ref --format='%(refname:short) %(upstream:short)' refs/heads/
 
 `origin/main` 是本地远端跟踪引用，不是服务器上的分支本体。它只反映最后一次成功 Fetch 后本地知道的状态。
 
-### 7.2、Fetch、Pull 与 Push
+### 7.2、Fetch、Pull 与 Push <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git fetch --prune origin
@@ -253,9 +253,9 @@ git push --set-upstream origin feature/example
 - Push 把本地对象和引用更新请求发送给远端；服务器权限、保护规则和 Hook 决定是否接受。
 - `--prune` 删除的是远端已经不存在的本地远端跟踪引用，不会删除本地普通分支。
 
-## 八、忽略规则、属性与跨平台文件名
+## 八、忽略规则、属性与跨平台文件名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 8.1、三类忽略来源
+### 8.1、三类忽略来源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 来源 | 是否提交 | 用途 |
 | --- | --- | --- |
@@ -271,7 +271,7 @@ git check-ignore --verbose --no-index <path>
 
 忽略规则不自动停止跟踪已经进入索引的文件；需要明确执行 `git rm --cached` 并提交索引变化。
 
-### 8.2、`.gitattributes`
+### 8.2、`.gitattributes` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 示例：
 
@@ -292,7 +292,7 @@ git diff --cached --stat
 
 不要同时混入业务逻辑修改，否则真实差异会被全库换行变化淹没。
 
-### 8.3、大小写与 Unicode
+### 8.3、大小写与 Unicode <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 macOS、Windows 和 Linux 的文件系统行为可能不同。只改大小写时使用临时名分两步记录：
 
@@ -303,7 +303,7 @@ git mv temporary-name NewName
 
 不要随意全局修改 `core.ignoreCase` 或 `core.precomposeUnicode`；它们通常由 Git 初始化时根据文件系统探测，错误配置会制造重复路径、无法检出或大小写碰撞。
 
-## 九、标签与发布点
+## 九、标签与发布点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git tag --list
@@ -316,7 +316,7 @@ git push origin v1.0.0
 - 已发布标签应视为不可变发布标识。确需移动时要同步说明旧对象、新对象、制品和下游缓存影响。
 - Git tag 不等同于 GitHub Release；Release 是托管平台在 tag 之上的说明与资产层。
 
-## 十、可复核的日常流程
+## 十、可复核的日常流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git status --short --branch
@@ -333,7 +333,7 @@ git push --set-upstream origin feature/example
 
 这不是所有团队的唯一流程。使用 trunk-based、GitHub Flow、Git Flow 或 release branch 时，应把分支寿命、合并方式、发布权限和回滚策略写进仓库规范，而不是靠个人记忆。
 
-## 十一、官方资料
+## 十一、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [**Git 用户手册**](https://git-scm.com/docs/user-manual)
 - [**gitglossary**](https://git-scm.com/docs/gitglossary)

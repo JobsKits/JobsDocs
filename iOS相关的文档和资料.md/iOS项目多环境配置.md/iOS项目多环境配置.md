@@ -1,4 +1,4 @@
-# <font id=iOS项目多环境配置 color=red>**iOS项目多环境配置**</font>
+# <span id="前言"><font id=iOS项目多环境配置 color=red>**iOS项目多环境配置**</font></span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -11,7 +11,7 @@
 
 [toc]
 
-## 一、打开项目并找到 <a href="#iOS项目多环境配置" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 一、打开项目并找到 <a href="#iOS项目多环境配置" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a>
 
 <table>
   <tr>
@@ -24,7 +24,7 @@
 
   ![image-20251025172832410](./assets/image-20251025172832410.png)
 
-## 三、代码中使用 <a href="#iOS项目多环境配置" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 三、代码中使用 <a href="#iOS项目多环境配置" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a>
 
 > 一定要先判断自定义的宏定义，在判断系统的**`debug`**和**`release`**，系统的宏优先级更高，所以会每次都进入系统宏的条件中
 
@@ -54,7 +54,7 @@ extension PYBaseUrl {
 }
 ```
 
-## 四、配置 `Podfile` <a href="#iOS项目多环境配置" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 四、配置 `Podfile` <a href="#iOS项目多环境配置" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a>
 
 > 修改对接的环境： 然后`pod install`一次
 
@@ -68,7 +68,7 @@ project 'JinXiIndonesia.xcodeproj',
   'Test'    => :debug
 ```
 
-## 五、如果需要安装多个app包 <a href="#iOS项目多环境配置" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 五、如果需要安装多个app包 <a href="#iOS项目多环境配置" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a>
 
 ![image-20251025175015352](./assets/image-20251025175015352.png)
 

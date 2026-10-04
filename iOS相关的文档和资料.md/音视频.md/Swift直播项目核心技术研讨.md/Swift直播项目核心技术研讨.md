@@ -1,4 +1,4 @@
-# Swift直播项目核心技术研讨
+# <span id="前言">Swift直播项目核心技术研讨</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -11,7 +11,7 @@
 
 [toc]
 
-## 一、前言
+## <span id="前言">一、前言</span>
 
 * 直播项目的核心难点，在于视频数据的处理，以及礼物特效
 
@@ -71,7 +71,7 @@
   
 * 画中画效果：实现端是具体的设备端，比如iOS/Android层
 
-## 二、推流端（主播）架构
+## 二、推流端（主播）架构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * **采集模块**
 
@@ -114,9 +114,9 @@
 
   * 错误上报、码率统计、丢帧统计、日志上报
 
-## 三、<font color=red>推流端（主播）开源框架</font>
+## 三、<font color=red>推流端（主播）开源框架</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1、传统直播（RTMP/SRT/CDN）
+### 1、传统直播（RTMP/SRT/CDN） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20251207142142317](./assets/image-20251207142142317.png)
 
@@ -129,7 +129,7 @@
   * RTMP / RTMPS / SRT 推流
   * 支持 iOS / macOS / tvOS / visionOS，一直在更新，10 年老项目。
 
-### 2、互动直播 / 连麦（WebRTC 路线）
+### 2、互动直播 / 连麦（WebRTC 路线） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20251207143654489](./assets/image-20251207143654489.png)
 
@@ -143,7 +143,7 @@
     * 发布本地 tracks（主播）
     * 订阅远端 tracks（观众 / 其他麦位）
 
-## 四、滤镜
+## 四、滤镜 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 本质：对音视频信号做一层「加工处理」的算法或效果
   * 对**图像/视频**来说
@@ -164,11 +164,11 @@
   * Banuba / 其他 Beauty AR SDK
   * 腾讯系美颜（TRTC / Beauty AR SDK）
 
-## 五、礼物特效
+## 五、礼物特效 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 大部分「礼物特效」**严格意义上不叫滤镜**，但实现上会用到跟滤镜类似的渲染技术。<font color=red>**意味着礼物特效的播放是单独的播放引擎来处理**</font>
 
-### 1、可选方案
+### 1、可选方案 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * [**SVGA**](https://svga.dev/)
 
@@ -249,7 +249,7 @@
     * 价格：定制报价，更贵
     * 资格条件：最近 12 个月相关收入/融资 ≥ 2500 万美金 
 
-### 2、建议
+### 2、建议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 不建议用`*.gif`格式做动效
   * 帧率和画质很不耐看
@@ -261,8 +261,10 @@
 * 视频播放也可以作为一个参考面
 * 3D特效需要更大的成本开销，在前期试探市场反应的情况下，不建议继续探索。成本更应该用在播放器的推拉流稳定性上
 
-## 六、整体构架
+## 六、整体构架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 底层：视频播放器（OC用[**ZFPlayer**](https://github.com/renzifeng/ZFPlayer)，Swift项目用[**BMPlayer**](https://github.com/BrikerMan/BMPlayer)）
 * 中间：普通 UI：弹幕、在线人数、主播信息等
 * 顶层：礼物特效层（需要长链接）
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

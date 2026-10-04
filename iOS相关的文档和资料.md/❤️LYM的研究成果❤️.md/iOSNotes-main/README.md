@@ -97,9 +97,9 @@
 
 ---
 
-## 1. OC语法
+## <span id="前言">1. OC语法 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
-### iOS用什么方式实现对一个对象的KVO？(KVO的本质是什么？)
+### iOS用什么方式实现对一个对象的KVO？(KVO的本质是什么？) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 KVO利用runtime的API生成一个子类，当instance对象修改属性时，会调用Fondation的_NSSetVauleAndNotfity函数, 
 willchnagevauleforkey, 
@@ -107,12 +107,12 @@ willchnagevauleforkey,
 didvaulechangeforkey, 
 内部触发监听器observe的监听方法(observerVauleForyKeyPath:ofObject:change:context)
 
-### 简述一下KVC？
+### 简述一下KVC？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 key vaule coding, 在iOS开发中允许直接用key名修改对象的属性，或者给对象的属性赋值，不需要调用明确存取方法。
 这样可以在运行时动态的访问和修改对象的属性，而不是在编译时就确定，这也是iOS黑魔法之一，像JSON解析model和其它开发技巧都是通过kvc实现的。
 
-### KVC的赋值和取值过程是怎样的？原理是什么？
+### KVC的赋值和取值过程是怎样的？原理是什么？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 KVC（Key-Value Coding）即键值编码，是一种间接访问对象属性的机制。它允许开发者通过 Key 名直接访问对象的属性，或者给对象的属性赋值，而不需要调用明确的存取方法。
 
@@ -155,22 +155,22 @@ graph TB
     K[按照_key _isKey key isKey顺序查找成员变量] --> Z(直接取值)
 ```
 
-### Category的使用场合是什么？Category的实现原理？
+### Category的使用场合是什么？Category的实现原理？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * Category编译之后的底层结构是struct category_t，里面存放的是分类的对象方法、类方法、属性、协议信息。
 * 在程序运行的时候，runtime会将分类的数据合并到类对象、元类对象中。
 
-### Category和Class Extension的区别是什么？
+### Category和Class Extension的区别是什么？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * Class Extension在编译的时候，它的数据就已经包含在类信息中
 * Category是在运行时，才会将数据合并到类信息中
 
-### Category中有load方法吗？load方法是什么时候调用的？load 方法能继承吗？
+### Category中有load方法吗？load方法是什么时候调用的？load 方法能继承吗？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 * 有load方法
 * load方法在runtime加载类、分类的时候调用
 * load方法可以继承，但是一般情况下不会主动去调用load方法，都是让系统自动调用
 
-### Category能否添加成员变量？如果可以，如何给Category添加成员变量？
+### Category能否添加成员变量？如果可以，如何给Category添加成员变量？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 不能直接给Category添加成员变量，但是可以间接实现Category有成员变量的效果。
 
@@ -183,7 +183,7 @@ id objc_getAssociatedObject(id object, const void * key)
 移除所有的关联对象
 void objc_removeAssociatedObjects(id object)
 
-### load、initialize方法的区别什么？它们在category中的调用的顺序？以及出现继承时他们之间的调用过程？
+### load、initialize方法的区别什么？它们在category中的调用的顺序？以及出现继承时他们之间的调用过程？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * load：当类被装载的时候被调用，只调用一次。
 * load 调用方式并不是runtime的objc_messageSend方式调用，而是根据编译顺序，先编译先调用。
@@ -201,7 +201,7 @@ void objc_removeAssociatedObjects(id object)
 * 子类和父类同时实现initialize，父类的先被调用。
 * 本类与category同时实现initialize，category会覆盖本类的方法，只调用category的。
 
-### 讲一下atomic的实现机制；为什么不能保证绝对的线程安全（最好可以结合场景来说）？
+### 讲一下atomic的实现机制；为什么不能保证绝对的线程安全（最好可以结合场景来说）？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * atomic的实现机制:
 * atomic是property的修饰词之一，表示是原子性的，编译器会自动生成getter/setter方法，最终会调用objc_getProperty和objc_setProperty方法来进行存取属性。这两个方法内部使用os_unfair_lock(os_unfair_lock是在iOS10之后为了替代自旋锁OSSpinLock而诞生的，主要是通过线程休眠的方式来继续加锁，而不是一个“忙等”的锁)来进行加锁，来保证读写的原子性。锁都在PropertyLocks中保存着，在用之前，会把锁都初始化好，在需要用到时，用对象的地址加上成员变量的偏移量为key，去PropertyLocks中去取。因此存取时用的是同一个锁，所以atomic能保证属性的存取时是线程安全的。注：由于锁是有限的，不用对象，不同属性的读取用的也可能是同一个锁.
@@ -210,7 +210,7 @@ void objc_removeAssociatedObjects(id object)
 
 * 在编译器自动生成的getter/setter方法，最终会调用objc_getProperty和objc_setProperty方法存取属性，在此方法内部保证了读写时的线程安全的，当我们重写getter/setter方法时，就只能依靠自己在getter/setter中保证线程安全。
 
-### 从property看安全隐患
+### 从property看安全隐患 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objC
 @property(nonatomic,strong) NSString* userName;
@@ -235,7 +235,7 @@ Tagged Pointer指针的值不再是地址了，而是真正的值。所以，实
 · 值类型（栈上） int long bool
 · 对象类型： 1. TagPointer(栈上)  2. 指针类型(堆上)
 
-### OC对象的分类
+### OC对象的分类 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * instance对象（实例对象）
 instance对象在内存中存储的信息包括：
@@ -259,7 +259,7 @@ class对象在内存中存储的信息主要包括：
     - 类的类方法信息（class method）
     - ......
 
-### isa、superclass
+### isa、superclass <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * instance的isa指向class
 * class的isa指向meta-class
@@ -271,7 +271,7 @@ class对象在内存中存储的信息主要包括：
 * instance调用对象方法的轨迹：isa找到class，方法不存在，就通过superclass找父类
 * class调用类方法的轨迹：isa找meta-class，方法不存在，就通过superclass找父类
 
-### Block的本质
+### Block的本质 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * block本质上也是一个OC对象，它内部也有个isa指针
 * block是封装了函数调用以及函数调用环境的OC对象
@@ -324,7 +324,7 @@ copy后，指向复制到堆上__block结构体的指针
 
 __forwarding指针这里的作用就是针对堆的Block，把原来__forwarding指针指向自己，换成指向_NSConcreteMallocBlock上复制之后的__block自己。然后堆上的变量的__forwarding再指向自己。这样不管__block怎么复制到堆上，还是在栈上，都可以通过(i->__forwarding->i)来访问到变量值。
 
-### __weak、__strong的实现原理
+### __weak、__strong的实现原理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在ARC环境下，id类型和对象类型和C语言其他类型不同，类型前必须加上所有权的修饰符。
 所有权修饰符总共有4种：
@@ -366,7 +366,7 @@ objc_storeWeak函数的用途就很明显了。由于weak表也是用Hash table�
 
 所以如果__weak引用的原对象如果被释放了，那么对应的__weak对象就会被指为nil。原来就是通过objc_storeWeak函数这些函数来实现的。
 
-### 为什么iOS的Masonry中的self不会循环引用?
+### 为什么iOS的Masonry中的self不会循环引用? <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 关于 Masonry ，它内部根本没有捕获变量 self，进入block的是testButton，所以执行完毕后，block会被销毁，没有形成环。所以，没有引起循环依赖。
 
@@ -387,16 +387,16 @@ testButton.backgroundColor = [UIColor redColor];
 
 ```
 
-### iOS 闭包中的weak self在什么情况下需要使用，什么情况下可以不加?
+### iOS 闭包中的weak self在什么情况下需要使用，什么情况下可以不加? <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 只有当block直接或间接的被self持有时，才需要weak self。
 
-### 为什么 block 里面还需要写一个 strong self，如果不写会怎么样？ 
+### 为什么 block 里面还需要写一个 strong self，如果不写会怎么样？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
 
 在 block 中先写一个 strong self，其实是为了避免在 block 的执行过程中，突然出现 self 被释放的尴尬情况。
 通常情况下，如果不这么做的话，还是很容易出现一些奇怪的逻辑，甚至闪退 野指针。
 
-### iOS block 为什么用copy修饰
+### iOS block 为什么用copy修饰 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 首先, block是一个对象, 所以block理论上是可以retain/release的. 
 但是block在创建的时候它的内存是默认是分配在栈(stack)上, 而不是堆(heap)上的. 
@@ -405,9 +405,9 @@ testButton.backgroundColor = [UIColor redColor];
 2. 其实block使用copy是MRC留下来的, 在MRC下, 如上述, 在方法中的block创建在栈区, 使用copy就能把他放到堆区, 这样在作用域外调用该block程序就不会崩溃.
 3. 但在ARC下, 使用copy与strong其实都一样, 因为block的retain就是用copy来实现的。
 
-## 2. Runtime
+## 2. Runtime <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 什么是Runtime？平时项目中有用过么？
+### 什么是Runtime？平时项目中有用过么？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 OC是一门动态性比较强的编程语言，允许很多操作推迟到程序运行时再进行
 OC的动态性就是由Runtime来支撑和实现的，Runtime是一套C语言的API，封装了很多动态性相关的函数
@@ -419,7 +419,7 @@ OC的动态性就是由Runtime来支撑和实现的，Runtime是一套C语言的
 交换方法实现（交换系统的方法）
 利用消息转发机制解决方法找不到的异常问题
 
-### OC 的消息机制
+### OC 的消息机制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 OC中的方法调用其实都是转成了objc_msgSend函数的调用，给receiver（方法调用者）发送了一条消息（selector方法名）
 objc_msgSend底层有3大阶段: 消息发送、动态方法解析、消息转发
@@ -461,9 +461,9 @@ graph TB
     D[调用<br>methodSignatureForSelector:方法] -- 返回值不为nil --> H(调用forwardInvocation:方法<br>开发者可以在这个方法中自定义任何逻辑) 
 ```
 
-## 3. RunLoop
+## 3. RunLoop <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 什么是RunLoop？
+### 什么是RunLoop？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 RunLoop是一个事件循环机制，用于管理线程中的事件和消息。它允许线程在没有任务的情况下休眠，并在有任务需要处理时唤醒线程。
 RunLoop主要负责以下几个方面：
@@ -476,7 +476,7 @@ RunLoop主要负责以下几个方面：
 
 * 优化性能：RunLoop能够优化应用程序的性能，通过RunLoop能够让应用程序在有任务需要处理时及时唤醒线程，而在没有任务时让线程休眠，从而避免了线程的空转，减少了CPU的占用，提高了应用程序的性能。
 
-### RunLoop与线程
+### RunLoop与线程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 每条线程都有唯一的一个与之对应的RunLoop对象
 * RunLoop保存在一个全局的Dictionary里，线程作为key，RunLoop作为value
@@ -484,7 +484,7 @@ RunLoop主要负责以下几个方面：
 * RunLoop会在线程结束时销毁
 * 主线程的RunLoop已经自动获取（创建），子线程默认没有开启RunLoop
 
-### RunLoop的运行逻辑？
+### RunLoop的运行逻辑？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 01、通知Observers：进入Loop
 
@@ -508,7 +508,7 @@ RunLoop主要负责以下几个方面：
 
 11、通知Observers：退出Loop
 
-### RunLoop在实际开中的应用？
+### RunLoop在实际开中的应用？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 控制线程生命周期（线程保活）
 * 解决NSTimer在滑动时停止工作的问题
@@ -602,15 +602,15 @@ timer = nil;
 
 这样就可以通过 NSRunLoop 监听子线程的卡顿情况了。
 
-## 4. 多线程
+## 4. 多线程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 线程安全的本质是什么？为什么会出现多线程不安全？
+### 线程安全的本质是什么？为什么会出现多线程不安全？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 线程安全不是指线程的安全，而是指内存的安全。每个进程的内存空间中都有一块特殊的公共区域，通常称为堆。当多个线程同时访问该区域，就会照成线程不安全的本质原因。
 
 针对一块内存区域，我们有读和写两种操作，读和写同时发生在同一块内存区域时，就有可能发生多线程不安全。
 
-### 在 iOS 中，常用的多线程方案有几种？
+### 在 iOS 中，常用的多线程方案有几种？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. NSThread：NSThread 是 Objective-C 对 POSIX 线程（pthread）的封装，可以直接创建一个线程，并进行启动、停止等操作。但是，由于需要自己管理线程的生命周期，使用起来比较繁琐。
 
@@ -622,7 +622,7 @@ timer = nil;
 
 5. performSelectorInBackground：这是 NSObject 提供的一个方法，可以在后台线程执行一个方法，使用起来非常简单，但是灵活性不如前面几种方案。
 
-### iOS中的线程锁有哪些？
+### iOS中的线程锁有哪些？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 自旋锁、互斥锁、递归锁、条件锁
 
@@ -644,7 +644,7 @@ timer = nil;
 
 9. dispatch_group：dispatch_group 是 GCD 中的一种机制，可以将一组任务进行分组，以便于统一管理和控制。通过 dispatch_group_notify 方法，可以在任务组执行完毕后执行指定的任务。
 
-### iOS线程同步方案性能比较
+### iOS线程同步方案性能比较 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 性能从高到低排序：
 * os_unfair_lock
@@ -660,7 +660,7 @@ timer = nil;
 * @synchronized
   
 
-### 自旋锁、互斥锁比较
+### 自旋锁、互斥锁比较 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在iOS中，自旋锁（Spin Lock）和互斥锁（Mutex Lock）是常用的两种线程锁。它们的主要区别在于：
 
@@ -674,7 +674,7 @@ timer = nil;
 
 综上所述，自旋锁适用于锁定时间短、竞争轻度的场景，可以避免线程切换的开销，提高效率。而互斥锁适用于锁定时间长、竞争激烈的场景，可以避免空转的开销，保证公平性。在实际使用中，应根据具体场景选择适合的锁机制，以保证程序的正确性和稳定性。
 
-### NSOperationQueue 和 GCD 的区别，以及各自的优势
+### NSOperationQueue 和 GCD 的区别，以及各自的优势 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 NSOperationQueue 是基于 GCD 构建的高层抽象，本质上仍然使用了 GCD 的底层机制。二者的区别主要在以下几个方面：
 
@@ -688,7 +688,7 @@ NSOperationQueue 是基于 GCD 构建的高层抽象，本质上仍然使用了 
 
 总的来说，OperationQueue 提供了更高层次的抽象和更精细的控制，可以实现更复杂的任务调度和管理。而 GCD 则更加简单直观，适合处理简单的任务队列。在实际开发中，应根据具体的场景和需求选择适合的方案。
 
-### 如何设计一个线程安全的可变数组？
+### 如何设计一个线程安全的可变数组？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 线程安全的设计原则：
 * 同一时间 只能有1个线程进行写的操作
@@ -713,7 +713,7 @@ NSOperationQueue 是基于 GCD 构建的高层抽象，本质上仍然使用了 
 
 实现方案：
 
-##### 读写锁pthread_rwlock
+##### 读写锁pthread_rwlock <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objC
 @interface ThreadSafeArray : NSObject
@@ -769,7 +769,7 @@ NSOperationQueue 是基于 GCD 构建的高层抽象，本质上仍然使用了 
 
 ```
 
-##### 栅栏+并发队列 (dispatch_barrier)
+##### 栅栏+并发队列 (dispatch_barrier) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 传入的并发队列，必须是自己通过dispatch_queue_cretate创建的
 * 如果传入的是串行队列 或 全局并发队列，那这个函数等同于dispatch_async/dispatch_sync的效果
@@ -824,7 +824,7 @@ NSOperationQueue 是基于 GCD 构建的高层抽象，本质上仍然使用了 
 
 在上面的代码中，addObject: 和 removeObjectAtIndex: 方法都使用了 dispatch_barrier_async 来保证在执行这些操作时，其他线程无法对数组进行读写操作。而 objectAtIndex: 方法则使用了 dispatch_sync 来保证在获取数组元素时，其他线程无法对数组进行写操作，但可以进行读操作。这样可以避免读写冲突，保证线程安全。
 
-##### dispatch_semaphore_t信号量
+##### dispatch_semaphore_t信号量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objC
 @interface ThreadSafeArray : NSObject
@@ -875,9 +875,9 @@ NSOperationQueue 是基于 GCD 构建的高层抽象，本质上仍然使用了 
 
 在上面的代码中，addObject:、removeObjectAtIndex: 和 objectAtIndex: 方法都使用了 dispatch_semaphore_wait 和 dispatch_semaphore_signal 来保证在执行这些操作时，其他线程无法对数组进行读写操作。使用信号量时，每次读写操作都需要获取信号量，以阻止其他线程进行操作。在操作完成后，需要释放信号量，允许其他线程进行读写操作。这样可以避免读写冲突，保证线程安全。
 
-## 5. 内存管理
+## 5. 内存管理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 使用CADisplayLink、NSTimer有什么注意点？
+### 使用CADisplayLink、NSTimer有什么注意点？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 CADisplayLink、NSTimer会对target产生强引用，如果target又对它们产生强引用，那么就会引发循环引用。
 解决方案：
@@ -901,7 +901,7 @@ NSTimer依赖于RunLoop，如果RunLoop的任务过于繁重，可能会导致NS
  dispatch_resume(timer);
 ```
 
-### iOS程序的内存布局
+### iOS程序的内存布局 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 代码段：编译之后的代码
 * 数据段
@@ -911,7 +911,7 @@ NSTimer依赖于RunLoop，如果RunLoop的任务过于繁重，可能会导致NS
 * 栈：函数调用开销，比如局部变量。分配的内存空间地址越来越小
 * 堆：通过alloc、malloc、calloc等动态分配的空间，分配的内存空间地址越来越大
 
-### Tagged Pointer
+### Tagged Pointer <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 从64bit开始，iOS引入了Tagged Pointer技术，用于优化NSNumber、NSDate、NSString等小对象的存储
 
@@ -937,7 +937,7 @@ self.userName = @"xxx";
 self.userName = @"123234dfsdfasdfasdfad";
 ```
 
-### OC对象的内存管理
+### OC对象的内存管理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在iOS中，使用引用计数来管理OC对象的内存
 
@@ -951,7 +951,7 @@ self.userName = @"123234dfsdfasdfasdfad";
 * 可以通过以下私有函数来查看自动释放池的情况
     - extern void _objc_autoreleasePoolPrint(void);
 
-### 引用计数的存储
+### 引用计数的存储 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 在64bit中，引用计数可以直接存储在优化过的isa指针中，也可能存储在SideTable类中
 
@@ -965,7 +965,7 @@ struct SideTable {
 
 * refcnts是一个存放着对象引用计数的散列表
 
-### dealloc
+### dealloc <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 当一个对象要释放时，会自动调用dealloc，接下的调用轨迹是
 * dealloc
@@ -974,7 +974,7 @@ struct SideTable {
 * object_dispose
 * objc_destructInstance、free
 
-### 自动释放池
+### 自动释放池 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 NSAutoreleasePool是Objective-C中的一个自动内存释放机制，可以帮助开发者在编写代码时更加方便地管理内存。它的核心原理是使用栈（stack）来维护对象的生命周期。
 
@@ -987,7 +987,7 @@ NSAutoreleasePool的实现原理是利用了Objective-C的消息传递机制。�
 至于何时给对象发送release消息，一般来说，当我们手动创建了一个对象并持有它时，就需要在不再需要使用该对象时，通过调用其release方法来释放内存。例如，当我们使用alloc、retain、copy等方法创建了一个新对象时，就需要在不再需要使用该对象时手动调用release方法来释放内存。而如果是使用autoreleased对象，则可以不需要手动管理其内存，系统会自动将其添加到当前的autorelease pool中，并在池被销毁时自动释放掉。
 
 
-### 自动释放池实现原理
+### 自动释放池实现原理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 自动释放池是由 AutoreleasePoolPage 以双向链表的方式实现的
 当对象调用 autorelease 方法时，会将对象加入 AutoreleasePoolPage 的栈中
@@ -1082,7 +1082,7 @@ void objc_autoreleasePoolPop(void *ctxt) {
                     └── id *add(id obj)
 ```
 
-### 写时复制
+### 写时复制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 写时复制（Copy On Write）是一种常见的优化技术，它可以在减少内存使用和提高程序性能之间进行平衡。它的核心思想是，在需要修改共享数据时，不直接修改原始数据，而是先创建原始数据的一个副本，并在副本上执行修改操作。这样，对于未被修改的数据，多个线程或对象可以继续共享使用，而只有在修改的时候才会对数据进行复制。
 
@@ -1092,7 +1092,7 @@ void objc_autoreleasePoolPop(void *ctxt) {
 
 总之，写时复制是一种优秀的优化技术，它可以在保证数据一致性的同时，减少内存使用和提高程序性能。在实际开发中，我们可以根据具体情况选择合适的数据结构和实现方式来应用写时复制技术，以达到最佳的效果。
 
-### Runloop和Autorelease
+### Runloop和Autorelease <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 iOS在主线程的Runloop中注册了2个Observer:
 
@@ -1101,9 +1101,9 @@ iOS在主线程的Runloop中注册了2个Observer:
   + 监听了kCFRunLoopBeforeWaiting事件，会调用objc_autoreleasePoolPop()、objc_autoreleasePoolPush()
   + 监听了kCFRunLoopBeforeExit事件，会调用objc_autoreleasePoolPop()
 
-## 6. 性能优化
+## 6. 性能优化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 卡顿优化 - CPU
+### 卡顿优化 - CPU <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 尽量用轻量级的对象，比如用不到事件处理的地方，可以考虑使用CALayer取代UIView
 * 不要频繁地调用UIView的相关属性，比如frame、bounds、transform等属性，尽量减少不必要的修改
@@ -1113,7 +1113,7 @@ iOS在主线程的Runloop中注册了2个Observer:
 * 控制一下线程的最大并发数量
 * 尽量把耗时的操作放到子线程：文本处理（尺寸计算、绘制）、图片处理（解码、绘制）
 
-### 卡顿优化 - GPU
+### 卡顿优化 - GPU <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 尽量避免短时间内大量图片的显示，尽可能将多张图片合成一张进行显示
 * GPU能处理的最大纹理尺寸是4096x4096，一旦超过这个尺寸，就会占用CPU资源进行处理，所以纹理尽量不要超过这个尺寸
@@ -1121,7 +1121,7 @@ iOS在主线程的Runloop中注册了2个Observer:
 * 减少透明的视图（alpha<1），不透明的就设置opaque为YES
 * 尽量避免出现离屏渲染
 
-### 离屏渲染
+### 离屏渲染 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在OpenGL中，GPU有2种渲染方式
 On-Screen Rendering：当前屏幕渲染，在当前用于显示的屏幕缓冲区进行渲染操作
@@ -1156,19 +1156,19 @@ iOS 中的离屏渲染（Offscreen Rendering）是指在当前屏幕之外进行
 4. 对于需要模糊效果的视图，可以采用 UIVisualEffectView 来实现。
 
 总之，在 iOS 应用程序开发中，离屏渲染是一个需要尽可能避免的性能问题。通过优化视图结构和代码实现，我们可以减少这种操作，从而提高应用程序的性能和稳定性。
-### 卡顿检测
+### 卡顿检测 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 平时所说的“卡顿”主要是因为在主线程执行了比较耗时的操作
 可以添加Observer到主线程RunLoop中，通过监听RunLoop状态切换的耗时，以达到监控卡顿的目的
 
-### 耗电的主要来源
+### 耗电的主要来源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * CPU处理，Processing
 * 网络，Networking
 * 定位，Location
 * 图像，Graphics
 
-### 耗电优化
+### 耗电优化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 尽可能降低CPU、GPU功耗
 * 少用定时器
@@ -1184,7 +1184,7 @@ iOS 中的离屏渲染（Offscreen Rendering）是指在当前屏幕之外进行
 让用户可以取消长时间运行或者速度很慢的网络操作，设置合适的超时时间
 批量传输，比如，下载视频流时，不要传输很小的数据包，直接下载整个文件或者一大块一大块地下载。如果下载广告，一次性多下载一些，然后再慢慢展示。如果下载电子邮件，一次下载多封，不要一封一封地下载
 
-### APP的启动
+### APP的启动 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * APP的启动可以分为2种
 冷启动（Cold Launch）：从零开始启动APP
@@ -1216,7 +1216,7 @@ APP的冷启动可以概括为3大阶段
 DYLD_PRINT_STATISTICS设置为1
 如果需要更详细的信息，那就将DYLD_PRINT_STATISTICS_DETAILS设置为1
 
-### APP的启动优化
+### APP的启动优化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 按照不同的阶段
 * dyld
@@ -1232,7 +1232,7 @@ Swift尽量使用struct
 在不影响用户体验的前提下，尽可能将一些操作延迟，不要全部都放在finishLaunching方法中
 按需加载
 
-### 安装包瘦身
+### 安装包瘦身 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 资源（图片、音频、视频等）:
     - 采取无损压缩
@@ -1246,9 +1246,9 @@ Swift尽量使用struct
         - 去掉异常支持，Enable C++ Exceptions、Enable Objective-C Exceptions设置为NO， Other C Flags添加-fno-exceptions
         - 利用AppCode或者[fui](https://github.com/dblock/fui)检测未使用的代码
 
-## 7. 设计模式、架构
+## 7. 设计模式、架构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 设计模式（Design Pattern）
+### 设计模式（Design Pattern） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 是一套被反复使用、代码设计经验的总结
 使用设计模式的好处是：可重用代码、让代码更容易被他人理解、保证代码可靠性
@@ -1264,7 +1264,7 @@ Swift尽量使用struct
 * 行为型模式：类或对象之间如何交互，及划分责任和算法
 观察者模式、命令模式、责任链模式，等等
 
-### 项目管理
+### 项目管理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. 开发和构建环境
 通过 Ruby ⼯具链为整个项⽬搭建⼀致的开发和构建环境, 我们通过 Xcode、rbenv、RubyGems 和 Bundler 搭建⼀个统⼀的 iOS 开发和构建环境.
@@ -1285,11 +1285,11 @@ xcconfig也叫作 Build configuration file（构建配置⽂件），我们可�
     - 在提交代码前，必须使用SwiftFormat对代码进行格式化。
     - SwiftLint
 
-## 8. HHTPS
+## 8. HHTPS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 密码学
+### 密码学 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 对称加密
+#### 对称加密 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 服务端制定一个key， 通过一个算法f，客户端通过这个算法f加密数据data，传给服务端，服务端用算法f和key解析得到data。弊端是服务端只有一个key，所有人都能拿到这个key，所以不安全。
 加密：f(key, data) = x
@@ -1300,7 +1300,7 @@ xcconfig也叫作 Build configuration file（构建配置⽂件），我们可�
 
 缺点：对称加密算法的缺点包括密钥管理的复杂性和安全性，因为共享相同的密钥需要安全通道和安全措施。此外，对称加密算法不适用于在不可信网络上进行安全通信。
 
-#### 非对称加密
+#### 非对称加密 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 服务端有公钥pk和私钥sk，公钥是公开的，并且可以用于加密数据，而私钥是保密的，并且只能由接收方使用来解密数据。
 第一步客户端请求服务器拿到公钥
@@ -1312,7 +1312,7 @@ xcconfig也叫作 Build configuration file（构建配置⽂件），我们可�
 
 缺点：非对称加密算法的缺点包括加密和解密速度较慢，并且对处理大量数据时不够有效。此外，非对称加密算法的实现和使用比对称加密算法更为复杂。
 
-#### 对称加密非对称加密对比
+#### 对称加密非对称加密对比 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 |特性	|对称加密|	非对称加密|
 | :----: | :----: | :----: |
@@ -1325,36 +1325,36 @@ xcconfig也叫作 Build configuration file（构建配置⽂件），我们可�
 |实现复杂度	|低|	高|
 |处理大量数据	|有效|	不够有效|
 
-#### 摘要算法：
+#### 摘要算法： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在 TLS 中，实现完整性的手段主要是 摘要算法(Digest Algorithm)。
 可以把摘要算法理解成一种特殊的压缩算法，它能够把任意长度的数据压缩成一种固定长度的字符串，这就好像是给数据加了一把锁。
 
 常用的 MD5 是加密算法外，SHA-1(Secure Hash Algorithm 1) 也是一种常用的加密算法，不过 SHA-1 也是不安全的加密算法，在 TLS 里面被禁止使用。目前 TLS 推荐使用的是 SHA-1 的后继者：SHA-2。
 
-#### CA认证
+#### CA认证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 CA 的全称是 Certificate Authority，证书认证机构，你必须让 CA 颁布具有认证过的公钥，才能解决公钥的信任问题。
 
 通常情况下，数字证书的申请人将生成由私钥和公钥以及证书签名请求（CSR）组成的密钥对。
 CSR是一个编码的文本文件，其中包含公钥和其他将包含在证书中的信息（例如域名，组织，电子邮件地址等）。密钥对和 CSR生成通常在将要安装证书的服务器上完成，并且 CSR 中包含的信息类型取决于证书的验证级别。与公钥不同，申请人的私钥是安全的，永远不要向 CA（或其他任何人）展示。
 
-### 什么是 HTTP
+### 什么是 HTTP <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 HTTP 是一种 超文本传输协议(Hypertext Transfer Protocol) 协议，它是一个在计算机世界里专门在两点之间传输文字、图片、音频、视频等超文本数据的约定和规范.
 
-### 什么是 HTTPS
+### 什么是 HTTPS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 HTTPS 的全称是 Hypertext Transfer Protocol Secure
 HTTPS 是 HTTP 协议的一种扩展，它本身并不保传输的证安全性，在 HTTPS 中，使用传输层安全性(TLS)或安全套接字层(SSL)对通信协议进行加密。也就是 HTTP + SSL(TLS) = HTTPS。
 
-### 什么是 SSL/TLS
+### 什么是 SSL/TLS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 TLS(Transport Layer Security) 是 SSL(Secure Socket Layer) 的后续版本，它们是用于在互联网两台计算机之间用于身份验证和加密的一种协议。
 
 通常情况下，HTTP 会先直接和 TCP 进行通信。在使用 SSL 的 HTTPS 后，则会先演变为和 SSL 进行通信，然后再由 SSL 和 TCP 进行通信。也就是说，HTTPS 就是身披了一层 SSL 的 HTTP。
 
-### TCP/IP 4层模型
+### TCP/IP 4层模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. 应用层 (Application Layer)：这个层次定义了应用程序之间的通信协议，包括HTTP、FTP、SMTP、DNS等等。
 
@@ -1364,13 +1364,13 @@ TLS(Transport Layer Security) 是 SSL(Secure Socket Layer) 的后续版本，
 
 4. 链路层 (Link Layer)：这个层次定义了物理层和数据链路层的协议，负责将数据帧从一个节点传输到另一个节点，主要有以太网 (Ethernet)、WiFi、蓝牙等等。
 
-### TCP UDP
+### TCP UDP <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 TCP 是一种面向连接的协议，提供了可靠的数据传输，可以确保数据的顺序和完整性。它使用三次握手建立连接，并使用流量控制和拥塞控制算法来确保数据的稳定传输。TCP 通常用于需要可靠数据传输的应用，例如文件传输、电子邮件和网页浏览等。
 
 UDP 是一种无连接的协议，不提供可靠的数据传输保证，也不保证数据的顺序和完整性。它非常简单、快速，适合对实时性要求较高的应用。UDP 的一个常见用途是进行实时音视频传输，例如网络电话和视频会议等。
 
-### TCP 三次握手
+### TCP 三次握手 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 在TCP层，有个FLAGS字段，这个字段有以下几个标识：SYN, FIN, ACK, PSH, RST, URG.其中，对于我们日常的分析有用的就是前面的五个字段。
 
 SYN: 同步序列编号(Synchronize Sequence Numbers)  
@@ -1386,7 +1386,7 @@ FIN：结束标志。带有该标志置位的数据包用来结束一个TCP回�
 
 3. 客户端发送 ACK 报文：客户端收到服务器的 SYN + ACK 报文后，向服务器发送一个 ACK 报文，其中确认号为 y+1，序列号为 x+1。至此，TCP 连接已经建立起来了。
 
-### TCP 四次挥手
+### TCP 四次挥手 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. 客户端发送 FIN 报文：客户端主动发起关闭连接的请求，发送一个 FIN 报文，表示已经不再需要发送数据了。
 
@@ -1396,7 +1396,7 @@ FIN：结束标志。带有该标志置位的数据包用来结束一个TCP回�
 
 4. 客户端回应 ACK 报文：客户端收到服务器的 FIN 报文后，向服务器发送一个 ACK 报文，确认收到了关闭请求。此时，TCP 连接已经断开了。
 
-### HTTPS 工作流程
+### HTTPS 工作流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. 客户端发送连接请求：
    - Client Hello（TLS支持版本、加密套件、第1个随机数）
@@ -1421,7 +1421,7 @@ FIN：结束标志。带有该标志置位的数据包用来结束一个TCP回�
    - 一旦服务器和浏览器都拥有共享密钥，它们将使用该密钥加密和解密在客户端和服务器之间传输的数据。前面的过程三非对称加密、后面的过程就可以使用“对称密钥加密”的技术来完成。
 
 
-### tcp建立了几个通道 ，分别是什么 ，发送端和接收端是同一个通道吗？
+### tcp建立了几个通道 ，分别是什么 ，发送端和接收端是同一个通道吗？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在TCP协议中，每个TCP连接建立了一个双向通道，其中包括发送方到接收方的数据通道和接收方到发送方的确认通道。因此，对于每个TCP连接来说，都会有两个独立的通道。
 
@@ -1431,7 +1431,7 @@ FIN：结束标志。带有该标志置位的数据包用来结束一个TCP回�
 
 总之，TCP连接中包括数据通道和确认通道两个独立的通道，用于发送方向接收方传输数据和接收方向发送方发送确认消息。发送端和接收端在同一个TCP连接中使用的是相同的IP地址和端口号，但是在数据传输和确认过程中通过不同的序列号和确认号来区分不同的数据包和确认消息。
 
-### http使用udp还是tcp链接以及每次发送一个http请求 就一定建立tcp链接吗 为什么？
+### http使用udp还是tcp链接以及每次发送一个http请求 就一定建立tcp链接吗 为什么？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 HTTP协议默认使用TCP协议进行数据传输，而不是UDP协议。这是因为TCP协议提供了可靠的连接和数据传输保障，可以确保数据的完整性和正确性，同时支持流量控制、拥塞控制等重要特性。
 
@@ -1442,7 +1442,7 @@ HTTP协议默认使用TCP协议进行数据传输，而不是UDP协议。这是�
 总之，HTTP协议默认使用TCP协议进行数据传输，每次发送一个HTTP请求通常都需要建立一个TCP连接。但是，在HTTP/1.1和HTTP/2中，可以通过持久连接和多路复用等技术来减少连接建立和断开的开销，提高性能。
 
 
-### http的超时默认从什么位置开始计算
+### http的超时默认从什么位置开始计算 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 HTTP协议的超时时间是从客户端发送请求后开始计算的，一般包括以下两种情况：
 
@@ -1453,7 +1453,7 @@ HTTP协议的超时时间是从客户端发送请求后开始计算的，一般�
 需要注意的是，HTTP协议中的超时时间仅仅是一个建议值，具体的超时策略和时间都由各个软件实现来决定。在实际应用中，超时时间可能受到网络延迟、服务器负载等因素的影响，因此需要根据实际情况进行调整和优化，以保证系统的稳定性和性能。
 
 
-### 如何处理UDP 传输数据时可能会出现丢包、乱序等问题。
+### 如何处理UDP 传输数据时可能会出现丢包、乱序等问题。 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 UDP协议是一种无连接的传输协议，数据传输时不会对数据进行确认和重传等处理，因此在UDP的数据传输过程中可能会出现丢包、乱序等问题。为了处理这些问题，通常可以采取以下措施：
 
@@ -1470,7 +1470,7 @@ UDP协议是一种无连接的传输协议，数据传输时不会对数据进�
 总之，对于UDP传输中出现的丢包、乱序等问题，需要根据具体情况采取适当的措施，如重传机制、校验机制、流量控制、拥塞控制以及合理的应用层协议设计等，从而提高数据传输的效率和可靠性。
 
 
-### 分别说一下tcp 和 udp 以及他们的区别和联系；
+### 分别说一下tcp 和 udp 以及他们的区别和联系； <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 TCP（Transmission Control Protocol）和UDP（User Datagram Protocol）都是互联网传输层协议，用于在网络上进行数据传输。
 
@@ -1504,14 +1504,14 @@ TCP和UDP的联系如下：
 
 
 
-## WebSocket
+## WebSocket <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### WebSocket 底层原理
+### WebSocket 底层原理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 WebSocket是一个网络上的应用层协议，它依赖于HTTP协议的第一次握手，握手成功后，数据就通过TCP/IP协议传输了。
 
 WebSocket分为握手阶段和数据传输阶段，即进行了HTTP一次握手 + 双工的TCP连接。
 
-### iOS 中 WebSocket 相关框架
+### iOS 中 WebSocket 相关框架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [Starscream](https://github.com/daltoniam/Starscream) 是一个符合WebSocket（RFC 6455）的Swift库。
 
@@ -1521,5 +1521,7 @@ WebSocket分为握手阶段和数据传输阶段，即进行了HTTP一次握手 
 
 [CocoaAsyncSocket](https://github.com/robbiehanson/CocoaAsyncSocket)CocoaAsyncSocket为macOS、iOS和tvOS提供了易于使用且功能强大的异步套接字库。
 
-## WebRTC
+## WebRTC <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 [WebRTC](https://webrtcforthecurious.com/zh/docs/01-what-why-and-how/)
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

@@ -21,9 +21,9 @@
 | 远端跟踪引用 | `refs/remotes/<远端>/...` | `git for-each-ref`、`git remote show` | stale ref、D/F 冲突、大小写碰撞。 |
 | 远端服务 | GitHub、GitLab、自建服务 | `git ls-remote`、平台审计日志 | 认证、权限、保护分支、仓库不存在、服务故障。 |
 
-## 二、通用止损清单
+## 二、通用止损清单 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、先保存现场
+### 2.1、先保存现场 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 snapshot_dir="$(mktemp -d "${TMPDIR:-/tmp}/git-diagnosis.XXXXXX")"
@@ -40,7 +40,7 @@ git submodule status --recursive
 - 仓库正在 rebase、merge、cherry-pick 或 revert 时，先用 `git status` 识别进行中的操作，不要混用另一套 `--continue` / `--abort`。
 - 不知道能否恢复时，不执行 `git gc --prune=now`、`git prune`、`reset --hard`、`clean -fdx` 或删除整个 `.git`。
 
-### 2.2、确认真实仓库与 Git 目录
+### 2.2、确认真实仓库与 Git 目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git rev-parse --show-toplevel
@@ -53,9 +53,9 @@ git worktree list --porcelain
 - 子模块和 linked worktree 的 `.git` 可能是指向真实 gitdir 的文本文件；不能据此认定仓库损坏。
 - 多 worktree 共用对象与部分引用。手动改 `.git` 元数据前必须看 `--git-common-dir`，否则可能改错位置。
 
-## 三、无法 `Commit`
+## 三、无法 `Commit` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、先区分“无法暂存”与“无法创建提交”
+### 3.1、先区分“无法暂存”与“无法创建提交” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git status --short --branch
@@ -68,7 +68,7 @@ git add --dry-run -A -- .
 - Sourcetree 的 Commit 界面会同时编排暂存、移除和提交，因此界面上的 Commit 失败可能实际是某条 `git add` 或 `git rm` 失败。
 - `git add -A -- .` 会在当前路径范围内统一记录新增、修改和删除；`--` 结束选项解析，避免以 `-` 开头的路径被当作参数。
 
-### 3.2、错误分流
+### 3.2、错误分流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 报错或现象 | 根因方向 | 先做什么 |
 | --- | --- | --- |
@@ -82,7 +82,7 @@ git add --dry-run -A -- .
 | `not removing ... recursively without -r` | GUI 对文件/目录互换或目录删除做了分步 `git rm` | 用完整索引刷新替代逐路径操作，并先核对范围。 |
 | `No space left on device` / 只读错误 | 磁盘、配额、挂载或权限问题 | 先处理系统资源，不要反复重建索引。 |
 
-### 3.3、身份、Hook 与签名
+### 3.3、身份、Hook 与签名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git config --show-origin --get-regexp '^user\.(name|email)$'
@@ -105,7 +105,7 @@ find "$(git rev-parse --git-path hooks)" -maxdepth 1 -type f -perm -u+x -print
 - `git commit --no-verify` 会跳过 `pre-commit` 和 `commit-msg` 等 Hook，可能绕过团队质量门禁；只能在确认规则允许且已理解后果时使用。
 - `git commit --no-gpg-sign` 可用来判断是否由签名链路造成，但不应在强制签名的仓库中当成最终方案。
 
-### 3.4、锁文件
+### 3.4、锁文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git_dir="$(git rev-parse --absolute-git-dir)"
@@ -130,7 +130,7 @@ pgrep -alf git
 
 [**Jobs SourceTree Commit 修复动作**](https://github.com/JobsKits/SourceTree.sh/tree/main/%E3%80%90MacOS%40SourceTree%E3%80%91%F0%9F%93%A5%E4%BF%AE%E5%A4%8DGit%E6%97%A0%E6%B3%95Commit.command) 已自动实现以上边界：活锁拒绝处理，残留锁留档后验证索引，再进入后续暂存与子模块流程。
 
-### 3.5、残留锁、子模块与 Jobs Commit 修复脚本
+### 3.5、残留锁、子模块与 Jobs Commit 修复脚本 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 父仓索引用模式 `160000` 记录子模块提交，也称 gitlink；父仓不会直接提交子模块工作区里的文件修改。
 
@@ -152,7 +152,7 @@ git config --file .gitmodules --get-regexp '^submodule\..*\.(path|url)$'
 
 如果父仓锁定提交已经无法从新克隆子模块取到，但脚本得到有效且 clean 的当前 `HEAD`，后续全量暂存可能让父仓 gitlink 改指该 `HEAD`，必须人工判断依赖升级是否正确。子模块内部真实修改会保持原样；脚本不会终止 Git 进程，不直接删除锁，也不会执行 `commit`、`push`、`reset`、`clean` 或 `git add -f`。Hook、作者身份、签名、未解决冲突和系统资源问题不属于 `C07` 的解锁承诺。
 
-### 3.6、运行 Commit 修复动作
+### 3.6、运行 Commit 修复动作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在 Sourcetree 中选中目标仓库，运行自定义动作 `📥修复Git无法Commit`。动作接收 `$REPO` 后直接执行；结束后回到“文件状态”刷新，并逐项核对：
 
@@ -180,9 +180,9 @@ source_tree_actions_root='/path/to/SourceTree.command'
 
 日志写到系统临时目录，文件名为 `【MacOS@SourceTree】📥修复Git无法Commit.log`。日志可能包含本机路径、远端和子模块状态，分享前脱敏。
 
-## 四、无法 `Fetch`
+## 四、无法 `Fetch` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、Fetch 到底会改什么
+### 4.1、Fetch 到底会改什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 `git fetch` 下载远端对象，并按 refspec 更新本地引用；常见映射是：
 
@@ -193,7 +193,7 @@ source_tree_actions_root='/path/to/SourceTree.command'
 
 因此，即使工作区完全没改，Fetch 仍会写入 `FETCH_HEAD`、远端跟踪引用、reflog、对象与维护数据。Fetch 不会自动把远端提交合并进当前本地分支；那是 Pull 或后续 merge/rebase 的职责。
 
-### 4.2、先做最小诊断
+### 4.2、先做最小诊断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git remote -v
@@ -216,7 +216,7 @@ git for-each-ref --format='%(refname) %(objectname)' refs/remotes/origin/
 | `bad object` / `missing blob` | 对象库或引用损坏 | 备份后执行 `git fsck --full`，必要时重新克隆对比。 |
 | `No space left on device` | 磁盘空间或配额 | 先释放空间并检查文件系统。 |
 
-### 4.3、远端引用的文件/目录冲突
+### 4.3、远端引用的文件/目录冲突 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Git 引用名映射为层级路径。远端从 `release` 迁移到 `release/v2` 时，本地旧的 `refs/remotes/origin/release` 可能是文件，而新分支需要它成为目录；反向迁移也会产生目录挡住文件的问题。macOS 默认大小写不敏感文件系统还可能把远端的 `SaaS` 与 `saas/...` 映射到同一路径。
 
@@ -240,14 +240,14 @@ Git 引用名映射为层级路径。远端从 `release` 迁移到 `release/v2` 
 
 脚本不执行 Pull、merge、rebase、commit、push、reset 或 checkout；它只更新 Fetch 本来就会更新的远端跟踪状态、用 Git 原生 `pack-refs` 改变引用的存储形态，并移动本次明确阻塞的 loose ref/reflog。`pack-refs` 不改变引用 OID 或提交历史。网络、DNS、代理、认证、权限、真实并发锁和磁盘故障不属于该脚本的修复范围。
 
-### 4.4、为什么不直接删除整个 `refs/remotes/origin`
+### 4.4、为什么不直接删除整个 `refs/remotes/origin` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 远端跟踪引用本身可重新 Fetch，但 reflog 可能承载本地排错证据。
 - 多 worktree、packed refs、特殊 refspec 和多个远端可能让“看似只是缓存”的目录承担更多状态。
 - 大小写碰撞时，被阻塞的路径可能仍对应远端有效分支；全部删除会扩大影响范围。
 - 精确备份后重试既保留证据，也能验证真正阻塞点。
 
-### 4.5、运行 Fetch 修复动作
+### 4.5、运行 Fetch 修复动作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在 Sourcetree 中选中目标仓库，运行自定义动作 `📥修复Git无法Fetch`。默认远端为 `origin`；只有普通 Fetch 已失败且错误命中远端跟踪引用路径冲突时，脚本才进入备份修复。
 
@@ -278,7 +278,7 @@ git status --short --branch
 
 Fetch 动作的日志文件为 `【MacOS@SourceTree】📥修复Git无法Fetch.log`；它会记录 F01–F05 的执行顺序、每次实际 Fetch 复试、远端选择、错误分支、备份路径和最终退出结果。备份属于 Git 元数据排错证据，不应在未确认恢复完成前删除。
 
-## 五、无法 `Pull`
+## 五、无法 `Pull` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Pull 通常等价于 Fetch 后执行 merge 或 rebase；先把两阶段拆开：
 
@@ -295,9 +295,9 @@ git log --oneline --graph --decorate --all -30
 | 工作区改动会被覆盖 | 先提交、暂存到 stash，或取消本次整合；不要直接硬重置。 |
 | merge/rebase 冲突 | 逐文件解决，确认索引后执行对应 `--continue`；需要放弃时用对应 `--abort`。 |
 
-## 六、无法 `Push`
+## 六、无法 `Push` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、常见分流
+### 6.1、常见分流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 报错 | 根因 | 处理 |
 | --- | --- | --- |
@@ -306,7 +306,7 @@ git log --oneline --graph --decorate --all -30
 | `permission denied` / 403 | 当前凭据无写权限 | 检查账号、远端 URL、Token/SSH 权限和组织策略。 |
 | `pre-receive hook declined` | 服务端校验失败 | 阅读远端输出；本地 `--no-verify` 无法跳过服务端 Hook。 |
 
-### 6.2、安全强推
+### 6.2、安全强推 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 裸 `--force` 会关闭非快进保护，可能覆盖他人提交。优先记录你确认过的远端提交，并把它作为 lease：
 
@@ -320,9 +320,9 @@ git push --force-with-lease=main:"$expected_remote_commit" origin HEAD:main
 - Sourcetree 或后台任务自动 Fetch 可能更新远端跟踪引用；显式写预期提交比无参数 `--force-with-lease` 更清楚。
 - 保护分支、服务端 Hook 和权限策略仍可以拒绝强推；客户端参数不能越过服务器规则。
 
-## 七、认证、代理与传输排错
+## 七、认证、代理与传输排错 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、SSH
+### 7.1、SSH <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 ssh -T git@github.com
@@ -334,7 +334,7 @@ git config --show-origin --get core.sshCommand
 - 多账号应使用 `~/.ssh/config` 的 Host 别名分别绑定 `IdentityFile`，再让不同仓库使用不同别名 URL。
 - Host Key 指纹变化不能直接忽略；先从托管平台官方页面核对指纹，排除中间人攻击或域名指向错误。
 
-### 7.2、HTTPS、代理与凭据
+### 7.2、HTTPS、代理与凭据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git config --show-origin --get-regexp '^(http\.|https\.|credential\.|remote\.)'
@@ -346,9 +346,9 @@ git config --global --get https.proxy
 - 不把 Token 写入远端 URL、脚本、README 或 shell 历史。
 - 组织可能要求 SSO、细粒度 Token、审批或限定有效期；“Token 没过期”不等于“对目标仓库有权限”。
 
-## 八、对象、提交与 `stash` 恢复
+## 八、对象、提交与 `stash` 恢复 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 8.1、恢复顺序
+### 8.1、恢复顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. 先查仍有语义名称的 reflog。
 
@@ -371,14 +371,14 @@ git config --global --get https.proxy
    git stash store -m 'recovered stash' <stash-commit>
    ```
 
-### 8.2、边界
+### 8.2、边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - Push 到远端不会直接清理本地 dangling 对象。对象何时被删除取决于本地引用、reflog 过期、`git gc` / `git maintenance` / `git prune` 和相关配置。
 - `git fsck --lost-found` 会把 dangling commit 和其它对象写入 `.git/lost-found`，但它不会判断哪个对象是用户要找的 stash。
 - stash 通常不是单一普通提交，可能包含工作区、索引以及可选未跟踪内容的多父提交结构；恢复前要检查。
 - 对象一旦已经被垃圾回收且没有远端、备份、文件系统快照或其它克隆副本，就不能靠 Git 命令凭空恢复。
 
-## 九、诊断日志
+## 九、诊断日志 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 GIT_TRACE=1 git fetch origin
@@ -390,7 +390,7 @@ GIT_CURL_VERBOSE=1 git fetch origin
 - 只在复现最小问题时开启，完成后不要长期写进全局环境变量。
 - Trace 不是修复动作；先保留原始错误，再用它缩小失败阶段。
 
-## 十、官方资料
+## 十、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [**git-add**](https://git-scm.com/docs/git-add)：索引与 `-A` 语义。
 - [**git-fetch**](https://git-scm.com/docs/git-fetch)：远端跟踪引用、refspec 与 pruning。

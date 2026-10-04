@@ -33,9 +33,9 @@ flowchart LR
 
 **阅读顺序：** 先读[第一章](#ch01)到[第五章](#ch05)形成路线；实际开工按[第六章](#ch06)往后执行；如果今天就要开始，直接看[第十五章](#ch15)。图表使用 [**Mermaid**](https://mermaid.js.org)，不支持图表的阅读器仍可阅读相邻的文字和表格。
 
-## 一、先明确：你到底要搭什么 <a id="ch01"></a>
+## 一、先明确：你到底要搭什么 <a id="ch01"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、最终交付物是一个企业应用系统
+### 1.1、最终交付物是一个企业应用系统 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 一个可用的企业 Agent，至少要回答六个问题：
 
@@ -50,7 +50,7 @@ flowchart LR
 
 **“企业自己的”主要体现在：企业掌握入口、业务规则、知识、身份权限、系统集成和运行数据。** 底层模型可以是经过批准的外部服务，也可以是企业自己部署的模型；这是另一项独立决策。
 
-### 1.2、先区分几个常见名词
+### 1.2、先区分几个常见名词 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 名词 | 用人话解释 | 在案例中做什么 |
 | --- | --- | --- |
@@ -67,7 +67,7 @@ flowchart LR
 
 MCP 的架构区分 Host、Client 和 Server；它解决连接和交互方式，不会自动替企业完成资源授权、审计和审批。首期只接一两个内部 API，可以先用普通函数或 HTTP，出现复用需求后再加 MCP。[官方架构说明](https://modelcontextprotocol.io/docs/learn/architecture)
 
-### 1.3、什么时候其实不需要 Agent
+### 1.3、什么时候其实不需要 Agent <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 只查制度、回答 FAQ：先做 RAG，通常不需要自主规划。
 - 步骤固定，例如收集字段后创建工单：明确的工作流已经足够。
@@ -76,9 +76,9 @@ MCP 的架构区分 Host、Client 和 Server；它解决连接和交互方式，
 
 **首期采用“固定流程骨架＋少量模型判断”。** 不把“Agent 数量多”作为先进程度，也不把多轮对话当作任务已成功完成。
 
-## 二、开工前必须确定的需求 <a id="ch02"></a>
+## 二、开工前必须确定的需求 <a id="ch02"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、带着这张表找业务负责人和 IT 对齐
+### 2.1、带着这张表找业务负责人和 IT 对齐 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 要问的问题 | 必须拿到的具体答案 | 对技术路线的影响 |
 | --- | --- | --- |
@@ -95,7 +95,7 @@ MCP 的架构区分 Host、Client 和 Server；它解决连接和交互方式，
 
 没有数据出网结论时，**只能用公开、合成或已批准的脱敏数据验证外部模型**。不要先上传真实资料，事后再补流程。
 
-### 2.2、首期范围建议
+### 2.2、首期范围建议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **包含：** 企业登录、一个知识域、带出处的回答、缺少依据时拒答或转人工、一个只读工具、一个工单草稿流程、确认后提交、执行记录、最小管理入口。
 
@@ -103,7 +103,7 @@ MCP 的架构区分 Host、Client 和 Server；它解决连接和交互方式，
 
 范围并非永远禁止扩展，而是让第一版能被验证、能被维护。
 
-### 2.3、先做一页立项卡
+### 2.3、先做一页立项卡 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 项目名称：企业 IT 知识与工单助手
@@ -120,9 +120,9 @@ MCP 的架构区分 Host、Client 和 Server；它解决连接和交互方式，
 试点复盘日期：待确定
 ```
 
-## 三、整体架构：企业自己的那层放在哪里 <a id="ch03"></a>
+## 三、整体架构：企业自己的那层放在哪里 <a id="ch03"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、推荐的逻辑分层
+### 3.1、推荐的逻辑分层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart TB
@@ -144,7 +144,7 @@ flowchart TB
 
 图中是**逻辑模块**，不要求每个方框都部署成独立微服务。首期可以是一套业务后端，配数据库和模型服务；文档解析等耗时任务交给独立 Worker。只有负载、团队边界或隔离要求出现时再拆服务。
 
-### 3.2、哪些自己写，哪些直接复用
+### 3.2、哪些自己写，哪些直接复用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 层 | 推荐复用 | 你仍然要完成的工作 |
 | --- | --- | --- |
@@ -159,7 +159,7 @@ flowchart TB
 
 LangGraph 是有状态编排框架，支持持久化、流式输出和人工介入；它可以独立于 LangChain 使用。它不会替你定义企业的权限和业务规则。[官方概览](https://docs.langchain.com/oss/python/langgraph/overview)
 
-### 3.3、一条请求实际怎样走
+### 3.3、一条请求实际怎样走 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1、用户登录后提交问题，后端从可信身份系统获取用户与组织信息。
 
@@ -179,9 +179,9 @@ LangGraph 是有状态编排框架，支持持久化、流式输出和人工介�
 
 **模型网关不能替代业务后端。** 即使网关有调用额度与 API Key 管理，也不代表它知道某员工是否能查看某份合同、某个工单或某个客户。
 
-## 四、开源框架怎么选：主线只选一条 <a id="ch04"></a>
+## 四、开源框架怎么选：主线只选一条 <a id="ch04"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、先选产品平台，还是代码框架
+### 4.1、先选产品平台，还是代码框架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 维度 | 路线 A：可视化平台 | 路线 B：代码自研业务层 |
 | --- | --- | --- |
@@ -194,7 +194,7 @@ LangGraph 是有状态编排框架，支持持久化、流式输出和人工介�
 
 **给你的默认建议：** 如果当前最缺的是需求理解，可以用 3～5 个工作日做路线 A 的小原型；如果已经确定要做企业核心业务集成，则直接走路线 B。原型通过后根据证据选一条主线，不同时维护两套做同一件事的 Agent 系统。
 
-### 4.2、常见框架的实际定位
+### 4.2、常见框架的实际定位 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 “开源”要按具体仓库和组件判断，不能把开源库、云产品和企业版当成同一种交付物。
 
@@ -211,7 +211,7 @@ LangGraph 是有状态编排框架，支持持久化、流式输出和人工介�
 
 **不要把 LangGraph、CrewAI、Haystack 全部装上，再让它们共同管理同一条主流程。** 选择一个主编排；其他库只在职责清晰、确有收益时引入。采用 LangGraph 也不意味着必须导入完整 LangChain 生态。
 
-### 4.3、许可证最容易踩的三个坑
+### 4.3、许可证最容易踩的三个坑 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1、**Dify 不能直接按“纯 Apache-2.0，无附加限制”理解。** 官方 LICENSE 含多租户使用与前端 Logo / 版权信息条件，并以 Workspace 解释租户。公司内部使用也不能仅凭“不是对外卖 SaaS”就推定无须核查，应让法务或供应商确认实际使用方式；需要授权时先取得授权。[Dify LICENSE](https://github.com/langgenius/dify/blob/main/LICENSE)
 
@@ -221,7 +221,7 @@ LangGraph 是有状态编排框架，支持持久化、流式输出和人工介�
 
 这些是选型核查提示，不代替企业法务对具体版本和使用方式的判断。上线前保存实际版本的许可证、NOTICE、依赖和模型权重授权记录。
 
-### 4.4、代码路线的最小组合
+### 4.4、代码路线的最小组合 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 类别 | 建议组件 | 什么时候需要 |
 | --- | --- | --- |
@@ -241,7 +241,7 @@ pgvector 使向量和业务数据可以放在 PostgreSQL 中，支持精确及�
 
 Docling 代码为 MIT，但其使用到的模型另有授权；扫描件、表格与中文内容的实际解析质量仍要抽查。[Docling 官方说明](https://github.com/docling-project/docling)
 
-### 4.5、暂时不需要全部部署的组件
+### 4.5、暂时不需要全部部署的组件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 单一模型、单一应用：先用模型适配层，网关可后加。
 - 简单文本知识：先完成检索闭环，不急着引入完整知识平台。
@@ -251,9 +251,9 @@ Docling 代码为 MIT，但其使用到的模型另有授权；扫描件、表�
 
 **组件越多，升级、账号、备份、漏洞处置和排错的工作越多。** 只为已出现的问题增加组件。
 
-## 五、完整实施流程与阶段产物 <a id="ch05"></a>
+## 五、完整实施流程与阶段产物 <a id="ch05"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、建议按八个阶段推进
+### 5.1、建议按八个阶段推进 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 下表时间是“2 名工程人员＋兼职业务 / IT 支持，资料和测试 API 基本可用”的排期示例，不是交付承诺。一个人首次进入服务端、检索和企业安全领域时，应额外留学习及联调时间。
 
@@ -270,7 +270,7 @@ Docling 代码为 MIT，但其使用到的模型另有授权；扫描件、表�
 
 路线 A 可以把平台基础配置前置并压缩部分开发；路线 B 可以不做单独的平台原型。无论选择哪条路线，数据、授权、评测和恢复验收不能跳过。
 
-### 5.2、三个必须做决定的节点
+### 5.2、三个必须做决定的节点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **第一个节点：值得继续做吗？** 原型要比“员工自己搜索资料”更省时，且错误可控。没有收益就先改场景或资料，不靠不断换框架拖延判断。
 
@@ -278,9 +278,9 @@ Docling 代码为 MIT，但其使用到的模型另有授权；扫描件、表�
 
 **第三个节点：能交给真实员工长期用吗？** 除回答效果，还必须有人负责资料更新、故障响应、成本和安全事件。
 
-## 六、阶段 0：先准备数据与验收基线 <a id="ch06"></a>
+## 六、阶段 0：先准备数据与验收基线 <a id="ch06"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、收集真实问题，不先收集所有文件
+### 6.1、收集真实问题，不先收集所有文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 让业务负责人提供 30～50 个高频问题，并补上目前的正确处理方式。第一版先整理 20～50 份有代表性、授权明确的资料，覆盖普通文本、表格、扫描件和容易混淆的版本。
 
@@ -288,7 +288,7 @@ Docling 代码为 MIT，但其使用到的模型另有授权；扫描件、表�
 
 把“资料没有答案”和“模型没找到答案”分开。这两类问题的修复责任不同。
 
-### 6.2、建立知识来源清单
+### 6.2、建立知识来源清单 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 字段 | 为什么要记录 |
 | --- | --- |
@@ -302,7 +302,7 @@ Docling 代码为 MIT，但其使用到的模型另有授权；扫描件、表�
 
 同一个企业内也有部门、项目、个人等隔离需求。不要把“只有一家企业”误解成所有员工可以共用一份无权限过滤的知识库。
 
-### 6.3、在调 Prompt 之前冻结一组评测题
+### 6.3、在调 Prompt 之前冻结一组评测题 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 建立 `dev` 和 `holdout` 两组题：前者用于调参数，后者用于独立验收。样本少时，先用几十题起步，但不要把全部题都拿来反复调 Prompt 后再宣称通过。
 
@@ -320,9 +320,9 @@ Docling 代码为 MIT，但其使用到的模型另有授权；扫描件、表�
 
 这是评测数据格式示例，不是任何框架的官方配置格式。真实数据应存入企业批准的位置，不随代码公开。
 
-## 七、路线 A：先用平台验证业务 <a id="ch07"></a>
+## 七、路线 A：先用平台验证业务 <a id="ch07"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、用 Dify 做原型的具体顺序
+### 7.1、用 Dify 做原型的具体顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 本节以 Dify 为例，前提是使用方式通过许可证核查。若不符合授权要求，可以直接使用代码路线，不必等待平台授权才能验证业务。
 
@@ -350,7 +350,7 @@ Docling 代码为 MIT，但其使用到的模型另有授权；扫描件、表�
 
 Dify 官方提供 Docker Compose 部署流程；依赖、配置项和升级步骤应以你选定版本的说明为准。[官方部署指南](https://docs.dify.ai/en/self-host/quick-start/docker-compose)
 
-### 7.2、原型完成后应该拿到什么
+### 7.2、原型完成后应该拿到什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 可演示的问答页面，以及正常、拒答、错误三类示例。
 - 每个回答对应的资料来源与版本。
@@ -361,15 +361,15 @@ Dify 官方提供 Docker Compose 部署流程；依赖、配置项和升级步�
 
 **不要直接把平台管理员工作台发给全体员工当业务入口。** 平台管理权限、应用使用权限、文档访问权限和业务系统权限是不同的事，必须分别核实。
 
-### 7.3、什么时候应转代码路线
+### 7.3、什么时候应转代码路线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 出现以下任一情况，应认真评估代码路线：权限要深入到文档 / 行级；审批跨小时或跨天；业务动作需要复杂事务和补偿；产品交互高度定制；平台授权或扩展方式不匹配。
 
 迁移优先保留原始资料、业务 API、评测题、Prompt 及行为约定。不要把“平台可以导出工作流”理解成可以无成本转换为另一个框架的代码。
 
-## 八、路线 B：搭建你自己维护的业务后端 <a id="ch08"></a>
+## 八、路线 B：搭建你自己维护的业务后端 <a id="ch08"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 8.1、先建立项目边界
+### 8.1、先建立项目边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 推荐用 [**Python**](https://www.python.org) 做 Agent 服务端，是为了复用当前检索与模型生态；不要求你把已有原生客户端改成 Python。熟悉 [**Swift**](https://www.swift.org/) / [**Objective-C**](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html) 的经验可以继续用于客户端、状态管理、接口设计和错误处理。
 
@@ -394,7 +394,7 @@ enterprise-agent/
 └── docs/                    # 架构、接口、运维与交接
 ```
 
-### 8.2、第一轮开发顺序
+### 8.2、第一轮开发顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1、建立独立开发环境，选择各依赖共同支持的 Python 版本，固定依赖清单和锁文件。
 
@@ -412,7 +412,7 @@ enterprise-agent/
 
 8、每增加一个真实数据源或写操作，同步补对应的权限、失败和恢复用例。
 
-### 8.3、客户端只调用企业后端
+### 8.3、客户端只调用企业后端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 推荐首期接口形态如下，具体路径可以按企业规范调整：
 
@@ -430,7 +430,7 @@ API 可用 FastAPI 的类型校验与 OpenAPI 文档能力降低前后端联调�
 
 客户端显示“正在查资料”“等待确认”“已提交”等可核实状态，不必显示模型内部推理。业务成功必须来自工具的真实结果，不能仅凭模型生成一句“已经帮你完成”。
 
-### 8.4、最少需要持久化哪些数据
+### 8.4、最少需要持久化哪些数据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 数据 | 至少记录什么 |
 | --- | --- |
@@ -443,9 +443,9 @@ API 可用 FastAPI 的类型校验与 OpenAPI 文档能力降低前后端联调�
 
 业务数据库和框架 Checkpoint 是不同职责：前者保存企业业务真值，后者保存编排状态。可以复用同一数据库实例，但不要让业务正确性依赖某个框架私有序列化结构。
 
-## 九、知识库怎样一步步做出来 <a id="ch09"></a>
+## 九、知识库怎样一步步做出来 <a id="ch09"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 9.1、把入库与问答分成两条流水线
+### 9.1、把入库与问答分成两条流水线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart TB
@@ -466,7 +466,7 @@ flowchart TB
 
 入库阶段可能需要调用 OCR、向量化或其他模型；这些调用也受数据出网限制，不能只检查最后生成答案的模型。
 
-### 9.2、入库流程的具体做法
+### 9.2、入库流程的具体做法 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1、**接入资料。** 首期人工导入一组资料即可，但记录来源、Owner 和 ACL；验证后再接企业文件系统或内容平台的增量 API。
 
@@ -484,7 +484,7 @@ flowchart TB
 
 8、**持续同步。** 更新、删除、权限变更都要同步到检索和缓存。对严格撤权场景，读取时核查有效 ACL，不能只等夜间重建索引。
 
-### 9.3、检索不要只看语义相似
+### 9.3、检索不要只看语义相似 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 纯向量检索可能漏掉工单号、型号、错误码等精确字段。先保留向量检索基线；遇到这类问题，加入关键词检索，再融合候选并重排。
 
@@ -494,7 +494,7 @@ flowchart TB
 
 **权限约束必须在检索服务侧生效，任何未授权片段都不能进入重排、模型上下文或返回内容。** 数据库内部的近似索引可能先扫描候选再应用过滤，这与“先让模型看到全文再过滤答案”不是一回事。pgvector 官方说明过滤会影响近似检索的召回数量，应结合过滤索引、分区或迭代扫描评测。[pgvector 过滤说明](https://github.com/pgvector/pgvector#filtering)
 
-### 9.4、引用如何做到可核查
+### 9.4、引用如何做到可核查 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 让模型引用服务端分配的 `source_id` / `chunk_id`，由后端生成真实来源链接。至少显示资料名称、版本、页码或章节。
 
@@ -502,7 +502,7 @@ flowchart TB
 
 没有合格证据时返回“当前授权资料中无法确认”，给出补充问题或人工入口。检索分数不是通用置信度，不能直接把余弦相似度当成“答案正确概率”。
 
-### 9.5、知识、会话记忆、业务真值分别存
+### 9.5、知识、会话记忆、业务真值分别存 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 信息 | 应该怎样管理 |
 | --- | --- |
@@ -514,9 +514,9 @@ flowchart TB
 
 “模型记住了某条信息”不能替代查企业当前状态。员工离职或权限变化后，历史会话、摘要、缓存和引用也要纳入访问控制。
 
-## 十、怎样让 Agent 安全地调用企业系统 <a id="ch10"></a>
+## 十、怎样让 Agent 安全地调用企业系统 <a id="ch10"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 10.1、工具应该是窄接口
+### 10.1、工具应该是窄接口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 第一批工具可以只有这三个：
 
@@ -532,7 +532,7 @@ flowchart TB
 
 调用企业 API 时，优先使用作用域受限、能关联当前操作者的凭据；如果必须使用服务账号，工具后端仍须按真实用户做资源授权，不能把服务账号可访问的全部数据暴露给用户。
 
-### 10.2、主流程建议写成状态机
+### 10.2、主流程建议写成状态机 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart TD
@@ -557,7 +557,7 @@ LangGraph 的人工中断需要 Checkpointer 和稳定的任务标识；生产�
 
 将框架使用的 `thread_id` 与企业会话 / 任务进行服务端映射；恢复前仍需验证资源归属，不能允许客户端指定任意标识加载他人的状态。
 
-### 10.3、审批不能只是收到一句“好的”
+### 10.3、审批不能只是收到一句“好的” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 一条有效审批至少绑定：当前用户、允许的审批角色、具体工具、完整执行参数的摘要或哈希、草稿版本、有效期、唯一请求 ID。
 
@@ -565,7 +565,7 @@ LangGraph 的人工中断需要 Checkpointer 和稳定的任务标识；生产�
 
 **用户确认与企业审批是两层规则。** 有些动作只需要本人确认；涉及预算、权限或敏感资源时，还需要指定角色审批。模型不能把普通用户的同意当成管理员授权。
 
-### 10.4、幂等与“结果不明”必须提前设计
+### 10.4、幂等与“结果不明”必须提前设计 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 所谓幂等，是同一业务请求重复处理时，不重复造成业务结果。
 
@@ -581,7 +581,7 @@ LangGraph 的人工中断需要 Checkpointer 和稳定的任务标识；生产�
 
 取消请求也有边界：已经成功提交的工单不会因为聊天页面点了停止而自动消失。需要撤销时，设计独立、授权明确的补偿动作。
 
-### 10.5、给 Agent 设置硬上限
+### 10.5、给 Agent 设置硬上限 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 限制 | 示例起点 | 目的 |
 | --- | --- | --- |
@@ -595,9 +595,9 @@ LangGraph 的人工中断需要 Checkpointer 和稳定的任务标识；生产�
 
 这些是示例保护值，不是框架最佳参数；通过正常任务与极端输入测试后调整。限制由后端执行，不能只写在 Prompt 里。
 
-## 十一、模型与私有部署怎么选 <a id="ch11"></a>
+## 十一、模型与私有部署怎么选 <a id="ch11"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 11.1、三种部署方式不要混淆
+### 11.1、三种部署方式不要混淆 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 方式 | 企业内部部署什么 | 哪些数据可能离开企业边界 | 适用条件 |
 | --- | --- | --- | --- |
@@ -609,7 +609,7 @@ LangGraph 的人工中断需要 Checkpointer 和稳定的任务标识；生产�
 
 **企业自己租的云服务器，也需要明确所在区域、网络边界和访问方。** “自己付费”不等于满足所有数据驻留或合规要求。
 
-### 11.2、如何选择生成模型
+### 11.2、如何选择生成模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 先选 2～3 个企业允许使用的候选，在同一题集上比较：中文业务理解、工具参数正确率、结构化输出、引用与拒答、长上下文、实际延迟、成本和部署条件。
 
@@ -617,7 +617,7 @@ LangGraph 的人工中断需要 Checkpointer 和稳定的任务标识；生产�
 
 上下文窗口大不代表应该把所有资料塞进去。越长的上下文通常意味着更多费用、等待和干扰，权限与出网风险也更大。
 
-### 11.3、本地推理框架的定位
+### 11.3、本地推理框架的定位 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 组件 | 本文建议用途 | 必须验证的事情 |
 | --- | --- | --- |
@@ -629,7 +629,7 @@ Ollama 既有本地能力也有云能力；官方提供 `OLLAMA_NO_CLOUD=1` 或�
 
 vLLM 提供与常见模型 API 兼容的服务接口，但具体参数、工具调用和模型支持存在差异。**兼容接口不等于换个地址就保证业务行为完全一致。** 必须测试结构化输出、流式返回、工具参数和错误语义。[vLLM 服务说明](https://docs.vllm.ai/en/latest/serving/online_serving/)
 
-### 11.4、买服务器之前先测，不按参数量拍脑袋
+### 11.4、买服务器之前先测，不按参数量拍脑袋 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 先明确模型及精度、上下文长度、峰值请求速率、平均输出长度、目标延迟，再做压测。模型能装进显存只是起点，还需要 KV Cache、运行时内存、并发和系统余量。
 
@@ -637,15 +637,15 @@ vLLM 提供与常见模型 API 兼容的服务接口，但具体参数、工具�
 
 你的 Mac 可以用于开发和本地演示；不能用单人交互流畅推断几十人同时使用也流畅。采购前让候选硬件跑同一套真实负载，保留请求长度、并发、延迟和失败率记录。
 
-### 11.5、模型网关的降级也要遵守数据策略
+### 11.5、模型网关的降级也要遵守数据策略 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 如果内部模型失败，不能自动把敏感请求切换到外部模型。每一个备用路由都必须满足同样的数据等级、区域和功能要求。
 
 只有一家批准供应商时，直接访问模型 SDK 也可启动项目。统一网关带来治理便利，同时增加一个需要保护和运维的节点；按实际需要引入。
 
-## 十二、怎样证明它好用：评测、日志和成本 <a id="ch12"></a>
+## 十二、怎样证明它好用：评测、日志和成本 <a id="ch12"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 12.1、把错误拆开评测
+### 12.1、把错误拆开评测 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 层 | 要检查的问题 | 常见修复方向 |
 | --- | --- | --- |
@@ -659,7 +659,7 @@ vLLM 提供与常见模型 API 兼容的服务接口，但具体参数、工具�
 
 这一步能避免所有问题最后都被归因成“模型不够强”。
 
-### 12.2、一套可用于讨论的试点验收指标
+### 12.2、一套可用于讨论的试点验收指标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 以下数值是**建议起点**，必须和业务负责人共同确认；对高风险场景应采用更严格标准。以 100 条独立验收题起步，例如 40 条普通问答、15 条应拒答问题、15 条版本 / 冲突问题、15 条权限 / 注入问题、15 条工具 / 审批问题，并对安全与恢复场景另做专项测试。
 
@@ -679,7 +679,7 @@ vLLM 提供与常见模型 API 兼容的服务接口，但具体参数、工具�
 
 Ragas 可辅助做模型驱动的评测与实验，但自动评分不是业务真值；应由业务人员抽查，并校准评测模型的偏差。使用外部评测模型时，同样核查数据出网范围。[Ragas 官方文档](https://docs.ragas.io/en/stable/)
 
-### 12.3、至少记录哪些执行信息
+### 12.3、至少记录哪些执行信息 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 每个任务生成 `trace_id`，关联用户 / 租户的内部标识、模型标识、Prompt 版本、检索版本、来源 ID、工具名称、耗时、用量、状态和错误类别。
 
@@ -689,15 +689,15 @@ Langfuse 自托管涉及应用、数据库、缓存和对象存储等组件，�
 
 安全关键的操作审计应在执行前可靠落库；观测平台临时不可用时，可以按批准策略缓冲非关键 Trace。不要因可选观测组件故障让所有只读问答都瘫痪，也不能在缺少必要审计的情况下继续敏感写操作。
 
-### 12.4、建立版本回归闭环
+### 12.4、建立版本回归闭环 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 每次更换模型、Prompt、切分、重排、工具 Schema 或框架版本，都按同一套题集比较新旧结果。保存发布版本与评测结果的对应关系。
 
 错误单包含：可复现输入、用户角色、相关资料版本、运行记录、预期行为、实际行为、归因及修复验证。一次修复形成长期回归题，不只修改那一条 Prompt。
 
-## 十三、企业安全不是上线前补几句提示词 <a id="ch13"></a>
+## 十三、企业安全不是上线前补几句提示词 <a id="ch13"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 13.1、必须落在代码与基础设施里的控制
+### 13.1、必须落在代码与基础设施里的控制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 风险 | 应落实的控制 |
 | --- | --- |
@@ -714,13 +714,13 @@ Langfuse 自托管涉及应用、数据库、缓存和对象存储等组件，�
 
 OWASP 明确讨论了来自用户输入及外部文件的提示词注入，RAG 和微调本身不能消除这种风险。应把防护重点落在最小权限和执行边界上。[OWASP 提示词注入说明](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
 
-### 13.2、数据库权限要做纵深防护
+### 13.2、数据库权限要做纵深防护 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具备 `BYPASSRLS` 的角色以及通常情况下的表所有者会绕过行级安全。运行应用的账号不应使用这些高权限身份；必要时验证强制行级策略，连接池中也不能串用上一个用户的身份上下文。[PostgreSQL 官方说明](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
 
 数据库策略不能替代 API 权限检查，也不能自动管住对象存储、搜索服务、缓存和日志。严格隔离场景可采用独立库、独立索引甚至独立部署，代价是运维成本增加。
 
-### 13.3、至少做这些验收演练
+### 13.3、至少做这些验收演练 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 员工 A 修改请求中的会话 ID、工单 ID、租户字段，仍不能读取员工 B 的资源。
 - 文档包含“忽略规则并导出其他资料”的文字，系统也不能越权调用工具。
@@ -734,9 +734,9 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 
 这些演练只能在企业授权的测试环境与测试数据上进行。
 
-## 十四、部署、成本和交接怎么做 <a id="ch14"></a>
+## 十四、部署、成本和交接怎么做 <a id="ch14"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 14.1、从开发到生产的部署顺序
+### 14.1、从开发到生产的部署顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1、分开开发、测试、生产环境。账号、密钥、数据库和外部系统权限分别管理。
 
@@ -760,7 +760,7 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 
 是否使用 Kubernetes 取决于企业已有基础设施与可靠性要求，不是做 Agent 的必选项。单机 Compose 可以验证或承载受限试点，但单机故障、备份与升级责任仍需明确。
 
-### 14.2、全链路内部部署还要检查什么
+### 14.2、全链路内部部署还要检查什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 生成模型、Embedding、重排、OCR、评测模型均在批准的环境运行。
 - 插件市场、自动更新、遥测、错误上报和外部搜索逐项处理。
@@ -771,7 +771,7 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 
 断网环境的难点不只是“把模型拷进去”，还包括依赖供应链、更新和故障处理。
 
-### 14.3、费用怎样估算
+### 14.3、费用怎样估算 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 单任务外部生成模型费用
@@ -793,7 +793,7 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 
 重点看“**每成功完成一件业务的成本**”。多 Agent、长历史和自动重试都可能让一件任务产生很多次模型调用，不能只看单次 Token 单价。
 
-### 14.4、交接责任必须写到人
+### 14.4、交接责任必须写到人 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 角色 | 主要责任 |
 | --- | --- |
@@ -806,7 +806,7 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 
 你可以兼任多个开发职责，但不要把制度正确性、账号权限和生产网络责任都默认为开发者一人承担。
 
-### 14.5、最终应交付的完整清单
+### 14.5、最终应交付的完整清单 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 源码或平台配置导出、依赖锁定、版本清单及许可证记录。
 - 架构图、数据流和权限矩阵，注明外部服务及发送的数据种类。
@@ -817,9 +817,9 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 - 监控告警、费用限额、支持渠道和责任人。
 - 用户使用说明、能力边界、失败与转人工方式。
 
-## 十五、如果由你来做，具体从哪里开始 <a id="ch15"></a>
+## 十五、如果由你来做，具体从哪里开始 <a id="ch15"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 15.1、你需要补哪些知识，先后顺序是什么
+### 15.1、你需要补哪些知识，先后顺序是什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 顺序 | 学习内容 | 学到什么程度就能继续 |
 | --- | --- | --- |
@@ -835,7 +835,7 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 
 不需要先掌握模型预训练、分布式训练或全部数学基础才能做业务应用；但要理解模型限制，不能因为“调用接口很简单”就忽略服务端工程。
 
-### 15.2、前十个工作日的行动表
+### 15.2、前十个工作日的行动表 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 以下是起步安排，不要求十天内完成生产系统。
 
@@ -854,7 +854,7 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 
 身份、服务器或资料审批有等待时间时，可以先用合成用户和合成资料继续验证技术，但不能把模拟环境通过当成真实企业权限已验收。
 
-### 15.3、人员与工期的现实判断
+### 15.3、人员与工期的现实判断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 如果主要由你一人首次完成，建议先做问答与只读原型，将 2～4 周作为初步学习和验证窗口；涉及真实身份、权限、审批、生产部署的可运营试点，可先按 8～12 周以上预留，再根据接口和数据情况重新估算。
 
@@ -862,7 +862,7 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 
 最值得获得的协作是：一个能提供真实资料与验收的业务负责人，以及一个熟悉企业身份、数据库和部署的服务端 / IT 同事。首期通常比增加多个“研究框架的人”更直接。
 
-### 15.4、今天就可以执行的清单
+### 15.4、今天就可以执行的清单 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [ ] 选定一个部门和一个高频任务。
 - [ ] 找到一位愿意提供资料并验收的业务负责人。
@@ -877,9 +877,9 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 
 你第一阶段最有价值的成果，是一条真实业务闭环及其验收证据。有了它，再决定增加知识域、工具、模型或用户规模。
 
-## 十六、官方资料与本文边界 <a id="ch16"></a>
+## 十六、官方资料与本文边界 <a id="ch16"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 16.1、按用途查官方资料
+### 16.1、按用途查官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 用途 | 官方入口 |
 | --- | --- |
@@ -894,7 +894,7 @@ PostgreSQL 的行级安全策略可以作为一层防线，但超级用户、具
 | 观测与评测 | [Langfuse 自托管](https://langfuse.com/self-hosting)、[企业附加功能](https://langfuse.com/self-hosting/license-key)、[Ragas](https://docs.ragas.io/en/stable/) |
 | 工具协议与安全 | [MCP 架构](https://modelcontextprotocol.io/docs/learn/architecture)、[OWASP 提示词注入](https://genai.owasp.org/llmrisk/llm01-prompt-injection/) |
 
-### 16.2、已核查与尚未验证的内容
+### 16.2、已核查与尚未验证的内容 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **已做：** 按官方文档、官方仓库和模型卡核查文中主要组件的定位、部署方式与关键授权边界，并整理为实施路线。
 

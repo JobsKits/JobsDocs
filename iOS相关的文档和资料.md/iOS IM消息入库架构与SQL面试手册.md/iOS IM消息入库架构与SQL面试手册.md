@@ -20,19 +20,19 @@
 
 **阅读顺序：** [直接背诵](#answer) → [原回答评分](#review) → [入库架构](#architecture) → [防丢与恢复](#reliability) → [SQL 实操](#sql) → [性能优化](#performance) → [框架认知](#framework) → [iOS 边界](#ios) → [验证](#validation) → [追问与答案](#faq)。
 
-## 一、<span id="answer">面试问题与可直接说出口的回答</span>
+## 一、<span id="answer">面试问题与可直接说出口的回答</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、原始问题
+### 1.1、原始问题 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 做 IM，一下来了很多消息，需要插入本地数据库，如何在架构上优化？
 
 先确认几个条件：实时消息还是离线补拉、峰值消息量与包体大小、允许的显示延迟、服务端能否重投或补拉、客户端业务确认的含义。确认条件后继续给出默认方案，不把回答停在反问上。
 
-### 1.2、30 秒核心回答
+### 1.2、30 秒核心回答 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 我会把消息接收、落库和 UI 刷新解耦，用有容量上限的队列承接消息，由统一写入通道按条数或等待时间触发小批量事务，复用参数化语句。消息用稳定 ID 和唯一约束保证幂等，消息及相关同步进度保持原子一致；只有提交成功后，才确认“已持久化”并通知 UI。失败通过重试、服务端补拉或持久收件箱恢复。最后用事务耗时、排队延迟和查询计划验证效果。WCDB 可以使用，但需要理解它下面的 SQLite 机制。
 
-### 1.3、两分钟展开回答
+### 1.3、两分钟展开回答 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 我会先区分在线实时消息和离线历史补拉。实时消息关注可见延迟，历史补拉关注吞吐，但都进入统一的存储协调层，避免多个业务模块各写各的。
 >
@@ -46,9 +46,9 @@
 
 完整边界见 [可靠性](#reliability) 和 [FAQ](#faq)。这段回答中的“确认”指应用协议定义的业务确认，不是 TCP ACK。
 
-## 二、<span id="review">原回答评分与逐句校正</span>
+## 二、<span id="review">原回答评分与逐句校正</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、主观评分：60 / 100
+### 2.1、主观评分：60 / 100 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **按“能否解释完整 IM 入库链路”的面试练习口径，原回答约 60 分。** 已有性能和可靠性意识，但缺少关键机制；这个分数只评价给出的回答，不评价工程师整体水平，也不预测面试结果。
 
@@ -62,7 +62,7 @@
 | 数据库与框架认知 | 15 | 12 | 理解底层的方向正确，但泛化 SQL、否定框架过于绝对 |
 | 合计 | 100 | 60 | 有基础方向，尚未形成完整方案 |
 
-### 2.2、逐句替换
+### 2.2、逐句替换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 原表达 | 保留的判断 | 需要改成的表达 |
 | --- | --- | --- |
@@ -81,9 +81,9 @@
 
 </details>
 
-## 三、<span id="architecture">消息入库架构</span>
+## 三、<span id="architecture">消息入库架构</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、先确定四条不变量
+### 3.1、先确定四条不变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1、重复接收同一消息，最终消息记录和业务副作用不重复。
 
@@ -93,7 +93,7 @@
 
 4、接收、解析和数据库工作不能无限占用内存，也不能持续阻塞主线程。
 
-### 3.2、默认架构：直接写正式库
+### 3.2、默认架构：直接写正式库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart TD
@@ -121,7 +121,7 @@ flowchart TD
 | 同步状态层 | 重投、缺口、同步游标 | 把最大已见顺序号当成已同步进度 |
 | UI 数据层 | 提交后读取、聚合刷新 | 把每条 INSERT 都变成一次全列表刷新 |
 
-### 3.3、可说明的组批策略
+### 3.3、可说明的组批策略 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **演示起点：** 最多 100 条、累计 256 KiB、最早一条等待 50 ms，任一条件满足即尝试提交；单个超大包需单独限额。这些值只用于解释策略，生产参数由设备、消息大小、延迟目标和实测决定。
 
@@ -133,9 +133,9 @@ flowchart TD
 
 **异步只改变等待发生在哪里；批量事务才直接改变提交次数。**
 
-## 四、<span id="reliability">临时数据库、防丢与崩溃恢复</span>
+## 四、<span id="reliability">临时数据库、防丢与崩溃恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、三类存储不能混淆
+### 4.1、三类存储不能混淆 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 存储方式 | 进程退出后能否作为恢复依据 | 适用职责 |
 | --- | --- | --- |
@@ -145,13 +145,13 @@ flowchart TD
 
 所谓“临时库”如果只是业务上的中转库，仍必须解决持久目录、提交、重放与清理问题。`tmp` / `Caches` 不适合作为不可重新获取消息的唯一保存位置。[SQLite 临时文件说明](https://sqlite.org/tempfiles.html)、[Apple 文件系统目录说明](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html)
 
-### 4.2、什么时候直接入正式库
+### 4.2、什么时候直接入正式库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 消息已经可以低成本解析成正式记录，且服务端支持明确的补拉或重投协议时，先用统一写入通道和短事务直接落正式库。再建一个库未必减少成本：中转记录也要提交，后续还要再次写入、清理和恢复。
 
 对于依赖服务端恢复的方案，必须确认保留时间、游标过期后的处理、账号与设备维度，以及确认后是否仍能补拉。**“服务端应该有”不能当作恢复协议。**
 
-### 4.3、什么时候增加持久收件箱
+### 4.3、什么时候增加持久收件箱 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 需要快速可靠地保存原始包，而解码、解密或业务派生处理明显更慢时，可以引入 durable inbox（持久收件箱）：
 
@@ -170,7 +170,7 @@ flowchart TD
 
 如果使用两个数据库文件，需另外设计幂等迁移、跨库状态和故障恢复。尤其在 WAL 模式下，不能把跨多个文件的提交当作一个整体原子事务。[SQLite 多文件事务与临时文件说明](https://sqlite.org/tempfiles.html)
 
-### 4.4、提交与确认之间的故障窗口
+### 4.4、提交与确认之间的故障窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 下面假设业务 ACK 表示“客户端已承担持久保存责任”，服务端支持未确认重投或从旧进度补拉。
 
@@ -184,7 +184,7 @@ flowchart TD
 
 TCP ACK、消息接收 ACK、持久化 ACK、已读回执是不同语义；不能要求应用控制 TCP ACK 的发送时机。[对应追问](#faq-ack)
 
-### 4.5、闪退与断电不是同一个保证
+### 4.5、闪退与断电不是同一个保证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <font color=red>**事务原子性保证“不出现半批业务提交”，耐久性讨论“已提交内容在故障后是否仍存在”。**</font>
 
@@ -194,7 +194,7 @@ WAL + `synchronous=NORMAL` 的已提交事务可以跨应用崩溃保留，但�
 
 如果服务端收到业务 ACK 后立即删除唯一副本，而客户端允许掉电丢最近提交，两端的可靠性承诺就不匹配。需要提高本地耐久级别，或让服务端继续保留可恢复记录。
 
-### 4.6、消息 ID、顺序号、游标分开设计
+### 4.6、消息 ID、顺序号、游标分开设计 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 字段 | 回答的问题 | 不能替代的概念 |
 | --- | --- | --- |
@@ -208,9 +208,9 @@ WAL + `synchronous=NORMAL` 的已提交事务可以跨应用崩溃保留，但�
 
 同一批可拆成多个短事务保存消息，但页级游标只有在整页完成时才能与最后一批一起提交。中途崩溃后重拉整页，之前写过的消息由幂等机制吸收。并发补拉时还需要页依赖或预期游标校验，避免完成较早的后页越过前页。
 
-## 五、<span id="sql">SQL 最小实操：从建表到一致性</span>
+## 五、<span id="sql">SQL 最小实操：从建表到一致性</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、示例边界与字段含义
+### 5.1、示例边界与字段含义 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 本节是 SQLite 方言，面向已获得服务端消息 ID 和顺序号的消息。使用的 `ON CONFLICT ... DO NOTHING / DO UPDATE` 需要 SQLite **3.24.0 或以上**；实际 App 应检查运行库版本，不能用电脑命令行版本代表 iPhone 或 WCDB 内嵌版本。[SQLite UPSERT](https://sqlite.org/lang_upsert.html)
 
@@ -222,7 +222,7 @@ WAL + `synchronous=NORMAL` 的已提交事务可以跨应用崩溃保留，但�
 - `is_incoming=1` 表示别人发给当前账号的消息；示例只讨论普通消息，系统事件等是否计未读要另定规则。
 - 待发送消息使用独立 Outbox 或另外设计可为空的服务端字段，不能硬塞一个假 `seq`。
 
-### 5.2、建表：约束本身就是正确性防线
+### 5.2、建表：约束本身就是正确性防线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```sql
 CREATE TABLE message (
@@ -260,7 +260,7 @@ CREATE TABLE sync_state (
 
 同 ID、不同内容可能是新版本事件或协议异常，不能永远静默跳过；下文的 `DO NOTHING` 只处理原始消息的正常重投。不同 ID 占用同一个 `seq` 会报错，便于暴露数据契约问题。
 
-### 5.3、增：一个小事务保存两条消息与同步位置
+### 5.3、增：一个小事务保存两条消息与同步位置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 下面假设服务端明确保证：这一完整同步页包含两条消息，处理后可以从 `C1` 继续。`C1` 是教学用不透明游标，不从顺序号计算。
 
@@ -303,7 +303,7 @@ COMMIT;
 
 `BEGIN IMMEDIATE` 尝试提前取得写事务，可能返回 `SQLITE_BUSY`；若框架已管理事务，就使用框架事务 API，不再手动嵌套 `BEGIN`。[SQLite 事务语义](https://sqlite.org/lang_transaction.html)
 
-### 5.4、生产写入控制流
+### 5.4、生产写入控制流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 校验账号和消息契约
@@ -328,7 +328,7 @@ SQL 中途报错不代表整批已经自动回滚，`COMMIT` 本身也可能失�
 
 参数绑定将值与 SQL 结构分开，减少手工转义错误；预编译语句复用减少重复解析。`reset` 不会清除旧绑定，且需要检查返回值。`changes()` 读取应紧跟对应 DML，保持同一连接且无其他语句插入；不要用累积变更数判断当前消息是否新增。[prepare](https://sqlite.org/c3ref/prepare.html)、[bind](https://sqlite.org/c3ref/bind_blob.html)、[reset](https://sqlite.org/c3ref/reset.html)、[changes](https://sqlite.org/c3ref/changes.html)
 
-### 5.5、查：按会话读取与游标分页
+### 5.5、查：按会话读取与游标分页 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 首次读取最新 50 条：
 
@@ -359,7 +359,7 @@ LIMIT 50;
 
 与深度 `OFFSET` 分页相比，按稳定排序键续查可以避免反复跳过大量前序记录，也减少新消息插入引起的位置漂移；它不保证跨页期间发生删除、编辑时仍是同一个历史快照。若排序键不唯一，需要增加稳定的第二排序键并同步放进分页条件。[SQLite 滚动窗口查询](https://sqlite.org/rowvalue.html#scrolling_window_queries)
 
-### 5.6、改：已读位置单调前进
+### 5.6、改：已读位置单调前进 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```sql
 UPDATE conversation
@@ -391,7 +391,7 @@ WHERE m.account_id = :account_id
 
 会话列表规模大、聚合查询确实成为瓶颈时，再考虑存储 `unread_count`。增量计数必须只对真正新增且符合计数规则的消息执行，并与消息写入同事务；历史补拉、已读、撤回和重放都需对账规则。[对应追问](#faq-unread)
 
-### 5.7、改与删：版本保护、撤回和清理
+### 5.7、改与删：版本保护、撤回和清理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 对已经存在的消息，按服务端版本更新内容或保存撤回标记：
 
@@ -422,7 +422,7 @@ WHERE account_id = :account_id
 
 删除后要修复可能引用被删记录的会话摘要；大规模清理分小批进行。若原消息仍可能重投，先保留独立去重 / tombstone 信息，否则删记录会删掉防复活依据。
 
-### 5.8、冲突处理不要偷懒
+### 5.8、冲突处理不要偷懒 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 写法 | 行为与边界 |
 | --- | --- |
@@ -433,9 +433,9 @@ WHERE account_id = :account_id
 
 **REPLACE 不是普通 UPDATE 的另一种写法。** [SQLite 冲突处理规则](https://sqlite.org/lang_conflict.html)
 
-## 六、<span id="performance">性能优化：先看提交，再看访问路径</span>
+## 六、<span id="performance">性能优化：先看提交，再看访问路径</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、批量事务与一条超长 SQL 是两个概念
+### 6.1、批量事务与一条超长 SQL 是两个概念 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 假设有 1,000 条消息：
 
@@ -449,7 +449,7 @@ WHERE account_id = :account_id
 
 一个事务内循环执行同一条预编译 INSERT，已经可以获得批量事务收益。多行 `VALUES` 是另一项优化，不必为了组批拼成一条巨大 SQL；还要遵守参数数量及语句长度限制。
 
-### 6.2、索引按真实查询设计
+### 6.2、索引按真实查询设计 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 聊天历史常用条件是账号、会话和顺序范围，因此示例保留对应复合索引。反过来，以 `body` 为先导列建索引，通常不能有效服务这个查询。
 
@@ -471,7 +471,7 @@ LIMIT 50;
 
 `SCAN` 不一定错误：小表、全量需求可能合理。`SEARCH` 也不保证快：范围过大、回表过多仍可能慢。查询计划描述访问策略，不直接提供真实耗时，且输出格式可能随版本变化。[EXPLAIN QUERY PLAN](https://sqlite.org/eqp.html)
 
-### 6.3、WAL 的用途与限制
+### 6.3、WAL 的用途与限制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 WAL（Write-Ahead Logging，预写日志）将修改先记录到 WAL，之后通过 checkpoint（检查点）合并到主数据库文件。它通常有利于读写并行，但同一个数据库仍只有一个活跃写事务；也不能承诺完全不会遇到 `SQLITE_BUSY`。[SQLite WAL](https://sqlite.org/wal.html)、[SQLite 事务](https://sqlite.org/lang_transaction.html)
 
@@ -491,7 +491,7 @@ PRAGMA busy_timeout = 1000;
 
 长时间读事务可能阻碍 checkpoint 完成并使 WAL 增长。应缩短读取快照、观察 WAL 体积和检查点耗时，避免在每条消息后强制 checkpoint。备份使用数据库 / 框架支持的机制；不能在数据库打开时只复制 `.db` 并忽略 `-wal`。[SQLite WAL 检查点与文件说明](https://sqlite.org/wal.html)
 
-### 6.4、常见热点与第一步动作
+### 6.4、常见热点与第一步动作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 观察到的现象 | 首先检查 |
 | --- | --- |
@@ -506,9 +506,9 @@ PRAGMA busy_timeout = 1000;
 
 先记录热点，再决定是否分库或分表。每会话一张表会增加表数量、迁移、全局搜索和清理复杂度，不能作为 IM 的默认优化答案。
 
-## 七、<span id="framework">SQL、SQLite 与 WCDB 的关系</span>
+## 七、<span id="framework">SQL、SQLite 与 WCDB 的关系</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、分层认知
+### 7.1、分层认知 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 业务代码
@@ -534,7 +534,7 @@ VFS、操作系统、文件系统与存储设备
 
 “SQL 比 ORM 更接近执行层”是便于沟通的相对说法。SQL 本身还是声明式接口：描述要什么结果，具体怎样扫描、排序和更新由引擎决定。非 SQL 数据库也有自己的接口，例如 [**RocksDB**](https://rocksdb.org/docs/getting-started.html) 的键值读写，并不是最终一定执行 SQL。
 
-### 7.2、框架也可以改善性能
+### 7.2、框架也可以改善性能 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 WCDB 不只有对象映射，还提供查询构造、连接池等能力，官方也介绍了针对移动端和批量写入的优化。不能推导出“封装越少就一定越快”。能力和默认行为应以项目使用的具体版本为准。[WCDB 功能说明](https://github.com/Tencent/wcdb)
 
@@ -546,20 +546,20 @@ WCDB 不只有对象映射，还提供查询构造、连接池等能力，官方
 | WCDB 等框架 | 在工程能力和维护效率之间取得平衡 | 理解生成查询、默认事务 / 连接行为和版本兼容 |
 | 框架内对热点做专项优化 | 保留统一存储入口，优化已测出的热点 | 避免新增一套绕过迁移和连接管理的访问路径 |
 
-### 7.3、适合面试的最终表述
+### 7.3、适合面试的最终表述 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 我倾向于理解 SQL 和 SQLite 的执行机制，而不是只会调用对象增删改查。WCDB 本身没有问题；框架能提高效率，性能问题则需要结合实际 SQL、索引、事务、查询计划、连接和 I/O 来定位。我不会仅凭手写 SQL 就判断一定更快。
 
-## 八、<span id="ios">iOS 工程落地边界</span>
+## 八、<span id="ios">iOS 工程落地边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 8.1、线程与连接
+### 8.1、线程与连接 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 数据库工作放在明确的非主线程执行环境；主线程只处理必要的可见状态更新。
 - 统一管理写入，不把全局并发队列当成数据库调度策略；使用数据库框架时遵守其连接和线程契约。
 - [**Swift**](https://www.swift.org/) 的 `Task`、`async`、`actor` 是并发与隔离工具，不自动承诺数据库代码一定在后台线程执行；发生挂起后还应考虑状态交错，不能把 actor 隔离等同于数据库事务。
 - 主 App 与扩展共享数据库时，进程内串行队列不能管理另一个进程；仍需协调写入、处理数据库锁和文件访问条件。
 
-### 8.2、后台、文件与账号
+### 8.2、后台、文件与账号 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 iOS 可能挂起或终止 App，不能依赖“进入后台后慢慢把内存队列写完”。后台执行延长只能用于有限收尾，并需处理到期，不能替代持久化和下次启动恢复。[Apple 后台执行说明](https://developer.apple.com/documentation/uikit/extending-your-app-s-background-execution-time)
 
@@ -567,7 +567,7 @@ iOS 可能挂起或终止 App，不能依赖“进入后台后慢慢把内存队
 
 账号切换需隔离数据库、队列、连接和回调。旧账号的批次完成后，不得更新新账号的会话列表；可以为任务携带账号与会话代次并在提交和通知时校验。
 
-### 8.3、媒体消息与发送侧
+### 8.3、媒体消息与发送侧 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 数据库保存媒体元信息和状态，下载 / 解码在事务外处理。大附件是否放 BLOB，要结合尺寸、读取与备份方式测试，不能只用“数据库不能放二进制”下结论。
 
@@ -575,9 +575,9 @@ iOS 可能挂起或终止 App，不能依赖“进入后台后慢慢把内存队
 
 这些能力与接收侧共用存储纪律，但本节 SQL 示例未实现完整收发 SDK。
 
-## 九、<span id="validation">验证方案与排障</span>
+## 九、<span id="validation">验证方案与排障</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 9.1、先验正确性，再测速度
+### 9.1、先验正确性，再测速度 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 场景 | 必须满足的结果 |
 | --- | --- |
@@ -595,7 +595,7 @@ iOS 可能挂起或终止 App，不能依赖“进入后台后慢慢把内存队
 
 这张表是生产验证计划，不代表所有场景已在本文完成测试。尤其是断电、后台到期和真实网络 ACK，必须在对应环境验证。
 
-### 9.2、压测记录
+### 9.2、压测记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 先固定设备、系统、SQLite / 框架版本、表结构、索引、加密和同步配置。至少分别测“小消息密集到达、大包消息、离线补拉、重复和乱序输入”，并设置热缓存与冷启动条件。
 
@@ -610,7 +610,7 @@ iOS 可能挂起或终止 App，不能依赖“进入后台后慢慢把内存队
 
 不要只比较 SQL 执行时间，也不要因为平均延迟很低就忽略尾部卡顿。用 [**Xcode**](https://developer.apple.com/xcode/) 的性能分析工具结合应用埋点定位哪一段最慢。
 
-### 9.3、本文验证边界
+### 9.3、本文验证边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **验证日期：2026-09-25。** 从本文提取全部 **10 个 SQL 代码块**，在本机 SQLite 命令行返回版本 **3.54.0** 的隔离数据库中执行，**19 项检查通过**。
 
@@ -634,75 +634,75 @@ SEARCH message USING INDEX sqlite_autoindex_message_2
 
 强制终止针对测试启动的 SQLite 子进程，不是设备断电。测试里连接关闭后的自动撤销，不可替代生产代码对错误的显式处理。主 App / 扩展并发、iOS 真机、WCDB API、真实服务端补拉、磁盘故障和掉电耐久性未在这组本地 SQL 验证中覆盖；也未据此宣称任何吞吐提升倍数。
 
-## 十、<span id="faq">面试追问与参考答案</span>
+## 十、<span id="faq">面试追问与参考答案</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 10.1、为什么开了子线程，入库还是慢？
+### 10.1、为什么开了子线程，入库还是慢？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 子线程避免阻塞 UI，但不会自动降低磁盘同步、锁等待和索引维护成本。先检查是否逐条提交、反复编译 SQL、事务太长，以及数据库工作完成后是否把大量对象转换和刷新又放回主线程。[回看性能优化](#performance)
 
-### 10.2、为什么不开十个线程同时插入？
+### 10.2、为什么不开十个线程同时插入？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 同一个 SQLite 数据库同时只有一个写事务。更多写任务可能增加竞争和排队；解析可以并行，写入需要统一调度。多个独立数据库可以有不同的写入并发条件，但跨库一致性与查询复杂度要另行承担。[回看架构](#architecture)
 
-### 10.3、为什么不用一个事务写完十万条？
+### 10.3、为什么不用一个事务写完十万条？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 可以减少提交次数，但会延长写事务、增加内存和失败重试成本，并阻塞实时写入。采用有上限的批次，结合实际延迟预算测试；分页拆批后，游标仍只在完整同步范围保存完毕后推进。[回看组批](#architecture)
 
-### 10.4、是否必须先写一份临时数据库？
+### 10.4、是否必须先写一份临时数据库？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 不必须。服务端可恢复、正式消息可快速落库时，直接短事务提交即可。需要先保原始包、后做重处理时，用持久收件箱，并实现重放、幂等和清理；内存库及 TEMP 表不承担跨启动恢复。[回看存储选择](#reliability)
 
-### 10.5、<span id="faq-ack">ACK 到底什么时候发？</span>
+### 10.5、<span id="faq-ack">ACK 到底什么时候发？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 先说明是哪种 ACK。TCP ACK 不由业务落库控制；承诺“已持久化”的业务 ACK 应在约定的可靠提交之后发。如果协议 ACK 只表示收到，必须有独立持久化 / 补拉协议，不能偷偷把两种含义混成一种。[回看故障窗口](#reliability)
 
-### 10.6、提交成功了，但 ACK 丢了怎么办？
+### 10.6、提交成功了，但 ACK 丢了怎么办？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 接受重投，用稳定消息 ID 和唯一约束去重；摘要、未读、通知等副作用也需幂等。这是“允许重复传输、重复处理不改变最终结果”的设计，不能仅凭本地唯一索引宣称整个网络链路 exactly-once。[回看约束与事务](#sql)
 
-### 10.7、为什么游标不能直接取最大 seq？
+### 10.7、为什么游标不能直接取最大 seq？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 最大已见顺序号不证明前面的范围已处理完，而且账号同步流与会话排序可能不是同一个维度。依据服务端契约保存游标、缺口或区间完成状态；消息和可推进的进度保持原子一致。[回看游标](#reliability)
 
-### 10.8、<span id="faq-unread">重复消息怎样避免未读数重复加一？</span>
+### 10.8、<span id="faq-unread">重复消息怎样避免未读数重复加一？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 先由数据库判断是否真正新增，再结合消息方向、类型及已读位置判断是否计未读。物化计数与消息同事务更新；重复、补历史和重放不能盲目加一。最小方案可以查询推导，本地历史不全时需区分本地值与服务端权威值。[回看未读 SQL](#sql)
 
-### 10.9、为什么不直接 INSERT OR REPLACE？
+### 10.9、为什么不直接 INSERT OR REPLACE？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 唯一冲突时 REPLACE 可能先删旧行再插入，丢掉旧行中未提供的字段，也可能影响关联关系。明确使用定向去重或带版本条件的 UPDATE / UPSERT，并处理真正的协议冲突。[回看冲突表](#sql)
 
-### 10.10、WAL 已经是日志，还要业务收件箱吗？
+### 10.10、WAL 已经是日志，还要业务收件箱吗？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** WAL 负责数据库事务与恢复；inbox 记录业务消息的接收及待处理状态，两者职责不同。原始消息还没交给数据库时，WAL 不会自动帮忙保存它；是否需要 inbox，取决于业务处理与接收恢复是否需要解耦。[回看可靠性](#reliability)
 
-### 10.11、WAL + NORMAL 能不能防闪退？
+### 10.11、WAL + NORMAL 能不能防闪退？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 已提交事务可以跨应用进程崩溃保留，但不能据此推导出设备掉电或系统崩溃后也保留所有近期提交。根据消息恢复责任选择耐久配置，并考虑服务端保留能力；不能把应用闪退测试当成断电验证。[回看耐久性](#reliability)
 
-### 10.12、索引越多越好，SQL 越短越快吗？
+### 10.12、索引越多越好，SQL 越短越快吗？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 都不成立。索引增加写入维护和空间成本，SQL 长度也不代表扫描和排序成本。围绕真实条件、排序、返回字段和数据分布设计索引，再用执行计划和耗时验证。[回看访问路径](#performance)
 
-### 10.13、WCDB 和手写 SQLite 哪个更快？
+### 10.13、WCDB 和手写 SQLite 哪个更快？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 没有脱离场景的答案。框架可能复用连接和语句并优化批量写入；手写也可能逐条提交而更慢。统一事务、索引、加密、同步配置和数据集再比较。选型要同时考虑性能、迁移、可观测性和维护能力。[回看框架分层](#framework)
 
-### 10.14、服务器不支持重投或补拉，本地能保证绝不丢吗？
+### 10.14、服务器不支持重投或补拉，本地能保证绝不丢吗？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 不能保证从网络到本地的全链路绝不丢。尽早把接收内容持久提交可以缩小窗口，但包到达与提交之间仍可能崩溃。必须与服务端一起定义确认和恢复协议，明确保证范围。[回看确认窗口](#reliability)
 
-### 10.15、数据库成功了，UI 通知没发出去怎么办？
+### 10.15、数据库成功了，UI 通知没发出去怎么办？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** UI 以已提交数据为依据，页面恢复或重新订阅后可重新查询。若某个后续业务事件也要求可靠投递，应把待发送事件和消息一起持久化，再异步投递与确认，不能只靠一次内存回调。[回看架构](#architecture)
 
-### 10.16、没有 IM 项目经历，如何诚实地表达？
+### 10.16、没有 IM 项目经历，如何诚实地表达？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** “我没有完整 IM 上线经验，但理解这里的核心是消息身份、提交边界和恢复协议。我会先做统一写入、小批事务、唯一约束和游标一致性，再用重投、乱序和崩溃注入验证。WAL 和框架参数会结合实际版本及真机数据确认。”
 
 **临场记忆链：** <font color=red>**有界接收 → 统一写入 → 小批事务 → 幂等状态 → 安全游标 → 提交后确认 → 合并刷新 → 故障恢复 → 实测验证。**</font>
 
-## 十一、<span id="sources">官方资料索引</span>
+## 十一、<span id="sources">官方资料索引</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 正文已在对应结论旁标注来源，以下用于继续学习。架构取舍、业务协议和故障演练方案是本文设计推导，不是这些数据库文档替具体产品做出的承诺。
 

@@ -27,9 +27,9 @@ bookCollapseSection: false
 
 **快速入口：** [安装依赖](#ch17) · [常用库](#ch18) · [并发](#ch20) · [打包](#ch23) · [GUI](#ch26) · [40 道面试 FAQ](#ch30) · [报错速查](#ch31)。
 
-## 一、先建立 iOS 开发者的 Python 地图 <a id="ch01"></a>
+## 一、先建立 iOS 开发者的 Python 地图 <a id="ch01"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、Python 适合替我做什么
+### 1.1、Python 适合替我做什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：我已有 Swift / OC，为什么还需要 Python？**
 
@@ -44,7 +44,7 @@ bookCollapseSection: false
 | 高性能音视频、图像或矩阵计算 | Python 调用成熟原生库 | 热点通常在 C / C++ / GPU，不是靠 Python 循环硬算 |
 | 高度依赖 iOS 原生交互与系统 SDK 的 App | 继续优先 Swift / OC | Python 可以辅助构建与数据处理，不必替代主 App |
 
-### 1.2、把熟悉概念对上号
+### 1.2、把熟悉概念对上号 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | Swift / OC 经验 | Python 中接近的概念 | 不能直接照搬的地方 |
 | --- | --- | --- |
@@ -65,7 +65,7 @@ bookCollapseSection: false
 | `.framework` / `.xcframework` | Python 包、wheel、扩展模块 | `.whl` 不是给普通用户双击的应用程序 |
 | `.app` / `.ipa` | 冻结应用 / 平台应用工程 | 需要按目标平台构建、签名与验证 |
 
-### 1.3、怎样查这篇文档最快
+### 1.3、怎样查这篇文档最快 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 你现在的问题 | 去哪里 |
 | --- | --- |
@@ -77,9 +77,9 @@ bookCollapseSection: false
 | 想画桌面界面、图表或网页工具 | 第 26—29 章 |
 | 明天要面试 / 现在遇到报错 | 第 30—32 章 |
 
-## 二、解释器、脚本入口与最小语法 <a id="ch02"></a>
+## 二、解释器、脚本入口与最小语法 <a id="ch02"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、`.py` 文件怎样变成运行中的程序
+### 2.1、`.py` 文件怎样变成运行中的程序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **期望回答：** Python 是语言，CPython 是最常见的实现。CPython 通常先把源码编译成字节码，再由解释器执行；“解释型”不表示没有编译步骤。`.pyc` 是字节码缓存，不是独立原生可执行文件。实现背景见 [**Python 执行与模块教程**](https://docs.python.org/3/tutorial/modules.html#compiled-python-files)。
 
@@ -92,7 +92,7 @@ bookCollapseSection: false
 
 不。Python 层逐项循环可能开销较大，但 NumPy 等库的主要计算可在原生代码里执行。先定位热点，再决定优化算法、批处理、用原生库还是换实现。
 
-### 2.2、先确定究竟在运行哪一个 Python
+### 2.2、先确定究竟在运行哪一个 Python <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 macOS / Linux：
 
@@ -112,7 +112,7 @@ py -3 -m pip --version
 
 如果提示找不到 Python，先从 [**Python 官方下载**](https://www.python.org/downloads/) 或已选定的环境管理工具安装。系统附带的版本、Homebrew 版本、IDE 版本、虚拟环境版本可能同时存在；**安装包和运行代码必须指向同一个环境**。进入虚拟环境后，后文统一使用 `python`。
 
-### 2.3、第一个完整脚本
+### 2.3、第一个完整脚本 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 保存成 `hello.py`，执行 `python hello.py`。
 
@@ -143,15 +143,15 @@ if __name__ == "__main__":
 
 **边界：** 不用 `{}` 包函数体，不要求行尾分号，不混用 Tab 和空格。`pass` 是暂时不做事，`...` 是 Ellipsis 对象，不代表 Python 会自动补全逻辑。
 
-### 2.4、`python file.py` 与 `python -m package.module`
+### 2.4、`python file.py` 与 `python -m package.module` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 前者直接执行文件；后者按模块查找规则找到模块再执行，适合有包结构的项目。它们影响导入上下文，不能随意互换。`python -m pip` 的意思是“让当前 Python 执行 pip 模块”，避免调用到别的环境中的 `pip`。
 
 **面试回答：** `__name__` 是模块的名字；作为主入口时通常是 `"__main__"`。入口保护既减少导入副作用，也是跨平台多进程代码的重要约定。
 
-## 三、变量、对象、可变性与复制 <a id="ch03"></a>
+## 三、变量、对象、可变性与复制 <a id="ch03"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、赋值不是给变量装一份副本
+### 3.1、赋值不是给变量装一份副本 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：为什么改 `b`，`a` 也跟着变？**
 
@@ -176,7 +176,7 @@ print(x, y)       # 10 11：整数不可变，y 绑定到新结果
 
 与 Swift `Array` 的值语义不同，这里的列表不是写时复制数组。对象身份、可变性与实现细节见 [**Python 数据模型**](https://docs.python.org/3/reference/datamodel.html#objects-values-and-types)。
 
-### 3.2、最常用类型
+### 3.2、最常用类型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 类型 | 示例 | 可变吗 | 常见用途 |
 | --- | --- | --- | --- |
@@ -196,7 +196,7 @@ print(x, y)       # 10 11：整数不可变，y 绑定到新结果
 
 不是。对象有类型，名字不被声明永久绑定为一种类型。`"1" + 2` 会报错，不会像某些弱类型语言那样自动拼接；“动态”与“弱类型”不是同义词。
 
-### 3.3、浅复制与深复制
+### 3.3、浅复制与深复制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -215,7 +215,7 @@ print(shallow[0] is original[0]) # True
 
 **选型：** 只需独立外层容器用浅复制；嵌套数据确实也要独立时再考虑深复制。文件、锁、网络连接等资源不是随便深复制就有合理语义。复杂业务更适合明确构造新模型或返回只读快照。
 
-### 3.4、`==`、`is`、`None` 与真假值
+### 3.4、`==`、`is`、`None` 与真假值 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -235,15 +235,15 @@ print(10 if count is None else count) # 0：只把 None 当缺省
 
 `None`、`False`、数值零、空字符串和空容器通常为假；自定义对象也可定义真假规则。`and` / `or` 短路求值并返回操作数，不保证返回 `bool`。数值和字符串比较用 `==`，不要依赖小整数缓存或字符串驻留去用 `is`。
 
-### 3.5、引用计数、循环引用和 `del`
+### 3.5、引用计数、循环引用和 `del` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 `del name` 删除绑定，不等于立即销毁对象。常见 CPython 使用引用计数并配合循环垃圾回收；其它实现及 free-threaded 构建的细节可能不同。不要用 `__del__` 承担必须及时完成的关文件、解锁、提交事务等任务，优先 `with` / `finally`。相关机制见 [**gc 模块**](https://docs.python.org/3/library/gc.html)。
 
 **面试短答：** Python 管内存不等于程序不会泄漏。全局列表、缓存、回调闭包持续持有对象，就可能造成业务意义上的内存增长。
 
-## 四、数字、字符串、字节与运算符 <a id="ch04"></a>
+## 四、数字、字符串、字节与运算符 <a id="ch04"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、先掌握这组运算
+### 4.1、先掌握这组运算 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -258,7 +258,7 @@ print("a" in "cat") # True：成员 / 包含判断
 
 `/`、`//`、`%` 的负数语义要与 C / Swift 区分。位运算用 `&`、`|`、`^`、`~`、`<<`、`>>`；逻辑判断用 `and`、`or`、`not`，不能把二者混写。
 
-### 4.2、文本最常见的处理
+### 4.2、文本最常见的处理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -274,7 +274,7 @@ print("abcdef"[::-1])  # fedcba
 
 **边界：** `str` 索引按 Unicode 码点，不是按用户看到的完整字形；组合字符和 Emoji 不能简单当一个索引单位。大量拼接片段优先列表收集后 `join`，不要依赖循环 `+=` 的具体优化。
 
-### 4.3、`str` 与 `bytes` 为什么必须分开
+### 4.3、`str` 与 `bytes` 为什么必须分开 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -286,7 +286,7 @@ print(payload.decode("utf-8"))
 
 **期望回答：** `str` 表示文本，`bytes` 表示字节。编码把文本转成字节，解码把字节解释成文本。网络响应、二进制文件、加密输入需要先明确编码和格式，不能把 `str(bytes_value)` 当解码。
 
-### 4.4、金额、时间与随机数的选择
+### 4.4、金额、时间与随机数的选择 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -308,9 +308,9 @@ print(datetime.now(timezone.utc).isoformat())
 | 模拟、洗牌 | `random` | 不用于密码或安全令牌 |
 | 安全随机值 | `secrets` | 不打印或提交真实凭据 |
 
-## 五、容器与数据结构选型 <a id="ch05"></a>
+## 五、容器与数据结构选型 <a id="ch05"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、`list`：有序、可变、允许重复
+### 5.1、`list`：有序、可变、允许重复 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -328,7 +328,7 @@ print(ordered, numbers, result) # [1, 2, 3] [1, 2, 3] None
 
 `append(x)` 放入一个对象，`extend(xs)` 逐项放入；`sort()` 原地修改并返回 `None`，`sorted()` 返回新列表。很多原地修改方法不会返回自身，不能机械套用 Jobs DSL 的链式调用习惯。
 
-### 5.2、`tuple`：固定组合与解包
+### 5.2、`tuple`：固定组合与解包 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -345,7 +345,7 @@ print(record)   # 元组中的列表仍可变
 
 固定的两个返回值可以用元组；字段多、需要名称和校验时用 dataclass / 具名模型。元组是否可哈希取决于全部元素，不是所有元组都能当字典键。
 
-### 5.3、`dict`：查找、默认值和更新
+### 5.3、`dict`：查找、默认值和更新 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -365,7 +365,7 @@ print(counts)
 
 **边界：** `d[key]` 在缺键时抛 `KeyError`，`get()` 可以给默认值。如果“缺失”和“显式为 None”含义不同，用 `key in d` 或哨兵对象区分。迭代字典时不要改变它的键集合；先构造新字典或迭代键快照。
 
-### 5.4、`set` 与“保序去重”
+### 5.4、`set` 与“保序去重” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -380,7 +380,7 @@ print({1, 2} | {2, 3}) # {1, 2, 3}：并集
 
 `{}` 是空字典，空集合必须写 `set()`。去重对象必须可哈希；不能直接把列表塞进集合。业务需要稳定顺序时不要依赖 set 的当前打印顺序。
 
-### 5.5、常用容器该选哪个
+### 5.5、常用容器该选哪个 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 需求 | 推荐 | 原因 / 限制 |
 | --- | --- | --- |
@@ -410,9 +410,9 @@ print(queue.popleft()) # A
 
 **追问：如何创建二维列表？** 用 `[[0] * 3 for _ in range(2)]`；`[[0] * 3] * 2` 重复的是同一个内部列表引用，改一行会影响另一行。
 
-## 六、条件、循环、模式匹配与推导式 <a id="ch06"></a>
+## 六、条件、循环、模式匹配与推导式 <a id="ch06"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、条件表达式与普通分支
+### 6.1、条件表达式与普通分支 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -430,7 +430,7 @@ print(level, label)
 
 简单二选一可以用条件表达式；多分支或带副作用时写普通 `if`，不要嵌套成难读的一行。
 
-### 6.2、`for` 遍历的是元素，不只是索引
+### 6.2、`for` 遍历的是元素，不只是索引 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -446,7 +446,7 @@ print(list(range(1, 5))) # [1, 2, 3, 4]
 
 `range` 左闭右开，不会事先建立所有整数的列表。`zip` 默认按最短序列结束，要求长度一致时用 `strict=True`，避免悄悄丢数据。
 
-### 6.3、循环的 `else` 为什么有用
+### 6.3、循环的 `else` 为什么有用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -461,7 +461,7 @@ else:
 
 循环的 `else` 表示“正常结束且没有被 `break` 打断”，不是“循环条件为假就永远进入另一条业务分支”。搜索场景可用；团队不熟悉时显式变量也可以，理解成本比省两行更重要。
 
-### 6.4、`match` 不只是另一个 `switch`
+### 6.4、`match` 不只是另一个 `switch` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Python 3.10+ 支持结构模式匹配，既可判断值，也可拆数据结构。详见 [**模式匹配教程**](https://docs.python.org/3/tutorial/controlflow.html#match-statements)。
 
@@ -479,7 +479,7 @@ match event:
 
 **边界：** 裸名字模式通常是在捕获变量，不是与同名常量比较；常量可使用限定名，例如 `State.READY`。匹配数据形状用 `match`，普通范围判断用 `if`。
 
-### 6.5、推导式：把简单转换写清楚
+### 6.5、推导式：把简单转换写清楚 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -492,9 +492,9 @@ print(squares, mapping, unique_lengths)
 
 一到两层的简单筛选 / 映射适合推导式；复杂异常处理、状态更新、日志、多层分支用普通循环。不要为了调用副作用写 `[send(x) for x in xs]` 并丢弃返回列表。
 
-## 七、函数、参数、返回值与默认值陷阱 <a id="ch07"></a>
+## 七、函数、参数、返回值与默认值陷阱 <a id="ch07"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、函数是一等对象
+### 7.1、函数是一等对象 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **期望回答：** 函数可以赋给变量、当参数、作为返回值。把它理解成 Swift Closure / OC Block 会很顺手，但 Python 中定义普通函数也能直接获得函数对象。
 
@@ -514,7 +514,7 @@ print(apply(3, action)) # 6
 
 没写 `return` 的函数返回 `None`。`return a, b` 返回一个元组，可以在调用方解包。
 
-### 7.2、位置参数、关键字参数与 `*args` / `**kwargs`
+### 7.2、位置参数、关键字参数与 `*args` / `**kwargs` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -542,7 +542,7 @@ print(request("/users", **options))
 | `**kwargs` | 收集多余关键字参数 | 装饰器、适配层；普通函数尽量显式声明 |
 | 调用处的 `*xs` / `**d` | 解包序列 / 映射 | 已有参数集合时使用，重复键仍会报错 |
 
-### 7.3、默认参数只在定义时求值
+### 7.3、默认参数只在定义时求值 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：为什么下一次调用还能看到上一次列表里的数据？**
 
@@ -569,7 +569,7 @@ print(add("A"), add("B")) # ['A'] ['B']
 
 **面试回答：** 默认参数在函数定义执行时创建，不是每次调用都重新创建。可变默认值一般用 `None` 哨兵；dataclass 的可变字段用 `default_factory`。时间、随机值等“每次都应该重新算”的默认值也不要写成定义时调用。
 
-### 7.4、参数传递：修改对象与重新绑定
+### 7.4、参数传递：修改对象与重新绑定 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -586,7 +586,7 @@ print(original, result) # [1, 2] [99]
 
 函数拿到对象引用的绑定；原地修改能被外部看到，给形参重新赋值不会把调用者的变量改指向。用“对象共享 / 名字绑定”解释比生搬“纯值传递”“纯引用传递”更准确。
 
-### 7.5、同名函数不按参数签名自动重载
+### 7.5、同名函数不按参数签名自动重载 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：能像 Swift 那样定义几个同名函数，按参数类型自动挑一个吗？**
 
@@ -607,9 +607,9 @@ print(convert(1)) # 后定义的版本；不会自动选择前一个定义
 
 按第一个参数类型选择实现，可评估 `functools.singledispatch`；只有一两个清楚的分支时，普通 `if isinstance(...)` 或不同名字通常更容易维护。
 
-## 八、作用域、闭包、`lambda` 与回调 <a id="ch08"></a>
+## 八、作用域、闭包、`lambda` 与回调 <a id="ch08"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 8.1、LEGB 是什么
+### 8.1、LEGB 是什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **期望回答：** 普通名字查找可概括为 Local（当前局部）→ Enclosing（外层函数）→ Global（模块）→ Builtins（内置）。给一个名字赋值会影响编译器对其作用域的判断；不能因为下一行才赋值，就假设上一行还会读取同名全局值。
 
@@ -632,7 +632,7 @@ print(counter(), counter()) # 1 2
 
 `nonlocal` 修改外层函数已有绑定，`global` 修改模块级绑定。二者都不提供并发保护；跨组件共享状态优先显式对象或参数，不到处写全局变量。
 
-### 8.2、循环里创建闭包的晚绑定
+### 8.2、循环里创建闭包的晚绑定 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -646,7 +646,7 @@ print([fn() for fn in good]) # [0, 1, 2]
 
 **使用场景：** 为一组按钮绑定不同 ID、创建延迟执行任务时尤其容易踩坑。
 
-### 8.3、`lambda`、普通函数与 `partial` 怎么选
+### 8.3、`lambda`、普通函数与 `partial` 怎么选 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -666,9 +666,9 @@ print(say_hello("Jobs"))
 
 短小排序键 / 一次表达式用 `lambda`；有多个步骤、异常处理、文档时用 `def`；只想预先绑定一部分参数用 `partial`。回调处传 `handler` 是交出函数，写 `handler()` 是现在就调用它，这与 iOS 事件处理的概念相通。
 
-## 九、类、实例、属性与 dataclass <a id="ch09"></a>
+## 九、类、实例、属性与 dataclass <a id="ch09"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 9.1、`self`、`__init__` 与实例状态
+### 9.1、`self`、`__init__` 与实例状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：Python 的类和 iOS 对象最接近的地方是什么？**
 
@@ -692,7 +692,7 @@ print(first.increment(), second.increment()) # 1 11
 
 `counter.increment(2)` 会把 `counter` 作为方法的 `self`。`self` 是约定名称，不是一个特殊声明关键字；但不要为了个性换掉它。
 
-### 9.2、类属性与实例属性别混淆
+### 9.2、类属性与实例属性别混淆 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -713,7 +713,7 @@ class Team:
 
 **边界：** 类级不可变配置可放类属性；每个实例的列表、字典和状态应在 `__init__` 内创建，或用 dataclass 的 `default_factory`。类属性不会因为名字写在类里就自动变成线程安全单例。
 
-### 9.3、`@property`、`@classmethod`、`@staticmethod`
+### 9.3、`@property`、`@classmethod`、`@staticmethod` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -748,7 +748,7 @@ print(round(t.fahrenheit), t.unit_label()) # 212 °C
 
 `_name` 表示内部使用约定，不是访问控制；`__name` 主要触发名字改写以减少继承冲突，也不是安全隔离。属性访问不应偷偷执行昂贵网络操作。
 
-### 9.4、dataclass 能否代替 Swift Struct
+### 9.4、dataclass 能否代替 Swift Struct <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -778,9 +778,9 @@ print(b.paths) # []
 
 **期望回答：** dataclass 自动生成初始化、表示、比较等常见方法，适合数据模型；它仍是类。`frozen=True` 阻止通常的字段赋值，但不递归冻结内部对象，更不等于 Swift Struct 的值语义。需要稳定快照时，字段也应优先不可变类型。详见 [**dataclasses**](https://docs.python.org/3/library/dataclasses.html)。
 
-## 十、继承、对象协议与进阶机制 <a id="ch10"></a>
+## 十、继承、对象协议与进阶机制 <a id="ch10"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 10.1、继承与组合怎么选
+### 10.1、继承与组合怎么选 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -822,7 +822,7 @@ print([cls.__name__ for cls in DownloadTask.mro()])
 
 `super()` 按 MRO（方法解析顺序）协作调用，不是永远直接找“写在旁边的父类”。Python 支持多继承，但复杂菱形继承会增加维护成本；初学业务代码优先简单继承或组合。
 
-### 10.2、双下划线方法：让对象参与语言协议
+### 10.2、双下划线方法：让对象参与语言协议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -858,7 +858,7 @@ print(batch)
 
 平时调用 `len(obj)`，不要到处直接调用 `obj.__len__()`。特殊方法是可定制的协议入口，不是命名装饰。
 
-### 10.3、枚举让状态更明确
+### 10.3、枚举让状态更明确 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -878,7 +878,7 @@ print(state.value)                    # running
 
 固定状态集合优先枚举，避免拼错字符串悄悄变成新状态。外部值解析失败会抛 `ValueError`，需要明确处理；枚举不自动替你验证状态转换是否合法。
 
-### 10.4、描述符、`__slots__`、元类需要学到多深
+### 10.4、描述符、`__slots__`、元类需要学到多深 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 描述符是参与属性访问的对象，通过 `__get__`、`__set__` 等方法接管读写；`property` 就属于这类机制。下面用只读描述符感受调用过程：
 
@@ -930,9 +930,9 @@ print(type(User).__name__)   # type
 print(type(User()).__name__) # User
 ```
 
-## 十一、可迭代对象、迭代器与生成器 <a id="ch11"></a>
+## 十一、可迭代对象、迭代器与生成器 <a id="ch11"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 11.1、`iter`、`next` 与 `yield`
+### 11.1、`iter`、`next` 与 `yield` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：生成器和列表到底有什么不同？**
 
@@ -955,7 +955,7 @@ print(list(iterator)) # []：已经耗尽
 
 这里输入仍是内存中的列表，生成器只避免一次性创建全部“分块结果”；不能声称用了 `yield` 整个流程就一定恒定内存。
 
-### 11.2、列表推导式与生成器表达式
+### 11.2、列表推导式与生成器表达式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -968,7 +968,7 @@ print(sum(lazy)) # 0：耗尽后没有新元素
 
 需要索引、排序、重复遍历时用列表；只想单次累计或逐行处理时考虑生成器。`map` / `filter` 在 Python 3 中也按需产生值，别误当已经生成好的列表。
 
-### 11.3、`yield from` 是把迭代转交出去
+### 11.3、`yield from` 是把迭代转交出去 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -982,9 +982,9 @@ print(list(flatten([[1, 2], [3]]))) # [1, 2, 3]
 
 **边界：** 这只是展开一层，不是任意递归扁平化。普通生成器和 `async def` 协程不是同一种对象；`yield` 也不意味着开线程。
 
-## 十二、装饰器与上下文管理器 <a id="ch12"></a>
+## 十二、装饰器与上下文管理器 <a id="ch12"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 12.1、`@decorator` 在做什么
+### 12.1、`@decorator` 在做什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **期望回答：** 装饰器接收函数或类并返回替代对象。`@decorate` 放在函数定义前，可以近似理解成定义后执行 `func = decorate(func)`。它适合统一日志、缓存、鉴权和注册，但不会天然保证异步或并发安全。
 
@@ -1016,7 +1016,7 @@ print(total.__name__)   # total
 
 `wraps` 保留被包装函数的重要元信息。此 Demo 只包同步函数；包 `async def` 时需要 `async def wrapper` 并 `await func(...)`，否则测到的可能只是协程对象创建耗时。
 
-### 12.2、缓存装饰器什么时候合适
+### 12.2、缓存装饰器什么时候合适 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1035,7 +1035,7 @@ print(normalize(" Jobs ")) # 第二次不打印“执行转换”
 
 **边界：** 输入要可哈希，结果应适合复用；缓存会持有参数与结果。时间敏感数据需要失效策略，不应直接缓存一次性协程对象。`lru_cache` 内部同步不等于同一个键并发请求只会执行一次底层函数，去重要另行设计。见 [**functools**](https://docs.python.org/3/library/functools.html#functools.lru_cache)。
 
-### 12.3、`with` 与 `contextmanager`
+### 12.3、`with` 与 `contextmanager` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：Python 里怎么实现可靠的成对清理？**
 
@@ -1060,7 +1060,7 @@ with session("demo") as value:
 
 **期望回答：** `with` 调用对象的上下文管理协议，适合文件、锁、事务和连接等成对操作。`contextmanager` 允许用一个含单次 `yield` 的函数表达进入与退出。退出会处理异常路径，但不代表自动回滚任意业务操作；具体语义取决于资源实现。
 
-### 12.4、装饰器、继承、普通函数怎么选
+### 12.4、装饰器、继承、普通函数怎么选 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 需求 | 推荐 |
 | --- | --- |
@@ -1069,9 +1069,9 @@ with session("demo") as value:
 | 需要明确输入输出的业务转换 | 普通函数 |
 | 有生命周期、长期状态和可替换行为 | 类与组合；有真实子类型关系再继承 |
 
-## 十三、异常、日志与失败边界 <a id="ch13"></a>
+## 十三、异常、日志与失败边界 <a id="ch13"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 13.1、`try`、`except`、`else`、`finally`
+### 13.1、`try`、`except`、`else`、`finally` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1097,7 +1097,7 @@ except ValueError as error:
 
 `except` 处理指定异常，`else` 只在 `try` 没有异常时执行，`finally` 负责退出前清理。不要在 `finally` 中 `return` 覆盖正常结果或吞掉异常。`raise ... from error` 保留因果链，排查比一句“操作失败”更有用。
 
-### 13.2、什么错误应该捕获
+### 13.2、什么错误应该捕获 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **期望回答：** 在能恢复、能重试、能补充上下文或能转成人类提示的边界捕获。函数不知道如何处理时，应让异常继续传播，不用 `except: pass` 把故障抹掉。
 
@@ -1111,7 +1111,7 @@ except ValueError as error:
 
 `Exception` 不包含所有退出类异常。普通业务不应捕获 `BaseException` 来“兜住一切”；任务取消的处理还要遵守异步库约定。
 
-### 13.3、`print` 与 `logging`
+### 13.3、`print` 与 `logging` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1132,9 +1132,9 @@ except ValueError:
 
 **期望回答：** 不推荐。`python -O` 可以移除断言，用户输入校验应该显式 `if` 并抛异常。断言适合表达开发期内部不变量或测试预期。
 
-## 十四、类型注解、Protocol 与运行时校验 <a id="ch14"></a>
+## 十四、类型注解、Protocol 与运行时校验 <a id="ch14"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 14.1、类型提示不会替你阻止错误输入
+### 14.1、类型提示不会替你阻止错误输入 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1156,7 +1156,7 @@ if name is not None:
 
 **期望回答：** 注解用于表达契约并辅助 IDE / 静态检查器，通常不自动执行运行时校验。`str | None` 表示可能无值，但不会生成 Swift Optional 的强制解包规则。外部 JSON、配置和接口输入还需要显式校验或模型库。
 
-### 14.2、常用标注怎么读
+### 14.2、常用标注怎么读 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 标注 | 含义 | 注意 |
 | --- | --- | --- |
@@ -1170,7 +1170,7 @@ if name is not None:
 | `TypedDict` | 字典形状的静态约束 | 运行时仍是普通 dict，不自动校验 |
 | `Final` | 不希望重新绑定的静态约定 | 不是强制常量，也不深度冻结对象 |
 
-### 14.3、用 Protocol 表达“有这个能力就行”
+### 14.3、用 Protocol 表达“有这个能力就行” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1195,7 +1195,7 @@ send_report(ConsoleWriter())
 
 `ConsoleWriter` 不必显式继承 `Writer`，只要静态结构满足契约。需要运行时禁止实例化未实现抽象方法的类时，可用 `abc.ABC` / `@abstractmethod`；需要轻量可替换依赖时，Protocol 很适合。见 [**typing.Protocol**](https://docs.python.org/3/library/typing.html#typing.Protocol)。
 
-### 14.4、dataclass 与 Pydantic 怎么选
+### 14.4、dataclass 与 Pydantic 怎么选 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 内部可信数据，dataclass 足够；不可信 JSON / 环境配置需要字段校验时，可考虑 [**Pydantic**](https://docs.pydantic.dev/latest/concepts/models/)。先在虚拟环境执行 `python -m pip install pydantic`，以下按 Pydantic v2 API 编写：
 
@@ -1221,7 +1221,7 @@ except ValidationError:
 
 **期望回答：** 不是。静态检查器在开发期发现代码契约问题，Pydantic 在运行时处理外部数据。模型能通过校验也不代表业务授权、权限和状态转换都正确。
 
-### 14.5、泛型：表达输入与输出的类型关系
+### 14.5、泛型：表达输入与输出的类型关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1243,9 +1243,9 @@ print(first_item(["Swift", "OC"])) # Swift；静态结果类型为 str
 
 **期望回答：** TypeVar 表达“这里的输入元素类型和返回类型是同一个关系”，比把两边都写成 Any 保留更多信息。Sequence 表达只需要序列读取能力，不强迫调用方提供可变 list。Python 3.12+ 还支持新的类型参数语法；本例用兼容 3.11 的形式，类型参数仍不是运行时输入验证。
 
-## 十五、路径、文件、JSON、CSV 与 SQLite <a id="ch15"></a>
+## 十五、路径、文件、JSON、CSV 与 SQLite <a id="ch15"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 15.1、路径优先用 `pathlib`
+### 15.1、路径优先用 `pathlib` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1263,7 +1263,7 @@ with TemporaryDirectory() as directory:
 
 不要手拼 `"/"` / `"\\"`，不要假设当前工作目录就是脚本目录。读写文本显式指定编码；小文件可以 `read_text`，大文件逐行读。用户文件默认只读或预览后写入，写入时考虑覆盖、权限、磁盘空间和失败恢复。
 
-### 15.2、`with open` 与逐行读取
+### 15.2、`with open` 与逐行读取 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1281,7 +1281,7 @@ with TemporaryDirectory() as directory:
 
 **期望回答：** `with` 确保异常路径也关闭文件；逐行读取避免把整个文件装进内存。需要二进制时用 `rb` / `wb`，此时处理的是 bytes，不传文本编码。
 
-### 15.3、JSON 与 Python 字面量不是一回事
+### 15.3、JSON 与 Python 字面量不是一回事 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1296,7 +1296,7 @@ print(restored["name"])
 
 `dumps` / `loads` 操作字符串，`dump` / `load` 操作文件对象。JSON 键通常是字符串，日期 / Decimal / 自定义类需要显式编码方案。**不要使用 `eval` 解析 JSON，不对不可信内容执行 `pickle.loads`。** 标准边界见 [**json**](https://docs.python.org/3/library/json.html) 与 [**pickle 安全警告**](https://docs.python.org/3/library/pickle.html)。
 
-### 15.4、CSV 是表格文本，不是 Excel 工作簿
+### 15.4、CSV 是表格文本，不是 Excel 工作簿 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1313,7 +1313,7 @@ print(list(csv.DictReader(buffer))) # score 读回来是字符串
 
 真实文件用 `open(..., newline="", encoding="utf-8")`。CSV 没有字体、Sheet、合并单元格；这些需求用 openpyxl 等。导出不可信文本到表格软件时，还要防止以 `=` 等开头的内容被当公式解释。
 
-### 15.5、SQLite：本地结构化数据
+### 15.5、SQLite：本地结构化数据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1332,9 +1332,9 @@ finally:
 
 用参数占位符传数据，不拼 SQL。**`with connection` 管事务，不自动关闭连接**，上例单独关闭。SQLite 适合本地应用与一定规模的数据持久化，多进程高写入压力需要评估锁竞争和数据库选型。见 [**sqlite3**](https://docs.python.org/3/library/sqlite3.html)。
 
-## 十六、模块、包与 `import` <a id="ch16"></a>
+## 十六、模块、包与 `import` <a id="ch16"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 16.1、模块、导入包、分发包、库分别是什么
+### 16.1、模块、导入包、分发包、库分别是什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：我 `pip install` 成功，为什么 `import` 还找不到？**
 
@@ -1348,7 +1348,7 @@ finally:
 | 库 library | 对一组复用能力的泛称 | 图像库、网络库，未规定一种唯一文件形式 |
 | 标准库 | Python 自带的能力集合 | `pathlib`、`json`、`asyncio`，部分组件依赖系统构建 |
 
-### 16.2、几种导入方式
+### 16.2、几种导入方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1371,7 +1371,7 @@ print(json_codec.loads('{"ok": true}'))
 
 绝对导入写完整包名，适合跨包边界；相对导入表达同一包内部关系。不要通过随处 `sys.path.append(...)` 掩盖错误的项目结构。
 
-### 16.3、安装名不等于导入名
+### 16.3、安装名不等于导入名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 安装命令中的分发名 | 源码导入名 | 用途 |
 | --- | --- | --- |
@@ -1383,7 +1383,7 @@ print(json_codec.loads('{"ok": true}'))
 
 包名的连字符常见于分发名，Python 标识符里则不能直接写连字符。分发包与导入包的区别见 [**Python Packaging：概念解释**](https://packaging.python.org/en/latest/discussions/distribution-package-vs-import-package/)。
 
-### 16.4、导入时会发生什么
+### 16.4、导入时会发生什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 首次加载通常会执行模块顶层代码，模块对象放入 `sys.modules`；之后导入通常复用缓存。因此模块顶层不应自动弹窗口、发网络请求、删除文件或启动长期任务。
 
@@ -1404,9 +1404,9 @@ print(again is json) # True：复用模块对象
 
 **期望回答：** 它可能遮蔽同名标准库或第三方模块。查看被导入模块的 `__file__` 可以帮助定位；先改名和修正导入路径，再处理相关缓存，不要删除整个环境来碰运气。
 
-## 十七、像 CocoaPods 一样管理依赖 <a id="ch17"></a>
+## 十七、像 CocoaPods 一样管理依赖 <a id="ch17"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 17.1、先把四件事分开
+### 17.1、先把四件事分开 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 选择 Python 版本 → 为项目隔离环境 → 安装并锁定依赖 → 在源码中 import
@@ -1426,7 +1426,7 @@ print(again is json) # True：复用模块对象
 | 本地 `:path` Pod | editable install / 本地 path dependency | 发布时不能依赖你本机的绝对路径 |
 | CocoaPods 生成集成文件 | 环境中的 `site-packages` / 入口脚本 | 不应手工修改安装后的第三方源码 |
 
-### 17.2、基础路线：`venv + pip`
+### 17.2、基础路线：`venv + pip` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在新建的练习目录中执行。macOS / Linux：
 
@@ -1449,7 +1449,7 @@ Windows 示例直接指定环境解释器，不要求调整系统执行策略。
 
 **边界：** 虚拟环境隔离 Python 包，不是虚拟机，也不是安全沙箱；不会隔离文件权限、外部程序或全部系统动态库。`.venv` 不提交 Git，不复制到另一台机器当安装包。
 
-### 17.3、日常 pip 命令
+### 17.3、日常 pip 命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 python -m pip list
@@ -1469,7 +1469,7 @@ python -m pip freeze > requirements.txt
 
 **注意：此重定向会覆盖同名文件。** `freeze` 是当前环境快照，可能包含与你的项目无关的包；它不等于精心维护的直接依赖列表，也不独自保证跨系统重现。不要从污染的全局环境导出后就叫“完整锁文件”。安装基础见 [**PyPA 安装指南**](https://packaging.python.org/en/latest/tutorials/installing-packages/)。
 
-### 17.4、项目路线：`uv + pyproject.toml + uv.lock`
+### 17.4、项目路线：`uv + pyproject.toml + uv.lock` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 已安装 [**uv**](https://docs.astral.sh/uv/) 后，在练习目录创建一个新项目：
 
@@ -1497,7 +1497,7 @@ uv sync --locked
 
 **边界：** uv 默认精确同步可能移除项目环境中未声明的额外包，所以不要手动塞包后又期待它永久留下；升级锁文件后应测试并同步环境。完整语义见 [**uv 项目指南**](https://docs.astral.sh/uv/guides/projects/) 与 [**锁定和同步**](https://docs.astral.sh/uv/concepts/projects/sync/)。
 
-### 17.5、版本范围、extras、开发依赖与平台条件
+### 17.5、版本范围、extras、开发依赖与平台条件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 以下是配置语法示例，不是让你一次装齐全部工具：
 
@@ -1523,7 +1523,7 @@ python -m pip install ".[gui]"
 
 引号防止 Shell 将方括号当通配符。平台限定可以在依赖字符串中写 marker，例如 `colorama; sys_platform == 'win32'`；不要靠导入失败后悄悄忽略必需功能。
 
-### 17.6、pip、uv、pipx、Conda 怎么选
+### 17.6、pip、uv、pipx、Conda 怎么选 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 工具 | 更适合 | 不要误以为 |
 | --- | --- | --- |
@@ -1537,9 +1537,9 @@ python -m pip install ".[gui]"
 
 **期望回答：** 先看完整错误中的第一个原因，再查 Python 版本、目标 CPU、wheel 是否存在、代理 / 证书和权限。没有 wheel 时可能尝试源码构建，需要编译器和系统库；不要把所有失败都归因为 pip 版本，也不要盲目使用 `--break-system-packages`。
 
-## 十八、常用库：按任务选，不按名气堆 <a id="ch18"></a>
+## 十八、常用库：按任务选，不按名气堆 <a id="ch18"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 18.1、先看看标准库能不能解决
+### 18.1、先看看标准库能不能解决 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 任务 | 标准库 | 典型边界 |
 | --- | --- | --- |
@@ -1558,7 +1558,7 @@ python -m pip install ".[gui]"
 
 标准库总索引：[**The Python Standard Library**](https://docs.python.org/3/library/index.html)。
 
-### 18.2、第三方库速查
+### 18.2、第三方库速查 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 需求 | 可优先评估 | 推荐理由 / 不适用情况 |
 | --- | --- | --- |
@@ -1583,7 +1583,7 @@ python -m pip install ".[gui]"
 
 AI / 机器学习可继续看 [**scikit-learn**](https://scikit-learn.org/stable/getting_started.html) 的经典模型、[**PyTorch**](https://pytorch.org/get-started/locally/) 的张量与深度学习。GPU 版本、驱动和系统架构必须按官方安装矩阵选择；不要把“装了 Python 包”当成“GPU 环境全部就绪”。
 
-### 18.3、三个最小的第三方数据 Demo
+### 18.3、三个最小的第三方数据 Demo <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 先在虚拟环境按需安装，不要求一次装全：
 
@@ -1638,9 +1638,9 @@ with TemporaryDirectory() as directory:
 
 **期望回答：** 先看标准库能否清楚实现，再评估维护状态、许可证、平台 wheel、依赖体积和团队熟悉度。复杂格式与协议优先成熟库，几行字符串转换不必增加一整套依赖。
 
-## 十九、网络请求、超时与外部程序 <a id="ch19"></a>
+## 十九、网络请求、超时与外部程序 <a id="ch19"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 19.1、HTTP 请求不只是拿到一个字符串
+### 19.1、HTTP 请求不只是拿到一个字符串 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 需要虚拟环境安装 `httpx`。下面使用 MockTransport，**不会连接外网**，可以先理解客户端、响应码与 JSON：
 
@@ -1661,7 +1661,7 @@ with httpx.Client(transport=httpx.MockTransport(respond), timeout=5.0) as client
 
 真实请求时换成正常 `httpx.Client(timeout=...)`，使用经过确认的业务地址。将 URL、参数、认证、响应码和解析错误分开处理。长生命周期客户端能复用连接，别在高频循环里反复创建连接池。见 [**HTTPX QuickStart**](https://www.python-httpx.org/quickstart/)。
 
-### 19.2、超时、重试与幂等
+### 19.2、超时、重试与幂等 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：网络失败就循环重试，行不行？**
 
@@ -1669,7 +1669,7 @@ with httpx.Client(transport=httpx.MockTransport(respond), timeout=5.0) as client
 
 HTTP 客户端的连接 / 读取超时不一定是整个业务操作的总截止时间；异步流程可再加总超时边界。不要关闭 TLS 校验解决证书问题，不把 Token 打到日志，也不要无限读取未知体积的响应。
 
-### 19.3、调用 Shell 工具：优先参数数组
+### 19.3、调用 Shell 工具：优先参数数组 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1690,9 +1690,9 @@ print(result.stdout.strip()) # child ready
 
 `subprocess` 不是所有移动 / Web 运行环境都可用；冻结应用中的 `sys.executable` 也可能指向你自己的 EXE，不再是一个可以随便 `-m` 执行模块的 Python。见 [**subprocess**](https://docs.python.org/3/library/subprocess.html)。
 
-## 二十、并发、并行、GIL 与 asyncio <a id="ch20"></a>
+## 二十、并发、并行、GIL 与 asyncio <a id="ch20"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 20.1、先判断是等待多，还是计算多
+### 20.1、先判断是等待多，还是计算多 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 工作性质 | 常见选择 | 为什么 / 边界 |
 | --- | --- | --- |
@@ -1703,7 +1703,7 @@ print(result.stdout.strip()) # child ready
 | NumPy 等原生库计算 | 先用库自己的批量 / 并行能力 | 原生代码可能释放 GIL；避免多层线程池过度抢资源 |
 | GUI 内耗时任务 | 工作线程 / 进程，主线程更新 UI | 界面框架的线程规则优先 |
 
-### 20.2、线程池最小 Demo
+### 20.2、线程池最小 Demo <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1723,7 +1723,7 @@ print(results) # item-0 到 item-4，map 按输入顺序返回
 
 `as_completed()` 可按完成顺序处理 Future。线程不是免费资源，任务超时或 Future 取消也不意味着已经运行的线程会被强行终止，任务本身需要取消协议。
 
-### 20.3、进程池最小 Demo
+### 20.3、进程池最小 Demo <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 保存成 `process_demo.py`，作为文件运行；不要直接拆到交互解释器里测试。
 
@@ -1747,7 +1747,7 @@ if __name__ == "__main__":
 
 任务函数与输入通常需要可序列化，模块应可被子进程导入，所以优先顶层函数而非 lambda / 局部函数。不要依赖“所有系统默认 fork”；启动方式具有版本与系统差异，尤其要验证 Windows、macOS 和冻结应用。见 [**concurrent.futures**](https://docs.python.org/3/library/concurrent.futures.html)。
 
-### 20.4、`async`、`await` 与 TaskGroup
+### 20.4、`async`、`await` 与 TaskGroup <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1774,7 +1774,7 @@ if __name__ == "__main__":
 
 Jupyter 或已有事件循环的框架里通常使用 `await main()`，不要嵌套 `asyncio.run()`。`await` 是潜在让出点，不意味着每次一定挂起，也不意味着切到后台线程。见 [**asyncio 协程与任务**](https://docs.python.org/3/library/asyncio-task.html)。
 
-### 20.5、超时与取消示例
+### 20.5、超时与取消示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1795,7 +1795,7 @@ if __name__ == "__main__":
 
 取消是协作式的，清理放 `finally`；不应随便吞 `asyncio.CancelledError`。同步阻塞函数可考虑 `asyncio.to_thread`，但取消外层等待不等于终止工作线程。大量任务还需 Semaphore 或有界工作队列，不能一次创建几百万个 Task。
 
-### 20.6、GIL 的正确面试回答
+### 20.6、GIL 的正确面试回答 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：Python 多线程不能并行，这句话对吗？**
 
@@ -1803,7 +1803,7 @@ if __name__ == "__main__":
 
 free-threaded 还要检查第三方扩展兼容性，不兼容扩展可能重新启用 GIL。移除 GIL 也不代表业务共享状态自动安全。参见 [**free-threading 官方说明**](https://docs.python.org/3/howto/free-threading-python.html) 与 [**Python 3.14 版本说明**](https://docs.python.org/3/whatsnew/3.14.html#free-threaded-python-is-officially-supported)。
 
-### 20.7、没有 Swift Actor，共享状态怎么办
+### 20.7、没有 Swift Actor，共享状态怎么办 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <!-- demo: run -->
 ```python
@@ -1835,9 +1835,9 @@ print(counter.snapshot()) # 1000
 
 `asyncio.Lock` 协调同一事件循环里的协程，不是跨线程锁；也不要在持有 `threading.Lock` 时跨 `await` 等待。单线程事件循环中的状态依然可能在 `await` 前后改变，这与 Actor 可重入需要重新校验状态的思路相通。
 
-## 二十一、测试、调试、性能与安全底线 <a id="ch21"></a>
+## 二十一、测试、调试、性能与安全底线 <a id="ch21"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 21.1、pytest：测试输入、边界和异常
+### 21.1、pytest：测试输入、边界和异常 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 安装 `pytest` 后，保存成 `test_demo.py`，执行 `python -m pytest -q`：
 
@@ -1865,7 +1865,7 @@ def test_invalid():
 
 预期 4 个测试通过。真实项目还要覆盖空输入、权限、网络失败、取消、重复事件和资源清理，不只测试“调用方法之后得到自己刚写的常量”。[**pytest 入门**](https://docs.pytest.org/en/stable/getting-started.html)。
 
-### 21.2、调试与质量工具
+### 21.2、调试与质量工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 python -m compileall -q src
@@ -1877,7 +1877,7 @@ python -m cProfile -s cumulative app.py
 
 这些命令分别要求存在对应源码目录、测试、已安装 Ruff 或 `app.py`。`compileall` 能查语法并生成字节码，不能证明 import 成功、类型正确或业务行为正确。遇到问题先看 traceback 最后异常和相关调用栈；可在本地代码插入 `breakpoint()` 交互调试。
 
-### 21.3、性能优化与安全底线
+### 21.3、性能优化与安全底线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **FAQ：看到程序慢，先上多线程吗？**
 
@@ -1887,9 +1887,9 @@ python -m cProfile -s cumulative app.py
 
 **期望回答：** 不执行不可信代码，不用 eval 解析数据，不反序列化不可信 pickle，不拼接 Shell / SQL，不关闭 TLS 验证。文件写入要限定范围，解压要防路径穿越，敏感信息不要进入日志或包内。虚拟环境和 EXE 打包都不是安全沙箱。
 
-## 二十二、一个可维护的命令行工具怎么组织 <a id="ch22"></a>
+## 二十二、一个可维护的命令行工具怎么组织 <a id="ch22"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 22.1、目录结构与职责
+### 22.1、目录结构与职责 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 单文件练习不必立刻搞复杂工程；工具开始拥有测试、依赖与多平台交付时，可采用下面结构。它延续 Jobs 的“外层入口 + 内层 Python 工程”习惯：
 
@@ -1913,7 +1913,7 @@ JobsReport.py/
 
 外层打包入口只是未来工程的结构示意，本文没有生成这些脚本。入口只检查环境和触发构建，业务逻辑留在包内；不是把几百行业务 Python 塞进 `.command` / `.bat` 字符串。
 
-### 22.2、一个可直接使用的 argparse Demo
+### 22.2、一个可直接使用的 argparse Demo <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 保存成 `report_cli.py`。只统计指定目录的第一层普通非符号链接文件，**不修改文件，也不递归扫描**。
 
@@ -1958,9 +1958,9 @@ python report_cli.py .
 
 **期望回答：** 为了控制导入副作用、便于测试和复用业务函数，并让 CLI / GUI 共享同一内核。入口负责参数、日志和退出码，核心函数不应随便退出进程或弹窗。
 
-## 二十三、发布自己的 Python 库：pyproject、wheel 与 sdist <a id="ch23"></a>
+## 二十三、发布自己的 Python 库：pyproject、wheel 与 sdist <a id="ch23"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 23.1、先明确“打库”和“打应用”不同
+### 23.1、先明确“打库”和“打应用”不同 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：我想像发布 Pod 一样，把自己的代码给别人使用，应该产出什么？**
 
@@ -1974,7 +1974,7 @@ python report_cli.py .
 | `.exe` / `.app` / Linux 冻结目录 | 给终端用户运行 | 工具通常会收集运行时与依赖 |
 | `.msi` / `.dmg` / `.pkg` / `.deb` / `.rpm` | 安装或分发封装 | 取决于内部装的是什么，不由扩展名保证 |
 
-### 23.2、最小可发布项目
+### 23.2、最小可发布项目 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 这是独立练习项目，不依赖第 22 章文件。创建下面目录：
 
@@ -2073,7 +2073,7 @@ jobs-greet Jobs
 
 后面三条都应输出 `你好，Jobs`。`[project.scripts]` 安装时生成 CLI 入口；它指向一个可调用函数，不是运行你任意指定的 Shell 字符串。
 
-### 23.3、构建、检查与安装产物
+### 23.3、构建、检查与安装产物 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在项目目录、已隔离的构建环境中执行：
 
@@ -2092,7 +2092,7 @@ jobs-greet Jobs
 
 路径是待替换示意。`twine check` 检查分发元数据和描述格式，不是业务测试。`build` 是构建前端，Hatchling 是实际生成产物的构建后端；项目文件与构建流程见 [**PyPA 打包教程**](https://packaging.python.org/en/latest/tutorials/packaging-projects/)。
 
-### 23.4、资源文件与发布边界
+### 23.4、资源文件与发布边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 纯源码可以 import 成功，不代表图片、模板和配置会自动被打进 wheel。资源需要构建配置收集，运行时优先用 `importlib.resources`，不要依赖当前目录。
 
@@ -2118,9 +2118,9 @@ python -m twine upload --repository testpypi dist/*
 
 这会上传产物，**本文交付时未执行任何上传**。练习包名称只是示例，不代表已占用或由你拥有。
 
-## 二十四、桌面应用打包：Windows、macOS、Linux <a id="ch24"></a>
+## 二十四、桌面应用打包：Windows、macOS、Linux <a id="ch24"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 24.1、如何选择打包工具
+### 24.1、如何选择打包工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 工具 | 核心路线 | 推荐场景 / 边界 |
 | --- | --- | --- |
@@ -2133,7 +2133,7 @@ python -m twine upload --repository testpypi dist/*
 
 **期望回答：** PyInstaller 的常规流程不支持这样做。Windows 产物在 Windows 构建，macOS 产物在 macOS 构建，Linux 产物在匹配的 Linux 环境构建，再验证 CPU 架构与系统版本。可以用多平台 CI 分别构建，但不是同一个二进制到处运行。依据：[**PyInstaller 平台边界**](https://pyinstaller.org/en/stable/)。
 
-### 24.2、先 `onedir`，再评估 `onefile`
+### 24.2、先 `onedir`，再评估 `onefile` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 模式 | 特征 | 推荐理由 / 代价 |
 | --- | --- | --- |
@@ -2145,7 +2145,7 @@ python -m twine upload --repository testpypi dist/*
 
 **期望回答：** 不是。冻结和编译都不等于加密保险箱。客户端内不保存必须保密的长期密钥，敏感权限应由服务端控制。
 
-### 24.3、Windows：可执行程序与安装器
+### 24.3、Windows：可执行程序与安装器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 先保存第 27 章完整示例为 `tkinter_demo.py`。在 Windows 的构建虚拟环境中执行：
 
@@ -2164,7 +2164,7 @@ python -m PyInstaller --onedir --windowed --name JobsCounter tkinter_demo.py
 
 `.exe` 是可执行文件；`.msi` / MSIX 或安装器 EXE 是安装 / 注册 / 更新封装。需要安装器时，再采用相应 Windows 工具链或 Briefcase 平台流程；不是重命名后缀。商业分发还应完成代码签名与目标机器验证。
 
-### 24.4、macOS：`.app` 与 `.dmg` 是两层
+### 24.4、macOS：`.app` 与 `.dmg` 是两层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在 macOS 构建环境中：
 
@@ -2185,7 +2185,7 @@ hdiutil create -volname JobsCounter -srcfolder dmg-root -format UDZO dist/JobsCo
 
 **架构边界：** arm64 与 x86_64 的 Python、原生扩展和依赖必须匹配；要做 universal2，相关二进制也得支持，不能只加一个参数就创造缺失架构。PyInstaller 的架构与签名说明见 [**Feature notes**](https://pyinstaller.org/en/stable/feature-notes.html)。
 
-### 24.5、Linux：不是所有发行版一个包通吃
+### 24.5、Linux：不是所有发行版一个包通吃 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 python -m PyInstaller --onedir --name JobsCounter tkinter_demo.py
@@ -2193,7 +2193,7 @@ python -m PyInstaller --onedir --name JobsCounter tkinter_demo.py
 
 Linux GUI 还依赖目标环境的显示系统与相关系统库；容器里编译成功不等于桌面上能启动。要做 `.deb`、`.rpm`、AppImage 或 Flatpak，需要选对应打包路线并验证运行库兼容性。旧系统的 glibc、不同发行版和 CPU 架构不能靠“Python 跨平台”绕过去。
 
-### 24.6、资源、动态导入、外部程序与故障排查
+### 24.6、资源、动态导入、外部程序与故障排查 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 当项目真的存在 `assets` 目录时，可明确收集：
 
@@ -2207,7 +2207,7 @@ python -m PyInstaller --onedir --add-data "assets:assets" app.py
 
 如果工具需要 FFmpeg、Git 或浏览器，这些外部可执行程序不一定因安装了 Python 包就自动包含；要选择明确的内置或外部依赖策略，并核实许可证、架构和查找路径。
 
-### 24.7、交付检查清单
+### 24.7、交付检查清单 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 检查项 | 应确认的结果 |
 | --- | --- |
@@ -2220,9 +2220,9 @@ python -m PyInstaller --onedir --add-data "assets:assets" app.py
 | 安全分发 | 按平台签名 / 公证 / 权限流程处理 |
 | 更新与版本 | 应用版本、配置兼容和升级路径明确 |
 
-## 二十五、移动端、Web、容器与平台限制 <a id="ch25"></a>
+## 二十五、移动端、Web、容器与平台限制 <a id="ch25"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 25.1、各种包到底给谁用
+### 25.1、各种包到底给谁用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 目标 | 常见产物 | 可评估路线 | 构建与使用边界 |
 | --- | --- | --- | --- |
@@ -2235,7 +2235,7 @@ python -m PyInstaller --onedir --add-data "assets:assets" app.py
 | 浏览器用户 | Web 服务或静态 Web 应用 | Python 后端 / Pyodide / Flet Web 等 | 浏览器沙箱与包兼容性限制不同 |
 | 服务端运维 | 源码 / wheel / 容器镜像 | ASGI / WSGI 服务 + 部署工具 | 镜像不是 GUI 安装器；需要配置、监控和安全策略 |
 
-### 25.2、移动端先验证一个最小闭环
+### 25.2、移动端先验证一个最小闭环 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **期望回答：** Python 可以参与移动应用，但不是把桌面 Tkinter / PySide 程序换个打包参数就变成 iOS App。先选支持目标平台的 UI / 运行时路线，再确认每个依赖能否构建、权限如何声明、生命周期如何处理。
 
@@ -2245,7 +2245,7 @@ python -m PyInstaller --onedir --add-data "assets:assets" app.py
 
 Briefcase 的入门流程可以概括为 `new → dev → create → build → run → package`；具体目标与输出格式按平台文档选择。移动端标准库可用范围、C 扩展、JIT、子进程和文件系统都可能受限制。对于你现有的 iOS 产品，优先保留 Swift / OC 主应用，让 Python 服务于工具链或后端。
 
-### 25.3、Web 界面与桌面界面分工不同
+### 25.3、Web 界面与桌面界面分工不同 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 方式 | Python 跑在哪里 | UI 在哪里 | 边界 |
 | --- | --- | --- | --- |
@@ -2256,7 +2256,7 @@ Briefcase 的入门流程可以概括为 `new → dev → create → build → r
 
 没有服务器权限却想把所有桌面 Python 包塞浏览器，通常行不通。WASM、网络权限、文件访问和线程限制要独立验证。
 
-### 25.4、最小 HTTP 服务与容器示例
+### 25.4、最小 HTTP 服务与容器示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 这是独立目录中的 `app.py`，依赖 `fastapi`、`uvicorn`：
 
@@ -2301,9 +2301,9 @@ docker run --rm -p 127.0.0.1:8000:8000 jobs-api-demo
 
 构建会下载镜像与依赖；运行是长期进程，终端中按 Ctrl+C 停止。容器内绑定所有接口，宿主映射限定本机环回地址。镜像不是虚拟机、不是 Windows EXE，也不自动获得 HTTPS、数据库备份、监控和认证。正式部署应补上基础镜像版本 / digest、依赖锁定、健康检查与外部配置管理。参考 [**Docker Python 指南**](https://docs.docker.com/guides/python/)。
 
-## 二十六、Python GUI 选型与 iOS 界面概念对照 <a id="ch26"></a>
+## 二十六、Python GUI 选型与 iOS 界面概念对照 <a id="ch26"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 26.1、“画界面”通常是创建控件并布局
+### 26.1、“画界面”通常是创建控件并布局 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：Python 有没有类似 UIKit / SwiftUI 的东西？**
 
@@ -2323,7 +2323,7 @@ docker run --rm -p 127.0.0.1:8000:8000 jobs-api-demo
 
 **针对你的起点：** 先用 Tkinter 理解事件循环，再用 PySide6 做需要多面板、日志和任务管理的桌面工具；只想给数据处理加页面时，先评估 Streamlit。不是每个项目都要从最重的框架开始。
 
-### 26.2、把 iOS UI 经验迁移过来
+### 26.2、把 iOS UI 经验迁移过来 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | iOS 概念 | Tkinter | PySide6 / Qt |
 | --- | --- | --- |
@@ -2340,9 +2340,9 @@ docker run --rm -p 127.0.0.1:8000:8000 jobs-api-demo
 
 **边界：** `pack` / `grid`、Qt Layout 与 Auto Layout 不是同一套约束系统；应学习各自的伸缩规则。`sleep()`、长循环和同步网络放点击回调里，同样会卡 UI。
 
-## 二十七、Tkinter：第一个桌面窗口与后台任务 <a id="ch27"></a>
+## 二十七、Tkinter：第一个桌面窗口与后台任务 <a id="ch27"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 27.1、确认 Tk 可用
+### 27.1、确认 Tk 可用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 python -m tkinter
@@ -2350,7 +2350,7 @@ python -m tkinter
 
 正常时会弹出测试窗口。若缺 `_tkinter`，需要为当前 Python 发行版补相匹配的 Tcl/Tk 支持；不是随便 `pip install tkinter`。参考 [**Tkinter 官方文档**](https://docs.python.org/3/library/tkinter.html)。
 
-### 27.2、完整 Demo：输入框、按钮、标签、布局
+### 27.2、完整 Demo：输入框、按钮、标签、布局 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 保存为 `tkinter_demo.py`，执行 `python tkinter_demo.py`。仅使用标准库接口，不访问网络、不读写用户文件。
 
@@ -2401,7 +2401,7 @@ if __name__ == "__main__":
 
 **预期交互：** 输入名字，点“加一”显示 `名字：1`，继续点击累加；点“清零”显示 `名字：0`。代码创建控件、布局和连接回调；真正点击时，事件循环才调用处理函数。
 
-### 27.3、逐行理解最关键的几处
+### 27.3、逐行理解最关键的几处 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 代码 | 负责什么 |
 | --- | --- |
@@ -2418,7 +2418,7 @@ if __name__ == "__main__":
 
 **期望回答：** 顺序堆叠用 pack，表单和行列关系用 grid，明确需要坐标布局时才用 place。不要在同一个父容器中混用 pack 与 grid；不同容器可以分别选择。优先布局规则而不是硬编码窗口坐标。
 
-### 27.4、如果真的是“画图形”，用 Canvas
+### 27.4、如果真的是“画图形”，用 Canvas <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 独立保存运行，展示一条进度条与文字：
 
@@ -2444,7 +2444,7 @@ if __name__ == "__main__":
 
 Canvas 适合示意图、自定义图元和简单可视化；按钮、输入框仍优先真实控件，才能保留键盘操作、焦点与可访问性，不要把全部 UI 都画成不可交互的图片。
 
-### 27.5、后台工作如何安全更新界面
+### 27.5、后台工作如何安全更新界面 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：按钮一点击，为什么窗口拖不动？**
 
@@ -2521,9 +2521,9 @@ if __name__ == "__main__":
 
 **边界：** 本例事件量很小，真实日志需要限量 / 批量刷新，避免一次轮询处理过多消息拖住 UI。真实网络 / 子进程必须设置超时和可取消协议；如果工作线程永远不退出，关闭流程也不会凭空成功。CPU 密集任务应进一步评估进程或原生计算库。
 
-## 二十八、PySide6：Qt 桌面界面、信号槽与工作线程 <a id="ch28"></a>
+## 二十八、PySide6：Qt 桌面界面、信号槽与工作线程 <a id="ch28"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 28.1、什么时候从 Tkinter 转到 Qt
+### 28.1、什么时候从 Tkinter 转到 Qt <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **期望回答：** 当工具需要复杂表格树、多窗口、菜单、停靠面板、模型视图或可视化设计器时，Qt 的完整控件体系更适合。代价是更多框架知识、体积和部署工作。PySide6 是 Qt for Python 的绑定，商业分发还要核对所用模块和依赖的当前许可证，不能把 `pip install` 成功当成无限制授权。参见 [**Qt for Python 许可证说明**](https://doc.qt.io/qtforpython-6/licenses.html)。
 
@@ -2531,7 +2531,7 @@ if __name__ == "__main__":
 python -m pip install PySide6
 ```
 
-### 28.2、完整 Demo：信号槽与布局
+### 28.2、完整 Demo：信号槽与布局 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 保存为 `pyside_demo.py`，运行 `python pyside_demo.py`：
 
@@ -2571,7 +2571,7 @@ if __name__ == "__main__":
 
 **预期：** 输入文字后点按钮，标签变成对应问候语；调整窗口宽度时，纵向布局重新分配控件位置。Qt 的 Signal 表示事件发生，Slot 是接收事件的方法，`connect` 建立连接；不是把所有操作立即执行一次。参考 [**Qt Widgets 入门**](https://doc.qt.io/qtforpython-6/tutorials/basictutorial/widgets.html) 与 [**Signals and Slots**](https://doc.qt.io/qtforpython-6/tutorials/basictutorial/signals_and_slots.html)。
 
-### 28.3、后台任务最小完整 Demo
+### 28.3、后台任务最小完整 Demo <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 独立保存为 `qt_worker_demo.py`。工作线程只发信号，GUI 方法在主线程更新标签；关闭窗口时先请求中断。
 
@@ -2651,7 +2651,7 @@ if __name__ == "__main__":
 
 **边界：** `requestInterruption()` 只是请求，worker 必须主动检查；真实任务需要捕获异常并发出失败信号。这个 `QThread` 子类适合演示一次性的 `run()` 工作；需要带计时器、Socket、多个槽的长期 worker 时，评估 `QObject + moveToThread()` 模式。不能认为 QThread 对象的任意方法都会自动在工作线程运行，也不要用强制终止线程代替清理。
 
-### 28.4、Qt Designer：可视化画布局
+### 28.4、Qt Designer：可视化画布局 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1、启动 PySide6 提供的 Designer，在窗口里拖入 Label、LineEdit、Button 与布局容器。
 
@@ -2670,9 +2670,9 @@ pyside6-uic mainwindow.ui -o ui_mainwindow.py
 
 **期望回答：** 表格、树、菜单和传统桌面工具优先评估 Widgets；更自由的声明式界面、动画和触摸交互可以评估 Qt Quick / QML。两者都需要清楚的业务与展示分层，不能仅凭“声明式”就判断更适合所有应用。
 
-## 二十九、绘图与数据页面：Matplotlib、Streamlit <a id="ch29"></a>
+## 二十九、绘图与数据页面：Matplotlib、Streamlit <a id="ch29"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 29.1、Matplotlib：导出一张图表
+### 29.1、Matplotlib：导出一张图表 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 安装 `matplotlib` 后，在练习目录运行。会生成 `counts.png`，不要在已有同名重要文件的目录直接执行。
 
@@ -2696,7 +2696,7 @@ print("已生成 counts.png")
 
 **期望回答：** Matplotlib 负责图表，PySide6 负责完整桌面应用的窗口、按钮、菜单和布局；需要交互数据工具时可以组合。只导出报告图片则不必引入完整 GUI。
 
-### 29.2、Streamlit：很快做一个数据网页
+### 29.2、Streamlit：很快做一个数据网页 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 安装 `streamlit` 后，保存为 `dashboard.py`：
 
@@ -2720,7 +2720,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 
 **预期：** 在浏览器打开终端提示的本机地址，输入名字、点击按钮，计数与图表可见；终端里的服务需要持续运行，按 Ctrl+C 停止。
 
-### 29.3、Streamlit 的执行模型与普通窗口不同
+### 29.3、Streamlit 的执行模型与普通窗口不同 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：为什么按钮点击后，顶层变量好像重新初始化了？**
 
@@ -2728,11 +2728,11 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 
 **选型：** 数据筛选、报表、原型很合适；复杂多窗口桌面交互用 Qt，完整网站产品则可能需要更明确的前后端架构。不要以为一个网页能打开，就已经完成认证、部署、多人隔离和持久化。
 
-## 三十、面试 FAQ：问题与期望回答 <a id="ch30"></a>
+## 三十、面试 FAQ：问题与期望回答 <a id="ch30"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 本章的回答可以先直接说出口，再用对应章节的 Demo 展开；不用背实现细枝末节冒充跨版本保证。
 
-### 30.1、对象与容器
+### 30.1、对象与容器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **1、问题：Python 的变量和赋值应该怎样理解？**
 
@@ -2754,7 +2754,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 
 **期望回答：** 常见 CPython 以引用计数配合循环垃圾回收管理对象，但不能把具体析构时机当成所有实现的语言保证。对象被全局缓存、回调或容器持续持有，就可能长期占用内存。外部资源及时释放靠 with / finally，而不是等待垃圾回收。
 
-### 30.2、函数、闭包与装饰器
+### 30.2、函数、闭包与装饰器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **6、问题：为什么不推荐可变默认参数？**
 
@@ -2776,7 +2776,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 
 **期望回答：** 它按需产生结果，不需要事先保存全部输出，适合单次流式处理。但输入本来就是一个大列表，或者下游立刻 list(generator)，内存仍可能很大。生成器通常会耗尽，需要重跑时应重新创建。
 
-### 30.3、面向对象与类型
+### 30.3、面向对象与类型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **11、问题：dataclass 是否等价于 Swift Struct？**
 
@@ -2798,7 +2798,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 
 **期望回答：** 鸭子类型强调对象能完成所需操作，不必来自特定继承树；typing.Protocol 把这种结构契约表达给静态检查器；ABC 则能在运行时阻止未实现抽象方法的类实例化。按静态契约、运行时约束与团队可读性选择，不能只因名字像 Swift Protocol 就当完全相同。
 
-### 30.4、导入与依赖
+### 30.4、导入与依赖 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **16、问题：pip install 与 import 是一个过程吗？**
 
@@ -2820,7 +2820,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 
 **期望回答：** 循环导入先看是否两个模块互相依赖未完成的定义，再把共同模型下沉或反转依赖。模块重名看实际导入模块的 __file__，检查项目里有没有 json.py、typing.py 等遮蔽标准库的名字。不要第一步就删环境重装。
 
-### 30.5、并发与异步
+### 30.5、并发与异步 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **21、问题：GIL 是什么，有 GIL 就线程安全吗？**
 
@@ -2842,7 +2842,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 
 **期望回答：** 可以用锁、队列或单一消费者设计出类似的所有权边界，但标准语言不提供 Swift Actor 那套静态隔离检查。关键是把完整的业务决策放在同一同步范围内。即使只有一个事件循环线程，await 期间也可能有其它任务改变状态。
 
-### 30.6、GUI
+### 30.6、GUI <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **26、问题：Tkinter 和 PySide6 如何选择？**
 
@@ -2864,7 +2864,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 
 **期望回答：** Streamlit 在浏览器中提供数据页面，常见交互会重跑脚本；需要用会话状态或缓存管理跨次执行的数据。桌面 GUI 通常围绕长期存在的控件树与事件回调运行。两者的部署、状态、权限和用户隔离都不同。
 
-### 30.7、构建与分发
+### 30.7、构建与分发 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **31、问题：wheel 和 EXE 有什么区别？**
 
@@ -2886,7 +2886,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 
 **期望回答：** 常见是动态导入、资源、原生库或插件没收集，或者代码依赖当前目录和开发机环境。先用 onedir 和控制台版本定位，再检查日志、资源路径、架构及签名，最后到没有开发环境的目标机器验证。
 
-### 30.8、工程质量
+### 30.8、工程质量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **36、问题：为什么用 with，不依赖垃圾回收关文件？**
 
@@ -2908,9 +2908,9 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 
 **期望回答：** 把业务核心写成明确输入输出的函数或服务，CLI 管参数与退出码，GUI 管控件与线程切换。两者复用核心，不让核心到处 print、弹窗或退出进程。依赖声明、日志、测试和打包配置与源码一起维护。
 
-## 三十一、日常报错与选型速查 <a id="ch31"></a>
+## 三十一、日常报错与选型速查 <a id="ch31"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 31.1、看到异常，先查这一项
+### 31.1、看到异常，先查这一项 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 现象 | 优先检查 | 不推荐的第一反应 |
 | --- | --- | --- |
@@ -2929,7 +2929,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 | Qt / Tk 无显示、插件错误 | GUI 环境、插件收集、运行位置 | 当作业务函数错误 |
 | 打包后闪退 | 先开控制台、看日志、核对资源与架构 | 把整个虚拟环境复制过去 |
 
-### 31.2、常用表达速查
+### 31.2、常用表达速查 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 想做什么 | Python 写法 / 选择 |
 | --- | --- |
@@ -2948,7 +2948,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 | 当前 Python 的包管理器 | `python -m pip ...` |
 | 查看真实解释器 | `python -c "import sys; print(sys.executable)"` |
 
-### 31.3、常见名词白话表
+### 31.3、常见名词白话表 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 词 | 白话解释 |
 | --- | --- |
@@ -2967,9 +2967,9 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 | Freeze | 把程序运行需要的部分收集成可分发应用 |
 | SDK / Toolchain | 目标平台的开发接口、编译和打包工具集合 |
 
-## 三十二、学习路线、练习答案与验证记录 <a id="ch32"></a>
+## 三十二、学习路线、练习答案与验证记录 <a id="ch32"></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 32.1、按能力推进，不用先背完整语言手册
+### 32.1、按能力推进，不用先背完整语言手册 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 阶段 | 阅读与动手 | 达标标志 |
 | --- | --- | --- |
@@ -2981,7 +2981,7 @@ python -m streamlit run dashboard.py --server.address 127.0.0.1
 | 会交付 | 第 23—25 章；先构建并安装 wheel，再打本机应用 | 能解释源码、库包、运行时、安装器分别在哪 |
 | 会面试 | 第 30 章；每题口述并举一个 Demo | 回答包含条件、理由与不能保证的边界 |
 
-### 32.2、练习一：保序去重，不修改输入
+### 32.2、练习一：保序去重，不修改输入 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：** 输入语言名字列表，保留第一次出现的顺序，并返回新列表。
 
@@ -2998,7 +2998,7 @@ assert unique_names(source) == ["Swift", "Python"]
 assert source == ["Swift", "Python", "Swift"]
 ```
 
-### 32.3、练习二：为什么这个模型的数据会串
+### 32.3、练习二：为什么这个模型的数据会串 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：** 多个实例共享类级 `items = []` 会串数据，如何修正？
 
@@ -3019,7 +3019,7 @@ a.items.append("file-a")
 assert b.items == []
 ```
 
-### 32.4、练习三：并发执行，但限制同时工作的数量
+### 32.4、练习三：并发执行，但限制同时工作的数量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：** 模拟 10 个异步 I/O 工作，最多同时运行 3 个，如何写？
 
@@ -3046,13 +3046,13 @@ if __name__ == "__main__":
 
 **期望回答：** Semaphore 限制进入工作区的协程数量；gather 这里返回的结果按输入顺序。示例只有 10 项，若任务数量极大，仍需有界生产 / 消费队列，不能只限执行数量却无限创建等待 Task。
 
-### 32.5、练习四：设计一个“Python 版 iOS 工具箱”
+### 32.5、练习四：设计一个“Python 版 iOS 工具箱” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **问题：** 目录统计工具需要 CLI、GUI 和未来打包，怎样分层？
 
 **期望回答：** 路径扫描与统计属于 core，argparse 属于 CLI，窗口与线程切换属于 GUI。两种入口调用同一个 core；文件系统通过临时目录验证，GUI 验证事件与关闭，最终在目标平台打包。扫描、日志与界面更新都要有规模边界，不能为了方便把所有逻辑放进按钮回调。
 
-### 32.6、官方资料与原文入口
+### 32.6、官方资料与原文入口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 本文是原创讲解与教学 Demo，不是对官方手册的逐段翻译。稳定语言语义与工具当前行为分别以相应官方资料为准。
 
@@ -3062,7 +3062,7 @@ if __name__ == "__main__":
 - 界面：[**Tkinter**](https://docs.python.org/3/library/tkinter.html)、[**Qt for Python**](https://doc.qt.io/qtforpython-6/)、[**Streamlit**](https://docs.streamlit.io/)、[**Matplotlib**](https://matplotlib.org/stable/)。
 - 分发：[**PyInstaller**](https://pyinstaller.org/en/stable/)、[**Nuitka**](https://nuitka.net/)、[**Briefcase**](https://briefcase.beeware.org/)、[**Flet 发布指南**](https://flet.dev/docs/publish/)。
 
-### 32.7、验证范围
+### 32.7、验证范围 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 本次验证日期为 **2026-08-30**。验证时直接提取本文代码块，避免另写一套“看起来相同”的 Demo 掩盖文档错误。
 

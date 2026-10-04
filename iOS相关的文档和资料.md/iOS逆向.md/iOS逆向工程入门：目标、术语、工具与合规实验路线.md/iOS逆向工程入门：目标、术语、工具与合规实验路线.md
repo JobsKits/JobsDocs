@@ -21,7 +21,7 @@
 
 ## 一、先建立正确边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、允许且有价值的研究场景
+### 1.1、允许且有价值的研究场景 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 分析自己开发但已经丢失部分源码或文档的 App。
 - 对自己或已书面授权的 App 做安全审计、隐私检查和渗透测试。
@@ -32,7 +32,7 @@
 - 在允许的范围内研究文件格式、协议兼容、无障碍、数据迁移或系统互操作。
 - 学习编译器、链接器、运行时、操作系统和 ARM64 指令如何协作。
 
-### 1.2、不应进入的场景
+### 1.2、不应进入的场景 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 破解付费、订阅、会员、许可证、广告计费或数字版权保护。
 - 绕过登录、设备绑定、服务端授权、反作弊或访问控制。
@@ -41,7 +41,7 @@
 - 为真实目标编写免杀、持久化、提权、窃密或数据外传方案。
 - 未经授权截获第三方通信，或绕过证书校验、证书绑定等安全机制。
 
-### 1.3、每次开始前的五个问题
+### 1.3、每次开始前的五个问题 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. 目标 App 是我自己的吗？如果不是，是否有明确的书面授权？
 2. 授权是否写清设备、Bundle ID、版本、账号、接口、时间窗口和允许动作？
@@ -53,9 +53,9 @@
 
 ---
 
-## 二、iOS 逆向的工作目标，也就是“为什么做”
+## 二、iOS 逆向的工作目标，也就是“为什么做” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、从开发者角度理解动机
+### 2.1、从开发者角度理解动机 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 动机 | 想回答的问题 | 最终产物 |
 | --- | --- | --- |
@@ -67,7 +67,7 @@
 | 性能与体积 | 启动慢在哪里，二进制为什么变大？ | 加载链、符号/段体积、优化建议 |
 | 技术学习 | Swift/OC 最终如何变成 ARM64 并运行？ | 可复现实验记录、知识图谱 |
 
-### 2.2、逆向不是一个单独动作
+### 2.2、逆向不是一个单独动作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 完整工作通常是下面这条证据链：
 
@@ -86,9 +86,9 @@ flowchart LR
 
 ---
 
-## 三、学习提纲
+## 三、学习提纲 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、基础层：先知道程序如何变成 App
+### 3.1、基础层：先知道程序如何变成 App <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 编译：把 Swift / Objective-C / C / C++ 转换成目标代码。
 - 链接：把目标文件和依赖组合成可加载的 Mach-O。
@@ -96,14 +96,14 @@ flowchart LR
 - 运行时：Objective-C Runtime、Swift Runtime 和系统框架共同支撑对象、方法、泛型、协议等语义。
 - 系统保护：代码签名、Entitlements、沙盒、ASLR 和权限模型限制程序能做什么。
 
-### 3.2、静态分析层：不运行程序也能看什么
+### 3.2、静态分析层：不运行程序也能看什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - App Bundle、`Info.plist`、资源、Framework、Extension 和主可执行文件。
 - Mach-O Header、Load Commands、Segments、Sections、依赖库、符号和字符串。
 - 反汇编、反编译、控制流图、交叉引用和调用关系。
 - Objective-C 类/协议/Selector 元数据，以及能保留下来的 Swift 类型信息。
 
-### 3.3、动态分析层：程序运行后再验证
+### 3.3、动态分析层：程序运行后再验证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 断点、单步、调用栈、寄存器、内存和已加载镜像。
 - Objective-C 消息派发和 Swift 函数执行路径。
@@ -111,7 +111,7 @@ flowchart LR
 - 用 Instruments 观察耗时、内存、线程、分配和卡顿。
 - 在自有可调试 App 中用 Frida 做动态观测；不用于绕过第三方保护。
 
-### 3.4、报告层：把“猜测”变成“结论”
+### 3.4、报告层：把“猜测”变成“结论” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 每个结论记录样本哈希、版本、架构、设备和系统版本。
 - 区分静态证据、动态证据、推断和未验证项。
@@ -120,9 +120,9 @@ flowchart LR
 
 ---
 
-## 四、开发者必须听懂的核心名词
+## 四、开发者必须听懂的核心名词 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、IPA、App Bundle 与可执行文件
+### 4.1、IPA、App Bundle 与可执行文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - `IPA`：本质上是特定目录结构的 ZIP 分发包，通常包含 `Payload/某应用.app`。它是“运输箱”，不是程序本身。
 - `.app`：App Bundle，是一个目录，里面有可执行文件、`Info.plist`、资源、Framework、PlugIns 和签名信息。
@@ -130,26 +130,26 @@ flowchart LR
 - Framework / dylib：可复用代码模块，内部通常也包含 Mach-O。
 - dSYM：保存调试符号的独立产物，UUID 必须与二进制匹配才能正确符号化。
 
-### 4.2、静态分析与动态分析
+### 4.2、静态分析与动态分析 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 静态分析：不运行目标，只查看文件结构、元数据、字符串、符号、汇编和伪代码。优点是安全、可重复；缺点是看不到真实运行值和动态分支。
 - 动态分析：让程序运行，再观察调用、参数、返回值、内存和系统行为。优点是能验证真实路径；缺点是容易受环境、权限和时序影响。
 - 正确姿势：静态分析提出假设，动态分析验证假设，两者不是二选一。
 
-### 4.3、反汇编与反编译
+### 4.3、反汇编与反编译 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 反汇编（Disassembly）：把机器码翻译成 ARM64 汇编指令，较接近 CPU 真正执行的内容。
 - 反编译（Decompilation）：根据机器码推测出 C 风格伪代码，方便阅读，但不是原始源码。
 - 伪代码中的变量名、类型、循环和 `if` 结构都可能是工具推断；不能把它当作源码事实。
 
-### 4.4、符号、地址与偏移
+### 4.4、符号、地址与偏移 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 符号（Symbol）：给函数或全局变量使用的名字，例如 `main`、某个 C 函数或经过编码的 Swift 名字。
 - 符号化（Symbolication）：把地址还原为函数名、文件名和行号。
 - 偏移（Offset）：相对某个基准位置的距离。逆向报告里必须说清是文件偏移、虚拟地址还是相对镜像基址的偏移。
 - ASLR Slide：系统每次加载镜像时随机增加的地址偏移，用于提高攻击难度。因此运行时地址不一定等于工具里看到的静态地址。
 
-### 4.5、ARM64、寄存器和调用约定
+### 4.5、ARM64、寄存器和调用约定 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - ARM64 / AArch64：现代 iPhone、iPad 和 Apple Silicon 使用的 64 位 ARM 指令集架构。
 - 寄存器：CPU 内部的高速小存储单元。常见的 `x0`～`x7` 经常承载前几个参数，`x0` 通常也承载返回值。
@@ -157,7 +157,7 @@ flowchart LR
 - 调用约定：规定参数、返回值、栈和寄存器如何配合。理解它，才能在没有源码时判断函数输入和输出。
 - PAC：Pointer Authentication Code，指针认证。新设备可用它保护返回地址和部分指针；看到带认证语义的指令时，不要把它误判成普通业务逻辑。
 
-### 4.6、Objective-C Runtime
+### 4.6、Objective-C Runtime <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - Class：类对象，保存类的结构和方法等信息。
 - Selector（`SEL`）：方法名的运行时标识，例如 `viewDidLoad` 或 `tableView:didSelectRowAtIndexPath:`。
@@ -165,7 +165,7 @@ flowchart LR
 - 消息派发：`[obj doSomething]` 在底层不是简单的静态函数调用，而是根据对象和 Selector 查找 IMP 并执行，核心概念常与 `objc_msgSend` 联系在一起。
 - 逆向友好性：Objective-C 为动态派发保留了较多类名、方法名和协议元数据，因此通常比纯 C/C++ 更容易恢复结构。
 
-### 4.7、Swift Runtime 与名称修饰
+### 4.7、Swift Runtime 与名称修饰 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 名称修饰（Name Mangling）：编译器把模块、类型、泛型、参数和返回值编码进符号名，所以 Swift 符号看起来很长。
 - Demangle：把修饰后的符号名还原成更适合人读的形式，可使用 `swift-demangle`。
@@ -173,14 +173,14 @@ flowchart LR
 - 优化影响：Release 优化可能内联、特化、删除或合并函数，使源码结构与最终机器码差异很大。
 - `@objc` / `dynamic`：会影响方法是否进入 Objective-C Runtime 派发路径，也会影响能否通过 Selector 观察。
 
-### 4.8、dyld、动态库与加载
+### 4.8、dyld、动态库与加载 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - `dyld`：Apple 平台的动态链接器。它读取 Mach-O 的加载信息，把主程序和依赖库映射到内存，并完成符号绑定、重定位和初始化。
 - 动态库：程序运行时依赖的共享代码，例如系统 Framework 或 App 内嵌 Framework。
 - RPath：动态库搜索路径规则，常见于 `@rpath`、`@loader_path` 和 `@executable_path`。
 - Bind / Rebase / Chained Fixups：让二进制内部的引用在实际加载地址下指向正确函数或数据的机制。
 
-### 4.9、代码签名、Entitlements 与沙盒
+### 4.9、代码签名、Entitlements 与沙盒 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 代码签名：证明代码来源并检测签名后是否被修改。iOS 会拒绝运行缺失或无效签名的 App。
 - Entitlements：写入代码签名的键值权限声明，例如 Keychain Group、Push、App Group 等。它不是普通配置备注，而是系统授权的一部分。
@@ -188,7 +188,7 @@ flowchart LR
 - 沙盒：限制 App 默认只能访问自己的容器和明确获准的系统资源。
 - 三者关系：Provisioning Profile 决定“最多允许申请什么”，App 签名里的 Entitlements 表示“实际申请什么”，沙盒和系统服务在运行时执行限制。
 
-### 4.10、Hook、注入与越狱
+### 4.10、Hook、注入与越狱 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - Hook：在运行时观察、替换或包裹某个函数/方法。它是双用途能力；本篇只讨论对自有 App 的只读观测。
 - 注入：让额外代码进入目标进程。iOS 的签名、沙盒和调试权限会严格限制它。
@@ -197,9 +197,9 @@ flowchart LR
 
 ---
 
-## 五、重点解释：Mach-O 到底是什么
+## 五、重点解释：Mach-O 到底是什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、一句话理解
+### 5.1、一句话理解 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 `Mach-O` 是 Apple 平台用于组织机器码、数据、依赖、符号和加载说明的二进制文件格式。
 
@@ -214,7 +214,7 @@ flowchart LR
 
 所以，Mach-O 不是汇编语言；它是装载和组织汇编指令及其它数据的容器格式。
 
-### 5.2、Mach-O 的主要层次
+### 5.2、Mach-O 的主要层次 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart TD
@@ -227,7 +227,7 @@ flowchart TD
     G --> H["符号、导出、绑定、重定位、代码签名等"]
 ```
 
-### 5.3、Mach Header：身份证
+### 5.3、Mach Header：身份证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Header 位于 Slice 开头，常见信息包括：
 
@@ -238,7 +238,7 @@ Header 位于 Slice 开头，常见信息包括：
 - `sizeofcmds`：全部 Load Commands 的总大小。
 - Flags：与链接、装载和命名空间有关的标志。
 
-### 5.4、Load Commands：装载说明书
+### 5.4、Load Commands：装载说明书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Load Command 告诉系统“这个文件应该怎样进入进程”。常见概念包括：
 
@@ -250,7 +250,7 @@ Load Command 告诉系统“这个文件应该怎样进入进程”。常见概�
 - `LC_BUILD_VERSION`：目标平台、最低系统和 SDK 等构建信息。
 - `LC_CODE_SIGNATURE`：指出代码签名数据的位置。
 
-### 5.5、Segment 与 Section：楼层和房间
+### 5.5、Segment 与 Section：楼层和房间 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - Segment：面向虚拟内存映射的大区域，描述权限和地址范围。
 - Section：Segment 内更具体的数据分类。
@@ -269,7 +269,7 @@ Load Command 告诉系统“这个文件应该怎样进入进程”。常见概�
 | `__swift5_*` | Swift 相关元数据 | 类型、协议、反射等线索，具体布局会随工具链演进 |
 | `__LINKEDIT` | 链接编辑数据 | 符号、导出、绑定、重定位、签名等 |
 
-### 5.6、从双击图标到代码执行
+### 5.6、从双击图标到代码执行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 sequenceDiagram
@@ -288,7 +288,7 @@ sequenceDiagram
     RT->>APP: 进入程序入口和应用生命周期
 ```
 
-### 5.7、为什么 iOS 开发者应该学 Mach-O
+### 5.7、为什么 iOS 开发者应该学 Mach-O <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 看懂启动时动态库为什么找不到。
 - 理解 dSYM UUID 为什么必须与崩溃二进制一致。
@@ -299,9 +299,9 @@ sequenceDiagram
 
 ---
 
-## 六、会用到哪些工具
+## 六、会用到哪些工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、最小入门工具栈
+### 6.1、最小入门工具栈 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 初学者先使用下面五件套，不需要一上来安装大量工具：
 
@@ -315,7 +315,7 @@ sequenceDiagram
 
 5、Instruments：验证耗时、内存、线程和系统调用表现。
 
-### 6.2、系统自带与 Apple 工具
+### 6.2、系统自带与 Apple 工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 工具 | 主要用途 | 初学阶段 |
 | --- | --- | --- |
@@ -337,7 +337,7 @@ sequenceDiagram
 
 提示：Apple 工具链中的部分经典工具正在向 LLVM 实现演进，同一个名字在不同 Xcode 版本下可能对应不同实现。遇到参数差异时先执行 `xcrun <工具> --help` 或查看 `man`，不要机械照搬旧博客。
 
-### 6.3、静态分析工具
+### 6.3、静态分析工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 工具 | 特点 | 适合谁 |
 | --- | --- | --- |
@@ -353,7 +353,7 @@ sequenceDiagram
 - 已在专业团队、插件和协作流程明确：IDA。
 - 无论选择哪个 GUI 工具，都要用系统命令交叉验证，不要完全相信伪代码。
 
-### 6.4、动态调试与插桩工具
+### 6.4、动态调试与插桩工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 工具 | 能做什么 | 安全边界 |
 | --- | --- | --- |
@@ -364,7 +364,7 @@ sequenceDiagram
 
 Frida 不是入门第一步。先学会 LLDB、调用约定和 Runtime，再用 Frida 对自己的 Lab App 做只读函数追踪，否则容易“会跑脚本但不懂证据”。
 
-### 6.5、网络与数据观测工具
+### 6.5、网络与数据观测工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 工具 | 用途 | 边界 |
 | --- | --- | --- |
@@ -375,14 +375,14 @@ Frida 不是入门第一步。先学会 LLDB、调用约定和 Runtime，再用 
 
 对自己的 App，应在 Debug 环境配置专用测试证书和测试服务。本文不介绍绕过第三方证书固定、系统信任或身份认证的方法。
 
-### 6.6、历史工具与容易混淆的名字
+### 6.6、历史工具与容易混淆的名字 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - `class-dump`：历史上常用于恢复 Objective-C 声明；对现代 Swift、优化二进制和新元数据并不万能，可把它当辅助线索，而不是唯一答案。
 - `Cycript`：历史上常见的运行时交互工具。现代学习路线优先 LLDB 和 Frida，不建议从过时教程起步。
 - `Theos`、Tweak、重签名工具：与越狱插件、注入和修改链条联系紧密，不属于本文的合规入门路线。
 - “脱壳”：常指处理加密保护后的可执行内容。不要把获取或处理第三方 App 二进制当作学习起点；直接使用自己构建的 Lab App。
 
-### 6.7、专题文档索引
+### 6.7、专题文档索引 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 截图里的工具不是一条可以按顺序批量安装的“武器清单”，而是分布在不同观察层的能力。下面按专题统一管理，每个文件都从原理、工具地图、自有 Lab、风险边界和完成标准展开：
 
@@ -400,9 +400,9 @@ Frida 不是入门第一步。先学会 LLDB、调用约定和 Runtime，再用 
 
 ---
 
-## 七、合规入门实验：只分析自己写的 App
+## 七、合规入门实验：只分析自己写的 App <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、实验目标
+### 7.1、实验目标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 创建一个名为 `ReverseLab` 的自有 Demo，包含：
 
@@ -421,7 +421,7 @@ Frida 不是入门第一步。先学会 LLDB、调用约定和 Runtime，再用 
 5. 静态工具看到的函数，能否用 LLDB 在运行时命中？
 6. Debug 与 Release 的函数、符号、伪代码和调用栈有什么差异？
 
-### 7.2、第 0 步：记录实验边界
+### 7.2、第 0 步：记录实验边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在笔记开头写清：
 
@@ -434,7 +434,7 @@ Bundle ID：com.example.ReverseLab
 禁止动作：不分析第三方 App，不绕过签名/登录/证书固定，不接触真实用户数据
 ```
 
-### 7.3、第 1 步：找到 App 与主可执行文件
+### 7.3、第 1 步：找到 App 与主可执行文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 从 Xcode 的构建产物定位 `ReverseLab.app`，然后设置路径：
 
@@ -450,7 +450,7 @@ file "$BINARY_PATH"
 
 你应该先确认 `BINARY_PATH` 确实属于自己的构建产物，再执行后续命令。
 
-### 7.4、第 2 步：读取 Mach-O 身份与构建信息
+### 7.4、第 2 步：读取 Mach-O 身份与构建信息 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 xcrun vtool -show-build "$BINARY_PATH"
@@ -465,7 +465,7 @@ xcrun otool -l "$BINARY_PATH" | less
 - 是否存在 `LC_UUID`、`LC_BUILD_VERSION`、`LC_MAIN` 和 `LC_CODE_SIGNATURE`。
 - Segment 的虚拟内存权限是否符合代码只读、数据可写等预期。
 
-### 7.5、第 3 步：查看动态库依赖与 RPath
+### 7.5、第 3 步：查看动态库依赖与 RPath <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 xcrun otool -L "$BINARY_PATH"
@@ -478,7 +478,7 @@ xcrun llvm-objdump --macho --dylibs-used --rpaths "$BINARY_PATH"
 - `@rpath` 是否能在实际加载路径下解析。
 - Debug 专用库是否错误进入 Release 包。
 
-### 7.6、第 4 步：查看符号、字符串与 Swift 名字
+### 7.6、第 4 步：查看符号、字符串与 Swift 名字 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 xcrun nm -nm "$BINARY_PATH" | less
@@ -497,7 +497,7 @@ xcrun swift-demangle '请替换为实际的Swift修饰符号'
 - 找不到函数名，也不代表功能不存在；它可能被裁剪、内联、特化、剥离符号或动态构造。
 - 字符串搜索是线索入口，不是结论终点。
 
-### 7.7、第 5 步：查看签名与 Entitlements
+### 7.7、第 5 步：查看签名与 Entitlements <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 codesign --display --verbose=4 "$APP_PATH"
@@ -512,7 +512,7 @@ codesign --display --entitlements - --xml "$APP_PATH" \
 - Keychain Group、App Group、Push 等能力是否确实需要。
 - 不要把“重新签名第三方 App”当作签名学习实验。
 
-### 7.8、第 6 步：核对 dSYM
+### 7.8、第 6 步：核对 dSYM <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 DSYM_PATH="/请替换为实际路径/ReverseLab.app.dSYM"
@@ -523,7 +523,7 @@ xcrun dwarfdump --uuid "$DSYM_PATH"
 
 两边 UUID 必须对应。UUID 不匹配时，即使文件名看起来一样，也不能正确还原崩溃地址。
 
-### 7.9、第 7 步：用 Hopper 或 Ghidra 做静态阅读
+### 7.9、第 7 步：用 Hopper 或 Ghidra 做静态阅读 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. 导入自己的 `BINARY_PATH`。
 2. 确认工具识别为 Mach-O 和正确架构。
@@ -535,7 +535,7 @@ xcrun dwarfdump --uuid "$DSYM_PATH"
 
 不要急着从 `main` 一路读完整个程序。更高效的方法是“业务锚点 → 交叉引用 → 局部调用链 → 动态验证”。
 
-### 7.10、第 8 步：用 LLDB 验证静态结论
+### 7.10、第 8 步：用 LLDB 验证静态结论 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 从 Xcode 启动自己的 App，在 LLDB 中练习：
 
@@ -569,7 +569,7 @@ disassemble --name 你的函数名
 
 先用源码断点与符号断点理解对应关系，再尝试读纯地址。不要一开始就沉迷修改寄存器、返回值或内存。
 
-### 7.11、第 9 步：用 Instruments 验证运行表现
+### 7.11、第 9 步：用 Instruments 验证运行表现 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - Time Profiler：确认你认为的关键函数是否真的消耗时间。
 - Allocations / Leaks：观察对象和内存生命周期。
@@ -578,7 +578,7 @@ disassemble --name 你的函数名
 
 这一步的目标是把二进制结论重新连接到真实用户动作，而不是只分析静态结构。
 
-### 7.12、第 10 步：可选的 Frida 只读观测
+### 7.12、第 10 步：可选的 Frida 只读观测 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 满足以下条件再进入：
 
@@ -595,7 +595,7 @@ frida-ps -Uai
 
 后续仅对 `ReverseLab` 中专门编写的无敏感测试函数做追踪。Frida 官方 iOS 文档同时讨论越狱与非越狱模式，但这不意味着越狱是本实验的要求；优先选择可调试的自有 App。
 
-### 7.13、第 11 步：比较 Debug 与 Release
+### 7.13、第 11 步：比较 Debug 与 Release <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 对两份产物重复第 1～9 步，建立对照表：
 
@@ -608,7 +608,7 @@ frida-ps -Uai
 | `get-task-allow` |  |  | 签名配置 |  |
 | 性能 |  |  | 编译优化 |  |
 
-### 7.14、第 12 步：形成可审计报告
+### 7.14、第 12 步：形成可审计报告 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 建议报告结构：
 
@@ -627,9 +627,9 @@ frida-ps -Uai
 
 ---
 
-## 八、从 iOS 源码思维切换到二进制思维
+## 八、从 iOS 源码思维切换到二进制思维 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 8.1、你熟悉的源码，在逆向里会变成什么
+### 8.1、你熟悉的源码，在逆向里会变成什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 源码世界 | 二进制世界 |
 | --- | --- |
@@ -641,7 +641,7 @@ frida-ps -Uai
 | Build Settings | Mach-O 构建版本、签名、Entitlements、链接选项和段布局 |
 | 崩溃栈 | 镜像 UUID、加载地址、ASLR Slide、指令地址和 dSYM |
 
-### 8.2、常见 ARM64 指令的人话版本
+### 8.2、常见 ARM64 指令的人话版本 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 指令家族 | 人话理解 |
 | --- | --- |
@@ -657,7 +657,7 @@ frida-ps -Uai
 
 不要逐条翻译汇编。先找函数调用、条件分支、数据来源和返回值，恢复“数据如何流动”。
 
-### 8.3、读一个陌生函数的七步法
+### 8.3、读一个陌生函数的七步法 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. 它从哪里被调用？
 2. 输入参数可能是什么类型？
@@ -669,27 +669,27 @@ frida-ps -Uai
 
 ---
 
-## 九、推荐学习路线
+## 九、推荐学习路线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 9.1、第一阶段：一周内建立全景
+### 9.1、第一阶段：一周内建立全景 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 搞清 `IPA → .app → Mach-O → dyld → Runtime → App 生命周期`。
 - 掌握 `file`、`plutil`、`vtool`、`otool`、`nm`、`strings`、`codesign`。
 - 用自己的 Debug App 完成一次完整检查并写报告。
 
-### 9.2、第二阶段：两到四周建立静态能力
+### 9.2、第二阶段：两到四周建立静态能力 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 学会 Hopper 或 Ghidra 的函数列表、Xref、控制流图、重命名和注释。
 - 熟悉 ARM64 的参数、返回值、栈、常见跳转和函数调用。
 - 比较 Swift、Objective-C、Debug、Release 四组样本。
 
-### 9.3、第三阶段：建立动态验证能力
+### 9.3、第三阶段：建立动态验证能力 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 熟练使用 LLDB 的断点、镜像、调用栈、寄存器和反汇编。
 - 使用 Instruments 连接业务动作与性能、内存、线程证据。
 - 只在自有可调试 App 中练习 Frida 的只读追踪。
 
-### 9.4、第四阶段：按工作目标选方向
+### 9.4、第四阶段：按工作目标选方向 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - App 安全：学习 [**OWASP MASTG**](https://mas.owasp.org/MASTG/)、安全存储、认证、网络和隐私测试。
 - 崩溃与性能：深入 dSYM、DWARF、符号化、MetricKit、Instruments 和 dyld 加载。
@@ -698,35 +698,35 @@ frida-ps -Uai
 
 ---
 
-## 十、常见误区
+## 十、常见误区 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 10.1、“看到伪代码就等于拿到源码”
+### 10.1、“看到伪代码就等于拿到源码” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 错误。反编译器恢复的是一种便于阅读的推测表达，原变量名、注释、泛型语义和源码结构通常已经丢失或改变。
 
-### 10.2、“搜到字符串就证明执行了某功能”
+### 10.2、“搜到字符串就证明执行了某功能” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 错误。字符串可能来自未执行分支、第三方库、测试代码、资源或编译器生成内容。必须通过 Xref、调用链和动态行为交叉验证。
 
-### 10.3、“逆向就是越狱 + Hook”
+### 10.3、“逆向就是越狱 + Hook” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 错误。Mach-O、符号化、LLDB、Instruments、崩溃分析和静态审计都可以在正常开发环境中完成。越狱只是某些特殊研究环境的系统改动，不是逆向的定义。
 
-### 10.4、“所有地址都固定”
+### 10.4、“所有地址都固定” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 错误。ASLR 会改变加载地址；报告地址时需要同时记录镜像、静态偏移、加载基址或 Slide。
 
-### 10.5、“工具输出一定正确”
+### 10.5、“工具输出一定正确” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 错误。不同工具会对函数边界、类型和伪代码做不同推断。重要结论至少用两类证据验证。
 
-### 10.6、“会改返回值就是会逆向”
+### 10.6、“会改返回值就是会逆向” <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 错误。修改只是动作，理解才是能力。真正专业的逆向报告能解释数据来源、控制流、系统边界、证据强度和修复路径。
 
 ---
 
-## 十一、最终应具备的工作能力
+## 十一、最终应具备的工作能力 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 学完这条路线后，合理目标不是“能破解 App”，而是能够：
 
@@ -742,7 +742,7 @@ frida-ps -Uai
 
 ---
 
-## 十二、官方资料与继续阅读
+## 十二、官方资料与继续阅读 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [**Apple：Mach-O Overview**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CodeFootprint/Articles/MachOOverview.html)：Mach-O 文件结构和代码/数据组织概览。
 - [**Apple：Mach-O Runtime Interfaces**](https://developer.apple.com/documentation/kernel/mach-o)：Mach-O 与 dyld 相关结构入口。
@@ -758,7 +758,7 @@ frida-ps -Uai
 
 ---
 
-## 十三、最后的边界声明
+## 十三、最后的边界声明 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 本文中的命令只读取自己构建的 App 信息，不执行重签名、注入修改、认证绕过、证书固定绕过或第三方 App 解密。若工作对象变成第三方 App、真实用户数据或生产服务，应先取得清晰的书面授权，并由合规或法律人员确认范围。
 

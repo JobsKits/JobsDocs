@@ -18,7 +18,7 @@ bookCollapseSection: false
 </iframe>
 
 
-## 1、<font id=前言摘要>前言摘要</font>
+## 1、<font id=前言摘要>前言摘要</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   
@@ -74,18 +74,18 @@ bookCollapseSection: false
 >- **区块链本质类似数据库，但其数据在验证写入后不可修改；**
 >- **区块链上不仅可存文字，也可以存储视频、图像、语音等任意二进制数据。**
 
-## 2、底层的数学依托 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+## 2、底层的数学依托 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、对称加密 vs 非对称加密「核心算法」<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+### 2.1、对称加密 vs 非对称加密「核心算法」<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 2.1.1、对称加密 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.1.1、对称加密 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **用同一把钥匙加密和解密**（常用算法:DES、3DES、AES）
 
 * 优势：传统、性能高效、低耗能
 * 劣势：不安全
 
-#### 2.1.2、「核心算法」非对称加密 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.1.2、「核心算法」非对称加密 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [维基百科/哥德巴赫猜想](https://zh.wikipedia.org/wiki/%E5%93%A5%E5%BE%B7%E5%B7%B4%E8%B5%AB%E7%8C%9C%E6%83%B3)  
@@ -95,7 +95,7 @@ bookCollapseSection: false
   * [CSDN/ssh用私钥生成公钥](https://blog.csdn.net/lxfHaHaHa/article/details/86619714)  
   * [知乎/图文彻底搞懂非对称加密（公钥密钥）](https://zhuanlan.zhihu.com/p/436455172)  
 
-##### 2.1.2.1、非对称加密的相关数论基础 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 2.1.2.1、非对称加密的相关数论基础 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * RSA算法的原理是基于这样的数学事实：两个大质数相乘得到的大数难以被因式分解。即一个大数很难被因式分解
 
@@ -114,7 +114,7 @@ bookCollapseSection: false
     | **3. 小变量三素数定理**             | 假如能证明“任一奇数为三个素数之和”中有一个素数非常小，则间接证明偶数为两个素数之和。<br>1959年 潘承洞 → 证明 θ = 1/4 成立（小素数不超过 N 的 1/4 次方）<br>1995年 展涛推进到 θ = 7/120，但仍未达 θ = 0（有界）。 |
     | **4. 哥德巴赫问题（几乎哥德巴赫）** | 林尼克 1953 年提出。<br>“存在某个固定 k，使任一大偶数为两个素数 + k 个 2 的幂之和。”<br>虽然不是完全的哥德巴赫猜想，但逼近度由 k 决定：k 越小越接近猜想。<br>1999年 廖明哲、王天泽等首次定出可接受的 k=54000<br>后续：李红泽、王天泽 → k=2000；Heath-Brown & Puchta → k=13（最优） |
 
-##### 2.1.2.2、公钥和私钥 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 2.1.2.2、公钥和私钥 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *用不同的钥匙进行加密和解密*
 
@@ -147,9 +147,9 @@ bookCollapseSection: false
 
 **非对称加密算法是一类型加密算法的统称。主要算法：RAS（使用最广泛）、Elgamal（比较常用）、背包算法、Rabin、D-H、Ecc**
 
-##### 2.1.2.3、非对称加密的相关算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 2.1.2.3、非对称加密的相关算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-###### 2.1.2.3.1、引入一个基础算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 2.1.2.3.1、引入一个基础算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 看一个小时候经常在《趣味数学》这类书里的一个数学小魔术：
@@ -174,7 +174,7 @@ bookCollapseSection: false
 这是一件非常酷的事情，任何人都可以按照我公布的方法加密一个数，但是只有我才知道怎么把所得的密文变回去。其安全性就建立在算乘积非常容易，但是要把4000000000000000000000000000001分解成后面两个数相乘，在没有计算机的时代几乎不可能成功！但如果仅仅按照上面的思路，如果对方知道原理，知道我要构造出带很多0的数，根据19801和8位算法这2个条件非常容易穷举出400000001这个目标值。要解决这个问题，真实世界就不是使用乘法了，比如RSA算法使用的是指数和取模运算，但本质上就是上面这套思想。
 ```
 
-###### 2.1.2.3.2、`RSA`算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 2.1.2.3.2、`RSA`算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 假设有两个人，Alice 和 Bob，他们想要进行加密通信。他们可以使用非对称加密算法来保护他们的通信内容。
@@ -199,7 +199,7 @@ M 就是解密后的明文。
 这样，Alice 和 Bob 就可以安全地进行加密通信了。由于只有 Alice 拥有私钥，所以只有她能够解密 Bob 发送的消息。这就保证了通信的机密性。
 ```
 
-###### 2.1.2.3.3、`ECC`椭圆加密算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 2.1.2.3.3、`ECC`椭圆加密算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [维基百科/椭圆函数](https://zh.wikipedia.org/wiki/%E6%A9%A2%E5%9C%93%E5%87%BD%E6%95%B8)  
@@ -236,7 +236,7 @@ M 就是解密后的明文。
   * 若要达到相同安全强度，ECC 所需密钥长度远小于 RSA；
   * 有效解决了提高安全性所带来的密钥变长、实现难度升高的问题。
 
-###### 2.1.2.3.4、`Diffie-Hellman`密钥协议算法（简称DH算法）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 2.1.2.3.4、`Diffie-Hellman`密钥协议算法（简称DH算法）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [维基百科/哥德巴赫猜想](https://zh.wikipedia.org/wiki/%E5%93%A5%E5%BE%B7%E5%B7%B4%E8%B5%AB%E7%8C%9C%E6%83%B3)  
@@ -275,7 +275,7 @@ M 就是解密后的明文。
       * B 基于私有密钥 XB 和 YC 计算秘密密钥 K1。A 基于私有密钥 XA 和 YC 计算秘密密钥 K2。C 使用私有密钥 XC 和 YB 计算 K1，并使用 XC 和 YA 计算 K2;
       * 从现在开始，C 就可以转发 A 发给 B 的报文或转发 B 发给 A 的报文，在途中根据需要修改它们的密文。使得A和B都不知道他们在和C共享通信。
 
-###### 2.1.2.3.5、背包加密算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 2.1.2.3.5、背包加密算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 由 Ralph Merkle 和 Martin Hellman 在1978年提出
@@ -295,12 +295,12 @@ M 就是解密后的明文。
 背包加密算法的安全性基于超递增背包的困难性问题，即在已知超递增背包的情况下，求解其逆元素的问题是一个NP完全问题。
 ```
 
-###### 2.1.2.3.6、`ElGamal`加密算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> 
+###### 2.1.2.3.6、`ElGamal`加密算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
 
 * 资料来源  
   * [维基百科/ElGamal加密算法](https://zh.wikipedia.org/wiki/ElGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95)
 
-###### 2.1.2.3.7、`Rabin`算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 2.1.2.3.7、`Rabin`算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 资料来源  
   * [RSA衍生算法—RABIN算法](https://co5mos.github.io/2018/09/14/rsa-rabin/)  
@@ -308,7 +308,7 @@ M 就是解密后的明文。
   * [简书/RSA 衍生算法——Rabin 算法](https://www.jianshu.com/p/c18ee34058ed)  
   * [夏冰软件/简述Rabin加密算法](https://www.jiamisoft.com/blog/28727-rabin.html)
 
-##### 2.1.2.4、量子计算机（对（非对称）算法体系的潜在威胁） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 2.1.2.4、量子计算机（对（非对称）算法体系的潜在威胁） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
 
@@ -362,7 +362,7 @@ M 就是解密后的明文。
       - 激光系统、微波系统、探测器阵列、高速 FPGA 控制器等
     - **总之：**量子位的维护是一项高度依赖物理、材料科学、工程技术融合的挑战，其核心目标是尽可能长时间保持量子叠加态和纠缠态不被破坏，并可控、可读。
 
-### 2.2、「核心算法」Hash哈希算法（亦称：散列算法、摘要算法）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+### 2.2、「核心算法」Hash哈希算法（亦称：散列算法、摘要算法）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [华为云/什么是Hash哈希算法](https://www.huaweicloud.com/zhishi/bcs9.html)
@@ -375,7 +375,7 @@ M 就是解密后的明文。
   * [简书/iOS逆向一：数字签名&苹果应用双重签名原理&应用重签名](https://www.jianshu.com/p/120abb45dfea)
   * [百度百科/SHA家族-密码散列函数家族](https://baike.baidu.com/item/SHA%E5%AE%B6%E6%97%8F/9849595)
 
-#### 2.2.1、Hash哈希简介 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.2.1、Hash哈希简介 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *核心是求得文件指纹*
 
@@ -412,7 +412,7 @@ Hash哈希算法是一类型加密算法的统称，主要算法：MD4、MD5 和
 * 版权/云盘秒传功能
 * 数字签名
 
-#### 2.2.2、Hash哈希算法的危机：Hash哈希碰撞<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.2.2、Hash哈希算法的危机：Hash哈希碰撞<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 如果不同的输入得到了同一个哈希值，就发生了"Hash哈希碰撞"
@@ -422,7 +422,7 @@ Hash哈希算法是一类型加密算法的统称，主要算法：MD4、MD5 和
 输出位数越多，输出集合就越大，碰撞率就越低。
 ```
 
-#### 2.2.3、如何防止Hash哈希碰撞:扩大哈希值的取值空间 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.2.3、如何防止Hash哈希碰撞:扩大哈希值的取值空间 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 16个二进制位的Hash哈希值，产生碰撞的可能性是 65536 分之一，
@@ -433,7 +433,7 @@ Hash哈希算法是一类型加密算法的统称，主要算法：MD4、MD5 和
 开发者必须做出抉择，在安全与成本之间找到平衡。
 ```
 
-#### 2.2.4、Hash算法之`SHA算法`家族 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.2.4、Hash算法之`SHA算法`家族 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 由美国国家安全局（NSA）所设计，并由美国国家标准与技术研究院（NIST）发布；是美国的政府标准。
@@ -464,7 +464,7 @@ SHA-3:
 
 ![SHA函数对比](./assets/SHA函数对比.jpg)
 
-#### 2.2.5、Hash算法之 `MD4` 和 `MD5`(均不可靠，已被淘汰) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.2.5、Hash算法之 `MD4` 和 `MD5`(均不可靠，已被淘汰) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [维基百科/MD4](https://zh.wikipedia.org/wiki/MD4)
@@ -499,7 +499,7 @@ SHA-3:
   * 逐步被禁用  
     * 2011年，RFC 6151 明确禁止 MD5 用作密钥散列消息认证码（HMAC）  
 
-#### 2.2.6、安全哈希算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.2.6、安全哈希算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 还需要满足一个条件，就是输出无规律。
@@ -507,9 +507,9 @@ SHA-3:
 从而让攻击者无法逐步猜测输入，只能依赖暴力穷举来破解;
 ```
 
-#### 2.2.7、应用场景举例 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.2.7、应用场景举例 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 2.2.7.1、文件指纹 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 2.2.7.1、文件指纹 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 当我们从网站上下载一个非常大的文件时，我们如何确定下载到本地的文件和官方网站发布的原始文件是完全相同，没有经过修改的呢？
@@ -519,7 +519,7 @@ SHA-3:
 大多数软件的官方下载页面会同时给出该文件的哈希值，以便让用户下载后验证文件是否被篡改。
 ```
 
-##### 2.2.7.2、在区块链当中的应用之`Merkle Hash` <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 2.2.7.2、在区块链当中的应用之`Merkle Hash` <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *区块链首先要保证任何交易数据都不可修改*
 
@@ -630,7 +630,7 @@ a4 = dhash(tx4)
 
 所以，*Merkle Hash*记录在区块头部，它的作用就是保证交易记录永远无法修改。
 
-##### 2.2.7.3、`Block Hash` <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 2.2.7.3、`Block Hash` <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 区块本身用 Block Hash ——也就是区块哈希来标识;
@@ -640,7 +640,7 @@ a4 = dhash(tx4)
 区块链的第一个区块（又称创世区块）并没有上一个区块，因此，它的Prev Hash被设置为00000000...000
 ```
 
-### 2.3、相关中间件的应用之数字签名(亦称：数字签章) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+### 2.3、相关中间件的应用之数字签名(亦称：数字签章) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 资料来源  
   * [维基百科/数字签名](https://zh.wikipedia.org/wiki/%E6%95%B8%E4%BD%8D%E7%B0%BD%E7%AB%A0)  
@@ -651,7 +651,7 @@ a4 = dhash(tx4)
   * [雪球/为什么黎曼定理会与我们的钱包有关系——初识金融安全体系](https://xueqiu.com/8476758876/114728701)  
   * [runoob/HTTP 与 HTTPS 的区别](https://www.runoob.com/w3cnote/http-vs-https.html)
 
-#### 2.3.1、数字签名的工作流程 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.3.1、数字签名的工作流程 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 需要涉及到的算法（非对称加密的相关算法 + Hash哈希算法）
@@ -678,7 +678,7 @@ B 的公钥 BK 亦是公开的
 
 **但是数字签名不能确保"公钥"的真实性，第三方可偷换"公钥"，达到与伪服务器通信的目的，这样又产生了数字证书。**
 
-#### 2.3.2、`CA`（certificate authority，简称 `CA` ） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 2.3.2、`CA`（certificate authority，简称 `CA` ） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **所有的信任感的发起源头就是CA中心**
 
@@ -696,15 +696,15 @@ B 的公钥 BK 亦是公开的
 CA 的公钥是存储在本地计算机列表的，如果手动往列表里面导入了不可信的 CA 公钥，那么 CA 就可以仿冒，失去了权威性。
 ```
 
-## 3、相关概念的落地 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+## 3、相关概念的落地 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、在一般的程序开发中的做法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+### 3.1、在一般的程序开发中的做法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 一般情况下，前端存放公钥，服务端存放私钥。私钥是不允许存放在前端程序
 * 但是，涉及到具体的业务，可能会涉及到很多组（公钥/私钥），又因为（公钥/私钥）是成对出现的，故可以将每一对（公钥/私钥）映射为一个ID，然后专门建立一张密钥表来进行存放
 * 出于安全方面的考虑，服务端对前端传过来的数据是采取保守的不信任态度，也就是前端存储公钥这种做法虽然可行但是欠缺考虑。那么，前端储存业务的（公钥/私钥）ID，服务端可以根据传过来的 ID，后端去遍历对应的私钥表，从而进行解密
 
-### 3.2、`SSL`：从`http`到`https` = `对称加密`  + `非对称加密 ` <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+### 3.2、`SSL`：从`http`到`https` = `对称加密`  + `非对称加密 ` <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **原因：非对称加密在解密过程中，消耗的时间远远超过对称加密**
 
@@ -713,7 +713,7 @@ CA 的公钥是存储在本地计算机列表的，如果手动往列表里面�
 而在最终的实际数据传输中，用对称加密进行加密通讯
 ```
 
-###  3.3、`Apple`校验机制 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###  3.3、`Apple`校验机制 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 对可执行文件或脚本进行数字签名，用来保证软件在签名后未被损害或者修改的措施;
@@ -723,7 +723,7 @@ CA 的公钥是存储在本地计算机列表的，如果手动往列表里面�
 我们从苹果MC（Member Center）中获得的证书实际也是一个包含有证书链的证书，其中的根是苹果的 CA。我们获得的证书实际上是在告诉 iOS 设备:我们的证书是被苹果CA签过名的合法的证书。而 iOS 设备在执行 APP 前，首先要先验证 CA 的签名是否合法，然后再通过证书中我们的公钥验证程序是否的确是我们发布的，且中途没有对程序进行过篡改。
 ```
 
-#### 3.3.1、双重签名(`multisig`) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.3.1、双重签名(`multisig`) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *简介*
 
@@ -741,7 +741,7 @@ CA 的公钥是存储在本地计算机列表的，如果手动往列表里面�
 * 在安装时，iOS 系统取得证书，通过系统内置的公钥 A，去验证证书的数字签名是否正确
 * 验证证书后确保了公钥M 是苹果认证过的，再用公钥 M 去验证 APP 的签名，这里就间接验证了这个 APP 安装行为是否经过苹果官方允许
 
-#### 3.3.2、`CSR` 文件 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.3.2、`CSR` 文件 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 CSR 文件（CertificateSigningRequest.certSigningRequest）这个文件是我们从钥匙串申请来的为后面申请证书准备的，在 Member Center 中提交该文件向苹果申请证书，这个文件主要包括以下内容:
@@ -785,7 +785,7 @@ openssl asn1parse -i -in CertificateSigningRequest.certSigningRequest
   381:d=1  hl=4 l= 257 prim:  BIT STRING
 ```
 
-#### 3.3.3、从 Member Center 中申请开发证书 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.3.3、从 Member Center 中申请开发证书 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 1、苹果取出 CertificateSigningRequest.certSigningRequest 中的公钥;
@@ -880,7 +880,7 @@ Data 域下一级的内容就是我的苹果账号信息，其中最为重要的
 所以，就算你有证书，但是如果没有对应的私钥是没有用的。而团队开发则需要通过 .p12 文件把这个私钥分享给团队其他成员。
 ```
 
-#### 3.3.4、 iOS 授权和描述文件 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.3.4、 iOS 授权和描述文件 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 有了证书苹果可以确保 APP 是自己授权的开发者提交的以及 APP 的完整性，但是这样只能确保本 APP 是安全的，并不能细化到 APP 所使用的某些服务是被苹果认可的，不如 APNS 推送，定位等，而且证书也无法限制调试版应用的装机规模，于是苹果推出了 mobileprovision 描述文件。
@@ -915,7 +915,7 @@ security cms -D -I embedded.mobileprovision
   * 下载后内容也不能被修改，如添加设备或更改权限；
   * 因此，上述的 1-4 所有内容都受到苹果的严格控制，所有规则必须遵循苹果的系统和策略。
 
-### 3.4、❤️区块链❤️（`BlockChain`） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+### 3.4、❤️区块链❤️（`BlockChain`） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *资料来源*
 
@@ -928,7 +928,7 @@ security cms -D -I embedded.mobileprovision
 * [CoinMarketCap](https://zh.wikipedia.org/wiki/CoinMarketCap)  
 * [CoinMarketCap 是什么？八大功能教学全收录](https://chainee.io/what-is-coinmarketcap/)
 
-#### 3.4.1、什么是区块链 ? <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.1、什么是区块链 ? <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 区块链是互联网的一部分，互联网数据与数据之间的传输方式，数据传输的应用模型
 
@@ -970,7 +970,7 @@ security cms -D -I embedded.mobileprovision
   * 若无法达成共识，则两个链长期并存（硬分叉）；
   * 每个区块都通过引用上一个区块的哈希值来形成链式结构。
 
-#### 3.4.2、区块链的核心技术 = 密码学 + 分布式储存 + 智能合约 + 共识机制（算法） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.2、区块链的核心技术 = 密码学 + 分布式储存 + 智能合约 + 共识机制（算法） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 智能合约：规则代码化后，由机器自动执行（1994 年，尼克·萨博提出）：
   * 任何支付行为本质上都是执行比特币脚本；
@@ -1006,7 +1006,7 @@ security cms -D -I embedded.mobileprovision
       * 效率提升，但易出现“强者恒强”局面，去中心化程度不如 PoW；
       * 若某人掌握超 51% 的代币，其可主导网络，存在中心化风险。
 
-#### 3.4.3、挖矿（比喻） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.3、挖矿（比喻） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 数字货币和区块链这两个概念是在 **2008 年同时出现**的。
 
@@ -1029,7 +1029,7 @@ security cms -D -I embedded.mobileprovision
   * 意味着参与数据验证的人越多；
   * 区块链的数据**就越安全**，**被攻击或篡改的可能性越低**。
 
-#### 3.4.4、双花问题 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.4、双花问题 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * `双花问题`其实包含以下2个子问题
   * 一笔钱因为同步延迟的问题，被**重复使用**
@@ -1038,7 +1038,7 @@ security cms -D -I embedded.mobileprovision
 * `双花问题`在现实生活中的解决方案：目前主要通过第三方的机构来解决
 * `双花问题`在区块链中的解决方案：**共识机制（解决12.1）** + **时间戳** + **UTXO账户模型**
 
-#### 3.4.5、`UTXO`账户模型 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.5、`UTXO`账户模型 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *对开发者友好（易于实现清结算的模型），但是对用户不友好（具有认知冲突：因为普通用户所认知的账户是一个账号、对应余额变动的模型）*
 
@@ -1087,12 +1087,12 @@ security cms -D -I embedded.mobileprovision
   * 追溯资金来源，确认无误；
   * 然后通过共识机制进行全网广播，最终写入公链，完成记账。
 
-#### 3.4.6、时间戳（即，一个字符序列能唯一的标识某个时间） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.6、时间戳（即，一个字符序列能唯一的标识某个时间） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 对数据进行哈希运算获得数据指纹
 * 对这个指纹加入时间戳
 
-#### 3.4.7、侧链技术（即，建立一条新区块链（侧链）） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.7、侧链技术（即，建立一条新区块链（侧链）） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 能够1对1的和原有的链产生联系，资产可以再两条链之间产生转移
 * 通过双向锚定（一方要以另外一方的行动为标准），进而弥补原来那条链（主链）的不足
@@ -1104,7 +1104,7 @@ security cms -D -I embedded.mobileprovision
     * 主链上交易处理不过来的时候，转移压力到侧链进行分摊处理;
     * 应用主链的人较多，不方便去做较大改动。那么在侧链进行修改，对主链功能进行补充;
 
-#### 3.4.8、跨链技术（侧链的升级版） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.8、跨链技术（侧链的升级版） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 解决互操作性问题:区块链实际应用的时候，因为场景和行业不同以及参与企业不同，导致一个场景都需要一条链甚至多条链，且每条链都比较封闭（信息孤岛）
 * 目前4种解决方案：
@@ -1113,7 +1113,7 @@ security cms -D -I embedded.mobileprovision
   * 分布式私钥控制
   * 哈希锁定
 
-#### 3.4.9、历史遗留问题（比特币交易拥堵问题）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.9、历史遗留问题（比特币交易拥堵问题）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *最开始比特币的一个区块只有1M，到后期不够用。解决方案如下👇🏻*
 
@@ -1142,7 +1142,7 @@ security cms -D -I embedded.mobileprovision
   * 等通道关闭时，将最终交易结果广播至主链，并写入公链；
   * 极大缓解主链拥堵问题，并具备一定的跨链能力。
 
-#### 3.4.10、以太坊 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.10、以太坊 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *里程碑式影响力，区块链 2.0 = 区块链当中的操作系统 ，为大家提供一套脚本语言 = 开源的，能让大家自由开发智能合约的区块链公共平台 = 以太坊*
 
@@ -1152,7 +1152,7 @@ security cms -D -I embedded.mobileprovision
   * 允许开发者在其平台上创建和部署各种去中心化应用（DApp）；
   * 打破传统中心化服务模式，实现开放、透明、自主运行的业务逻辑。
 
-##### 3.4.10.1、`Gas` 机制 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.4.10.1、`Gas` 机制 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 用户编写的智能合约，必须通过虚拟机进行执行；
   * 这个虚拟机由全体“矿工”共同维护与运行；
@@ -1170,7 +1170,7 @@ security cms -D -I embedded.mobileprovision
   * 用户使用 ETH 作为“燃料”推动智能合约的执行；
   * 矿工获得 ETH 作为处理合约和交易的激励。
 
-##### 3.4.10.2、以太坊的做法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.4.10.2、以太坊的做法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 上方应用层面：
   * 以太坊提供了一套专用的编程语言（如 Solidity）；
@@ -1183,7 +1183,7 @@ security cms -D -I embedded.mobileprovision
   * 用户的数据由区块链管理，真正实现**数据归用户所有**；
   * 避免被第三方机构垄断和滥用，增强隐私与控制权。
 
-##### 3.4.10.2、以太坊分片技术（Ethereum Shardin） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.4.10.2、以太坊分片技术（Ethereum Shardin） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *即解决，效率问题 + 可扩展性问题 = 以太坊可以实现更高的吞吐量、更低的交易费用*
 
@@ -1222,7 +1222,7 @@ security cms -D -I embedded.mobileprovision
   * 减少 Gas 费用；
   * 扩大区块链应用场景，如大规模金融、数据存储、社交等。
 
-#### 3.4.11、DeFi = 区块链 + 金融 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.11、DeFi = 区块链 + 金融 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ***De**centralized **Fi**nance = **去中心化金融** = **一种利用区块链技术和智能合约构建的金融系统***
 
@@ -1242,7 +1242,7 @@ DeFi生态系统中的一些常见应用包括借贷平台、去中心化交易�
 DeFi的分支:借贷🔥、交易所、聚合器🔥、保险、衍生品、稳定币
 ```
 
-##### 3.4.11.1、Defi.借贷 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.4.11.1、Defi.借贷 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 对象是由代码编写的各种**智能合约借贷协议**。
 
@@ -1282,7 +1282,7 @@ MakerDao = 以太池 + 抵押债仓
   * 智能合约读取还款数据，确认无误后释放用户抵押的 **以太坊（ETH）**。
   * 【还不起】出售抵押物：以太坊ETH;
 
-##### 3.4.11.2、Defi.聚合器 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.4.11.2、Defi.聚合器 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 即，DeFi中的银行理财服务——基金产品
@@ -1296,7 +1296,7 @@ MakerDao = 以太池 + 抵押债仓
 收入来源 = DeFi借贷类项目 + DeFi交易类项目（交易手续费 + 代币）
 ```
 
-##### 3.4.11.3、Defi.Dex <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.4.11.3、Defi.Dex <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ***DEX** = **D**ecentralized **EX**change = **去中心化交易所***
 
@@ -1311,7 +1311,7 @@ MakerDao = 以太池 + 抵押债仓
 中心化交易所:高效与极致的服务体验
 ```
 
-##### 3.4.11.3、Defi.保险 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.4.11.3、Defi.保险 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 基于：**不可篡改、强制执行**的一类智能合约（保险协议）。
 
@@ -1328,7 +1328,7 @@ MakerDao = 以太池 + 抵押债仓
   * 通过将资金投入资金池；
   * 实际上是**一种链上对赌协议**：若无事故可获得分润，若出险需参与赔付。
 
-#### 3.4.12、比特大陆 （硬件领域） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.12、比特大陆 （硬件领域） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 比特大陆（Bitmain）是一家以比特币硬件矿机为核心产品的全球区块链技术公司，成立于 2013 年。
 
@@ -1342,7 +1342,7 @@ MakerDao = 以太池 + 抵押债仓
 * 公司联合创始人 **吴忌寒** 是比特币 ABC（Bitcoin ABC）新版的主要支持者之一；
   * Bitcoin ABC 是比特币现金（BCH）生态中的一个重要分支，致力于维持 BCH 的持续开发。
 
-#### 3.4.13、区块链浏览器 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.13、区块链浏览器 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *作用*
 
@@ -1379,7 +1379,7 @@ MakerDao = 以太池 + 抵押债仓
 * 防诈骗工具：
   * 包括钓鱼网站检测、空投骗局识别、黑名单地址过滤等；
 
-#### 3.4.14、NFT授权(Approve) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.14、NFT授权(Approve) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [查询并撤销授权](https://revoke.cash/zh)
 
@@ -1410,9 +1410,9 @@ MakerDao = 以太池 + 抵押债仓
 所以，当你在使用钱包的过程中，出现以下界面的时候，就是在向你询问授权（Approve）操作，那就一定要多加小心，多次确认当前你访问的链接是否是安全、可信的，才可以继续操作！
 ```
 
-#### 3.4.15、地址 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.15、地址 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 3.4.15.1、钱包地址（Wallet Address）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.4.15.1、钱包地址（Wallet Address）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 钱包地址是用于接收、存储和发送加密货币或代币的地址。
@@ -1421,16 +1421,16 @@ MakerDao = 以太池 + 抵押债仓
 用户可以使用钱包地址访问他们的余额，并对其进行操作。
 ```
 
-##### 3.4.15.2、代币合约地址（Token Contract Address）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.4.15.2、代币合约地址（Token Contract Address）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 代币合约地址是一个用于管理特定代币的智能合约的地址。
 在以太坊平台上，每种代币都有一个对应的智能合约，该合约定义了代币的发行总量，用于管理特定代币的规则和功能
 ```
 
-#### 3.4.16、其他 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.4.16、其他 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 3.4.16.1、**CoinMarketCap** (CMC) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.4.16.1、**CoinMarketCap** (CMC) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 CoinMarketCap (CMC) 是一个价格跟踪加密网站和加密数据提供商。
@@ -1443,7 +1443,7 @@ CoinMarketCap (CMC) 是一个价格跟踪加密网站和加密数据提供商。
 3、去中心化加密资产交易所（DEX）
 ```
 
-### 3.5、数字货币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+### 3.5、数字货币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [一文区分传销币，主流币，山寨币，空气币](https://m.163.com/dy/article/GL5CIF8Q0519UA0G.html?spss=adap_pc)  
@@ -1457,7 +1457,7 @@ CoinMarketCap (CMC) 是一个价格跟踪加密网站和加密数据提供商。
   * [泰达币官网](https://tether.to/)  
   * [狗狗币官网](https://dogecoin.com/zh-cn/)
 
-#### 3.5.1、概念分类 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.5.1、概念分类 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 graph TB
@@ -1473,7 +1473,7 @@ graph TB
   C --> C3[🔸 更加去中心化，甚至脱离创始团队控制]
 ```
 
-##### 3.5.1.1、传销币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.1.1、传销币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 概念
   * 涉及拉人头，拉资金的币，至于是不是数字货币，不好说
@@ -1483,7 +1483,7 @@ graph TB
   * 价格完全项目方控盘，由于拉人头泡沫太大，一旦资金跟不上，崩盘跑路那是挥手间的事
   * 其次，由于币无法提到主流所，可能时刻归零跑路
 
-##### 3.5.1.2、主流币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.1.2、主流币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 概念  
   * 市面上大多数人认可的加密数字货币  
@@ -1499,7 +1499,7 @@ graph TB
   * 此类币由于存量大、发展成熟，短期内价格拉升有限  
   * 想要通过这类币实现财富跃迁，往往需要时间沉淀与长期持有
 
-##### 3.5.1.3、山寨币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.1.3、山寨币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 概念  
   * `山寨币`不等同于假币  
@@ -1515,7 +1515,7 @@ graph TB
   * 项目故事类似、包装雷同，普通投资者很难区分  
   * 建议选择**老牌且有一定技术与社区基础的项目**，提高避坑概率
 
-##### 3.5.1.4、空气币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.1.4、空气币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 概念  
   * 空气币是指没有实际应用场景支撑的加密货币  
@@ -1531,7 +1531,7 @@ graph TB
   * 虽然也有如“波场”这样的成功逆袭案例，但属于极少数  
   * 从风险控制角度出发，**不建议普通用户轻易参与**
 
-#### 3.5.2、相关代表 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.5.2、相关代表 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [Github/比特币源代码](https://github.com/bitcoin/bitcoin)  
@@ -1541,7 +1541,7 @@ graph TB
   * [反向冻结！中国用户收取黑 U 遭美执法机构划转资产](https://www.defidaonews.com/media/6804030)  
   * [知乎/什么是黑U？散户小白收到黑U怎么办？](https://zhuanlan.zhihu.com/p/565664059?utm_id=0)
 
-##### 3.5.2.1、比特币（BTC） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.2.1、比特币（BTC） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 起源于1992年"密码朋克"组织
@@ -1572,7 +1572,7 @@ function hash160(data) {
 }
 ```
 
-##### 3.5.2.2、莱特币（LTC）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.2.2、莱特币（LTC）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 概念  
   * 莱特币（LTC）最初的设计目的是为了对标比特币（BTC），并解决其网络拥堵与交易确认速度慢的问题  
@@ -1588,7 +1588,7 @@ function hash160(data) {
     * 用于**处理更高频率的小额支付与转账**场景，减轻比特币主链负担  
   * 被称为：“**比特金，莱特银**”，形成互补关系
 
-##### 3.5.2.3、泰达币（USD₮**或**USDT）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.2.3、泰达币（USD₮**或**USDT）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 概念  
   * 泰达币（USDT）是一种资产支持的加密稳定币，于 2014 年由泰达公司（Tether Limited）推出  
@@ -1625,7 +1625,7 @@ function hash160(data) {
 
 ![image-20230815021959484](./assets/image-20230815021959484.png)
 
-###### 3.5.2.3.1、黑U <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.5.2.3.1、黑U <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *欧美地区法律法规是保护U的把U视为虚拟资产。*
 
@@ -1667,7 +1667,7 @@ function hash160(data) {
   * 未上线这些平台的币通常风险极高，缺乏审查机制  
   * 谨防项目“造假市”拉盘割韭菜，也要警惕其被洗钱者利用
 
-###### 3.5.2.3.2、`ERC-20`和`Trc-20 ` <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.5.2.3.2、`ERC-20`和`Trc-20 ` <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *ERC-20*
 
@@ -1730,13 +1730,13 @@ function hash160(data) {
   * 实际的手续费与处理时间仍可能受到网络拥堵、链上交易量等因素影响  
   * 在选择 ERC-20 还是 TRC-20 时，需综合考虑使用场景、用户群体与平台支持情况
 
-##### 3.5.2.4、TRX <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.2.4、TRX <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * Tron，又称"波场"，最初作为基于Ethereum的代币而创建，2018年5月正式上线主网。 
 * 按照该过程的设计，投资者将Ethereum代币交易为Tron的TRX加密货币，又称"波场币"
 * 与以太坊和比特币等基于 PoW 挖矿不同，Tron 采用 DPoS 机制，**用户通过投票选出 27 名验证人来维护 Tron 网络的安全，验证链上交易并创建区块**，这些验证人被称为超级代表（**S**uper **S**epresentatives 简称 **SR**）。
 
-###### 3.5.2.4.1、带宽和能量 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.5.2.4.1、带宽和能量 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 在比特币、以太坊上转账时需要通过 BTC、ETH 来支付手续费。在波场进行转账时消耗的是带宽和能量。
@@ -1772,7 +1772,7 @@ BTC、ETH 和 TRX 都是主网币，而基于这些主网创建的代币相当�
   * 对于轻量级用户，默认免费额度或少量燃烧 TRX 已足够  
   * 对于频繁转账、合约交互或 DApp 开发者，建议通过冻结方式长期获取资源，节省成本
 
-###### 3.5.2.4.2、主网币与代币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.5.2.4.2、主网币与代币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 市场上的数字资产可分为两大类：
   * **主网币（Mainnet Coin）**
@@ -1812,7 +1812,7 @@ USDT 租住在比特币家里的租房协议叫 Omni，
 
 **如果你选择的是 ERC-20 格式，但是输入的地址却是比特币钱包或者波场钱包的地址，就会碰到「无效地址」的报错。**
 
-###### 3.5.2.4.3、Tron账户 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.5.2.4.3、Tron账户 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * Tron 采用账户模型：
   * 每个账户的唯一标识为地址（address）；
@@ -1917,7 +1917,7 @@ Base58: TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t
 Hex: 41A614F803B6FD780986A42C78EC9C7F77E6DED13C
 ```
 
-###### 3.5.2.4.4、通证 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.5.2.4.4、通证 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 概念  
   * 通证是区块链生态中一种基于加密技术、共识机制、智能合约与应用目标所构建的链上凭证  
@@ -1941,7 +1941,7 @@ Hex: 41A614F803B6FD780986A42C78EC9C7F77E6DED13C
   * **非同质通证（NFT）**：如 ERC-721、TRC-721，每个通证独一无二（如艺术品、游戏道具等）
   * **声望通证 / 荣誉通证**：基于信用积分、用户行为构建，不一定具备交易价值，但具代表性（如 DAO 中的投票权重）
 
-##### 3.5.2.5、数字人民币（e-CNY / Digital RMB） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.2.5、数字人民币（e-CNY / Digital RMB） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 概念  
   * 数字人民币是由中国人民银行发行的法定数字货币，也称为中央银行数字货币（CBDC）  
@@ -2001,7 +2001,7 @@ Hex: 41A614F803B6FD780986A42C78EC9C7F77E6DED13C
   * 前景不确定性  
     * 在全球金融体系中的角色、跨境流通机制、公众反馈等仍需长期观察与评估
 
-#### 3.5.3、加密货币交易所 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.5.3、加密货币交易所 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [维基百科/加密货币交易所](https://zh.m.wikipedia.org/zh-hans/%E5%8A%A0%E5%AF%86%E8%B2%A8%E5%B9%A3%E4%BA%A4%E6%98%93%E6%89%80)  
@@ -2014,27 +2014,27 @@ Hex: 41A614F803B6FD780986A42C78EC9C7F77E6DED13C
 
 <font color=blue>**加密货币交易所提供了加密货币的交易、存储和管理服务，让用户可以方便地进行数字资产的买卖和交易;**</font>
 
-##### 3.5.3.1、[Coinbase](https://www.coinbase.com/)（比特币基地）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.3.1、[Coinbase](https://www.coinbase.com/)（比特币基地）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 该公司成立于2012年。截至2021年3月，Coinbase 是美国🇺🇸交易量最大的加密货币交易所
 * 2021年4月13日，Coinbase 股票代码：COIN）在美国纳斯达克交易所上市，成为美国首家上市的加密货币公司
 
-##### 3.5.3.2、[Binance](https://www.binance.com/zh-CN)（币安）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.3.2、[Binance](https://www.binance.com/zh-CN)（币安）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 2017年，由中国🇨🇳开发者[**赵长鹏**](https://baike.baidu.com/item/%E8%B5%B5%E9%95%BF%E9%B9%8F/22378862)创立，后因为中国大陆政府监管，总部迁出中国大陆
 * 该公司推出了两种自行开发的加密货币:币安币 (BNB) 和币安美元 (BUSD);
 
-##### 3.5.3.3、[Kraken <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>](https://www.kraken.com/)
+##### 3.5.3.3、[Kraken <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>](https://www.kraken.com/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * Kraken 于2011年由加州州立大学萨克拉门托分校的校友 Jesse Powell 与 Thanh Luu 共同创立
 * Kraken 是一家总部位于美国的加密货币交易所，它是首批在彭博终端上市的比特币交易所之一
 
-##### 3.5.3.4、[Bitfinex](https://www.bitfinex.com/) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.3.4、[Bitfinex](https://www.bitfinex.com/) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 由 iFinex Inc 拥有及营运
 * 其总部设于香港，注册地区为英属维尔京群岛🇬🇧
 
-##### 3.5.3.5、[Huobi](https://www.huobi.com/)（火币） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.3.5、[Huobi](https://www.huobi.com/)（火币） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 由[**Leon Li（中文：李林；拼音：Lǐ Lín ）**](https://baike.baidu.com/item/%E6%9D%8E%E6%9E%97/20480262)（清华大学校友）于 2013 年创立于中国🇨🇳
 * 目前在香港、韩国、日本和美国设有办事处 在创立火币之前，李在甲骨文担任计算机工程师
@@ -2043,7 +2043,7 @@ Hex: 41A614F803B6FD780986A42C78EC9C7F77E6DED13C
 * 火币中国继续作为区块链咨询和研究平台运营
 * 位于东非塞舌尔🇸🇨
 
-##### 3.5.3.6、[OKEx/OKX](https://www.okx.com/cn)（欧易） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.5.3.6、[OKEx/OKX](https://www.okx.com/cn)（欧易） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 OKX 前身为 OKEx;
@@ -2053,7 +2053,7 @@ OKX 由 OK 集团所有，该集团还拥有加密货币交易所 Okcoin;
 位于东非塞舌尔🇸🇨
 ```
 
-### 3.6、密码货币钱包（又译加密货币钱包）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+### 3.6、密码货币钱包（又译加密货币钱包）<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [investglass/热与暖与冷：哪个加密货币钱包适合我？](https://www.investglass.com/zh/hot-vs-warm-vs-cold-which-crypto-wallet-is-right-for-me/)  
@@ -2063,11 +2063,11 @@ OKX 由 OK 集团所有，该集团还拥有加密货币交易所 Okcoin;
   * [权益证明](https://zh.wikipedia.org/wiki/權益證明)  
   * [小科普：助记词和私钥到底是什么?](https://www.odaily.news/post/5140472)
 
-#### 3.6.1、HD钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.6.1、HD钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ***HD** = **H**ierarchical **D**eterministic = **分层确定性***
 
-#####  3.6.1.1、简介 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#####  3.6.1.1、简介 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 在比特币的链上，实际上并没有“账户”的概念  
 * 某个用户所持有的比特币，实际上是其控制的一组 **UTXO（未花费交易输出）**  
@@ -2099,7 +2099,7 @@ OKX 由 OK 集团所有，该集团还拥有加密货币交易所 Okcoin;
   * 在**没有扩展私钥的前提下**，计算所有普通子扩展公钥  
   * 实现“观察钱包”功能，仅能查看余额与收款地址，无法进行转账操作
 
-##### 3.6.1.2、一个私钥管理成千上万个地址 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.1.2、一个私钥管理成千上万个地址 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *但是，管理一组成千上万的地址，意味着管理成千上万的私钥，管理起来非常麻烦。*
 *能不能只用一个私钥管理成千上万个地址？*
@@ -2112,7 +2112,7 @@ OKX 由 OK 集团所有，该集团还拥有加密货币交易所 Okcoin;
 
 *这种根据某种确定性算法，只需要管理一个根私钥，即可实时计算所有"子私钥"的管理方式，称为**HD**钱包。*
 
-##### 3.6.1.3、相关算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.1.3、相关算法 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 先确定根私钥root，然后根据索引计算每一层的子私钥:
@@ -2183,7 +2183,7 @@ m/0/0 m/0/1 m/0/2 ...  m/1/0 m/1/1 m/1/2 ...
 例如，m/0/2表示从m扩展到m/0（索引为0）再扩展到m/0/2（索引为2）。
 ```
 
-##### 3.6.1.4、安全性 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.1.4、安全性 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 HD 钱包给私钥管理带来了非常大的方便，因为只需要管理一个根扩展私钥，就可以管理所有层级的所有衍生私钥。
@@ -2198,7 +2198,7 @@ HD 规范把索引0～231作为普通衍生索引，而索引231～232作为硬�
 因此，观察钱包能使用的索引是0～231。
 ```
 
-##### 3.6.1.4、地址监控 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.1.4、地址监控 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ***HD**钱包通过 **Bloom Filter**可以高效监控链上的所有地址，并根据是否是本地管理的地址决定如何计算钱包余额。*
 
@@ -2231,7 +2231,7 @@ Bloom Filter 广泛用于垃圾邮件地址判断，CDN服务等。
 Bloom Filter 也非常适合 HD 钱包监控链上每个交易的地址。
 ```
 
-#### 3.6.2、`BIP`协议 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.6.2、`BIP`协议 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [阿里云/开发者社区/Bytom BIP-32协议和BIP-44协议](https://developer.aliyun.com/article/690942)  
@@ -2240,13 +2240,13 @@ Bloom Filter 也非常适合 HD 钱包监控链上每个交易的地址。
 
 ***BIP** = **B**itcoin **I**mprovement **P**roposal = 比特币改进建议*
 
-##### 3.6.2.1、简介 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.2.1、简介 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 由 Amir Taaki 于 2011 年在 BIP 0001 中提出，并由 Luke Dash Jr. 在 BIP 0002 中对其进行了扩展;
 ```
 
-##### 3.6.2.2、`BIP`协议的种类 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.2.2、`BIP`协议的种类 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *标准类、信息类和进程类。所有 BIP 都会经历同样的提交、审核和激活过程，因此，这三类 BIP 唯一的不同就在于各自要实现的目标*
 
@@ -2261,7 +2261,7 @@ Bloom Filter 也非常适合 HD 钱包监控链上每个交易的地址。
 * 进程类 BIP
   * 与标准类类似，但提出的是比特币协议以外的进程更改
 
-##### 3.6.2.3、提交`BIP`标准 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.2.3、提交`BIP`标准 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 草案阶段
   * BIP 作为草案提交给比特币开发邮件列表和 BIP Github 代码仓库
@@ -2273,7 +2273,7 @@ Bloom Filter 也非常适合 HD 钱包监控链上每个交易的地址。
   * BIP 符合现实世界的采用标准
   * 必须客观地验证这一点
 
-##### 3.6.2.4、已经提案通过的`BIP` <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.2.4、已经提案通过的`BIP` <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * **BIP 0011**（多重签名输出）
 
@@ -2295,16 +2295,16 @@ Bloom Filter 也非常适合 HD 钱包监控链上每个交易的地址。
 
 * **BIP 0152**（致密区块中继）
 
-##### 3.6.2.5、协议原英文地址 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.2.5、协议原英文地址 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * [**BIP-32 协议**](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#extended-keys)
 * [**BIP-44 协议**](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
 
-##### 3.6.2.6、具体代码实现 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.2.6、具体代码实现 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * [**BIP-32/44**](https://github.com/Bytom/bytom/blob/master/blockchain/signers/signers.go)
 
-##### 3.6.2.7、数字货币钱包的私钥 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.2.7、数字货币钱包的私钥 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *私钥 3 连问*
 
@@ -2338,7 +2338,7 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
 注意:私钥一般为5、K、L开头
 ```
 
-###### 3.6.2.7.1、`Base58` 编码方式 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.6.2.7.1、`Base58` 编码方式 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [维基百科/Base58](https://zh.wikipedia.org/wiki/Base58)
@@ -2356,7 +2356,7 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
 4、大部分的软件支持双击选择整个字符串;
 ```
 
-##### 3.6.2.8、数字货币钱包的助记词 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.2.8、数字货币钱包的助记词 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *助记词的形态*
 
@@ -2384,7 +2384,7 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
 是助记词帮忙的。
 ```
 
-##### 3.6.2.9、"助记词"和"私钥"的关系 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.2.9、"助记词"和"私钥"的关系 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 助记词和私钥在功能上是一致的
 
@@ -2415,11 +2415,11 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
     * [**英文词库**](https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt)：https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt
     * [**中文词库**](https://github.com/bitcoin/bips/blob/master/bip-0039/chinese_simplified.txt)：https://github.com/bitcoin/bips/blob/master/bip-0039/chinese_simplified.txt
 
-#### 3.6.3、密码货币钱包的类型 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.6.3、密码货币钱包的类型 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 3.6.3.1、按照去中心化程度 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.3.1、按照去中心化程度 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-###### 3.6.3.1.1、全节点钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.6.3.1.1、全节点钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 此种钱包需要先进行软件安装，安装后会与整个区块链进行同步，存储整个区块链。
@@ -2428,7 +2428,7 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
 由于此种钱包能提供所对应的加密货币网络完整区块链与服务，所以可以提升该加密货币网络的完整性与可靠性，因此某些加密货币，会对持有这种钱包的用户进行奖励。
 ```
 
-###### 3.6.3.1.2、`SPV`钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.6.3.1.2、`SPV`钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ***S**implified **P**ayment **V**erification wallet* = **简单支付验证钱包** = **轻钱包**
 
@@ -2439,7 +2439,7 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
 使用此类网站，应挑选有信誉的品牌，以及注意是否为仿冒的钓鱼网站。
 ```
 
-###### 3.6.3.1.3、中心化钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.6.3.1.3、中心化钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 在线钱包（保管私钥）:
@@ -2452,9 +2452,9 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
 这同时也算是一种在线钱包;
 ```
 
-##### 3.6.3.2、按照私钥存储方式 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.3.2、按照私钥存储方式 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-###### 3.6.3.2.1、冷钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.6.3.2.1、冷钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 也称 **离线钱包** 或者 **断网钱包 **<a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
 
@@ -2466,7 +2466,7 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
 如果此硬件设备完全离线、只提交签署过的交易消息，那同时也是最高标准的冷钱包。
 ```
 
-###### 3.6.3.2.2、暖钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.6.3.2.2、暖钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 暖钱包是热钱包和冷钱包的混合体。
@@ -2477,7 +2477,7 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
 然而，它们不太方便，因为需要时需要人工干预以连接到互联网。
 ```
 
-###### 3.6.3.2.3、热钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.6.3.2.3、热钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *也称 **在线钱包** 或者 **联网钱包** （Online Wallet）*
 
@@ -2487,9 +2487,9 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
 另外，无论是使用冷钱包还是热钱包，私钥都是关键所在。
 ```
 
-##### 3.6.3.3、其他钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.6.3.3、其他钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-###### 3.6.3.3.1、观察钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.6.3.3.1、观察钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 观察钱包本质上是一个观察特定地址链上数据的区块浏览器。
@@ -2498,7 +2498,7 @@ KwYHFL7WfhJPkfQkp1LsUwHvy1Pd9KynuxjjVDMZvRSV5D9VJq3v
 因此观察钱包是无法直接进行转账等链上操作的,若需要转账可将私钥或助记词导入钱包或搭配冷钱包授权使用。
 ```
 
-###### 3.6.3.3.2、多签钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.6.3.3.2、多签钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 与多签钱包对应的是单签钱包，我们要往区块链上发送一笔转账操作，需要用钱包生成一个签名，我们自己签好名把交易发送出去，这就是典型的单签钱包，也是我们平时常用的钱包。
@@ -2514,7 +2514,7 @@ ETH/ERC20 (包括 BSC/BEP20 等EVM链）的多签采用轻量智能合约（smar
   * 通过多签对资产进行多重加密，增强资产安全性
   * 其他安全应用场景
 
-###### 3.6.3.3.3、插件钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.6.3.3.3、插件钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 插件钱包是指基于浏览器（主要是google chrome）开发的插件钱包；
@@ -2523,7 +2523,7 @@ ETH/ERC20 (包括 BSC/BEP20 等EVM链）的多签采用轻量智能合约（smar
 浏览器插件钱包是一类轻钱包，和APP一样，不需要同步全节点数据，同时也不会存钱包资料，所有钱包的私钥和密码都由使用者本身持有
 ```
 
-#### 3.6.4、`MPC`多方计算  <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.6.4、`MPC`多方计算  <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [MPC 钱包即服务 - Safeheron](https://www.safeheron.com/zh-CN/mpc-wallet)  
@@ -2549,7 +2549,7 @@ MPC 是一种先进的加密技术，可能需要专门的知识和专长来正�
 如果你正在考虑使用 MPC 来保护你的数字资产，你应该向安全专家咨询，或者寻找一个在实施 MPC 解决方案方面有经验的知名服务提供商。
 ```
 
-#### 3.6.5、数字钱包的一些注意事项 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.6.5、数字钱包的一些注意事项 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *丢失私钥与误发送*
 
@@ -2563,7 +2563,7 @@ MPC 是一种先进的加密技术，可能需要专门的知识和专长来正�
 由此可知，如果你在一种货币发生硬分岔、形成两种货币后，曝露自己任一种货币的私钥，都可能会导致同地址上另一种货币的不安全。
 ```
 
-### 3.7、发行数字货币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+### 3.7、发行数字货币 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * *资料来源*
   * [Youtube/10分钟发行自己的加密货币，零基础教学 | 2021 （ETH， BTC）](https://www.youtube.com/watch?v=x2ZRyloHyG8)  
@@ -2571,7 +2571,7 @@ MPC 是一种先进的加密技术，可能需要专门的知识和专长来正�
   * [在波场转账时的能量和带宽是什么？](https://imtoken.fans/t/topic/38625)  
   * [手把手教你把资产提到钱包](https://imtoken.fans/t/topic/24171)
 
-#### 3.7.1、遵循的步骤 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.7.1、遵循的步骤 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 定义目标：确定你的数字货币的目标、用途和特点。需要明确自己的目标受众、数字货币的发行总量、货币供应机制、数字货币类型
   * 比如基于比特币的货币或基于以太坊的 ERC20 代币等
@@ -2596,18 +2596,18 @@ MPC 是一种先进的加密技术，可能需要专门的知识和专长来正�
   * 建立社区、与交易所合作、开展宣传活动
   * 社交媒体推广、新闻发布、演讲、品牌合作等渠道
 
-#### 3.7.2、在波场（Tron）发布属于自己的数字货币（Trc-20代币） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+#### 3.7.2、在波场（Tron）发布属于自己的数字货币（Trc-20代币） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 3.7.2.1、[**安装TronLink Chrome插件**](https://chrome.google.com/webstore/detail/Tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.7.2.1、[**安装TronLink Chrome插件**](https://chrome.google.com/webstore/detail/Tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec) <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 3.7.2.2、准备一个账户用户发行 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.7.2.2、准备一个账户用户发行 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 创建一个波场（Tron）钱包（如TronLink、TronWallet、MathWallet、BitKeep等。或其他支持Tron的钱包）并存入TRX作为Gas
 * 可通过 创建账户、导入账户、链接硬件钱包 三种方式。需要确保账户中有1000个以上的TRX
 
 ![664](./assets/737f8d4-_1.png)
 
-##### 3.7.2.3、准备Trc20合约代码 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.7.2.3、准备Trc20合约代码 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *[Trc20合约模版](https://github.com/Tron-Developer-Hub/Trc20-Contract-Template/blob/main/Token.sol)*
 
@@ -2619,19 +2619,19 @@ https://github.com/Tron-Developer-Hub/Trc20-Contract-Template/blob/main/Token.so
 
 ![864](./assets/1bc4813-_1.png)
 
-##### 3.7.2.4、部署Trc20合约 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.7.2.4、部署Trc20合约 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *[使用Tronscan进行部署](https://Tronscan.io/#/contracts/contract-compiler)*
 
-###### 3.7.2.4.1、链接钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.7.2.4.1、链接钱包 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![864](./assets/4c554f2-_1.png)
 
-###### 3.7.2.4.2、上传合约代码 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.7.2.4.2、上传合约代码 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![864](./assets/8122f8f-_1.png)
 
-###### 3.7.2.4.3、编译合约（请选择0.5.10版本编译器） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.7.2.4.3、编译合约（请选择0.5.10版本编译器） <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![864](./assets/2ff3f2a-_1.png)
 
@@ -2641,7 +2641,7 @@ https://github.com/Tron-Developer-Hub/Trc20-Contract-Template/blob/main/Token.so
 
 ![864](./assets/ec4624c-_1.png)
 
-###### 3.7.2.4.4、部署合约 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.7.2.4.4、部署合约 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **请注意一定要选择Token合约，因为Token是主合约**
 
@@ -2657,11 +2657,11 @@ https://github.com/Tron-Developer-Hub/Trc20-Contract-Template/blob/main/Token.so
 
 ![864](./assets/52fa591-_1.png)
 
-##### 3.7.2.5、录入Trc20通证 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.7.2.5、录入Trc20通证 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [使用Tronscan进行录入](https://Tronscan.org/#/tokens/create/Type)
 
-###### 3.7.2.5.1、选择通证类型录入 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+###### 3.7.2.5.1、选择通证类型录入 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **选择Trc20通证，点击确定**
 
@@ -2692,7 +2692,7 @@ https://github.com/Tron-Developer-Hub/Trc20-Contract-Template/blob/main/Token.so
 
 ![612](./assets/3806489-9.png)
 
-##### 3.7.2.6、添加代币到Tronlink中 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.7.2.6、添加代币到Tronlink中 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **在资产管理页面中，将前面部署成功后得到的合约地址填写到添加通证 输入框中，会弹出刚才部署的合约，点解开关按钮，添加token到Tronlink中。添加成功后就可以进行转账了。**
 
@@ -2704,7 +2704,7 @@ https://github.com/Tron-Developer-Hub/Trc20-Contract-Template/blob/main/Token.so
 
 **注：Tronlink插件目前支持主网及Nile测试网添加Token，同时Token需在Tronscan录入成功并且需要2个小时的数据同步。**
 
-##### 3.7.2.7、验证Trc20合约 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+##### 3.7.2.7、验证Trc20合约 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *[使用Tronscan进行验证](https://Tronscan.org/#/contracts/verify)*
 
@@ -2735,7 +2735,7 @@ License可以选None
 
 > <font color=red>**需要注意的是，这只是发布数字货币的简单过程，并不包括其他复杂过程，如智能合约编写、白皮书编写、市场推广等。发行数字货币需要花费时间和金钱，并且需要高度的技术知识和市场分析。**</font>
 
-### 3.8、数字货币的减半 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a>
+### 3.8、数字货币的减半 <a href="#前言摘要" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 比特币的总量只有 2100 万个（永不超发）**lim<sup>n = 0</sup><sub>t → +∞ </sub> BTC<sub>sum</sub>  = 2100万**
   * 从第一个创世区块开始，每 10 分钟产生一个新区块（随之带来 50 个比特币 BTC）

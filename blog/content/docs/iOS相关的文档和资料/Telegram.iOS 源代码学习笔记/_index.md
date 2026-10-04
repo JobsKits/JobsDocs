@@ -20,7 +20,7 @@ bookCollapseSection: false
 
 当前总行数：0 行
 
-## 1、准备工作
+## <span id="前言">1、准备工作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
 * 简介
 
@@ -490,3 +490,4 @@ bookCollapseSection: false
 * Telegram Gateway API （网关 API）
   * 允许任何企业、应用或网站通过 Telegram 发送授权代码，而不是通过传统的短信发送授权代码，这是一种强大而便捷的方式，可以**降低成本**，同时提高代码的**安全性**和向 Telegram 每月 9.5 亿活跃用户**发送代码的速度。用户将****立即**在 Telegram 内的特殊聊天中收到带有代码的消息。
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

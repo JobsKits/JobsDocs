@@ -17,7 +17,7 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
-## 一、集成
+## <span id="前言">一、集成 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
 * `Xcode` 👉 `File` 👉 `Add Package Dependencies`
 
@@ -32,7 +32,7 @@ bookCollapseSection: false
     </tr>
   </table>
 
-## 二、删除（涉及到3处）
+## 二、删除（涉及到3处） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * `Xcode` 👉 `File` 👉 `Add Package Dependencies`
 
@@ -46,11 +46,11 @@ bookCollapseSection: false
 
   ![image-20251114132659685](./assets/image-20251114132659685.png)
 
-## 三、清理缓存
+## 三、清理缓存 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 每一次修改由<font color=red>**S**</font>wift<font color=red>**P**</font>ackage<font color=red>**D**</font>ependence管理的第三方，都需要：Xcode ➤ File ➤ Packages ➤ Reset Package Caches ➤ Resolve Package Visions
 
-## 四、编译
+## 四、编译 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 swift package reset
@@ -60,3 +60,4 @@ swift build
 
 
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

@@ -18,7 +18,7 @@ bookCollapseSection: false
 </iframe>
 
 
-## 一、产生背景
+## <span id="前言">一、产生背景 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
 * 根据生产和开发经验，App拥有至少下列几种环境，而每种环境亦可细分为很多小环境
   * 本地测试环境
@@ -26,21 +26,21 @@ bookCollapseSection: false
   * 线上生产环境：可能存在的来自不同渠道的生产环境<font color=red>**这种情况多发于包网**</font>
 * **GUI**图形化界面的一个优势就是对其进行区分，加快效率和过滤中间繁琐环节
 
-## 二、先决理论知识
+## 二、先决理论知识 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * xcode在建立一个工程的时候，默认给出了`debug`和`release`两种模式，实际上程序员可以根据实际条件进行自定义
 * 然后进行关联。如果你不关联你的配置文件就进不去
 * [**iOS动态修改App图标icon**](https://www.jianshu.com/p/69313970d0e7)
 
-## 三、具体的操作实践
+## 三、具体的操作实践 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 在xcode里面选中`工程名.xcodeproj`，右边菜单栏选择**Project**→**info**
 
-## 方法一
+## 方法一 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20230915044945363](./assets/image-20230915044945363.png)
 
-## 方法二
+## 方法二 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20230915045009815](./assets/image-20230915045009815.png)
 
@@ -103,3 +103,4 @@ bookCollapseSection: false
 
 
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

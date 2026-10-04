@@ -32,7 +32,7 @@ ssh-add -l
 
 如果已有受信任且仍安全的密钥，可以复用；不要每次认证失败都覆盖默认密钥。先确认失败来自密钥选择、agent、Host 配置还是仓库权限。
 
-## 二、生成新密钥
+## 二、生成新密钥 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 GitHub 当前默认推荐 Ed25519：
 
@@ -52,7 +52,7 @@ ssh-keygen -t rsa -b 4096 -C 'your_email@example.com'
 2. 已有同名密钥时不要直接覆盖，改用可辨认的名字，例如 `id_ed25519_github_personal`。
 3. 建议设置私钥口令；遗失私钥口令无法从公钥反推，只能换新密钥。
 
-## 三、权限与文件结构
+## 三、权限与文件结构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 mkdir -p ~/.ssh
@@ -67,9 +67,9 @@ chmod 600 ~/.ssh/config
 - 公钥可读不等于应到处复制；保留可识别标题，方便以后撤销旧设备。
 - `~/.ssh/config` 可能包含内部主机、用户名和路径，分享前脱敏。
 
-## 四、配置 `~/.ssh/config`
+## 四、配置 `~/.ssh/config` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、单一 GitHub 账号
+### 4.1、单一 GitHub 账号 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```sshconfig
 Host github.com
@@ -90,7 +90,7 @@ Host github.com
   IgnoreUnknown UseKeychain
   ```
 
-### 4.2、多个 GitHub 账号
+### 4.2、多个 GitHub 账号 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```sshconfig
 Host github-personal
@@ -123,7 +123,7 @@ git config user.name 'Your Name'
 git config user.email 'your_email@example.com'
 ```
 
-## 五、加入 `ssh-agent` 与 macOS Keychain
+## 五、加入 `ssh-agent` 与 macOS Keychain <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 有口令的 macOS 私钥：
 
@@ -148,7 +148,7 @@ eval "$(ssh-agent -s)"
 - `ssh-agent` 缓存的是解锁后的密钥使用能力，不会把私钥上传给 GitHub。
 - Sourcetree 与终端可能使用不同 Git/SSH 实现。排错时先确认 Sourcetree 使用系统 Git 还是内置 Git，以及是否走系统 OpenSSH。
 
-## 六、把公钥添加到 GitHub
+## 六、把公钥添加到 GitHub <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 复制公钥：
 
@@ -183,7 +183,7 @@ open 'https://github.com/settings/ssh/new'
 gh ssh-key add ~/.ssh/id_ed25519.pub --type authentication --title 'MacBook-Pro-2026'
 ```
 
-## 七、校验主机身份并测试
+## 七、校验主机身份并测试 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 首次连接会询问是否信任 GitHub 主机密钥。不要只因为域名看起来正确就直接输入 `yes`；把终端显示的指纹与 [GitHub 官方 SSH Key 指纹](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints) 对比。
 
@@ -210,7 +210,7 @@ ssh -vT git@github.com
 - agent 是否提供对应密钥。
 - 服务器最终接受了哪把公钥。
 
-## 八、切换仓库远端到 SSH
+## 八、切换仓库远端到 SSH <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git remote -v
@@ -221,7 +221,7 @@ git ls-remote origin
 
 `ssh -T` 成功只证明账号级 SSH 认证成功；`git ls-remote` 才同时验证仓库 URL 和当前账号对目标仓库的读取权限。Push 权限还要另行验证。
 
-## 九、端口 `22` 被阻断
+## 九、端口 `22` 被阻断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 GitHub 提供经 `ssh.github.com:443` 的 SSH 入口。先测试：
 
@@ -244,7 +244,7 @@ Host github.com
 
 企业代理可能仍阻断或检查 443；不要通过关闭 Host Key 校验绕过安全策略。
 
-## 十、常见故障
+## 十、常见故障 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 现象 | 可能原因 | 处理 |
 | --- | --- | --- |
@@ -262,7 +262,7 @@ Host github.com
 ssh -G github.com | grep -E '^(hostname|user|port|identityfile|identitiesonly) '
 ```
 
-## 十一、官方资料
+## 十一、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [**检查已有 SSH Key**](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys)
 - [**生成 SSH Key 并加入 agent**](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=mac)

@@ -1,4 +1,4 @@
-# Hugo Book Theme
+# <span id="前言">Hugo Book Theme</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -13,7 +13,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Build with Hugo](https://github.com/alex-shpak/hugo-book/workflows/Build%20with%20Hugo/badge.svg)
 
-### [Hugo](https://gohugo.io) documentation theme as simple as plain book
+### [Hugo](https://gohugo.io) documentation theme as simple as plain book <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![Screenshot](https://raw.githubusercontent.com/alex-shpak/hugo-book/main/images/screenshot.png)
 
@@ -27,7 +27,7 @@
 - [Versioning](#versioning)
 - [Contributing](#contributing)
 
-## Features
+## Features <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - Clean simple design
 - Light and Mobile-Friendly
@@ -40,14 +40,14 @@
 - Primary features work without JavaScript
 - Dark Mode
 
-## Requirements
+## Requirements <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - Hugo 0.158 or higher
 - Hugo extended version, [Installation Instructions](https://gohugo.io/installation/)
 
-## Installation
+## Installation <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### Install as git submodule
+### Install as git submodule <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 Navigate to your hugo project root and run:
 
 ```
@@ -60,7 +60,7 @@ Then run hugo (or set `theme = "hugo-book"`/`theme: hugo-book` in configuration 
 hugo server --minify --theme hugo-book
 ```
 
-### Install as hugo module
+### Install as hugo module <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 You can also add this theme as a Hugo module instead of a git submodule.
 
@@ -84,7 +84,7 @@ hugo mod get -u
 hugo server --minify
 ```
 
-### Creating site from scratch
+### Creating site from scratch <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Below is an example on how to create a new site from scratch:
 
@@ -99,19 +99,19 @@ cp -R themes/hugo-book/exampleSite/content.en/* ./content
 hugo server --minify --theme hugo-book
 ```
 
-## Menu
+## Menu <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 By default, the theme will render pages from the `content/docs` section as a menu in a tree structure.  
 You can set `title` and `weight` in the front matter of pages to adjust the order and titles in the menu, as well as other parameters to hide or alter urls in the menu. You can choose which folder to use for generating menu with `BookSection` configuration parameter.
 
-## Blog
+## Blog <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 A simple blog is supported in the section `posts`.  
 A blog is not the primary usecase of this theme, so it has only minimal features.
 
-## Configuration
+## Configuration <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### Site Configuration
+### Site Configuration <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 There are a few configuration options that you can add to your `hugo.toml` file.  
 You can also see the `yaml` example [here](https://github.com/alex-shpak/hugo-book/blob/main/exampleSite/hugo.yaml).
@@ -199,11 +199,11 @@ copyright = '[© CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcod
   BookServiceWorker = true
 ```
 
-### Multi-Language Support
+### Multi-Language Support <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Theme supports Hugo's [multilingual mode](https://gohugo.io/content-management/multilingual/), just follow configuration guide there. You can also tweak search indexing configuration per language in `i18n` folder.
 
-### Page Configuration
+### Page Configuration <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 You can specify additional params in the front matter of individual pages:
 
@@ -244,7 +244,7 @@ bookHref = ''
 bookIcon = 'calendar'
 ```
 
-### Partials
+### Partials <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 There are layout partials available for you to easily override components of the theme in `layouts/partials/`.
 
@@ -262,7 +262,7 @@ In addition to this, there are several empty partials you can override to easily
 | `layouts/partials/docs/inject/toc-before.html`     | At the beginning of table of contents block |
 | `layouts/partials/docs/inject/toc-after.html`      | At the end of table of contents block       |
 
-### Extra Customisation
+### Extra Customisation <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | File                     | Description                                                                           |
 | ------------------------ | ------------------------------------------------------------------------------------- |
@@ -273,7 +273,7 @@ In addition to this, there are several empty partials you can override to easily
 | `assets/mermaid.json`    | Replace Mermaid initialization config                                                 |
 | `assets/katex.json`      | Replace KaTeX initialization config                                                   |
 
-### Plugins
+### Plugins <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 There are a few features implemented as pluggable `scss` styles. Usually these are features that don't make it to the core but can still be useful.
 
@@ -285,7 +285,7 @@ There are a few features implemented as pluggable `scss` styles. Usually these a
 
 To enable plugins, add `@import "plugins/{name}";` to `assets/_custom.scss` in your website root.
 
-### Hugo Internal Templates
+### Hugo Internal Templates <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 There are a few hugo templates inserted in `<head>`
 
@@ -298,7 +298,7 @@ In fact almost empty not quite empty because an empty file looks like absent for
 <!-- -->
 ```
 
-## Shortcodes
+## Shortcodes <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [Buttons](https://hugo-book-demo.netlify.app/docs/shortcodes/buttons/)
 - [Columns](https://hugo-book-demo.netlify.app/docs/shortcodes/columns/)
@@ -318,15 +318,15 @@ By default, Goldmark trims unsafe outputs which might prevent some shortcodes fr
 
 If you are using `config.yaml` or `config.json`, consult the [configuration markup](https://gohugo.io/getting-started/configuration-markup/)
 
-## Versioning
+## Versioning <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 This theme follows a simple incremental versioning. e.g. `v1.0.0`, `v2.0.0` and so on. Releases will happen on breaking changes.
 
 If you want lower maintenance, use one of the released versions. If you want to live on the bleeding edge of changes, you can use the `main` branch and update your website when needed, this also the default branch.
 
-## Contributing
+## Contributing <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### [Extra credits to contributors](https://github.com/alex-shpak/hugo-book/graphs/contributors)
+### [Extra credits to contributors](https://github.com/alex-shpak/hugo-book/graphs/contributors) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Contributions are welcome and I will review and consider pull requests.  
 Primary goals are:
@@ -337,3 +337,5 @@ Primary goals are:
 - Avoid using JS if it can be solved by CSS.
 
 Feel free to open issues if you find missing configuration or customisation options.
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

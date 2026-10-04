@@ -1,4 +1,4 @@
-# Badges
+# <span id="前言">Badges</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -20,7 +20,7 @@ Badges can be used to annotate your pages with additional information or mark sp
 {{< badge style="warning" title="Coverage" value="25%" >}}
 {{< badge style="danger" title="Issues" value="120" >}}
 
-## Examples
+## Examples <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | Shortcode | Output |
 | --        | --     |
@@ -33,9 +33,11 @@ Badges can be used to annotate your pages with additional information or mark sp
 | `{{</* badge style="info" value="Value" */>}}`                    | {{< badge style="info" value="Value" >}}                    |
 | `{{</* badge title="Default" */>}}`                               | {{< badge value="Default" >}}                               |
 
-## Use in links 
+## Use in links <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
 
 A badge can be wrapped in markdown link producing following result: [{{< badge title="Hugo" value="0.147.6" >}}](https://github.com/gohugoio/hugo/releases/tag/v0.147.6)
 ```tpl
 [{{</* badge title="Hugo" value="0.147.6" */>}}](https://github.com/gohugoio/hugo/releases/tag/v0.147.6)
 ```
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

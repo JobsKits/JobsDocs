@@ -36,7 +36,7 @@ similarities in Go templates.
 This document is a brief primer on using Go templates. The [Go docs][gohtmltemplate]
 provide more details.
 
-## Introduction to Go Templates
+## Introduction to Go Templates <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Go templates provide an extremely simple template language. It adheres to the
 belief that only the most basic of logic belongs in the template or view layer.
@@ -46,7 +46,7 @@ A unique characteristic of Go templates is they are content aware. Variables and
 content will be sanitized depending on the context of where they are used. More
 details can be found in the [Go docs][gohtmltemplate].
 
-## Basic Syntax
+## Basic Syntax <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Golang templates are HTML files with the addition of variables and
 functions.
@@ -74,7 +74,7 @@ Accessing the Page Parameter "bar"
     {{ if or (isset .Params "alt") (isset .Params "caption") }} Caption {{ end }}
 
 
-## Variables
+## Variables <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Each Go template has a struct (object) made available to it. In hugo each
 template is passed either a page or a node struct depending on which type of
@@ -91,7 +91,7 @@ Variables can also be defined and referenced.
     {{ $address }}
 
 
-## Functions
+## Functions <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Go template ship with a few functions which provide basic functionality. The Go
 template system also provides a mechanism for applications to extend the
@@ -105,7 +105,7 @@ functions cannot be added without recompiling hugo.
 
     {{ add 1 2 }}
 
-## Includes
+## Includes <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 When including another template you will pass to it the data it will be
 able to access. To pass along the current context please remember to
@@ -117,11 +117,11 @@ the /layout/ directory within Hugo.
     {{ template "chrome/header.html" . }}
 
 
-## Logic
+## Logic <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Go templates provide the most basic iteration and conditional logic.
 
-### Iteration
+### Iteration <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 Just like in Go, the Go templates make heavy use of range to iterate over
 a map, array or slice. The following are different examples of how to use
@@ -146,7 +146,7 @@ range.
         {{ $element }}
     {{ end }}
 
-### Conditionals
+### Conditionals <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 If, else, with, or, & and provide the framework for handling conditional
 logic in Go Templates. Like range, each statement is closed with `end`.
@@ -192,7 +192,7 @@ The first example above could be simplified as:
         {{ index .Params "caption" }}
     {{ end }}
 
-## Pipes
+## Pipes <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 One of the most powerful components of Go templates is the ability to
 stack actions one after another. This is done by using pipes. Borrowed
@@ -236,7 +236,7 @@ Could be rewritten as
     {{ end }}
 
 
-## Context (aka. the dot)
+## Context (aka. the dot) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 The most easily overlooked concept to understand about Go templates is that {{ . }}
 always refers to the current context. In the top level of your template this
@@ -257,7 +257,7 @@ Notice how once we have entered the loop the value of {{ . }} has changed. We
 have defined a variable outside of the loop so we have access to it from within
 the loop.
 
-# Hugo Parameters
+# <span id="前言">Hugo Parameters</span>
 
 Hugo provides the option of passing values to the template language
 through the site configuration (for sitewide values), or through the meta
@@ -266,7 +266,7 @@ type (supported by your front matter/config format) and use them however
 you want to inside of your templates.
 
 
-## Using Content (page) Parameters
+## Using Content (page) Parameters <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 In each piece of content you can provide variables to be used by the
 templates. This happens in the [front matter](/content/front-matter).
@@ -300,7 +300,7 @@ Here is the corresponding code inside of the template:
 
 
 
-## Using Site (config) Parameters
+## Using Site (config) Parameters <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 In your top-level configuration file (eg, `config.yaml`) you can define site
 parameters, which are values which will be available to you in chrome.
 
@@ -352,3 +352,5 @@ so, such as in this example:
 
 [go]: https://golang.org/
 [gohtmltemplate]: https://golang.org/pkg/html/template/
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

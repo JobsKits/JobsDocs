@@ -33,9 +33,9 @@
 
 **快速定位：** [通用方法](#universal) · [架构](#architecture) · [协议](#protocol) · [发送](#lifecycle) · [同步](#sync) · [群聊](#domain) · [数据库](#storage) · [全文检索](#search) · [选型](#selection) · [压测诊断](#observability) · [研究路线](#research) · [综合 FAQ](#faq)。
 
-## 一、<span id="scope">研究范围与能力地图</span>
+## 一、<span id="scope">研究范围与能力地图</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、完整 IM 客户端的交付面
+### 1.1、完整 IM 客户端的交付面 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 领域 | 需要实现的能力 | 关键难点 |
 | --- | --- | --- |
@@ -53,7 +53,7 @@
 | 音视频通话 | 邀请、接听、拒绝、媒体传输、多人房间 | 信令竞态、ICE、音频路由、弱网与功耗 |
 | 工程治理 | SDK 边界、测试、埋点、灰度、回滚 | 故障可复现、旧版本互通、数据不可逆迁移 |
 
-### 1.2、产品模型先于技术方案
+### 1.2、产品模型先于技术方案 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 先明确单聊、熟人群、客服会话、大群频道还是临时聊天室。不同模型决定消息保留、已读统计、成员权限和推送策略。例如十人群可以显示逐人已读，万人频道逐条携带成员回执列表通常代价过高。
 
@@ -69,13 +69,13 @@
 | 撤回 | 谁能撤回、什么时限、哪些客户端副本可以被要求删除 |
 | 多端 | 手机与桌面是否同时收、通知抑制、设备撤销后的效果 |
 
-### 1.3、研究交付物
+### 1.3、研究交付物 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 每个核心专题给出概念、适用条件、默认方案、后端缺项时的策略、故障定位和带答案的 FAQ。接口契约区分“已确认、待确认、不支持”；实验区分“本地可做、依赖真机条件、需要后续联调”。没有外部环境时，先完成前两类可做项并保留待确认记录，不要求搭建后端才能继续。
 
 生产辅助以能够指导决策和排查为标准；面试回答以讲清条件、机制和边界为标准。尚未执行的实验标为方案，不能包装成已做项目或真实压测成绩。
 
-### 1.4、<span id="universal">适配不同团队的通用方法</span>
+### 1.4、<span id="universal">适配不同团队的通用方法</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 已确认的后端能力与语义
@@ -97,9 +97,9 @@
 
 详细做法见 [后端适配专题](./专题/不同后端能力下的客户端适配.md)；接到问题先按 [生产排障专题](./专题/无后端环境的客户端验证与生产排障.md) 定位证据；面试按 [场景 FAQ](./专题/生产场景与面试FAQ.md) 组织表达。
 
-## 二、<span id="semantics">术语与可靠性语义</span>
+## 二、<span id="semantics">术语与可靠性语义</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、核心概念
+### 2.1、核心概念 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 术语 | 简明定义 | 工程用途 |
 | --- | --- | --- |
@@ -117,7 +117,7 @@
 | Fan-out | 一份消息投递给多个目标 | 群聊、多设备和推送分发 |
 | Convergence | 处理完相同有效事件后得到一致结果 | 多端和离线重放验证 |
 
-### 2.2、发送成功必须拆成多个阶段
+### 2.2、发送成功必须拆成多个阶段 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 本地操作已保存
@@ -131,21 +131,21 @@
 
 协议应为各阶段提供不同事件和状态。没有“对端持久化回执”能力时，UI 就不能显示这个含义的状态。群聊中的已送达 / 已读还需要明确成员集合及成员变动后的分母。[对应追问](#faq-status)
 
-### 2.3、重复传输与唯一业务效果
+### 2.3、重复传输与唯一业务效果 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 网络超时后的真实结果可能未知。常见可实施设计是允许重试，通过稳定幂等键使服务端只接受一次业务操作，再让客户端重复应用也无害。去重窗口至少覆盖协议允许的重试与保留范围；窗口过短时，旧任务重试仍可能再生成一条消息。
 
 “恰好一次”必须限定范围：数据库一次提交、服务端一次建消息、客户端一次通知，是不同保证。唯一索引不能单独保证从网络到所有用户设备的所有副作用恰好一次。
 
-### 2.4、排序、时间与因果关系
+### 2.4、排序、时间与因果关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 客户端时间用于本地交互，服务端时间用于统一展示参考，顺序位置用于协议定义的会话排序。不要用时间戳同时充当唯一 ID、幂等键和同步游标。
 
 同一 TCP 连接中的字节有序，不代表重连前后、多发送设备和历史补拉之间存在全局顺序。系统时钟可被用户调整；心跳与超时使用单调时间衡量经过时长，跨重启的重试时间需要持久时间和边界校验。
 
-## 三、<span id="architecture">客户端总体架构</span>
+## 三、<span id="architecture">客户端总体架构</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、按责任拆模块
+### 3.1、按责任拆模块 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart TD
@@ -169,7 +169,7 @@ flowchart TD
 
 “协议解码”只把输入变成类型明确的事件；“事件合并”决定事件能否改变当前业务状态；“存储事务”保证相关修改共同提交。这三件事分开后，网络测试、状态测试和 SQL 测试才可以独立进行。
 
-### 3.2、依赖与边界
+### 3.2、依赖与边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 模块 | 输入 → 输出 | 必须避免的耦合 |
 | --- | --- | --- |
@@ -182,13 +182,13 @@ flowchart TD
 | AttachmentManager | 文件任务 → 可引用附件或失败状态 | 事务中做转码和大文件上传 |
 | PresentationStore | 提交后快照 → 稳定 UI 模型 | 把临时数组当成消息唯一真相 |
 
-### 3.3、单一写入口不等于所有工作串行
+### 3.3、单一写入口不等于所有工作串行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 网络请求、解码、附件转码和图片处理可以按各自资源上限并发。需要顺序的是有业务依赖的状态转换和同库写事务。一个串行队列吞掉全部 CPU、网络和存储任务，同样会造成队头阻塞。
 
 为 CPU、网络、存储设置独立的有界任务调度；为会话和同步流维护必要顺序。耗时 UI 预处理不占用写事务，数据库失败也不让主线程同步等待。
 
-### 3.4、对外 API 要表达阶段与取消
+### 3.4、对外 API 要表达阶段与取消 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 send(draft) → 稳定 local_id，表示本地操作已被接受
@@ -201,9 +201,9 @@ retry(local_id) / cancel(local_id) → 明确的状态转换结果
 
 这些是接口语义示例，不是任何 SDK 的真实签名。取消订阅只停止观察；取消发送可能只是停止本地等待，远端已接受的消息需要独立撤回操作。错误要保留可重试性、错误域和用户可见原因。
 
-## 四、<span id="protocol">消息模型与协议设计</span>
+## 四、<span id="protocol">消息模型与协议设计</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、区分标识的作用域
+### 4.1、区分标识的作用域 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 标识 | 生命周期与用途 |
 | --- | --- |
@@ -221,7 +221,7 @@ retry(local_id) / cancel(local_id) → 明确的状态转换结果
 
 服务端应明确幂等键包含账号、设备还是会话；客户端存储唯一约束必须与之匹配。不同用户碰巧生成相同请求 ID，不应跨账号误去重。
 
-### 4.2、一个可讨论的消息信封
+### 4.2、一个可讨论的消息信封 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```json
 {
@@ -244,7 +244,7 @@ retry(local_id) / cancel(local_id) → 明确的状态转换结果
 
 附件放引用和元信息，不能把每个大文件都塞进实时消息信封。E2EE 模式下，正文和部分元信息的加密范围重新定义，见 [安全专题](./专题/安全加密与音视频通话.md)。
 
-### 4.3、编码与兼容
+### 4.3、编码与兼容 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 选择 | 优点 | 需要验证 |
 | --- | --- | --- |
@@ -256,17 +256,17 @@ retry(local_id) / cancel(local_id) → 明确的状态转换结果
 
 对未知类型保存最小可恢复信息，展示可理解的占位并允许升级后重新解析。未知消息是否计未读、是否阻断游标，要有协议规则；不能无限卡死整个同步流，也不能静默跳过必须执行的权限或密钥事件。
 
-### 4.4、消息语义扩展
+### 4.4、消息语义扩展 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 编辑是对同一消息的更新事件；撤回是保留删除事实；本地删除是本设备视图策略；转发通常创建新的消息身份。引用保存目标身份及必要快照，但不自动授予查看目标消息的权限。
 
 表情回应按“消息 + 用户 + 表情 / 协议操作 ID”建模，不能每次重投都把数量加一。线程回复除父消息引用外，还需独立定义分页、未读及订阅范围。位置分享、卡片、投票、支付等自定义类型各自有生命周期，不能把有金融或权限后果的操作当成一段可随意重复执行的 JSON。
 
-## 五、<span id="server">iOS 需要理解并核对的服务端契约</span>
+## 五、<span id="server">iOS 需要理解并核对的服务端契约</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 以下清单用于理解既有系统与提出必要问题，不要求 iOS 工程师有权改造服务端。已提供的能力按约定使用，缺失项按 [能力适配策略](./专题/不同后端能力下的客户端适配.md) 处理；待确认项不能默认存在。
 
-### 5.1、端到端系统地图
+### 5.1、端到端系统地图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 flowchart LR
@@ -283,7 +283,7 @@ flowchart LR
 
 这是职责图，不要求每个方框部署成一个微服务。早期可以共用进程和数据库，仍需保留清晰契约。
 
-### 5.2、接口评审清单
+### 5.2、接口评审清单 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 接口 | 服务端返回或承诺 | iOS 需要落实 |
 | --- | --- | --- |
@@ -297,19 +297,19 @@ flowchart LR
 | 附件 | 上传会话、最终确认、访问授权、过期刷新 | 上传成功与消息成功分开处理 |
 | 限流 | 错误类型、可重试条件、退避提示 | 有界退避，显示准确失败原因 |
 
-### 5.3、群分发影响客户端协议
+### 5.3、群分发影响客户端协议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 写扩散在接收时为目标维护投递记录，读扩散在读取时按权限取消息；混合策略可按群规模选择。客户端重点不是背名词，而是确认离线游标按用户、设备还是会话维护，成员变化如何影响历史可见性，以及回执和推送的聚合粒度。
 
 服务端改变分发架构时，若游标语义变化，应有协议迁移。客户端不能靠遍历所有会话的最后一条消息来重建完整账号事件流，因为成员、已读、编辑和删除也会变化。
 
-### 5.4、客户端不能独立补出的保证
+### 5.4、客户端不能独立补出的保证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 单靠本地数据库不能证明远端已持久化、让已撤销设备彻底忘掉历史明文、保证 APNs 到达，或决定群成员最终权限。需要相应服务端或操作系统契约，并给 UI 明确的“未知、重试中、已失效”状态。
 
-## 六、<span id="lifecycle">消息发送与接收的完整生命周期</span>
+## 六、<span id="lifecycle">消息发送与接收的完整生命周期</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、发送状态模型
+### 6.1、发送状态模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```mermaid
 stateDiagram-v2
@@ -339,7 +339,7 @@ stateDiagram-v2
 
 对端已送达、已读、编辑、撤回属于其他状态维度，不建议用一个不断增长的枚举混装所有事实。[对应追问](#faq-status)
 
-### 6.2、先保存意图，再异步执行
+### 6.2、先保存意图，再异步执行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 用户点击发送
@@ -355,19 +355,19 @@ stateDiagram-v2
 
 本地权限校验用于及时反馈，服务端仍须最终鉴权。创建气泡与创建发送任务应保持原子关系，避免“有气泡永远不发送”或“发送成功却没有本地记录”。
 
-### 6.3、回执与同步回声谁先到都成立
+### 6.3、回执与同步回声谁先到都成立 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 服务端回执可能先于广播，同步回声也可能先于发送请求的响应。用 `client_message_id` / 服务器提供的关联关系把两条路径汇到同一记录；用数据库唯一约束做最后防线，保留稳定 `local_id`。
 
 超时只说明没有在时限内拿到结果，不证明服务器拒绝。后端有结果查询则优先核对；有有效幂等契约才可使用同一幂等键安全重试。两者都没有时保留结果未知，不能仅靠本地唯一索引保证远端不重复。迟到的失败回调不能把已经由回声确认的成功状态改成失败。
 
-### 6.4、Outbox 不是一个无限循环数组
+### 6.4、Outbox 不是一个无限循环数组 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 每个任务保存尝试次数、最近错误、下一次可尝试时间、依赖附件、后端能力版本和当前运行代次。重启后恢复任务时重新检查凭证、幂等有效期与依赖；恢复不等于一律立即重发。账号退出或权限永久撤销时停止对应任务，并给出明确状态。
 
 如果多个进程或 Worker 都可能消费，使用受数据库事务保护的领取机制，例如带到期时间的执行租约，并在更新结果时校验持有者 / 代次。进程死亡后租约可恢复，但两次网络尝试仍可能重叠，最终依赖服务端幂等。[对应追问](#faq-outbox)
 
-### 6.5、接收与事件合并
+### 6.5、接收与事件合并 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 校验包体大小、协议版本和账号作用域
@@ -385,7 +385,7 @@ stateDiagram-v2
 
 收到相同事件 ID、内容却不相同，应记录协议一致性异常；不能把数据矛盾全部解释为普通重投。坏包处理还要区分可忽略的未知展示类型与会影响权限、密钥或进度的关键事件。
 
-### 6.6、事件合并规则要可重放
+### 6.6、事件合并规则要可重放 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 输入 | 合并规则示例 |
 | --- | --- |
@@ -398,35 +398,35 @@ stateDiagram-v2
 
 版本大小只是必要条件之一。撤回后是否允许恢复、重新入群能否恢复历史、谁能编辑，都需要状态机与权限规则；不能统一写成“版本大就覆盖”。
 
-## 七、<span id="sync">离线同步、多端与状态收敛</span>
+## 七、<span id="sync">离线同步、多端与状态收敛</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 本章先解释后端具备相应同步契约时的可靠做法。只有历史接口、时间戳或页码的项目，转用 [后端适配专题](./专题/不同后端能力下的客户端适配.md) 中的有限补偿策略，并在 UI 与诊断中保留“历史未完整 / 状态待刷新”等事实，不能宣称实现了同等的全量事件收敛。
 
-### 7.1、首次登录的快照与增量衔接
+### 7.1、首次登录的快照与增量衔接 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 新设备初始化需要取得某个明确边界上的会话、成员、已读及必要历史快照，再从该边界追增量。若快照期间继续有新消息，协议要提供快照游标或等效的一致性桥梁，避免快照与增量之间形成空窗。
 
 先展示已取得的本地窗口和同步状态，逐步补历史。历史未完整、读状态未初始化时，不把 `0` 当成权威未读位置，也不把本地消息条数当成服务端总数。
 
-### 7.2、增量同步与历史分页是两条进度
+### 7.2、增量同步与历史分页是两条进度 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 实时同步游标回答“系统变化处理到了哪里”；向前翻页游标回答“这个会话更早的历史取到了哪里”。上滑聊天记录不能把账号增量同步进度往回改。
 
 协议可能让增量流包含已读、成员、编辑和撤回；会话中最大的消息顺序号不能替代这些状态的进度。可参考 [Matrix 同步与事务标识设计](https://spec.matrix.org/v1.16/client-server-api/#syncing) 理解不透明游标与增量，但自建协议必须明确自己的保证，不能直接套字段名。
 
-### 7.3、分页提交与幂等重放
+### 7.3、分页提交与幂等重放 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 如果一页太大，可以先分批保存事件，只在整页对应范围可靠处理后推进页游标。中途退出后从旧页重新拉，已处理事件由幂等机制吸收。必要时持久化页内进度，但它与服务器页 token 的有效期和稳定性须匹配。
 
 取得写事务后校验当前进度等于该批预期前驱，再原子提交状态和新游标。主进程与扩展并发时，事务外检查会产生检查与使用之间的竞态。[数据库练习](#storage)
 
-### 7.4、缺口和游标失效
+### 7.4、缺口和游标失效 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 缺口不是简单的“最大顺序号减一”。协议若保证连续序列，可持久记录缺失区间并补洞；若序列允许过滤、权限隐藏或非消息事件，就需要服务端返回范围完成标记。
 
 游标过期时进入可恢复的重建流程：暂停依赖旧进度的提交，保存本地待发及其他不可再生数据，取得新快照，再续接增量。不能直接删库重建而把尚未发出的文本和附件一起删除。
 
-### 7.5、多设备状态归属
+### 7.5、多设备状态归属 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 状态 | 常见归属选择 | 合并重点 |
 | --- | --- | --- |
@@ -440,45 +440,45 @@ stateDiagram-v2
 
 草稿可以使用服务端修订号加条件更新；冲突时保留两个版本让用户选择，或明确最后提交者获胜。不要仅靠不可信客户端时间决定谁覆盖谁。真正需要多人同时编辑文本时，再研究 OT / CRDT，而不是为所有 IM 状态引入复杂合并算法。
 
-### 7.6、在线状态与正在输入属于短暂状态
+### 7.6、在线状态与正在输入属于短暂状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在线状态是带有效期的服务端推断，不是某台手机一条连接的永恒事实。多设备汇总还需定义“任一设备在线”和“正在当前会话活动”的区别。
 
 正在输入事件采用节流、过期时间及停止信号，丢失一次通常允许由超时消失。它不应像业务消息一样永久重放并积压离线队列，否则重连后可能显示“昨天正在输入”。
 
-### 7.7、收敛实验
+### 7.7、收敛实验 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 为同一组合法事件生成不同到达顺序、重复次数和分批方式，在协议允许乱序的范围内运行。最后比较规范化的消息投影、成员、已读和 tombstone；临时请求 ID、观测时间和本地 UI 缓存不参与比较。
 
 存在明确因果前驱的事件先缓冲或补依赖，不能为了让排列实验通过而忽略权限。测试应证明“同一组可应用事件最终一致”，不声称非法事件排列也必须成功。
 
-## 八、<span id="domain">联系人、会话、群组与业务能力</span>
+## 八、<span id="domain">联系人、会话、群组与业务能力</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 8.1、联系人和关系
+### 8.1、联系人和关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 区分用户资料、好友关系、黑名单和设备通讯录。昵称变更不应重写每一条历史消息；消息中需要的发送者展示快照与当前用户资料分开保存。通讯录匹配涉及权限与最小化上传，功能应能在拒绝授权时继续运行。
 
 好友申请、同意、删除和拉黑用明确操作 ID 与关系版本。拉黑后是否隐藏历史、禁止发消息、抑制推送，由服务端策略决定；客户端只隐藏按钮不构成权限控制。
 
-### 8.2、会话列表的派生状态
+### 8.2、会话列表的派生状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 会话摘要由最近可展示事件、草稿、发送状态及提示规则共同决定；“最近一条消息”不一定就是列表显示内容。置顶排序、草稿提示、免打扰标识与最后活动时间要有确定的比较规则和稳定的第二排序键。
 
 删除会话入口需要区分归档、隐藏、清本地历史、清多端历史、退出群聊。新消息到达是否重新出现也应是产品规则，而不是数据库删表后的偶然行为。
 
-### 8.3、群成员、角色与权限
+### 8.3、群成员、角色与权限 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 成员实体包含加入状态、角色和版本；群资料包含群名、公告、禁言及历史可见性。成员列表使用分页和增量，不为大群每次打开都全量拉取。
 
 踢人和发消息并发时，以服务端的授权时点与事件顺序判定。被踢的客户端收到迟到成功响应，不能自动恢复成员资格；重新加入应采用新的有效成员状态，必要时区分成员关系代次。
 
-### 8.4、群回执与未读
+### 8.4、群回执与未读 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 为小群提供逐人回执时，定义统计对应发送时成员、当前成员还是实际可接收成员；退群、拉黑和无历史权限会改变含义。大群可用摘要计数、用户已读水位和按需详情，避免每条消息附带完整成员状态。
 
 @提及、全部提及、普通未读和线程未读可以是不同计数。未同步完整时保留未知 / 估计状态；恢复后与服务器权威结果对账，不能让计数只增不减。
 
-### 8.5、消息菜单与扩展业务
+### 8.5、消息菜单与扩展业务 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 能力 | 必须补齐的业务规则 |
 | --- | --- |
@@ -492,9 +492,9 @@ stateDiagram-v2
 | 阅后即焚 | 计时起点、服务端时限、多端同步、不能保证对方没有复制 |
 | 举报 / 屏蔽 | 用户反馈入口、证据最小化、权限与服务器处理结果 |
 
-## 九、<span id="storage">数据库、持久任务与迁移</span>
+## 九、<span id="storage">数据库、持久任务与迁移</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 9.1、从业务不变量推导表结构
+### 9.1、从业务不变量推导表结构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 数据集合 | 主要键和索引 | 需要共同维护的状态 |
 | --- | --- | --- |
@@ -512,7 +512,7 @@ stateDiagram-v2
 
 在模型层区分协议信封、数据库记录和 UI 模型。网络字段可缺省、数据库字段有约束，UI 还包含本地布局与状态，直接共用一个巨大可变对象会把生命周期绑在一起。
 
-### 9.2、数据库选型的判断顺序
+### 9.2、数据库选型的判断顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 先确定查询、事务、迁移、线程和加密需求，再比较 [**SQLite**](https://sqlite.org/)、[**WCDB**](https://github.com/Tencent/wcdb) 或 [**GRDB**](https://github.com/groue/GRDB.swift) 的具体版本能力。使用对象映射不免除理解 SQL、索引、WAL 和错误传播的责任，直接使用 C API 也不自动更快。
 
@@ -520,7 +520,7 @@ stateDiagram-v2
 
 完整建表、插入、更新、查询、清理和查询计划实验见 [SQL 专题](<../iOS IM消息入库架构与SQL面试手册.md/iOS IM消息入库架构与SQL面试手册.md#sql>)。其中服务端 ID 与 seq 的约束是假设，不应未经修改直接用来存待发送消息。
 
-### 9.3、游标条件更新的小实验
+### 9.3、游标条件更新的小实验 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 CAS（Compare-And-Set，比较后设置）只在当前值等于预期值时更新。以下三个代码块依次运行在同一练习数据库；它们只演示进度竞争，不是完整的业务提交实现。
 
@@ -560,7 +560,7 @@ WHERE account_id = 'a1' AND stream_id = 'events';
 
 实际同步中，取得写事务后先验证前驱，再处理事件和推进游标；或将条件更新与事件修改置于同一事务，并在影响行数不符时显式回滚。示例里的固定 SQL 不会替应用自动判断成功分支。`changes()` 必须紧跟目标修改、使用同一个连接。[SQLite 事务](https://sqlite.org/lang_transaction.html)、[SQLite changes](https://sqlite.org/c3ref/changes.html)
 
-### 9.4、历史保留、清理与备份
+### 9.4、历史保留、清理与备份 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 把数据分为三类：不可再生的本地输入、服务端可重新获取的数据、可重新生成的索引 / 缩略图。清缓存和游标重建首先处理后两类，保留待发文本、未上传附件及尚未完成的本地操作。
 
@@ -568,7 +568,7 @@ WHERE account_id = 'a1' AND stream_id = 'events';
 
 打开状态下备份 SQLite 使用受支持的备份能力，不单独复制 `.db` 并遗漏 WAL。恢复后校验账号、schema、密钥及同步代次，再恢复 Worker；过期网络任务可能需要重新验证服务端状态。[SQLite Backup API](https://sqlite.org/backup.html)
 
-### 9.5、schema 迁移与故障恢复
+### 9.5、schema 迁移与故障恢复 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 迁移记录独立版本，按已测试路径升级。新增字段可先让旧代码仍能读取，后续后台分批回填，再切换读路径；添加约束和索引前先查存量冲突和空间预算。
 
@@ -578,15 +578,15 @@ WHERE account_id = 'a1' AND stream_id = 'events';
 
 数据库无法打开或校验异常时，先区分密钥错误、版本不兼容、权限、空间不足和真实损坏。不要自动删库“修复”并丢掉未发送内容。
 
-## 十、<span id="search">历史查询与全文检索</span>
+## 十、<span id="search">历史查询与全文检索</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 10.1、三种查询服务不同场景
+### 10.1、三种查询服务不同场景 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 聊天窗口按稳定排序键分页；消息定位按消息身份直接查找或向服务端请求周围窗口；全文搜索按词项索引匹配，再回到消息权限和正文状态做校验。三种查询不能全部靠一条 `LIKE '%keyword%'` 承担。
 
 点击搜索结果时，目标消息可能已被删除或失去访问权限。先解析目标身份，再加载包含它的窗口；没有本地记录不意味着可以直接构造一个没有权限来源的气泡。
 
-### 10.2、FTS5 最小例子
+### 10.2、FTS5 最小例子 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [**FTS5**](https://sqlite.org/fts5.html) 是 SQLite 的全文检索扩展，需要确认实际库包含该能力。下面用英文单词隔离验证索引与账号过滤；不把它当作中文分词质量测试。
 
@@ -607,21 +607,21 @@ ORDER BY rank;
 
 预期仅返回 `m1`。`UNINDEXED` 表示该列不进入全文索引，不代表删除该列或获得权限隔离；账号与访问权限条件仍须强制加入。实际调用绑定查询参数，普通搜索输入还应按 FTS 查询语法转义或构造，不能把绑定参数误认为已经禁用了搜索运算符。
 
-### 10.3、中文、混合文本与索引一致性
+### 10.3、中文、混合文本与索引一致性 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 分词质量要用中文短句、英文词、表情、手机号、链接及中英混排样本验收。Unicode token 切分不等于中文语义分词；子串索引与分词索引的空间、召回和短词表现不同，按目标检索方式测试。
 
 正文编辑、撤回、账号退出和权限变化都影响索引。可以在同事务维护索引，也可以持久记录索引任务并暴露索引进度；后者需要处理搜索短暂落后的情况。外部内容 FTS 表不会自动保持与正文一致，历史回填和触发器规则需单独实现。[FTS5 外部内容表](https://sqlite.org/fts5.html#external_content_tables)
 
-### 10.4、本地、远端与加密搜索
+### 10.4、本地、远端与加密搜索 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 本地搜索只能覆盖已保存、可解密、已建立索引的内容；服务端搜索则取决于历史权限和服务端能看到的数据。两种结果合并按消息 ID 去重并标记来源，不宣称本地结果就是完整历史。
 
 E2EE 下，服务端通常无法直接对明文正文索引；本地解密后建索引会产生另一份敏感数据，需要相同账号与存储保护、退出清理及备份策略。不要为搜索便利悄悄破坏既定加密边界。
 
-## 十一、<span id="concurrency">并发、生命周期与账号隔离</span>
+## 十一、<span id="concurrency">并发、生命周期与账号隔离</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 11.1、把可取消任务归到明确作用域
+### 11.1、把可取消任务归到明确作用域 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 作用域 | 存活范围 | 常见任务 |
 | --- | --- | --- |
@@ -633,49 +633,49 @@ E2EE 下，服务端通常无法直接对明文正文索引；本地解密后建
 
 页面销毁要取消页面观察，不应取消已经被用户提交的持久消息发送；退出账号应停止旧账号 Worker。每个异步结果在落库和发布前验证账号代次，页面结果另外验证窗口 / 配置版本。
 
-### 11.2、Swift 并发不会替代业务原子性
+### 11.2、Swift 并发不会替代业务原子性 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [**Swift**](https://www.swift.org/) 的 <font color=red>**actor**</font> 隔离可变状态，但在 <font color=red>**await**</font> 处可能允许其他任务进入。把“检查当前账号 → 等网络 → 写当前账号数据库”放在同一个 actor 方法内，仍需要在恢复后重新验证账号代次。
 
 <font color=red>**async**</font> 不是“必在后台线程”，<font color=red>**Task**</font> 也不自动提供线程安全或数据库事务。主线程隔离的 UI 更新、同步数据库工作及 CPU 密集转换应按执行环境分开设计。[Swift 并发语言指南](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/)
 
-### 11.3、事件流、订阅与合并
+### 11.3、事件流、订阅与合并 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 观察 API 应提供初始快照或明确的订阅起点，避免“先查快照、再订阅”期间漏掉变化。更新按账号、会话、实体 ID 聚合，UI 可在短窗口内合并多个提交通知，再读取对应快照。
 
 取消订阅后释放闭包、观察 token 和媒体任务；避免数据库连接、业务单例和控制器互相强持有。对过慢消费者设置缓冲上限：UI 可以只保留最新快照，关键业务事件则不能无声丢弃。
 
-## 十二、<span id="connection">连接、推送与系统入口</span>
+## 十二、<span id="connection">连接、推送与系统入口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 12.1、前台实时与后台恢复共同设计
+### 12.1、前台实时与后台恢复共同设计 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 前台连接用于低延迟事件，增量同步用于收敛状态，APNs 用于系统允许条件下的提醒或唤醒。它们进入同一身份和去重体系，不能三个入口各插一次消息。
 
 系统挂起后不承诺普通聊天 Socket 永久运行。重新进入前台时检查会话、认证和同步进度；连接恢复成功也要补齐离线期间的变化，而不是仅把图标改成绿色。
 
-### 12.2、实现与验收入口
+### 12.2、实现与验收入口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [连接管理与推送后台专题](./专题/iOS连接管理与推送后台.md) 详细说明协议选择、收包循环、状态机、认证刷新、心跳重连、APNs、通知扩展和冷启动路由。
 
 本领域验收应至少覆盖：服务端可达性误判、Wi-Fi 与蜂窝切换、旧连接回调、Token 过期、账号切换、通知先于同步、点击通知时尚未登录，以及静默推送未执行后的正常恢复。[对应追问](#faq-background)
 
-## 十三、<span id="interaction">聊天 UI、输入与媒体</span>
+## 十三、<span id="interaction">聊天 UI、输入与媒体</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 13.1、界面是状态投影
+### 13.1、界面是状态投影 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 气泡展示身份、发送状态、编辑 / 撤回状态与附件进度；会话列表展示摘要、草稿、排序和未读。它们读取同一个业务状态，但不必共享同一份可变 ViewModel。
 
 聊天页需要保存稳定消息 ID 和窗口，不应一次加载全部历史。输入草稿、键盘状态和滚动位置属于交互状态，消息发送和上传属于业务状态；切换页面时按各自生命周期处理。
 
-### 13.2、关键工程路径
+### 13.2、关键工程路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [聊天界面与多媒体工程专题](./专题/聊天界面与多媒体工程.md) 展开长列表、稳定滚动、键盘、富文本、无障碍、异步复用、图片、录音、视频、上传下载及缓存。
 
 验收时将“持续新消息 + 顶部分页 + 键盘拖动 + 大图尺寸变化 + 字体放大”组合起来测试。单独滚动一页静态文本通过，不代表真实聊天页稳定。[对应追问](#faq-scroll)
 
-## 十四、<span id="security">安全与隐私作为系统约束</span>
+## 十四、<span id="security">安全与隐私作为系统约束</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 14.1、先写清各方能看到什么
+### 14.1、先写清各方能看到什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 保护目标 | 对应设计 |
 | --- | --- |
@@ -687,27 +687,27 @@ E2EE 下，服务端通常无法直接对明文正文索引；本地解密后建
 
 这些目标互不等价。是否要求 E2EE，会直接影响群成员变更、设备新增、备份、搜索、举报与通知预览，而不是加一个“加密开关”即可完成。
 
-### 14.2、安全研究入口
+### 14.2、安全研究入口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [安全加密与音视频通话专题](./专题/安全加密与音视频通话.md) 给出威胁模型、协议边界和验证路线。采用成熟、持续维护的协议实现，关键变更需要专门审查；不要自行拼接算法声称形成安全 IM 协议。
 
-## 十五、<span id="calls">音视频通话与 IM 的衔接</span>
+## 十五、<span id="calls">音视频通话与 IM 的衔接</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 15.1、通话是独立状态机
+### 15.1、通话是独立状态机 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 消息系统传递邀请、接听、拒绝、挂断和会议状态；媒体系统负责音视频采集、编码、网络传输、拥塞与播放。已经发出邀请不等于媒体已建立，媒体暂时断流也不必立即当作远端挂断。
 
 每次呼叫有稳定 call_id、参与设备身份、有效期和当前状态版本。多端同时响铃时，由协议确定哪一个接听获胜，其余设备结束对应呼叫；迟到接听和重复挂断必须幂等。
 
-### 15.2、专题与验收
+### 15.2、专题与验收 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [安全加密与音视频通话专题](./专题/安全加密与音视频通话.md) 展开 WebRTC、ICE / STUN / TURN、SFU、CallKit、PushKit、音频路由和弱网。
 
 将“锁屏来电、多个设备同时接听、耳机拔出、系统通话中断、切网、重新协商、相机权限拒绝、结束后资源释放”纳入同一呼叫链路测试，而不是只验证两台前台设备互相出画面。
 
-## 十六、<span id="selection">自建、开源协议与商业 SDK 选型</span>
+## 十六、<span id="selection">自建、开源协议与商业 SDK 选型</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 16.1、先选择承担的责任范围
+### 16.1、先选择承担的责任范围 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 路线 | 可以获得 | 仍由团队承担 |
 | --- | --- | --- |
@@ -718,7 +718,7 @@ E2EE 下，服务端通常无法直接对明文正文索引；本地解密后建
 
 评价不只看“发一条消息需要几行代码”。做一张验证矩阵，把历史可导出性、幂等、游标、群规模、加密、多端、扩展、可观测性和版本迁移逐项映射到实际 API 或实验结果。
 
-### 16.2、候选方案的可核验问题
+### 16.2、候选方案的可核验问题 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1、SDK 是否自己管理数据库，业务能否安全观察，是否允许直接写它的内部表。
 
@@ -734,21 +734,21 @@ E2EE 下，服务端通常无法直接对明文正文索引；本地解密后建
 
 7、价格按用户、峰值连接、消息、存储还是流量计算；对比采用实际合同和当前官方说明，不记录长期不变的价格假设。
 
-### 16.3、封装边界
+### 16.3、封装边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 应用业务层可以依赖自己的有限 IM 接口，用适配器对接 SDK。不要为了“以后可随时替换”抹平供应商独有的游标、密钥和状态语义；可替换性需要保存足够的业务身份与数据迁移能力。
 
 数据库、会话恢复、业务命令和 UI 模型各有归属；如果第三方 SDK 已持有核心状态，不另外创建一套会与它竞争的消息真相库。需要缓存时明确它是可重建投影、更新来自哪里以及失效规则。
 
-### 16.4、iOS SDK 的工程交付
+### 16.4、iOS SDK 的工程交付 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 按公共接口、领域模型、存储、网络、媒体、平台适配和 UI 组件分模块。核心模块避免依赖页面控制器；公开 API 的线程、取消、错误和账号作用域要写清楚。
 
 在 [**Swift**](https://www.swift.org/) 与 [**Objective-C**](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html) 混用工程中，先确定公共模型和并发 API 的桥接面，再选择源码包或二进制分发。核对资源包、符号、最低部署目标、依赖版本、许可与隐私说明，按实际 SDK 版本验证；封装形式不替代消息正确性测试。
 
-## 十七、<span id="observability">性能、容量与可观测性</span>
+## 十七、<span id="observability">性能、容量与可观测性</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 17.1、分段观测一次消息操作
+### 17.1、分段观测一次消息操作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 点击发送
@@ -765,7 +765,7 @@ E2EE 下，服务端通常无法直接对明文正文索引；本地解密后建
 
 为每次用户意图保留稳定 operation ID，为每次尝试生成 attempt ID；HTTP 链路可按 [W3C Trace Context](https://www.w3.org/TR/trace-context/) 传播追踪上下文。追踪 ID 不承载正文、Token 或可直接识别用户的资料。
 
-### 17.2、指标定义要避免误导
+### 17.2、指标定义要避免误导 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 指标 | 定义及边界 |
 | --- | --- |
@@ -781,7 +781,7 @@ E2EE 下，服务端通常无法直接对明文正文索引；本地解密后建
 
 超时与仍未完成的消息不能从延迟报告中悄悄删除，否则只统计成功样本会显得异常快。重试按用户意图统计成功率，按尝试统计网络成本，两者不混用。
 
-### 17.3、容量与背压的计算
+### 17.3、容量与背压的计算 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 若输入持续速率为 `λ`，处理持续速率为 `μ`，且 `λ > μ`，积压约以 `λ - μ` 增长；单纯增大队列只能延后耗尽。持续过载不能假设有有限稳态。稳定条件下可用 Little 定律 `L = λ × W` 估算平均在途任务量，其中 `L`、到达率 `λ` 和平均停留时间 `W` 必须采用同一系统边界；只算等待队列时，停留时间也只算等待。突发、长尾和字节差异仍需单独测量。[Little 原始论文](https://fisherp.scripts.mit.edu/wordpress/wp-content/uploads/2015/11/ContentServer.pdf)
 
@@ -789,7 +789,7 @@ E2EE 下，服务端通常无法直接对明文正文索引；本地解密后建
 
 设定消息、字节、并发任务和最老年龄上限，触发降速、暂停补拉或服务端流控。高优先级消息不能无限绕过低优先级队列，否则历史永远不能完成；调度需兼顾公平性。
 
-### 17.4、定位链路而不是猜瓶颈
+### 17.4、定位链路而不是猜瓶颈 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 用 [**Xcode**](https://developer.apple.com/xcode/) 的 Instruments 和应用区间埋点观察 CPU、内存、锁等待、磁盘及渲染。线上可使用 [**MetricKit**](https://developer.apple.com/documentation/metrickit) 的设备性能与诊断报告补充崩溃、卡顿等信息；系统聚合报告不能替代逐消息业务链路。
 
@@ -802,15 +802,15 @@ E2EE 下，服务端通常无法直接对明文正文索引；本地解密后建
 | 电量异常 | 过密心跳 → 重连重试 → 常驻解码 → 重复媒体下载 |
 | 未读数漂移 | 读状态初始化 → 重复事件 → 撤回 → 多端合并 → 权限过滤 |
 
-### 17.5、日志的最小必要信息
+### 17.5、日志的最小必要信息 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 记录操作阶段、错误域、尝试次数、批量大小、匿名关联 ID、版本与耗时。对正文、联系方式、附件签名 URL、Token 和密钥采用不记录策略，不能仅依赖事后字符串替换。
 
 Apple 的统一日志提供隐私标记，但整数等数据并不天然都被隐藏；自建文件日志、崩溃附加信息和网络代理导出也要单独审计。匿名化或哈希不自动等于不可关联。[Apple 日志与隐私](https://developer.apple.com/documentation/os/generating-log-messages-from-your-code)
 
-## 十八、<span id="testing">测试体系与故障注入</span>
+## 十八、<span id="testing">测试体系与故障注入</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 18.1、分层搭建测试工具
+### 18.1、分层搭建测试工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 层级 | 测试工具与输入 | 主要证明 |
 | --- | --- | --- |
@@ -826,7 +826,7 @@ Apple 的统一日志提供隐私标记，但整数等数据并不天然都被�
 
 通知 payload 输入可验证解析、去重和账号就绪后的页面路由；不能据此宣称 APNs 送达、系统唤醒或通知扩展触发已经通过。分层步骤与记录模板见 [无后端验证专题](./专题/无后端环境的客户端验证与生产排障.md)。
 
-### 18.2、必须覆盖的故障矩阵
+### 18.2、必须覆盖的故障矩阵 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 下表是完整系统的目标场景。缺少服务端条件时，先把其中的输入与预期状态用于本地检查；远端持久化、多设备和系统调度相关结果标为待联调。
 
@@ -847,13 +847,13 @@ Apple 的统一日志提供隐私标记，但整数等数据并不天然都被�
 | 游标过期 | 强制重建 | 保留不可再生待发内容 |
 | 通话建立期间 | 取消与接听并发 | 只保留合法呼叫结果，停止多余采集 |
 
-### 18.3、测试数据与结果管理
+### 18.3、测试数据与结果管理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 固定随机种子、输入事件、故障时点、设备和库版本，使失败可重放。结果记录“预期不变量、实际状态、证据、修复后复现结果”；测试日志不包含真实用户会话。
 
 协议测试、状态测试可以高频运行；系统后台、APNs、音频路由和功耗必须用真实平台条件补足。模拟器通过不能替代权限、硬件、后台及跨设备验证。
 
-### 18.4、本手册的验证范围
+### 18.4、本手册的验证范围 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 验证日期 **2026-09-25**。原 SQL 专题保留其 **10 个 SQL 代码块、19 项本地检查通过**的结果；总册新增 **4 个 SQL 代码块**已在独立临时数据库依次执行，运行库返回版本 **3.54.0**。
 
@@ -868,35 +868,35 @@ Apple 的统一日志提供隐私标记，但整数等数据并不天然都被�
 
 这些 SQL 没有实现整个同步引擎，也没有测中文分词质量。其余图、接口和状态机为参考设计，尚未实现完整 App，也未完成真实推送、群聊、RTC 或加密协议互操作测试。
 
-## 十九、<span id="delivery">版本演进、发布与运行维护</span>
+## 十九、<span id="delivery">版本演进、发布与运行维护</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 19.1、协议、数据库与二进制分别版本化
+### 19.1、协议、数据库与二进制分别版本化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 协议版本决定能够交换什么事件；schema 版本决定怎样存；SDK / App 版本决定代码行为。三者不能共用一个数字并假设同步升级。
 
 新增类型先让旧端能安全保留 / 忽略展示并继续必要同步，再灰度开启发送；关键权限或加密事件不允许旧端误处理。协议能力协商、服务器功能开关和客户端降级共同定义行为。
 
-### 19.2、灰度与回滚
+### 19.2、灰度与回滚 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 每次改动列出旧客户端互通、数据库兼容及服务器回滚的影响。高风险功能先按有限群体开启，观察发送、同步和恢复指标，保留停止新任务、暂停新类型发送或回退读路径的开关。
 
 回滚代码不等于能回滚数据。不可逆迁移前准备可用备份或兼容读取方案；不能在运行中让旧 App 直接读它不理解的 schema，或复活已撤回内容。
 
-### 19.3、发布前端到端对账
+### 19.3、发布前端到端对账 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 核对开发 / 生产服务地址、推送环境与 topic、凭证、应用和扩展标识、共享容器、资源包、权限说明、关联域与深链路。测试构建中能用的服务器白名单和日志开关不能未经确认进入生产。
 
 冻结依赖版本，审查传递依赖和许可，保留符号文件用于崩溃定位。上线后至少能回答某个用户意图卡在本地、网络、服务端还是显示阶段，并有支持人员可执行的恢复路径。
 
-### 19.4、用户可理解的故障状态
+### 19.4、用户可理解的故障状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 区分离线等待、发送中、可重试失败、权限拒绝、历史不可用、密钥未就绪和本地存储失败。错误文案对应可以执行的动作，避免一律显示“网络异常”。
 
 恢复应保留用户输入并显示进度；清缓存、重新同步、退出账号和删除所有本地数据具有不同影响，不能让一个“修复”按钮隐含不可恢复删除。
 
-## 二十、<span id="research">研究路线与可复现实验</span>
+## 二十、<span id="research">研究路线与可复现实验</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 20.1、先完成端侧，再保留联调入口
+### 20.1、先完成端侧，再保留联调入口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 阶段 | 仅有 iOS 环境可交付 | 外部条件具备后核对 |
 | --- | --- | --- |
@@ -911,7 +911,7 @@ Apple 的统一日志提供隐私标记，但整数等数据并不天然都被�
 
 先按项目所需范围完成端侧工作；不要求为了读文档先实现整套 App。一个进程中的多状态实例是模型验证，不能替代真实多设备。接手既有后端时，直接以已确认契约替换样本中的假设。
 
-### 20.2、实验设计模板
+### 20.2、实验设计模板 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 研究问题：具体到一个可观察行为
@@ -925,7 +925,7 @@ Apple 的统一日志提供隐私标记，但整数等数据并不天然都被�
 结论：支持 / 不支持假设，以及适用边界
 ```
 
-### 20.3、八组核心实验
+### 20.3、八组核心实验 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 实验分成本地部分与联调部分；后者保留为条件化验收项，无后端环境时不执行，也不阻塞前者。表中的服务端保存、多设备和后台送达等目标不能仅靠测试替身证明。
 
@@ -942,7 +942,7 @@ Apple 的统一日志提供隐私标记，但整数等数据并不天然都被�
 
 每组实验至少保留正常、边界和失败样本。性能结论报告多次运行与分布，不用单次最优值证明某框架“全面领先”。
 
-### 20.4、继续深入的研究问题
+### 20.4、继续深入的研究问题 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 方向 | 可研究的问题 |
 | --- | --- |
@@ -957,9 +957,9 @@ Apple 的统一日志提供隐私标记，但整数等数据并不天然都被�
 
 这些方向可以发展为正式研究报告；每个结论都应绑定实验条件，而不是从项目名称推断实现优劣。
 
-## 二十一、<span id="reading">开源项目与协议阅读路线</span>
+## 二十一、<span id="reading">开源项目与协议阅读路线</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 21.1、按问题选择资料
+### 21.1、按问题选择资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 一手入口 | 适合研究 | 不宜直接推导 |
 | --- | --- | --- |
@@ -972,7 +972,7 @@ Apple 的统一日志提供隐私标记，但整数等数据并不天然都被�
 
 Matrix Rust SDK 的官方仓库提供跨语言绑定入口，具体支持和集成方法按锁定版本确认。本文采用 Matrix v1.16 页面作可复查的协议参考，不把它称为所有时点的最新版本。
 
-### 21.2、一次只追一条真实调用链
+### 21.2、一次只追一条真实调用链 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1、固定仓库 commit、构建说明和测试设备，先运行最小官方示例。
 
@@ -986,121 +986,121 @@ Matrix Rust SDK 的官方仓库提供跨语言绑定入口，具体支持和集�
 
 版本升级后重新核对关键路径。旧学习笔记可作为问题线索，不能替代当前源码、官方协议和实验结果。
 
-## 二十二、<span id="faq">综合问题与答案</span>
+## 二十二、<span id="faq">综合问题与答案</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 22.1、IM 与普通列表接口开发的主要区别是什么？
+### 22.1、IM 与普通列表接口开发的主要区别是什么？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** IM 有持续输入、离线状态、多端并发和大量重复 / 乱序事件，需要定义身份、成功阶段、恢复与状态收敛。页面请求成功只是其中一个局部结果。[回看能力地图](#scope)
 
-### 22.2、WebSocket 连上后为什么还要同步接口？
+### 22.2、WebSocket 连上后为什么还要同步接口？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 新连接不会自动包含断线期间的事件。同步接口以可靠进度补历史变化，连接承担实时性，两者进入同一事件合并和去重链路。[回看同步](#sync)
 
-### 22.3、<span id="faq-status">发送成功、已送达、已读能合成一个状态吗？</span>
+### 22.3、<span id="faq-status">发送成功、已送达、已读能合成一个状态吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 不宜。服务端接受、接收设备持久化、账号已读具有不同证据；编辑、撤回、附件进度也不是发送状态的后续数字。分维度建模，再映射为 UI。[回看语义](#semantics)
 
-### 22.4、发送超时后生成一个新 ID 重发有什么问题？
+### 22.4、发送超时后生成一个新 ID 重发有什么问题？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 服务器可能已保存首个请求，新幂等 ID 可能被认作另一条消息。重试复用发送意图 ID，每次网络尝试用独立 attempt ID 诊断。[回看发送](#lifecycle)
 
-### 22.5、回声先到、失败回调后到如何处理？
+### 22.5、回声先到、失败回调后到如何处理？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 回声若提供可信身份和接受事实，就合并到原气泡；迟到的尝试失败不能覆盖已知权威成功。按操作身份、尝试代次和合法状态转换处理。[回看生命周期](#lifecycle)
 
-### 22.6、<span id="faq-outbox">Outbox 为什么要持久化？</span>
+### 22.6、<span id="faq-outbox">Outbox 为什么要持久化？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 用户提交后任务可能经历断网和进程终止。持久化保存意图、身份、依赖及重试状态，重启后继续；内存数组无法承担这个保证，多消费者还需要安全领取与服务端幂等。[回看 Outbox](#lifecycle)
 
-### 22.7、每条消息都有时间戳，为什么还要顺序位置？
+### 22.7、每条消息都有时间戳，为什么还要顺序位置？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 时间可重复、漂移和被修改，不足以定义重连、多设备和历史补拉的稳定顺序。排序位置来自协议，时间用于展示或诊断，游标负责同步进度。[回看标识](#protocol)
 
-### 22.8、为什么不能简单用最大 seq 更新同步进度？
+### 22.8、为什么不能简单用最大 seq 更新同步进度？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 最大已见位置不证明中间范围完成，也不能代表成员、编辑和已读等事件进度。依照同步协议保存游标，并在事务内校验前驱。[回看同步](#sync)
 
-### 22.9、新设备第一次登录怎样避免历史和实时消息之间漏一段？
+### 22.9、新设备第一次登录怎样避免历史和实时消息之间漏一段？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 用协议提供的快照边界续接增量；下载快照期间的新事件可缓冲或随后补拉。两条路径去重，边界与处理进度有明确恢复规则。[回看首次同步](#sync)
 
-### 22.10、手动标未读是否等于把 read_seq 改小？
+### 22.10、手动标未读是否等于把 read_seq 改小？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 不应直接等同。账号已读事实可保持单调，手动标未读作为单独提醒意图；否则多端旧回执和新回执会反复把状态覆盖。[回看多设备状态](#sync)
 
-### 22.11、数据库框架应该直接暴露给页面吗？
+### 22.11、数据库框架应该直接暴露给页面吗？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 页面更适合依赖稳定消息窗口、命令与观察接口，存储层管理连接、事务、迁移和错误。直接暴露可变连接会增加线程和生命周期耦合。[回看架构](#architecture)
 
-### 22.12、群聊能直接照搬单聊吗？
+### 22.12、群聊能直接照搬单聊吗？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 基础收发可以复用，成员权限、历史可见性、回执分母、@提及和分发规模需要额外模型。被踢、退群、重新加入等必须和消息事件共同处理。[回看群聊](#domain)
 
-### 22.13、<span id="faq-scroll">上拉历史和新消息同时到达，怎样不跳屏？</span>
+### 22.13、<span id="faq-scroll">上拉历史和新消息同时到达，怎样不跳屏？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 使用稳定消息身份，更新前记录可见锚点和相对偏移；完成数据和布局变化后恢复锚点。是否自动滚到底部由用户当前位置和交互意图决定，不能每次新消息都强滚。[回看交互](#interaction)
 
-### 22.14、图片上传成功但消息发送失败算成功吗？
+### 22.14、图片上传成功但消息发送失败算成功吗？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 附件任务成功、消息操作未成功，两者分开记录。重试复用有效附件引用，过期重新授权；未被消息引用的对象通过安全清理策略回收。[回看媒体](#interaction)
 
-### 22.15、<span id="faq-background">怎样保证 iOS 聊天后台一直在线？</span>
+### 22.15、<span id="faq-background">怎样保证 iOS 聊天后台一直在线？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 普通 IM 不能承诺后台永久连接。依靠系统允许的通知与后台机会，加上前台恢复和可靠同步；不能把静默推送或 VoIP 推送当作普通聊天保活机制。[回看平台专题](./专题/iOS连接管理与推送后台.md)
 
-### 22.16、APNs 返回成功说明对方收到了吗？
+### 22.16、APNs 返回成功说明对方收到了吗？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 只说明推送请求被接纳到相应处理阶段，不等于设备已经展示或用户已读。IM 送达状态必须采用定义清楚的业务回执。[回看推送专题](./专题/iOS连接管理与推送后台.md)
 
-### 22.17、TLS、数据库加密和 E2EE 有什么不同？
+### 22.17、TLS、数据库加密和 E2EE 有什么不同？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 分别保护传输链路、本地存储和端设备之间的消息内容。TLS 不阻止业务服务器看到明文，数据库加密也不自动完成多设备密钥分发。[回看安全](#security)
 
-### 22.18、撤回是否能保证消息从所有地方消失？
+### 22.18、撤回是否能保证消息从所有地方消失？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 撤回能要求受控客户端按协议更新状态，不能消除对方已复制、截图或另存的内容。离线设备通过 tombstone 和版本避免旧消息重新显示，产品表述须符合该边界。[回看协议](#protocol)
 
-### 22.19、全文搜索直接用 LIKE 可以吗？
+### 22.19、全文搜索直接用 LIKE 可以吗？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 小规模简单需求可先测量，复杂搜索需考虑分词、索引、分页、权限和加密。FTS 也需要维护编辑 / 删除一致性，不能只建索引就结束。[回看全文检索](#search)
 
-### 22.20、为什么不能把网络调用放在数据库事务内？
+### 22.20、为什么不能把网络调用放在数据库事务内？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 网络时延不可控，会延长锁持有和阻塞其他写入；本地事务也不能回滚已经发生的远端动作。使用持久任务、幂等和补偿来协调跨资源操作。[回看持久任务](#storage)
 
-### 22.21、音视频通话是不是通过 IM Socket 传视频？
+### 22.21、音视频通话是不是通过 IM Socket 传视频？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** IM 常承载呼叫信令，媒体使用适合实时传输的独立链路。通话成功还取决于 NAT 穿透、中继、编解码、拥塞和系统音频会话。[回看通话](#calls)
 
-### 22.22、接入商业 SDK 之后还有哪些核心工作？
+### 22.22、接入商业 SDK 之后还有哪些核心工作？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 明确状态语义、账号生命周期、UI、附件与系统入口，验证多端、故障恢复、隐私、性能、迁移和服务依赖。SDK 减少实现范围，但不会替产品决定全部规则。[回看选型](#selection)
 
-### 22.23、如何证明性能优化没有牺牲可靠性？
+### 22.23、如何证明性能优化没有牺牲可靠性？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 在相同数据、设备、索引、加密和耐久条件下比较，先验证幂等、恢复和权限等不变量，再报告吞吐、尾延迟和资源成本。降低同步级别后的跑分应明确耐久差异。[回看压测](#observability)
 
-### 22.24、怎样把研究成果变成可复用能力？
+### 22.24、怎样把研究成果变成可复用能力？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 留下固定版本的协议样本、状态机、错误矩阵、数据迁移路径、复现实验和指标定义，再抽取职责清楚的接口与模块。能解释和复现故障，比只收藏一批仓库更有价值。[回看研究路线](#research)
 
-### 22.25、<span id="faq-no-backend">只有 iOS 环境还能研究 IM 吗？</span>
+### 22.25、<span id="faq-no-backend">只有 iOS 环境还能研究 IM 吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 可以研究并验证状态、持久化、账号隔离、UI、媒体资源和客户端恢复策略。通过本地样本注入输入，无需部署服务；真实推送、远端幂等和网络交付保留为待联调事项。[具体方法](./专题/无后端环境的客户端验证与生产排障.md)
 
-### 22.26、<span id="faq-adaptation">不同后端之间有没有通解？</span>
+### 22.26、<span id="faq-adaptation">不同后端之间有没有通解？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 有通用决策与架构方法：核对能力和语义，稳定客户端内核，适配协议差异，按能力选择重试与同步策略，公开缺项边界。没有能够凭空补出远端幂等、完整历史和权威已读的客户端万能实现。[能力矩阵与案例](./专题/不同后端能力下的客户端适配.md)
 
-### 22.27、后端不支持幂等，发送超时后怎么处理？
+### 22.27、后端不支持幂等，发送超时后怎么处理？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 保留结果未知，优先查询或等待可关联的权威回声；没有此能力时避免盲目自动重发。人工再次发送也存在重复风险。本地保存意图解决恢复问题，不能证明服务端只接受一次。[回看发送状态](#lifecycle)
 
-### 22.28、<span id="faq-production">怎样用这套文档辅助生产和面试？</span>
+### 22.28、<span id="faq-production">怎样用这套文档辅助生产和面试？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：** 生产按能力表接入、按状态链排障、按证据区分本地与远端；面试按“前提、方案、异常、取舍、验证”组织回答。没有真实项目数据时说明设计和本地验证范围，不编造线上成绩。[生产场景与面试 FAQ](./专题/生产场景与面试FAQ.md)
 
-## 二十三、<span id="sources">资料索引与阅读边界</span>
+## 二十三、<span id="sources">资料索引与阅读边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 一手资料 | 本册对应内容 |
 | --- | --- |

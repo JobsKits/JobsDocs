@@ -18,9 +18,9 @@ bookCollapseSection: false
 </iframe>
 
 
-## Open As Source Code，添加以下信息
+## <span id="前言">Open As Source Code，添加以下信息 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
-### 开权限：
+### 开权限： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 *多语言化*
 
 ```xml
@@ -95,7 +95,7 @@ bookCollapseSection: false
 "NSVideoSubscriberAccountUsageDescription" = "我们需要获取你的TV权限";
 ```
 
-### 添加外部字体：
+### 添加外部字体： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 ```xml
 <key>UIAppFonts</key>
 <array>
@@ -104,7 +104,7 @@ bookCollapseSection: false
 </array>
 ```
 
-### 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在`Info.plist`中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。
+### 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在`Info.plist`中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 当你的应用在iOS 9中需要使用 QQ/QQ空间/支付宝/微信SDK的相关能力（分享、收藏、支付、登录等）时，需要在`Info.plist`里增加如下代码：
 
 ```xml
@@ -149,7 +149,7 @@ bookCollapseSection: false
 </array>
 ```
 
-### 屏幕旋转
+### 屏幕旋转 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```xml
 <key>UISupportedInterfaceOrientations</key>
@@ -161,7 +161,7 @@ bookCollapseSection: false
 </array>
 ```
 
-### 添加Appicon
+### 添加Appicon <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```xml
 <key>CFBundleIcons</key>
@@ -227,3 +227,5 @@ bookCollapseSection: false
     </dict>
 </dict>
 ```
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

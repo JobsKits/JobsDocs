@@ -11,7 +11,7 @@
 
 [toc]
 
-## 🔥<font id=前言>前言</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 🔥<font id=前言>前言</font>
 
 * 对音视频相关概念的总结和梳理
 

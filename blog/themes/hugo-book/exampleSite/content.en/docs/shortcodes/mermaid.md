@@ -1,4 +1,4 @@
-# Mermaid Chart
+# <span id="前言">Mermaid Chart</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -17,7 +17,7 @@ To override the [initialization config](https://mermaid-js.github.io/mermaid/#/S
 create a `mermaid.json` file in your `assets` folder!
 {{% /hint %}}
 
-## Example
+## Example <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 {{% columns %}}
 - ````tpl
@@ -193,3 +193,5 @@ quadrantChart
 ```
 
 {{% /columns %}}
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

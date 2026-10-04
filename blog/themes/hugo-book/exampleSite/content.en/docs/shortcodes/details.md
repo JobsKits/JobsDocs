@@ -1,4 +1,4 @@
-# Details
+# <span id="前言">Details</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -12,7 +12,7 @@
 Details shortcode is a helper for `details` html5 element. To collapse the details either omit the `open`
 keyword when using positional arguments or set `open=false` when using parameters.
 
-## Example with positional arguments
+## Example with positional arguments <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 ```tpl
 {{%/* details "Title" [open] */%}}
 ## Markdown content
@@ -21,11 +21,11 @@ Lorem markdownum insigne...
 ```
 
 {{% details "Title" open %}}
-## Markdown content
+## Markdown content <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 Lorem markdownum insigne...
 {{% /details %}}
 
-## Example with parameters
+## Example with parameters <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 ```tpl
 {{%/* details title="Title" open=true */%}}
 ## Markdown content
@@ -34,6 +34,8 @@ Lorem markdownum insigne...
 ```
 
 {{% details title="Title" open=true %}}
-## Markdown content
+## Markdown content <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 Lorem markdownum insigne...
 {{% /details %}}
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

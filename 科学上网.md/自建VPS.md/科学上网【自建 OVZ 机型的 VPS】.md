@@ -1,4 +1,4 @@
-#  科学上网【自建 OVZ 机型的 VPS 】
+#  <span id="前言">科学上网【自建 OVZ 机型的 VPS 】</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -58,7 +58,7 @@
         - [3.10.2.4、Cloudflare设置请求头](#31024cloudflare设置请求头)
         - [3.10.2.5、Cloudflare设置服务器地址](#31025cloudflare设置服务器地址)
 
-## 1、前言
+## <span id="前言">1、前言</span>
 
 *资料来源*
 
@@ -83,7 +83,7 @@ VPS 分国内的和国外的。国外的 VPS 就是我们科学上网所需要�
 3、价格便宜
 ```
 
-## 2、使用到的工具
+## 2、使用到的工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 域名购买       | Namesilo          | https://www.namesilo.com                                     | 可以使用支付宝 |
 | -------------- | ----------------- | ------------------------------------------------------------ | -------------- |
@@ -93,11 +93,11 @@ VPS 分国内的和国外的。国外的 VPS 就是我们科学上网所需要�
 | 服务器监控工具 | X-UI              | apt update -y<br/>apt install -y curl socat<br/>bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh) | 免费           |
 | SSL证书申请    | x-ui 和Cloudflare | 16                                                           | 免费           |
 
-## 3、流程
+## 3、流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、Namesilo
+### 3.1、Namesilo <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 3.1.1、身份认证
+#### 3.1.1、身份认证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **https://www.namesilo.com/account_profile.php**
 
@@ -112,7 +112,7 @@ https://www.namesilo.com/account_profile.php 重定向为 https://www.namesilo.c
 
 ![Namesilo的DNS设置](./assets/Namesilo的DNS设置.jpg)
 
-#### 3.1.2、 DNS管理
+#### 3.1.2、 DNS管理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **https://www.namesilo.com/account_domain_manage_dns.php**
 
@@ -122,7 +122,7 @@ https://www.namesilo.com/account_profile.php 重定向为 https://www.namesilo.c
 
 **自此，域名`jobs295060456.top`购买成功**
 
-### 3.2、Cloudflare
+### 3.2、Cloudflare <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **https://www.cloudflare.com/zh-cn/**
 
@@ -150,25 +150,25 @@ Cloudflare 是一个内容分发网络，即:CDN。
 就算我们不使用 Cloudflare 的 CDN 业务，域名托管到 Cloudflare 以后，也会加速 DNS 解析生效;
 ```
 
-#### 3.2.1、注册
+#### 3.2.1、注册 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 略
 
-#### 3.2.2、添加站点
+#### 3.2.2、添加站点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![Cloudflare添加站点](./assets/Cloudflare添加站点.jpg)
 
-#### 3.2.3、选择（Free）计划
+#### 3.2.3、选择（Free）计划 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![Cloudflare添加站点选择计划](./assets/Cloudflare添加站点选择计划.jpg)
 
-#### 3.2.4、查看记录
+#### 3.2.4、查看记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![Cloudflare查看记录](./assets/Cloudflare查看记录.jpg)
 
 **点击`继续`**
 
-#### 3.2.5、更改您的名称服务器（完毕以后，需要刷新 Cloudflare ，检查是否生效）
+#### 3.2.5、更改您的名称服务器（完毕以后，需要刷新 Cloudflare ，检查是否生效） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *等待域名生效*
 
@@ -189,21 +189,21 @@ Cloudflare 是一个内容分发网络，即:CDN。
 
 **自此，namesilo 完毕  ！！！相关功能被 Cloudflare 进行托管  ... 等待域名生效**
 
-#### 3.2.6、成功生效
+#### 3.2.6、成功生效 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![Namesilo->Cloudflare生效](./assets/Namesilo->Cloudflare生效.jpg)
 
 **同时，Cloudflare 的注册邮箱会受到一封生效的邮件**
 
-### 3.3、hosteons
+### 3.3、hosteons <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **https://hosteons.com/**
 
-#### 3.3.1、注册
+#### 3.3.1、注册 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 略
 
-#### 3.3.2、服务器的购买和设置
+#### 3.3.2、服务器的购买和设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *自行选择一款配置，支持支付宝购买*
 
@@ -222,9 +222,9 @@ Primary IP
 213.59.119.127
 ```
 
-#### 3.3.3、hosteons  ↔ Cloudflare
+#### 3.3.3、hosteons  ↔ Cloudflare <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 3.3.3.1、进入 hosteons → DNS  → 添加记录
+##### 3.3.3.1、进入 hosteons → DNS  → 添加记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **搭建 VPS 推荐使用二级域名**
 
@@ -232,7 +232,7 @@ Primary IP
 
 **暂时关闭是为了演示一个不良效果**
 
-##### 3.3.3.2、检测二级域名是否成功
+##### 3.3.3.2、检测二级域名是否成功 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```bash
 ➜  ~ ping hello.jobs295060456.top                      
@@ -251,7 +251,7 @@ PING hello.jobs295060456.top (213.59.119.127): 56 data bytes
 
 **🎉🍺 成功 🎉🍺**
 
-### 3.4、🌹SSH工具 FinalShell 连接 VPS（含账密）🌹
+### 3.4、🌹SSH工具 FinalShell 连接 VPS（含账密）🌹 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *FinalShell*
 
@@ -272,7 +272,7 @@ IP:213.59.119.127
 
 ![FinalShell03](./assets/FinalShell03.jpg)
 
-### 3.5、部署`X-UI`
+### 3.5、部署`X-UI` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *`X-UI`可视化节点部署的一个脚本*
 
@@ -288,7 +288,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
 
 ![X-UI安装](./assets/X-UI安装.jpg)
 
-### 3.6、访问`X-UI`面板
+### 3.6、访问`X-UI`面板 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *因为没有配置https证书，所以网页报红*
 
@@ -302,24 +302,24 @@ open http://213.59.119.127:54321
 
 ![X-UI面板](./assets/X-UI面板.jpg)
 
-### 3.7、申请`SSL`证书
+### 3.7、申请`SSL`证书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 一个域名对应一个SSL证书
 泛域名配置证书，也就是一个证书涵盖所有的泛域名
 ```
 
-#### 3.7.1、在`FinalShell`下输入`x-ui`,调出`X-UI`的管理脚本，输入`16`
+#### 3.7.1、在`FinalShell`下输入`x-ui`,调出`X-UI`的管理脚本，输入`16` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![利用X-UI对SSL证书进行申请](./assets/利用X-UI对SSL证书进行申请.jpg)
 
-#### 3.7.2、完成一些设置
+#### 3.7.2、完成一些设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 3.7.2.1、域名设置
+##### 3.7.2.1、域名设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 `jobs295060456.top`
 
-##### 3.7.2.2、密钥设置
+##### 3.7.2.2、密钥设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 密钥位置: Cloudflare 👉🏻概述 👉🏻获取您的API令牌
@@ -335,11 +335,11 @@ Api密钥：`4890192c37124e425dac15c55768117c954ad`
 
 ![Cloudflare的Api密钥🔑](./assets/Cloudflare的Api密钥🔑.jpg)
 
-##### 3.7.2.3、注册邮箱设置，即输入`Cloudflare`的用户名
+##### 3.7.2.3、注册邮箱设置，即输入`Cloudflare`的用户名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 `lg295060456@gmail.com`
 
-#####  3.7.2.4、相关日志打印
+#####  3.7.2.4、相关日志打印 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```bash
 root@vps73846798:~# x-ui
@@ -505,13 +505,13 @@ drwx------ 6 root root 4.0K May 14 05:28 ..
 root@vps73846798:~# 
 ```
 
-#### 3.7.3、`/root/cert` 证书文件夹
+#### 3.7.3、`/root/cert` 证书文件夹 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![刷新→云服务器上的root:cert文件夹](./assets/刷新→云服务器上的root:cert文件夹.jpg)
 
 ![cert文件夹](./assets/cert文件夹.jpg)
 
-#### 3.7.4、`X-UI`面板证书设置
+#### 3.7.4、`X-UI`面板证书设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![X-UI面板证书设置](./assets/X-UI面板证书设置.jpg)
 
@@ -521,7 +521,7 @@ root@vps73846798:~#
 open https://hello.jobs295060456.top:54321/
 ```
 
-### 3.8、在`X-UI`面板里面部署入站节点
+### 3.8、在`X-UI`面板里面部署入站节点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![在X-UI面板里面部署入站节点](./assets/在X-UI面板里面部署入站节点.jpg)
 
@@ -531,45 +531,45 @@ open https://hello.jobs295060456.top:54321/
 vless://d8cabfc6-146f-41dd-8d48-59000cf10df8@hello.jobs295060456.top:443?type=tcp&security=xtls&flow=xtls-rprx-direct#%E5%93%88%E5%93%88%E5%93%88
 ```
 
-### 3.9、使用`Qv2ray`
+### 3.9、使用`Qv2ray` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 Qv2ray 是一款跨平台的 V2Ray 客户端，用于科学上网和保护网络隐私。
 它可以帮助用户在网络审查和封锁的国家或地区访问受限的网站或服务，同时加密网络流量，保护用户的网络通信数据不被窃取或监听。Qv2ray 支持多种协议和加密方式，可以自定义配置，在保护隐私的同时提供更快、更稳定的网络连接。
 ```
 
-#### 3.9.1、安装
+#### 3.9.1、安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```bash
 open https://formulae.brew.sh/cask/qv2ray
 brew install --cask qv2ray
 ```
 
-#### 3.9.2、数据导入
+#### 3.9.2、数据导入 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![导入二维码字符串资料到qv2ray](./assets/导入二维码字符串资料到qv2ray.jpg)
 
 ![qv2ray](./assets/qv2ray.jpg)
 
-### 3.10、IP优选：套用`CDN`拯救线路
+### 3.10、IP优选：套用`CDN`拯救线路 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 3.10.1、准备工作
+#### 3.10.1、准备工作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 3.10.1.1、断开`Qv2ray`链接并删除(图略)
+##### 3.10.1.1、断开`Qv2ray`链接并删除(图略) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 3.10.1.2、在X-UI面板-入站列表里面，删除刚才配置的节点(图略)
+##### 3.10.1.2、在X-UI面板-入站列表里面，删除刚才配置的节点(图略) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 3.10.2、操作流程
+#### 3.10.2、操作流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 3.10.2.1、打开DNS：Cloudflare，找到解析域名的地方，开启代理
+##### 3.10.2.1、打开DNS：Cloudflare，找到解析域名的地方，开启代理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![Cloudflare开启代理](./assets/Cloudflare开启代理.jpg)
 
-##### 3.10.2.2、Cloudflare里面SSL/TLS 加密模式设置为完全（严格）
+##### 3.10.2.2、Cloudflare里面SSL/TLS 加密模式设置为完全（严格） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![Cloudflare里面SSL:TLS加密模式设置为完全（严格）](./assets/Cloudflare里面SSL:TLS加密模式设置为完全（严格）.jpg)
 
-##### 3.10.2.3、在`X-UI`面板里面建立`VLESS+WS+TLS`的代理节点
+##### 3.10.2.3、在`X-UI`面板里面建立`VLESS+WS+TLS`的代理节点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *检验`Cloudflare`域名是否代理成功生效*
 
@@ -595,13 +595,13 @@ open http://213.59.119.127:54321/xui/
 
 **注：但是要对节点进行修改以后才可使用**
 
-##### 3.10.2.4、Cloudflare设置请求头
+##### 3.10.2.4、Cloudflare设置请求头 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *设置请求头为：host|hello.jobs295060456.top*
 
 ![Cloudflare设置请求头](./assets/Cloudflare设置请求头.jpg)
 
-##### 3.10.2.5、Cloudflare设置服务器地址
+##### 3.10.2.5、Cloudflare设置服务器地址 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *服务器地址为:hello.jobs295060456.top*
 
@@ -611,3 +611,4 @@ open http://213.59.119.127:54321/xui/
 
 
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

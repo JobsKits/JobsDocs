@@ -1,4 +1,4 @@
-# iOS项目工程化
+# <span id="前言">iOS项目工程化</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -37,11 +37,11 @@ iOS开发过程中，经常会遇到每次打开一个项目都需要手动搭�
 
 自动化配置步骤：
 
-## 1. Git配置
+## 1. Git配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
  [gitignore](https://www.toptal.com/developers/gitignore) ⾥⾯输⼊关键字, 例如 swift, xcode, cocoapods, fastlane等, 然后该⽹站会帮我们⽣成⼀个默认的 .gitignore ⽂件.
 
-## 2. rbenv安装和shell设置
+## 2. rbenv安装和shell设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [rbenv](https://github.com/rbenv/rbenv)
 
@@ -125,7 +125,7 @@ rbenv install 3.2.2
 rbenv global 3.2.2
 ```
 
-## 3. rbenv配置项目的ruby环境
+## 3. rbenv配置项目的ruby环境 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 cd 到项目目录
@@ -135,7 +135,7 @@ rbenv local 3.2.2
 
 这里把该项目的ruby环境配置为2.7.7，rbenv会生成.ruby-version的文件, 这个文件通过git管理，这样就保证了所有人的该项目的ruby环境一致。
 
-## 4. Bundler 安装和使用
+## 4. Bundler 安装和使用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 安装 Bundler
 
@@ -160,7 +160,7 @@ gem "fastlane", "2.211.0"
 
 为了保证使⽤版本号⼀致的 Gem, 需要把 Gemfile 和 Gemfile.lock ⼀同保存到 Git ⾥⾯统⼀管理起来.
 
-## 5. Cocoapods
+## 5. Cocoapods <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 官网 https://cocoapods.org/
 
@@ -232,7 +232,7 @@ post_install do |installer|
 end
 ```
 
-## 6. 利用脚本完成整套开发环境的搭建
+## 6. 利用脚本完成整套开发环境的搭建 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在项目目录中创建scripts目录存放了setup.sh脚本。执行脚本cd到项目目录后，在终端执行
 
@@ -267,7 +267,7 @@ bundle exec pod install
 接着使⽤ Bundler 安装 CocoaPods 和 fastlane, 
 最后通过CocoaPods安装各个 Pod. 
 
-## 7. xccongif构建配置⽂件配置项目和多环境支持
+## 7. xccongif构建配置⽂件配置项目和多环境支持 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ⼀般在构建⼀个 iOS App 的时候，需要⽤到 Xcode Project，Xcode Target，Build Settings，Build Configuration 和 Xcode Scheme 等构建配置。
 
@@ -297,7 +297,7 @@ Apple官网： https://help.apple.com/xcode/mac/11.4/#/dev745c5c974
 
 关于xcconfig使用和配置，AFNetworker 和 Alamofire 的作者写了一个使用教程 https://nshipster.com/xcconfig/ ，具体配置可以看这个教程，和源码查看。
 
-## 8. xcconfig 使用中的一些问题
+## 8. xcconfig 使用中的一些问题 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 🔥🔥🔥 关于PRODUCT_BUNDLE_IDENTIFIER设置后不生效的问题？很多国内的网上说不能用xcconfig来配置，这是不正确的。
 
@@ -328,7 +328,7 @@ $(PRODUCT_VERSION_SUFFIX)
 这里的详细操作可以查看源码配置，或者下面的配置出处：
  https://www.kodeco.com/21441177-building-your-app-using-build-configurations-and-xcconfig
 
-## 9. demo运行
+## 9. demo运行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 1. clone源码
 2. 先安装rbenv
@@ -338,6 +338,8 @@ $(PRODUCT_VERSION_SUFFIX)
 ./scripts/setup.sh
 ```
 
-## 10. Fastlane
+## 10. Fastlane <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [All fastlane docs](https://docs.fastlane.tools/)
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

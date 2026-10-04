@@ -17,13 +17,13 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
-## 1、生命的定义：具备意识（广义上的趋利避害）
+## <span id="前言">1、生命的定义：具备意识（广义上的趋利避害） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
 * 意识是智慧（逻辑）产生的必要前置条件；
 * 高级智慧生命会更加表现为更强的逻辑思维能力；
 * 低级别的生命仅仅会满足自身的必要循环，个体生存的乃至种族的繁荣；
 
-## 2、元素周期表
+## 2、元素周期表 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 放射性元素因为向外散发能量，不稳定，具有半衰期
 
@@ -57,7 +57,7 @@ bookCollapseSection: false
 |         |                |                |     **钍**     |     **镤**     |     **铀**     |     **镎**     |     **钚**     |     **镅**     |     **锔**     |     **锫**     |     **锎**     |     **锿**     |     **镄**     |             **钔**             |     **锘**     |     **铹**     |                |                |
 |         |                |                |   **232.04**   |   **231.04**   |   **238.03**   | **237** (估测) | **244** (估测) | **243** (估测) | **247** (估测) | **247** (估测) | **251** (估测) | **252** (估测) | **257** (估测) |         **258** (估测)         | **259** (估测) | **262** (估测) |                |                |
 
-## 3、人类的起源与可能存在的地外生命的拟态
+## 3、人类的起源与可能存在的地外生命的拟态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 首先，我们谈论的所有事实依据的都基于以下落脚点，即：**元素周期表**未有稳定性的扩充（某些放射性元素并不稳定）或者颠覆性的创造（在这个理论之外有其他的元素是构成我们整个世界的本源）
   * 要承认科学界目前达成的广泛共识，所有的元素都是由：质子（带1单位正电荷）+ 核外电子（带1单位负电荷）+ 中子（不带电，影响放射性及该种元素的稳定性）；
@@ -101,7 +101,7 @@ bookCollapseSection: false
   | 弱相互作用力 |     10⁻¹³     |   极短   |    β 衰变、W/Z 玻色子    |
   | 引力         | 10⁻³⁸（最弱） |   无限   |    宇宙尺度、天体运动    |
 
-## 4、生命的探索
+## 4、生命的探索 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 碳基生命
   * 克隆：DNA、RNA、蛋白质
@@ -112,7 +112,7 @@ bookCollapseSection: false
   * 即便存在人类外形的硅基生命，那么无法突破来自于地球之于母星的物化环境
   * 重要推论：<font color=red>**硅基生命来源于碳基生命的主动探索，即：AI（因为我们上文讲到，生命的本质在于意识）**</font>
 
-## 5、关于”人“
+## 5、关于”人“ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 寒武纪生命大爆发
   * 大约**5.41亿年前**，地球生命在极短的地质时间内突然出现了大量复杂、多样化的生物门类；
@@ -137,7 +137,7 @@ bookCollapseSection: false
   * 宗教文化习俗
   * 掌握知识的程度
 
-## 6、<font color=red>**关于计算机（AI）**</font>
+## 6、<font color=red>**关于计算机（AI）**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 模拟人：记忆区间+运算区间
 
@@ -228,7 +228,7 @@ bookCollapseSection: false
   
 * AI的本质：<font color=red>**为人类提升效率的工具**</font>
 
-## 7、AI·未来应用
+## 7、AI·未来应用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 减少信息（获取）流通的成本：在线搜索业务，广告的精准推送
 * 物联网：可穿戴设备、无人驾驶、智慧居家
@@ -239,7 +239,7 @@ bookCollapseSection: false
 * 天文领域：发现星球
 * 防灾减灾：预测地震台风模型
 
-## 8、AI·不可涵盖的领域（范畴）
+## 8、AI·不可涵盖的领域（范畴） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 劣势：人工智能是基于计算机，本质是基于线上，属于信息层面，本身是不可克服来自于自然物理带来的种种束缚
   * 能源类
@@ -254,3 +254,4 @@ bookCollapseSection: false
 
 
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

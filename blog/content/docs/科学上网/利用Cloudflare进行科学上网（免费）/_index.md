@@ -18,13 +18,13 @@ bookCollapseSection: false
 </iframe>
 
 
-## 一、🔥 <font id=前言>前言</font>
+## 一、🔥 <font id=前言>前言</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1、📖 参考资料
+### 1、📖 参考资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 👉[**2026 最强 Cloudflare 免费节点！永久可用+免费域名｜10分钟搭建｜解锁 ChatGPT / Gemini ！**](https://www.freedidi.com/23618.html)
 
-### 2、🔨 所需工具
+### 2、🔨 所需工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 需要的相关账户
   * [**Google**](https://www.google.com)账户
@@ -71,7 +71,7 @@ bookCollapseSection: false
   * **ping**
   * [**speedtest**](https://www.speedtest.net/zh-Hans)
 
-## 二、⚙️ 实操
+## 二、⚙️ 实操 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 利用[**dnshe**](https://www.dnshe.com/)，<font id=域名注册>**注册一个永久免费的域名**</font>
 
@@ -168,12 +168,12 @@ bookCollapseSection: false
   |---|---|
   | ![image-20260429145622399](./assets/image-20260429145622399.png) | ![image-20260429145640989](./assets/image-20260429145640989.png) |
 
-## 三、🧑‍🔬科普
+## 三、🧑‍🔬科普 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > * 运营商（电信、移动、联通）**很关键**；同一个 **VPS**，不同运营商速度差很大
 > * 具体线路（比国家更重要）。<u>例如：同样是东京，有的绕美国（直接废）</u>
 
-### 1、服务器节点
+### 1、服务器节点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 通解选取**日本**
 

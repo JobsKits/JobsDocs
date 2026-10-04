@@ -1,4 +1,4 @@
-# [<span style="color:red; font-weight:bold;">R</span>eact<span style="color:red; font-weight:bold;">N</span>ative](# https://reactnative.dev/)
+# <span id="前言">[<span style="color:red; font-weight:bold;">R</span>eact<span style="color:red; font-weight:bold;">N</span>ative](# https://reactnative.dev/)</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -13,13 +13,13 @@
 
 当前总行数：366 行
 
-## 一、基础知识
+## 一、基础知识 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 脚本语言：必须在自己的环境下（解释器）运行，不能完全对接操作系统。比如，`*.js`需要在操作系统里面安装了Node.js以后，才可以运行；
 
-## 二、一些工具
+## 二、一些工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1、Node.js
+### 1、Node.js <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * Node.js：是一个基于 Chrome V8 引擎的 JavaScript 运行环境。它的特点如下:
 
@@ -61,7 +61,7 @@
     v21.7.1
     ```
 
-### 2、npm
+### 2、npm <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它的主要作用如下:
 
@@ -77,7 +77,7 @@ npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它�
 
 * **创建项目**：npm 可以通过 `npm init` 创建一个标准化的包结构,便于构建新项目。
 
-###  3、Yarn
+###  3、Yarn <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 全称：Yarn Package Manager
 * 由**Facebook**开源的**依赖管理工具**
@@ -91,7 +91,7 @@ npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它�
   * **更好的安全性**：在每次安装前,Yarn 会通过验证机制校验每个安装包的完整性。
   * **更好的网页端支持**：Yarn 可直接通过 Node.js 的流重定向到浏览器中运行。
 
-### 4、[watchman](# https://facebook.github.io/watchman/)
+### 4、[watchman](# https://facebook.github.io/watchman/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * **Facebook**出品，用于监视文件系统的变化
 
@@ -555,3 +555,4 @@ Node.js v21.7.1
 */
 ```
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

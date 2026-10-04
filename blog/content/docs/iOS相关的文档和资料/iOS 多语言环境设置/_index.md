@@ -18,12 +18,12 @@ bookCollapseSection: false
 </iframe>
 
 
-## 一、目标
+## <span id="前言">一、目标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
 * **App**语言跟随当前手机系统语言
 * 用户主动切换当前App语言，即：**App**语言不同于手机系统语言
 
-## 二、参考资料
+## 二、参考资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * [**3分钟实现iOS语言本地化/国际化（图文详解）**](https://cloud.tencent.com/developer/article/1143302)
 * [**iOS App内语言切换（国际化）**](https://blog.csdn.net/shanghaibao123/article/details/107323395)
@@ -32,7 +32,7 @@ bookCollapseSection: false
 * [**Demos-LanguageSettingsDemo**](https://github.com/DarkAngel7/Demos-LanguageSettingsDemo/)
 * [**iOS - 多语言本地化**](https://devma.cn/blog/2016/05/27/ios-duo-yu-yan-ben-di-hua/)
 
-## 三、特别说明
+## 三、特别说明 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 经实践证明，如果配置多语言化，那么**Xcode**将会刷新`Info.plist`，导致里面的注释消失。正确的做法是，对`Info.plist`进行备份，随时进行替换
 
@@ -40,9 +40,9 @@ bookCollapseSection: false
 
   ![image-20240706113027884](./assets/image-20240706113027884.png)
 
-## 四、配置流程
+## 四、配置流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1、Xcode 中的配置
+### 1、Xcode 中的配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 选中 **project** ➤ **Info** ➤ **Localizations**，然后点击"+"，添加需要国际化 / 本地化的语言
 
@@ -60,7 +60,7 @@ bookCollapseSection: false
   * 如果弹出如下对话框，直接点击finish
     ![image-20240701112459992](./assets/image-20240701112459992.png)
 
-### 2、语言代码
+### 2、语言代码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 同一种语言，因为方言文化等历史原因，会对应多个语言代码
 
@@ -114,7 +114,7 @@ bookCollapseSection: false
     * **hil**：希利盖农语（Hiligaynon）
   
 
-### 3、应用名称本地化 / 国际化（`InfoPlist.strings`）
+### 3、应用名称本地化 / 国际化（`InfoPlist.strings`） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 是指同一个**App**的名称，在不同的语言环境下（也就是手机设备的语言设置）显示不同的名称；
   比如，微信在简体中文环境下**App**名称显示为**微信**，在英语环境下显示为**weChat**
@@ -161,7 +161,7 @@ bookCollapseSection: false
     
     ![image-20240701133957265](./assets/image-20240701133957265.png)
 
-### 4、代码中字符串的本地化（`Localizable.strings`）
+### 4、代码中字符串的本地化（`Localizable.strings`） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 指App内的字符串在不同的语言环境下显示不同的内容；
 
@@ -279,7 +279,7 @@ bookCollapseSection: false
   },nil, self),JobsLanguageSwitchNotification,nil);
   ```
 
-### 5、图片本地化
+### 5、图片本地化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 和本地化代码中的字符串一样，通过`NSLocalizedString(key,comment)`来获取相应的字符串，然后根据这个字符串再获取图片。
 
@@ -289,7 +289,7 @@ UIImage *image = [UIImage imageNamed:imageName];
 self.imageView.image = image;
 ```
 
-### 6、第三方支援
+### 6、第三方支援 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 *JobsLanguageManager.h*
 
@@ -404,7 +404,7 @@ static AppLanguage _language = AppLanguageBySys;
 @end
 ```
 
-### 7、相关调用
+### 7、相关调用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 原理：应用启动时，首先会读取**NSUserDefaults**中的key为`JobsLanguageKey`对应的value，该value是一个String数组。也就是说，我们访问这个名为`JobsLanguageKey`的key可以返回一个string数组，该数组存储着APP支持的语言列表，数组的第一项为**APP**当前默认的语言。
 
@@ -444,7 +444,7 @@ static AppLanguage _language = AppLanguageBySys;
   ```
 
 
-## 五、总结
+## 五、总结 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 其实是操作语言包文件夹`*.lproj`内的`InfoPlist.strings`和`Localizable.strings`。所以一定确保这两个文件一定是包含在工程文件里（需要进入编译期）
 
@@ -481,3 +481,5 @@ static AppLanguage _language = AppLanguageBySys;
     ```objective-c
     /// 如果当前的key是锚定的中文，那么在`Localizable.strings(Chinese,Simplified)`文件中可以不写
     ```
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

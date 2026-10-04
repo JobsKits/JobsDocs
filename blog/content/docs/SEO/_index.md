@@ -31,7 +31,7 @@ bookCollapseSection: false
 
 当前总行数：455 行
 
-## 基本概念.名词解释
+## <span id="前言">基本概念.名词解释 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
 * IIS，全称是 **I**nternet **I**nformation **S**ervices,是微软公司推出的一种互联网基础服务器
 
@@ -433,7 +433,7 @@ bookCollapseSection: false
   * Description(描述) ，指的是HTML头部的<meta name="description" content="...">部分。这段文字是搜索引擎在结果页中显示的页面摘要描述，对吸引用户点击很关键。
   * Keywords(关键词) ，指的是HTML头部的<meta name="keywords" content="...">部分。这里列出的是页面主旨相关的一些关键词，**过去对搜索引擎很重要，但现在意义已不太大**。
 
-## 一些工具
+## 一些工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [**Sav.com**](https://www.sav.com/)，是一个域名注册和管理平台，它让用户可以**购买、注册 和管理域名**
 
@@ -441,9 +441,9 @@ bookCollapseSection: false
 
 [**tld-list**](https://tld-list.com/)，对比域名价格的网站
 
-## SEO.原理
+## SEO.原理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 域名和SEO的关系
+#### 域名和SEO的关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 价格越贵的域名，搜索引擎给的排名可能会更高一些 
 
@@ -576,7 +576,7 @@ bookCollapseSection: false
   * 列出来以后，再手工的筛选一下
   * 最后，才得到非常好的可以注册的老域名
 
-#### 服务器和SEO的关系
+#### 服务器和SEO的关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 一些工具
 
@@ -623,7 +623,7 @@ bookCollapseSection: false
       * 有些特殊需求如数据采集等，需要不断切换IP才能持续运行。
   * 局域网服务器（用于本地测试，模拟服务器）
   
-## SEO.内容
+## SEO.内容 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
   * 页面内容有原创性，关键词密度合理
 
@@ -633,7 +633,7 @@ bookCollapseSection: false
 
   * 堆砌关键词：语义基本不通，内容瞎写， 内容里面的各种词语替换成我们的关键词（**这种做法现在已经完全没有可行性**）
 
-## 养网站（蜘蛛池）：
+## 养网站（蜘蛛池）： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
   * 怎么去填充里面的内容
     * 采集新闻（以前可以，现在效果不好 ）
@@ -643,9 +643,9 @@ bookCollapseSection: false
   * 找屏蔽了搜索引擎的网站。信息孤岛，比如：小红书的内容不暴露在搜索引擎下
   * <font color="red">**做爬虫要非常小心，因为很敏感！！！**</font>
 
-## 服务器vs搜索引擎vs访客
+## 服务器vs搜索引擎vs访客 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 判断来源
+### 判断来源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 指标/参数（用于判断是搜索引擎还是用户来访问我们的服务器）
   * UA = **U**ser **A**gent = 用户代理，是一个特殊字符串头，使得服务器能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、浏览器渲染引擎、浏览器语言、浏览器插件等。**不同搜索引擎，拥有不同的UA**
@@ -659,3 +659,5 @@ bookCollapseSection: false
   * 前端JS
   * 服务器层面，比如：NGinx、IIS、Apache，在这里面写代码
   * 最后端的代码，比如： php代码、各种CMS 
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

@@ -1,8 +1,8 @@
-# `SSH` ➤ [Github](https://github.com)
+# <span id="前言">`SSH` ➤ [Github](https://github.com)</span>
 
 [toc]
 
-## 一、生成`SSH`密钥🔑
+## 一、生成`SSH`密钥🔑 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 尚未在本地计算机上生成`SSH`密钥🔑对
 
@@ -35,7 +35,7 @@ The key's randomart image is:
 +----[SHA256]-----+
 ```
 
-## 二、确认 `id_rsa` 真的存在 & 权限正确
+## 二、确认 `id_rsa` 真的存在 & 权限正确 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 ls -la ~/.ssh/id_rsa ~/.ssh/id_rsa.pub
@@ -43,7 +43,7 @@ chmod 600 ~/.ssh/id_rsa
 chmod 644 ~/.ssh/id_rsa.pub
 ```
 
-## 三、把 `github.com` 的 key 明确写进 `~/.ssh/config`
+## 三、把 `github.com` 的 key 明确写进 `~/.ssh/config` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 建立`~/.ssh/config`并赋权
 
@@ -73,7 +73,7 @@ chmod 644 ~/.ssh/id_rsa.pub
     UseKeychain yes
   ```
 
-## 四、`id_rsa` ➤ macOS Keychain + agent
+## 四、`id_rsa` ➤ macOS Keychain + agent <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 让 GUI 程序也能用
 
@@ -82,7 +82,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_rsa
 ssh-add -l
 ```
 
-## 五、添加`SSH`密钥🔑 ➤ `SSH`代理
+## 五、添加`SSH`密钥🔑 ➤ `SSH`代理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 运行以下命令来将生成的SSH密钥添加到SSH代理，以便您可以在不重复输入密码的情况下使用它：
 
@@ -98,7 +98,7 @@ Agent pid 9880
 Identity added: ~/.ssh/id_rsa (lg295060456@gmail.com)
 ```
 
-## 六、添加公钥🔑 ➤ [Github](https://github.com)
+## 六、添加公钥🔑 ➤ [Github](https://github.com) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 打开`~/.ssh/id_rsa.pub`文件并复制其中的内容
 
@@ -133,7 +133,7 @@ Identity added: ~/.ssh/id_rsa (lg295060456@gmail.com)
 
   ![image-20231007055536132](./assets/image-20231007055536132.png)
 
-## 七、命令测试`SSH`连接是否正常
+## 七、命令测试`SSH`连接是否正常 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```bash
 ssh -T git@github.com
@@ -141,3 +141,4 @@ ssh -T git@github.com
 
 ![image-20231007055634328](./assets/image-20231007055634328.png)
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

@@ -43,9 +43,9 @@ git rev-parse --git-path modules
 - `+`：子模块当前 `HEAD` 与父仓记录的 gitlink 不同。
 - `U`：存在合并冲突。
 
-## 二、添加子模块
+## 二、添加子模块 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、基本命令
+### 2.1、基本命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git submodule add <repository-url> <relative-path>
@@ -65,7 +65,7 @@ git commit -m 'Add submodule'
 
 ![父仓中的子模块记录](./assets/image-20240507184331553.png)
 
-### 2.2、相对 URL
+### 2.2、相对 URL <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git submodule add ../SharedLibrary.git Vendor/SharedLibrary
@@ -75,7 +75,7 @@ git submodule add ../SharedLibrary.git Vendor/SharedLibrary
 - 语义类似目录路径：同级仓库通常需要 `../`，不能因为看起来都在同一组织就省略。
 - HTTPS 与 SSH 的选择要考虑团队权限、CI 凭据和离线镜像，不只考虑个人机器能否克隆。
 
-### 2.3、已有目录
+### 2.3、已有目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 如果目标路径已经是一个有效 Git 仓库，`git submodule add` 可以把它登记为子模块而不重新克隆。执行前必须核对：
 
@@ -87,9 +87,9 @@ git -C <relative-path> rev-parse HEAD
 
 未提交内容不会自动进入父仓；先在子模块中单独处理。
 
-## 三、克隆与初始化
+## 三、克隆与初始化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、一次递归克隆
+### 3.1、一次递归克隆 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git clone --recurse-submodules <superproject-url>
@@ -105,7 +105,7 @@ git submodule update --init --recursive
 - `update`：按父仓 gitlink 检出子模块提交；默认通常是 detached HEAD，这是固定依赖版本的正常状态。
 - `--recursive`：继续处理子模块内部的嵌套子模块。
 
-### 3.2、同步 URL 变化
+### 3.2、同步 URL 变化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 父仓更新了 `.gitmodules` 的 URL 后：
 
@@ -116,9 +116,9 @@ git submodule update --init --recursive
 
 `sync` 把 `.gitmodules` 的 URL 同步到本地子模块配置；只 Pull 父仓不会保证本地覆盖配置自动改变。
 
-## 四、日常更新
+## 四、日常更新 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、跟随父仓锁定版本
+### 4.1、跟随父仓锁定版本 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git pull --ff-only
@@ -127,7 +127,7 @@ git submodule update --init --recursive
 
 这会把子模块恢复到父仓记录的提交，不代表拉取子模块某个分支的最新尖端。
 
-### 4.2、主动升级子模块版本
+### 4.2、主动升级子模块版本 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git -C <submodule-path> fetch --prune origin
@@ -140,7 +140,7 @@ git commit -m 'Update submodule revision'
 
 父仓最后提交的是新的 gitlink。子模块仓库里的新提交必须先推送到协作者和 CI 可访问的远端，否则别人拿到父仓新 gitlink 后无法检出。
 
-### 4.3、`--remote`
+### 4.3、`--remote` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git submodule update --remote --recursive
@@ -150,7 +150,7 @@ git submodule update --remote --recursive
 - 执行后仍要在父仓审查并提交 gitlink 变化。
 - 自动化中使用前要明确更新策略，避免每次构建静默漂移到不同依赖提交。
 
-## 五、在子模块中开发
+## 五、在子模块中开发 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 默认 update 常处于 detached HEAD。需要提交时先切到真实分支：
 
@@ -176,9 +176,9 @@ git diff --submodule=log
 
 `git submodule summary` 没有 `--recursive` 选项；嵌套子模块需要进入对应子模块继续检查，或用 `git submodule foreach --recursive` 执行只读状态命令。
 
-## 六、修改 URL、路径与逻辑名
+## 六、修改 URL、路径与逻辑名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、修改 URL
+### 6.1、修改 URL <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git submodule set-url <path> <new-url>
@@ -194,7 +194,7 @@ git config --file .gitmodules --get-regexp '^submodule\..*\.url$'
 git -C <path> remote -v
 ```
 
-### 6.2、修改路径
+### 6.2、修改路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 优先使用 Git 移动并同步 `.gitmodules`：
 
@@ -216,13 +216,13 @@ git diff --cached --submodule
   git -C <new-path> status --short --branch
   ```
 
-### 6.3、逻辑名不等于路径
+### 6.3、逻辑名不等于路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 `.gitmodules` 的 section 名是逻辑名，`path` 才是工作树路径。二者可以不同；脚本或文档不能默认用目录名拼出 `submodule.<name>`。
 
-## 七、删除子模块
+## 七、删除子模块 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、正常删除
+### 7.1、正常删除 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git submodule deinit -- <path>
@@ -235,11 +235,11 @@ git commit -m 'Remove submodule'
 - 如果命令因本地修改而拒绝，不要立刻补 `-f`；先进入子模块提交、stash 或备份需要保留的内容。
 - `.git/modules/<path>` 的历史元数据可能继续保留，用于恢复或避免误删。确定不需要后再单独备份和清理，不把删除整个 modules 目录当固定步骤。
 
-### 7.2、为什么 `.gitmodules` 要和 gitlink 一起提交
+### 7.2、为什么 `.gitmodules` 要和 gitlink 一起提交 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 `.gitmodules` 是其他克隆者解析子模块路径与 URL 的来源。只删目录、不提交 `.gitmodules` 和 gitlink，会让父仓处于半删除状态，Sourcetree 可能继续把它显示为异常子模块。
 
-## 八、常见故障
+## 八、常见故障 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 现象 | 根因 | 处理 |
 | --- | --- | --- |
@@ -252,7 +252,7 @@ git commit -m 'Remove submodule'
 | 改名后路径错位 | 工作树 `.git` 指针或 gitdir `core.worktree` 仍是旧路径 | 备份元数据，核对 URL 与真实路径后再修正；可使用 Jobs Commit 修复动作诊断。 |
 | 本地路径协议被拒绝 | Git 对 `file` transport 有安全限制 | 优先使用可审计的 HTTPS/SSH 远端；只在理解信任边界后局部配置。 |
 
-## 九、与 Jobs Commit 修复动作的关系
+## 九、与 Jobs Commit 修复动作的关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 [**Git 无法 Commit 修复动作**](https://github.com/JobsKits/SourceTree.sh/tree/main/%E3%80%90MacOS%40SourceTree%E3%80%91%F0%9F%93%A5%E4%BF%AE%E5%A4%8DGit%E6%97%A0%E6%B3%95Commit.command) 会处理 Jobs 工作流里出现过的半初始化、路径改名、同源副本借用旧 gitdir 和 `.gitmodules` 未优先暂存等问题。
 
@@ -263,7 +263,7 @@ git commit -m 'Remove submodule'
 - 只有在 URL、路径和 gitdir 关系能被验证时才自动接管；不明确的错位应停止并人工处理。
 - 执行后必须审查 `.gitmodules`、gitlink 和全部暂存变更。
 
-## 十、官方资料
+## 十、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [**git-submodule**](https://git-scm.com/docs/git-submodule)
 - [**gitsubmodules**](https://git-scm.com/docs/gitsubmodules)

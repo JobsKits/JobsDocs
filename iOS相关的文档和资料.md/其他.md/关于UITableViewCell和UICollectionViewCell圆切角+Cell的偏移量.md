@@ -1,4 +1,4 @@
-# 关于UITableViewCell和UICollectionViewCell圆切角+Cell的偏移量
+# <span id="前言">关于UITableViewCell和UICollectionViewCell圆切角+Cell的偏移量</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -11,7 +11,7 @@
 
 [toc]
 
-## 一些公共的
+## 一些公共的 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objective-c
 @implementation UITableViewCell (BaseCellProtocol)
@@ -81,11 +81,11 @@ cell.contentView.layer.borderColor = cell.layer.borderColor = RGBA_COLOR(255, 22
 cell.contentView.layer.masksToBounds = cell.layer.masksToBounds = YES;
 ```
 
-## 1、关于UITableView.UITableViewCell
+## 1、关于UITableView.UITableViewCell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、圆切角
+### 1.1、圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】
+#### 1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objective-c
 /// 以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】
@@ -240,7 +240,7 @@ cell.contentView.layer.masksToBounds = cell.layer.masksToBounds = YES;
 }
 ```
 
-#### 1.1.2、除了最后一行以外，所有的cell的最下面的线的颜色为 layerConfig.layerBorderCor
+#### 1.1.2、除了最后一行以外，所有的cell的最下面的线的颜色为 layerConfig.layerBorderCor <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objective-c
 /// 除了最后一行以外，所有的cell的最下面的线的颜色为：layerConfig.layerBorderCor
@@ -269,7 +269,7 @@ cell.contentView.layer.masksToBounds = cell.layer.masksToBounds = YES;
 }
 ```
 
-#### 1.1.3、除了第一行以外，所有的cell的最上面的线为：layerConfig.layerBorderCor
+#### 1.1.3、除了第一行以外，所有的cell的最上面的线为：layerConfig.layerBorderCor <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objective-c
 /// 除了第一行以外，所有的cell的最上面的线为：layerConfig.layerBorderCor
@@ -298,7 +298,7 @@ cell.contentView.layer.masksToBounds = cell.layer.masksToBounds = YES;
 }
 ```
 
-#### 1.1.4、调用示例
+#### 1.1.4、调用示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objective-c
 - (void)tableView:(UITableView *)tableView
@@ -326,7 +326,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 ```
 
-### 1.2、X、Y的偏移量
+### 1.2、X、Y的偏移量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 对单个cell的偏移：需要在cell的子类里面复写父类方法-(void)setFrame:(CGRect)frame
 
@@ -352,11 +352,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 参见：1.1的调用示例
 ```
 
-## 2、关于UICollectionView.UICollectionViewCell
+## 2、关于UICollectionView.UICollectionViewCell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、圆切角
+### 2.1、圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 2.1.1、对UICollectionView上的每一组的第一个和最后一个UICollectionViewCell进行圆切角
+#### 2.1.1、对UICollectionView上的每一组的第一个和最后一个UICollectionViewCell进行圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 对**UICollectionView**上的每一组的第一个和最后一个**UICollectionViewCell**进行圆切角
 * 要求切第一个**UICollectionViewCell**的左上+右上，最后一个**UICollectionViewCell**的左下和右下
@@ -478,7 +478,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 ```
 
-#### 2.1.2、利用UIBezierPath，对 UICollectionViewCell 描边 + 切角
+#### 2.1.2、利用UIBezierPath，对 UICollectionViewCell 描边 + 切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 作用域 ：UICollectionViewCell子类的 - (void)drawRect:(CGRect)rect
 
@@ -511,7 +511,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 ```
 
-#### 2.1.3、利用CALayer，对 UICollectionViewCell 只描边、不切角
+#### 2.1.3、利用CALayer，对 UICollectionViewCell 只描边、不切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 作用域 ：**UICollectionViewCell**子类的` - (void)drawRect:(CGRect)rect`
 
@@ -579,7 +579,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 ```
 
-## 3、指定对某个View的某个角进行圆切角
+## 3、指定对某个View的某个角进行圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 在这个View的具体子类里面，复写系统方法-(**void**)layoutSubviews;
 
@@ -592,14 +592,14 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 ```
 
-## 4、对某个View的4个角无差别进行圆切角
+## 4、对某个View的4个角无差别进行圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```objective-c
 [View cornerCutToCircleWithCornerRadius:JobsWidth(8)];
 [View layerBorderCor:RGBA_COLOR(255, 225, 144, 1) andBorderWidth:JobsWidth(0.5f)];
 ```
 
-## 5、其他
+## 5、其他 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 隐藏每个分区最后一个cell的分割线:系统分割线,移到屏幕外
 
@@ -612,3 +612,4 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
  }
 ```
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

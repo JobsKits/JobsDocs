@@ -1,4 +1,4 @@
-# MacOS配置个人热点🛜
+# <span id="前言">MacOS配置个人热点🛜</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -9,7 +9,7 @@
   allowfullscreen>
 </iframe>
 
-## 前言
+## <span id="前言">前言</span>
 
 * 如果MacOS当前信号输入源是**Wi-Fi**，则无法配置个人热点
 
@@ -21,14 +21,14 @@
 
 
 
-## 一、系统设置👉通用👉共享👉配件与互联网👉互联网共享
+## 一、系统设置👉通用👉共享👉配件与互联网👉互联网共享 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 <img src="./assets/image-20251114095404827.png" alt="image-20250930094106140" style="zoom:67%;" />
 
-## 二、查看信号源
+## 二、查看信号源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20251114094405744](./assets/image-20251114094405744.png)
 
-### 三、按照图示进行配置
+### 三、按照图示进行配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 > 共享以下来源的连接（信息入口）
 > 使用以下端口共享给设备（信息出口）
 
@@ -38,3 +38,4 @@
 * 如果网线是通过**USBHubber**进行桥接
 	![image-20251114094508903](./assets/image-20251114094508903.png)
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

@@ -18,9 +18,9 @@ bookCollapseSection: false
 </iframe>
 
 
-## 一、基本面
+## <span id="前言">一、基本面 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
-### 1、历史
+### 1、历史 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 更新时间跨度： **2013.4.11**~**2017.8.6**
 * 历史贡献者
@@ -36,7 +36,7 @@ bookCollapseSection: false
   * **`@evianzhow`**
 * 框架所覆盖的**iOS**版本号：**iOS 6** ～ **iOS 10**  <font color=red size=5>截止**2025.12.6** iOS版本为26.1</font>
 
-### 2、目录结构
+### 2、目录结构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 关于系统底层的语法糖的封装：/Base
 
@@ -176,7 +176,7 @@ bookCollapseSection: false
 
   * 对于富文本的处理（用异步渲染的手法，较重）
 
-## 二、在未来有选择的逐步淘汰[**YYKit**](https://github.com/ibireme/YYKit.git)
+## 二、在未来有选择的逐步淘汰[**YYKit**](https://github.com/ibireme/YYKit.git) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 最后一次更新是在**2017.8.6**，距今已有<font color=red>**9**</font>年。在这9年期间，手机移动端的硬件和软件层面均发生了很大的变化。[**YYKit**](https://github.com/ibireme/YYKit.git)是那个时代的过渡产物
   * 硬件层面的跃升，带来了更高的容错率
@@ -243,11 +243,11 @@ bookCollapseSection: false
     * 枚举 block 里操作自己会死锁
     * 外部如果理解不清，很容易误用
 
-## 三、<font color=red>F</font><font color=green>A</font><font color=blue>Q</font>
+## 三、<font color=red>F</font><font color=green>A</font><font color=blue>Q</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1、<font id=TextKit>TextKit</font>
+### 1、<font id=TextKit>TextKit</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 1.1、TextKit 的三大核心类
+#### 1.1、TextKit 的三大核心类 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * **TextKit** = iOS / macOS 里，系统级的“富文本排版引擎”，负责把字符串 + 属性 → 真实画在屏幕上。
 * **NSTextStorage**
@@ -266,7 +266,9 @@ bookCollapseSection: false
     * 排版路径（可以是矩形、圆形、带洞的路径）
   * 一个 `NSLayoutManager` 可绑定多个 `NSTextContainer`（比如同一段文本在多页上显示）
 
-#### 1.2、常规构建管道
+#### 1.2、常规构建管道 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * `NSTextStorage`（文本 + 属性） → `NSLayoutManager`（排版计算 + glyph）→ `NSTextContainer`（排到哪个区域）→ draw 到屏幕。
 * `UILabel/UITextView` 内部就是维护了一套这样的组合，只是帮忙封装掉了
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

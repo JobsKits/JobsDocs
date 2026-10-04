@@ -19,7 +19,7 @@ bookCollapseSection: false
 
 ## 一、Revision 选择与历史查询 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、常用选择器
+### 1.1、常用选择器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 语法 | 含义 |
 | --- | --- |
@@ -41,7 +41,7 @@ git merge-base A B
 git rev-list --count A..B
 ```
 
-### 1.2、按路径、内容和函数定位
+### 1.2、按路径、内容和函数定位 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git log --follow -- <path>
@@ -56,7 +56,7 @@ git blame -w -C -C -- <path>
 - `--follow` 只适用于单一路径的启发式重命名跟踪，不是完整文件身份数据库。
 - Blame 显示最后修改某行的提交，不等于证明需求来源、原创作者或责任归属；结合提交、评审和 Issue 判断。
 
-## 二、`worktree`：一个仓库同时检出多个分支
+## 二、`worktree`：一个仓库同时检出多个分支 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git worktree list --porcelain
@@ -72,7 +72,7 @@ git worktree prune --dry-run --verbose
 - 手动删除目录后用 `prune --dry-run` 先预览过期元数据；不要直接批量删 `.git/worktrees`。
 - 修复 `.git` 元数据前查看 `git rev-parse --git-common-dir`，避免只修当前 worktree 却损坏共享状态。
 
-## 三、`stash` 与临时上下文
+## 三、`stash` 与临时上下文 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git stash push --include-untracked --message 'context before hotfix'
@@ -87,7 +87,7 @@ git stash branch recover/context stash@{0}
 - stash 是本地对象与引用，不会随普通 Push 自动备份到远端。
 - 长期或重要工作不应只靠 stash 保存；创建分支和 WIP commit 更可追溯。
 
-## 四、复用冲突解决：`rerere`
+## 四、复用冲突解决：`rerere` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git config rerere.enabled true
@@ -99,7 +99,7 @@ git rerere diff
 
 共享工作流启用前要明确：是否允许自动暂存、缓存保留多久、怎样清理错误解法，以及 CI 是否会验证复用结果。
 
-## 五、二分定位回归：`bisect`
+## 五、二分定位回归：`bisect` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 手动二分：
 
@@ -125,7 +125,7 @@ git bisect run ./reproduce-regression.sh
 - 构建不确定、依赖外部波动或测试有随机性时，bisect 结论也不可靠。
 - 问题由两个独立提交组合触发时，单一“首次坏提交”模型可能不足。
 
-## 六、Hook 与自动化边界
+## 六、Hook 与自动化边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 常见本地 Hook：`pre-commit`、`commit-msg`、`pre-push`；常见服务端 Hook：`pre-receive`、`update`、`post-receive`。
 
@@ -139,7 +139,7 @@ git rev-parse --git-path hooks
 - `--no-verify` 只能跳过命令支持跳过的客户端 Hook，不能绕过服务器 Hook、Ruleset 或分支保护。
 - Hook 会执行本机代码。克隆不受信任仓库后，不应盲目运行仓库提供的安装脚本或把其 Hook 接入全局配置。
 
-## 七、Commit 与 Tag 签名
+## 七、Commit 与 Tag 签名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 签名证明“某个受信任密钥签了这个对象”，不自动证明代码正确、账号没有失陷或作者经过人工审核。
 
@@ -162,9 +162,9 @@ git tag --sign v1.0.0 --message 'Release v1.0.0'
 git tag --verify v1.0.0
 ```
 
-## 八、大仓库与按需检出
+## 八、大仓库与按需检出 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 8.1、Shallow clone
+### 8.1、Shallow clone <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git clone --depth 1 --single-branch <url>
@@ -174,7 +174,7 @@ git fetch --unshallow
 
 浅克隆缺少部分祖先历史，会影响 merge-base、blame、bisect、版本计算和某些推送。CI 能否使用取决于任务是否需要完整历史。
 
-### 8.2、Partial clone
+### 8.2、Partial clone <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git clone --filter=blob:none <url>
@@ -182,7 +182,7 @@ git clone --filter=blob:none <url>
 
 Partial clone 保留提交和 tree，但按需获取缺失 blob；需要服务器支持。它不是离线完整备份，后续访问旧文件内容可能再次联网。
 
-### 8.3、Sparse checkout
+### 8.3、Sparse checkout <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git clone --sparse <url>
@@ -193,7 +193,7 @@ git sparse-checkout disable
 
 Sparse checkout 只控制工作区展开范围，不自动减少所有对象下载；可与 partial clone 组合。脚本不能把未展开路径误判为仓库丢文件。
 
-### 8.4、Git LFS
+### 8.4、Git LFS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git lfs install --local
@@ -204,9 +204,9 @@ git add <large-files>
 
 LFS 在 Git 中提交 pointer，对象内容存入独立 LFS 服务。迁移已有大文件历史不能只补一条 `.gitattributes`；需要评估配额、历史重写、fork、Release、CI 拉取与备份策略。没有安装 LFS 的客户端会看到 pointer 或在 checkout 时失败。
 
-## 九、备份、迁移与可移植产物
+## 九、备份、迁移与可移植产物 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 9.1、Bundle
+### 9.1、Bundle <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git bundle create repository.bundle --all
@@ -217,7 +217,7 @@ git clone repository.bundle restored-repository
 
 Bundle 保存选定 refs 可达的 Git 对象，不包含未提交工作区、ignored 文件、LFS 服务对象、子模块仓库内容、托管平台 Issue、PR、Actions Secret 或 Release 资产。
 
-### 9.2、Archive
+### 9.2、Archive <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git archive --format=tar.gz --output=source.tar.gz HEAD
@@ -225,7 +225,7 @@ git archive --format=tar.gz --output=source.tar.gz HEAD
 
 Archive 是某个 tree 的文件快照，不含 Git 历史；子模块 gitlink 不会自动展开为子模块文件。
 
-### 9.3、Mirror 迁移
+### 9.3、Mirror 迁移 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git clone --mirror <source-url> repository.git
@@ -235,7 +235,7 @@ git -C repository.git show-ref
 
 `git push --mirror` 会让目标引用集合匹配镜像，并可能删除目标独有 refs。执行前必须审计源与目标、保护规则、默认分支、LFS、CI、Release 和协作者；不能把它当普通 Push 示例直接运行。
 
-## 十、对象完整性与维护
+## 十、对象完整性与维护 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```shell
 git count-objects --verbose
@@ -257,7 +257,7 @@ git gc
 4. 能重新克隆时保留原仓作为证据，不直接覆盖唯一副本。
 5. 工作区未提交内容和 Git 对象库分开备份。
 
-## 十一、凭据与历史泄漏治理
+## 十一、凭据与历史泄漏治理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - Token、密码、Cookie、私钥和云凭据一旦进入提交或截图，先撤销并轮换；不能等历史清理完成后再处理有效凭据。
 - 删除当前文件、补 `.gitignore` 或覆盖截图只影响新提交，不会自动清除旧提交、fork、缓存、Release 和构建产物。
@@ -265,7 +265,7 @@ git gc
 - Secret scanning 能帮助发现已知格式，不代表“未告警就是安全”；高熵随机值、私有格式和图片中的凭据仍需人工与图像审计。
 - 远端 URL、进程参数、CI 日志和诊断 Trace 都可能泄漏认证信息；分享前脱敏。
 
-## 十二、官方资料
+## 十二、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - [**gitrevisions**](https://git-scm.com/docs/gitrevisions)
 - [**git-log**](https://git-scm.com/docs/git-log)

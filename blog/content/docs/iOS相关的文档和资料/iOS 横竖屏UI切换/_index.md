@@ -18,17 +18,17 @@ bookCollapseSection: false
 </iframe>
 
 
-## 一、第三方支援
+## <span id="前言">一、第三方支援 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
 
 ```ruby
 pod 'HXRotationTool' # https://github.com/TheLittleBoy/HXRotationTool
 ```
 
-## 二、xcode 设置
+## 二、xcode 设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20240702165235414](./assets/image-20240702165235414.png)
 
-## 三、`Info.plist` 设置
+## 三、`Info.plist` 设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * iPhone 应用
 
@@ -54,7 +54,7 @@ pod 'HXRotationTool' # https://github.com/TheLittleBoy/HXRotationTool
   </array>
   ```
 
-## 四、代码处理
+## 四、代码处理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * <font color=green>**相关枚举说明**</font>
 
@@ -229,7 +229,7 @@ pod 'HXRotationTool' # https://github.com/TheLittleBoy/HXRotationTool
     },nil, self),UIDeviceOrientationDidChangeNotification,nil);
     ```
 
-## 五、屏幕上下倒立<font color=red>不可用</font>
+## 五、屏幕上下倒立<font color=red>不可用</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 技术上是可能的，但实际使用中可能受到限制
 * 目前涉及的iPhone全面屏（包括:`刘海屏 `或者 `动态岛`）系列，不支持倒立（上下颠倒）屏幕方向。这是 Apple 的设计决定，主要基于以下几个原因：
@@ -239,7 +239,7 @@ pod 'HXRotationTool' # https://github.com/TheLittleBoy/HXRotationTool
 * 具体来说，以下 iPhone 型号不支持倒立屏幕：**iPhone X** 及之后的所有型号（包括 **iPhone XS**, **XR**, **11**, **12**, **13**, **14**, **15** 系列等）
 * 对于应用开发，如果 App 特别需要支持倒立显示（例如，为了在某些特殊场景下方便查看内容），可能需要考虑实现自定义的界面旋转逻辑，而不是依赖系统的屏幕旋转
 
-## 六、横竖屏检测·相关测评报告
+## 六、横竖屏检测·相关测评报告 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * <font color=red size=10>**结论**</font>
 
@@ -312,7 +312,7 @@ pod 'HXRotationTool' # https://github.com/TheLittleBoy/HXRotationTool
   NSLog(@"");
   ```
 
-### 1、<font id=锚定`UIDevice.currentDevice.orientation`>**锚定`UIDevice.currentDevice.orientation`**</font>（需要真机配合）
+### 1、<font id=锚定`UIDevice.currentDevice.orientation`>**锚定`UIDevice.currentDevice.orientation`**</font>（需要真机配合） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * <font color=red>**不**</font> [**在`AppDelegate`里面适配**](#在`AppDelegate`里面适配)
 
@@ -350,7 +350,7 @@ pod 'HXRotationTool' # https://github.com/TheLittleBoy/HXRotationTool
     | <font size=2>-(void)**viewWillAppear**:(BOOL)animated</font> |    <font size=2>UIDeviceOrientationUnknown</font>    | <font size=2>UIDeviceOrientationUnknown</font> | <font size=2>UIDeviceOrientationUnknown</font> |
     | <font size=2>-(void)**viewDidAppear**:(BOOL)animated</font>  |    <font size=2>UIDeviceOrientationUnknown</font>    | <font size=2>UIDeviceOrientationUnknown</font> | <font size=2>UIDeviceOrientationUnknown</font> |
 
-### 2、<font id=锚定场景方向`UIInterfaceOrientation`>**锚定场景方向`UIInterfaceOrientation`**</font>
+### 2、<font id=锚定场景方向`UIInterfaceOrientation`>**锚定场景方向`UIInterfaceOrientation`**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
   ```objective-c
   -(UIInterfaceOrientation)getInterfaceOrientation{
@@ -404,7 +404,7 @@ pod 'HXRotationTool' # https://github.com/TheLittleBoy/HXRotationTool
     | <font size=2>-(void)**viewWillAppear**:(BOOL)animated</font> |  <font size=2>UIInterfaceOrientationUnknown</font>   |  <font size=2>UIInterfaceOrientationUnknown</font>  |      <font size=2>UIInterfaceOrientationUnknown</font>       |
     | <font size=2>-(void)**viewDidAppear**:(BOOL)animated</font>  | <font size=2>UIInterfaceOrientationPortrait❌</font>  | <font size=2>UIInterfaceOrientationPortrait❌</font> | <font color=red size=2>**UIInterfaceOrientationLandscapeRight**</font> |
 
-### 3、<font id=锚定`view.traitCollection.verticalSizeClass`>**锚定`view.traitCollection.verticalSizeClass`**</font>
+### 3、<font id=锚定`view.traitCollection.verticalSizeClass`>**锚定`view.traitCollection.verticalSizeClass`**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * **`-(DeviceOrientation)getDeviceOrientation`**
 
@@ -498,3 +498,4 @@ pod 'HXRotationTool' # https://github.com/TheLittleBoy/HXRotationTool
 * [**如果锚定`view.traitCollection.verticalSizeClass`**](#锚定`view.traitCollection.verticalSizeClass`)
   * 只在普通`UIViewController *`可用
 
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

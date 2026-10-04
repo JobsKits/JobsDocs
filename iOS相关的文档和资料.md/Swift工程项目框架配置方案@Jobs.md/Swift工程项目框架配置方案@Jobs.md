@@ -1,4 +1,4 @@
-# [**Swift**](https://www.swift.org/)工程项目框架配置方案@JobsKits
+# <span id="前言">[**Swift**](https://www.swift.org/)工程项目框架配置方案@JobsKits</span>
 
 <iframe
   src="https://dragonir.github.io/3d/#/earth"
@@ -11,16 +11,16 @@
 
 [toc]
 
-## 一、<font id=一些基本的原则>一些基本的原则</font>
+## 一、<font id=一些基本的原则>一些基本的原则</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1、不到万不得已，不要用**Objc**库
+### 1、不到万不得已，不要用**Objc**库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 既然是[**Swift**](https://www.swift.org/)工程，那么就尽可能的不要调用**Objc**库，否则我们为什么不用**Objc**写工程项目？**不要既当又立**。特别是在有优秀平替的情况下。相信互联网是在不断向前发展的，新出的轮子可能稳定性来讲可能不如老旧的（特别是那种很多年不更新的库，不到万不得已，慎用！），但是从调用和内存包括向前兼容等方面，一定是优于老旧框架的。否则为什么要开发新版本？即便是**Apple**公司，也是看到了**Objc**的一些不足，所以才下了很大的决心从**Objc**迁移到[**Swift**](https://www.swift.org/)，相信迁移所造成的各方损耗和带来的优势，也是经过各方多轮评估后才做的取舍！
 * **Objc**库需要导入头文件，而且头文件的导入在编译阶段同样存在循环引用的问题（编译的时候，一定是按照加载的顺序，自上而下的编译），那么在某些极端的情况下，引入的位置不对，就会造成编译不通过（亲测）。而[**Swift**](https://www.swift.org/)在工程内部不需要导入文件，除非在不同工程（跨域），比如利用[**CocoaPods**](https://cocoapods.org/)管理的第三方才需要进行导入。所以，既然是系统做了优化的，我们就要顺势而为。
 * 导入库，一般情况下，它会向后兼容，导入一些老旧的`*.framework`库，造成打包体积过大的隐患（并不能每次都精确复现，这里只是讲风险与隐患）。这里的一个例子就是[**过期的模拟器配件**](https://github.com/295060456/Xcode_Sys_lib)。老旧的Api只要你调用了就一定会指向老旧的`*.framework`，**会影响打包大小，但是不一定影响运行时的内存情况**
 * 对于一些老旧库（超过5年不维护的库）如果实在要用，就需要手动集成自项目，而不是[**CocoaPods**](https://cocoapods.org/)管理
 
-### 2、用开源播放器
+### 2、用开源播放器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 市面上，有开源的音视频播放器
 * 强烈建议不要用腾讯等中国大陆大厂出品的播放器
@@ -34,7 +34,7 @@
   * 大厂播放器，可能也不方便魔改（可能关键部分早已封装成`*.framework`或者`*.a`）
   * 如果大厂播放器政策有所改变，进行业务收紧，我们也需要较大开销去应对这种变化（iOS/Android2端）如果多个App，每个App内部我们都需要进行替换
 
-## 二、我对iOS开发的认知
+## 二、我对iOS开发的认知 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 方向隶属于大前端
 * 前端相对于后段的特点
@@ -51,9 +51,9 @@
 * 绘制UI + 数据请求 + 数据处理 == 成品
   * 数据处理：[利用[**quicktype**](https://github.com/glideapps/quicktype)自动建立数据模型]()
 
-## 三、我的构架方案
+## 三、我的构架方案 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1、选用的（外源）第三方框架
+### 1、选用的（外源）第三方框架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 基础配置框架
   * [**ReactiveSwift**](https://github.com/ReactiveCocoa/ReactiveSwift) 新版本支持 arm64 模拟器
@@ -93,9 +93,9 @@
   * [**PhoneNumberKit**](https://github.com/marmelroy/PhoneNumberKit)：电话号码工具包：用于解析、格式化和验证国际电话号码。灵感来源：`Google.libphonenumber`
   * [**IQKeyboardManagerSwift**](https://github.com/hackiftekhar/IQKeyboardManager)
 
-### 2、我的封装（重点）
+### 2、我的封装（重点） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-#### 2.1、对`UIViewController`的封装
+#### 2.1、对`UIViewController`的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <img src="./assets/image-20260221233907415.png" alt="image-20260221233907415" style="zoom:50%;" />
 
@@ -126,7 +126,7 @@
       }
   ```
 
-#### 2.2、对`UIView`层的封装格式
+#### 2.2、对`UIView`层的封装格式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <img src="./assets/image-20260221233840263.png" alt="image-20260221233840263" style="zoom:50%;" />
 
@@ -267,9 +267,9 @@
         }
     ```
 
-#### 2.3、对`UIButton`按钮的封装
+#### 2.3、对`UIButton`按钮的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 2.3.1、利用分类作用于`UIButton`
+##### 2.3.1、利用分类作用于`UIButton` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <img src="./assets/image-20260221233801095.png" alt="image-20260221233801095" style="zoom:50%;" />
 
@@ -668,7 +668,7 @@ private lazy var exampleButton: UIButton = {
     }()
     ```
 
-##### 2.3.2、利用继承作用于`JobsButton`
+##### 2.3.2、利用继承作用于`JobsButton` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 解决在某些iOS版本向下兼容的情况下，无法把握`UIButton`内部控件的生命周期，导致UI错版的问题
 
@@ -730,7 +730,7 @@ private lazy var btn1: JobsButton = {
 }()
 ```
 
-#### 2.4、对`UIGestureRecognizer`手势的封装
+#### 2.4、对`UIGestureRecognizer`手势的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <p align="center">
   <img src="./assets/image-20251206153407706.png" width="45%">
@@ -1695,7 +1695,7 @@ self.valueLabel
   }()
   ```
 
-#### 2.13、对`WebView`的封装
+#### 2.13、对`WebView`的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * `registerMobileAction`后的名字即为和前端联调对准的方法名
 
@@ -1812,7 +1812,7 @@ self.valueLabel
   }()
   ```
 
-#### 2.14、带箭头的对话框
+#### 2.14、带箭头的对话框 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 UIView().byDialogBoxContent { dialogBoxView in
@@ -1834,7 +1834,7 @@ UIView().byDialogBoxContent { dialogBoxView in
 }
 ```
 
-#### 2.15、对计时器的封装`JobsSwiftTimer`
+#### 2.15、对计时器的封装`JobsSwiftTimer` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 <img src="./assets/image-20260221234215242.png" alt="image-20260221234215242" style="zoom:50%;" />
 
@@ -1908,7 +1908,7 @@ UIView().byDialogBoxContent { dialogBoxView in
     * 是否是正计时/是否是倒计时
     * 。。。
 
-##### 2.15.1、倒计时按钮
+##### 2.15.1、倒计时按钮 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 创建方案一
 
@@ -2009,7 +2009,7 @@ UIView().byDialogBoxContent { dialogBoxView in
   }()
   ```
 
-##### 2.15.2、跑马灯（实际展现的控件是按钮）
+##### 2.15.2、跑马灯（实际展现的控件是按钮） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 // MARK: - 1. 向上连续滚动
@@ -2111,7 +2111,7 @@ private lazy var upContinuousMarquee: JobsMarqueeView = { [unowned self] in
     }()
 ```
 
-##### 2.15.3、轮播图（实际展现的控件是按钮）
+##### 2.15.3、轮播图（实际展现的控件是按钮） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 // MARK: - 13. Kingfisher@背景图
@@ -2217,7 +2217,7 @@ private lazy var kingfisherImageButtonsMarquee: JobsMarqueeView = { [unowned sel
 }()
 ```
 
-##### 2.15.4、计划任务（内核基于`JobsSwiftTimer`）
+##### 2.15.4、计划任务（内核基于`JobsSwiftTimer`） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 import JobsSwiftTaskCenter
@@ -2227,7 +2227,7 @@ let task = JobsPlan.after(.second * 2).do {
 }
 ```
 
-##### 2.15.5、红包雨
+##### 2.15.5、红包雨 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 private lazy var rainView: RedPacketRainView = {
@@ -2256,7 +2256,7 @@ private lazy var rainView: RedPacketRainView = {
   }()
 ```
 
-##### 2.15.6、网络数据的监听
+##### 2.15.6、网络数据的监听 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ![image-20260315180854842](./assets/image-20260315180854842.png)
 
@@ -2295,7 +2295,7 @@ private lazy var rainView: RedPacketRainView = {
   }
   ```
 
-##### 2.15.7、旋转的抽奖轮盘
+##### 2.15.7、旋转的抽奖轮盘 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * ```swift
   private lazy var wheelView: LuckyWheelView = {
@@ -2350,9 +2350,9 @@ private lazy var rainView: RedPacketRainView = {
   wheelView.stopSpin() // 停止
   ```
 
-#### 2.16、进度条
+#### 2.16、进度条 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 2.16.1、系统进度条
+##### 2.16.1、系统进度条 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 /// 进度条（显示剩余/已完成比例，取决于 progressMode）
@@ -2367,7 +2367,7 @@ private lazy var progressView: UIProgressView = {
 }()
 ```
 
-##### 2.16.2、自定义进度条（内核基于`JobsSwiftTimer`）  ➤ `JobsProgressBar` 
+##### 2.16.2、自定义进度条（内核基于`JobsSwiftTimer`）  ➤ `JobsProgressBar` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
 
 ```swift
 /// 自定义进度条
@@ -2392,21 +2392,21 @@ private lazy var progressView: JobsProgressBar = {
 }()
 ```
 
-#### 2.17、雪花算法的[**Swift**](https://www.swift.org/)实践
+#### 2.17、雪花算法的[**Swift**](https://www.swift.org/)实践 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 SnowflakeSwift(IDCID: 4, machineID: 30).nextID() 
 ```
 
-#### 2.18、对字符串的封装
+#### 2.18、对字符串的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 2.18.1、多语言化
+##### 2.18.1、多语言化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 "🔑 注册登录".tr
 ```
 
-##### 2.18.2、通用格式的转换 
+##### 2.18.2、通用格式的转换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
 
 ```swift
  "123".toInt()   
@@ -2454,7 +2454,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
  // 📘 说明：附加字体与颜色属性
 ```
 
-##### 2.18.3、字符串加载图片资源
+##### 2.18.3、字符串加载图片资源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 取本地图片
 
@@ -2505,7 +2505,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   }()
   ```
 
-##### 2.18.4、字符串打开
+##### 2.18.4、字符串打开 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 打开网站 / **`Scheme`**（带参）
 
@@ -3169,7 +3169,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   }()
   ```
 
-##### 2.19.2、**封装在`UIButton` 层的点击事件**
+##### 2.19.2、**封装在`UIButton` 层的点击事件** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 let button = UIButton(type: .system)
@@ -3179,7 +3179,7 @@ let button = UIButton(type: .system)
     }
 ```
 
-#### 2.20、对弹出框的封装
+#### 2.20、对弹出框的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * [**UIAlertController**](#UIAlertController)
 
@@ -3218,7 +3218,7 @@ let button = UIButton(type: .system)
     )
     ```
 
-#### 2.21、安全取Cell
+#### 2.21、安全取Cell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 通过数组下标安全取**Cell**，即使越界也不会奔溃（只是去不到**Cell**值返回nil）
 
@@ -3227,9 +3227,9 @@ let cell = collectionView[section: 0, item: 3]
 let cell = tableView[section: 0, row: 3]
 ```
 
-#### 2.22、（全局）协议传参（支持不定参数）
+#### 2.22、（全局）协议传参（支持不定参数） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-##### 2.22.1、正向传参数：<font size=5>**`byData`**</font>
+##### 2.22.1、正向传参数：<font size=5>**`byData`**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * **VC / View**
 
@@ -3319,7 +3319,7 @@ let cell = tableView[section: 0, row: 3]
   }
   ```
 
-##### 2.22.2、逆向传参数：<font size=5>**`sendResult`**</font> ➤ <font size=5>**`onResult`**</font>
+##### 2.22.2、逆向传参数：<font size=5>**`sendResult`**</font> ➤ <font size=5>**`onResult`**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```swift
 /// 逆向传入
@@ -3330,7 +3330,7 @@ DemoDetailVC().onResult { name in
 }
 ```
 
-#### 2.23、Debug模式下弹窗检测是否释放`UIViewController`
+#### 2.23、Debug模式下弹窗检测是否释放`UIViewController` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 引入框架 **`JobsSwiftDebugTools`**
 
@@ -3348,17 +3348,17 @@ DemoDetailVC().onResult { name in
   #endif
   ```
 
-### 3、对抗记忆衰弱
+### 3、对抗记忆衰弱 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 使用**Xcode**代码块的方式👉[**`JobsCodeSnippets`**](https://github.com/JobsKits/JobsCodeSnippets)脚本安装，自动注入系统指定目录，只需要重启**Xcode**即可使用
 
   ![image-20251206164503864](./assets/image-20251206164503864.png)
 
-### 4、一些脚本库[JobsGenesis](https://github.com/JobsKits/JobsGenesis)
+### 4、一些脚本库[JobsGenesis](https://github.com/JobsKits/JobsGenesis) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 原则上拒绝python，直接用Shell调用系统底层SDK来完成（高效）
 
-### 5、将组件库Pod化
+### 5、将组件库Pod化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```ruby
 def byJobs
@@ -3401,7 +3401,7 @@ def byJobs
 end
 ```
 
-## 四、BaseURL构架
+## 四、BaseURL构架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 移动端App需要预埋一组URL
   * 每次发包的时候，可以进行更替/每次启动移动端App也可以进行更新（具体看具体业务场景设计）
