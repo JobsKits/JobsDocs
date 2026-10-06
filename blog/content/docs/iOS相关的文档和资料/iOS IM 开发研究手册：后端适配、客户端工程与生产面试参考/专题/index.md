@@ -1,6 +1,6 @@
 ---
 title: "专题"
-date: 2026-09-25T18:53:28+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 570
 summary: "## 🔥 前言 返回 《iOS IM 开发研究手册》。本专题研究即时通讯的安全边界、端到端加密、呼叫控制和实时媒体工程；数据库入库与消息同步在主手册及对应专题展开。 安全来自清楚的信任边界，通话可靠性来自明确的状态机。 加密算法、媒体 SDK 和系统来电界面都只是组成部分，不能单独代表完整能力。 资料核对日期为 2026-09-25。本文中的架构、实验与阈值"
@@ -8,7 +8,7 @@ bookCollapseSection: false
 ---
 
 
-## iOS IM 安全加密与音视频通话 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## iOS IM 安全加密与音视频通话
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
@@ -460,7 +460,7 @@ TURN 转发并不意味着必须解密媒体；SFU 是否能解密取决于实�
 <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
 
 
-## 不同后端能力下的 iOS IM 客户端适配 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 不同后端能力下的 iOS IM 客户端适配
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
@@ -936,7 +936,7 @@ decideNextAction(operation, outcome, capability, now):
 <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
 
 
-## iOS IM 聊天界面与多媒体工程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## iOS IM 聊天界面与多媒体工程
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
@@ -1319,7 +1319,7 @@ flowchart LR
 <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
 
 
-## iOS IM 连接管理与推送后台 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## iOS IM 连接管理与推送后台
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)

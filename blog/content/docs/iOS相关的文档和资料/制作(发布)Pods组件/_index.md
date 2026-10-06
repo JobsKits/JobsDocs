@@ -1,9 +1,9 @@
 ---
 title: "制作(发布)Pods组件"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 540
-summary: "一、.podspec 模板 普通模板 带子Pod的模版 ## 二、自检（QSA@Cocoapods） > 命令行操作需要定位于此库路径下 自检不一定靠谱。因为自检的时候，可能用的是本地源。在最后推送到远端的时候，也会自检，以此为准 ## 三、推送 > 命令行操作需要定位于此库路径下 推送到Github，并打对其打tag 注册邮箱会收到一封短信，需要进行点击确"
+summary: "一、.podspec 模板 🔼 🔽 普通模板 带子Pod的模版 ## 二、自检（QSA@Cocoapods） 🔼 🔽 > 命令行操作需要定位于此库路径下 自检不一定靠谱。因为自检的时候，可能用的是本地源。在最后推送到远端的时候，也会自检，以此为准 ## 三、推送 🔼 🔽 > 命令行操作需要定位于此库路径下 推送到Github，并打对其打tag 注册邮箱会收到"
 bookCollapseSection: false
 ---
 
@@ -17,7 +17,7 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
-## <span id="前言">一、`*.podspec` 模板 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一、`*.podspec` 模板 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * 普通模板
 

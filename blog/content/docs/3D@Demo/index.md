@@ -1,9 +1,9 @@
 ---
 title: "3D@Demo"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 900
-summary: "这个示例给你一个不需要 3D 素材、不需要模型文件、不需要外部 JS 库的 3D 效果图。 它用： - HTML - CSS 3D - 原生 JavaScript 实现了： - 鼠标拖动旋转 - 鼠标滚轮缩放 - 点击节点查看说明 - 细胞教材模式 - 代码地图模式 ## 立刻查看 直接双击打开： ## 在 Markdown 里放入口 普通 Markdown"
+summary: "这个示例给你一个不需要 3D 素材、不需要模型文件、不需要外部 JS 库的 3D 效果图。 它用： - HTML - CSS 3D - 原生 JavaScript 实现了： - 鼠标拖动旋转 - 鼠标滚轮缩放 - 点击节点查看说明 - 细胞教材模式 - 代码地图模式 ## 立刻查看 🔼 🔽 直接双击打开： ## 在 Markdown 里放入口 🔼 🔽 普通 "
 bookCollapseSection: false
 ---
 
@@ -33,7 +33,7 @@ bookCollapseSection: false
 - 细胞教材模式
 - 代码地图模式
 
-## <span id="前言">立刻查看 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 立刻查看 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 直接双击打开：
 

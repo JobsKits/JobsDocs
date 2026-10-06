@@ -1,9 +1,9 @@
 ---
 title: "中国大陆公民身份证校验规则（Swift/Objc/Dart.flutter）"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 220
-summary: "一、Swift的校验方法 > 1️⃣ 统一校验规则：格式 → 出生日期 → 顺序码(≠\"000\") → 校验位。 > > 2️⃣ 策略 > > 按 GB 11643-1999 的 18 位规则：格式→生日→顺序码→校验位 > > 若输入为 15 位 → 先转换为 18 位（默认世纪补 19），再按 GB 11643-1999 做权重校验。 > > 3️⃣ 默"
+summary: "一、Swift的校验方法 🔼 🔽 > 1️⃣ 统一校验规则：格式 → 出生日期 → 顺序码(≠\"000\") → 校验位。 > > 2️⃣ 策略 > > 按 GB 11643-1999 的 18 位规则：格式→生日→顺序码→校验位 > > 若输入为 15 位 → 先转换为 18 位（默认世纪补 19），再按 GB 11643-1999 做权重校验。 > > 3"
 bookCollapseSection: false
 ---
 
@@ -20,7 +20,7 @@ bookCollapseSection: false
 
 ![中国公民身份证校验规则](./assets/中国公民身份证校验规则.jpg)
 
-## <span id="前言">一、Swift的校验方法 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一、Swift的校验方法 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 > 1️⃣ 统一校验规则：格式 → 出生日期 → 顺序码(≠"000") → 校验位。
 >
 > 2️⃣ 策略

@@ -1,9 +1,9 @@
 ---
 title: "配置info.plist"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 600
-summary: "Open As Source Code，添加以下信息 ### 开权限： 多语言化 Localizable.strings ### 添加外部字体： ### 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在Info.plist中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 当你的应用在iOS 9中需要使用 Q"
+summary: "Open As Source Code，添加以下信息 🔼 🔽 ### 开权限： 🔼 🔽 多语言化 Localizable.strings ### 添加外部字体： 🔼 🔽 ### 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在Info.plist中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 🔼 🔽 当你"
 bookCollapseSection: false
 ---
 
@@ -18,7 +18,7 @@ bookCollapseSection: false
 </iframe>
 
 
-## <span id="前言">Open As Source Code，添加以下信息 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## Open As Source Code，添加以下信息 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ### 开权限： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 *多语言化*

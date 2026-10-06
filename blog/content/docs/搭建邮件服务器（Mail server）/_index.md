@@ -1,6 +1,6 @@
 ---
 title: "搭建邮件服务器（Mail server）"
-date: 2026-06-28T15:48:06+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 970
 summary: "搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、 电子邮件系统中的邮件交换记录(PTR Record) - 2、搭建流程 - 2.1、连接VPS - 2.1.1、相关准备工作 - 2.1.2、运行下列代码 - 2.2、更改主机名为mail，更改当前计算机的完"
@@ -47,7 +47,7 @@ bookCollapseSection: false
 
 [百度百科/PTR记录](https://baike.baidu.com/item/PTR%E8%AE%B0%E5%BD%95/8243039)
 
-## <span id="前言">1、基础概念介绍 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 1、基础概念介绍 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```
 1、邮件服务器是一种用来负责电子邮件收发管理的设备，构成了电子邮件系统的核心;

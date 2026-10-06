@@ -1,9 +1,9 @@
 ---
 title: "SwiftPackageDependence使用指南🧭"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 520
-summary: "一、集成 Xcode 👉 File 👉 Add Package Dependencies ## 二、删除（涉及到3处） Xcode 👉 File 👉 Add Package Dependencies 工程x.xcodeproj 👉 PROJECT 👉 Package Dependencies 工程x.xcodeproj 👉 TARGETS 👉 General"
+summary: "一、集成 🔼 🔽 Xcode 👉 File 👉 Add Package Dependencies ## 二、删除（涉及到3处） 🔼 🔽 Xcode 👉 File 👉 Add Package Dependencies 工程x.xcodeproj 👉 PROJECT 👉 Package Dependencies 工程x.xcodeproj 👉 TARGETS 👉"
 bookCollapseSection: false
 ---
 
@@ -17,7 +17,7 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
-## <span id="前言">一、集成 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一、集成 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * `Xcode` 👉 `File` 👉 `Add Package Dependencies`
 

@@ -1,9 +1,9 @@
 ---
 title: "自定义 UITabBarController"
-date: 2026-06-01T05:08:26+08:00
+date: 2026-10-04T15:57:04+08:00
 draft: false
 weight: 330
-summary: "一、相关目录结构 JobsTabBarVC：UITabBarController JobsTabBarItemConfig：NSObject UITabBarItem JobsTabBarItem：UITabBarItem UITabBarItem+TLAnimation UITabBar UITabBar+Ex UITabBar+TLAnimation J"
+summary: "一、相关目录结构 🔼 🔽 JobsTabBarVC：UITabBarController JobsTabBarItemConfig：NSObject UITabBarItem JobsTabBarItem：UITabBarItem UITabBarItem+TLAnimation UITabBar UITabBar+Ex UITabBar+TLAnimati"
 bookCollapseSection: false
 ---
 
@@ -18,7 +18,7 @@ bookCollapseSection: false
 </iframe>
 
 
-## <span id="前言">一、<font id=相关目录结构>相关目录结构</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span>
+## 一、<font id=相关目录结构>相关目录结构</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 * <font color=red>`JobsTabBarVC`</font>：**`UITabBarController`**
   * `JobsTabBarItemConfig`：**`NSObject`**
