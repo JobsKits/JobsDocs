@@ -2,7 +2,7 @@
 title: "配置info.plist"
 date: 2026-10-04T15:57:04+08:00
 draft: false
-weight: 610
+weight: 620
 summary: "Open As Source Code，添加以下信息 🔼 🔽 ### 开权限： 🔼 🔽 多语言化 Localizable.strings ### 添加外部字体： 🔼 🔽 ### 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在Info.plist中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 🔼 🔽 当你"
 bookCollapseSection: false
 ---
