@@ -4,6 +4,29 @@
 # - 核心用途：同步 JobsDocs 文档，并按运行模式生成 Hugo 站点或启动本地预览。
 # - 影响范围：会重新生成 blog/content、blog/public 及相关 Hugo 运行文件。
 # - 运行提示：终端默认等待确认后预览；传入 --ci 时无交互完成一次正式构建后退出。
+# 仅渲染自述：标题红色加粗，编号正文蓝色常规字重；非彩色终端输出纯文本。
+jobs_intro_style() {
+  local intro_color=0
+  if [ -t 1 ] && [ -n "${TERM:-}" ] && [ "${TERM:-}" != dumb ] &&
+     [ -z "${NO_COLOR+x}" ] && [ "${PLAIN_OUTPUT:-0}" != 1 ] &&
+     [ "${IS_SOURCETREE_RUNTIME:-0}" != 1 ]; then
+    intro_color=1
+  fi
+  /usr/bin/awk -v color="$intro_color" -v role="${1:-body}" '
+    BEGIN { esc = sprintf("%c", 27) }
+    {
+      gsub(esc "\\[[0-9;]*m", "")
+      gsub(/\\(033|e|x1[bB])\[[0-9;]*m/, "")
+      if (!color || $0 ~ /^[[:space:]]*$/) { print; next }
+      numbered = ($0 ~ /^[[:space:]➤ℹ🔹✔⚠]*([0-9]+[、.)）]|[0-9]+️⃣|[-•])/)
+      heading = ($0 ~ /^[[:space:]]*#{1,6}[[:space:]]/ || $0 ~ /[：:][[:space:]]*$/ || $0 ~ /^[[:space:]]*[=━─-]{3}/)
+      title = (!numbered && (role == "title" || heading))
+      if (role == "auto" && !seen && !numbered) title = 1
+      if ($0 !~ /^[[:space:]]*[=━─-]+[[:space:]]*$/) seen = 1
+      printf "%s%s%s\n", esc (title ? "[1;31m" : "[0;34m"), $0, esc "[0m"
+    }
+  '
+}
 set -euo pipefail
 
 SCRIPT_BASENAME="${0##*/}"
@@ -127,13 +150,13 @@ parse_execution_mode() {
 }
 # 自述信息：脚本启动后先展示用途、产物和注意事项。
 print_banner() {
-    highlight_echo "═════════════════════════════════════════════════════════════════════"
+    highlight_echo "═════════════════════════════════════════════════════════════════════" | jobs_intro_style title
     if [[ "$CI_MODE" == "true" ]]; then
-        highlight_echo "🚀 Hugo 博客生成器 - JobsDocs CI 同步与正式构建"
+        highlight_echo "🚀 Hugo 博客生成器 - JobsDocs CI 同步与正式构建" | jobs_intro_style title
     else
-        highlight_echo "🚀 Hugo 博客本地预览启动器 - JobsDocs Markdown 同步与预览"
+        highlight_echo "🚀 Hugo 博客本地预览启动器 - JobsDocs Markdown 同步与预览" | jobs_intro_style title
     fi
-    highlight_echo "═════════════════════════════════════════════════════════════════════"
+    highlight_echo "═════════════════════════════════════════════════════════════════════" | jobs_intro_style title
 }
 
 # 打印脚本内置自述，并按运行模式决定是否等待回车。
@@ -141,35 +164,35 @@ show_script_intro_and_wait() {
     : > "$LOG_FILE"
     parse_execution_mode "$@"
     print_banner
-    note_echo "功能说明："
-    color_echo "1. 脚本会优先检测当前脚本所在目录是否存在 hugo.toml。"
-    color_echo "2. 如果脚本放在 JobsDocs 根目录，也会自动检测 ./blog/hugo.toml。"
-    color_echo "3. 如果自动检测不到，会循环让你输入或拖入 Hugo 目录，直到找到 hugo.toml。"
-    color_echo "4. 找到 Hugo 目录后，会自动执行 chmod +x sync_docs.sh。"
-    color_echo "5. 然后执行 ./sync_docs.sh，把 JobsDocs Markdown 同步到 Hugo content/posts。"
+    note_echo "功能说明：" | jobs_intro_style title
+    color_echo "1. 脚本会优先检测当前脚本所在目录是否存在 hugo.toml。" | jobs_intro_style body
+    color_echo "2. 如果脚本放在 JobsDocs 根目录，也会自动检测 ./blog/hugo.toml。" | jobs_intro_style body
+    color_echo "3. 如果自动检测不到，会循环让你输入或拖入 Hugo 目录，直到找到 hugo.toml。" | jobs_intro_style body
+    color_echo "4. 找到 Hugo 目录后，会自动执行 chmod +x sync_docs.sh。" | jobs_intro_style body
+    color_echo "5. 然后执行 ./sync_docs.sh，把 JobsDocs Markdown 同步到 Hugo content/posts。" | jobs_intro_style body
     if [[ "$CI_MODE" == "true" ]]; then
-        color_echo "6. CI 模式会执行一次 hugo --gc --minify，生成 blog/public 后退出。"
-        color_echo "7. CI 模式不等待输入、不启动常驻服务，也不打开浏览器。"
+        color_echo "6. CI 模式会执行一次 hugo --gc --minify，生成 blog/public 后退出。" | jobs_intro_style body
+        color_echo "7. CI 模式不等待输入、不启动常驻服务，也不打开浏览器。" | jobs_intro_style body
     else
-        color_echo "6. 最后执行 hugo server -D --disableFastRender，启动本地预览。"
-        color_echo "7. Hugo 服务启动后，会自动打开浏览器访问 ${LOCAL_PREVIEW_URL}。"
+        color_echo "6. 最后执行 hugo server -D --disableFastRender，启动本地预览。" | jobs_intro_style body
+        color_echo "7. Hugo 服务启动后，会自动打开浏览器访问 ${LOCAL_PREVIEW_URL}。" | jobs_intro_style body
     fi
-    warm_echo ""
-    warm_echo "要求：目标 Hugo 目录里必须存在 hugo.toml 和 sync_docs.sh。"
+    warm_echo "" | jobs_intro_style body
+    warm_echo "要求：目标 Hugo 目录里必须存在 hugo.toml 和 sync_docs.sh。" | jobs_intro_style body
     if [[ "$CI_MODE" == "true" ]]; then
-        warm_echo "正式站点地址：${PUBLISH_BASE_URL}"
+        warm_echo "正式站点地址：${PUBLISH_BASE_URL}" | jobs_intro_style body
     else
-        warm_echo "本地预览地址：${LOCAL_PREVIEW_URL}"
+        warm_echo "本地预览地址：${LOCAL_PREVIEW_URL}" | jobs_intro_style body
     fi
-    info_echo "日志文件：$LOG_FILE"
-    warm_echo ""
+    info_echo "日志文件：$LOG_FILE" | jobs_intro_style body
+    warm_echo "" | jobs_intro_style body
 
     if [[ "$CI_MODE" == "true" ]]; then
-        gray_echo "已进入 CI 无交互模式，开始生成博客文件。"
+        gray_echo "已进入 CI 无交互模式，开始生成博客文件。" | jobs_intro_style body
         return 0
     fi
 
-    bold_echo "准备好后按 Enter 继续..."
+    bold_echo "准备好后按 Enter 继续..." | jobs_intro_style body
     IFS= read -r _
 }
 
