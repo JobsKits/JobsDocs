@@ -2,7 +2,7 @@
 title: "制作Unity"
 date: 2026-10-04T15:57:04+08:00
 draft: false
-weight: 270
+weight: 260
 summary: "一、准备工作 🔼 🔽 ### 1、下载安装Unity Hub 🔼 🔽 ### 2、运行Unity Hub 🔼 🔽 需要注册并登陆账户 ### 3、下载SDK 🔼 🔽 ### 4、下载编辑器 🔼 🔽 ## 二、使用 🔼 🔽 来自于Unity Hub的演示资源 新建工程 下载演示资源 现成的资源（一般用于开发和测试）。相当一部分社区的案例是不支持模拟器的 Uni"
 bookCollapseSection: false
 ---

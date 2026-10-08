@@ -2,7 +2,7 @@
 title: "iOS 屏幕适配专题：从初代 iPhone 到折叠屏"
 date: 2026-10-06T14:29:18+08:00
 draft: false
-weight: 330
+weight: 320
 summary: "## 🔥 前言 资料核对日期：2026-10-05。 面向有 iOS 开发经验、需要理解历史并制定当前适配方案的开发者。覆盖 UIKit、SwiftUI 与 Objective-C / Swift 工程的共同布局思想。 屏幕适配的核心，是让同一项任务在不断变化的可用空间里继续完成。折叠屏让“空间变化”发生得更频繁，也让状态连续性成为验收重点。 本文按“当前事"
 bookCollapseSection: false
 ---
