@@ -2,7 +2,7 @@
 title: "JXCategoryView框架的使用01"
 date: 2026-10-04T15:57:04+08:00
 draft: false
-weight: 410
+weight: 420
 summary: "当前总行数：0 行 ## 其他功能 🔼 🔽 ## 一些共同的准备工作 🔼 🔽 ## 图文结合 🔼 🔽 方式一 方式二 方式三 方式四 公共部分 我是有底线的➤点我回到首页"
 bookCollapseSection: false
 ---
