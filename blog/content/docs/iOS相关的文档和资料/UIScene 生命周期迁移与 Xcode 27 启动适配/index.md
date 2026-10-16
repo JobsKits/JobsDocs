@@ -1,6 +1,6 @@
 ---
 title: "UIScene 生命周期迁移与 Xcode 27 启动适配"
-date: 2026-10-16T01:20:37+08:00
+date: 2026-10-16T20:30:55+08:00
 draft: false
 weight: 320
 summary: "## 🔥 前言 资料核对日期：2026-10-15。 本文面向 Objective-C 新旧工程、Swift / UIKit 工程，说明为什么必须迁移、启动流程具体改变了什么、代码该放在哪里，以及如何验收。 从 iOS / iPadOS 27 起，使用最新 SDK 构建的 UIKit App 必须采用 scene 生命周期，否则无法启动。“用 Xcode 2"
@@ -461,6 +461,7 @@ SceneDelegate 通过 `stateRestorationActivityForScene:` / `stateRestorationActi
 - 独立 config 还必须真正作用于实际 children：UIKit 的 `super init` 可能提前触发 `loadView` / `viewDidLoad`，此时子类配置尚未注入，旧流程会走全局数组兜底。装配改为首次 `viewWillAppear`、调用 super 之前安装本实例 children、bar 与初选状态，并提前置一次性保护；后续出现不重复重建。验证直接比较实际 children 与本实例配置，不能只比较两个 root 指针不同。
 - TabBar 按当前自身 bounds 布局，并在首次装配与布局变化时刷新。全局根类型切换只更新各 scene 代理持有且识别为普通业务 root 的窗口，不覆盖 Scene Demo 或悬浮窗。
 - Tab 根入口的真实冷启动回归暴露了设置基类的返回手势初始化问题：子控制器在 `viewDidLoad` 时不一定已有 navigation controller。手势代理设置移到 `viewWillAppear` 调用 super 之后，并校验手势非空，避免对空对象的 Block 属性继续调用。
+- OC 老工程的普通列表冷启动还暴露 `JobsIconfont.m` 中私有 `UIGraphicsImageRendererFormat.byScale` 只有声明、缺少实现。修复从 OC 新工程对应 Jobs 源码平移该 helper 实现，不新增文件或依赖；这是列表启动依赖的 missing selector，不是 scene 生命周期强制断言。
 - 将 `launchFunc1` 归回 AppDelegate 的进程启动流程，避免每新建一个窗口重复进行全进程初始化。
 - 开屏配置改为显式接收窗口参数；移除进程启动里的全局择窗与重试。scene 创建并持有窗口后，传入 `self.window` 展示开屏；由 Demo 活动或其恢复状态打开的窗口跳过开屏，不外推为所有普通 session 重连均跳过。scene 断开时释放本代理的 window 与 windowScene 引用。
 - 当前最低部署目标为 iOS 16.6，移除已不可达的旧系统 AppDelegate 窗口启动分支；旧窗口 helper 在 iOS 13 及以上拒绝创建脱离 scene 的业务窗口。
@@ -505,7 +506,27 @@ window = UIWindow.jobsMake(scene: windowScene, root: homeViewController)
 
 ### 11.4、实际验证状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-<!-- VALIDATION_STATUS: 等待实际构建与运行结果后填写。 -->
+**工程核验时间：2026-10-15 至 2026-10-16，时区 Asia/Shanghai。** 官方资料核对日期仍为前言标注的 2026-10-15。构建与运行采用 Xcode 27、iOS 27 SDK、Debug arm64 模拟器目标，以及独立的 iPadOS 27 模拟器。
+
+| 工程 | 最终构建 | 实际启动与窗口 | 生命周期与独立状态 |
+| --- | --- | --- | --- |
+| OC 新工程 | 最终冻结源码构建 `BUILD SUCCEEDED`，退出码 0 | 普通列表与开启 Tab 入口的真实冷启动均通过；列表 root 为导航控制器下的 `ViewController_1`；窗口与 scene 绑定正确 | 真实 Settings 往返同一进程存活；未使用的 Core Data 容器保持未加载；后台安全点为 true，返回前台 inactive 时恢复 false。系统建立第二普通 scene 后，两套窗口、root、TabBar、config、实际 child、按钮与 bar 独立 |
+| OC 老工程 | 补齐 Iconfont helper 后最终构建 `BUILD SUCCEEDED`，退出码 0 | 最终包普通列表冷启动与 Tab 入口冷启动均通过；scene / window / root 绑定正确；渲染格式 `byScale` / `byOpaque` 运行时均可响应 | 真实 Settings 往返保持同一进程，前后台 scene 回调到达，Core Data 容器始终未加载；系统建立第二普通 scene 后，两套窗口、root、TabBar、config、实际 child、按钮与 bar 独立 |
+| Swift UIKit 工程 | 前台标记修复后的最终构建 `BUILD SUCCEEDED`，退出码 0 | 冷启动进程存活；实际代理模块名正确，root 为 `JobsSideDrawerVC`，窗口绑定正确，Flutter scene provider 可用 | 两个 session / 窗口独立、Demo 活动状态从 7 恢复至 11 的受控验证通过；最终前台标记修复后，真实 Settings 往返保持同一进程与 CrashLog session，后台 true → 前台 false，在权限提示造成的 inactive 阶段也正确 |
+
+OC 双窗口进一步核对了“配置里的 children 与实际 children 一致”“全部按钮属于自己的 bar”“窗口绑定自己的 scene”。分别通过调试器调用两个窗口现有按钮的 `clickBlock`，切换到 index 2 / index 1，所属窗口切换、另一窗口不变的断言均通过。**这是现有回调的运行时调用验证，不是屏幕触点或手势点按验收。**第二个普通 scene 由系统请求并连接，检查的是实际运行中的两个窗口。
+
+表内汇总本轮累计的针对性回归；最终单点变更后复验了受影响路径，没有对同一最终包重跑[整张验收矩阵](#verification)。Swift 最终单点变更为前台安全标记，针对它重跑完整增量构建与真实前后台；此前的双窗口与 Demo 活动证据仍按实际执行版本保留。OC 最后的 Tab 装配变更重新验证了真实 Tab 冷启动、两窗口实际 children 与按钮隔离。
+
+最终构建副本与正式工作树逐字节核对通过：OC 新工程 15 个改动源码、OC 老工程 16 个改动源码、Swift 4 个源码 / 配置文件；三仓差异空白检查通过。采用隔离构建副本，不把临时构建目录当正式源码交付。最终成功构建日志分别为 `oc-new-frozen-final-build.log`、`oc-old-complete-final-build.log`、`swift-build-arm64-final.log`，中间构建结果不替代最终结果。
+
+仍需保留以下边界：
+
+- Swift 首轮通用双架构构建在 Flutter `debug_unpack_ios` 脚本失败：脚本把 `arm64 x86_64` 作为单一架构识别。本轮没有修改外援或生成脚本，随后使用 arm64 完成验证；**未验证 fat 双架构包、Release、真机或全部最低支持系统**。
+- 启动截图仍包含工程已有开屏与系统通知授权提示。对象绑定与进程存活验证通过，不代表无遮挡业务根列表的完整操作体验已经逐项验收。
+- 原生宿主尚无已定义的入站 URL / 快捷操作业务。本轮没有实际完成所有冷 / 热 URL、Universal Links、通知点击、第三方登录 / 支付等端到端业务验收；Flutter provider 已连接也不等于所有插件都兼容多窗口。
+- Demo 的受控活动恢复不等于完整系统状态恢复验收；所有历史 session 升级兼容、用户关闭与系统回收重连、外接屏、窗口缩放、旋转、完整开屏交互与全业务流程仍按[验收矩阵](#verification)逐项补测。
+- SwiftUI 工程只核对既有 `App` / `WindowGroup` 入口已采用 scene，不把该只读检查记作重新构建或运行验收。
 
 ## 十二、<span id="references">官方资料与继续阅读</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
