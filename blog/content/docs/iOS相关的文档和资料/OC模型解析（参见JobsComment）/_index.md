@@ -2,7 +2,7 @@
 title: "OC模型解析（参见JobsComment）"
 date: 2026-10-04T15:57:04+08:00
 draft: false
-weight: 330
+weight: 340
 summary: "一、关注 @implementation BaseModel 🔼 🔽 值得注意的一点：如果是直接model网络数据的模型，无法手动在本类添加自定义的属性，则，必须用分类！ 比如： ## 二、网络返回值 ➤ .json文件 🔼 🔽 我是有底线的➤点我回到首页"
 bookCollapseSection: false
 ---

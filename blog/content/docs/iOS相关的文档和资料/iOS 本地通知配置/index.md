@@ -2,7 +2,7 @@
 title: "iOS 本地通知配置"
 date: 2026-10-04T15:57:04+08:00
 draft: false
-weight: 560
+weight: 570
 summary: "一、在AppDelegate里面进行配置 🔼 🔽 ## 二、相关工具类 🔼 🔽 JobsLocalNotificationModel JobsMakeLocalNotification ## 三、相关调用 🔼 🔽 * ```objective-c [JobsMakeLocalNotification.new triggerLocalNotification:"
 bookCollapseSection: false
 ---
