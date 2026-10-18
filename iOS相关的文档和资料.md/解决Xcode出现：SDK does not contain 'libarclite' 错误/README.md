@@ -9,7 +9,15 @@
   allowfullscreen>
 </iframe>
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+暂无章节。
+
+</details>
+<!-- jobs-toc:end -->
 
 > 资料来源
 >

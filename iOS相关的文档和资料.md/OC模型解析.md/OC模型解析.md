@@ -9,7 +9,16 @@
   allowfullscreen>
 </iframe>
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [一、关注 @implementation BaseModel](#jobs-toc-heading-1)
+- [二、网络返回值 ➤ \*.json文件](#jobs-toc-heading-2)
+
+</details>
+<!-- jobs-toc:end -->
 
 ![模型解析01](./assets/模型解析01.jpg)
 
@@ -17,7 +26,7 @@
 
 ![模型解析03](./assets/模型解析03.jpg)
 
-## 一、关注 `@implementation BaseModel` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、关注 `@implementation BaseModel` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 /// 装载本地假数据
@@ -139,7 +148,7 @@
   @end
   ```
 
-## 二、网络返回值 ➤ `*.json`文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">二、网络返回值 ➤ `*.json`文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 数组：   （ ==> [ 

@@ -9,10 +9,26 @@
   allowfullscreen>
 </iframe>
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [一、核心特点](#jobs-toc-heading-1)
+- [1、环境配置](#jobs-toc-heading-2)
+- [2、安装配置](#jobs-toc-heading-3)
+- [3、生成站点](#jobs-toc-heading-4)
+  - [3.2、创建一些页面资源](#jobs-toc-heading-5)
+  - [3.3、安装皮肤](#jobs-toc-heading-6)
+- [4、运行Hugo](#jobs-toc-heading-7)
+  - [4.1、本地运行](#jobs-toc-heading-8)
+  - [4.2、发布到GitHub](#jobs-toc-heading-9)
+
+</details>
+<!-- jobs-toc:end -->
 [Hugo中文文档](https://www.gohugo.org/)
 
- ## 一、核心特点
+ ## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、核心特点</span><!-- jobs-toc:heading-end -->
 
 > **没有后端、没有数据库、速度极快**
 
@@ -25,7 +41,7 @@ flowchart LR
     E --> F[用户访问网站]
 ```
 
-## 1、环境配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">1、环境配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 推荐终端：[**Oh-My-Zsh**](https://ohmyz.sh/)
 
@@ -39,7 +55,7 @@ flowchart LR
   $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   ```
 
-## 2、安装配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">2、安装配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 推荐利用[**Homebrew**](https://brew.sh/)自动安装配置[**Hugo**](https://gohugo.io/)
 
@@ -53,7 +69,7 @@ flowchart LR
   hugo version
   ```
 
-## 3、生成站点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">3、生成站点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * `hugo new site JobsBlog`
 
@@ -87,7 +103,7 @@ flowchart LR
   
   ![image-20260408104336417](./assets/image-20260408104336417.png)
 
-### 3.2、创建一些页面资源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">3.2、创建一些页面资源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 创建文章页面
 
@@ -101,7 +117,7 @@ flowchart LR
   hugo new post/first.md
   ```
 
-### 3.3、安装皮肤 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">3.3、安装皮肤 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 进入`themes`文件夹
 
@@ -109,9 +125,9 @@ flowchart LR
   git clone https://github.com/spf13/hyde.git
   ```
 
-## 4、运行`Hugo` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-7" data-jobs-toc="v2">4、运行`Hugo` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 4.1、本地运行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">4.1、本地运行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20260408105123927](./assets/image-20260408105123927.png)
 
@@ -157,7 +173,7 @@ flowchart LR
   http://localhost:1313
   ```
 
-### 4.2、发布到[**GitHub**](https://github.com/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-9" data-jobs-toc="v2">4.2、发布到[**GitHub**](https://github.com/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 首先在[**GitHub**](https://github.com/)上创建一个代码仓库，命名为：**`Jobs.github.io`** 
 

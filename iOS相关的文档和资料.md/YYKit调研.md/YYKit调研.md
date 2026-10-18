@@ -9,11 +9,26 @@
   allowfullscreen>
 </iframe>
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## 一、基本面 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [一、基本面](#jobs-toc-heading-1)
+  - [1、历史](#jobs-toc-heading-2)
+  - [2、目录结构](#jobs-toc-heading-3)
+- [二、在未来有选择的逐步淘汰YYKit](#jobs-toc-heading-4)
+- [三、FAQ](#jobs-toc-heading-5)
+  - [1、TextKit](#jobs-toc-heading-6)
+    - [1.1、TextKit 的三大核心类](#jobs-toc-heading-7)
+    - [1.2、常规构建管道](#jobs-toc-heading-8)
 
-### 1、历史 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、基本面 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+### <span id="jobs-toc-heading-2" data-jobs-toc="v2">1、历史 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 更新时间跨度： **2013.4.11**~**2017.8.6**
 * 历史贡献者
@@ -29,7 +44,7 @@
   * **`@evianzhow`**
 * 框架所覆盖的**iOS**版本号：**iOS 6** ～ **iOS 10**  <font color=red size=5>截止**2025.12.6** iOS版本为26.1</font>
 
-### 2、目录结构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">2、目录结构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 关于系统底层的语法糖的封装：/Base
 
@@ -169,7 +184,7 @@
 
   * 对于富文本的处理（用异步渲染的手法，较重）
 
-## 二、在未来有选择的逐步淘汰[**YYKit**](https://github.com/ibireme/YYKit.git) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">二、在未来有选择的逐步淘汰[**YYKit**](https://github.com/ibireme/YYKit.git) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 最后一次更新是在**2017.8.6**，距今已有<font color=red>**9**</font>年。在这9年期间，手机移动端的硬件和软件层面均发生了很大的变化。[**YYKit**](https://github.com/ibireme/YYKit.git)是那个时代的过渡产物
   * 硬件层面的跃升，带来了更高的容错率
@@ -236,11 +251,11 @@
     * 枚举 block 里操作自己会死锁
     * 外部如果理解不清，很容易误用
 
-## 三、<font color=red>F</font><font color=green>A</font><font color=blue>Q</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-5" data-jobs-toc="v2">三、<font color=red>F</font><font color=green>A</font><font color=blue>Q</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1、<font id=TextKit>TextKit</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">1、<font id=TextKit>TextKit</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### 1.1、TextKit 的三大核心类 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-7" data-jobs-toc="v2">1.1、TextKit 的三大核心类 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **TextKit** = iOS / macOS 里，系统级的“富文本排版引擎”，负责把字符串 + 属性 → 真实画在屏幕上。
 * **NSTextStorage**
@@ -259,7 +274,7 @@
     * 排版路径（可以是矩形、圆形、带洞的路径）
   * 一个 `NSLayoutManager` 可绑定多个 `NSTextContainer`（比如同一段文本在多页上显示）
 
-#### 1.2、常规构建管道 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-8" data-jobs-toc="v2">1.2、常规构建管道 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * `NSTextStorage`（文本 + 属性） → `NSLayoutManager`（排版计算 + glyph）→ `NSTextContainer`（排到哪个区域）→ draw 到屏幕。
 * `UILabel/UITextView` 内部就是维护了一套这样的组合，只是帮忙封装掉了

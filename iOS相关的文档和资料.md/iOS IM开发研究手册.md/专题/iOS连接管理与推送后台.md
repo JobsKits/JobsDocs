@@ -2,7 +2,75 @@
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#%E5%89%8D%E8%A8%80)
+- [一、先划清职责与成功语义](#scope)
+  - [1.1、一条消息经过哪些层](#layers)
+  - [1.2、不要把多种成功合成一个布尔值](#success-levels)
+  - [1.3、连接层必须守住的四条不变量](#invariants)
+- [二、传输方式如何选择](#transport)
+  - [2.1、围绕约束选择 API 与协议](#transport-matrix)
+  - [2.2、WebSocket 与 Network.framework 的边界](#websocket-network)
+  - [2.3、HTTP 轮询与 SSE 的恢复设计](#polling-sse)
+  - [2.4、MQTT QoS 不等于 IM 业务“恰好一次”](#mqtt-qos)
+- [三、帧、业务包与接收背压](#framing)
+  - [3.1、三个长度边界分别处理](#frame-envelope)
+  - [3.2、一个连接只保留一个接收循环所有者](#receive-loop)
+  - [3.3、背压需要协议配合](#bounded-pipeline)
+- [四、连接状态机与异步竞态](#state-machine)
+  - [4.1、状态要能解释下一步动作](#states)
+  - [4.2、代次隔离比到处判断 isConnected 更可靠](#generation)
+  - [4.3、串行协调者只编排，不承包重活](#connection-owner)
+- [五、连接认证与令牌刷新](#authentication)
+  - [5.1、传输建立以后还需要业务会话](#auth-protocol)
+  - [5.2、single flight：一次刷新，多方等待](#single-flight)
+  - [5.3、刷新完成不代表已有连接自动换身份](#credential-lifecycle)
+- [六、心跳、超时与重连退避](#heartbeat)
+  - [6.1、先决定要探测哪一层](#heartbeat-semantics)
+  - [6.2、心跳不能拍脑袋固定成通用数字](#heartbeat-tuning)
+  - [6.3、退避、抖动与重试预算](#retry-jitter)
+- [七、弱网、切网、TLS 与代理](#network-change)
+  - [7.1、NWPathMonitor 不是业务可达性检测器](#path-monitor)
+  - [7.2、Wi-Fi 与蜂窝切换后怎么处理](#handover)
+  - [7.3、TLS 与代理问题如何定位](#tls-proxy)
+- [八、iOS 前后台与执行资格](#lifecycle)
+  - [8.1、把业务任务映射到正确系统机制](#background-matrix)
+  - [8.2、退后台时保住恢复点](#background-expiration)
+  - [8.3、被挂起、被终止、被用户强退要分开测](#suspension-recovery)
+- [九、APNs 与多设备通知一致性](#apns)
+  - [9.1、APNs 是提醒与同步线索](#apns-role)
+  - [9.2、请求成功、设备送达与用户查看分别观察](#apns-request)
+  - [9.3、Token、环境、账号不能混成一列](#device-token)
+  - [9.4、通知去重、消息去重和多端已读各自建模](#notification-dedup)
+- [十、通知扩展、冷启动与跨进程存储](#extensions)
+  - [10.1、NSE 只负责有限的通知加工](#nse)
+  - [10.2、App Groups 共享的是文件空间](#app-groups)
+  - [10.3、点击通知时先恢复上下文，再导航](#cold-start-routing)
+  - [10.4、PushKit 的来电职责不能借作保活](#pushkit)
+- [十一、可复现的研究与排障实验](#experiments)
+  - [11.1、先建立可观测实验环境](#test-harness)
+  - [11.2、实验输入、预期和判据](#failure-matrix)
+  - [11.3、研究指标与结论怎么写](#metrics)
+- [十二、常见问题与面试追问](#faq)
+  - [12.1、iOS IM 如何做到后台永远在线？](#faq-always-online)
+  - [12.2、WebSocket send 成功能把气泡改成已发送吗？](#faq-send)
+  - [12.3、为什么建议只保留一个 receive loop？](#faq-receive)
+  - [12.4、NWPathMonitor 显示有网，为什么仍然连不上？](#faq-network)
+  - [12.5、心跳间隔是不是固定 30 秒就够了？](#faq-heartbeat)
+  - [12.6、十个请求同时令牌过期，应该刷新十次吗？](#faq-refresh)
+  - [12.7、APNs 返回 200 为什么用户没有看到通知？](#faq-apns-success)
+  - [12.8、每条消息都发静默推送，就能补齐后台消息吗？](#faq-silent)
+  - [12.9、Device token 能当作账号或固定设备 ID 吗？](#faq-token)
+  - [12.10、NSE 与 App 可以用同一个数据库单例吗？](#faq-nse-database)
+  - [12.11、点击通知后能立即上报已读吗？](#faq-notification-read)
+  - [12.12、既然 PushKit 能唤醒，为何不用它接收普通聊天？](#faq-pushkit)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 

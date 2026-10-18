@@ -2,17 +2,47 @@
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#jobs-toc-heading-1)
+- [一、先按被改变的位置分类](#jobs-toc-heading-2)
+  - [1.1、四类常见 Hook](#jobs-toc-heading-3)
+  - [1.2、Hook、注入和动态调试的关系](#jobs-toc-heading-4)
+- [二、工具地图](#jobs-toc-heading-5)
+  - [2.1、MobileSubstrate / Cydia Substrate](#jobs-toc-heading-6)
+  - [2.2、Substitute](#jobs-toc-heading-7)
+  - [2.3、fishhook](#jobs-toc-heading-8)
+  - [2.4、HookZz 与 Dobby](#jobs-toc-heading-9)
+- [三、为什么 Inline Hook 最难](#jobs-toc-heading-10)
+  - [3.1、不只是覆盖一条跳转](#jobs-toc-heading-11)
+- [四、自有 Lab 的低风险学习顺序](#jobs-toc-heading-12)
+  - [4.1、第一阶段：源码级包装](#jobs-toc-heading-13)
+  - [4.2、第二阶段：Objective-C Runtime](#jobs-toc-heading-14)
+  - [4.3、第三阶段：fishhook 原理阅读](#jobs-toc-heading-15)
+  - [4.4、第四阶段：Inline Hook 只做原理验证](#jobs-toc-heading-16)
+- [五、Hook 的工程风险](#jobs-toc-heading-17)
+  - [5.1、正确性风险](#jobs-toc-heading-18)
+  - [5.2、安全与合规风险](#jobs-toc-heading-19)
+  - [5.3、生产代码优先用显式机制](#jobs-toc-heading-20)
+- [六、学完标准与资料](#jobs-toc-heading-21)
+  - [6.1、学完应该会什么](#jobs-toc-heading-22)
+  - [6.2、资料](#jobs-toc-heading-23)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
-## 🔥 <font id=前言>前言</font>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
 
 > Hook 是让调用在到达原目标前后经过观察或替代逻辑。Objective-C 消息替换、Mach-O 符号重绑定和 ARM64 Inline Hook 原理不同。MobileSubstrate、fishhook、HookZz、Dobby、Substitute 也不是同一层工具。本专题只在自有 Lab 中讲机制与检测，不提供修改第三方 App 行为或绕过安全判断的操作链。
 
-## 一、先按被改变的位置分类 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">一、先按被改变的位置分类 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1.1、四类常见 Hook <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1、四类常见 Hook <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 类型 | 改变的位置 | 典型目标 | 主要限制 |
 | --- | --- | --- | --- |
@@ -21,7 +51,7 @@
 | Inline Hook | 函数入口机器指令 | Native 函数 | 指令重定位、页权限、PAC、并发安全复杂 |
 | 调试器断点 | 调试异常 / 软件断点 | 授权调试目标 | 性能、时序和反调试环境影响 |
 
-### 1.2、Hook、注入和动态调试的关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.2、Hook、注入和动态调试的关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 注入回答“代码怎样进入目标进程”。
 - Hook 回答“进入后怎样拦截某条调用路径”。
@@ -29,27 +59,27 @@
 
 因此“会 Hook”不等于“能注入”，能注入也不代表可以安全重写任意函数。
 
-## 二、工具地图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-5" data-jobs-toc="v2">二、工具地图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 2.1、MobileSubstrate / Cydia Substrate <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">2.1、MobileSubstrate / Cydia Substrate <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [**Cydia Substrate**](https://www.cydiasubstrate.com/) 是越狱生态中长期使用的扩展平台，提供 Objective-C 消息和原生函数替换能力。它是一整套运行环境，不是单独的 `method_exchangeImplementations`。
 
-### 2.2、Substitute <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2.2、Substitute <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [**Substitute**](https://github.com/comex/substitute) 也是进程修改与 Hook 框架，常与特定越狱发行版和历史兼容讨论一起出现。评估时要看目标系统、架构、Rootless 环境和项目维护状态，不能只比较 API 名字。
 
-### 2.3、fishhook <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">2.3、fishhook <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [**fishhook**](https://github.com/facebook/fishhook) 通过重新绑定 Mach-O 导入符号表中的指针，适合学习 C 函数动态符号调用。它不是通用 Inline Hook，也不会自动拦截编译器内联、静态链接或不经懒 / 非懒符号指针的调用。
 
-### 2.4、HookZz 与 Dobby <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-9" data-jobs-toc="v2">2.4、HookZz 与 Dobby <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [**HookZz**](https://github.com/jmpews/HookZz) 是较早的跨平台 Hook 项目；[**Dobby**](https://github.com/jmpews/Dobby) 是同一作者生态中更现代的轻量级 Hook 框架。二者涉及指令级改写和 Trampoline，使用前必须核对当前架构、系统版本、PAC 与仓库维护状态。
 
-## 三、为什么 Inline Hook 最难 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-10" data-jobs-toc="v2">三、为什么 Inline Hook 最难 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 3.1、不只是覆盖一条跳转 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-11" data-jobs-toc="v2">3.1、不只是覆盖一条跳转 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 Inline Hook 通常要：
 
@@ -67,13 +97,13 @@ Inline Hook 通常要：
 
 arm64e Pointer Authentication、Branch Target Identification 和系统代码页策略会进一步影响可行性。复制一段固定字节模板不是可靠实现。
 
-## 四、自有 Lab 的低风险学习顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-12" data-jobs-toc="v2">四、自有 Lab 的低风险学习顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 4.1、第一阶段：源码级包装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-13" data-jobs-toc="v2">4.1、第一阶段：源码级包装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 先给自己的纯函数加一层 Wrapper，记录输入、输出和耗时。这建立了“前置逻辑 → 原函数 → 后置逻辑”的 Hook 心智模型，却没有运行时改写风险。
 
-### 4.2、第二阶段：Objective-C Runtime <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-14" data-jobs-toc="v2">4.2、第二阶段：Objective-C Runtime <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 在自有 Demo 中比较：直接调用、动态派发、继承覆盖和 Method Swizzling。重点记录：
 
@@ -84,17 +114,17 @@ arm64e Pointer Authentication、Branch Target Identification 和系统代码页�
 
 只 Hook 自己声明的测试类，不碰系统安全、支付、登录、证书或隐私 API。
 
-### 4.3、第三阶段：fishhook 原理阅读 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-15" data-jobs-toc="v2">4.3、第三阶段：fishhook 原理阅读 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 在 macOS / iOS 自有测试 Target 中阅读 fishhook 源码，观察它如何遍历 Image、Symbol Table、String Table 和间接符号表。学习重点是 Mach-O 绑定关系，不是把日志函数替换带进生产。
 
-### 4.4、第四阶段：Inline Hook 只做原理验证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-16" data-jobs-toc="v2">4.4、第四阶段：Inline Hook 只做原理验证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 如果确实需要研究 Dobby：只对无敏感行为的自有函数，在隔离设备、固定版本和可恢复环境进行；同时用反汇编核对原始指令、Trampoline 和返回路径。结果必须标注工具版本与架构，不能泛化为“所有 iOS 都可用”。
 
-## 五、Hook 的工程风险 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-17" data-jobs-toc="v2">五、Hook 的工程风险 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 5.1、正确性风险 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-18" data-jobs-toc="v2">5.1、正确性风险 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 函数签名、ABI 或寄存器保存不一致。
 - 递归进入 Hook 本身。
@@ -102,11 +132,11 @@ arm64e Pointer Authentication、Branch Target Identification 和系统代码页�
 - App 或系统升级后函数实现改变。
 - Release 优化、内联或 LTO 让目标消失。
 
-### 5.2、安全与合规风险 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-19" data-jobs-toc="v2">5.2、安全与合规风险 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 Hook 能观察敏感参数，也能改变授权、交易和身份逻辑。未经许可使用会触及隐私、合同、反规避和计算机安全法律风险。本专题不提供隐藏 Hook、绕过检测、持久化或第三方 App 行为篡改方法。
 
-### 5.3、生产代码优先用显式机制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-20" data-jobs-toc="v2">5.3、生产代码优先用显式机制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 如果源码可控，优先考虑：
 
@@ -118,13 +148,13 @@ Hook 能观察敏感参数，也能改变授权、交易和身份逻辑。未经
 
 运行时 Hook 应是明确授权的诊断或研究工具，不应成为正常业务架构的默认依赖。
 
-## 六、学完标准与资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-21" data-jobs-toc="v2">六、学完标准与资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 6.1、学完应该会什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-22" data-jobs-toc="v2">6.1、学完应该会什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 你应能按 Objective-C 派发、符号绑定、Inline 指令和调试器断点区分 Hook，解释五类工具各自位置，并能为自有 Lab 设计从源码 Wrapper 到只读验证的渐进实验。
 
-### 6.2、资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-23" data-jobs-toc="v2">6.2、资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - [**Objective-C Runtime**](https://developer.apple.com/documentation/objectivec/objective-c_runtime)
 - [**Cydia Substrate**](https://www.cydiasubstrate.com/)

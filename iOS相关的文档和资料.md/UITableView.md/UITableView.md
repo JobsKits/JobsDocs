@@ -9,19 +9,33 @@
   allowfullscreen>
 </iframe>
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [1、详解UIScrollView 和UITabableView的滚动区域](#jobs-toc-heading-1)
+- [2、UITableViewCell的重用](#jobs-toc-heading-2)
+- [3、只刷新某一行或某一组的UITableViewCell](#jobs-toc-heading-3)
+- [4、UITableView 禁止下拉 + 允许上拉](#jobs-toc-heading-4)
+- [5、UITableViewCell 自适应](#jobs-toc-heading-5)
+- [6、tableHeaderView 和 tableFooterView](#jobs-toc-heading-6)
+- [7、viewForHeaderInSection 的使用记录](#jobs-toc-heading-7)
+
+</details>
+<!-- jobs-toc:end -->
 
 当前总行数：0 行
 
-## 1、详解UIScrollView 和UITabableView的滚动区域 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">1、详解UIScrollView 和UITabableView的滚动区域 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![详解UIScrollView 和UITabableView的滚动区域](./assets/详解UIScrollView 和UITabableView的滚动区域.png)
 
-## 2、UITableViewCell的重用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">2、UITableViewCell的重用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![UITableViewCell的重用](./assets/UITableViewCell的重用.png)
 
-## 3、只刷新某一行或某一组的UITableViewCell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">3、只刷新某一行或某一组的UITableViewCell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *一个section刷新*
 
@@ -37,7 +51,7 @@ NSIndexPath *indexPath = [NSIndexPath indexPathForRow:3 inSection:0];
 [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
 ```
 
-## 4、UITableView 禁止下拉 + 允许上拉 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">4、UITableView 禁止下拉 + 允许上拉 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -48,7 +62,7 @@ NSIndexPath *indexPath = [NSIndexPath indexPathForRow:3 inSection:0];
 }
 ```
 
-## 5、UITableViewCell 自适应 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-5" data-jobs-toc="v2">5、UITableViewCell 自适应 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 1、- (CGFloat)tableView:(UITableView *)tableView
@@ -70,7 +84,7 @@ if (@available(iOS 10.0, *)) {
 }else [UIApplication.sharedApplication openURL:[NSURL URLWithString:model.advertUrl]];
 ```
 
-## 6、tableHeaderView 和 tableFooterView <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-6" data-jobs-toc="v2">6、tableHeaderView 和 tableFooterView <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 如果想在整个TableView的头部或者尾部出现一个View
@@ -81,7 +95,7 @@ _tableView.tableHeaderView;
 _tableView.tableFooterView;
 ```
 
-## 7、viewForHeaderInSection 的使用记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-7" data-jobs-toc="v2">7、viewForHeaderInSection 的使用记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **UITableView的每个Section的头部出现一个view，涉及到复用机制**
 

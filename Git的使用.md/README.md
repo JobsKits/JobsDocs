@@ -2,15 +2,29 @@
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#jobs-toc-heading-1)
+- [一、知识地图](#jobs-toc-heading-2)
+- [二、故障发生时先看哪一层](#jobs-toc-heading-3)
+- [三、先止损，再修复](#jobs-toc-heading-4)
+- [四、知识来源与可信度](#jobs-toc-heading-5)
+- [五、维护规则](#jobs-toc-heading-6)
+- [六、当前审计范围](#jobs-toc-heading-7)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
-## 🔥 <font id=前言>前言</font>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
 
 > 本目录不只记录命令，还要回答“Git 正在修改哪一层状态、为什么失败、怎样止损、怎样恢复、什么时候不该执行某条命令”。遇到临时故障时，先从故障手册按错误类型分流，再回到专题文档理解原理。
 
-## 一、知识地图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">一、知识地图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 主题 | 文档 | 解决的问题 |
 | --- | --- | --- |
@@ -23,7 +37,7 @@
 | GitHub Actions | [GitHub Actions 工作流](./Github.workflow.md/Github.workflow.md) | Workflow、Event、Job、Step、Runner、权限、Token、Mermaid 自动生成和安全边界。 |
 | Mermaid 样例 | [Mermaid 输入样例](./Github.workflow.md/mermaid.md) | 供工作流验证 Markdown 内 Mermaid 图块的解析与输出。 |
 
-## 二、故障发生时先看哪一层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">二、故障发生时先看哪一层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```mermaid
 flowchart TD
@@ -40,7 +54,7 @@ flowchart TD
   J -->|否| L[网络、代理、SSH、Token、权限]
 ```
 
-## 三、先止损，再修复 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">三、先止损，再修复 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 在不知道错误性质时，先保存现场，不要先执行 `reset --hard`、`clean -fd`、删除 `.git`、全局关闭 SSL 校验或批量删除引用。
 
@@ -58,7 +72,7 @@ flowchart TD
 - `git reset --hard` 会让工作区和索引匹配目标提交；`git clean` 会删除未跟踪内容。没有确认可恢复来源前，不把它们当通用修复命令。
 - 强制推送优先使用带明确预期值的 `--force-with-lease=<分支>:<预期提交>`；裸 `--force` 可能覆盖他人已经推送的提交。
 
-## 四、知识来源与可信度 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-5" data-jobs-toc="v2">四、知识来源与可信度 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 命令语义以 [**Git 官方文档**](https://git-scm.com/docs) 为准。
 - GitHub 认证与 Actions 行为以 [**GitHub Docs**](https://docs.github.com/) 为准。
@@ -66,7 +80,7 @@ flowchart TD
 - Jobs 自用修复脚本的真实行为以 [**SourceTree.sh**](https://github.com/JobsKits/SourceTree.sh) 仓库中的脚本和同目录 README 为准；博客只做原理、边界和使用入口的同步说明。
 - 截图只能证明拍摄当时的界面，不作为长期稳定的命令或权限依据；正文必须同时给出可复制命令和官方链接。
 
-## 五、维护规则 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-6" data-jobs-toc="v2">五、维护规则 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 修复脚本新增一种错误识别、状态变更或安全边界时，同步更新故障手册与本知识地图的行为摘要。
 - Git、GitHub Actions、Node.js、SSH 或 Sourcetree 上游行为变化时，先核对官方文档，再更新示例版本和结论。
@@ -74,7 +88,7 @@ flowchart TD
 - 示例中的邮箱、仓库名、Token、SSH 公钥和提交 ID 使用占位符；不得把私人凭据或可复用秘密写进文档。
 - 每条“恢复成功”结论都要区分：对象仍在本地、reflog 尚未过期、远端仍有副本、备份存在，以及对象已被垃圾回收五种前提。
 
-## 六、当前审计范围 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-7" data-jobs-toc="v2">六、当前审计范围 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 已纳入 Git 目录现有 Markdown、隐藏的 GitHub Actions 工作流、截图和 Mermaid 示例。
 - 已纳入两个仓库外的真实工作流来源：`修复Git无法Commit` 与 `修复Git无法Fetch` 的脚本及 README。

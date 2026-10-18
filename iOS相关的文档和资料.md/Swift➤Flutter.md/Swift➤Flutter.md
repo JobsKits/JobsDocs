@@ -9,13 +9,28 @@
   allowfullscreen>
 </iframe>
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## <span id="前言">一、前言</span>
+- [一、前言](#jobs-toc-heading-1)
+  - [1、实践目的：iOS项目主工程（Swift）集成和在个别页面调用Flutter页面](#jobs-toc-heading-2)
+  - [2、经验总结](#jobs-toc-heading-3)
+- [二、集成步骤](#jobs-toc-heading-4)
+  - [1、目录结构](#jobs-toc-heading-5)
+  - [2、Product ➤ Scheme ➤ Edit Scheme](#jobs-toc-heading-6)
+  - [3、配置 Podfile ➤ pod install](#jobs-toc-heading-7)
+  - [4、iOS侧的入口配置](#jobs-toc-heading-8)
 
-### 1、实践目的：iOS项目主工程（[**Swift**](https://developer.apple.com/swift/)）集成和在个别页面调用[**Flutter**](https://flutter.dev/)页面 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+</details>
+<!-- jobs-toc:end -->
 
-### 2、经验总结 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2"><span id="前言">一、前言</span></span><!-- jobs-toc:heading-end -->
+
+### <span id="jobs-toc-heading-2" data-jobs-toc="v2">1、实践目的：iOS项目主工程（[**Swift**](https://developer.apple.com/swift/)）集成和在个别页面调用[**Flutter**](https://flutter.dev/)页面 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">2、经验总结 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * [**Flutter**](https://flutter.dev/)官方文档 ➤ [**将 Flutter module 集成到 iOS 项目**](https://docs.flutter.cn/add-to-app/ios/project-setup/)
 * 集成[**Flutter**](https://flutter.dev/)页面，绝对不是只引入单个的`*.dart`文件，而是需要将整个[**Flutter**](https://flutter.dev/)工程文件全部集成（[**Flutter**](https://flutter.dev/) 里面还包含各种依赖）
@@ -24,19 +39,19 @@
 * 必须进入[**Flutter**](https://flutter.dev/)目录中执行`flutter pub get`生成中间产物`podhelper.rb`才能跑通`pod install`
 * 关于iOS程序的入口配置，会因为[**Flutter**](https://flutter.dev/)的出现，有一点小变化，这里总结出一个[**通例**](iOS侧的入口配置)
 
-## 二、集成步骤 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">二、集成步骤 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1、**目录结构** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1、**目录结构** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 需要进入[**Flutter**](https://flutter.dev/)工程目录 ➤ 执行 <font size=5>`flutter build ios --config-only`</font> ➤ 生成文件 <font size=5>`flutter_lldbinit`</font>
 
 ![image-20251216091201562](./assets/image-20251216091201562.png)
 
-### 2、**Product ➤ Scheme ➤ Edit Scheme** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">2、**Product ➤ Scheme ➤ Edit Scheme** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20251216091324201](./assets/image-20251216091324201.png)
 
-### 3、配置 <font size=5 id=Podfile>`Podfile`</font> ➤ <font size=5>`pod install`</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">3、配置 <font size=5 id=Podfile>`Podfile`</font> ➤ <font size=5>`pod install`</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```ruby
 # ================================== Podfile ==================================
@@ -128,7 +143,7 @@ target 'JobsSwiftBaseConfigDemo' do
 end
 ```
 
-### 4、<font id=iOS侧的入口配置>iOS侧的入口配置</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">4、<font id=iOS侧的入口配置>iOS侧的入口配置</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 //

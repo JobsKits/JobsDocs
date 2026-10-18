@@ -9,15 +9,30 @@
   allowfullscreen>
 </iframe>
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#jobs-toc-heading-1)
+- [一、目录定位](#jobs-toc-heading-2)
+- [二、Blog 预览与发布](#jobs-toc-heading-3)
+  - [2.1、先记结论](#jobs-toc-heading-4)
+  - [2.2、本地同步与预览](#jobs-toc-heading-5)
+  - [2.3、自动发布与手动发布](#jobs-toc-heading-6)
+  - [2.4、GitHub Actions 运行边界](#jobs-toc-heading-7)
+- [三、维护规则](#jobs-toc-heading-8)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
-## 🔥 <font id=前言>前言</font>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
 
 这里用于长期收集、整理和沉淀 Jobs 日常技术文档。文档优先服务复用：能快速定位主题、能直接复制命令、能看清风险边界。
 
-## 一、目录定位 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">一、目录定位 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - `iOS相关的文档和资料.md`：iOS、[**Xcode**](https://developer.apple.com/xcode)、构建问题和工程化资料。
 - [`Git的使用.md`](./Git的使用.md/README.md)：Git 日常与进阶、子模块、GitHub SSH、GitHub Actions，以及无法 Commit / Fetch / Pull / Push 的故障诊断与恢复。
@@ -25,15 +40,15 @@
 - `.github/workflows/deploy-blog.yml`：[**GitHub Actions**](https://docs.github.com/actions) 博客发布工作流。
 - 其它专题目录：按主题继续沉淀，不混放临时文件。
 
-## 二、Blog 预览与发布 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">二、Blog 预览与发布 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 2.1、先记结论 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">2.1、先记结论 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - `./blog/install.command` 是博客文件的统一生成入口：默认双击时同步文档并启动本地预览；传入 `--ci` 时无交互完成一次正式构建后退出。
 - 正式站点由 [**Cloudflare Pages**](https://pages.cloudflare.com/) 托管，项目名为 `jobsdocs`，线上地址为 `https://jobsdocs.ccwu.cc/`。
 - `./.github/workflows/deploy-blog.yml` 会在 `main` 收到推送后运行 `./blog/install.command --ci`，再把生成的 `./blog` 文件提交回 `main`；Cloudflare Pages Git 集成负责发布这个生成提交。
 
-### 2.2、本地同步与预览 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">2.2、本地同步与预览 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 可以双击 `./blog/install.command`，也可以在终端执行：
 
@@ -48,7 +63,7 @@
 - 停止本地预览：回到运行脚本的终端，按 `Control + C`。
 - 本地预览日志位于系统临时目录中的 `install.log`。
 
-### 2.3、自动发布与手动发布 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">2.3、自动发布与手动发布 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 自动发布：提交源码并推送到远端 `main` 分支，`Deploy Blog` 工作流会同步文档、生成 Hugo 站点，并由 `github-actions[bot]` 把变化提交回 `main`。
 
@@ -67,7 +82,7 @@
       D --> E["Cloudflare Pages Git 集成发布"]
   ```
 
-### 2.4、GitHub Actions 运行边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2.4、GitHub Actions 运行边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 工作流使用 GitHub 自动提供的 `GITHUB_TOKEN` 写回本仓库，不需要 Cloudflare API Token、账户 ID 或其它 Repository secrets。
 - 机器人提交使用仓库自身的 `GITHUB_TOKEN` 推送，不会再次触发同一个 GitHub Actions 工作流，因此不会递归提交。
@@ -75,7 +90,7 @@
 - 如果 `Commit generated files` 报 `403` 或分支保护错误，需要检查仓库 `Settings` → `Actions` → `General` 中的 Workflow permissions，以及 `main` 的分支规则是否允许 GitHub Actions 写入。
 - 打开 `https://jobsdocs.ccwu.cc/jobs-git-version.js`，可以核对线上短提交号是否已更新。
 
-## 三、维护规则 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-8" data-jobs-toc="v2">三、维护规则 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 新增文档优先写清楚问题背景、适用版本、操作步骤和验证方式。
 - 第三方原文资料尽量保留原貌；Jobs 自己的补充说明单独成段，避免混淆来源。

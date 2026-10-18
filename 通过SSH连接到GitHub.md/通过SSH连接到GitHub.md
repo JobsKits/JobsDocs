@@ -1,8 +1,22 @@
 # <span id="前言">`SSH` ➤ [Github](https://github.com)</span>
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## 一、生成`SSH`密钥🔑 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [一、生成SSH密钥🔑](#jobs-toc-heading-1)
+- [二、确认 id\_rsa 真的存在 & 权限正确](#jobs-toc-heading-2)
+- [三、把 github.com 的 key 明确写进 ~/.ssh/config](#jobs-toc-heading-3)
+- [四、id\_rsa ➤ macOS Keychain + agent](#jobs-toc-heading-4)
+- [五、添加SSH密钥🔑 ➤ SSH代理](#jobs-toc-heading-5)
+- [六、添加公钥🔑 ➤ Github](#jobs-toc-heading-6)
+- [七、命令测试SSH连接是否正常](#jobs-toc-heading-7)
+
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、生成`SSH`密钥🔑 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 尚未在本地计算机上生成`SSH`密钥🔑对
 
@@ -35,7 +49,7 @@ The key's randomart image is:
 +----[SHA256]-----+
 ```
 
-## 二、确认 `id_rsa` 真的存在 & 权限正确 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">二、确认 `id_rsa` 真的存在 & 权限正确 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 ls -la ~/.ssh/id_rsa ~/.ssh/id_rsa.pub
@@ -43,7 +57,7 @@ chmod 600 ~/.ssh/id_rsa
 chmod 644 ~/.ssh/id_rsa.pub
 ```
 
-## 三、把 `github.com` 的 key 明确写进 `~/.ssh/config` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">三、把 `github.com` 的 key 明确写进 `~/.ssh/config` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 建立`~/.ssh/config`并赋权
 
@@ -73,7 +87,7 @@ chmod 644 ~/.ssh/id_rsa.pub
     UseKeychain yes
   ```
 
-## 四、`id_rsa` ➤ macOS Keychain + agent <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">四、`id_rsa` ➤ macOS Keychain + agent <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 让 GUI 程序也能用
 
@@ -82,7 +96,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_rsa
 ssh-add -l
 ```
 
-## 五、添加`SSH`密钥🔑 ➤ `SSH`代理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-5" data-jobs-toc="v2">五、添加`SSH`密钥🔑 ➤ `SSH`代理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 运行以下命令来将生成的SSH密钥添加到SSH代理，以便您可以在不重复输入密码的情况下使用它：
 
@@ -98,7 +112,7 @@ Agent pid 9880
 Identity added: ~/.ssh/id_rsa (lg295060456@gmail.com)
 ```
 
-## 六、添加公钥🔑 ➤ [Github](https://github.com) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-6" data-jobs-toc="v2">六、添加公钥🔑 ➤ [Github](https://github.com) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 打开`~/.ssh/id_rsa.pub`文件并复制其中的内容
 
@@ -133,7 +147,7 @@ Identity added: ~/.ssh/id_rsa (lg295060456@gmail.com)
 
   ![image-20231007055536132](./assets/image-20231007055536132.png)
 
-## 七、命令测试`SSH`连接是否正常 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-7" data-jobs-toc="v2">七、命令测试`SSH`连接是否正常 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```bash
 ssh -T git@github.com

@@ -9,9 +9,23 @@
   allowfullscreen>
 </iframe>
 
-[toc]
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## 一、什么是`*.p12`文件？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [一、什么是\*.p12文件？](#jobs-toc-heading-1)
+- [二、\*.p12文件的用处](#jobs-toc-heading-2)
+- [三、生成流程](#jobs-toc-heading-3)
+  - [1、打开：钥匙串访问 (Keychain Access)🔑](#jobs-toc-heading-4)
+  - [2、从证书颁发机构请求证书](#jobs-toc-heading-5)
+  - [3、在 Apple Developer 生成 .cer](#jobs-toc-heading-6)
+  - [4、导入 .cer 并导出私钥](#jobs-toc-heading-7)
+
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、什么是`*.p12`文件？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * `.p12` 文件全称 **PKCS#12 (Personal Information Exchange)**
 * 它里面同时打包了：
@@ -19,7 +33,7 @@
   - **私钥 (.key)**
 * 并且通常会有一个导出密码保护。
 
-## 二、`*.p12`文件的用处 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">二、`*.p12`文件的用处 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > ⚠️ 注意事项
 >
@@ -35,9 +49,9 @@
 * 跨平台证书移交
   * 如果你换了 Mac，没法直接迁移钥匙串，可以直接导出 `.p12`，在新 Mac 上导入，就能继续使用同一个证书和私钥。
 
-## 三、生成流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">三、生成流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1、打开：钥匙串访问 (Keychain Access)🔑 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1、打开：钥匙串访问 (Keychain Access)🔑 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 后期的MacOS将“钥匙串”归为“密码”
 
@@ -55,7 +69,7 @@
 
   ![image-20250908203759555](./assets/image-20250908203759555.png)
 
-### 2、从证书颁发机构请求证书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">2、从证书颁发机构请求证书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 输入邮箱、常用名称，选择 “存储到磁盘”，得到 `.certSigningRequest` 文件
 
@@ -65,7 +79,7 @@
   <img src="./assets/image-20250908204740854.png" alt="图2" width="33%"/>
 </p>
 
-### 3、在 [**Apple Developer**](https://developer.apple.com/) 生成 `.cer` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">3、在 [**Apple Developer**](https://developer.apple.com/) 生成 `.cer` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 特殊地区需要打开VPN，苹果官网限制某些地区的IP登录 [**Apple Developer**](https://developer.apple.com/) 
 
@@ -98,7 +112,7 @@
 
   ![image-20250908211508056](./assets/image-20250908211508056.png)
 
-### 4、导入 `.cer` 并导出私钥 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">4、导入 `.cer` 并导出私钥 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 双击 `.cer` 文件导入到 **钥匙串**
 
