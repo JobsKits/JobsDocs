@@ -1,9 +1,9 @@
 ---
 title: "Telegram.iOS 源代码学习笔记"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 460
-summary: "当前总行数：0 行 ## 1、准备工作 🔼 🔽 简介 Telegram.iOS 项目是一个开源项目，使用了一种模块化的开发方式，这使得其项目结构与普通的 iOS 项目有所不同。且但它的结构和配置相对复杂； 在Telegram.iOS 源代码里面是没有直接的.h、.m以及.swift这种常规化的代码；这么做的原因： 跨平台设计 代码混淆和压缩 最后因为是脚本生"
+weight: 420
+summary: "📚 目录（点击展开 / 收起） - 1、准备工作 - 2、相关组件 - 3、相关协议 - 4、相关库 - 5、其他 当前总行数：0 行 ## 1、准备工作 🔼 🔽 简介 Telegram.iOS 项目是一个开源项目，使用了一种模块化的开发方式，这使得其项目结构与普通的 iOS 项目有所不同。且但它的结构和配置相对复杂； 在Telegram.iOS 源代码里面"
 bookCollapseSection: false
 ---
 
@@ -17,10 +17,23 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [1、准备工作](#jobs-toc-heading-1)
+- [2、相关组件](#jobs-toc-heading-2)
+- [3、相关协议](#jobs-toc-heading-3)
+- [4、相关库](#jobs-toc-heading-4)
+- [5、其他](#jobs-toc-heading-5)
+
+</details>
+<!-- jobs-toc:end -->
 
 当前总行数：0 行
 
-## 1、准备工作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">1、准备工作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 简介
 
@@ -424,7 +437,7 @@ bookCollapseSection: false
   ![image-20250127135029364](./assets/image-20250127135029364.png)
   
   ![image-20250127135316387](./assets/image-20250127135316387.png)
-## 2、相关组件
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">2、相关组件</span><!-- jobs-toc:heading-end -->
 
 * **T**elegram **D**atabase **Lib**rary (简称 [**TDLib**](https://github.com/tdlib/td))：
   * `.tl` 为后缀的文件
@@ -441,11 +454,11 @@ bookCollapseSection: false
   * **安全**：所有本地数据均使用用户提供的加密密钥**进行加密。**
   * **完全异步**。对 TDLib 的请求不会互相阻塞或任何其他阻塞，响应将在可用时发送。
 
-## 3、相关协议
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">3、相关协议</span><!-- jobs-toc:heading-end -->
 
 * **`MtProto`**
 
-## 4、相关库
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">4、相关库</span><!-- jobs-toc:heading-end -->
 
 * **`MtProtoKit`**
 
@@ -485,7 +498,7 @@ bookCollapseSection: false
     
     总之，`SwiftSignalKit` 是一个在 Swift 中使用响应式编程处理异步任务的库，特别适用于那些需要管理大量异步操作的应用程序，如与 Telegram 通信相关的操作。
 
-## 5、其他
+## <span id="jobs-toc-heading-5" data-jobs-toc="v2">5、其他</span><!-- jobs-toc:heading-end -->
 
 * Telegram Gateway API （网关 API）
   * 允许任何企业、应用或网站通过 Telegram 发送授权代码，而不是通过传统的短信发送授权代码，这是一种强大而便捷的方式，可以**降低成本**，同时提高代码的**安全性**和向 Telegram 每月 9.5 亿活跃用户**发送代码的速度。用户将****立即**在 Telegram 内的特殊聊天中收到带有代码的消息。

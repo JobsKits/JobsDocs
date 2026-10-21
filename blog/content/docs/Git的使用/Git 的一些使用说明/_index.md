@@ -1,25 +1,62 @@
 ---
 title: "Git 的一些使用说明"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 130
-summary: "## 🔥 前言 > 面向已经会使用 add、commit、fetch、pull 和 push 的开发者，集中说明远端、配置、rebase、cherry-pick、历史改写、stash 恢复和无共同历史合并。临时故障先看 Git 故障诊断与恢复手册。 ## 一、高频观察命令 🔼 🔽 ### 1.1、仓库、分支与状态 🔼 🔽 ### 1.2、远端 🔼 🔽 - g"
+weight: 90
+summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、高频观察命令 - 1.1、仓库、分支与状态 - 1.2、远端 - 1.3、子模块远端 - 二、配置文件与优先级 - 2.1、配置层级 - 2.2、仓库配置示例 - 三、rebase - 3.1、模型 - 3.2、价值与代价 - 3.3、常用命令 - 3.4、发布后的安全推送 - 四、cherry-pick"
 bookCollapseSection: false
 ---
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#jobs-toc-heading-1)
+- [一、高频观察命令](#jobs-toc-heading-2)
+  - [1.1、仓库、分支与状态](#jobs-toc-heading-3)
+  - [1.2、远端](#jobs-toc-heading-4)
+  - [1.3、子模块远端](#jobs-toc-heading-5)
+- [二、配置文件与优先级](#jobs-toc-heading-6)
+  - [2.1、配置层级](#jobs-toc-heading-7)
+  - [2.2、仓库配置示例](#jobs-toc-heading-8)
+- [三、rebase](#jobs-toc-heading-9)
+  - [3.1、模型](#jobs-toc-heading-10)
+  - [3.2、价值与代价](#jobs-toc-heading-11)
+  - [3.3、常用命令](#jobs-toc-heading-12)
+  - [3.4、发布后的安全推送](#jobs-toc-heading-13)
+- [四、cherry-pick](#jobs-toc-heading-14)
+  - [4.1、语义](#jobs-toc-heading-15)
+  - [4.2、冲突与中止](#jobs-toc-heading-16)
+  - [4.3、多个提交与范围](#jobs-toc-heading-17)
+- [五、让主分支指向另一个历史位置](#jobs-toc-heading-18)
+  - [5.1、先明确三种不同目标](#jobs-toc-heading-19)
+  - [5.2、安全保留旧历史](#jobs-toc-heading-20)
+  - [5.3、确需改写 main](#jobs-toc-heading-21)
+- [六、误删 stash 的恢复](#jobs-toc-heading-22)
+  - [6.1、先纠正两个误区](#jobs-toc-heading-23)
+  - [6.2、恢复顺序](#jobs-toc-heading-24)
+  - [6.3、恢复边界](#jobs-toc-heading-25)
+- [七、合并无共同历史的仓库](#jobs-toc-heading-26)
+  - [7.1、先确认是不是配错远端](#jobs-toc-heading-27)
+  - [7.2、确认要合并两个独立历史](#jobs-toc-heading-28)
+- [八、官方资料](#jobs-toc-heading-29)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
-## 🔥 <font id=前言>前言</font>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
 
 > 面向已经会使用 `add`、`commit`、`fetch`、`pull` 和 `push` 的开发者，集中说明远端、配置、rebase、cherry-pick、历史改写、stash 恢复和无共同历史合并。临时故障先看 [Git 故障诊断与恢复手册](../Git故障诊断与恢复.md/Git故障诊断与恢复.md)。
 
-## 一、高频观察命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">一、高频观察命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1.1、仓库、分支与状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1、仓库、分支与状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 git rev-parse --show-toplevel
@@ -29,7 +66,7 @@ git log --oneline --graph --decorate --all -30
 git worktree list
 ```
 
-### 1.2、远端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.2、远端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 git remote
@@ -54,7 +91,7 @@ git remote rename origin upstream
 git remote remove origin
 ```
 
-### 1.3、子模块远端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1.3、子模块远端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 查看全部已初始化子模块，包括嵌套子模块：
 
@@ -68,9 +105,9 @@ git submodule foreach --recursive 'printf "[%s]\n" "$name"; git remote -v; print
 git -C <submodule-path> remote -v
 ```
 
-## 二、配置文件与优先级 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-6" data-jobs-toc="v2">二、配置文件与优先级 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 2.1、配置层级 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2.1、配置层级 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 Git 配置不是只有 `.git/config`：
 
@@ -89,7 +126,7 @@ git config --list --show-origin --show-scope
 git config --show-origin --get-all pull.rebase
 ```
 
-### 2.2、仓库配置示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">2.2、仓库配置示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```ini
 [core]
@@ -120,9 +157,9 @@ git config --show-origin --get-all pull.rebase
 - `branch.<name>.remote` 与 `branch.<name>.merge`：共同定义当前分支的 upstream。
 - `pull.rebase`：控制 Pull 的整合方式；也可以在单次命令中用 `--rebase`、`--no-rebase` 或 `--ff-only` 覆盖。
 
-## 三、`rebase` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-9" data-jobs-toc="v2">三、`rebase` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 3.1、模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-10" data-jobs-toc="v2">3.1、模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 Rebase 选出当前分支相对上游独有的提交，把分支临时移到新基点，再按顺序重放这些提交。它重写提交对象，因此提交 ID 会变化。
 
@@ -139,13 +176,13 @@ A---B---C---D  main
               E'---F'---G'  feature
 ```
 
-### 3.2、价值与代价 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-11" data-jobs-toc="v2">3.2、价值与代价 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 价值：让主题分支基于新上游继续开发、整理本地提交、减少不必要的 merge commit。
 - 代价：提交 ID 改变；已发布分支需要非快进推送；协作者若仍基于旧提交继续工作，会产生重复提交或覆盖风险。
 - Rebase 不是“不可逆”。操作进行中可用 `git rebase --abort`；完成后旧分支尖端通常仍能从分支 reflog 找到。但 reflog 有保留期限，对象也可能被垃圾回收，因此不能把恢复能力理解为永久备份。
 
-### 3.3、常用命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-12" data-jobs-toc="v2">3.3、常用命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 git switch feature
@@ -168,7 +205,7 @@ git rebase -i HEAD~5
 git reflog show feature --date=iso
 ```
 
-### 3.4、发布后的安全推送 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-13" data-jobs-toc="v2">3.4、发布后的安全推送 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 git fetch origin
@@ -178,9 +215,9 @@ git push --force-with-lease=feature:"$expected_remote_commit" origin HEAD:featur
 
 裸 `--force` 可能覆盖不在本地历史中的远端新提交。`--force-with-lease` 也不是团队沟通的替代品；共享主分支仍应遵守保护规则。
 
-## 四、`cherry-pick` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-14" data-jobs-toc="v2">四、`cherry-pick` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 4.1、语义 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-15" data-jobs-toc="v2">4.1、语义 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 `git cherry-pick` 把已有提交引入的变化应用到当前分支，通常为每个被选提交创建一个新的提交。新提交内容可能相同，但父提交、提交者时间和提交 ID 通常不同。
 
@@ -200,7 +237,7 @@ git cherry-pick <commit>
 - 需要保留完整分支关系时。
 - 同一批提交会长期在多个分支反复双向挑选时；这会增加重复变更与冲突识别难度。
 
-### 4.2、冲突与中止 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-16" data-jobs-toc="v2">4.2、冲突与中止 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 git status
@@ -214,7 +251,7 @@ git cherry-pick --quit
 - `--abort` 返回本次序列开始前的状态。
 - `--quit` 只清除 sequencer 状态，不保证把工作区恢复到开始前。
 
-### 4.3、多个提交与范围 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-17" data-jobs-toc="v2">4.3、多个提交与范围 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 git cherry-pick <commit-1> <commit-2>
@@ -227,11 +264,11 @@ git cherry-pick A^..B
 - 范围会触发一次 revision walk；复杂分叉先用 `git log --oneline A..B` 核对实际集合和顺序。
 - 跨公开维护分支回移修复时可考虑 `-x`，在提交信息中记录来源提交。
 
-## 五、让主分支指向另一个历史位置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-18" data-jobs-toc="v2">五、让主分支指向另一个历史位置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![主分支历史示意](./assets/preview.webp)
 
-### 5.1、先明确三种不同目标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-19" data-jobs-toc="v2">5.1、先明确三种不同目标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 目标 | 是否改写历史 | 推荐方式 |
 | --- | --- | --- |
@@ -239,7 +276,7 @@ git cherry-pick A^..B
 | 更换托管平台默认分支 | 不一定 | 推送新分支，在平台设置中切换默认分支。 |
 | 让远端 `main` 回退到旧提交 | 是 | 团队确认后重置本地分支，再用带预期值的 lease 推送。 |
 
-### 5.2、安全保留旧历史 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-20" data-jobs-toc="v2">5.2、安全保留旧历史 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 git switch --create new-main <target-commit>
@@ -248,7 +285,7 @@ git push --set-upstream origin new-main
 
 然后在 GitHub / GitLab 的仓库设置中把 `new-main` 设为默认分支。确认分支保护、CI、部署、Pull Request 基线和协作者都已迁移后，再决定是否删除旧分支。很多托管平台不允许直接删除默认或受保护分支。
 
-### 5.3、确需改写 `main` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-21" data-jobs-toc="v2">5.3、确需改写 `main` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 git fetch origin
@@ -263,14 +300,14 @@ git push --force-with-lease=main:"$expected_remote_commit" origin main:main
 - 本地备份分支只存在本机；重要时同步推送到受控的远端备份分支。
 - 改写主分支会影响所有协作者、开放 Pull Request、发布与部署，不是个人仓库外的常规操作。
 
-## 六、误删 `stash` 的恢复 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-22" data-jobs-toc="v2">六、误删 `stash` 的恢复 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 6.1、先纠正两个误区 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-23" data-jobs-toc="v2">6.1、先纠正两个误区 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - Push 到远端不会直接清理本地 dangling 对象。删除时机由本地引用、reflog 过期、自动维护、`git gc` / `git prune` 和相关配置决定。
 - `git fsck` 找到的每个 dangling commit 不一定都是 stash。不能把全部候选自动合并进当前分支。
 
-### 6.2、恢复顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-24" data-jobs-toc="v2">6.2、恢复顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 先查 reflog：
 
@@ -307,17 +344,17 @@ git stash show --stat stash@{0}
 git branch recover/stash-candidate <candidate-commit>
 ```
 
-### 6.3、恢复边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-25" data-jobs-toc="v2">6.3、恢复边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - stash 可能由多个父提交分别保存工作区、索引和可选的未跟踪内容；只比较一个父提交可能看不全。
 - `git fsck --lost-found` 可以把 dangling 对象写到 `.git/lost-found`，但不会替你识别哪个对象最正确。
 - 对象已经被垃圾回收且不存在于远端、备份、文件系统快照或其它克隆时，Git 无法恢复。
 
-## 七、合并无共同历史的仓库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-26" data-jobs-toc="v2">七、合并无共同历史的仓库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 `fatal: refusing to merge unrelated histories` 表示两个提交图没有共同祖先。文件内容相同不代表提交历史相关。
 
-### 7.1、先确认是不是配错远端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-27" data-jobs-toc="v2">7.1、先确认是不是配错远端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 git remote -v
@@ -333,7 +370,7 @@ git merge-base HEAD <remote>/<branch> || true
 - 是否下载源码压缩包后重新 `git init`。
 - 是否把两个独立项目误放到同一远端。
 
-### 7.2、确认要合并两个独立历史 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-28" data-jobs-toc="v2">7.2、确认要合并两个独立历史 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 git fetch <remote>
@@ -352,7 +389,7 @@ git commit
 - 不需要先全局设置 `pull.rebase`。把 Fetch 与 Merge 拆开，意图更清楚，也避免意外影响以后所有 Pull。
 - 两个项目只是暂时需要互相引用时，submodule、subtree、包管理或保持独立仓库可能比永久合并历史更合适。
 
-## 八、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-29" data-jobs-toc="v2">八、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - [**Git 配置**](https://git-scm.com/docs/git-config)
 - [**Git Rebase**](https://git-scm.com/docs/git-rebase)

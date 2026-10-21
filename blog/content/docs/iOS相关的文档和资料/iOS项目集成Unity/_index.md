@@ -1,9 +1,9 @@
 ---
 title: "iOS项目集成Unity"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 880
-summary: "前言 配置Unity是比较繁琐的，特别是对于以往开发过程中没有接触过此类操作的人员比较虐心，因为包含了很多代码能力以外的经验。笔者退出此文以保姆式教学，助力避坑以求高效开发 如果需要iOS模拟器也支持Unity，则需要Unity侧提供关于iOS模拟器的SDK包，否则只能做条件编译 如需条件编译，不要把主工程的配置项改的乱七八糟。利用.xcconfig的优先级"
+weight: 340
+summary: "📚 目录（点击展开 / 收起） - 前言 - 一、前置条件 - 二、无差别导入（适用于Unity侧提供的iOS包兼容iOS模拟器和实体设备） - 1、选中主 App ➤ TARGETS ➤ General - 1.1、Frameworks, Libraries, and Embedded Content ➤ 如果是条件编译，那么这一步跳过 - 2、选中主 A"
 bookCollapseSection: false
 ---
 
@@ -17,8 +17,36 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## <span id="前言">前言</span>
+- [前言](#jobs-toc-heading-1)
+- [一、前置条件](#jobs-toc-heading-2)
+- [二、无差别导入（适用于Unity侧提供的iOS包兼容iOS模拟器和实体设备）](#jobs-toc-heading-3)
+  - [1、选中主 App ➤ TARGETS ➤ General](#jobs-toc-heading-4)
+    - [1.1、Frameworks, Libraries, and Embedded Content ➤ 如果是条件编译，那么这一步跳过](#jobs-toc-heading-5)
+  - [2、选中主 App ➤ TARGETS ➤ Build Settings ➤](#jobs-toc-heading-6)
+    - [2.1、Other Linker Flags 里加：-ObjC](#jobs-toc-heading-7)
+    - [2.2、 Framework Search Paths 里加："$(SRCROOT)/Unity"](#jobs-toc-heading-8)
+    - [2.3、 Library Search Paths 里加：](#jobs-toc-heading-9)
+    - [2.4、Header Search Paths 里加：](#jobs-toc-heading-10)
+    - [2.5、Runpath Search Paths 里确保有：@executable\_path/Frameworks](#jobs-toc-heading-11)
+- [三、条件编译（适用于Unity侧提供的iOS包只支持实体设备，而不兼容iOS模拟器）](#jobs-toc-heading-12)
+  - [1、跳过 Frameworks, Libraries, and Embedded Content](#jobs-toc-heading-13)
+  - [2、选中主 App ➤ TARGETS ➤ Build Phases](#jobs-toc-heading-14)
+    - [2.1、脚本A ➤ 去掉勾选Based on dependency analysis](#jobs-toc-heading-15)
+    - [2.2、脚本B ➤ 去掉勾选Based on dependency analysis](#jobs-toc-heading-16)
+  - [3、配置 \*.xcconfig](#jobs-toc-heading-17)
+    - [3.1、挂载\*.xcconfig](#jobs-toc-heading-18)
+    - [3.2、JobsConfig.xcconfig](#jobs-toc-heading-19)
+- [四、经验交流](#jobs-toc-heading-20)
+
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2"><span id="前言">前言</span></span><!-- jobs-toc:heading-end -->
 
 * 配置Unity是比较繁琐的，特别是对于以往开发过程中没有接触过此类操作的人员比较虐心，因为包含了很多代码能力以外的经验。笔者退出此文以保姆式教学，助力避坑以求高效开发
 * **如果需要iOS模拟器也支持Unity，则需要Unity侧提供关于iOS模拟器的SDK包**，否则只能做[条件编译](#条件编译)
@@ -27,7 +55,7 @@ bookCollapseSection: false
   * 集成了Unity，对项目包的大小会有显著增长，对此敏感的研发人员，需要有一定的心理准备
   * Unity会占用主线程，会影响UI刷新导致一个1秒左右的卡顿（Xcode会提示紫色的警告），且接管系统**UIWindow**，所以仅仅能够集成是远远不够的
 
-## 一、前置条件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">一、前置条件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 在 <font size=5>**`unity.app`**</font> 里面导出关于**iOS**侧的工程项目 ➤ 包含 <font size=5>`UnityFramework.framwork`</font>
 
@@ -46,11 +74,11 @@ bookCollapseSection: false
 
     ![image-20251213133612641](./assets/image-20251213133612641.png)
 
-## 二、<font id=无差别导入>无差别导入</font>（适用于Unity侧提供的iOS包兼容iOS模拟器和实体设备） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">二、<font id=无差别导入>无差别导入</font>（适用于Unity侧提供的iOS包兼容iOS模拟器和实体设备） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1、**`选中主 App`** ➤ **`TARGETS`** ➤ **`General`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1、**`选中主 App`** ➤ **`TARGETS`** ➤ **`General`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> </span><!-- jobs-toc:heading-end -->
 
-#### 1.1、<font id=如果是条件编译，那么这一步跳过>**`Frameworks, Libraries, and Embedded Content`**</font> ➤ <font color=red>**如果是[条件编译](#条件编译)，那么这一步跳过**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1.1、<font id=如果是条件编译，那么这一步跳过>**`Frameworks, Libraries, and Embedded Content`**</font> ➤ <font color=red>**如果是[条件编译](#条件编译)，那么这一步跳过**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 点 `+` → 选择 `UnityFramework.framework`（在 `Unity-iPhone` → `Products` 下面）
 
@@ -80,17 +108,17 @@ bookCollapseSection: false
   </tr>
     </table>
 
-### 2、**`选中主 App`** ➤ **`TARGETS`** ➤ **`Build Settings`** ➤ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">2、**`选中主 App`** ➤ **`TARGETS`** ➤ **`Build Settings`** ➤ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> </span><!-- jobs-toc:heading-end -->
 
-#### 2.1、`Other Linker Flags` 里加：`-ObjC` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2.1、`Other Linker Flags` 里加：`-ObjC` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20251213134247612](./assets/image-20251213134247612.png)
 
-#### 2.2、 `Framework Search Paths` 里加：`"$(SRCROOT)/Unity"` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-8" data-jobs-toc="v2">2.2、 `Framework Search Paths` 里加：`"$(SRCROOT)/Unity"` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20251213134550621](./assets/image-20251213134550621.png)
 
-#### 2.3、 `Library Search Paths` 里加： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-9" data-jobs-toc="v2">2.3、 `Library Search Paths` 里加： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * `$(PROJECT_DIR)/Unity/xcode_effectTest/Il2CppOutputProject/IL2CPP/build/deploy_arm64`
 * `$(PROJECT_DIR)/Unity/xcode_effectTest/Il2CppOutputProject/IL2CPP/build/deploy_x86_64`
@@ -98,7 +126,7 @@ bookCollapseSection: false
 
 ![image-20251213134746369](./assets/image-20251213134746369.png)
 
-#### 2.4、`Header Search Paths` 里加： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-10" data-jobs-toc="v2">2.4、`Header Search Paths` 里加： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - `"$(SRCROOT)/Unity/xcode_effectTest/Classes"`
   
@@ -108,7 +136,7 @@ bookCollapseSection: false
 
 ![image-20251213135025916](./assets/image-20251213135025916.png)
 
-#### 2.5、`Runpath Search Paths` 里确保有：`@executable_path/Frameworks` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-11" data-jobs-toc="v2">2.5、`Runpath Search Paths` 里确保有：`@executable_path/Frameworks` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20251213135438685](./assets/image-20251213135438685.png)
 
@@ -150,20 +178,20 @@ bookCollapseSection: false
       </tr>
     </table>
 
-## 三、<font id=条件编译 color=red>条件编译</font>（适用于Unity侧提供的iOS包只支持实体设备，而不兼容iOS模拟器） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-12" data-jobs-toc="v2">三、<font id=条件编译 color=red>条件编译</font>（适用于Unity侧提供的iOS包只支持实体设备，而不兼容iOS模拟器） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **原因是不同设备的CPU架构不一样，涉及到的底层的CPU指令集不同**
 * 条件编译的操作只是在[**无差别导入**](#无差别导入)操作基础上进行一些细微的升级
 
-### 1、[跳过 `Frameworks, Libraries, and Embedded Content`](#如果是条件编译，那么这一步跳过) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-13" data-jobs-toc="v2">1、[跳过 `Frameworks, Libraries, and Embedded Content`](#如果是条件编译，那么这一步跳过) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 2、**`选中主 App`** ➤ **`TARGETS`** ➤ **`Build Phases`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
+### <span id="jobs-toc-heading-14" data-jobs-toc="v2">2、**`选中主 App`** ➤ **`TARGETS`** ➤ **`Build Phases`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> </span><!-- jobs-toc:heading-end -->
 
 ![image-20251213141335148](./assets/image-20251213141335148.png)
 
 ![image-20251213141715771](./assets/image-20251213141715771.png)
 
-#### 2.1、脚本A ➤ 去掉勾选`Based on dependency analysis` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-15" data-jobs-toc="v2">2.1、脚本A ➤ 去掉勾选`Based on dependency analysis` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 set -euo pipefail
@@ -238,7 +266,7 @@ $SYSTEM_USR_DIR/bin/ditto "${SRC_FW}" "${DST_FW}"
 echo "✅ A: staged UnityFramework.framework into BUILT_PRODUCTS_DIR"
 ```
 
-#### 2.2、脚本B ➤ 去掉勾选`Based on dependency analysis` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-16" data-jobs-toc="v2">2.2、脚本B ➤ 去掉勾选`Based on dependency analysis` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 set -euo pipefail
@@ -273,13 +301,13 @@ else
 fi
 ```
 
-### 3、<font id=xcconfig>配置 `*.xcconfig`</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-17" data-jobs-toc="v2">3、<font id=xcconfig>配置 `*.xcconfig`</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### 3.1、挂载`*.xcconfig` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-18" data-jobs-toc="v2">3.1、挂载`*.xcconfig` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20251213142301146](./assets/image-20251213142301146.png)
 
-#### 3.2、`JobsConfig.xcconfig` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-19" data-jobs-toc="v2">3.2、`JobsConfig.xcconfig` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 //
@@ -323,7 +351,7 @@ HEADER_SEARCH_PATHS    = $(inherited)
 OTHER_CFLAGS           = $(inherited)
 ```
 
-## 四、经验交流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-20" data-jobs-toc="v2">四、经验交流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * Unity **2019.3** 之前没有 `UnityFramework` 这个玩法，要用老的 `main.mm` hack，比较操心，如果 Unity 很旧，建议升级，否则会非常折磨
 

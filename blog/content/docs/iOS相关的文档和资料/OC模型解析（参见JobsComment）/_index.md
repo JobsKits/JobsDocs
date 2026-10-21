@@ -1,9 +1,9 @@
 ---
 title: "OC模型解析（参见JobsComment）"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 340
-summary: "一、关注 @implementation BaseModel 🔼 🔽 值得注意的一点：如果是直接model网络数据的模型，无法手动在本类添加自定义的属性，则，必须用分类！ 比如： ## 二、网络返回值 ➤ .json文件 🔼 🔽 我是有底线的➤点我回到首页"
+weight: 400
+summary: "📚 目录（点击展开 / 收起） - 一、关注 @implementation BaseModel - 二、网络返回值 ➤ \\.json文件 ## 一、关注 @implementation BaseModel 🔼 🔽 值得注意的一点：如果是直接model网络数据的模型，无法手动在本类添加自定义的属性，则，必须用分类！ 比如： ## 二、网络返回值 ➤ *.js"
 bookCollapseSection: false
 ---
 
@@ -17,6 +17,16 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [一、关注 @implementation BaseModel](#jobs-toc-heading-1)
+- [二、网络返回值 ➤ \*.json文件](#jobs-toc-heading-2)
+
+</details>
+<!-- jobs-toc:end -->
 
 ![模型解析01](./assets/模型解析01.jpg)
 
@@ -24,7 +34,7 @@ bookCollapseSection: false
 
 ![模型解析03](./assets/模型解析03.jpg)
 
-## 一、关注 `@implementation BaseModel` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、关注 `@implementation BaseModel` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 /// 装载本地假数据
@@ -146,7 +156,7 @@ bookCollapseSection: false
   @end
   ```
 
-## 二、网络返回值 ➤ `*.json`文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">二、网络返回值 ➤ `*.json`文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 数组：   （ ==> [ 

@@ -1,9 +1,9 @@
 ---
 title: "同一应用，设置不同图标和名称"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 380
-summary: "一、产生背景 🔼 🔽 根据生产和开发经验，App拥有至少下列几种环境，而每种环境亦可细分为很多小环境 本地测试环境 UAT预上线环境 线上生产环境：可能存在的来自不同渠道的生产环境这种情况多发于包网 GUI图形化界面的一个优势就是对其进行区分，加快效率和过滤中间繁琐环节 ## 二、先决理论知识 🔼 🔽 xcode在建立一个工程的时候，默认给出了debug和r"
+weight: 480
+summary: "📚 目录（点击展开 / 收起） - 一、产生背景 - 二、先决理论知识 - 三、具体的操作实践 - 方法一 - 方法二 ## 一、产生背景 🔼 🔽 根据生产和开发经验，App拥有至少下列几种环境，而每种环境亦可细分为很多小环境 本地测试环境 UAT预上线环境 线上生产环境：可能存在的来自不同渠道的生产环境这种情况多发于包网 GUI图形化界面的一个优势就是对其"
 bookCollapseSection: false
 ---
 
@@ -17,8 +17,21 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## 一、产生背景 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [一、产生背景](#jobs-toc-heading-1)
+- [二、先决理论知识](#jobs-toc-heading-2)
+- [三、具体的操作实践](#jobs-toc-heading-3)
+- [方法一](#jobs-toc-heading-4)
+- [方法二](#jobs-toc-heading-5)
+
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、产生背景 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 根据生产和开发经验，App拥有至少下列几种环境，而每种环境亦可细分为很多小环境
   * 本地测试环境
@@ -26,21 +39,21 @@ bookCollapseSection: false
   * 线上生产环境：可能存在的来自不同渠道的生产环境<font color=red>**这种情况多发于包网**</font>
 * **GUI**图形化界面的一个优势就是对其进行区分，加快效率和过滤中间繁琐环节
 
-## 二、先决理论知识 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">二、先决理论知识 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * xcode在建立一个工程的时候，默认给出了`debug`和`release`两种模式，实际上程序员可以根据实际条件进行自定义
 * 然后进行关联。如果你不关联你的配置文件就进不去
 * [**iOS动态修改App图标icon**](https://www.jianshu.com/p/69313970d0e7)
 
-## 三、具体的操作实践 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">三、具体的操作实践 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 在xcode里面选中`工程名.xcodeproj`，右边菜单栏选择**Project**→**info**
 
-## 方法一 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">方法一 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20230915044945363](./assets/image-20230915044945363.png)
 
-## 方法二 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-5" data-jobs-toc="v2">方法二 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20230915045009815](./assets/image-20230915045009815.png)
 

@@ -1,25 +1,56 @@
 ---
 title: "iOS 逆向专题：网络分析"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 940
-summary: "## 🔥 前言 > 网络分析的第一步不是“抓包”，而是先判断要看应用层 HTTP(S)、TLS 会话元数据，还是 TCP / UDP / QUIC 等传输层数据。Charles、mitmproxy 与 Wireshark 位于不同观察层，不能互相简单替代。本专题仅调试自有 App、自有服务和明确授权流量。 ## 一、三种工具分别看什么 🔼 🔽 ### 1.1"
+weight: 190
+summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、三种工具分别看什么 - 1.1、工具地图 - 1.2、按问题选工具 - 二、HTTPS 代理为什么需要测试 CA - 2.1、正常 HTTPS - 2.2、调试代理的工作方式 - 三、Charles：图形化 HTTP(S) 调试 - 3.1、适合新手的观察顺序 - 3.2、常见能力 - 四、mitmpro"
 bookCollapseSection: false
 ---
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#jobs-toc-heading-1)
+- [一、三种工具分别看什么](#jobs-toc-heading-2)
+  - [1.1、工具地图](#jobs-toc-heading-3)
+  - [1.2、按问题选工具](#jobs-toc-heading-4)
+- [二、HTTPS 代理为什么需要测试 CA](#jobs-toc-heading-5)
+  - [2.1、正常 HTTPS](#jobs-toc-heading-6)
+  - [2.2、调试代理的工作方式](#jobs-toc-heading-7)
+- [三、Charles：图形化 HTTP(S) 调试](#jobs-toc-heading-8)
+  - [3.1、适合新手的观察顺序](#jobs-toc-heading-9)
+  - [3.2、常见能力](#jobs-toc-heading-10)
+- [四、mitmproxy：让网络实验可脚本化](#jobs-toc-heading-11)
+  - [4.1、三个前端](#jobs-toc-heading-12)
+  - [4.2、安全 Lab](#jobs-toc-heading-13)
+- [五、Wireshark：分析 Socket 与传输层](#jobs-toc-heading-14)
+  - [5.1、它看到的是 Packet，不是业务对象](#jobs-toc-heading-15)
+  - [5.2、TCP 问题的观察顺序](#jobs-toc-heading-16)
+  - [5.3、自定义 Socket](#jobs-toc-heading-17)
+- [六、证书固定与边界](#jobs-toc-heading-18)
+  - [6.1、抓不到 HTTPS 不等于工具坏了](#jobs-toc-heading-19)
+- [七、网络证据报告](#jobs-toc-heading-20)
+  - [7.1、最小记录](#jobs-toc-heading-21)
+  - [7.2、学完应该会什么](#jobs-toc-heading-22)
+- [八、官方资料](#jobs-toc-heading-23)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
-## 🔥 <font id=前言>前言</font>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
 
 > 网络分析的第一步不是“抓包”，而是先判断要看应用层 HTTP(S)、TLS 会话元数据，还是 TCP / UDP / QUIC 等传输层数据。Charles、mitmproxy 与 Wireshark 位于不同观察层，不能互相简单替代。本专题仅调试自有 App、自有服务和明确授权流量。
 
-## 一、三种工具分别看什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">一、三种工具分别看什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1.1、工具地图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1、工具地图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 工具 | 主要层次 | 能直接看到 | 典型用途 |
 | --- | --- | --- | --- |
@@ -29,7 +60,7 @@ bookCollapseSection: false
 
 Wireshark 能捕获 TLS 数据包，但没有会话密钥时通常看不到 HTTPS Body；HTTP 代理若被 App 接受并信任测试 CA，则更适合观察应用层内容。
 
-### 1.2、按问题选工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.2、按问题选工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 问题 | 首选 |
 | --- | --- |
@@ -40,13 +71,13 @@ Wireshark 能捕获 TLS 数据包，但没有会话密钥时通常看不到 HTTP
 | WebSocket 消息内容 | Charles / mitmproxy，视协议支持 |
 | 自定义二进制 Socket | Wireshark + 自定义 dissector / 日志 |
 
-## 二、HTTPS 代理为什么需要测试 CA <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-5" data-jobs-toc="v2">二、HTTPS 代理为什么需要测试 CA <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 2.1、正常 HTTPS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">2.1、正常 HTTPS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 客户端与服务器建立 TLS 会话，代理只能转发加密字节，不能自然读取内容。
 
-### 2.2、调试代理的工作方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2.2、调试代理的工作方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 在明确授权的测试设备上，客户端信任代理生成的测试 CA；代理分别与客户端、真实服务器建立 TLS 会话，从而在中间显示应用层数据。[**mitmproxy 官方机制说明**](https://docs.mitmproxy.org/stable/concepts/how-mitmproxy-works/) 对这个过程有完整解释。
 
@@ -67,9 +98,9 @@ sequenceDiagram
 - 不在同一次会话中访问网银、生产后台或私人账号。
 - 不导出、分享包含 Token、Cookie、手机号或真实业务数据的会话文件。
 
-## 三、Charles：图形化 HTTP(S) 调试 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-8" data-jobs-toc="v2">三、Charles：图形化 HTTP(S) 调试 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 3.1、适合新手的观察顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-9" data-jobs-toc="v2">3.1、适合新手的观察顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 1、让 Mac 和测试设备处于可互通网络。
 
@@ -83,16 +114,16 @@ sequenceDiagram
 
 6、导出前进行脱敏。
 
-### 3.2、常见能力 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-10" data-jobs-toc="v2">3.2、常见能力 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - Breakpoint：暂停并在授权测试中修改请求或响应。
 - Map Local / Map Remote：把自有接口映射到本地或另一测试地址。
 - Throttling：模拟带宽和延迟，但不能完全替代真实弱网。
 - Repeat / Compose：重放测试请求，注意幂等性和生产风险。
 
-## 四、mitmproxy：让网络实验可脚本化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-11" data-jobs-toc="v2">四、mitmproxy：让网络实验可脚本化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 4.1、三个前端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-12" data-jobs-toc="v2">4.1、三个前端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - `mitmproxy`：终端交互界面。
 - `mitmweb`：Web 界面。
@@ -100,15 +131,15 @@ sequenceDiagram
 
 [**mitmproxy 官方文档**](https://docs.mitmproxy.org/stable/) 说明其支持 HTTP/1、HTTP/2、WebSocket 以及多种捕获模式；具体协议限制会随版本变化，执行前应阅读当前文档。
 
-### 4.2、安全 Lab <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-13" data-jobs-toc="v2">4.2、安全 Lab <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 在本机启动一个只返回固定假数据的测试 API，让 Debug App 请求它。代理只记录：URL、状态码、耗时、非敏感 Request ID。先人工验证，再把过滤与断言写成 Python Addon。
 
 不要把生产凭据写入脚本，也不要通过关闭服务端证书验证来“解决”测试证书问题。
 
-## 五、Wireshark：分析 Socket 与传输层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-14" data-jobs-toc="v2">五、Wireshark：分析 Socket 与传输层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 5.1、它看到的是 Packet，不是业务对象 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-15" data-jobs-toc="v2">5.1、它看到的是 Packet，不是业务对象 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 常见过滤器：
 
@@ -124,7 +155,7 @@ tcp.stream eq 3
 
 示例 IP `192.0.2.10` 属于文档保留地址。实验时替换为自有测试主机，避免误捕获无关用户流量。
 
-### 5.2、TCP 问题的观察顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-16" data-jobs-toc="v2">5.2、TCP 问题的观察顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 1、DNS 是否得到预期地址。
 
@@ -138,13 +169,13 @@ tcp.stream eq 3
 
 6、最后再与 App 层超时、重试和错误码对齐。
 
-### 5.3、自定义 Socket <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-17" data-jobs-toc="v2">5.3、自定义 Socket <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 如果协议有固定帧头、长度、序列号和校验字段，先写协议说明，再按字节边界解释 Packet。TCP 是字节流，一次 `send` 不保证对应一次 `receive`；抓到多个 Segment 或粘包不能直接判定服务端发错。
 
-## 六、证书固定与边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-18" data-jobs-toc="v2">六、证书固定与边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 6.1、抓不到 HTTPS 不等于工具坏了 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-19" data-jobs-toc="v2">6.1、抓不到 HTTPS 不等于工具坏了 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 可能原因：
 
@@ -156,9 +187,9 @@ tcp.stream eq 3
 
 对自有 App，正确做法是使用专门 Debug 配置、测试证书和可审计开关；不要在第三方 App 上绕过固定，也不要把“关闭证书校验”带进 Release。
 
-## 七、网络证据报告 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-20" data-jobs-toc="v2">七、网络证据报告 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 7.1、最小记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-21" data-jobs-toc="v2">7.1、最小记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 字段 | 内容 |
 | --- | --- |
@@ -170,11 +201,11 @@ tcp.stream eq 3
 | 敏感信息 | 已脱敏字段与处理方式 |
 | 结论 | 事实、推断、待服务端验证 |
 
-### 7.2、学完应该会什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-22" data-jobs-toc="v2">7.2、学完应该会什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 你应能按协议层选择工具，解释 HTTPS 代理为何需要测试 CA，使用 Wireshark 分析 Socket 连接，并在不绕过第三方安全措施的前提下完成自有 App 的可复现网络实验。
 
-## 八、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-23" data-jobs-toc="v2">八、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - [**Charles Documentation**](https://www.charlesproxy.com/documentation/)
 - [**mitmproxy Documentation**](https://docs.mitmproxy.org/stable/)

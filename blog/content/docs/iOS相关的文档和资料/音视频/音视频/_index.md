@@ -1,9 +1,9 @@
 ---
 title: "音视频"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 660
-summary: "🔥前言 对音视频相关概念的总结和梳理 ## 1、相关协议 🔼 🔽 ### 1.1、TCP/IP 协议簇 🔼 🔽 TCP/IP 协议簇的构成 用于网络通信的协议族，是互联网的核心协议；（本质是数据的加密和解密） 定义了计算机如何通过网络相互通信； TCP/IP 的常见应用场景： 文件传输：通过 FTP 协议上传和下载文件； 网页浏览：通过 HTTP/HTTPS"
+weight: 840
+summary: "📚 目录（点击展开 / 收起） - 🔥前言 - 1、相关协议 - 1.1、TCP/IP 协议簇 - 1.1.1、TCP/IP 的分层模型 - 1.1.2、TCP/IP 的核心协议特点 - 1.1.3、TCP/IP 数据传输的完整流程 - 1.2、HTTP 协议簇 - 1.3、HTML协议簇 - 1.4、RTMP - 1.5、HLS - 1.6、WebRTC "
 bookCollapseSection: false
 ---
 
@@ -17,14 +17,55 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## 🔥<font id=前言>前言</font>
+- [🔥前言](#jobs-toc-heading-1)
+- [1、相关协议](#jobs-toc-heading-2)
+  - [1.1、TCP/IP 协议簇](#jobs-toc-heading-3)
+    - [1.1.1、TCP/IP 的分层模型](#jobs-toc-heading-4)
+    - [1.1.2、TCP/IP 的核心协议特点](#jobs-toc-heading-5)
+    - [1.1.3、TCP/IP 数据传输的完整流程](#jobs-toc-heading-6)
+  - [1.2、HTTP 协议簇](#jobs-toc-heading-7)
+  - [1.3、HTML协议簇](#jobs-toc-heading-8)
+  - [1.4、RTMP](#jobs-toc-heading-9)
+  - [1.5、HLS](#jobs-toc-heading-10)
+  - [1.6、WebRTC](#jobs-toc-heading-11)
+  - [1.7、SRT](#jobs-toc-heading-12)
+  - [1.8、RTP](#jobs-toc-heading-13)
+  - [1.9、MQTT](#jobs-toc-heading-14)
+  - [1.10、WebSocket](#jobs-toc-heading-15)
+  - [1.11、SIP](#jobs-toc-heading-16)
+  - [1.12、H.323](#jobs-toc-heading-17)
+  - [1.13、VoIP](#jobs-toc-heading-18)
+- [2、视频直播数据流解封装原理](#jobs-toc-heading-19)
+- [3、FFMPEG](#jobs-toc-heading-20)
+- [4、推拉流](#jobs-toc-heading-21)
+  - [4.1、P2P（Peer-to-Peer，点对点）技术](#jobs-toc-heading-22)
+  - [4.2、架构](#jobs-toc-heading-23)
+- [5、相关文件格式](#jobs-toc-heading-24)
+  - [5.1、FLV](#jobs-toc-heading-25)
+  - [5.2、TS](#jobs-toc-heading-26)
+  - [5.3、MP4](#jobs-toc-heading-27)
+  - [5.4、HLS](#jobs-toc-heading-28)
+- [6、FAQ](#jobs-toc-heading-29)
+  - [6.1、什么是以太网？](#jobs-toc-heading-30)
+  - [6.2、什么叫字节流？](#jobs-toc-heading-31)
+  - [6.3、TCP 怎么从字节流里面识别这个完整消息的？](#jobs-toc-heading-32)
+- [7、资料来源](#jobs-toc-heading-33)
+
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥<font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
 
 * 对音视频相关概念的总结和梳理
 
-## 1、相关协议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">1、相关协议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1.1、<font id=TCP/IP>`TCP/IP` 协议簇</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1、<font id=TCP/IP>`TCP/IP` 协议簇</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **TCP/IP** 协议簇的构成
 
@@ -75,7 +116,7 @@ bookCollapseSection: false
   * **灵活性高**：可以与多种底层网络技术结合；
   * **标准化**：广泛被全球互联网采用；
 
-#### 1.1.1、TCP/IP 的分层模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.1.1、TCP/IP 的分层模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > **四个层次**，从下往上
 
@@ -129,7 +170,7 @@ bookCollapseSection: false
       
     - 功能：数据格式化、传输和显示 + 支持不同的应用程序和服务；
 
-#### 1.1.2、TCP/IP 的核心协议特点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1.1.2、TCP/IP 的核心协议特点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 |  协议   |         特点         |                             描述                             |
 | :-----: | :------------------: | :----------------------------------------------------------: |
@@ -142,7 +183,7 @@ bookCollapseSection: false
 |         |     **应用场景**     |      适合对实时性要求高的场景，如直播、在线游戏、VoIP。      |
 |         | **无连接、面向报文** |                                                              |
 
-#### 1.1.3、TCP/IP 数据传输的完整流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-6" data-jobs-toc="v2">1.1.3、TCP/IP 数据传输的完整流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 数据封装：
   * 应用层将数据封装为消息；
@@ -152,7 +193,7 @@ bookCollapseSection: false
 * 数据解封装：
   * 接收端按照相反顺序逐层解析数据，最终交付给应用层；
 
-### 1.2、<font id=HTTP>HTTP 协议簇</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">1.2、<font id=HTTP>HTTP 协议簇</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **HTTP**（**H**yper**t**ext **T**ransfer **P**rotocol）/ **HTTPS**（HTTP **S**ecure）：均基于 **TCP**（**T**ransmission **C**ontrol **P**rotocol） 的传输协议；
 
@@ -226,7 +267,7 @@ bookCollapseSection: false
   |   流媒体服务    |         缓冲时间长、体验差         | 提升了一定的稳定性 |                    最高效，优化流媒体传输                    |
   | 高延迟/弱网环境 |              表现较差              |      性能一般      | 性能最佳，适应弱网和高延迟环境<br/>适合跨国通信或卫星网络等延迟较高的环境 |
 
-### 1.3、HTML协议簇 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">1.3、HTML协议簇 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * HTML（最初版本发布于 1991 年） 和 HTML5（ 2014 年成为 W3C 标准） **并不是严格意义上的继承关系**，更确切地说，HTML5 是 **HTML（超文本标记语言的总称） 的一个版本**，是对 HTML 的升级和扩展。它们之间的关系更像是 **迭代** 和 **升级** 的关系，并非继承；
 
@@ -336,7 +377,7 @@ bookCollapseSection: false
     * **Web Worker**：允许在后台运行 JavaScript 代码而不阻塞主线程；
     * **Geolocation API**：支持定位功能，适用于移动端开发；
 
-### 1.4、RTMP <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-9" data-jobs-toc="v2">1.4、RTMP <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 即， <font color=red>R</font>eal-<font color=red>T</font>ime <font color=red>M</font>essaging <font color=red>P</font>rotocol
 
@@ -398,7 +439,7 @@ bookCollapseSection: false
     * 现代内容分发网络（CDN）更倾向支持基于 HTTP 的协议（如 HLS 和 DASH），因为它们可以直接利用 HTTP 缓存机制和现有的基础设施；
     * RTMP 作为专用协议，与这些现代 CDN 的优化机制不完全兼容，使用成本较高；
   
-### 1.5、HLS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-10" data-jobs-toc="v2">1.5、HLS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 即，<font color=red>H</font>TTP <font color=red>L</font>ive <font color=red>S</font>treaming
 
@@ -414,7 +455,7 @@ bookCollapseSection: false
   * 高并发直播（如体育赛事转播）；
   * 需要多设备兼容性的直播平台；
   * 延迟要求不高的场景，如新闻直播
-### 1.6、<font id=WebRTC>**WebRTC**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-11" data-jobs-toc="v2">1.6、<font id=WebRTC>**WebRTC**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 即，<font color=red>Web</font> <font color=red>R</font>eal-<font color=red>T</font>ime <font color=red>C</font>ommunication
 
@@ -458,7 +499,7 @@ bookCollapseSection: false
   | **技术架构** |  复杂（需要信令、NAT 穿透等）  |       简单（基于 HTTP）        |
   | **适配 CDN** | 不支持（点对点传输，无法缓存） | 完美支持（利用 HTTP 分发内容） |
 
-### 1.7、<font id=SRT>**SRT**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-12" data-jobs-toc="v2">1.7、<font id=SRT>**SRT**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 >即，<font color=red>S</font>ecure <font color=red>R</font>eliable <font color=red>T</font>ransport
 
@@ -483,7 +524,7 @@ bookCollapseSection: false
   * **Handshake：** SRT 在建立连接时使用 UDP 协议完成握手；
     * **数据传输：** SRT 在应用层实现数据的重传和排序，确保接收端接收完整的数据流；
     * **时间窗口：** SRT 引入了发送端和接收端的缓冲区时间窗口，以平衡延迟和传输质量；
-### 1.8、<font id=RTP>**RTP**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-13" data-jobs-toc="v2">1.8、<font id=RTP>**RTP**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 即，<font color=red>R</font>eal-time <font color=red>T</font>ransport <font color=red>P</font>rotocol
 
@@ -541,7 +582,7 @@ bookCollapseSection: false
     |   备注   | 需要高可靠性、强安全性以及在复杂网络环境下的稳定性<br/>（如公网直播） | 追求极低延迟并能容忍一定程度的数据丢失 |
   
 
-### 1.9、MQTT <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-14" data-jobs-toc="v2">1.9、MQTT <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 即，<font color=red>M</font>essage <font color=red>Q</font>ueuing <font color=red>T</font>elemetry <font color=red>T</font>ransport
 
@@ -600,7 +641,7 @@ bookCollapseSection: false
   |  实时性  |        高        |     较低     |           高           |
   | 适用场景 | 物联网、实时消息 | 静态资源访问 | 嵌入式设备、低功耗环境 |
 
-### 1.10、<font id=WebSocket>WebSocket</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-15" data-jobs-toc="v2">1.10、<font id=WebSocket>WebSocket</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * WebSocket 是一种**全双工通信协议**，允许客户端和服务器在单个 [TCP](TCP/IP) 连接上进行实时、双向的数据交换；
 
@@ -655,7 +696,7 @@ bookCollapseSection: false
   Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
   ```
   
-### 1.11、<font id=SIP>SIP</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-16" data-jobs-toc="v2">1.11、<font id=SIP>SIP</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 即，<font color=red>S</font>ession <font color=red>I</font>nitiation <font color=red>P</font>rotocol
 
@@ -674,7 +715,7 @@ bookCollapseSection: false
   * **ACK**：确认会话建立；
   * **BYE**：终止会话；
 
-### 1.12、<font id=H323>H.323</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-17" data-jobs-toc="v2">1.12、<font id=H323>H.323</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 一种传统的 [VoIP](#VoIP) 信令协议，适用于视频会议和语音通信；
 * 功能：早期的 [VoIP](#VoIP) 信令协议，主要用于视频会议；
@@ -682,7 +723,7 @@ bookCollapseSection: false
   - 比 [SIP](#SIP) 更复杂，但兼容性好；
   - 包括呼叫控制、媒体传输、信令管理等功能；
 
-### 1.13、<font id=VoIP>VoIP</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-18" data-jobs-toc="v2">1.13、<font id=VoIP>VoIP</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 即，<font color=red>V</font>oice <font color=red>o</font>ver <font color=red>I</font>nternet <font color=red>P</font>rotocol
 
@@ -716,7 +757,7 @@ bookCollapseSection: false
   |   **AMR**    |   8 kHz    |   4.75-12.2 kbps   | 适合移动网络，支持降级策略 |
 
 
-## 2、视频直播数据流解封装原理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-19" data-jobs-toc="v2">2、视频直播数据流解封装原理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等_5.png](./assets/221314l1iui35c7ycuyp1i.png)
 
@@ -725,7 +766,7 @@ bookCollapseSection: false
 * 解码音视频；
 * 音视频同步播放；
 
-## 3、FFMPEG <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-20" data-jobs-toc="v2">3、FFMPEG <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 多媒体处理工具，它是一个开源项目，支持几乎所有的音视频格式和编解码器；
 
@@ -807,7 +848,7 @@ bookCollapseSection: false
   ffmpeg -re -i input.mp4 -c copy -f flv rtmp://your.server/live/streamkey
   ```
 
-## 4、推拉流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-21" data-jobs-toc="v2">4、推拉流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **推流**：指将本地的音视频数据通过网络协议发送到服务器或其他客户端。常用于主播将视频内容推送到直播服务器。
 * **拉流**：指客户端从服务器或其他数据源获取音视频数据并进行解码播放。观众通过拉流观看主播的直播内容。
@@ -822,7 +863,7 @@ bookCollapseSection: false
     * SFU（选择性转发单元）：直接转发音视频流给多端，不进行转码处理；
     * 缺点：MCU处理能力有限，SFU虽然降低了服务器压力，但仍依赖中心化服务器；
 
-### 4.1、P2P（Peer-to-Peer，点对点）技术 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-22" data-jobs-toc="v2">4.1、P2P（Peer-to-Peer，点对点）技术 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 分布式网络架构，其特点是网络中的每个节点（设备或计算机）既可以作为客户端，也可以作为服务器；
 * P2P技术通过去中心化的方式实现资源共享、数据传输和协作。广泛应用于文件共享、即时通讯、区块链等领域；
@@ -890,7 +931,7 @@ bookCollapseSection: false
   * **分布式存储**：IPFS（星际文件系统）通过P2P技术构建高效的分布式存储网络；
   * **分布式计算**：SETI@home、Folding@home等利用P2P技术进行大规模的科学计算；
 
-### 4.2、架构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-23" data-jobs-toc="v2">4.2、架构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 厂商SDK推拉流
 
@@ -919,9 +960,9 @@ bookCollapseSection: false
 
   ![视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等_4.png](./assets/214734f2q1etqama6ragz2.png)
   
-## 5、相关文件格式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-24" data-jobs-toc="v2">5、相关文件格式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 5.1、FLV <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-25" data-jobs-toc="v2">5.1、FLV <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * FLV 是一种轻量级、高效的流媒体容器格式，具有低延迟和实时性的优点，用于存储音频、视频以及元数据，广泛应用于早期的流媒体点播和直播系统中；虽然其主流地位已经被更现代的格式（如 [MP4](#MP4) 和 [HLS](#HLS)）取代，但在特定领域（如 [RTMP](#RTMP) 直播）仍然有着不可忽视的应用价值；
 
@@ -981,22 +1022,22 @@ bookCollapseSection: false
       |     8-10     |    3     |      扩展时间戳       | 扩展时间戳（高精度） |
       |    11-...    |    N     | 数据载荷（音频/视频） |    实际的数据内容    |
 
-### 5.2、TS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-26" data-jobs-toc="v2">5.2、TS <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 5.3、<font id=HLS>MP4</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-27" data-jobs-toc="v2">5.3、<font id=HLS>MP4</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 5.4、<font id=HLS>HLS</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-28" data-jobs-toc="v2">5.4、<font id=HLS>HLS</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-## 6、FAQ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-29" data-jobs-toc="v2">6、FAQ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 6.1、什么是以太网？<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-30" data-jobs-toc="v2">6.1、什么是以太网？<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **局域网（LAN）**，像是**汽车**这个大类。
   是一个**范围概念**：指在有限区域内（如家庭、办公室、校园、工厂）建立的计算机网络。LAN 可以用不同的技术来实现，比如 **以太网、Wi-Fi、令牌环** 等。
 * **以太网（Ethernet）**，就像**丰田卡罗拉**这种具体车型。
   是一种**实现局域网的具体技术标准**。它规定了网线、交换机、数据帧格式、MAC 地址等。换句话说，大多数 LAN 都是通过以太网来搭建的，但 LAN ≠ Ethernet。
 
-### 6.2、什么叫字节流？<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-31" data-jobs-toc="v2">6.2、什么叫字节流？<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **字节流（Byte Stream）**是指一连串没有边界的字节序列。
 
@@ -1029,7 +1070,7 @@ bookCollapseSection: false
 
   - **UDP** 则不同，它保留消息边界，一次发送的 `"Hello"` 和 `"World"`，接收方一定是两个独立的报文。
 
-### 6.3、TCP 怎么从字节流里面识别这个完整消息的？<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-32" data-jobs-toc="v2">6.3、TCP 怎么从字节流里面识别这个完整消息的？<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **定长消息（Fixed-Length）**
    每个消息固定长度，比如 512 字节。接收方只要每次读 512 个字节，就能知道一条完整消息。
@@ -1059,7 +1100,7 @@ bookCollapseSection: false
 
 * **混合方式**：有些协议同时用分隔符和长度，比如 HTTP/2、WebSocket 就结合了头部长度和帧分隔的概念。
 
-## 7、资料来源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-33" data-jobs-toc="v2">7、资料来源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
   [**视频直播技术干货(十)：一文读懂主流视频直播系统的推拉流架构、传输协议等**](http://www.52im.net/thread-3922-1-1.html)
 

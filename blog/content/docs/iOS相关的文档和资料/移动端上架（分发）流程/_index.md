@@ -1,9 +1,9 @@
 ---
 title: "移动端上架（分发）流程"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 450
-summary: "1、苹果端上架 🔼 🔽 ### 1.1、一些基础知识 🔼 🔽 #### 1.1.1、一个完整可用的.ipa包，包括： 🔼 🔽 签名区段（Code Signature Section）： 验证应用程序的完整性，确保代码没有被篡改； 由 Apple 的签名工具（如 codesign）在应用打包过程中生成； 位置：位于应用二进制文件的一个独立区域，通常标记为 LI"
+weight: 910
+summary: "📚 目录（点击展开 / 收起） - 1、苹果端上架 - 1.1、一些基础知识 - 1.1.1、一个完整可用的\\.ipa包，包括： - 1.1.2、iOS.App 签名的分类 - 1.1.3、\\.p12文件（也称为 PKCS #12 文件） - 1.1.4、命令行工具 - 1.2、上架 App Store流程（关键点） - 1.3、非Apple官方渠道宣发：第"
 bookCollapseSection: false
 ---
 
@@ -17,12 +17,29 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## 1、苹果端上架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [1、苹果端上架](#jobs-toc-heading-1)
+  - [1.1、一些基础知识](#jobs-toc-heading-2)
+    - [1.1.1、一个完整可用的\*.ipa包，包括：](#jobs-toc-heading-3)
+    - [1.1.2、iOS.App 签名的分类](#jobs-toc-heading-4)
+    - [1.1.3、\*.p12文件（也称为 PKCS #12 文件）](#jobs-toc-heading-5)
+    - [1.1.4、命令行工具](#jobs-toc-heading-6)
+  - [1.2、上架 App Store流程（关键点）](#jobs-toc-heading-7)
+  - [1.3、非Apple官方渠道宣发：第三方签名](#jobs-toc-heading-8)
+- [2、Android](#jobs-toc-heading-9)
 
-### 1.1、一些基础知识 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+</details>
+<!-- jobs-toc:end -->
 
-#### 1.1.1、一个完整可用的`*.ipa`包，包括： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">1、苹果端上架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+### <span id="jobs-toc-heading-2" data-jobs-toc="v2">1.1、一些基础知识 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+#### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1.1、一个完整可用的`*.ipa`包，包括： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 签名区段（Code Signature Section）：
   * 验证应用程序的完整性，确保代码没有被篡改；
@@ -43,7 +60,7 @@ bookCollapseSection: false
   * 禁止动态修改代码段，以防止代码注入攻击；
   * **沙盒机制**：签名与沙盒机制配合，确保每个应用只能运行经过认证的代码，防止恶意代码运行；iOS系统“越狱”会打破沙盒机制，虽然会带来无限制的安装体验，但是也会随之而来带来显而易见的安全风险
 
-#### 1.1.2、iOS.App 签名的分类 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.1.2、iOS.App 签名的分类 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```mermaid
 flowchart LR
@@ -72,7 +89,7 @@ flowchart LR
     class B1,B2,B2_1,B2_2,B2_3,B2_4,B2_5,B2_6,B2_7 leftAlign;
 ```
 
-#### 1.1.3、`*.p12`文件（也称为 **PKCS #12 文件**） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1.1.3、`*.p12`文件（也称为 **PKCS #12 文件**） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 用于存储加密证书和私钥的容器文件格式；
 
@@ -115,7 +132,7 @@ flowchart LR
      - 将导出的 `*.p12` 文件保存到安全的位置，并确保密码的保密性；
      - 通过 `*.p12` 文件，可以在不同的开发机器间共享证书和私钥；
 
-#### 1.1.4、命令行工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-6" data-jobs-toc="v2">1.1.4、命令行工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 签名应用
 
@@ -148,7 +165,7 @@ flowchart LR
   codesign --display --verbose=4 <path-to>/your/app.app
   ```
 
-### 1.2、上架 App Store流程（关键点）
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">1.2、上架 App Store流程（关键点）</span><!-- jobs-toc:heading-end -->
 
 * 申请相关权限（如需要）
 
@@ -264,7 +281,7 @@ flowchart LR
   * 苹果的审核流程是黑盒机制，本意是不希望你去揣测而探寻其规则的漏洞；
   * 苹果的审核条款的具体执行细则会经常变更，导致开发者如果专门去应付，会造成较大开销；
 
-### 1.3、非Apple官方渠道宣发：第三方签名
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">1.3、非Apple官方渠道宣发：第三方签名</span><!-- jobs-toc:heading-end -->
 
 * 锚定我们需要处理的二进制文件（打包程序的初级产物）：
 
@@ -383,6 +400,6 @@ flowchart LR
 
 * 给到第三方进行签名。一般是给一个网站以及账密（需要先付费），你将通过上述步骤得出的后缀名为`.ipa`的包上传到网站上进行签名，成功后下载
 
-## 2、Android
+## <span id="jobs-toc-heading-9" data-jobs-toc="v2">2、Android</span><!-- jobs-toc:heading-end -->
 
 <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>

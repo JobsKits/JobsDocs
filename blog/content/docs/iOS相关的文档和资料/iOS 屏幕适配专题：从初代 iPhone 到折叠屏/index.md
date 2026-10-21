@@ -1,19 +1,90 @@
 ---
 title: "iOS 屏幕适配专题：从初代 iPhone 到折叠屏"
-date: 2026-10-06T14:29:18+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 330
-summary: "## 🔥 前言 资料核对日期：2026-10-05。 面向有 iOS 开发经验、需要理解历史并制定当前适配方案的开发者。覆盖 UIKit、SwiftUI 与 Objective-C / Swift 工程的共同布局思想。 屏幕适配的核心，是让同一项任务在不断变化的可用空间里继续完成。折叠屏让“空间变化”发生得更频繁，也让状态连续性成为验收重点。 本文按“当前事"
+weight: 850
+summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、当前事实：折叠 iPhone 已发布，适配工具仍有 beta 边界 - 1.1、发布、预订与发售是三个时间点 - 1.2、SDK 版本会改变 App 获得的显示行为 - 1.3、先确认工程能采用新基线 - 二、从最开始说起：屏幕适配的历史主线 - 2.1、2007—2010：固定画布、iPad 与 Ret"
 bookCollapseSection: false
 ---
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#jobs-toc-heading-1)
+- [一、当前事实：折叠 iPhone 已发布，适配工具仍有 beta 边界](#current)
+  - [1.1、发布、预订与发售是三个时间点](#jobs-toc-heading-3)
+  - [1.2、SDK 版本会改变 App 获得的显示行为](#jobs-toc-heading-4)
+  - [1.3、先确认工程能采用新基线](#jobs-toc-heading-5)
+- [二、从最开始说起：屏幕适配的历史主线](#history)
+  - [2.1、2007—2010：固定画布、iPad 与 Retina](#jobs-toc-heading-7)
+  - [2.2、2012—2014：屏幕变高、变宽，布局关系逐渐取代机型坐标](#jobs-toc-heading-8)
+  - [2.3、2015—2017：屏幕不等于窗口，矩形边缘不等于安全区域](#jobs-toc-heading-9)
+  - [2.4、2019—2025：声明式布局、多场景与可调整窗口](#jobs-toc-heading-10)
+  - [2.5、2026：从可变窗口继续走向双屏与可变姿态](#jobs-toc-heading-11)
+  - [2.6、代表性历史尺寸：只用于理解演进](#jobs-toc-heading-12)
+- [三、先分清七个概念，再讨论适配方案](#concepts)
+  - [3.1、尺寸变化与 size class 变化是两条信号](#jobs-toc-heading-14)
+  - [3.2、安全区、边距、键盘和内部区域分别处理](#jobs-toc-heading-15)
+- [四、折叠屏具体增加了哪些适配工作](#duo-layout)
+  - [4.1、同一台 iPhone 会跨越不同空间环境](#jobs-toc-heading-17)
+  - [4.2、内部保留区域让安全区适配继续向前走](#jobs-toc-heading-18)
+  - [4.3、优先使用系统容器，定制内容再接入局部区域 API](#jobs-toc-heading-19)
+  - [4.4、铰链角度已经公开，但布局有更合适的依据](#jobs-toc-heading-20)
+- [五、布局策略：保留任务结构，让空间增加信息价值](#policy)
+  - [5.1、按页面任务选择扩展方式](#jobs-toc-heading-22)
+  - [5.2、双内容布局与导航布局选择不同容器](#jobs-toc-heading-23)
+  - [5.3、边界值来自内容，不能成为新的机型清单](#jobs-toc-heading-24)
+- [六、UIKit / OC / Swift 工程落地](#uikit)
+  - [6.1、建立当前容器的布局输入](#jobs-toc-heading-26)
+  - [6.2、让尺寸、traits 与安全区变化共同驱动更新](#jobs-toc-heading-27)
+  - [6.3、Jobs 工程的承接方式](#jobs-toc-heading-28)
+- [七、SwiftUI 落地：布局跟随空间，状态跟随任务](#swiftui)
+  - [7.1、先用布局容器表达关系](#jobs-toc-heading-30)
+  - [7.2、GeometryReader 负责测量自己的容器](#jobs-toc-heading-31)
+  - [7.3、不要让布局分支掌管业务模型的生命周期](#jobs-toc-heading-32)
+- [八、侧边工具栏：不能继续假定导航栏在顶、Tab 在底](#bars)
+  - [8.1、系统导航容器与手工放置的栏有不同待遇](#jobs-toc-heading-34)
+  - [8.2、自定义栏的工程验收重点](#jobs-toc-heading-35)
+- [九、文字、键盘、资源与无障碍适配](#content)
+  - [9.1、字体变大与窗口变窄必须同时成立](#jobs-toc-heading-37)
+  - [9.2、键盘是独立变化来源](#jobs-toc-heading-38)
+  - [9.3、资源清晰度与布局密度分别控制](#jobs-toc-heading-39)
+  - [9.4、布局变化也会改变访问顺序](#jobs-toc-heading-40)
+- [十、状态连续性、多窗口与双屏能力边界](#continuity)
+  - [10.1、同一项任务跨布局继续进行](#jobs-toc-heading-42)
+  - [10.2、多窗口需要分别管理呈现状态](#jobs-toc-heading-43)
+  - [10.3、内外屏同时显示不是无限制的普通双窗口](#jobs-toc-heading-44)
+- [十一、当前 API 与旧系统兼容策略](#compatibility)
+  - [11.1、API 速查：按职责选入口](#jobs-toc-heading-46)
+  - [11.2、UIRequiresFullScreen 不能作为拒绝尺寸变化的办法](#jobs-toc-heading-47)
+  - [11.3、兼容层的建议流程](#jobs-toc-heading-48)
+- [十二、测试与验收：测操作中的变化，而不只截首屏](#testing)
+  - [12.1、覆盖环境与任务的交叉变化](#jobs-toc-heading-50)
+  - [12.2、四条可以实际照着执行的回归路径](#jobs-toc-heading-51)
+  - [12.3、诊断信息要能解释错误](#jobs-toc-heading-52)
+- [十三、落地顺序：先修基础，再增加折叠体验](#roadmap)
+- [十四、FAQ：适配讨论与面试里的关键回答](#faq)
+  - [14.1、按屏幕宽度等比缩放设计稿，是否足够？](#faq-scale)
+  - [14.2、Retina、pt、px 和 scale 如何理解？](#faq-pixels)
+  - [14.3、有 Auto Layout 和 size classes，为什么还会适配失败？](#faq-traits)
+  - [14.4、展开后是否应该按 iPad 处理？](#jobs-toc-heading-58)
+  - [14.5、只尊重 Safe Area，是否已经完成折叠适配？](#jobs-toc-heading-59)
+  - [14.6、SwiftUI 会不会自动保存折叠前的全部状态？](#faq-state)
+  - [14.7、能否让任何 App 在内外屏同时显示两个主界面？](#faq-two-screens)
+  - [14.8、升级 SDK 是否等于适配完成？](#faq-sdk)
+- [十五、官方资料与后续复核入口](#sources)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
-## 🔥 <font id=前言>前言</font>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
 
 **资料核对日期：2026-10-05。** 面向有 iOS 开发经验、需要理解历史并制定当前适配方案的开发者。覆盖 [**UIKit**](https://developer.apple.com/documentation/uikit)、[**SwiftUI**](https://developer.apple.com/documentation/swiftui) 与 [**Objective-C**](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html) / <u>[**Swift**](https://www.swift.org/)</u> 工程的共同布局思想。
 
@@ -25,7 +96,7 @@ bookCollapseSection: false
 
 ## 一、<span id="current">当前事实：折叠 iPhone 已发布，适配工具仍有 beta 边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、发布、预订与发售是三个时间点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1、发布、预订与发售是三个时间点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [**Apple**](https://www.apple.com/) 于 **2026-09-09** 发布首款折叠 iPhone，正式名称为 [**iPhone Duo**](https://www.apple.com/iphone-duo/)。首批市场 **10 月 16 日预订、10 月 23 日发售**，随设备提供 iOS 27.1。因此截至本文日期，应描述为“已正式发布、尚未正式开售”。它支持内屏双 App 分屏，并可运行同一 App 的多个窗口。[Apple 发布公告](https://www.apple.com/newsroom/2026/09/apple-unveils-iphone-duo/)
 
@@ -36,7 +107,7 @@ bookCollapseSection: false
 
 硬件数值来自 [Apple 技术规格](https://www.apple.com/iphone-duo/specs/)。**英寸和面板像素都不能直接作为 App 的布局尺寸。**布局必须读取实际容器；表中没有推算或承诺内外屏的固定逻辑 pt、缩放因子或安全区常量。
 
-### 1.2、SDK 版本会改变 App 获得的显示行为 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.2、SDK 版本会改变 App 获得的显示行为 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 构建基线 | Apple 描述的显示行为 | 工程判断 |
 | --- | --- | --- |
@@ -48,7 +119,7 @@ bookCollapseSection: false
 
 当前 [Apple 开发者专区](https://developer.apple.com/iphone-duo/) 列出的工具为 [**Xcode**](https://developer.apple.com/xcode/) 27.1 beta；Device Hub 提供 Duo 模拟与姿态操作。本文的 iOS 27.1 专属 API 按当前 beta 文档记录，正式 SDK 发布后需要重新核对签名和行为。
 
-### 1.3、先确认工程能采用新基线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1.3、先确认工程能采用新基线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 Apple 明确规定：**从 iOS / iPadOS 27 起，使用最新 SDK 构建的 UIKit App 必须采用 scene 生命周期，否则无法启动。**采用 scene 生命周期不等于必须开放多窗口；`UIApplicationSupportsMultipleScenes` 可以保持 `false`。[迁移 scene 生命周期](https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle)
 
@@ -58,7 +129,7 @@ Apple 明确规定：**从 iOS / iPadOS 27 起，使用最新 SDK 构建的 UIKi
 
 ## 二、<span id="history">从最开始说起：屏幕适配的历史主线</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、2007—2010：固定画布、iPad 与 Retina <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2.1、2007—2010：固定画布、iPad 与 Retina <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **2007 年，第一代 iPhone 发布。**早期设备处在 320 × 480 的时代，机型少，开发者很容易以固定 frame、坐标和尺寸组织界面。2008 年 3 月公开 beta SDK，7 月 App Store 正式开放；不能把后来 UIKit App 的工程实践全部说成 2007 年已经开放。[初代发布公告](https://www.apple.com/newsroom/2007/01/09Apple-Reinvents-the-Phone-with-iPhone/)、[SDK 公告](https://www.apple.com/newsroom/2008/03/06Apple-Announces-iPhone-2-0-Software-Beta/)、[2008 年 7 月公告](https://www.apple.com/newsroom/2008/07/10iPhone-3G-on-Sale-Tomorrow/)
 
@@ -68,7 +139,7 @@ Apple 明确规定：**从 iOS / iPadOS 27 起，使用最新 SDK 构建的 UIKi
 
 这里必须分清：**更多物理像素，不一定意味着更多逻辑布局空间。**UIKit 的布局、字体和绘图采用 pt，系统再映射为像素。iPhone 4 的典型逻辑尺寸仍是 320 × 480 pt，2× 渲染成为 640 × 960 px。[Apple 绘图指南：Points Versus Pixels](https://developer.apple.com/library/archive/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/GraphicsDrawingOverview/GraphicsDrawingOverview.html)
 
-### 2.2、2012—2014：屏幕变高、变宽，布局关系逐渐取代机型坐标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">2.2、2012—2014：屏幕变高、变宽，布局关系逐渐取代机型坐标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **2012 年，iPhone 5 把高度扩展到 568 pt，宽度仍为 320 pt。**适配要决定多出来的空间如何服务内容，不能只把整页拉长。同年 iOS 6 引入 [**Auto Layout**](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/)，让元素之间的对齐、间距和尺寸关系交给约束系统求解。[iPhone 5 公告](https://www.apple.com/newsroom/2012/09/12Apple-Introduces-iPhone-5/)、[Xcode 4 发行说明](https://developer.apple.com/library/archive/documentation/Xcode/Conceptual/RN-Xcode-Archive/Chapters/xc4_release_notes.html)
 
@@ -78,7 +149,7 @@ Apple 明确规定：**从 iOS / iPadOS 27 起，使用最新 SDK 构建的 UIKi
 
 工程启示：约束只是机制。把全部宽高常量写死，再包上 Auto Layout，仍然是固定画布思路。
 
-### 2.3、2015—2017：屏幕不等于窗口，矩形边缘不等于安全区域 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-9" data-jobs-toc="v2">2.3、2015—2017：屏幕不等于窗口，矩形边缘不等于安全区域 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **2015 年，iOS 9 的 Slide Over / Split View 把多任务带到 iPad。**App 可以只占屏幕的一部分，空间变化不一定伴随设备旋转。Apple 当时已经要求以 traits、size classes 和实际空间判断布局，不能只靠设备类型与方向。[iOS 9 公告](https://www.apple.com/newsroom/2015/09/09iOS-9-Available-as-a-Free-Update-for-iPhone-iPad-iPod-touch-Users-September-16/)、[多任务适配指南](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/AdoptingMultitaskingOniPad/index.html)
 
@@ -86,7 +157,7 @@ Apple 明确规定：**从 iOS / iPadOS 27 起，使用最新 SDK 构建的 UIKi
 
 工程启示：`屏幕高 − 64 − 49`、固定 `34 pt` 底部留白、靠屏幕高度判断刘海等写法，都是特定设备条件下的经验值，不能继续作为通用布局合同。
 
-### 2.4、2019—2025：声明式布局、多场景与可调整窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-10" data-jobs-toc="v2">2.4、2019—2025：声明式布局、多场景与可调整窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **2019 年，SwiftUI 与 UIScene 扩大了适配的组织方式。**SwiftUI 以声明式视图描述界面，scene 让一个 App 拥有独立的 UI 实例。布局和恢复状态需要与当前场景关联。[SwiftUI 官方公告](https://www.apple.com/ca/newsroom/2019/06/apple-unveils-groundbreaking-new-technologies-for-app-development/)、[多窗口架构](https://developer.apple.com/videos/play/wwdc2019/258/)
 
@@ -96,7 +167,7 @@ Apple 明确规定：**从 iOS / iPadOS 27 起，使用最新 SDK 构建的 UIKi
 
 **2025 年，iPadOS 26 的窗口系统继续强化动态调整尺寸。**`UIRequiresFullScreen` 及相关 iPad 兼容模式开始弃用。弃用不等于立即彻底忽略该 key，更不等于所有旧 App 自动获得完善的窗口布局。[UIRequiresFullScreen 文档](https://developer.apple.com/documentation/bundleresources/information-property-list/uirequiresfullscreen)
 
-### 2.5、2026：从可变窗口继续走向双屏与可变姿态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-11" data-jobs-toc="v2">2.5、2026：从可变窗口继续走向双屏与可变姿态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 iPhone Duo 把这些已有能力汇合到同一台手机：紧凑外屏、宽内屏、分屏、部分折叠、侧边系统控件、动态保留区域。适配的目标继续是保持熟悉的任务流程，并在新增空间里增加价值。[Duo 设计指南](https://developer.apple.com/design/human-interface-guidelines/designing-for-iphone-duo)
 
@@ -107,7 +178,7 @@ iPhone Duo 把这些已有能力汇合到同一台手机：紧凑外屏、宽内
          → App 窗口可变 → 安全区域 → 多场景 → 双屏与姿态变化
 ```
 
-### 2.6、代表性历史尺寸：只用于理解演进 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-12" data-jobs-toc="v2">2.6、代表性历史尺寸：只用于理解演进 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 年份 / 代表设备 | 标准竖屏逻辑尺寸 | scale | 渲染尺寸 | 面板像素 |
 | --- | --- | --- | --- | --- |
@@ -138,13 +209,13 @@ iPhone Duo 把这些已有能力汇合到同一台手机：紧凑外屏、宽内
 
 **布局从当前组件向外读取必要环境。**Cell 看 Cell 的内容容器，弹窗看弹窗容器，控制器看自己的 view，窗口级操作看所属 scene。只有确实处理物理显示能力、输出分辨率等需求时，才读取关联 display 信息。[Preparing your app for iPhone Duo](https://developer.apple.com/documentation/technologyoverviews/preparing-your-app-for-iphone-duo)
 
-### 3.1、尺寸变化与 size class 变化是两条信号 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-14" data-jobs-toc="v2">3.1、尺寸变化与 size class 变化是两条信号 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 同为 regular 的两个窗口，实际宽度也可能不同。只监听 size class，会漏掉类别没变但空间已经变化的情况。
 
 工程建议：**size class 决定大方向，实际容器尺寸完成排布，文字与控件测量决定是否需要局部降级。**例如宽环境显示列表与详情；列表内部的按钮组再根据可用空间和字体决定横排或竖排。
 
-### 3.2、安全区、边距、键盘和内部区域分别处理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-15" data-jobs-toc="v2">3.2、安全区、边距、键盘和内部区域分别处理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 安全区由视图层级传递，子视图已经处在父视图安全区内时，自身 insets 可能为零；未进入可见视图层级时读取，也可能得到零。[safeAreaInsets](https://developer.apple.com/documentation/uikit/uiview/safeareainsets)
 
@@ -158,7 +229,7 @@ iPhone Duo 把这些已有能力汇合到同一台手机：紧凑外屏、宽内
 
 ## 四、<span id="duo-layout">折叠屏具体增加了哪些适配工作</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、同一台 iPhone 会跨越不同空间环境 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-17" data-jobs-toc="v2">4.1、同一台 iPhone 会跨越不同空间环境 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 Apple 的 Duo 适配说明把外屏竖向描述为 compact width / regular height，外屏横向为 compact / compact，完整内屏为 regular / regular。展开后仍然是 iPhone idiom；不能用 `userInterfaceIdiom == .pad` 作为宽布局的唯一入口。[Prepare your app](https://developer.apple.com/videos/play/tech-talks/111461/)
 
@@ -168,7 +239,7 @@ Apple 的 Duo 适配说明把外屏竖向描述为 compact width / regular heigh
 
 布局也不能只靠 `width > height` 判断横竖屏。它描述的是容器比例，无法独立表达折叠姿态、分屏位置和系统占用区域。
 
-### 4.2、内部保留区域让安全区适配继续向前走 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-18" data-jobs-toc="v2">4.2、内部保留区域让安全区适配继续向前走 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 区域类型 | 含义 | 建议处理 |
 | --- | --- | --- |
@@ -181,7 +252,7 @@ Apple 的 Duo 适配说明把外屏竖向描述为 compact width / regular heigh
 
 部分折叠时，折叠分隔区域会激活；完全展开时不应永久留出“中间黑条”。文章、信息流和其他连续滚动内容也无需一折就整块搬家，关键是保持阅读连续、让重要操作可见。[Strike a pose](https://developer.apple.com/videos/play/tech-talks/111463/)
 
-### 4.3、优先使用系统容器，定制内容再接入局部区域 API <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-19" data-jobs-toc="v2">4.3、优先使用系统容器，定制内容再接入局部区域 API <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 `NavigationSplitView` / `UISplitViewController`、系统 sheet、popover 和 alert 已有相应适配能力。优先使用这些容器，再处理自定义播放器、悬浮按钮、画布等特殊部分。[Duo 设计指南](https://developer.apple.com/design/human-interface-guidelines/designing-for-iphone-duo)
 
@@ -192,7 +263,7 @@ Apple 的 Duo 适配说明把外屏竖向描述为 compact width / regular heigh
 
 工程建议：读取当前视图坐标中的区域，明确是否包含 inactive 区域并检查 `isActive`；不要跨坐标系直接比较矩形。当前 beta 的概览与部分查询说明对默认 active 过滤存在措辞差异，实施时以对应 SDK 的查询选项和实际结果核对。[SwiftUI ReservedRegion](https://developer.apple.com/documentation/swiftui/reservedregion)、[UIKit ReservedRegion](https://developer.apple.com/documentation/uikit/uiview/reservedregion)
 
-### 4.4、铰链角度已经公开，但布局有更合适的依据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-20" data-jobs-toc="v2">4.4、铰链角度已经公开，但布局有更合适的依据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 SwiftUI 的 `onHingeChange(isEnabled:_:)` 和 UIKit 的 `UIHingeInteraction` 可以取得铰链状态与连续角度。SwiftUI 用 `Angle` 表达角度，UIKit 的 `UIHinge.angle` 使用弧度；需要处理无可用铰链及 UIKit 的未知状态。[onHingeChange](https://developer.apple.com/documentation/swiftui/view/onhingechange%28isenabled%3A_%3A%29)、[UIHinge](https://developer.apple.com/documentation/uikit/uihinge)
 
@@ -202,7 +273,7 @@ SwiftUI 的 `onHingeChange(isEnabled:_:)` 和 UIKit 的 `UIHingeInteraction` 可
 
 本章为工程设计建议。**不要把整张手机设计稿乘一个比例，也不要为每种折叠姿态重新发明一套页面。**默认用紧凑 / 宽环境表达主要结构，再由内容适配实际空间。
 
-### 5.1、按页面任务选择扩展方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-22" data-jobs-toc="v2">5.1、按页面任务选择扩展方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 页面 | 紧凑环境 | 宽环境 | 连续性要求 |
 | --- | --- | --- | --- |
@@ -215,14 +286,14 @@ SwiftUI 的 `onHingeChange(isEnabled:_:)` 和 UIKit 的 `UIHingeInteraction` 可
 
 阅读型内容不要无限拉宽；复杂表单不要把输入框铺满整个内屏；按钮也不应按屏幕比例变成超大控件。更大空间通常用于增加并列信息、可见内容和上下文。
 
-### 5.2、双内容布局与导航布局选择不同容器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-23" data-jobs-toc="v2">5.2、双内容布局与导航布局选择不同容器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 列表、详情等导航层级：优先 `NavigationSplitView` 或 `UISplitViewController`。
 - 播放器与播放列表、画布与辅助内容等双内容组合：评估 `ArrangementView` 或 `UIArrangementViewController`。
 
 `ArrangementView` 按尺寸、环境与保留区域组织 primary / secondary 内容，可采用 split 或 overlay 风格。**它提供布局，不提供导航基础设施**；避免把导航容器塞进它，也要避免放进滚动容器后导致 secondary 内容无法到达。[ArrangementView 文档](https://developer.apple.com/documentation/swiftui/arrangementview)
 
-### 5.3、边界值来自内容，不能成为新的机型清单 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-24" data-jobs-toc="v2">5.3、边界值来自内容，不能成为新的机型清单 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 工程建议：一般导航结构跟随 size classes；网格列数、表单最大宽度、按钮是否换行，则根据组件内容与可用空间决定。若项目确需自定义阈值，记录其内容依据，并测试阈值两侧、字体放大后的表现。
 
@@ -230,7 +301,7 @@ SwiftUI 的 `onHingeChange(isEnabled:_:)` 和 UIKit 的 `UIHingeInteraction` 可
 
 ## 六、<span id="uikit">UIKit / OC / Swift 工程落地</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、建立当前容器的布局输入 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-26" data-jobs-toc="v2">6.1、建立当前容器的布局输入 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 建议把布局输入分成：
 
@@ -257,7 +328,7 @@ SwiftUI 的 `onHingeChange(isEnabled:_:)` 和 UIKit 的 `UIHingeInteraction` 可
 
 双屏设备上的“main screen”存在语义歧义，布局应避免此全局假设。[Preparing your app](https://developer.apple.com/documentation/technologyoverviews/preparing-your-app-for-iphone-duo)
 
-### 6.2、让尺寸、traits 与安全区变化共同驱动更新 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-27" data-jobs-toc="v2">6.2、让尺寸、traits 与安全区变化共同驱动更新 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 iOS 17 起，`traitCollectionDidChange` 已弃用，可用 `registerForTraitChanges` 只订阅真正依赖的 traits。初始配置不能依赖“变化回调必然调用一次”；在进入层级、环境有效的阶段完成首次布局，后续再处理变化。`viewIsAppearing` 可用于相应的初始环境读取。[Unleash the UIKit trait system](https://developer.apple.com/videos/play/wwdc2023/10057/)
 
@@ -275,7 +346,7 @@ iOS 17 起，`traitCollectionDidChange` 已弃用，可用 `registerForTraitChan
 
 同一类组件共享布局策略，避免每个 VC 自己维护一套“屏宽宏 + 是否刘海 + 是否折叠”的判断。[对应 FAQ](#faq-traits)
 
-### 6.3、Jobs 工程的承接方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-28" data-jobs-toc="v2">6.3、Jobs 工程的承接方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 以下是依据既有 Jobs 约定提出的落地建议，**本文没有修改任何业务仓库**：
 
@@ -287,7 +358,7 @@ iOS 17 起，`traitCollectionDidChange` 已弃用，可用 `registerForTraitChan
 
 ## 七、<span id="swiftui">SwiftUI 落地：布局跟随空间，状态跟随任务</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、先用布局容器表达关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-30" data-jobs-toc="v2">7.1、先用布局容器表达关系 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 SwiftUI 的父布局提出空间建议，子视图报告自身尺寸，容器完成排布。stacks、grids、lists、forms 和 scroll views 适合承接日常布局；`ViewThatFits` 可在候选布局中选择第一个放得下的方案。[布局基础](https://developer.apple.com/documentation/swiftui/layout-fundamentals)
 
@@ -302,13 +373,13 @@ SwiftUI 的父布局提出空间建议，子视图报告自身尺寸，容器完
 
 `Layout` 和 `AnyLayout` 的能力与边界参见 [自定义布局官方示例](https://developer.apple.com/documentation/swiftui/composing-custom-layouts-with-swiftui)。必要时读取局部 geometry，不需要先把整个界面变成手工坐标计算。
 
-### 7.2、GeometryReader 负责测量自己的容器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-31" data-jobs-toc="v2">7.2、GeometryReader 负责测量自己的容器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 `GeometryReader` 描述的是自己的尺寸与坐标空间，并具有灵活的首选尺寸。[GeometryReader](https://developer.apple.com/documentation/swiftui/geometryreader)
 
 工程建议：仅在需要测量的局部引入。避免“测量 → 修改 frame → 再次测量”的反馈循环；复杂测量与放置优先放到 `Layout` 内完成。不要读取 geometry 后，再套一个固定全屏宽度抵消父容器限制。[SwiftUI 布局讲解](https://developer.apple.com/videos/play/wwdc2022/10056/)
 
-### 7.3、不要让布局分支掌管业务模型的生命周期 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-32" data-jobs-toc="v2">7.3、不要让布局分支掌管业务模型的生命周期 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 工程建议：把页面模型、选中 ID、输入草稿、搜索词和导航语义放在能跨布局变化存活的状态层。紧凑与宽布局只消费这些状态；不能分别创建两个互不关联的详情模型。
 
@@ -325,13 +396,13 @@ SwiftUI 自动重新计算界面，不会自动替业务设计状态所有权。
 
 Duo 外屏与内屏横向采用新的侧边控件组织；内屏竖向可回到横向栏。系统会依照容器与当前环境安排控件，不能把所有姿态都固定成右侧一列。[Duo 设计讲解](https://developer.apple.com/videos/play/tech-talks/111466/)
 
-### 8.1、系统导航容器与手工放置的栏有不同待遇 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-34" data-jobs-toc="v2">8.1、系统导航容器与手工放置的栏有不同待遇 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 SwiftUI 应由 `NavigationStack` / `NavigationSplitView` 配合 toolbar 承接；UIKit 优先 `UINavigationController` / `UITabBarController`。自行放置 `UINavigationBar`、`UIToolbar`、`UITabBar`，不会自动获得相同的系统管理行为。
 
 提供工具项的图标与标题，让系统选择表示并在 overflow 中使用完整信息。自定义项需要核对竖向表示；相关入口包括 `.axisBehavior(...)`、SwiftUI `toolbarVerticalEdge` 与 UIKit `traitCollection.verticalBarEdge`。核心操作的显示优先级也应明确。[Raise the bar](https://developer.apple.com/videos/play/tech-talks/111462/)
 
-### 8.2、自定义栏的工程验收重点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-35" data-jobs-toc="v2">8.2、自定义栏的工程验收重点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 工程建议：逐项检查返回、关闭、提交、删除、搜索和 Tab 入口。金额、进度等有独立语义的文本不能为了竖栏强行隐藏；图标形式仍应提供可访问性名称。
 
@@ -339,13 +410,13 @@ SwiftUI 应由 `NavigationStack` / `NavigationSplitView` 配合 toolbar 承接�
 
 ## 九、<span id="content">文字、键盘、资源与无障碍适配</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 9.1、字体变大与窗口变窄必须同时成立 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-37" data-jobs-toc="v2">9.1、字体变大与窗口变窄必须同时成立 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 UIKit 使用文本样式与 `adjustsFontForContentSizeCategory`；自定义字体通过 `UIFontMetrics` 缩放。字体变大后，还要允许文本和容器重新排布。[字体自动缩放](https://developer.apple.com/documentation/uikit/scaling-fonts-automatically)、[UIFontMetrics](https://developer.apple.com/documentation/uikit/uifontmetrics)
 
 工程建议：长中文、长英文单词、德文复合词、阿拉伯语、错误说明和无数据文案一起测试。表单、按钮组和 Cell 能换行、变高或改成竖排；核心信息不依赖不断缩小字体才能显示。
 
-### 9.2、键盘是独立变化来源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-38" data-jobs-toc="v2">9.2、键盘是独立变化来源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 UIKit 从 iOS 15 提供 `keyboardLayoutGuide`。默认只跟随停靠键盘；`followsUndockedKeyboard = true` 可以跟随浮动 / 非停靠键盘，相关追踪布局还需按 guide 的规则配置。[键盘布局指南](https://developer.apple.com/documentation/uikit/adjusting-your-layout-with-keyboard-layout-guide)、[followsUndockedKeyboard](https://developer.apple.com/documentation/uikit/uikeyboardlayoutguide/followsundockedkeyboard)
 
@@ -353,13 +424,13 @@ UIKit 从 iOS 15 提供 `keyboardLayoutGuide`。默认只跟随停靠键盘；`f
 
 折叠时正在输入的表单，需要保留文本、选区与编辑意图，保证输入位置和提交动作可见。输入附属工具仍与输入区域保持联系，不能仅因系统工具栏变为竖向就一起搬到侧边。
 
-### 9.3、资源清晰度与布局密度分别控制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-39" data-jobs-toc="v2">9.3、资源清晰度与布局密度分别控制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 工程建议：位图资源提供合适分辨率，图标优先使用项目既有可缩放资源或 [**SF Symbols**](https://developer.apple.com/sf-symbols/)。内容图保持正确比例，按用途选择完整显示或裁切；人物主体和重要文字不能因窗口比例改变被无意裁掉。
 
 位图渲染读取当前环境的 display scale，不能缓存唯一主屏的倍率。图库缩略图按显示需求采样，避免每次折叠都重新解码原图；视频和画布也要分别管理显示尺寸与内容坐标。
 
-### 9.4、布局变化也会改变访问顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-40" data-jobs-toc="v2">9.4、布局变化也会改变访问顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 工程建议：验收 [**VoiceOver**](https://developer.apple.com/accessibility/)、较大字体、减少动态效果、提高对比度、降低透明度和 RTL。单列变双列后，阅读顺序仍应与任务一致；隐藏面板中的控件不能继续抢占焦点；关键状态不能只通过位置、动画或颜色表达。
 
@@ -367,7 +438,7 @@ UIKit 从 iOS 15 提供 `keyboardLayoutGuide`。默认只跟随停靠键盘；`f
 
 ## 十、<span id="continuity">状态连续性、多窗口与双屏能力边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 10.1、同一项任务跨布局继续进行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-42" data-jobs-toc="v2">10.1、同一项任务跨布局继续进行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 本节为工程状态设计建议：
 
@@ -393,13 +464,13 @@ flowchart LR
     E --> P
 ```
 
-### 10.2、多窗口需要分别管理呈现状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-43" data-jobs-toc="v2">10.2、多窗口需要分别管理呈现状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 Duo 内屏支持同 App 多实例，外屏不能创建新窗口；创建能力会动态变化，需要处理请求失败。`UIWindowSceneActivationAction` 可在不可用时自动隐藏相应动作。[多显示器与场景](https://developer.apple.com/videos/play/tech-talks/111464/)
 
 工程建议：账号、数据库和资源缓存可按产品需要共享；每个 scene 的导航、搜索、滚动、编辑会话与弹窗各自拥有。一个窗口关闭，不应无条件取消另一个窗口的业务任务。
 
-### 10.3、内外屏同时显示不是无限制的普通双窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-44" data-jobs-toc="v2">10.3、内外屏同时显示不是无限制的普通双窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 scene accessories 可表达与主 UI 配对的补充内容。Duo 的 `CameraCaptureAccessory` 可在**内屏全屏、相机采集会话激活**时向外屏提供补充 UI，其可用性由系统动态管理。[多显示器与场景](https://developer.apple.com/videos/play/tech-talks/111464/)
 
@@ -407,7 +478,7 @@ scene accessories 可表达与主 UI 配对的补充内容。Duo 的 `CameraCapt
 
 ## 十一、<span id="compatibility">当前 API 与旧系统兼容策略</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 11.1、API 速查：按职责选入口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-46" data-jobs-toc="v2">11.1、API 速查：按职责选入口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 职责 | SwiftUI | UIKit / OC 对应入口 | 版本基线 |
 | --- | --- | --- | --- |
@@ -422,7 +493,7 @@ scene accessories 可表达与主 UI 配对的补充内容。Duo 的 `CameraCapt
 
 来源：[ArrangementView](https://developer.apple.com/documentation/swiftui/arrangementview)、[UIArrangementViewController](https://developer.apple.com/documentation/uikit/uiarrangementviewcontroller)、[ReservedRegion](https://developer.apple.com/documentation/swiftui/reservedregion)、[UIHingeInteraction](https://developer.apple.com/documentation/uikit/uihingeinteraction)、[DeviceHinge](https://developer.apple.com/documentation/swiftui/devicehinge)、[keyboardLayoutGuide](https://developer.apple.com/documentation/uikit/uiview/keyboardlayoutguide)、[effectiveGeometry](https://developer.apple.com/documentation/uikit/uiwindowscene/effectivegeometry)、[场景回调](https://developer.apple.com/documentation/uikit/uiwindowscenedelegate/windowscene%28_%3Adidupdateeffectivegeometry%3A%29)。
 
-### 11.2、UIRequiresFullScreen 不能作为拒绝尺寸变化的办法 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-47" data-jobs-toc="v2">11.2、UIRequiresFullScreen 不能作为拒绝尺寸变化的办法 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 Apple 最新 TN3192 区分了版本：iOS 27 之前，该 key 只配置 iPadOS，iPhone 忽略；**iOS / iPadOS 27 起，以 iOS 27 SDK 或更新 SDK 构建且满足对应配置时，它采用离散调整 scene 尺寸的兼容行为，不能再让 App 完全退出 resizing。**具体还受 `UIRequiresFullScreenIgnoredStartingWithVersion` 控制。[TN3192](https://developer.apple.com/documentation/technotes/tn3192-migrating-your-app-from-the-deprecated-uirequiresfullscreen-key)
 
@@ -430,7 +501,7 @@ Duo 官方讲解同样指出：系统继续处理该 key，但设备开合仍然
 
 工程建议：完成布局与多任务回归后迁移旧兼容 key；需要保留旧版本行为时使用官方版本配置。不能为了隐藏布局问题盲目添加全屏 key，也不能尚未修复就直接删掉所有兼容配置。
 
-### 11.3、兼容层的建议流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-48" data-jobs-toc="v2">11.3、兼容层的建议流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 以下是逻辑示意，不是可直接编译的 API 示例：
 
@@ -453,7 +524,7 @@ Duo 官方讲解同样指出：系统继续处理该 key，但设备开合仍然
 
 本章为工程验收建议。Device Hub 可以模拟 Duo 的打开、关闭、旋转和折叠，适合开展首轮回归；正式版系统与真机仍需补充验证。[Apple 开发者专区](https://developer.apple.com/iphone-duo/)、[Prepare your app](https://developer.apple.com/videos/play/tech-talks/111461/)
 
-### 12.1、覆盖环境与任务的交叉变化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-50" data-jobs-toc="v2">12.1、覆盖环境与任务的交叉变化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 测试维度 | 最小建议覆盖 | 验收结果 |
 | --- | --- | --- |
@@ -471,7 +542,7 @@ Duo 官方讲解同样指出：系统继续处理该 key，但设备开合仍然
 
 不需要机械跑满所有维度的笛卡尔积。优先验证组合风险高的场景：大字体 + 分屏、输入中 + 折叠、播放器 + 换屏、弹窗打开 + 尺寸变化。
 
-### 12.2、四条可以实际照着执行的回归路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-51" data-jobs-toc="v2">12.2、四条可以实际照着执行的回归路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 1、**订单 / 消息详情**：外屏选中一项 → 进入详情 → 展开 → 部分折叠 → 分屏 → 折回。预期始终显示同一业务 ID，返回路径合理，没有重复请求或重复操作。
 
@@ -481,7 +552,7 @@ Duo 官方讲解同样指出：系统继续处理该 key，但设备开合仍然
 
 4、**自定义弹窗 / 悬浮入口**：打开弹窗或拖动入口 → 改变空间 → 切换左右分屏。预期弹窗属于正确 scene，入口回到当前可操作区域，不挡关键内容。
 
-### 12.3、诊断信息要能解释错误 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-52" data-jobs-toc="v2">12.3、诊断信息要能解释错误 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 建议在 Debug 观察容器 bounds、size classes、逐边 safe area、有效内部区域、scene 标识与实际布局结构。配合约束冲突日志和性能工具判断问题来源，避免只记录机型名。
 
@@ -518,11 +589,11 @@ Duo 官方讲解同样指出：系统继续处理该 key，但设备开合仍然
 
 **机制正确不代表规则正确。**固定宽高、过强约束、错误测量时机、未处理类别不变的尺寸变化、重复添加子视图，都能使布局失败。还要处理文字、内部区域和业务状态。[回到概念](#concepts)、[回到 UIKit](#uikit)
 
-### 14.4、展开后是否应该按 iPad 处理？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-58" data-jobs-toc="v2">14.4、展开后是否应该按 iPad 处理？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **仍然是 iPhone。**宽空间可以共享 iPad 上成熟的列表详情、侧栏和网格思路，但判断入口应是当前环境与任务，不能依赖“只有 iPad 才能宽布局”。[回到 Duo 环境](#duo-layout)
 
-### 14.5、只尊重 Safe Area，是否已经完成折叠适配？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-59" data-jobs-toc="v2">14.5、只尊重 Safe Area，是否已经完成折叠适配？ <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **还要检查内部保留区域。**中央分隔与动态内部遮挡，需要系统适配容器或 Reserved Region 信息处理。完全展开时不应始终保留中央禁区。[回到区域处理](#duo-layout)
 

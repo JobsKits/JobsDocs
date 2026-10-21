@@ -1,9 +1,9 @@
 ---
 title: "CMake"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 230
-summary: "构建 🔼 🔽 在软件开发中，“构建”指的是将源代码转换为可执行文件、库或其他分发格式的过程。这通常包括编译源代码、链接库和生成最终的可执行文件。构建系统是用于自动化和管理这一过程的工具。 构建的过程：（以下是构建过程的一般步骤） 编译（Compile）： 将源代码文件（如 .cpp 或 .c 文件）转换为目标文件（.o 或 .obj 文件）。这一步通常由编译"
+weight: 130
+summary: "📚 目录（点击展开 / 收起） - 构建 - CMake ## 构建 🔼 🔽 在软件开发中，“构建”指的是将源代码转换为可执行文件、库或其他分发格式的过程。这通常包括编译源代码、链接库和生成最终的可执行文件。构建系统是用于自动化和管理这一过程的工具。 构建的过程：（以下是构建过程的一般步骤） 编译（Compile）： 将源代码文件（如 .cpp 或 .c 文"
 bookCollapseSection: false
 ---
 
@@ -17,8 +17,18 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-##  构建 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [构建](#jobs-toc-heading-1)
+- [CMake](#jobs-toc-heading-2)
+
+</details>
+<!-- jobs-toc:end -->
+
+##  <span id="jobs-toc-heading-1" data-jobs-toc="v2">构建 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 在软件开发中，“构建”指的是将源代码转换为可执行文件、库或其他分发格式的过程。这通常包括编译源代码、链接库和生成最终的可执行文件。构建系统是用于自动化和管理这一过程的工具。
 * 构建的过程：（以下是构建过程的一般步骤）
@@ -27,7 +37,7 @@ bookCollapseSection: false
   * **打包（Package）**： 将生成的可执行文件、库和其他资源打包成发布版本，以便分发和安装。
   * **其他步骤**： 这可能包括预处理（Preprocessing）、代码生成（Code Generation）、单元测试（Unit Testing）等。
 
-## [**CMake**](https://cmake.org/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">[**CMake**](https://cmake.org/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> </span><!-- jobs-toc:heading-end -->
 
 * [**CMake**](https://cmake.org/) 是一个开源的跨平台构建系统，它可以管理项目的编译过程。CMake 使用配置文件（通常称为 `CMakeLists.txt` 文件）来生成本地构建系统文件（例如 Makefile、Visual Studio 项目文件等）。这些配置文件描述了项目的源文件、头文件、依赖项和编译选项。
 

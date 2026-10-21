@@ -1,9 +1,9 @@
 ---
 title: "Swift直播项目核心技术研讨"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 650
-summary: "一、前言 直播项目的核心难点，在于视频数据的处理，以及礼物特效 音视频这块是一个独立的领域，没有涉及过的技术人员，从理解基本原理到相关概念入手会比较吃力（在没有AI为辅助的基础上，目测需要3个月时间） 寻找相关文档 验证文档内容的真实可靠性 寻找适合的SDK或者相关开源框架 后端同样需要统一的齐平配合（统一的数据封装协议，流媒体服务器） 对于海外项目，特别是"
+weight: 830
+summary: "📚 目录（点击展开 / 收起） - 一、前言 - 二、推流端（主播）架构 - 三、推流端（主播）开源框架 - 1、传统直播（RTMP/SRT/CDN） - 2、互动直播 / 连麦（WebRTC 路线） - 四、滤镜 - 五、礼物特效 - 1、可选方案 - 2、建议 - 六、整体构架 ## 一、前言 直播项目的核心难点，在于视频数据的处理，以及礼物特效 音视频"
 bookCollapseSection: false
 ---
 
@@ -17,8 +17,26 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## <span id="前言">一、前言</span>
+- [一、前言](#jobs-toc-heading-1)
+- [二、推流端（主播）架构](#jobs-toc-heading-2)
+- [三、推流端（主播）开源框架](#jobs-toc-heading-3)
+  - [1、传统直播（RTMP/SRT/CDN）](#jobs-toc-heading-4)
+  - [2、互动直播 / 连麦（WebRTC 路线）](#jobs-toc-heading-5)
+- [四、滤镜](#jobs-toc-heading-6)
+- [五、礼物特效](#jobs-toc-heading-7)
+  - [1、可选方案](#jobs-toc-heading-8)
+  - [2、建议](#jobs-toc-heading-9)
+- [六、整体构架](#jobs-toc-heading-10)
+
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2"><span id="前言">一、前言</span></span><!-- jobs-toc:heading-end -->
 
 * 直播项目的核心难点，在于视频数据的处理，以及礼物特效
 
@@ -78,7 +96,7 @@ bookCollapseSection: false
   
 * 画中画效果：实现端是具体的设备端，比如iOS/Android层
 
-## 二、推流端（主播）架构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">二、推流端（主播）架构 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **采集模块**
 
@@ -121,9 +139,9 @@ bookCollapseSection: false
 
   * 错误上报、码率统计、丢帧统计、日志上报
 
-## 三、<font color=red>推流端（主播）开源框架</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">三、<font color=red>推流端（主播）开源框架</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1、传统直播（RTMP/SRT/CDN） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1、传统直播（RTMP/SRT/CDN） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20251207142142317](./assets/image-20251207142142317.png)
 
@@ -136,7 +154,7 @@ bookCollapseSection: false
   * RTMP / RTMPS / SRT 推流
   * 支持 iOS / macOS / tvOS / visionOS，一直在更新，10 年老项目。
 
-### 2、互动直播 / 连麦（WebRTC 路线） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">2、互动直播 / 连麦（WebRTC 路线） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20251207143654489](./assets/image-20251207143654489.png)
 
@@ -150,7 +168,7 @@ bookCollapseSection: false
     * 发布本地 tracks（主播）
     * 订阅远端 tracks（观众 / 其他麦位）
 
-## 四、滤镜 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-6" data-jobs-toc="v2">四、滤镜 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 本质：对音视频信号做一层「加工处理」的算法或效果
   * 对**图像/视频**来说
@@ -171,11 +189,11 @@ bookCollapseSection: false
   * Banuba / 其他 Beauty AR SDK
   * 腾讯系美颜（TRTC / Beauty AR SDK）
 
-## 五、礼物特效 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-7" data-jobs-toc="v2">五、礼物特效 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 大部分「礼物特效」**严格意义上不叫滤镜**，但实现上会用到跟滤镜类似的渲染技术。<font color=red>**意味着礼物特效的播放是单独的播放引擎来处理**</font>
 
-### 1、可选方案 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">1、可选方案 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * [**SVGA**](https://svga.dev/)
 
@@ -256,7 +274,7 @@ bookCollapseSection: false
     * 价格：定制报价，更贵
     * 资格条件：最近 12 个月相关收入/融资 ≥ 2500 万美金 
 
-### 2、建议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-9" data-jobs-toc="v2">2、建议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 不建议用`*.gif`格式做动效
   * 帧率和画质很不耐看
@@ -268,7 +286,7 @@ bookCollapseSection: false
 * 视频播放也可以作为一个参考面
 * 3D特效需要更大的成本开销，在前期试探市场反应的情况下，不建议继续探索。成本更应该用在播放器的推拉流稳定性上
 
-## 六、整体构架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-10" data-jobs-toc="v2">六、整体构架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 底层：视频播放器（OC用[**ZFPlayer**](https://github.com/renzifeng/ZFPlayer)，Swift项目用[**BMPlayer**](https://github.com/BrikerMan/BMPlayer)）
 * 中间：普通 UI：弹幕、在线人数、主播信息等

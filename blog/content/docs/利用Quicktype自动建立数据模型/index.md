@@ -1,9 +1,9 @@
 ---
 title: "利用Quicktype自动建立数据模型"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 280
-summary: "quicktype@网页端 ## 一、安装 🔼 🔽 > ``shell > quicktype --version # 验证安装 > ` ### 1、手动安装 🔼 🔽 利用npm安装 利用Homebrew安装 ### 2、脚本安装 🔼 🔽 ## 二、在.zshrc里面配置全局函数 🔼 🔽 ### 使用方式 🔼 🔽 路径定位于目标文件夹，使用如下命令 qt q"
+weight: 940
+summary: "quicktype@网页端 📚 目录（点击展开 / 收起） - 一、安装 - 1、手动安装 - 2、脚本安装 - 二、在.zshrc里面配置全局函数 - 使用方式 ## 一、安装 🔼 🔽 > ``shell > quicktype --version # 验证安装 > ` ### 1、手动安装 🔼 🔽 利用npm安装 利用Homebrew安装 ### 2、脚"
 bookCollapseSection: false
 ---
 
@@ -19,14 +19,27 @@ bookCollapseSection: false
 
 > [**quicktype@网页端**](https://app.quicktype.io/)
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## 一、安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [一、安装](#jobs-toc-heading-1)
+  - [1、手动安装](#jobs-toc-heading-2)
+  - [2、脚本安装](#jobs-toc-heading-3)
+- [二、在.zshrc里面配置全局函数](#jobs-toc-heading-4)
+  - [使用方式](#jobs-toc-heading-5)
+
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > ```shell
 > quicktype --version # 验证安装
 > ```
 
-### 1、手动安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-2" data-jobs-toc="v2">1、手动安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 利用[**npm**](https://www.npmjs.com/)安装
 
@@ -44,7 +57,7 @@ bookCollapseSection: false
   brew install quicktype
   ```
 
-### 2、脚本安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">2、脚本安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 #!$SYSTEM_USR_DIR/bin/env bash
@@ -270,7 +283,7 @@ main() {
 main "$@"
 ```
 
-## 二、在`.zshrc`里面配置全局函数 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">二、在`.zshrc`里面配置全局函数 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 # ================================== 内部工具：选择 JSON 文件 ==================================
@@ -478,7 +491,7 @@ qt() {
 }
 ```
 
-### 使用方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">使用方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 路径定位于目标文件夹，使用如下命令
   * `qt`

@@ -1,11 +1,1475 @@
 ---
 title: "专题"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 590
-summary: "## 🔥 前言 返回 《iOS IM 开发研究手册》。本专题研究即时通讯的安全边界、端到端加密、呼叫控制和实时媒体工程；数据库入库与消息同步在主手册及对应专题展开。 安全来自清楚的信任边界，通话可靠性来自明确的状态机。 加密算法、媒体 SDK 和系统来电界面都只是组成部分，不能单独代表完整能力。 资料核对日期为 2026-09-25。本文中的架构、实验与阈值"
+weight: 460
+summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、先划清职责与成功语义 - 1.1、一条消息经过哪些层 - 1.2、不要把多种成功合成一个布尔值 - 1.3、连接层必须守住的四条不变量 - 二、传输方式如何选择 - 2.1、围绕约束选择 API 与协议 - 2.2、WebSocket 与 Network.framework 的边界 - 2.3、HTTP "
 bookCollapseSection: false
 ---
+
+
+## iOS IM 连接管理与推送后台
+
+
+![Jobs出品，必属精品](https://picsum.photos/1500/400)
+
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#%E5%89%8D%E8%A8%80)
+- [一、先划清职责与成功语义](#scope)
+  - [1.1、一条消息经过哪些层](#layers)
+  - [1.2、不要把多种成功合成一个布尔值](#success-levels)
+  - [1.3、连接层必须守住的四条不变量](#invariants)
+- [二、传输方式如何选择](#transport)
+  - [2.1、围绕约束选择 API 与协议](#transport-matrix)
+  - [2.2、WebSocket 与 Network.framework 的边界](#websocket-network)
+  - [2.3、HTTP 轮询与 SSE 的恢复设计](#polling-sse)
+  - [2.4、MQTT QoS 不等于 IM 业务“恰好一次”](#mqtt-qos)
+- [三、帧、业务包与接收背压](#framing)
+  - [3.1、三个长度边界分别处理](#frame-envelope)
+  - [3.2、一个连接只保留一个接收循环所有者](#receive-loop)
+  - [3.3、背压需要协议配合](#bounded-pipeline)
+- [四、连接状态机与异步竞态](#state-machine)
+  - [4.1、状态要能解释下一步动作](#states)
+  - [4.2、代次隔离比到处判断 isConnected 更可靠](#generation)
+  - [4.3、串行协调者只编排，不承包重活](#connection-owner)
+- [五、连接认证与令牌刷新](#authentication)
+  - [5.1、传输建立以后还需要业务会话](#auth-protocol)
+  - [5.2、single flight：一次刷新，多方等待](#single-flight)
+  - [5.3、刷新完成不代表已有连接自动换身份](#credential-lifecycle)
+- [六、心跳、超时与重连退避](#heartbeat)
+  - [6.1、先决定要探测哪一层](#heartbeat-semantics)
+  - [6.2、心跳不能拍脑袋固定成通用数字](#heartbeat-tuning)
+  - [6.3、退避、抖动与重试预算](#retry-jitter)
+- [七、弱网、切网、TLS 与代理](#network-change)
+  - [7.1、NWPathMonitor 不是业务可达性检测器](#path-monitor)
+  - [7.2、Wi-Fi 与蜂窝切换后怎么处理](#handover)
+  - [7.3、TLS 与代理问题如何定位](#tls-proxy)
+- [八、iOS 前后台与执行资格](#lifecycle)
+  - [8.1、把业务任务映射到正确系统机制](#background-matrix)
+  - [8.2、退后台时保住恢复点](#background-expiration)
+  - [8.3、被挂起、被终止、被用户强退要分开测](#suspension-recovery)
+- [九、APNs 与多设备通知一致性](#apns)
+  - [9.1、APNs 是提醒与同步线索](#apns-role)
+  - [9.2、请求成功、设备送达与用户查看分别观察](#apns-request)
+  - [9.3、Token、环境、账号不能混成一列](#device-token)
+  - [9.4、通知去重、消息去重和多端已读各自建模](#notification-dedup)
+- [十、通知扩展、冷启动与跨进程存储](#extensions)
+  - [10.1、NSE 只负责有限的通知加工](#nse)
+  - [10.2、App Groups 共享的是文件空间](#app-groups)
+  - [10.3、点击通知时先恢复上下文，再导航](#cold-start-routing)
+  - [10.4、PushKit 的来电职责不能借作保活](#pushkit)
+- [十一、可复现的研究与排障实验](#experiments)
+  - [11.1、先建立可观测实验环境](#test-harness)
+  - [11.2、实验输入、预期和判据](#failure-matrix)
+  - [11.3、研究指标与结论怎么写](#metrics)
+- [十二、常见问题与面试追问](#faq)
+  - [12.1、iOS IM 如何做到后台永远在线？](#faq-always-online)
+  - [12.2、WebSocket send 成功能把气泡改成已发送吗？](#faq-send)
+  - [12.3、为什么建议只保留一个 receive loop？](#faq-receive)
+  - [12.4、NWPathMonitor 显示有网，为什么仍然连不上？](#faq-network)
+  - [12.5、心跳间隔是不是固定 30 秒就够了？](#faq-heartbeat)
+  - [12.6、十个请求同时令牌过期，应该刷新十次吗？](#faq-refresh)
+  - [12.7、APNs 返回 200 为什么用户没有看到通知？](#faq-apns-success)
+  - [12.8、每条消息都发静默推送，就能补齐后台消息吗？](#faq-silent)
+  - [12.9、Device token 能当作账号或固定设备 ID 吗？](#faq-token)
+  - [12.10、NSE 与 App 可以用同一个数据库单例吗？](#faq-nse-database)
+  - [12.11、点击通知后能立即上报已读吗？](#faq-notification-read)
+  - [12.12、既然 PushKit 能唤醒，为何不用它接收普通聊天？](#faq-pushkit)
+
+</details>
+<!-- jobs-toc:end -->
+
+---
+
+## 🔥 <span id="前言">前言</span>
+
+> [返回《iOS IM 开发研究手册》](../iOS%20IM开发研究手册.md)。本专题解决三个问题：前台如何持续收发、断线如何恢复、后台无法常驻时如何提醒并补齐消息。
+
+**连接负责传输，业务协议负责确认与同步，推送负责通知；三者必须配合，不能互相替代。** 本文讨论普通即时通讯 App；真实音视频通话另有通话框架与后台能力要求。
+
+资料核对日期：**2026-09-25**。以下架构、参数选择与实验是工程设计建议；平台行为以链接中的官方说明、实际 SDK 和真机结果为准。伪代码没有编译运行，不代表任何商业 IM 的内部实现。
+
+阅读路线：<a href="#scope" style="color:red; font-weight:bold;">职责边界</a> → <a href="#transport" style="color:red; font-weight:bold;">传输选型</a> → <a href="#state-machine" style="color:red; font-weight:bold;">状态机</a> → <a href="#lifecycle" style="color:red; font-weight:bold;">后台边界</a> → <a href="#apns" style="color:red; font-weight:bold;">APNs</a> → <a href="#extensions" style="color:red; font-weight:bold;">通知扩展</a> → <a href="#experiments" style="color:red; font-weight:bold;">实验</a> → <a href="#faq" style="color:red; font-weight:bold;">FAQ</a>。
+
+## 一、<span id="scope">先划清职责与成功语义</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 1.1、<span id="layers">一条消息经过哪些层</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+```text
+消息发送意图 → 本地 Outbox → 应用协议 → 连接管理 → TLS / 传输
+                                                   ↓
+接收 UI ← 本地持久化与同步协调 ← 服务端消息系统 ← 接入网关
+                                  ↓
+                            APNs 通知链路
+```
+
+Outbox 是客户端持久化的待发送任务；消息系统负责服务端接收、分配标识、存储与投递；接入网关负责连接认证、路由和流量控制。即使前台长连接和 HTTP 补拉使用不同接口，最后也要进入同一套幂等落库流程。
+
+### 1.2、<span id="success-levels">不要把多种成功合成一个布尔值</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+| 观察到的事件 | 可以推断什么 | 不能据此推断什么 |
+| --- | --- | --- |
+| 本地 `send` 回调没有错误 | 当前发送操作在 API 定义层面成功 | 服务端已持久化消息 |
+| TCP 确认或 WebSocket Pong | 对应传输层或协议端点有响应 | 消息已落业务库、接收人已读 |
+| 服务端业务 ACK | 服务端完成协议约定的阶段 | 必然已经到达对方设备 |
+| 接收设备持久化回执 | 该设备完成约定的本地提交 | 该用户看到了消息 |
+| APNs 返回成功状态 | 推送请求被 APNs 成功接收处理 | 设备已经收到或用户已经看到 |
+| 通知被点击 | 用户触发了这个通知的动作 | 历史已补齐、消息内容已展示 |
+
+产品中的“发送中、已发送、已送达、已读”应有独立事件与时间戳，且明确“任一设备”还是“所有设备”。服务端业务 ACK 必须写入协议文档，不能由 iOS 客户端根据网络回调自行猜测。
+
+### 1.3、<span id="invariants">连接层必须守住的四条不变量</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+1、同一账号会话在单个客户端实例内，只有一个连接协调者拥有建连、关闭、重试和令牌刷新决策权。
+
+2、重连可以重复发送同一业务请求，但请求必须复用稳定的幂等标识；重连次数不能变成消息副本数。
+
+3、旧连接和旧账号的异步回调不能修改当前账号的连接状态、数据库或 UI。
+
+4、收到连接成功事件以后，仍须按已持久化游标补齐缺口；“在线”与“同步完成”是两个状态。
+
+## 二、<span id="transport">传输方式如何选择</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 2.1、<span id="transport-matrix">围绕约束选择 API 与协议</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+| 方案 | 适合的场景 | iOS 侧必须承担的工作 |
+| --- | --- | --- |
+| [**URLSessionWebSocketTask**](https://developer.apple.com/documentation/foundation/urlsessionwebsockettask) | 服务端提供标准 WebSocket，双向消息频繁 | 生命周期、认证、串行接收入口、超时、补拉与背压 |
+| [**Network.framework**](https://developer.apple.com/documentation/network) | 有明确自定义传输需求，或需要较细的连接与协议控制 | 协议分帧、状态管理、读写调度，以及所选传输的兼容验证 |
+| HTTP 短轮询 / 长轮询 | 原型、低频消息、受限网络中的降级通道 | 轮询游标、取消、超时、限流、重复响应和空轮询成本 |
+| [**SSE**](https://html.spec.whatwg.org/multipage/server-sent-events.html) | 服务端持续向客户端下发事件，上行可以另走 HTTP | 流式解析、事件 ID、重连恢复和上行链路协调 |
+| [**MQTT**](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html) | 已有 MQTT 基础设施、发布订阅模型适合业务 | SDK 评估、会话与订阅恢复、主题授权、业务幂等与后台策略 |
+
+表格是工程选型建议，不能只按“哪个更底层”作决定。先列业务 SLA、消息规模、协议控制权、代理环境、维护能力，再用同一组弱网与生命周期实验比较。
+
+### 2.2、<span id="websocket-network">WebSocket 与 Network.framework 的边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+标准 WebSocket 已经定义消息、分片、控制帧和关闭过程；采用系统 API 时，不要再手写一套 WebSocket 帧解析。原始 TCP 则只有字节流，需要设计长度前缀、版本、类型和上限，处理任意切分及合并。协议依据见 [RFC 6455](https://www.rfc-editor.org/rfc/rfc6455)。
+
+`Network.framework` 是网络 API 集合，不等于“自定义 TCP 协议”；也不能简单声称它必然比 `URLSession` 快。只有证据显示上层 API 无法满足协议或控制需求时，额外的实现与测试成本才有依据。
+
+### 2.3、<span id="polling-sse">HTTP 轮询与 SSE 的恢复设计</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+短轮询的时间间隔越短，延迟通常越低，但空请求和无线电唤醒成本越高。长轮询让服务端等待事件再返回，客户端处理后发起下一轮；需要避免两个轮询任务同时推进同一游标。代理提前断开属于常见恢复路径，不能当成无消息。
+
+SSE 使用 `text/event-stream`，事件可以携带 `id`，标准定义了重连时 `Last-Event-ID` 的语义；原生客户端需要实现或选用正确的解析器，不能把每个网络数据块当成一条完整事件。这个 ID 是否能直接作为 IM 同步游标，仍取决于服务端保存、过滤和补拉协议。标准细节见 [WHATWG SSE](https://html.spec.whatwg.org/multipage/server-sent-events.html)。
+
+上述方案都不赋予普通 App 后台永久运行资格。准备降级通道时，必须让长连接消息、轮询结果与 SSE 事件复用同一消息模型和去重规则，避免切换协议时重复入库、重复提示。
+
+### 2.4、<span id="mqtt-qos">MQTT QoS 不等于 IM 业务“恰好一次”</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+MQTT 的 QoS、会话过期、保留消息、遗嘱、订阅和消息过期各有明确协议语义；它们解决客户端与 Broker 等协议参与者之间的问题。即使采用 QoS 2，也不能自动覆盖“业务服务落库 → 多端扇出 → 接收端数据库 → 未读计数”的整条链路。
+
+评估 MQTT SDK 时，要验证持久会话恢复、客户端标识冲突、离线队列上限和重订阅行为。主题授权应由服务端执行，不能靠客户端约定“用户只订阅自己的 topic”。依据见 [OASIS MQTT 5.0](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html)。
+
+## 三、<span id="framing">帧、业务包与接收背压</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 3.1、<span id="frame-envelope">三个长度边界分别处理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+TCP 数据片段、WebSocket frame、应用 envelope 是三种不同边界。一个 WebSocket message 可以由多个 frame 构成；一个业务 envelope 也可以承载一批消息。业务批量包必须带条数、协议版本及必要标识，不能仅凭一次回调认定它是“一条聊天消息”。
+
+`URLSessionWebSocketTask.receive` 返回的是拼接完成的 WebSocket message。`maximumMessageSize` 限制其缓冲大小，包含 continuation frames 的累计字节数；还需另设解压后字节数、嵌套深度、单批消息条数等业务上限，防止“小压缩包解成大对象”。见 [maximumMessageSize](https://developer.apple.com/documentation/foundation/urlsessionwebsockettask/maximummessagesize)。
+
+### 3.2、<span id="receive-loop">一个连接只保留一个接收循环所有者</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+设计上让每个连接拥有一个 receive loop：一次接收成功，验证连接代次后把消息移交有界队列，再等待下一次接收；失败转交连接状态机。这里是为了简化顺序与生命周期的工程约束，不是声称框架通过它提供业务“恰好一次”。
+
+```text
+receiveLoop(connection, generation):
+    while generation == currentGeneration and not cancelled:
+        message = await connection.receive()
+        rejectIfOversizedOrUnsupported(message)
+        await boundedIngress.enqueue(message, accountEpoch, generation)
+    // error → only coordinator decides whether to reconnect
+```
+
+不要在 `receive`、心跳失败、网络变化和登录回调中分别启动新的循环。连接已经替换后，旧 loop 即使刚好收到一条有效消息，也必须按原账号与代次校验，不能直接写入当前库。
+
+### 3.3、<span id="bounded-pipeline">背压需要协议配合</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+接收后同步解析全部历史、建模并通知主线程，会让短时消息洪峰拖垮连接回调。推荐把轻量校验、解码、存储和展示分开，但各层都要有容量上限；并发解码结束顺序不能替代会话序列号。
+
+有界队列满时暂停继续请求消息，只能限制客户端下一段处理量，不能保证网络栈和服务端没有缓冲。可靠方案还应定义服务端窗口、分批拉取、限速，或关闭后通过持久化游标恢复。不能静默丢弃一批消息以后仍推进同步游标。
+
+## 四、<span id="state-machine">连接状态机与异步竞态</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 4.1、<span id="states">状态要能解释下一步动作</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+```mermaid
+stateDiagram-v2
+    [*] --> Stopped
+    Stopped --> Connecting: 已登录且允许连接
+    Connecting --> Authenticating: 传输建立
+    Authenticating --> Syncing: 业务认证通过
+    Syncing --> Ready: 补拉追平
+    Ready --> Backoff: 可重试失败
+    Connecting --> Backoff: 可重试失败
+    Authenticating --> Backoff: 暂时失败
+    Syncing --> Backoff: 暂时失败
+    Backoff --> Connecting: 当前重试计划到期
+    Authenticating --> AuthRequired: 凭据不可恢复
+    Ready --> Stopped: 注销或生命周期策略停止
+    Backoff --> Stopped: 注销或生命周期策略停止
+    AuthRequired --> Connecting: 完成重新登录
+```
+
+这个图展示主要路径；实际实现应让任何活动状态都能响应注销、取消、协议不兼容和凭据失效。`Ready` 表示已经完成本轮必要同步，不只是 WebSocket 握手完成。历史很长时可细分“实时通道可用”和“历史追平进度”，避免 UI 长期只显示连接中。
+
+### 4.2、<span id="generation">代次隔离比到处判断 isConnected 更可靠</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+`accountEpoch` 表示登录上下文代次，`connectionGeneration` 表示某次连接实例，`attemptID` 表示一次具体异步操作。新登录、注销或替换连接时递增相应代次；每个回调携带创建时的上下文，变更状态前先比较。
+
+这样可以拒绝“旧连接失败回调关闭了新连接”“A 账号刷新令牌成功后覆盖 B 账号令牌”“退后台前的重试定时器在回前台后再创建第二条连接”等竞态。取消任务仍需代次校验，因为取消与回调完成可以同时发生。
+
+### 4.3、<span id="connection-owner">串行协调者只编排，不承包重活</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+```text
+onEvent(event):
+    if event.accountEpoch != currentAccountEpoch: ignore
+    if event.hasGeneration and event.generation != currentGeneration: ignore
+    nextState, effects = reduce(state, event)
+    state = nextState
+    runEffectsOutsideStateMutation(effects)
+
+replaceConnection():
+    increment currentGeneration
+    cancel old receiveLoop, heartbeat, reconnectPlan
+    close old transport
+    start one new transport with currentGeneration
+```
+
+协调者可以由串行队列或 actor 实现，但网络请求、解密、数据库事务不应长时间占住其状态变更路径。使用 actor 也要考虑 `await` 之后状态已改变：恢复执行后重新核对账号代次和操作标识。
+
+## 五、<span id="authentication">连接认证与令牌刷新</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 5.1、<span id="auth-protocol">传输建立以后还需要业务会话</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+TLS 确认的是所连接端点的安全属性，业务认证确认当前账号及权限。认证可放在握手头或应用消息中，具体方式由服务端协议决定；需要协商账号、设备会话、协议版本、能力和恢复参数。不要把持久登录令牌放入容易进入访问日志的 URL 参数。
+
+只有拿到业务认证结果后才发送待发消息或补拉私有历史；认证失败时应停止相关调度。客户端本地时间不可靠，令牌提前刷新可以作为优化，但最终必须处理服务端返回的过期和撤销结果。
+
+### 5.2、<span id="single-flight">single flight：一次刷新，多方等待</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+同一账号可能同时有长连接、补拉请求、上传请求发现令牌过期。single flight 指这些请求共享一个正在进行的刷新任务，而不是各自刷新；否则刷新令牌轮换时容易互相覆盖并制造失效循环。
+
+```text
+validAccessToken(accountEpoch):
+    if cachedTokenStillUsable: return cachedToken
+    task = existingRefreshTaskForSameEpoch or createAndRegisterOne(accountEpoch)
+    try:
+        result = await task
+        if accountEpoch != currentAccountEpoch: reject stale result
+        install result atomically, without overwriting a newer token version
+        return result.accessToken
+    finally:
+        clear refreshTask only if it is still this task and this task has completed
+```
+
+失败也需要统一广播与分类。临时网络失败进入有限退避；刷新凭据被服务端撤销则进入需要登录状态。重放原请求时保留消息幂等标识，并设置认证重试预算，禁止每次 401 都无限刷新。
+
+### 5.3、<span id="credential-lifecycle">刷新完成不代表已有连接自动换身份</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+明确协议是否支持连接内重新认证；不支持时，用新令牌建立连接并同步恢复。不要假设修改内存中的 token 会更新已完成的握手。注销时使账号代次失效、取消刷新任务、停止发送，并按服务端协议解除设备推送绑定。
+
+## 六、<span id="heartbeat">心跳、超时与重连退避</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 6.1、<span id="heartbeat-semantics">先决定要探测哪一层</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+WebSocket Ping/Pong 用来探测 WebSocket 对端；若网关能够独立响应 Pong，它不能证明下游消息服务和数据库健康。业务心跳可以返回服务器时间、会话有效性或同步提示，但每个字段的含义都要有协议约定。控制帧语义见 [RFC 6455 第 5.5 节](https://www.rfc-editor.org/rfc/rfc6455#section-5.5)。
+
+至少区分建连超时、认证超时、心跳超时、单条消息 ACK 超时和补拉超时。消息 ACK 超时通常代表“结果未知”，需要查询状态或幂等重投；不能直接生成新消息 ID 再发一条。
+
+### 6.2、<span id="heartbeat-tuning">心跳不能拍脑袋固定成通用数字</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+心跳间隔应结合 NAT / 网关空闲超时、前台消息活跃度、网络 RTT、失败分布与能耗测量。无待确认心跳时才发下一个，记录对应探测 ID；使用单调时钟计算超时，避免系统时钟改变造成误判断。
+
+正常业务流量是否可以替代某种心跳，取决于它能否证明同一个探测目标仍活跃。App 从挂起恢复以后，先重评连接与时间基准，不要一次补发挂起期间所有 Timer 事件。
+
+### 6.3、<span id="retry-jitter">退避、抖动与重试预算</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+```text
+capForAttempt = min(maxDelay, baseDelay * 2^boundedAttempt)
+delay = randomUniform(0, capForAttempt)   // full jitter，示例策略
+schedule exactly one retry for current generation
+```
+
+这是示例策略，参数必须通过压测调整。加抖动是为了避免大量客户端在故障恢复时同时重连；指数增长需要截断，避免数值溢出。稳定在线一段时间或完成有效业务交互后再重置尝试计数，避免“刚连上就断”的故障被不断重置成零延迟。
+
+永久凭据失败、协议版本不支持、明确禁止接入不能无限重试。对暂时失败设置窗口内次数与总耗时预算；服务端下发限流或重试建议时按对应协议处理。用户主动重试也要通过协调者合并请求，不能绕过并发限制。
+
+## 七、<span id="network-change">弱网、切网、TLS 与代理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 7.1、<span id="path-monitor">NWPathMonitor 不是业务可达性检测器</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+[**NWPathMonitor**](https://developer.apple.com/documentation/network/nwpathmonitor) 观察网络路径变化；`satisfied` 表示路径可用于建立连接和发送数据，不证明 DNS、TLS、网关认证及业务 API 全部成功。状态定义见 [NWPath.Status](https://developer.apple.com/documentation/network/nwpath/status-swift.enum)。
+
+可以用路径事件触发一次合并后的连接重评、调整大文件传输策略和提示离线，但实际连接结果才是端点可达性的证据。不要先等待监控器判定网络“完美”，才允许首次请求；`requiresConnection` 也不等于永久无网。
+
+### 7.2、<span id="handover">Wi-Fi 与蜂窝切换后怎么处理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+切网可能保留连接、导致连接失败，或出现暂时看似在线的半开状态；取决于传输、系统与实际网络。先收集连接状态与读写结果，必要时进行探测或替换连接，随后从持久游标补齐。不要只凭接口名称变化就重建所有连接。
+
+弱网下区分高 RTT、丢包、上行受阻、下行受阻、DNS 失败和服务端过载。它们都可能表现为“转圈”，但修复不同：盲目增加心跳、并发重试和缩短超时，可能把可恢复网络拖成重试风暴。
+
+### 7.3、<span id="tls-proxy">TLS 与代理问题如何定位</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+排查顺序建议是域名解析 → 目标端口 → TLS 握手与主机名 → HTTP / WebSocket 握手 → 业务认证 → 同步请求。生产环境保留系统证书校验；使用自定义传输时也必须正确配置 TLS，不能把“换成 TCP”理解成可以省略安全验证。
+
+证书错误应检查域名、证书链、有效期、设备时间及企业代理环境。不要用关闭验证来修复生产连接失败。不同 API、代理类型与系统版本的行为需要实测；不能假定所有自定义 socket 都具备 `URLSession` 的代理集成能力。安全入口见 [Apple 安全网络连接](https://developer.apple.com/documentation/security/preventing-insecure-network-connections)。
+
+## 八、<span id="lifecycle">iOS 前后台与执行资格</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 8.1、<span id="background-matrix">把业务任务映射到正确系统机制</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+| 任务 | 可用机制 | 工程边界 |
+| --- | --- | --- |
+| 前台实时收发 | 长连接或流式 HTTP | 仍需断线恢复与幂等 |
+| 刚退后台时完成已开始的发送 / 保存 | `beginBackgroundTask` | 有限时间，必须处理到期并及时结束 |
+| 非实时维护、索引或清理 | 合适的 Background Tasks API | 系统调度，不能承诺某秒运行 |
+| 大文件上传 / 下载 | 后台 `URLSession` 文件传输 | 按任务与 session 标识恢复，不是通用 socket 保活 |
+| 普通消息提醒 | 用户可见 APNs 通知 | 系统决定呈现，不能替代完整消息同步 |
+| 静默刷新 | Background push | 尽力而为，可能延迟、合并和不交付 |
+| 真实 VoIP 来电 | PushKit 与 CallKit 的对应流程 | 仅按真实通话用途使用，不能伪装为普通 IM 保活 |
+
+机制选择依据见 [Apple 后台策略](https://developer.apple.com/documentation/backgroundtasks/choosing-background-strategies-for-your-app) 与 [后台文件下载](https://developer.apple.com/documentation/foundation/downloading-files-in-the-background)。新后台 API 的出现也不代表普通聊天连接获得任意时长执行权。
+
+### 8.2、<span id="background-expiration">退后台时保住恢复点</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+推荐顺序：停止非必要预取 → 保存待发送任务和必要进度 → 尽快结束当前短事务 → 在允许时间内完成必要网络操作 → 结束后台任务。到期处理要可取消、可重入，不在回调里启动全量同步或长事务。
+
+`beginBackgroundTask` 请求的是有限执行时间，并不是“每调一次增加固定分钟数”。每个成功取得的任务标识必须匹配结束调用；请求失败、提前到期和业务完成都要覆盖。具体约束见 [延长后台执行时间](https://developer.apple.com/documentation/uikit/extending-your-app-s-background-execution-time)。
+
+### 8.3、<span id="suspension-recovery">被挂起、被终止、被用户强退要分开测</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+普通 App 挂起后，自己的 Timer 和接收循环不能作为持续执行保证；进程被终止时也不能依赖某个退出回调保存最后状态。关键任务必须先持久化，启动与回前台均从持久状态恢复。
+
+用户强退与系统回收不是同一实验条件。后台通知可能被系统延后或丢弃，用户强退还会影响后台启动行为；可见通知、静默通知、真实 VoIP 来电应分别测试。不要从“某次真机收到了推送”推导所有状态都能唤醒主 App。背景通知限制见 [Apple Background updates](https://developer.apple.com/documentation/usernotifications/pushing-background-updates-to-your-app)。
+
+## 九、<span id="apns">APNs 与多设备通知一致性</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 9.1、<span id="apns-role">APNs 是提醒与同步线索</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+[**APNs**](https://developer.apple.com/documentation/usernotifications) 的交付不是消息数据库的可靠复制协议。通知 payload 携带最少必要的消息 / 会话定位与版本线索；真正内容和状态通过可靠同步取得。服务端保存消息是根本，App 没收到某条推送时，下次打开也必须能补齐历史。
+
+不能用“收到 5 条通知”直接给未读数加 5。折叠、延迟、跨端已读和撤回会让这个算法失真；通知中的 badge 也可能过时。回前台以后按可信同步结果校准会话未读和总 badge。
+
+### 9.2、<span id="apns-request">请求成功、设备送达与用户查看分别观察</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+服务端日志记录业务消息 ID、设备绑定版本、环境、topic、`apns-id`、响应状态与耗时；客户端按可观测入口记录通知回调、扩展处理和点击。APNs `200` 不能直接记为接收设备业务送达；错误应按 `reason` 分类。`BadDeviceToken` 要检查环境，`410` 要处理失效 token，而不是无休止重试。见 [APNs 响应](https://developer.apple.com/documentation/usernotifications/handling-notification-responses-from-apns)。
+
+`apns-expiration` 表示通知仍有价值的时效策略，`apns-collapse-id` 表示可合并通知的身份，`apns-push-type` 与优先级应匹配 payload。会话摘要可以考虑折叠，但撤回、来电与每条独立事件需分别设计；这些头都不是消息去重或排序协议。见 [发送 APNs 请求](https://developer.apple.com/documentation/usernotifications/sending-notification-requests-to-apns)。
+
+### 9.3、<span id="device-token">Token、环境、账号不能混成一列</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+APNs device token 表示 App 与设备组合的推送地址，不是用户 ID，也不是登录凭据。App 每次启动向系统注册，取得当前 token 后安全上传；不要依赖本地缓存 token 作为长期真值。注册失败要有后续恢复，服务端应支持同一账号的多个设备。依据见 [注册 APNs](https://developer.apple.com/documentation/usernotifications/registering-your-app-with-apns)。
+
+建议绑定键包含 `installationID + environment + topic + pushType`，绑定值包含账号、当前 token、绑定版本与更新时间；这是业务建模建议。开发、生产、多个 Bundle ID 和普通 / VoIP token 分开管理。设备重新安装时本地安装标识也可能变化，不能把它当永久硬件身份。
+
+切换账号时，用鉴权接口完成旧绑定解除和新绑定建立，携带单调绑定版本或服务端会话约束，拒绝晚到的旧请求。离线注销的解除请求可能暂时送不出去，因此通知文案要有隐私兜底，后续补偿解绑，点击与扩展处理都再次核对账号上下文。
+
+### 9.4、<span id="notification-dedup">通知去重、消息去重和多端已读各自建模</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+消息去重使用稳定业务消息 ID；通知展示去重可使用“账号 + 通知事件 ID + 修订号”；多端已读使用服务端定义的会话已读游标或事件。前台长连接和 APNs 同时到达时，可在 `willPresent` 里结合当前会话与展示策略决定是否提示，入库仍走统一幂等路径。
+
+服务器根据设备活跃租约和已读进度减少无效推送，但状态可能过期，不能完全避免所有重复提醒。另一设备已读后，本机同步更新并清理适用的已投递通知；不能保证远程已经显示的通知在没有本机执行机会时立即消失。前台呈现与通知动作入口见 [处理通知与动作](https://developer.apple.com/documentation/usernotifications/handling-notifications-and-notification-related-actions)。
+
+## 十、<span id="extensions">通知扩展、冷启动与跨进程存储</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 10.1、<span id="nse">NSE 只负责有限的通知加工</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+[**UNNotificationServiceExtension**](https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension) 可用于通知内容解密、补充展示信息或下载小附件；满足系统条件的可见远程通知及 `mutable-content: 1` 才会触发它。它不是静默通知通用处理器，也不是完整 IM 主进程的替身。
+
+先构造可安全展示的 `bestAttemptContent`，再异步加工。正常完成与 `serviceExtensionTimeWillExpire` 共享一次性完成门，确保只提交一次；到期时取消工作并尽快返回兜底内容。官方说明执行时间有限，不能把文档中的约数当成保证预算。条件与超时行为见 [修改新通知内容](https://developer.apple.com/documentation/usernotifications/modifying-content-in-newly-delivered-notifications)。
+
+原始 payload 的可见文字也要安全，因为扩展不执行、解密失败或超时时，系统可能显示原内容。不要把“把 body 改为空”当作可靠静默取消方案；敏感预览策略应在服务端构造通知时就确定。
+
+### 10.2、<span id="app-groups">App Groups 共享的是文件空间</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+[**App Groups**](https://developer.apple.com/documentation/xcode/configuring-app-groups) 允许 App 与扩展访问共享容器，但它们仍是不同进程；主 App 的单例、actor、串行队列和内存缓存不会自动对扩展生效。两边都需要正确的 entitlement、容器路径和数据版本约定。
+
+优先让扩展只读取必要快照或写入一个小型、可重放收件箱，主 App 恢复时统一合并；若必须共享数据库，就明确多进程并发、锁超时、迁移所有者与提交边界。不能在 NSE 中抢做复杂数据库迁移，也不能把进程内串行队列当成跨进程锁。
+
+共享偏好适合小配置，不能替代事务日志。共享数据库或文件还需考虑设备锁定时的数据保护可用性；解密密钥是否允许被扩展读取，应由安全方案和 Keychain 访问组决定，不能为了预览把全部密钥复制到普通共享偏好。
+
+### 10.3、<span id="cold-start-routing">点击通知时先恢复上下文，再导航</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+```text
+通知响应 → 解析受控路由意图 → 校验账号与 action → 保存待处理意图
+         → 恢复登录 / 打开账号库 → 等待目标 Scene 可用
+         → 查询本地消息，必要时补拉 → 导航会话并定位
+```
+
+路由结构建议包含 `accountID、conversationID、messageID、action、eventID`。只允许白名单动作，不执行任意 payload URL；目标不存在、被撤回、当前账号不同或权限已取消时，给出可解释的结果。通知点击不应绕过业务鉴权。
+
+尽早设置 `UNUserNotificationCenter.delegate`，把冷启动、热启动和通知动作汇入同一幂等路由队列。Scene 应由用户操作上下文及 App 的场景策略选定，不能直接使用 `connectedScenes.first`。原回调及时完成，导航等待与补拉可以交由拥有生命周期的协调者继续管理。
+
+只有消息达到产品定义的可读条件后才发送已读回执；进入通知回调不等于用户已读。快捷回复要像普通发送一样先建立持久 Outbox 和稳定请求 ID，失败后保留可恢复状态，不能为了回调完成就宣称发送成功。
+
+### 10.4、<span id="pushkit">PushKit 的来电职责不能借作保活</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+真实 VoIP 来电按照 [Apple PushKit 响应流程](https://developer.apple.com/documentation/pushkit/responding-to-voip-notifications-from-pushkit) 与适用的 CallKit 要求处理，及时报告来电并管理通话状态；服务端带稳定 call ID，防止延迟、重复和已取消来电制造重复界面。
+
+普通文字消息、拉历史、打心跳或后台保活不能伪装成 VoIP push。不能先把 PushKit 当作唤醒工具，再联网判断“其实没有来电”。真实通话的邀请、取消、超时和其他端接听，也要与通话信令状态机对齐。
+
+## 十一、<span id="experiments">可复现的研究与排障实验</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 11.1、<span id="test-harness">先建立可观测实验环境</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+准备测试账号、可控制的消息服务器、真机和可注入故障的测试网关；服务端支持延迟 ACK、重投、暂停下行、拒绝认证和指定错误。只对自有测试环境实施故障注入，日志去除 token、消息正文与个人信息。
+
+统一记录 `traceID、accountEpoch、generation、attemptID、messageID、connectionState、duration、queueDepth`；token 用不可逆摘要作关联。使用同一消息 ID 串起发送、本地提交、服务端 ACK、通知请求、设备补拉和展示，才能判断丢失发生在哪一层。
+
+### 11.2、<span id="failure-matrix">实验输入、预期和判据</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+| 实验 | 操作 | 通过判据 |
+| --- | --- | --- |
+| 半开连接 | 保持网络路径可用但丢弃测试连接下行 | 心跳 / 请求超时可检测，只有一个重连计划 |
+| ACK 丢失 | 服务端落库后丢弃 ACK | 原消息 ID 重试，双方各只有一条消息 |
+| 切网竞态 | 连续切换 Wi-Fi / 蜂窝并快速回前台 | 旧代次回调不关闭新连接，不出现双接收循环 |
+| 令牌失效洪峰 | 多个 API 与连接同时返回过期 | 同账号只有一个刷新任务，失败不会无限循环 |
+| 账号切换 | A 正在连接 / 刷新 / 接收时登录 B | B 库、连接和 UI 无 A 的数据或回调污染 |
+| 背压 | 下发大批消息并人为降低数据库吞吐 | 队列和内存有上限，恢复后无消息缺口 |
+| 后台到期 | 发送中退后台并触发可观察的到期路径 | 任务结束、恢复点保留，下次可继续 |
+| 推送重复与乱序 | 相同事件重复发送，旧通知晚到 | 消息不重复，未读不重复加，点击定位正确 |
+| NSE 失败 | 解密失败、附件超时、锁屏密钥不可用 | 安全兜底可展示，不泄露原始敏感内容 |
+| 冷启动路由 | 终止 App 后点通知，并制造登录过期 | 恢复账号后准确路由，未就绪时不乱跳 |
+
+每项保存设备型号、iOS 版本、构建配置、通知权限、网络条件、应用状态和服务端故障开关。模拟器适合部分逻辑回归，不能替代后台调度、真实 APNs、能耗和切网的真机证据。
+
+### 11.3、<span id="metrics">研究指标与结论怎么写</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+连接成功率应说明分母是用户会话、连接尝试还是活跃设备；同时报告恢复耗时分位数、重连次数、认证失败类型、同步追平时间、队列峰值和能耗。只看平均连接耗时，会掩盖少数用户持续重试的问题。
+
+推送至少分开统计“请求成功率”“可观察的设备处理率”“用户点击率”；无法观测的设备交付不能假装失败，也不能当作成功。实验结论写成“在这些设备、状态和注入条件下通过”，不要写成“保证任何情况下实时送达”。本文只完成资料与设计整理，上表实验尚未执行。
+
+## 十二、<span id="faq">常见问题与面试追问</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 12.1、<span id="faq-always-online">iOS IM 如何做到后台永远在线？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+普通 App 不应以后台永久长连接为架构前提。前台实时收发，后台使用合适的通知与有限执行机制，消息可靠性依靠服务端保存、持久游标、幂等重投和恢复补拉。真实通话按专用机制处理。
+
+### 12.2、<span id="faq-send">WebSocket send 成功能把气泡改成已发送吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+可以更新为“已交给传输层”，但产品“已发送”若表示服务端持久化，就必须等待对应业务 ACK。ACK 丢失时状态是未知，用同一幂等键重试或查状态，不能换 ID 再造一条。
+
+### 12.3、<span id="faq-receive">为什么建议只保留一个 receive loop？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+它让连接代次、取消、接收顺序与背压拥有单一所有者，降低重复订阅和旧回调污染风险。它不是业务去重机制；真正去重仍靠消息身份、唯一约束和同步协议。
+
+### 12.4、<span id="faq-network">NWPathMonitor 显示有网，为什么仍然连不上？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+路径可用不证明目标服务正常。DNS、TLS、代理、认证和服务器过载都可能失败。以实际请求错误和分阶段耗时定位，网络监控只作为调度线索。
+
+### 12.5、<span id="faq-heartbeat">心跳间隔是不是固定 30 秒就够了？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+没有通用最优值。根据网关 / NAT 超时、RTT、失败模式和能耗实验确定，并区分 WebSocket 端点存活与业务服务健康。低频过慢可能延迟发现，过密则增加网络与耗电成本。
+
+### 12.6、<span id="faq-refresh">十个请求同时令牌过期，应该刷新十次吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+不应该。同一账号代次共享一次刷新任务；成功后重试各自原请求，失败统一分类。A 账号的刷新结果不能写入切换后的 B 账号，原请求也必须有重试预算和幂等标识。
+
+### 12.7、<span id="faq-apns-success">APNs 返回 200 为什么用户没有看到通知？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+它说明请求成功，并不证明用户可见。还可能受设备连通性、时效、系统交付、通知授权、专注模式及呈现设置影响。分别查看 provider 日志、可用的 APNs 诊断和设备入口，不能用一个状态覆盖整条链路。
+
+### 12.8、<span id="faq-silent">每条消息都发静默推送，就能补齐后台消息吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+不能作为保证。静默推送可能被限流、延迟或不交付，它提供一次刷新机会。正确做法是在任何实际获得执行机会时从持久进度补齐，并在下次打开 App 时继续恢复。
+
+### 12.9、<span id="faq-token">Device token 能当作账号或固定设备 ID 吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+不能。它是特定 App 与设备组合的推送地址，可能变化且受环境与 topic 约束。账号关系由鉴权的服务端绑定管理，每次系统注册所得 token 都应进入绑定更新流程。
+
+### 12.10、<span id="faq-nse-database">NSE 与 App 可以用同一个数据库单例吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+不能共享内存单例，它们在不同进程。可以通过 App Groups 共享受控数据，但必须另外处理跨进程并发、锁、迁移和数据保护；复杂同步尽量交给主 App，扩展保持短小。
+
+### 12.11、<span id="faq-notification-read">点击通知后能立即上报已读吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+要看产品定义。点击时账号、数据库和目标 Scene 可能尚未就绪，消息也可能已经撤回。先完成合法路由与必要加载，满足“已展示 / 已进入阅读范围”等明确条件以后再更新已读。
+
+### 12.12、<span id="faq-pushkit">既然 PushKit 能唤醒，为何不用它接收普通聊天？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+VoIP push 有真实来电用途和对应的系统通话处理要求，不是通用后台执行通道。普通聊天使用 User Notifications；需要通知解密可采用符合触发条件的 NSE，消息完整性仍由同步协议保证。
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
+
+
+## iOS IM 聊天界面与多媒体工程
+
+
+![Jobs出品，必属精品](https://picsum.photos/1500/400)
+
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#%E5%89%8D%E8%A8%80)
+- [一、职责分层与稳定身份](#identity)
+  - [1.1、先定义关键对象](#jobs-toc-heading-3)
+  - [1.2、pending 消息与 ACK 的合并](#jobs-toc-heading-4)
+  - [1.3、会话列表是独立读模型](#jobs-toc-heading-5)
+- [二、长列表、差量更新与布局缓存](#list)
+  - [2.1、容器选型与窗口化](#jobs-toc-heading-7)
+  - [2.2、把一次数据变更压缩成一次合理更新](#jobs-toc-heading-8)
+  - [2.3、布局缓存必须能正确失效](#jobs-toc-heading-9)
+  - [2.4、异步 Cell 复用协议](#jobs-toc-heading-10)
+- [三、分页、阅读锚点与自动滚动](#anchor)
+  - [3.1、顶部分页保持同一行的视觉位置](#jobs-toc-heading-12)
+  - [3.2、新消息是否滚到底部](#jobs-toc-heading-13)
+- [四、键盘、输入框与页面几何](#input)
+  - [4.1、统一输入面板状态](#jobs-toc-heading-15)
+  - [4.2、键盘布局与安全区](#jobs-toc-heading-16)
+- [五、富文本、引用与自定义消息](#content)
+  - [5.1、文本协议比富文本显示对象更稳定](#jobs-toc-heading-18)
+  - [5.2、回复、线程与自定义卡片](#jobs-toc-heading-19)
+- [六、图片消息、缩略图与动图](#image)
+  - [6.1、区分文件大小与解码内存](#jobs-toc-heading-21)
+  - [6.2、动图与超大图](#jobs-toc-heading-22)
+- [七、语音消息与音频会话](#audio)
+  - [7.1、录制状态不能由按钮外观推断](#jobs-toc-heading-24)
+  - [7.2、中断、路由和贴耳播放](#jobs-toc-heading-25)
+- [八、视频、文件与上传流水线](#transfer)
+  - [8.1、先导入稳定文件，再处理和传输](#jobs-toc-heading-27)
+  - [8.2、上传凭证、断点与后台边界](#jobs-toc-heading-28)
+  - [8.3、附件缓存的保留与淘汰](#jobs-toc-heading-29)
+- [九、消息与附件跨资源恢复](#recovery)
+  - [9.1、用依赖关系驱动发送](#jobs-toc-heading-31)
+  - [9.2、逐个枚举崩溃窗口](#jobs-toc-heading-32)
+- [十、分享、隐私与无障碍](#accessibility)
+  - [10.1、系统入口与资源安全](#jobs-toc-heading-34)
+  - [10.2、可访问性必须进入布局设计](#jobs-toc-heading-35)
+- [十一、研究实验与验收矩阵](#experiments)
+  - [11.1、先定预算，再测量收益](#jobs-toc-heading-37)
+  - [11.2、形成可复现的证据](#jobs-toc-heading-38)
+- [十二、FAQ：带答案的工程追问](#faq)
+  - [12.1、消息已经出现在列表里，能否显示发送成功？](#faq-state)
+  - [12.2、高度缓存只用 messageID 做 key 是否足够？](#faq-layout)
+  - [12.3、顶部分页只加 contentSize 的高度差为什么会跳？](#faq-anchor)
+  - [12.4、图片请求已经 cancel，为什么仍然会串图？](#faq-reuse)
+  - [12.5、图片都已经压缩到 1 MB，为什么还内存暴涨？](#faq-media)
+  - [12.6、录音中断结束后自动恢复，体验是否更好？](#faq-audio)
+  - [12.7、无障碍能否等上线前只补 label？](#faq-accessibility)
+  - [12.8、上传成功后消息提交失败，是否必须重新上传？](#faq-upload)
+
+</details>
+<!-- jobs-toc:end -->
+
+---
+
+## 🔥 <span id="前言">前言</span>
+
+本文是 [iOS IM 开发研究手册](../iOS%20IM开发研究手册.md) 的界面与附件专题，覆盖消息进入界面、用户输入、媒体准备、发送、失败恢复与资源回收。数据库是可靠状态来源，聊天界面是状态的投影，附件流水线负责另一组独立且必须持久化的工作。
+
+以 [**UIKit**](https://developer.apple.com/documentation/uikit) 为主要讨论对象，不绑定特定 UI 框架。平台事实按 **2026-09-25** 查阅的 Apple 官方资料核验；业务状态机、缓存键和实验方案属于本文建议，应按协议与目标设备调整。所有流程代码均为语言无关伪代码，不能作为已编译的 SDK 示例。
+
+**阅读导航：** [职责与身份](#identity) → [列表与布局](#list) → [滚动锚点](#anchor) → [输入系统](#input) → [消息内容](#content) → [图片](#image) → [音频](#audio) → [视频与上传](#transfer) → [发送恢复](#recovery) → [隐私与无障碍](#accessibility) → [验证](#experiments) → [FAQ](#faq)。
+
+## 一、<span id="identity">职责分层与稳定身份</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1、先定义关键对象 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 对象 | 定义 | 生命周期与边界 |
+| --- | --- | --- |
+| 消息实体 | 内容、发送者、会话和状态组成的业务记录 | 不持有 Cell、图片解码对象或播放器 |
+| 展示模型 | 给定消息与环境下，界面需要的不可变数据 | 包含内容版本、状态文案、布局输入 |
+| 稳定 UI ID | 同一逻辑消息在列表内不变化的身份 | 不能用当前位置或发送状态生成 |
+| 服务端消息 ID | 服务端分配的业务身份 | 发送前可能不存在，不能直接代替本地身份 |
+| 渲染版本 | 会改变内容或外观的版本标记 | 和身份分离，改变版本不等于新增消息 |
+| 附件记录 | 一份文件的身份、准备和传输状态 | 可被多个消息引用，不归某个 Cell 所有 |
+
+建议分成 `ConversationRepository → MessageWindow → PresentationBuilder → ListRenderer`，附件使用独立 `AttachmentStore → MediaProcessor → TransferCoordinator`。输入面板只提交命令；仓储提交后的变更驱动页面。播放协调器按业务决定跨页继续或停止，不让复用 Cell 自己充当播放器状态仓库。
+
+<span style="color:red"><b>Cell 出现不代表消息已发送；上传进度 100% 不代表服务端已接受消息。</b></span> 区分本地保存、排队、准备附件、上传、提交消息、服务端接受、目标设备送达和已读。UI 展示多少级状态由产品决定，内部状态不能因此合并。[对应 FAQ](#faq-state)
+
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.2、pending 消息与 ACK 的合并 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+本地发送先生成 `clientMessageID`，同时建立持久 `localMessageKey` 作为 UI ID。ACK 是服务端对业务请求的确认，不是 TCP 确认；收到 ACK 后给原消息填入 `serverMessageID`、服务端时间和顺序号，保留 `localMessageKey`。远端补拉的同一条消息通过协议约定的 `clientMessageID` 或映射表与本地消息合并。
+
+| 事件顺序 | 正确处理 | 常见错误 |
+| --- | --- | --- |
+| 本地插入 → ACK → 同步回显 | 更新同一个实体与 UI ID | 把回显作为第三条消息 |
+| 本地插入 → 同步回显 → ACK | 先合并回显，ACK 再幂等补充 | ACK 到达后删除旧行再插入新行 |
+| 请求超时 → 重试 → 原 ACK 到达 | 同一幂等发送操作收敛 | 每次重试生成新消息，重复发送 |
+| 服务端排序位置改变 | 保留身份，按确认的排序规则移动 | 用创建时间覆盖可靠顺序号 |
+
+服务端未回传客户端关联标识时，单凭文本、时间和发送者匹配并不可靠，应修改协议或明确无法消除的歧义。消息删除、撤回、编辑也要保留足够版本信息，避免迟到回调重新显示已删除内容。
+
+Apple 的 Diffable Data Source 设计使用稳定标识；模型其他属性变化时，标识不应改变。业务层的 pending 合并策略是本文在此基础上的设计。[Apple：Make blazing fast lists and collection views](https://developer.apple.com/videos/play/wwdc2021/10252/)
+
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1.3、会话列表是独立读模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+会话行包含置顶顺序、最后有效消息摘要、最后活动排序键、未读数、免打扰、草稿、提及提示和发送失败提示。把这些字段从每条消息独立拼接，容易出现摘要已更新、未读仍旧值的短暂矛盾；优先发布同一持久化版本对应的会话快照。
+
+草稿是否影响排序、撤回后显示提示还是前一条有效消息、历史补拉是否影响最近会话顺序，都属于显式业务规则。低序号历史消息不应无条件覆盖最新摘要。在线状态、正在输入等短期信号使用失效时间和独立刷新节流，不能每个心跳重新排序全列表。
+
+## 二、<span id="list">长列表、差量更新与布局缓存</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2.1、容器选型与窗口化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+`UITableView` 适合相对规则的单列气泡；`UICollectionView` 对多形态布局、组合展示和自定义布局更灵活。选择依据是目标交互、团队维护能力与实测，不是“某个组件天生不卡”。先把数据正确性、测量成本和异步资源管理拆开，再决定容器。
+
+**窗口化**是只保留当前阅读位置附近的消息展示数据。复用 Cell 只限制可见视图数量，不会自动限制消息数组、富文本、图片帧和布局字典的大小。大历史会话应从本地库分页读取，保留前后缓冲窗；窗口淘汰时保护阅读锚点、播放消息和编辑中的目标。
+
+初始打开最新消息、定位未读、搜索跳转历史位置，应分别定义加载入口。定位历史消息时先建目标附近窗口，再补两侧历史；不要从最新页一直向前加载到目标。恢复窗口需要保存消息 ID 与相对位置，不能保存只对旧数组有效的 `IndexPath`。
+
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">2.2、把一次数据变更压缩成一次合理更新 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**Diff**是比较两份列表状态得到插入、删除、移动和内容变更。渲染管线接受一个有序事件流，合并同一短时间内的非关键变化，生成最新快照；已读回执和上传进度不应每一包都触发全量布局。
+
+| 变化 | 首选动作 | 需要检查 |
+| --- | --- | --- |
+| 发送状态图标变化 | 更新受影响的已存在项目 | 图标占位是否固定，是否改变高度 |
+| 文本编辑、翻译展开 | 内容更新并失效该消息布局 | 当前阅读锚点是否需要补偿 |
+| 新消息进入当前会话 | 插入稳定 ID | 是否贴底，是否显示新消息计数 |
+| 会话顺序变化 | 移动会话 ID | 手势操作期间是否延迟动画 |
+| 一次离线补拉大量消息 | 合并提交快照，按窗口展示 | 不为屏幕外全部消息逐条动画 |
+
+快照应用使用单一协调入口，避免两次异步更新交叉操作同一列表。可保存“最后已应用版本”和“待应用最新版本”；更新结束再处理后续版本。具体 API 是否允许在哪个队列计算或应用，应按采用的 SDK 文档处理；视图变更统一归主线程，禁止把“后台准备模型”理解成随意在后台操作 UIKit 对象。
+
+预取可以提前启动数据和图片准备，但预取请求可能取消，也可能没预取就直接显示。因此 Cell 配置必须能独立处理冷缓存。Apple 官方列表样例强调预取和图片准备；业务仍要自行实施有界队列与任务去重。[Apple：Building high-performance lists and collection views](https://developer.apple.com/documentation/uikit/building-high-performance-lists-and-collection-views)
+
+### <span id="jobs-toc-heading-9" data-jobs-toc="v2">2.3、布局缓存必须能正确失效 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**测量缓存**保存给定内容与布局条件下的高度、文字排版和附件区域。缓存键至少考虑 `UI ID + 内容版本 + 容器有效宽度 + 字号类别 + 版式版本`；按实现补充显示比例、语言方向、折叠状态、头像分组、引用内容版本。宽度使用实际布局宽度，不能用全屏宽度代替分屏窗口宽度。
+
+| 触发变化 | 失效范围 | 容易漏掉的关联 |
+| --- | --- | --- |
+| 正文编辑、翻译展开 | 当前消息 | 会话摘要、搜索高亮缓存 |
+| 图片尺寸元数据到达 | 当前附件消息 | 消息高度与滚动锚点 |
+| 插入或删除相邻消息 | 当前与相邻分组消息 | 昵称、头像、时间分隔和气泡尾巴 |
+| 字号、窗口宽度或方向变化 | 当前窗口内相关布局 | 缓存内同 ID 的旧环境结果 |
+| 引用消息被撤回 | 所有引用其快照的可见项 | 已缓存引用标题与高度 |
+
+纯文本预处理和线程安全的独立测量可以在受控执行器中进行；不要把正在显示的 `UITextView`、约束树或共享可变排版对象拿到后台复用。测量结果携带输入版本，回主线程应用前再比对，丢弃旧结果。缓存设容量上限并统计命中率，不能用命中率掩盖错误高度。[对应 FAQ](#faq-layout)
+
+### <span id="jobs-toc-heading-10" data-jobs-toc="v2">2.4、异步 Cell 复用协议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+每次绑定生成 `bindingGeneration`，保存消息 ID、资源键和请求句柄。解绑或复用时取消本 Cell 的订阅、重置进度、播放指示、占位和无障碍描述；共享资源请求只在没有订阅者且没有其他业务需求时才考虑取消。
+
+```text
+bind(cell, item):
+  cell.generation += 1
+  expected = (item.uiID, item.contentVersion, cell.generation, item.resourceKey)
+  renderSynchronousState(item)
+  subscribeResource(item.resourceKey, completion):
+    dispatchToUI:
+      if cell.currentBinding != expected: discard
+      else: applyPreparedResource(completion)
+```
+
+取消是节省工作，身份与版本校验才是拒绝迟到结果的最后防线。禁止在图片完成回调中使用旧 `IndexPath` 找当前 Cell；若通过数据源更新，也先按稳定 ID 查当前实体。[对应 FAQ](#faq-reuse)
+
+## 三、<span id="anchor">分页、阅读锚点与自动滚动</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-12" data-jobs-toc="v2">3.1、顶部分页保持同一行的视觉位置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**滚动锚点**是一条稳定消息及其相对可见区域的位置。正常正向列表的建议步骤如下；倒置列表也必须保持同一不变量，不能直接照搬坐标符号。
+
+1、更新前记录第一条合适的可见消息 `anchorID`，以及其顶部相对列表可视区域的 `oldVisualY`。同时记录是否贴底、是否拖动和当前布局环境。
+
+2、使用服务端或数据库分页游标加载更早消息，去重后合并到同一消息窗口，生成快照。请求带窗口世代标识；切换会话或跳转搜索结果后拒绝旧分页返回。
+
+3、应用快照并等待本轮实际布局，重新按 `anchorID` 查到 `newVisualY`。对正向列表使用 `contentOffsetY += newVisualY - oldVisualY`，把同一消息移回原来的视觉位置。
+
+4、随后若自适应高度发生二次变化，在更新协调器中继续维护锚点；避免与用户拖动争抢。锚点被撤回或过滤时选最近仍存在的可见邻居；视口变化时按产品确定保顶部阅读位置还是底部阅读位置。
+
+单纯用 `newContentSize.height - oldContentSize.height` 补偿，只适用于变化都发生在锚点之前且高度准确的受限场景。图片高度补全、页脚变化和键盘 inset 同时发生时，应优先用消息几何位置校正。记录坐标所在视图，不能把屏幕坐标、内容坐标和安全区偏移混在一起。[对应 FAQ](#faq-anchor)
+
+### <span id="jobs-toc-heading-13" data-jobs-toc="v2">3.2、新消息是否滚到底部 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**贴底**表示距离最新内容末尾处于产品定义的容差内，判断要计入有效底部 inset 与输入面板遮挡。收到新消息前捕获该状态；已贴底时保持末尾可见，正在看历史时保持阅读位置并累加“新消息”提示。
+
+用户主动发送消息通常进入跟随最新消息模式，但引用历史消息、搜索上下文和回复线程可以另设规则。键盘弹出、输入框增高和横竖屏切换沿用同一阅读模式；不能让三个独立回调各调用一次滚到底部，造成争抢和闪动。
+
+## 四、<span id="input">键盘、输入框与页面几何</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-15" data-jobs-toc="v2">4.1、统一输入面板状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+输入面板建议建模为 `idle / keyboard / emoji / attachment / recording`，另存草稿、选择区间、引用对象和焦点。状态切换由一个协调器更新输入区高度、列表底部可见区域和滚动策略，避免“键盘通知管理一次、表情面板再管理一次”的重复 inset。
+
+多行输入设置最小高度与最大可视高度，到上限后只滚动输入框内部。草稿节流持久化，在切会话等关键边界补写；中文拼音组合输入期间保留 marked text，不能每次输入都整段替换文本或强行重新解析 mention，破坏正在组合的输入。
+
+交互收起键盘时，消息列表和输入区同步跟随几何变化；输入框保留焦点和选择区语义。发送动作采用防重复提交标识，按钮防连点只是附加保护。外接键盘的回车、换行、快捷发送也要经过同一个发送命令入口。
+
+### <span id="jobs-toc-heading-16" data-jobs-toc="v2">4.2、键盘布局与安全区 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+`UIKeyboardLayoutGuide` 表示键盘在当前视图布局中占据的区域；该能力从 iOS 15 引入。非停靠键盘是否跟随是独立配置，默认不等于一直追踪悬浮键盘。系统键盘未显示时，指南默认涉及底部安全区，因此不能再盲目加一次底部安全区。[Apple：Your guide to keyboard layout](https://developer.apple.com/videos/play/wwdc2021/10259/)、[键盘布局样例](https://developer.apple.com/documentation/uikit/adjusting-your-layout-with-keyboard-layout-guide)
+
+采用通知兼容旧系统时，应把键盘 frame 转到当前窗口和页面坐标，求真实遮挡交集并跟随系统动画参数。不能使用“键盘高度固定 216”“全局第一个 Window”或只监听 show/hide。iPad 分屏、悬浮键盘、旋转和外接键盘候选栏都可能改变几何条件。
+
+输入附件视图与页面内输入条是两种实现选择，先选一种几何所有者。当前 Scene 管理自己的窗口、安全区和键盘关系。旋转或窗口调整前后保留阅读锚点、草稿、光标和选择态，重算宽度相关布局；列表短于一屏时另行定义贴底布局，不能依赖负高度填充凑位置。
+
+## 五、<span id="content">富文本、引用与自定义消息</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-18" data-jobs-toc="v2">5.1、文本协议比富文本显示对象更稳定 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+传输层保存正文与语义实体，例如 `mention(userID, range)`、链接、强调、引用 ID；展示层生成富文本。不要把本地平台专用富文本归档作为跨端协议。实体 range 必须约定按 UTF-8 字节、UTF-16 单元还是 Unicode 字符计算；表情组合、肤色和多语言输入应有跨端样例验证。
+
+mention 以用户 ID 表达身份，昵称只是展示快照；重命名不应改变被提及对象。对正文编辑、粘贴、撤销和选择区删除同步修正实体范围，无法保留完整实体时按约定降级为普通文本。服务端同样校验范围与长度，客户端展示不能假设外部消息合法。
+
+链接识别和预览解耦。点击前校验 scheme、目标和打开策略；预览请求设置大小、重定向和超时限制，不在列表滚动中同步抓网页。外链预览会产生网络可观察行为，可采用服务端代理或显式预览策略；端到端加密产品要评估代理是否额外暴露消息中的链接。
+
+### <span id="jobs-toc-heading-19" data-jobs-toc="v2">5.2、回复、线程与自定义卡片 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 能力 | 需要保存的语义 | 失败与兼容策略 |
+| --- | --- | --- |
+| 引用回复 | 原消息 ID、可选摘要快照、发送者 | 原文不存在、无权限或撤回时显示对应占位 |
+| 回复线程 | 线程根 ID、回复位置、线程读状态 | 主会话与线程的未读规则分别定义 |
+| 消息编辑 | 内容版本、编辑时间或事件版本 | 迟到旧版本不能覆盖新版本 |
+| 自定义消息 | 类型、schema 版本、结构化 payload | 未知版本显示安全摘要与升级提示 |
+| 交互卡片 | 业务资源 ID、动作类型、权限信息 | 展示状态和服务端操作结果分别更新 |
+
+卡片点击提交业务命令后，需要幂等键、当前账号权限和服务端返回；不能因为旧消息显示“可领取”就推断资源仍可领取。反序列化未知 payload 时设置长度、嵌套层数和字段上限；不允许消息携带任意脚本、类名或本地方法名后直接执行。
+
+回复跳转先解析权限与可恢复范围，再加载目标附近消息窗口。引用快照用于“这条回复当时指向什么”，原消息当前状态用于“现在是否允许展示”；撤回、过期和隐私策略应明确决定是否清除快照，避免形成撤回后的旁路保留。
+
+## 六、<span id="image">图片消息、缩略图与动图</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-21" data-jobs-toc="v2">6.1、区分文件大小与解码内存 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**Downsample（降采样）**是在解码阶段按目标显示像素生成较小图像。文件只有几 MB，不代表显示时也只占几 MB；例如 4,000 × 3,000、每像素 4 字节的位图，像素缓冲约 45.8 MiB，尚未算中间缓冲、对齐和其他副本。该计算仅说明量级，不代表所有图像固定采用此格式。
+
+列表使用缩略图，预览按显示需求请求更大版本，原图下载由用户动作或策略控制。目标像素由显示点尺寸与显示比例决定，宽高以方向修正后的图像为准。优先使用 [**Image I/O**](https://developer.apple.com/documentation/imageio) 进行尺寸适配，避免先完整解码原图再缩成小图；Apple 把适当缩放和色深控制列为降低图像内存的办法。[Apple：Making changes to reduce memory use](https://developer.apple.com/documentation/xcode/making-changes-to-reduce-memory-use)
+
+把下载字节缓存、解码图像缓存和布局尺寸缓存分开；缓存键包含账号隔离域、附件 ID、版本、目标像素规格和处理方式。签名 URL 只是短期访问凭证，不适合作为唯一内容身份。服务器提供的宽高不可信时做范围校验，未知尺寸使用有意义的加载外观，并在元数据到达后受控修正布局。
+
+### <span id="jobs-toc-heading-22" data-jobs-toc="v2">6.2、动图与超大图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**GIF 或其他动图**需要帧调度与解码预算。不要一次展开所有帧放入数组；限制预解码帧数、总像素和并发数量。只播放当前可见且符合策略的少量动图，离屏、后台或资源压力时停播；复用时通过附件 ID 恢复所需展示状态，而非把上一条动画留在 Cell。
+
+超长图和全景图按目标预览等级加载；特别大的原图可以研究分块显示或服务端分片，但要验证方向、缩放边界和缓存成本。格式类型、压缩率、帧数、像素尺寸都设预算，拒绝损坏或异常资源，避免仅依据文件后缀选择解码器。
+
+发送侧保留选图顺序和原始选择意图，分别产出上传版本与缩略图。默认是否保留 EXIF 定位、原图和动态信息是明确的隐私与质量策略；不要在“压缩一下”的工具函数里隐式决定。内存压力下先清理可重建解码缓存，不能删除待发送且唯一的源文件。[对应 FAQ](#faq-media)
+
+## 七、<span id="audio">语音消息与音频会话</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-24" data-jobs-toc="v2">7.1、录制状态不能由按钮外观推断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**音频会话**是应用向系统声明音频使用意图的机制；**语音消息**是录制后上传的文件，与实时通话链路不同。建议由应用级音频协调器仲裁语音播放、录制、视频播放和通话占用，页面只申请能力和订阅状态。
+
+```text
+idle → requestingPermission → preparing → recording → finalizing → ready
+                              ↘ failed       ↘ interrupted       ↘ failed
+recording → cancelling → idle
+ready → attachmentPipeline
+```
+
+按下录音先检查权限；用户允许后，还要确认按压会话仍然有效再启动录制，避免弹窗结束时手指早已抬起却开始录音。权限用途需要配置 `NSMicrophoneUsageDescription`；当前文档把旧 `AVAudioSession` 请求录音权限入口标为 deprecated，并指向 `AVAudioApplication`，具体版本分支按项目最低系统校验。[Apple：Recording permission](https://developer.apple.com/documentation/avfaudio/avaudiosession/requestrecordpermission(_:))
+
+停止录制后先完成容器写入，再验证文件存在、可解析和时长，最后移交附件管线。过短录音、磁盘不足、编码失败、页面退出、锁屏与系统打断有不同的用户反馈；未完成的文件不能假装可发送。计时显示用单调时间或实际媒体时间，波形采样用于展示，不作为文件已保存的证明。
+
+### <span id="jobs-toc-heading-25" data-jobs-toc="v2">7.2、中断、路由和贴耳播放 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+音频中断开始时更新业务状态、停止相关 UI 动画并记录播放位置或录制结果；中断结束后结合系统恢复选项、原先是否播放、用户是否仍希望播放、当前页面和通话状态决定恢复。不能把恢复提示解释为无条件重新开麦。[Apple：Handling audio interruptions](https://developer.apple.com/documentation/avfaudio/handling-audio-interruptions)
+
+耳机插拔、蓝牙切换与会话 category 变化属于路由变化。以实际当前路由为依据，处理“旧输出不可用”等原因；语音从耳机脱落后通常暂停或要求显式继续，避免私密内容突然外放。路由回调进入统一状态执行器，再向主线程发布 UI；不能假定所有系统回调都发生在主线程。[Apple：Route change notification](https://developer.apple.com/documentation/avfaudio/avaudiosession/routechangenotification)
+
+贴耳播放同时涉及距离感应、音频路由和屏幕交互，不能仅改一个扬声器开关。距离感应只在相关播放期间启用，结束后释放；并非所有设备都有距离传感器，启用失败要保留手动听筒/扬声器选择或其他可用体验。[Apple：Proximity monitoring](https://developer.apple.com/documentation/uikit/uidevice/isproximitymonitoringenabled)
+
+另外处理媒体服务重置、耳机与蓝牙能力差异、录音格式协商、波形缓存、连续播放队列和倍速播放策略。收到撤回/过期事件时停止受影响资源的播放；离开 Cell 只解除展示绑定，是否停止声音由播放协调器的规则决定。[对应 FAQ](#faq-audio)
+
+## 八、<span id="transfer">视频、文件与上传流水线</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-27" data-jobs-toc="v2">8.1、先导入稳定文件，再处理和传输 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**导入**是把系统选择器交付的资源变成应用可管理的输入。选择完成不等于文件已在本地：资源可能还需从 iCloud 读取，文件 URL 也可能有临时有效期或访问范围。导入失败、取消、资源不可下载和文件供应商失联必须独立反馈；长期任务使用受控副本或正确管理的授权访问。
+
+例如 `NSItemProvider` 的文件表示加载接口可以交付临时副本，相关文档明确说明该副本在完成处理器返回后删除；需要长期使用时应在有效期内复制到受控路径，不能只保存 URL 再让后台任务稍后读取。[Apple：Loading a file representation](https://developer.apple.com/documentation/foundation/nsitemprovider/loadfilerepresentation(fortypeidentifier:completionhandler:))
+
+视频处理先读元数据并判断能否直传；需要转码时确定分辨率、帧率、码率、音频、方向、HDR/SDR 和服务端兼容要求。`AVAssetExportSession` 通过预设和文件类型等条件导出，兼容性需要检查，不能把“扩展名改成 mp4”当转码；导出结果也未必更小。[Apple：AVAssetExportSession](https://developer.apple.com/documentation/avfoundation/avassetexportsession)
+
+转码设置并发上限与取消路径，按当前热状态和用户优先级调度；保留源文件直到产物校验完成。产物先写临时路径，成功后切换到正式附件路径，失败清理半成品。数据库事务无法包住文件系统和云存储所有操作，后续由 [恢复状态机](#recovery) 对账。
+
+### <span id="jobs-toc-heading-28" data-jobs-toc="v2">8.2、上传凭证、断点与后台边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 阶段 | 需要持久化的状态 | 恢复动作 |
+| --- | --- | --- |
+| 准备上传 | 附件 ID、版本、文件校验信息、大小 | 检查源文件与任务仍有效 |
+| 创建上传会话 | 服务端 upload ID、分片策略 | 过期或不存在时重建会话 |
+| 分片上传 | 已确认分片及服务端返回标识 | 向服务端对账，补传缺失分片 |
+| 完成对象 | 目标对象 ID、最终化结果 | 幂等查询或重做最终化 |
+| 提交消息 | 附件引用、消息幂等 ID | 按同一消息操作重试并去重 |
+
+签名 URL 到期应重新向业务服务鉴权并取凭证；先确认对象或分片是否已被接受，再重试，避免丢弃可用进度。凭证刷新必须绑定原账号、原附件与原版本，日志不能完整记录签名参数。鉴权失败、文件已删除和临时网络错误采用不同恢复路径。[对应 FAQ](#faq-upload)
+
+“断点续传”需要客户端、传输 API 和服务端协议共同支持。对象存储分片、HTTP 下载续传和 URLSession 上传恢复不是同一种能力；不要假定某个 resume data 可跨任意 URL、请求方法或存储供应商使用。检查服务端确认的字节或分片范围，不能仅依赖客户端显示过的进度。
+
+后台 `URLSession` 可把 HTTP/HTTPS 文件传输交给系统进程，但不承诺立刻执行。系统终止后可按同一会话标识重新关联任务；用户从多任务界面强制退出会取消后台传输，应用不会因此自动重启。用户再次启动后再对账恢复。[Apple：Background session configuration](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/background(withidentifier:))
+
+后台上传应遵守文件型任务的限制，不能把内存流式上传的一套假设直接搬过去；保存任务与业务附件的映射，并让源文件在任务需要期间可读。后台传输成功仍需回到业务消息提交阶段，不能直接把气泡标为送达。[Apple：Downloading files in the background](https://developer.apple.com/documentation/foundation/downloading-files-in-the-background)
+
+### <span id="jobs-toc-heading-29" data-jobs-toc="v2">8.3、附件缓存的保留与淘汰 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**缓存配额**按账号和资源类别分配磁盘、解码内存及并发预算，至少区分待发送唯一文件、已上传可重下文件、缩略图、临时转码产物和用户明确离线保留资源。LRU 表示优先淘汰较久未使用的条目，但必须先过滤不能删除的资源。
+
+删除文件采用“引用/租约检查 → 标记待清理 → 执行删除 → 更新索引”，播放、分享、导出和后台上传期间持有资源租约。进程异常后通过超时和任务对账释放旧租约；重建成本高但可恢复的文件可降低淘汰优先级。聊天记录删除和附件删除不能简单一对一，转发与多消息引用可能共享对象。
+
+## 九、<span id="recovery">消息与附件跨资源恢复</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-31" data-jobs-toc="v2">9.1、用依赖关系驱动发送 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**Outbox（发件箱）**是持久保存待执行发送意图的记录。每条发送意图关联零个或多个附件，只有所有必需附件满足约定状态才能提交引用这些附件的消息；纯文本不必等待无关上传。
+
+```mermaid
+flowchart LR
+    A[持久化发送意图与附件关联] --> B[准备附件文件]
+    B --> C[上传并最终化对象]
+    C --> D[幂等提交消息]
+    D --> E[服务端业务 ACK]
+    E --> F[更新原消息与会话投影]
+    B --> R[记录失败阶段与可恢复原因]
+    C --> R
+    D --> R
+    R --> B
+    R --> C
+    R --> D
+```
+
+失败恢复根据已持久阶段选择入口，图中的回路不表示盲目重做全部步骤。发送按钮点击后可以先显示“正在准备”的本地消息，但只有发送意图与附件关系已经可靠保存后，才承诺能够跨崩溃恢复。保存失败时保留草稿并明确失败，不清空唯一输入。[对应 FAQ](#faq-state)
+
+### <span id="jobs-toc-heading-32" data-jobs-toc="v2">9.2、逐个枚举崩溃窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 崩溃窗口 | 重启可观察状态 | 恢复原则 |
+| --- | --- | --- |
+| 已复制文件，尚未记录附件 | 孤立暂存文件 | 暂存清单或超期扫描回收 |
+| 已记录附件，文件未完成 | 记录存在但文件不完整 | 验证后重做准备或提示重新选择 |
+| 上传已成功，客户端没存结果 | 任务状态落后于云对象 | 用 upload ID 查询服务端结果 |
+| 云对象成功，消息被拒绝 | 孤立云对象与失败消息 | 按权限/内容错误提示，服务端延迟回收 |
+| 消息已接受，ACK 未收到 | 本地仍等待发送 | 用原幂等 ID 重试或查询结果 |
+| 用户取消时迟到成功回调 | 任务可能已完成 | 校验取消世代；按协议撤销/回收，不复活 UI |
+
+云端对象回收由服务端依据引用关系和保留期进行，不能让一个客户端超时就立即删除可能已被其他消息引用的对象。支持端到端加密时，附件密文、密钥封装和缩略图需作为明确资源处理，任何恢复步骤都不能把明文当作无害临时缓存。
+
+## 十、<span id="accessibility">分享、隐私与无障碍</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-34" data-jobs-toc="v2">10.1、系统入口与资源安全 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+优先通过 `PHPickerViewController` 获取用户选择的照片/视频，不为普通选图先索要全相册权限；选中的项目仍需异步加载。直接管理相册、拍摄和保存到相册是不同权限需求；仅保存内容时采用对应的添加权限级别。[Apple：Selecting Photos and Videos in iOS](https://developer.apple.com/documentation/photokit/selecting-photos-and-videos-in-ios)
+
+文件选择器、系统分享和拖放输入统一进入导入管线：校验类型、大小、文件名和内容，防止路径越界；不信任扩展名，不自动执行附件。用户导出的文件副本有自己的保留与清理规则；系统分享完成回调也不等于某个外部收件人已收到。
+
+转发生成新的消息操作和新的发送身份，按策略引用现有附件或复制资源，不复用原消息 ID。跨会话转发需检查目标权限、内容有效期及端到端加密会话的密钥边界，不能直接搬运仅原会话可解密的引用。
+
+剪贴板读取必须有可理解的用户动作，避免进入聊天页就读取敏感内容。系统 `UIPasteControl` 表达用户的粘贴意图；iOS 16 起程序化读取粘贴内容可能触发授权提示，应适配其实际交互。[Apple：UIPasteControl](https://developer.apple.com/documentation/uikit/uipastecontrol)
+
+账号退出先停止展示订阅和任务回调，再隔离/清理该账号的明文缓存及授权状态；共享设备的缓存键必须包含账号域。日志记录附件 ID、阶段与错误分类，避免消息正文、文件绝对路径、身份凭证或敏感缩略图进入诊断上传。
+
+文件保护等级会影响锁屏后的可访问性：`complete` 在锁屏时不能读写，`completeUntilFirstUserAuthentication` 在开机首次解锁后仍允许后续锁屏期间访问。按资源敏感度和后台传输需求明确选择并测试，不能为了上传方便把所有聊天文件统一降级；设备文件保护也不等于端到端加密。[Apple：FileProtectionType](https://developer.apple.com/documentation/foundation/fileprotectiontype)、[首次解锁保护语义](https://developer.apple.com/documentation/foundation/fileprotectiontype/completeuntilfirstuserauthentication)
+
+### <span id="jobs-toc-heading-35" data-jobs-toc="v2">10.2、可访问性必须进入布局设计 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**Dynamic Type**是系统按用户选择调整文字大小的能力。使用系统文本样式或可缩放自定义字体，同时允许控件和气泡高度随之变化；只把字体放大而保持固定高度会裁切。字号变化应进入 [布局缓存键](#list)。[Apple：Scaling fonts automatically](https://developer.apple.com/documentation/uikit/scaling-fonts-automatically)
+
+**VoiceOver**是系统屏幕朗读能力。消息读法建议组织为“发送者、正文或媒体类型、时间、发送状态”，避免把头像、昵称和气泡重复朗读。播放、复制、回复、重试等提供有名称的可访问动作，不能只能靠长按或滑动触发。[Apple：UIAccessibilityCustomAction](https://developer.apple.com/documentation/uikit/uiaccessibilitycustomaction)
+
+**RTL**是从右向左的界面方向。区分语言方向、文本自身方向和消息收发归属；使用方向语义布局，播放进度等控件不应机械镜像。`semanticContentAttribute` 用于表达此类视图语义。[Apple：Semantic content attribute](https://developer.apple.com/documentation/uikit/uiview/semanticcontentattribute)
+
+新消息突发时不逐条打断 VoiceOver 朗读；根据当前焦点和用户阅读模式合并提示并保持焦点。发送失败不能只变红，需有文字或可访问状态；减少动态效果、提高对比度、深浅色和大字号都纳入实验矩阵。[对应 FAQ](#faq-accessibility)
+
+## 十一、<span id="experiments">研究实验与验收矩阵</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### <span id="jobs-toc-heading-37" data-jobs-toc="v2">11.1、先定预算，再测量收益 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+性能指标至少包括首个可读消息时间、打开会话耗时、快照应用耗时、布局耗时、主线程停顿、滚动卡顿、解码峰值内存、磁盘缓存量、上传耗时与失败阶段分布。区分冷缓存和热缓存、实时流和离线补拉、短会话和长历史，按设备类别记录分位数而非仅平均值。
+
+60 Hz 与 120 Hz 的显示周期分别约 16.7 ms、8.3 ms，但不能把整段周期都当应用主线程可独占的预算；帧是否完成还受系统调度和渲染工作影响。以 [**Xcode**](https://developer.apple.com/xcode/) 和 Instruments 的实际表现定位瓶颈，不凭视觉感觉认定“异步就没问题”。
+
+| 实验 | 注入方式 | 正确性验收 |
+| --- | --- | --- |
+| 稳定身份 | ACK、回显、重试随机排序 | 同一消息只出现一次，状态收敛 |
+| 历史分页 | 连续向上翻页并插入实时消息 | 当前阅读消息不跳走，顺序不重复 |
+| 动态高度 | 缩略图迟到、编辑、字体放大同时发生 | 无裁切，锚点误差在项目阈值内 |
+| 高速复用 | 快速滑动并注入乱序图片响应 | 零串图、零旧状态、无残留播放指示 |
+| 键盘几何 | 旋转、分屏、悬浮、外接键盘与表情切换 | 输入可见，inset 不重复，草稿保留 |
+| 极端媒体 | 超长图、大动图、损坏文件、HDR 视频 | 有界内存，明确拒绝/降级，不假成功 |
+| 录音中断 | 来电、拒权、路由变化、磁盘不足 | 不静默丢录音，不自动重新开麦 |
+| 上传恢复 | 丢 ACK、签名过期、分片部分完成后终止 | 不重复消息，不重传已确认有效分片 |
+| 后台边界 | 正常挂起、系统终止、用户强退分别测试 | 各自符合恢复规则，不混称后台可靠 |
+| 跨账号 | 上传中退出并登录另一账号 | 回调、缓存、气泡和凭证不串账号 |
+| 无障碍 | 最大字号、VoiceOver、RTL、减少动态效果 | 可阅读、可操作，焦点与语义一致 |
+
+### <span id="jobs-toc-heading-38" data-jobs-toc="v2">11.2、形成可复现的证据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+每组保存设备、系统、构建配置、消息分布、资源尺寸、网络条件、缓存状态和操作脚本。比较方案时只改变一个主要变量，例如测量缓存、图片降采样或快照合并；同时记录尾延迟和资源峰值，避免一个指标改善而另一个恶化。
+
+后台行为在真机脱离调试器验证，并区分主动强退和系统终止。当前文档只核验资料与结构，未宣称完成这些真机实验，也未把演示伪代码当成生产库。实验中的阈值由产品规模与最低支持设备确定，不提供“所有 IM 通用”的硬编码标准。
+
+## 十二、<span id="faq">FAQ：带答案的工程追问</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
+
+### 12.1、<span id="faq-state">消息已经出现在列表里，能否显示发送成功？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+不能。出现只说明本地展示状态已创建；本地持久化、附件上传、服务端接受、设备送达和已读是不同事实。发送成功标签至少绑定协议定义的业务确认，附件成功不能代替消息确认。崩溃恢复依赖持久发件箱和幂等操作，不依赖 Cell 是否显示过。[返回发送状态](#identity)、[返回恢复设计](#recovery)
+
+### 12.2、<span id="faq-layout">高度缓存只用 messageID 做 key 是否足够？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+不够。同一消息在宽度、字号、编辑版本、翻译展开和引用变化后可能高度不同；相邻分组变化也可能影响头像和时间分隔。将影响布局的输入纳入 key 或失效规则，结果应用时验证版本。命中一个错误缓存比重新测量更糟。[返回布局缓存](#list)
+
+### 12.3、<span id="faq-anchor">顶部分页只加 contentSize 的高度差为什么会跳？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+因为高度差可能包含锚点之后的变化，也可能仍是估算高度；键盘、图片尺寸与安全区还会共同影响坐标。保存稳定消息 ID 和视觉位置，在实际布局后校正该消息位置，再处理后续高度变化。锚点删除时准备相邻候选。[返回锚点算法](#anchor)
+
+### 12.4、<span id="faq-reuse">图片请求已经 cancel，为什么仍然会串图？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+取消和完成回调存在竞态，已排队回调仍可能到达；共享请求也可能继续服务其他页面。绑定时记录 UI ID、内容版本、资源键和世代，回调应用前再次比较。取消负责减少浪费，校验负责保证正确性。[返回复用协议](#list)
+
+### 12.5、<span id="faq-media">图片都已经压缩到 1 MB，为什么还内存暴涨？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+压缩文件大小与解码位图大小不是同一维度；多个高像素图片、动图帧和中间副本可以同时占用大量内存。按显示规格降采样，限制解码与动图帧缓存，并分别管理文件缓存和解码缓存。排查时看像素、并发与生命周期。[返回图片工程](#image)
+
+### 12.6、<span id="faq-audio">录音中断结束后自动恢复，体验是否更好？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+不一定。恢复播放要结合系统选项与用户意图；恢复录音可能在用户未察觉时重新开麦。保存可用录音或明确提示中断，由用户继续操作，并在状态机中区分播放恢复与录音重新开始。路由改变也要防止私密内容意外外放。[返回音频状态](#audio)
+
+### 12.7、<span id="faq-accessibility">无障碍能否等上线前只补 label？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+不能。大字号影响布局和缓存，VoiceOver 影响焦点与操作入口，RTL 影响方向语义，失败提示不能只依赖颜色。只补 label 无法修复固定高度裁切或只能滑动触发的动作；从展示模型、布局和交互设计阶段纳入。[返回无障碍](#accessibility)
+
+### 12.8、<span id="faq-upload">上传成功后消息提交失败，是否必须重新上传？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+不必。先按附件版本与上传会话查询有效对象，能复用时只重试消息提交。对象未最终化则补最终化，凭证过期则重新鉴权；只有文件或会话确实不可继续时才重建上传。云对象的延迟回收由引用关系与服务端规则决定。[返回上传管线](#transfer)、[返回崩溃窗口](#recovery)
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
+
+
+## 不同后端能力下的 iOS IM 客户端适配
+
+
+![Jobs出品，必属精品](https://picsum.photos/1500/400)
+
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#jobs-toc-heading-1)
+- [一、通用方法与责任边界](#formula)
+  - [1.1、可以复用的公式](#jobs-toc-heading-3)
+  - [1.2、客户端可以保证的部分](#jobs-toc-heading-4)
+  - [1.3、条件、策略、承诺分开写](#jobs-toc-heading-5)
+- [二、后端能力矩阵与证据](#capabilities)
+  - [2.1、每项能力至少有三种认知状态](#jobs-toc-heading-7)
+  - [2.2、核心接入能力表](#jobs-toc-heading-8)
+  - [2.3、能力不能只靠一次成功请求推断](#jobs-toc-heading-9)
+  - [2.4、协议升级也是能力迁移](#jobs-toc-heading-10)
+- [三、稳定内核与适配器的具体边界](#adapter)
+  - [3.1、模块输入与输出](#jobs-toc-heading-12)
+  - [3.2、归一化事件保留来源和未知值](#jobs-toc-heading-13)
+  - [3.3、内核负责不变量，适配器负责解释](#jobs-toc-heading-14)
+  - [3.4、SDK 接入先确定唯一所有者](#jobs-toc-heading-15)
+- [四、发送、超时与去重的条件化策略](#send-policy)
+  - [4.1、把结果未知作为正式状态](#jobs-toc-heading-17)
+  - [4.2、策略选择伪代码](#jobs-toc-heading-18)
+  - [4.3、幂等键不是唯一的检查项](#jobs-toc-heading-19)
+  - [4.4、没有稳定 ID 时的明确限制](#jobs-toc-heading-20)
+- [五、同步、分页和历史完整性的适配](#sync-policy)
+  - [5.1、按实际能力选择恢复策略](#jobs-toc-heading-22)
+  - [5.2、顺序号必须先定义作用域](#jobs-toc-heading-23)
+  - [5.3、时间戳重叠窗口只能尽力补漏](#jobs-toc-heading-24)
+  - [5.4、删除、编辑和权限不能靠列表缺项推断](#jobs-toc-heading-25)
+- [六、面向产品行为的降级表](#feature-policy)
+  - [6.1、回执、未读与多端](#jobs-toc-heading-27)
+  - [6.2、权限、撤回与附件](#jobs-toc-heading-28)
+  - [6.3、没有长连接或推送的运行方式](#jobs-toc-heading-29)
+- [七、协议错误到客户端动作](#errors)
+  - [7.1、错误分类先于通用重试](#jobs-toc-heading-31)
+  - [7.2、限制重试放大与错误回退](#jobs-toc-heading-32)
+- [八、三种后端组合的完整接入示例](#cases)
+  - [8.1、案例 A：普通 HTTP 聊天接口](#jobs-toc-heading-34)
+  - [8.2、案例 B：有实时通道、同步能力不完整](#jobs-toc-heading-35)
+  - [8.3、案例 C：成熟 SDK 托管消息能力](#jobs-toc-heading-36)
+- [九、接入评审与问题定位模板](#review)
+  - [9.1、可以直接填写的评审记录](#jobs-toc-heading-38)
+  - [9.2、典型故障先按证据分层](#jobs-toc-heading-39)
+- [十、只有 iOS 环境时的研究与验证](#evidence)
+  - [10.1、无需服务器即可检查的内容](#jobs-toc-heading-41)
+  - [10.2、区分四种结论](#jobs-toc-heading-42)
+- [十一、FAQ：生产追问与面试回答](#faq)
+  - [11.1、有没有能适配所有后端的 IM 架构？](#faq-formula)
+  - [11.2、接口有 client\_message\_id，就说明支持幂等吗？](#faq-capability)
+  - [11.3、后端不支持幂等，发送超时后客户端怎么办？](#faq-timeout)
+  - [11.4、没有消息 ID，能不能用内容哈希去重？](#faq-identity)
+  - [11.5、长连接正常，为什么还可能丢历史或者漏撤回？](#faq-sync)
+  - [11.6、后端不给已读和未读数，客户端能自己算吗？](#faq-receipt)
+  - [11.7、用商业 SDK，还需要自己实现一套消息数据库和重试吗？](#faq-sdk)
+  - [11.8、只有 iOS 环境，能把研究做到对生产有帮助吗？](#faq-no-backend)
+
+</details>
+<!-- jobs-toc:end -->
+
+---
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
+
+> 面向只有 iOS 开发环境、需要接入不同团队后端的工程师。目标是形成可以用于接入评审、客户端实现和面试答题的通用方法，不要求自行部署消息服务器、推送服务或音视频服务。
+
+**资料核对：2026-09-26。** 本文的模块、策略和案例是参考设计，没有对应的已运行产品。平台限制与协议事实附官方来源；后端能力只有获得具体项目契约后才能视为已确认。
+
+<font color=red>**通解是把差异收在明确的边界里，让客户端在已知条件下做正确的事；不能从缺失的服务能力中创造可靠性保证。**</font>
+
+[返回总册](../iOS%20IM开发研究手册.md) · [连接与后台](./iOS连接管理与推送后台.md) · [聊天 UI 与媒体](./聊天界面与多媒体工程.md) · [安全与通话](./安全加密与音视频通话.md)
+
+## 一、<span id="formula">通用方法与责任边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1、可以复用的公式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+```text
+可交付客户端方案
+  = 已确认的后端能力与语义
+  + 稳定的客户端内核
+  + 协议 / SDK 适配器
+  + 按能力选择的策略
+  + 明确的降级行为和验证边界
+```
+
+这是工程分解方法，不是质量打分公式。后端可以长于实时分发、弱于历史分页；也可以提供成熟同步协议，却没有逐人已读。能力是多维组合，不适合简单分为“高级后端 / 低级后端”。
+
+稳定内核处理账号隔离、任务持久化、事件合并、数据库事务、UI 身份和观测。适配器处理字段、错误、分页和回调语义；策略决定是否自动重试、如何补历史、显示哪种状态。[对应 FAQ](#faq-formula)
+
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.2、客户端可以保证的部分 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 在约定条件下可以落实 | 不能单靠客户端补出的部分 |
+| --- | --- |
+| 本地发送意图与待发气泡共同提交 | 服务端是否已持久化该意图 |
+| 同一稳定身份的消息不重复入库 | 无任何稳定关联信息时识别所有重复投递 |
+| 重放同一有效事件不反复累加未读 | 服务端遗漏的历史、编辑和撤回事实 |
+| 账号退出后旧回调不修改新账号 | 远端设备是否真的删除了历史内容 |
+| 列表分页、布局和内存有边界 | 任意后端都能提供完整且稳定的分页 |
+| 失败状态准确、有日志可定位 | 系统后台必然唤醒、通知必然到达 |
+
+“本地保存”仍受存储错误、保护状态及所选耐久策略约束。客户端要检查提交结果，不能在落库失败时仍显示“已保存，稍后自动发送”。
+
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1.3、条件、策略、承诺分开写 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+接入结论使用固定句式：**当条件成立时，采用某策略，可以承诺某种行为；条件不成立时，采用某种降级，并保留某项限制。**
+
+例如：服务端在账号范围内、指定期限内按发送键幂等，则期限内重试复用该键；期限已过且旧结果未知，转入结果确认流程，不能只因为本地任务仍存在就持续重发。
+
+“自动重试三次”是策略参数；“重试不会产生第二条业务消息”是依赖服务端的承诺。二者不能互相代替。
+
+## 二、<span id="capabilities">后端能力矩阵与证据</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2.1、每项能力至少有三种认知状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 状态 | 含义 | 默认处理 |
+| --- | --- | --- |
+| `unknown` | 未确认，或资料与实际行为冲突 | 不启用依赖该保证的策略，保留确认项 |
+| `unsupported` | 明确不支持 | 选择已定义的降级，关闭对应产品承诺 |
+| `supported(contract)` | 在指定范围和版本下支持 | 按契约参数执行，并记录证据 |
+
+`unknown` 不能改写为 `false` 后永久遗忘，也不能因为“通常都会有”就当成 `true`。能力还应记录作用域、协议版本、确认人 / 文档、核对日期和验证状态。
+
+存在字段不代表存在保证。请求带了 `client_message_id`，只能证明客户端发送了该字段，不能证明服务器按它幂等。[对应 FAQ](#faq-capability)
+
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">2.2、核心接入能力表 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 能力 | 必须确认的语义 | 对客户端的影响 |
+| --- | --- | --- |
+| 账号与租户 | ID 在租户内还是全局唯一 | 存储键与所有缓存带完整作用域 |
+| 消息 ID | 在线、历史、导出是否同一身份；是否可能重用 | 去重、引用、撤回目标和本地映射 |
+| 发送幂等 | 键的作用域、期限、同键异内容如何处理 | 超时重试是否安全、任务过期策略 |
+| 结果查询 | 按哪种键查询；“未找到”是否最终结论 | 未知结果能否自动恢复 |
+| ACK | 网关收到、业务接受、持久化完成还是其他阶段 | 气泡状态、任务何时结束 |
+| 顺序位置 | 会话 / 账号 / 分片维度，比较规则和连续性 | 排序、补洞和已读位置 |
+| 增量游标 | 作用域、事件类型、保留期限、重放与失效规则 | 同步断点、状态收敛范围 |
+| 历史分页 | offset、时间、消息键或不透明 token；快照稳定性 | 翻页重叠、去重、窗口边界 |
+| 删除与编辑 | 版本、目标 ID、离线重放、墓碑保留 | 防旧内容复活、目标迟到处理 |
+| 回执 | 账号 / 设备 / 会话 / 线程；群成员分母 | 已送达、已读和聚合展示 |
+| 未读 | 权威总数、读位置、排除规则、重算方式 | 数量、红点与多端合并 |
+| 权限 | 成员变动版本、撤销事件、历史可见性 | 禁用操作、清理与刷新范围 |
+| 附件 | 上传完成、业务确认、引用生命周期、授权刷新 | 上传重试和消息发送依赖 |
+| 传输 | 可用 HTTP / 长连接入口、超时、心跳、限流 | 连接策略与前台刷新计划 |
+| 推送 | 绑定环境、账号解绑、载荷和路由信息 | 通知入口及恢复同步，非消息真值 |
+| SDK 所有权 | 连接、存储、重试、同步、加密由谁管理 | 避免重复实现两套状态机 |
+
+### <span id="jobs-toc-heading-9" data-jobs-toc="v2">2.3、能力不能只靠一次成功请求推断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+接口文档能提供承诺，样本能揭示字段，联调能验证部分行为，生产监控能发现偏差；它们承担不同证据角色。一次重试没有产生重复消息，不能推导出任意时间范围内都幂等。
+
+能力记录可采用下列结构。这里的数值是演示值，不能作为生产默认配置。
+
+```json
+{
+  "profile_id": "backend-demo-v1",
+  "send_idempotency": {
+    "state": "supported",
+    "scope": ["tenant_id", "account_id", "client_message_id"],
+    "retention_seconds": 86400,
+    "same_key_different_payload": "reject",
+    "evidence": "示例契约，尚未联调"
+  },
+  "offline_revoke_replay": {"state": "unknown"},
+  "recipient_read_receipt": {"state": "unsupported"}
+}
+```
+
+### <span id="jobs-toc-heading-10" data-jobs-toc="v2">2.4、协议升级也是能力迁移 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+能力配置带版本，并与账号环境和任务创建时的语义绑定。后端灰度切换幂等作用域、消息 ID 或游标含义时，不直接把旧任务套进新规则。
+
+对正在发送、正在同步和离线存量任务分别定义迁移：继续使用旧契约、暂停并核对，或经过明确映射迁到新契约。不能静默清空待发任务来掩盖不兼容。
+
+## 三、<span id="adapter">稳定内核与适配器的具体边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### <span id="jobs-toc-heading-12" data-jobs-toc="v2">3.1、模块输入与输出 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 模块 | 输入 → 输出 | 核心约束 |
+| --- | --- | --- |
+| CapabilityProvider | 环境与协议版本 → 能力快照 | 不把缺字段解释为确认支持 |
+| CommandService | 用户意图 → 稳定本地操作 ID | 本地记录与任务共同提交 |
+| ProtocolAdapter | 原始包 / SDK 回调 → 归一化事实或错误 | 不凭空填 ACK、版本或稳定身份 |
+| PolicyResolver | 能力、任务、错误 → 允许的下一步 | 策略可解释，可在本地输入驱动 |
+| OutboxWorker | 已领取任务 → 尝试记录和结果 | 不与 SDK 内建重试争抢所有权 |
+| EventReducer | 当前状态、有效事件 → 状态变更 | 不在合并过程中任意发网络请求 |
+| SyncCoordinator | 已知同步能力 → 拉取计划与检查点 | 历史页和增量流分开管理 |
+| MessageStore | 变更批次 → 提交结果及快照版本 | 成功提交后才能发布持久化事实 |
+| PresentationPolicy | 事实与能力 → 文案、按钮、占位 | 不显示系统没有证据支持的回执 |
+
+以上是责任划分，不要求每一项独立成库或单例。小项目可合并实现文件，仍应保持输入、输出和所有者清晰。
+
+### <span id="jobs-toc-heading-13" data-jobs-toc="v2">3.2、归一化事件保留来源和未知值 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+```text
+NormalizedInput {
+  accountScope, sessionGeneration, capabilityProfileVersion
+  source: sendResponse | liveStream | historyPage | sdkCallback
+  identity: stable(scope, serverID) | snapshotOnly(snapshotID, rowID)
+  operationCorrelation: confirmed(clientMessageID) | absent
+  kind: created | edited | revoked | receipt | membership | unsupported
+  entityVersion: protocolVersion(value) | absent
+  order: protocolPosition(scope, value) | serverTime(value) | absent
+  acceptanceEvidence: gatewayReceived | businessAccepted | persisted | absent
+  payload, rawType, diagnosticReference
+}
+```
+
+这是概念模型，不是可直接复制编译的代码。`absent` 保留“不知道”；不把缺版本替换成零，不把到达次序伪装成服务端顺序。
+
+`snapshotOnly` 只在当前快照窗口内提供稳定显示身份，不能用于跨窗口权威去重、撤回寻址或无限历史合并。原始诊断引用只关联受控日志或脱敏样本，不要求持久保存完整隐私载荷。
+
+### <span id="jobs-toc-heading-14" data-jobs-toc="v2">3.3、内核负责不变量，适配器负责解释 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+内核至少维护：账号不串、同一权威身份不重复、已确认成功不被迟到超时回退、本地不可再生数据不随缓存重建删除、事务失败不推进完成位置。
+
+适配器把后端 `code = 0` 映射为什么，必须由契约决定。它可能是“请求进入异步处理队列”，也可能是“消息已持久化”。适配器命名为 `onSuccess` 不会改变这个事实。
+
+HTTP `202 Accepted` 表达接受处理而尚未完成处理，不能据此显示对方已收到；其他响应也要结合业务契约解释。[RFC 9110：202](https://www.rfc-editor.org/rfc/rfc9110.html#section-15.3.3)
+
+### <span id="jobs-toc-heading-15" data-jobs-toc="v2">3.4、SDK 接入先确定唯一所有者 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 责任 | SDK 全托管时 | 自研协议时 |
+| --- | --- | --- |
+| 网络发送与重试 | 调 SDK 公开接口，理解其持久重试承诺 | 本地 Outbox 与 Worker 管理 |
+| 消息存储与增量同步 | 优先 SDK 查询 / 订阅，建立只读 UI 投影 | 自有存储、事件合并与同步检查点 |
+| 加密与设备密钥 | 保留 SDK 的状态机与密钥边界 | 接入经审查的协议实现 |
+| 业务扩展状态 | 保存业务自有字段和关联键 | 与消息状态分表或明确字段归属 |
+
+SDK 若只托管部分能力，就按责任逐项分配。禁止因为“架构里应该有 Outbox”而在 SDK 已自动重试之外再加一层独立发送循环；也不能未经公开接口直接修改 SDK 私有数据库。[对应 FAQ](#faq-sdk)
+
+## 四、<span id="send-policy">发送、超时与去重的条件化策略</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### <span id="jobs-toc-heading-17" data-jobs-toc="v2">4.1、把结果未知作为正式状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+```text
+尚未尝试 → 正在尝试 → 已取得权威结果
+                  ↘ 结果未知 → 查询 / 等待回声 / 安全重试 / 人工处理
+```
+
+“结果未知”表示请求可能已生效，但客户端没有足够证据。它不同于“明确被拒绝”，也不同于“确认从未发送”。即使 UI 统一显示感叹号，内部原因也要区分。
+
+| 已确认条件 | 可采取的动作 | 不应承诺 |
+| --- | --- | --- |
+| 本地尚未交给任何发送执行者 | 等待联网后首次发送，允许真正取消 | 已送达 |
+| 同键幂等仍有效，原始内容不变 | 有界退避，复用业务键和原始载荷 | 对方已读、超期重试仍绝不重复 |
+| 可查发送结果 | 查询并合并权威结果，遵守查询一致性规则 | 一次“未找到”等于从未发送 |
+| 无幂等，但明确证明原请求未生效 | 按协议允许的方式重新尝试 | 模糊网络错误也满足此条件 |
+| 无幂等且旧结果未知 | 停止自动重发，等待关联结果或提供明确人工选项 | 靠重试次数限制消除重复 |
+
+HTTP 标准也要求：非幂等请求不应自动重试，除非能够确认其实际语义幂等或原请求未被应用。客户端遇到普通超时，通常没有这样的充分证据。[RFC 9110：幂等与重试](https://www.rfc-editor.org/rfc/rfc9110.html#section-9.2.2)
+
+### <span id="jobs-toc-heading-18" data-jobs-toc="v2">4.2、策略选择伪代码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+```text
+decideNextAction(operation, outcome, capability, now):
+  if outcome.hasAuthoritativeSuccess:
+    return mergeSuccessIntoOriginalOperation
+  if outcome.isAuthoritativePermanentRejection:
+    return stopAndExplain
+  if operation.wasNeverHandedToSender:
+    return scheduleFirstAttemptWithinBudget
+  if capability.resultLookup.isConfirmed:
+    return queryResultWithinBudget
+  if capability.idempotency.covers(operation, now)
+     and operation.payloadIsUnchanged:
+    return retrySameOperationWithinBudget
+  if outcome.provesOriginalWasNotApplied:
+    return retryAccordingToContract
+  return retainUnknownAndRequireExplicitResolution
+```
+
+查结果也需要后续分支：查到成功则合并；尚未终结则等待；只有协议明确且已满足终结条件的“未应用”才允许按相应契约重试。查询预算耗尽仍是未知，不自动降级成失败。
+
+伪代码只展示决策顺序；实现还要加入账号代次、权限、附件就绪、限流和任务所有权检查。SDK 全托管时，把其结果语义接入策略，不擅自接管 SDK 内部请求。
+
+### <span id="jobs-toc-heading-19" data-jobs-toc="v2">4.3、幂等键不是唯一的检查项 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+同键异内容必须有固定策略。编辑待发文本后若沿用旧键发送新载荷，可能遭拒绝，也可能取得旧消息结果。将“修改未发送草稿”和“修改已尝试但结果未知的操作”分开处理。
+
+幂等期限从何时起算、服务器时钟和客户端时钟的偏差、重启后如何判断剩余窗口，都要明确。接近截止边界时保守转入确认，不靠手机当前时间精确证明窗口仍有效。
+
+用户主动再次发送可能创建新的业务意图，但这不能消除旧意图已经生效的可能性。交互应表达“可能重复”，不能把人工点击当成网络语义保证。[对应 FAQ](#faq-timeout)
+
+### <span id="jobs-toc-heading-20" data-jobs-toc="v2">4.4、没有稳定 ID 时的明确限制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+相同发送者连续发送两个“好的”是两条合法消息。正文、发送者和秒级时间组成的哈希可能把它们误合并；客户端每次接收生成随机 ID 则无法吸收重复投递。
+
+若后端提供等价的稳定复合键，可按其定义使用；若没有，只能选择受限的快照展示、限制跨页合并，或保留疑似重复并记录诊断。相似度可用于提示，不能默认据此删除权威记录。
+
+出站临时气泡与历史回声也需要可靠关联。缺关联键时不能只因“内容相同、时间接近”就自动标为同一条已发送消息。[对应 FAQ](#faq-identity)
+
+## 五、<span id="sync-policy">同步、分页和历史完整性的适配</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### <span id="jobs-toc-heading-22" data-jobs-toc="v2">5.1、按实际能力选择恢复策略 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 后端能力 | 客户端方案 | 完整性边界 |
+| --- | --- | --- |
+| 可恢复事件游标，覆盖所需事件 | 保存事件、更新投影与检查点，失效后按契约重建 | 只覆盖约定事件、可见范围及保留期 |
+| 会话位置有严格比较规则，可稳定范围查询 | 分会话追赶并维护已覆盖范围 | 账号级成员、已读等另有同步渠道 |
+| 稳定 ID + 按更新时间查询 | 重叠取数并去重，处理同时间值与分页边界 | 依赖更新时钟与查询保证；删除需另有表示 |
+| 仅有按发送时间的历史查询 | 前台刷新近期窗口，尽力补新消息 | 无法据此完整发现旧消息编辑与撤回 |
+| 仅 offset 历史页 | 有界重叠、稳定 ID 去重、必要时重取窗口 | 并发增删可能造成漏项，不能宣布全历史完整 |
+| 仅在线回调且不保留历史 | 在线处理并保存本地副本 | 断线期间缺失无法由客户端恢复 |
+
+一种协议可以同时具备其中几种能力。策略应逐条选择，不把“有 WebSocket”推导为“有离线同步”。
+
+### <span id="jobs-toc-heading-23" data-jobs-toc="v2">5.2、顺序号必须先定义作用域 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+收到 `100、102` 不足以证明缺 `101`。`101` 可能属于另一分片、不可见事件或系统保留位置。只有协议保证当前查询范围中的序列连续，才可按数值补洞。
+
+不透明游标不拆解、不加一、不拿字符串字典序判断新旧；比较和推进只使用接口定义的方式。消息时间和本地到达序可作为展示的受限备用排序，但不得代替完整性检查点。
+
+历史分页位置与增量检查点保持独立。[**Matrix**](https://spec.matrix.org/v1.16/client-server-api/#syncing) 提供了可研究的同步协议实例；其字段和保证不自动适用于其他后端。
+
+### <span id="jobs-toc-heading-24" data-jobs-toc="v2">5.3、时间戳重叠窗口只能尽力补漏 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+假设按服务端发送时间取历史，可回退一段时间重复抓取并用稳定 ID 合并。这样能降低边界碰撞和部分延迟可见造成的遗漏，却不能覆盖任意延迟、任意离线时长和未约定的时钟行为。
+
+同一时间值的记录多于一页时，需要确定性次排序键或服务端页 token；只把最后一条时间作为下一页起点可能跳过同时间记录。接口若只支持时间且没有可靠的翻页方法，就不能证明这一批已穷尽。
+
+重叠窗口、最大页数和刷新间隔是容量与体验的取舍，应记录“覆盖近期窗口”的承诺，不能表述成“保证消息不丢”。[对应 FAQ](#faq-sync)
+
+### <span id="jobs-toc-heading-25" data-jobs-toc="v2">5.4、删除、编辑和权限不能靠列表缺项推断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+某条消息未出现在最近一页，可能因为分页、排序、权限或保留策略，不能直接判定它已撤回。没有离线撤回流、版本化快照或明确查询接口，就无法可靠感知离线期间的全部删除。
+
+若后端提供“某范围的完整权威快照”，才可按该范围契约对账；对账仍要保留本地待发及本地自有字段。分页普通列表不是这样的快照。
+
+已确认撤回可保存 tombstone，避免较旧的创建 / 历史记录恢复正文；撤回和编辑谁能覆盖谁依据状态规则，不能一律按到达时间覆盖。
+
+## 六、<span id="feature-policy">面向产品行为的降级表</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### <span id="jobs-toc-heading-27" data-jobs-toc="v2">6.1、回执、未读与多端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 缺失或受限能力 | 可交付行为 | 必须保留的说明 |
+| --- | --- | --- |
+| 没有对端送达回执 | 显示本地等待、发送处理中、契约认可的服务端接受 | 不显示“对方已收到” |
+| 没有已读回执 | 正常聊天，隐藏已读提示 | 不以在线、推送点击或停留时间推断已读 |
+| 只有设备级已读 | 展示明确设备维度，或按契约聚合 | 不能默认等于账号所有设备已读 |
+| 没有权威未读数 | 本设备已知消息的计数 / 红点 | 新设备、历史不全时不声称账号未读总数 |
+| 已读上报无单调合并保证 | 限制并发上报，必要时取权威状态 | 本地串行不能解决其他设备覆盖问题 |
+| 没有多端偏好同步 | 草稿、免打扰等按本地作用域保存 | 设置页不声称自动同步到其他端 |
+
+`未知未读`、`已知为零`、`本地估算为零` 是三种状态。登录或同步未完成时，不用一个默认零抹掉差异；在获得权威状态后按规则收敛。[对应 FAQ](#faq-receipt)
+
+### <span id="jobs-toc-heading-28" data-jobs-toc="v2">6.2、权限、撤回与附件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+权限能力不足不能降级为客户端自行授权。敏感接口仍须由服务端核验；客户端权限快照只用于及时禁用按钮。后端无法执行所需授权时，对应功能应受限或不交付。
+
+只有在线撤回通知时，可以处理已收到的通知，但要明确离线缺口。没有编辑版本时，优先查询当前权威实体；若也无查询能力，保留冲突状态，避免把“最后收到”宣传为正确版本。
+
+附件上传完成、业务侧确认可引用、消息服务接受，是三个不同阶段。只有裸上传接口时，需要确认引用如何形成、是否可查询最终状态、重复上传是否创建新资源；无恢复契约时不要承诺断点续传或跨启动自动完成。
+
+短期签名 URL 不是永久附件身份。缓存以稳定附件身份管理，访问地址失效通过授权接口刷新；若无刷新能力，展示资源已过期，不能绕过授权取回内容。
+
+### <span id="jobs-toc-heading-29" data-jobs-toc="v2">6.3、没有长连接或推送的运行方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+没有长连接时，可按后端约定在前台使用 HTTP 手动刷新或有界轮询：进入会话、应用回前台、发送完成后触发适量刷新，并按限流、流量和电量预算调整。
+
+没有推送服务时，应把“后台即时提醒”列为不具备的能力。普通后台时间扩展只给有限的收尾执行机会，不能把定时器、轮询或心跳设计成后台常驻机制。[Apple：后台执行时间](https://developer.apple.com/documentation/uikit/extending-your-app-s-background-execution-time)
+
+即使已有后台推送，系统也不保证每次投递；恢复同步仍需依赖前台入口和后端可恢复数据。推送适合提示“可能有变化”，不代替同步完成凭证。[Apple：后台更新通知](https://developer.apple.com/documentation/usernotifications/pushing-background-updates-to-your-app)
+
+## 七、<span id="errors">协议错误到客户端动作</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### <span id="jobs-toc-heading-31" data-jobs-toc="v2">7.1、错误分类先于通用重试 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+下表是参考策略，具体错误码与业务效果由适配器映射。HTTP 状态码表达请求层语义，不单独证明消息有没有落库；例如网关超时可能发生在下游业务处理之后。
+
+| 归一化错误 | 客户端动作 | 保存的证据 |
+| --- | --- | --- |
+| 认证过期 | 合并并发续期；成功后按操作语义决定是否重试 | 账号代次、凭证代次、请求关联 ID |
+| 权限拒绝 | 停止该操作，刷新相关权限，解释原因 | 会话、权限版本、拒绝类型 |
+| 限流 | 遵守有效退避提示，设置最大等待预算 | 错误域、重试时刻、服务端提示 |
+| 传输中断 / 超时 | 进入未知结果决策，不一律变成发送失败 | 尝试 ID、阶段、幂等契约版本 |
+| 服务暂不可用 | 幂等读请求退避；写操作先判定可安全重试 | 响应、业务码、链路阶段 |
+| 同幂等键内容冲突 | 停止自动重试并核对原始意图 | 原始载荷摘要、契约及操作 ID |
+| 实体版本冲突 | 重取权威状态，再决定重新编辑或提示冲突 | 预期版本、实际版本 |
+| 游标过期 | 进入有边界的重新初始化，保留本地待发 | 流作用域、旧游标标识、失效原因 |
+| 消息类型不支持 | 安全占位或按协议隔离，避免阻断全部会话 | 类型、协议版本、脱敏诊断引用 |
+| 磁盘满 / 写库失败 | 不确认本地持久化，不推进同步检查点 | 错误分类、剩余空间与事务阶段 |
+
+### <span id="jobs-toc-heading-32" data-jobs-toc="v2">7.2、限制重试放大与错误回退 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+同一错误在网络层、SDK 层、业务层同时重试，会把一次用户操作放大成多次请求。记录每层是否已消费重试预算，指定最终发送者。
+
+成功与失败回调都要校验原账号和任务代次。迟到超时不能覆盖已确认成功；旧版本失败不能回滚更新的权限或实体版本。协议冲突应有独立诊断，不能全归为“网络不好”。
+
+日志保留可关联的操作 ID、尝试 ID、服务端诊断 ID 和耗时，默认不记录明文内容、鉴权材料和完整附件签名 URL。
+
+## 八、<span id="cases">三种后端组合的完整接入示例</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### <span id="jobs-toc-heading-34" data-jobs-toc="v2">8.1、案例 A：普通 HTTP 聊天接口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**已知条件：** 消息有稳定 ID；POST 发送，超时后无结果查询也无幂等保证；历史按 offset 分页；没有已读、推送和长连接。这是教学组合，不代表某个实际团队。
+
+**客户端方案：** 本地保存意图和气泡；首次发送后取得契约认可的结果才确认成功，超时保留未知；前台按约定刷新近期窗口，历史按稳定 ID 合并；本地计数标为本设备范围。
+
+**生产边界：** 无后台即时提醒、无对方已读保证、无全历史完整性证明。未知操作的再次发送由明确交互处理；不能默默循环重发。
+
+**接入收益：** 数据库、列表、媒体缓存、账号隔离和诊断仍可做扎实；这些工程质量不会因为缺少长连接而失去价值。
+
+### <span id="jobs-toc-heading-35" data-jobs-toc="v2">8.2、案例 B：有实时通道、同步能力不完整 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**已知条件：** WebSocket 推新消息；会话内顺序号可比较但不连续；发送键有限期幂等；历史可按消息位置查询；撤回只有在线通知；已读只按账号与会话提供。
+
+**客户端方案：** 连接恢复后按会话已知位置追赶；不按整数缺口无限补洞；幂等期限内有界重试；账号级已读按契约合并；已收到撤回保存墓碑。
+
+**生产边界：** 新消息追赶不能证明撤回完整。离线撤回需要额外实体核对或权威快照能力；当前没有时，明确保留该限制。推送若以后接入，只新增唤醒入口，不改变消息真值来源。
+
+**适配重点：** 实时事件和历史事件统一进入合并入口；握手成功不等于账号同步完成，连接状态与同步状态分开展示和监控。
+
+### <span id="jobs-toc-heading-36" data-jobs-toc="v2">8.3、案例 C：成熟 SDK 托管消息能力 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**已知条件：** SDK 管理连接、消息数据库、离线同步与发送重试；回调和公开查询接口提供稳定消息身份；部分回执、搜索或群能力依赖 SDK 版本和服务配置。
+
+**客户端方案：** 使用业务门面隔离 SDK 类型，维护稳定 UI 映射；业务自有信息单独存储；公开接口承担历史加载和状态观察；按 SDK 文档配置账号退出、缓存及通知入口。
+
+**生产边界：** 不在 SDK 私有库上添加自有索引或修改状态；不为同一消息另跑自研重试循环。升级前验证回调顺序、持久化行为和错误映射；未购买 / 未启用 / 未确认的能力保持不可用或未知。
+
+**适配重点：** 公共业务接口可以统一，但 SDK 特有功能通过能力扩展暴露。强行把所有供应商压成最低共同能力，可能丢失生产需要的诊断、搜索和群管理功能。
+
+## 九、<span id="review">接入评审与问题定位模板</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### <span id="jobs-toc-heading-38" data-jobs-toc="v2">9.1、可以直接填写的评审记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 项目 | 填写内容 |
+| --- | --- |
+| 环境与版本 | 测试 / 生产、租户、协议或 SDK 版本、核对日期 |
+| 能力结论 | `unknown / unsupported / supported(contract)`，逐项记录 |
+| 成功定义 | 本地保存、网关接收、业务接受、远端持久化、对方接收分别如何证明 |
+| 身份与关联 | 本地、业务操作、网络尝试、服务端消息和事件的映射 |
+| 恢复边界 | 超时、断线、进程结束、游标失效、账号切换分别如何处理 |
+| 分页与覆盖 | 查询范围、排序、页边界、最后一页判据、历史可见性 |
+| 冲突与权限 | 编辑、撤回、成员变化、异步失败和旧回包的合并规则 |
+| 交付文案 | 不支持的功能如何关闭；未知、同步中、资源过期如何展示 |
+| 验证证据 | 端侧样本检查、真实接口联调、真机平台验证分别记录 |
+| 未决项 | 哪个能力尚未确认、影响什么承诺、采用什么临时策略 |
+
+评审记录的价值在于减少隐含假设。不能把“待后端确认”写完后继续按支持实现，也不能把全部未决项都归为客户端必修复缺陷。
+
+### <span id="jobs-toc-heading-39" data-jobs-toc="v2">9.2、典型故障先按证据分层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+| 表象 | 客户端先查 | 需要后端证据的部分 |
+| --- | --- | --- |
+| 重复消息 | 是否重复建意图、是否误换幂等键、SDK 是否已有重试 | 同一业务键是否生成多个服务端 ID |
+| 消息消失 | 写事务、账号作用域、分页合并、过滤条件 | 是否接受、保留 / 权限策略、同步覆盖 |
+| 未读不准 | 重放是否重复累加、读状态初始化、维度是否混用 | 权威计数规则、其他端状态、同步缺口 |
+| 发送卡住 | 附件依赖、任务领取、失败分类、未知结果处理 | 处理队列、限流、结果查询与最终状态 |
+| 已撤回又出现 | 墓碑、版本规则、历史回灌 | 撤回事件是否保留、历史响应是否过旧 |
+
+没有后端日志时，仍可给出“端侧已确认的事实、最小复现输入、尚缺哪一段证据”。不要把一个模糊“后端有问题”替代可协作的诊断结论。
+
+## 十、<span id="evidence">只有 iOS 环境时的研究与验证</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### <span id="jobs-toc-heading-41" data-jobs-toc="v2">10.1、无需服务器即可检查的内容 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+使用本地文件、内存事件序列和可替换时间源驱动适配器及策略；这些输入是测试替身，不是实际推送或长连接。本文只描述方法，没有创建测试工程或宣称已执行这些检查。
+
+| 固定输入 | 可检查的端侧性质 |
+| --- | --- |
+| 同一消息在线、历史各出现一次 | 有可靠身份时仅保留一个业务记录 |
+| 超时后成功回执迟到 | 原气泡更新为成功，不新建一条 |
+| 无幂等且结果未知 | 自动发送次数不继续增长 |
+| 相同正文、不同权威 ID | 两条合法消息都保留 |
+| 先撤回后创建 | 在协议允许该顺序时正文不复活 |
+| 账号退出后旧回调到达 | 不修改新账号、不发旧账号提示 |
+| 第 N 页落库失败 | 不推进该页完成检查点 |
+| 缺少回执或未读能力 | UI 不产生虚假的已读或权威数量 |
+
+这些检查能证明本地逻辑在给定输入下符合设计，不能证明远端按同一方式产生输入。真实后端幂等、APNs 投递、连接切换和端到端延迟保留为接入时的核验项。
+
+### <span id="jobs-toc-heading-42" data-jobs-toc="v2">10.2、区分四种结论 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+**设计已明确**表示条件和算法写清楚；**端侧已验证**表示有可复现输入与检查结果；**契约已确认**表示后端或 SDK 有具体保证；**联调已验证**表示在指定真实环境测过。
+
+文档辅助生产，不要求先拥有全部环境才能学习。交付时保留这四种状态，可以让后续工程师直接判断哪些代码能够复用、哪些参数要调整、哪些行为必须取得外部证据。
+
+## 十一、<span id="faq">FAQ：生产追问与面试回答</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 11.1、<span id="faq-formula">有没有能适配所有后端的 IM 架构？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+**核心回答：** 可以统一客户端责任、接口和状态处理方法，不能统一所有后端的可靠性保证。先做能力矩阵，再由适配器归一化事件，稳定内核处理存储、任务和 UI，策略层选择重试、同步与降级。
+
+**追问回答：** 为新后端新增适配器后，还要确认身份、ACK、幂等、分页、权限等语义。只改 URL 和 JSON 字段，不能视为完成接入。[回到正文](#formula)
+
+### 11.2、<span id="faq-capability">接口有 client_message_id，就说明支持幂等吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+**核心回答：** 不说明。必须确认服务端用它做什么，以及作用域、保存期限、重复调用返回和同键异内容处理。它也可能只是日志字段。
+
+**追问回答：** 未确认时标为 `unknown`，不启用依赖幂等的超时自动重发。一次联调没有重复，只能说明该样本行为，不能替代契约。[回到正文](#capabilities)
+
+### 11.3、<span id="faq-timeout">后端不支持幂等，发送超时后客户端怎么办？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+**核心回答：** 先区分明确失败与结果未知。支持结果查询或可靠回声关联时先确认；确认原请求未生效才按契约重试，否则保留未知状态并限制自动重发。
+
+**追问回答：** 重试三次依然可能重复三条；单机串行只能控制本机调度，不能证明服务器只处理一次。人工重发也需要说明旧操作可能已成功。[回到正文](#send-policy)
+
+### 11.4、<span id="faq-identity">没有消息 ID，能不能用内容哈希去重？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+**核心回答：** 不能把内容哈希当作通用权威身份。相同内容可以是不同消息，不同回包表示也可能属于同一消息；先找协议确认的稳定复合键。
+
+**追问回答：** 没有任何稳定关联时，只能做受限窗口展示或保留疑似重复，并明确无法可靠跨页去重。客户端生成本地 UI ID 解决视图身份，不能解决远端消息身份。[回到正文](#faq-identity-return)
+
+### 11.5、<span id="faq-sync">长连接正常，为什么还可能丢历史或者漏撤回？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+**核心回答：** 实时通道只承载在线事件。断线后能否恢复，取决于历史 / 增量接口覆盖什么、保留多久、怎样续接。只有新消息历史，没有撤回记录，就无法证明离线撤回全部收敛。
+
+**追问回答：** 时间戳回退取数可降低部分漏项，但受窗口和分页限制；只有协议给出明确覆盖保证，才能声明该范围同步完成。[回到正文](#sync-policy)
+
+### 11.6、<span id="faq-receipt">后端不给已读和未读数，客户端能自己算吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+**核心回答：** 可以维护本设备已知消息的本地阅读状态和计数，不能据此声称对方已读或账号全量未读。未知、估算和权威值要分开。
+
+**追问回答：** 缺少历史、新设备初始化和多端阅读都会使本地结果不完整。产品可以降级为本地红点，但必须保持语义一致。[回到正文](#feature-policy)
+
+### 11.7、<span id="faq-sdk">用商业 SDK，还需要自己实现一套消息数据库和重试吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+**核心回答：** 先查 SDK 的职责。已经托管的连接、持久化、同步和重试通常不应重复实现；业务层做门面、能力映射、UI 投影和自有数据即可。
+
+**追问回答：** 要补能力时通过公开扩展点实施，并明确唯一所有者。两套重试或两份互相覆盖的消息真值会增加竞态和恢复困难。[回到正文](#adapter)
+
+### 11.8、<span id="faq-no-backend">只有 iOS 环境，能把研究做到对生产有帮助吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+**核心回答：** 可以。先完成能力清单、状态机、错误映射、事务规则、输入样本和端侧检查，让逻辑能够被重放与定位；把真实服务行为列为后续接入核验项。
+
+**追问回答：** 本地事件注入验证的是客户端消费逻辑，不能称为已验证真实推送或长连接。在面试中明确这条证据边界，比声称所有链路都已跑通更可靠。[回到正文](#evidence)
+
+<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
 
 
 ## iOS IM 安全加密与音视频通话
@@ -13,6 +1477,70 @@ bookCollapseSection: false
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#%E5%89%8D%E8%A8%80)
+- [一、先定义资产、攻击者和信任边界](#threat)
+  - [1.1、资产清单决定保护措施](#assets)
+  - [1.2、TLS、存储加密与 E2EE 是三个边界](#tls-e2ee)
+  - [1.3、认证、完整性与防重放分别设计](#auth-replay)
+- [二、密钥分发、身份验证与群组加密](#keys)
+  - [2.1、把密钥当成有生命周期的业务实体](#key-lifecycle)
+  - [2.2、成熟协议的研究层次](#signal)
+  - [2.3、身份验证比“拿到了公钥”多一步](#identity)
+  - [2.4、群组加密需要成员状态与密钥状态一起推进](#mls)
+- [三、iOS 本机密钥、数据保护与账号隔离](#local)
+  - [3.1、Keychain 解决小型秘密的保存](#keychain)
+  - [3.2、文件保护与后台可用性必须联合验证](#protection)
+  - [3.3、切号是一条完整资源清理链](#account-isolation)
+  - [3.4、会话状态与消息持久化必须可恢复](#crypto-transaction)
+- [四、附件、富文本、日志与备份](#content)
+  - [4.1、附件加密覆盖上传链路与解密副本](#attachment)
+  - [4.2、富文本与媒体解析属于不可信输入处理](#richtext)
+  - [4.3、通知、日志、搜索和备份是新的明文出口](#privacy-surfaces)
+- [五、音视频：信令与实时媒体分工](#rtc)
+  - [5.1、IM 传递呼叫事件，媒体链路传声音和画面](#rtc-layers)
+  - [5.2、SDP Offer / Answer 是能力协商](#sdp)
+  - [5.3、ICE、STUN、TURN 各自解决一段问题](#ice)
+- [六、呼叫状态机、多端竞态和恢复](#call-state)
+  - [6.1、呼叫 ID 与消息 ID 分离](#call-id)
+  - [6.2、服务端裁决共享状态，客户端幂等执行](#call-races)
+  - [6.3、用单一状态归约器执行事件](#call-reducer)
+- [七、CallKit、PushKit 与音频系统集成](#system)
+  - [7.1、系统来电界面与媒体引擎之间增加适配层](#callkit)
+  - [7.2、VoIP 推送承载真实来电](#pushkit)
+  - [7.3、AVAudioSession 的所有权必须统一](#audio-session)
+  - [7.4、蓝牙、耳机和中断是持续变化的状态](#audio-route)
+- [八、媒体拓扑、弱网与质量度量](#quality)
+  - [8.1、一对一与群呼的成本结构不同](#topology)
+  - [8.2、从可观测链路定位黑屏、无声和卡顿](#stats)
+  - [8.3、降级需要顺序、滞回和可解释反馈](#degradation)
+- [九、媒体加密与通话录制](#media-security)
+  - [9.1、媒体传输加密不自动等于跨 SFU 的 E2EE](#rtc-e2ee)
+  - [9.2、录制是一项明确的产品能力](#recording)
+- [十、实验矩阵与验收证据](#experiments)
+  - [10.1、安全与恢复实验](#security-matrix)
+  - [10.2、真机通话实验](#rtc-matrix)
+  - [10.3、以可复现记录替代“感觉流畅”](#evidence)
+- [十一、FAQ：研究与面试追问](#faq)
+  - [11.1、用了 HTTPS，消息就属于端到端加密吗？](#faq-tls)
+  - [11.2、消息已经加密，为什么还要做幂等？](#faq-idempotency)
+  - [11.3、对方换机后公钥变化，自动接受就可以了吗？](#faq-keychange)
+  - [11.4、Keychain 的安全级别越高越适合 IM 吗？](#faq-keychain)
+  - [11.5、把人踢出群以后，旧消息也能保证看不到吗？](#faq-revoke)
+  - [11.6、接入 CallKit 后，音视频通话就完成了吗？](#faq-callkit)
+  - [11.7、STUN 能打洞，为什么还要 TURN？](#faq-turn)
+  - [11.8、手机和平板一起点接听，用客户端布尔值防重够吗？](#faq-answer)
+  - [11.9、WebRTC 显示 connected，为什么仍然无声？](#faq-connected)
+  - [11.10、经过 SFU 转发的媒体还可能端到端加密吗？](#faq-sfu)
+  - [11.11、能不能用 VoIP 推送让普通聊天消息一直保活？](#faq-background)
+  - [11.12、没有做过生产 IM，怎样形成可信的科研成果？](#faq-research)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
@@ -456,1287 +1984,6 @@ TURN 转发并不意味着必须解密媒体；SFU 是否能解密取决于实�
 ### 11.12、<span id="faq-research">没有做过生产 IM，怎样形成可信的科研成果？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 **答：先做可复现的小系统与实验。** 明确威胁模型和呼叫状态机，选择维护中的成熟协议与媒体实现，用失败注入验证崩溃恢复、多端竞态和弱网；保存版本、输入、指标与未解决边界。把“设计过、实现过、测过、上线过”分别写清楚。[返回实验矩阵](#experiments)
-
-<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
-
-
-## 不同后端能力下的 iOS IM 客户端适配
-
-
-![Jobs出品，必属精品](https://picsum.photos/1500/400)
-
-
----
-
-## 🔥 <font id=前言>前言</font>
-
-> 面向只有 iOS 开发环境、需要接入不同团队后端的工程师。目标是形成可以用于接入评审、客户端实现和面试答题的通用方法，不要求自行部署消息服务器、推送服务或音视频服务。
-
-**资料核对：2026-09-26。** 本文的模块、策略和案例是参考设计，没有对应的已运行产品。平台限制与协议事实附官方来源；后端能力只有获得具体项目契约后才能视为已确认。
-
-<font color=red>**通解是把差异收在明确的边界里，让客户端在已知条件下做正确的事；不能从缺失的服务能力中创造可靠性保证。**</font>
-
-[返回总册](../iOS%20IM开发研究手册.md) · [连接与后台](./iOS连接管理与推送后台.md) · [聊天 UI 与媒体](./聊天界面与多媒体工程.md) · [安全与通话](./安全加密与音视频通话.md)
-
-## 一、<span id="formula">通用方法与责任边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 1.1、可以复用的公式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```text
-可交付客户端方案
-  = 已确认的后端能力与语义
-  + 稳定的客户端内核
-  + 协议 / SDK 适配器
-  + 按能力选择的策略
-  + 明确的降级行为和验证边界
-```
-
-这是工程分解方法，不是质量打分公式。后端可以长于实时分发、弱于历史分页；也可以提供成熟同步协议，却没有逐人已读。能力是多维组合，不适合简单分为“高级后端 / 低级后端”。
-
-稳定内核处理账号隔离、任务持久化、事件合并、数据库事务、UI 身份和观测。适配器处理字段、错误、分页和回调语义；策略决定是否自动重试、如何补历史、显示哪种状态。[对应 FAQ](#faq-formula)
-
-### 1.2、客户端可以保证的部分 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 在约定条件下可以落实 | 不能单靠客户端补出的部分 |
-| --- | --- |
-| 本地发送意图与待发气泡共同提交 | 服务端是否已持久化该意图 |
-| 同一稳定身份的消息不重复入库 | 无任何稳定关联信息时识别所有重复投递 |
-| 重放同一有效事件不反复累加未读 | 服务端遗漏的历史、编辑和撤回事实 |
-| 账号退出后旧回调不修改新账号 | 远端设备是否真的删除了历史内容 |
-| 列表分页、布局和内存有边界 | 任意后端都能提供完整且稳定的分页 |
-| 失败状态准确、有日志可定位 | 系统后台必然唤醒、通知必然到达 |
-
-“本地保存”仍受存储错误、保护状态及所选耐久策略约束。客户端要检查提交结果，不能在落库失败时仍显示“已保存，稍后自动发送”。
-
-### 1.3、条件、策略、承诺分开写 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-接入结论使用固定句式：**当条件成立时，采用某策略，可以承诺某种行为；条件不成立时，采用某种降级，并保留某项限制。**
-
-例如：服务端在账号范围内、指定期限内按发送键幂等，则期限内重试复用该键；期限已过且旧结果未知，转入结果确认流程，不能只因为本地任务仍存在就持续重发。
-
-“自动重试三次”是策略参数；“重试不会产生第二条业务消息”是依赖服务端的承诺。二者不能互相代替。
-
-## 二、<span id="capabilities">后端能力矩阵与证据</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 2.1、每项能力至少有三种认知状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 状态 | 含义 | 默认处理 |
-| --- | --- | --- |
-| `unknown` | 未确认，或资料与实际行为冲突 | 不启用依赖该保证的策略，保留确认项 |
-| `unsupported` | 明确不支持 | 选择已定义的降级，关闭对应产品承诺 |
-| `supported(contract)` | 在指定范围和版本下支持 | 按契约参数执行，并记录证据 |
-
-`unknown` 不能改写为 `false` 后永久遗忘，也不能因为“通常都会有”就当成 `true`。能力还应记录作用域、协议版本、确认人 / 文档、核对日期和验证状态。
-
-存在字段不代表存在保证。请求带了 `client_message_id`，只能证明客户端发送了该字段，不能证明服务器按它幂等。[对应 FAQ](#faq-capability)
-
-### 2.2、核心接入能力表 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 能力 | 必须确认的语义 | 对客户端的影响 |
-| --- | --- | --- |
-| 账号与租户 | ID 在租户内还是全局唯一 | 存储键与所有缓存带完整作用域 |
-| 消息 ID | 在线、历史、导出是否同一身份；是否可能重用 | 去重、引用、撤回目标和本地映射 |
-| 发送幂等 | 键的作用域、期限、同键异内容如何处理 | 超时重试是否安全、任务过期策略 |
-| 结果查询 | 按哪种键查询；“未找到”是否最终结论 | 未知结果能否自动恢复 |
-| ACK | 网关收到、业务接受、持久化完成还是其他阶段 | 气泡状态、任务何时结束 |
-| 顺序位置 | 会话 / 账号 / 分片维度，比较规则和连续性 | 排序、补洞和已读位置 |
-| 增量游标 | 作用域、事件类型、保留期限、重放与失效规则 | 同步断点、状态收敛范围 |
-| 历史分页 | offset、时间、消息键或不透明 token；快照稳定性 | 翻页重叠、去重、窗口边界 |
-| 删除与编辑 | 版本、目标 ID、离线重放、墓碑保留 | 防旧内容复活、目标迟到处理 |
-| 回执 | 账号 / 设备 / 会话 / 线程；群成员分母 | 已送达、已读和聚合展示 |
-| 未读 | 权威总数、读位置、排除规则、重算方式 | 数量、红点与多端合并 |
-| 权限 | 成员变动版本、撤销事件、历史可见性 | 禁用操作、清理与刷新范围 |
-| 附件 | 上传完成、业务确认、引用生命周期、授权刷新 | 上传重试和消息发送依赖 |
-| 传输 | 可用 HTTP / 长连接入口、超时、心跳、限流 | 连接策略与前台刷新计划 |
-| 推送 | 绑定环境、账号解绑、载荷和路由信息 | 通知入口及恢复同步，非消息真值 |
-| SDK 所有权 | 连接、存储、重试、同步、加密由谁管理 | 避免重复实现两套状态机 |
-
-### 2.3、能力不能只靠一次成功请求推断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-接口文档能提供承诺，样本能揭示字段，联调能验证部分行为，生产监控能发现偏差；它们承担不同证据角色。一次重试没有产生重复消息，不能推导出任意时间范围内都幂等。
-
-能力记录可采用下列结构。这里的数值是演示值，不能作为生产默认配置。
-
-```json
-{
-  "profile_id": "backend-demo-v1",
-  "send_idempotency": {
-    "state": "supported",
-    "scope": ["tenant_id", "account_id", "client_message_id"],
-    "retention_seconds": 86400,
-    "same_key_different_payload": "reject",
-    "evidence": "示例契约，尚未联调"
-  },
-  "offline_revoke_replay": {"state": "unknown"},
-  "recipient_read_receipt": {"state": "unsupported"}
-}
-```
-
-### 2.4、协议升级也是能力迁移 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-能力配置带版本，并与账号环境和任务创建时的语义绑定。后端灰度切换幂等作用域、消息 ID 或游标含义时，不直接把旧任务套进新规则。
-
-对正在发送、正在同步和离线存量任务分别定义迁移：继续使用旧契约、暂停并核对，或经过明确映射迁到新契约。不能静默清空待发任务来掩盖不兼容。
-
-## 三、<span id="adapter">稳定内核与适配器的具体边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 3.1、模块输入与输出 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 模块 | 输入 → 输出 | 核心约束 |
-| --- | --- | --- |
-| CapabilityProvider | 环境与协议版本 → 能力快照 | 不把缺字段解释为确认支持 |
-| CommandService | 用户意图 → 稳定本地操作 ID | 本地记录与任务共同提交 |
-| ProtocolAdapter | 原始包 / SDK 回调 → 归一化事实或错误 | 不凭空填 ACK、版本或稳定身份 |
-| PolicyResolver | 能力、任务、错误 → 允许的下一步 | 策略可解释，可在本地输入驱动 |
-| OutboxWorker | 已领取任务 → 尝试记录和结果 | 不与 SDK 内建重试争抢所有权 |
-| EventReducer | 当前状态、有效事件 → 状态变更 | 不在合并过程中任意发网络请求 |
-| SyncCoordinator | 已知同步能力 → 拉取计划与检查点 | 历史页和增量流分开管理 |
-| MessageStore | 变更批次 → 提交结果及快照版本 | 成功提交后才能发布持久化事实 |
-| PresentationPolicy | 事实与能力 → 文案、按钮、占位 | 不显示系统没有证据支持的回执 |
-
-以上是责任划分，不要求每一项独立成库或单例。小项目可合并实现文件，仍应保持输入、输出和所有者清晰。
-
-### 3.2、归一化事件保留来源和未知值 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```text
-NormalizedInput {
-  accountScope, sessionGeneration, capabilityProfileVersion
-  source: sendResponse | liveStream | historyPage | sdkCallback
-  identity: stable(scope, serverID) | snapshotOnly(snapshotID, rowID)
-  operationCorrelation: confirmed(clientMessageID) | absent
-  kind: created | edited | revoked | receipt | membership | unsupported
-  entityVersion: protocolVersion(value) | absent
-  order: protocolPosition(scope, value) | serverTime(value) | absent
-  acceptanceEvidence: gatewayReceived | businessAccepted | persisted | absent
-  payload, rawType, diagnosticReference
-}
-```
-
-这是概念模型，不是可直接复制编译的代码。`absent` 保留“不知道”；不把缺版本替换成零，不把到达次序伪装成服务端顺序。
-
-`snapshotOnly` 只在当前快照窗口内提供稳定显示身份，不能用于跨窗口权威去重、撤回寻址或无限历史合并。原始诊断引用只关联受控日志或脱敏样本，不要求持久保存完整隐私载荷。
-
-### 3.3、内核负责不变量，适配器负责解释 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-内核至少维护：账号不串、同一权威身份不重复、已确认成功不被迟到超时回退、本地不可再生数据不随缓存重建删除、事务失败不推进完成位置。
-
-适配器把后端 `code = 0` 映射为什么，必须由契约决定。它可能是“请求进入异步处理队列”，也可能是“消息已持久化”。适配器命名为 `onSuccess` 不会改变这个事实。
-
-HTTP `202 Accepted` 表达接受处理而尚未完成处理，不能据此显示对方已收到；其他响应也要结合业务契约解释。[RFC 9110：202](https://www.rfc-editor.org/rfc/rfc9110.html#section-15.3.3)
-
-### 3.4、SDK 接入先确定唯一所有者 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 责任 | SDK 全托管时 | 自研协议时 |
-| --- | --- | --- |
-| 网络发送与重试 | 调 SDK 公开接口，理解其持久重试承诺 | 本地 Outbox 与 Worker 管理 |
-| 消息存储与增量同步 | 优先 SDK 查询 / 订阅，建立只读 UI 投影 | 自有存储、事件合并与同步检查点 |
-| 加密与设备密钥 | 保留 SDK 的状态机与密钥边界 | 接入经审查的协议实现 |
-| 业务扩展状态 | 保存业务自有字段和关联键 | 与消息状态分表或明确字段归属 |
-
-SDK 若只托管部分能力，就按责任逐项分配。禁止因为“架构里应该有 Outbox”而在 SDK 已自动重试之外再加一层独立发送循环；也不能未经公开接口直接修改 SDK 私有数据库。[对应 FAQ](#faq-sdk)
-
-## 四、<span id="send-policy">发送、超时与去重的条件化策略</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 4.1、把结果未知作为正式状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```text
-尚未尝试 → 正在尝试 → 已取得权威结果
-                  ↘ 结果未知 → 查询 / 等待回声 / 安全重试 / 人工处理
-```
-
-“结果未知”表示请求可能已生效，但客户端没有足够证据。它不同于“明确被拒绝”，也不同于“确认从未发送”。即使 UI 统一显示感叹号，内部原因也要区分。
-
-| 已确认条件 | 可采取的动作 | 不应承诺 |
-| --- | --- | --- |
-| 本地尚未交给任何发送执行者 | 等待联网后首次发送，允许真正取消 | 已送达 |
-| 同键幂等仍有效，原始内容不变 | 有界退避，复用业务键和原始载荷 | 对方已读、超期重试仍绝不重复 |
-| 可查发送结果 | 查询并合并权威结果，遵守查询一致性规则 | 一次“未找到”等于从未发送 |
-| 无幂等，但明确证明原请求未生效 | 按协议允许的方式重新尝试 | 模糊网络错误也满足此条件 |
-| 无幂等且旧结果未知 | 停止自动重发，等待关联结果或提供明确人工选项 | 靠重试次数限制消除重复 |
-
-HTTP 标准也要求：非幂等请求不应自动重试，除非能够确认其实际语义幂等或原请求未被应用。客户端遇到普通超时，通常没有这样的充分证据。[RFC 9110：幂等与重试](https://www.rfc-editor.org/rfc/rfc9110.html#section-9.2.2)
-
-### 4.2、策略选择伪代码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```text
-decideNextAction(operation, outcome, capability, now):
-  if outcome.hasAuthoritativeSuccess:
-    return mergeSuccessIntoOriginalOperation
-  if outcome.isAuthoritativePermanentRejection:
-    return stopAndExplain
-  if operation.wasNeverHandedToSender:
-    return scheduleFirstAttemptWithinBudget
-  if capability.resultLookup.isConfirmed:
-    return queryResultWithinBudget
-  if capability.idempotency.covers(operation, now)
-     and operation.payloadIsUnchanged:
-    return retrySameOperationWithinBudget
-  if outcome.provesOriginalWasNotApplied:
-    return retryAccordingToContract
-  return retainUnknownAndRequireExplicitResolution
-```
-
-查结果也需要后续分支：查到成功则合并；尚未终结则等待；只有协议明确且已满足终结条件的“未应用”才允许按相应契约重试。查询预算耗尽仍是未知，不自动降级成失败。
-
-伪代码只展示决策顺序；实现还要加入账号代次、权限、附件就绪、限流和任务所有权检查。SDK 全托管时，把其结果语义接入策略，不擅自接管 SDK 内部请求。
-
-### 4.3、幂等键不是唯一的检查项 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-同键异内容必须有固定策略。编辑待发文本后若沿用旧键发送新载荷，可能遭拒绝，也可能取得旧消息结果。将“修改未发送草稿”和“修改已尝试但结果未知的操作”分开处理。
-
-幂等期限从何时起算、服务器时钟和客户端时钟的偏差、重启后如何判断剩余窗口，都要明确。接近截止边界时保守转入确认，不靠手机当前时间精确证明窗口仍有效。
-
-用户主动再次发送可能创建新的业务意图，但这不能消除旧意图已经生效的可能性。交互应表达“可能重复”，不能把人工点击当成网络语义保证。[对应 FAQ](#faq-timeout)
-
-### 4.4、没有稳定 ID 时的明确限制 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-相同发送者连续发送两个“好的”是两条合法消息。正文、发送者和秒级时间组成的哈希可能把它们误合并；客户端每次接收生成随机 ID 则无法吸收重复投递。
-
-若后端提供等价的稳定复合键，可按其定义使用；若没有，只能选择受限的快照展示、限制跨页合并，或保留疑似重复并记录诊断。相似度可用于提示，不能默认据此删除权威记录。
-
-出站临时气泡与历史回声也需要可靠关联。缺关联键时不能只因“内容相同、时间接近”就自动标为同一条已发送消息。[对应 FAQ](#faq-identity)
-
-## 五、<span id="sync-policy">同步、分页和历史完整性的适配</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 5.1、按实际能力选择恢复策略 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 后端能力 | 客户端方案 | 完整性边界 |
-| --- | --- | --- |
-| 可恢复事件游标，覆盖所需事件 | 保存事件、更新投影与检查点，失效后按契约重建 | 只覆盖约定事件、可见范围及保留期 |
-| 会话位置有严格比较规则，可稳定范围查询 | 分会话追赶并维护已覆盖范围 | 账号级成员、已读等另有同步渠道 |
-| 稳定 ID + 按更新时间查询 | 重叠取数并去重，处理同时间值与分页边界 | 依赖更新时钟与查询保证；删除需另有表示 |
-| 仅有按发送时间的历史查询 | 前台刷新近期窗口，尽力补新消息 | 无法据此完整发现旧消息编辑与撤回 |
-| 仅 offset 历史页 | 有界重叠、稳定 ID 去重、必要时重取窗口 | 并发增删可能造成漏项，不能宣布全历史完整 |
-| 仅在线回调且不保留历史 | 在线处理并保存本地副本 | 断线期间缺失无法由客户端恢复 |
-
-一种协议可以同时具备其中几种能力。策略应逐条选择，不把“有 WebSocket”推导为“有离线同步”。
-
-### 5.2、顺序号必须先定义作用域 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-收到 `100、102` 不足以证明缺 `101`。`101` 可能属于另一分片、不可见事件或系统保留位置。只有协议保证当前查询范围中的序列连续，才可按数值补洞。
-
-不透明游标不拆解、不加一、不拿字符串字典序判断新旧；比较和推进只使用接口定义的方式。消息时间和本地到达序可作为展示的受限备用排序，但不得代替完整性检查点。
-
-历史分页位置与增量检查点保持独立。[**Matrix**](https://spec.matrix.org/v1.16/client-server-api/#syncing) 提供了可研究的同步协议实例；其字段和保证不自动适用于其他后端。
-
-### 5.3、时间戳重叠窗口只能尽力补漏 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-假设按服务端发送时间取历史，可回退一段时间重复抓取并用稳定 ID 合并。这样能降低边界碰撞和部分延迟可见造成的遗漏，却不能覆盖任意延迟、任意离线时长和未约定的时钟行为。
-
-同一时间值的记录多于一页时，需要确定性次排序键或服务端页 token；只把最后一条时间作为下一页起点可能跳过同时间记录。接口若只支持时间且没有可靠的翻页方法，就不能证明这一批已穷尽。
-
-重叠窗口、最大页数和刷新间隔是容量与体验的取舍，应记录“覆盖近期窗口”的承诺，不能表述成“保证消息不丢”。[对应 FAQ](#faq-sync)
-
-### 5.4、删除、编辑和权限不能靠列表缺项推断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-某条消息未出现在最近一页，可能因为分页、排序、权限或保留策略，不能直接判定它已撤回。没有离线撤回流、版本化快照或明确查询接口，就无法可靠感知离线期间的全部删除。
-
-若后端提供“某范围的完整权威快照”，才可按该范围契约对账；对账仍要保留本地待发及本地自有字段。分页普通列表不是这样的快照。
-
-已确认撤回可保存 tombstone，避免较旧的创建 / 历史记录恢复正文；撤回和编辑谁能覆盖谁依据状态规则，不能一律按到达时间覆盖。
-
-## 六、<span id="feature-policy">面向产品行为的降级表</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 6.1、回执、未读与多端 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 缺失或受限能力 | 可交付行为 | 必须保留的说明 |
-| --- | --- | --- |
-| 没有对端送达回执 | 显示本地等待、发送处理中、契约认可的服务端接受 | 不显示“对方已收到” |
-| 没有已读回执 | 正常聊天，隐藏已读提示 | 不以在线、推送点击或停留时间推断已读 |
-| 只有设备级已读 | 展示明确设备维度，或按契约聚合 | 不能默认等于账号所有设备已读 |
-| 没有权威未读数 | 本设备已知消息的计数 / 红点 | 新设备、历史不全时不声称账号未读总数 |
-| 已读上报无单调合并保证 | 限制并发上报，必要时取权威状态 | 本地串行不能解决其他设备覆盖问题 |
-| 没有多端偏好同步 | 草稿、免打扰等按本地作用域保存 | 设置页不声称自动同步到其他端 |
-
-`未知未读`、`已知为零`、`本地估算为零` 是三种状态。登录或同步未完成时，不用一个默认零抹掉差异；在获得权威状态后按规则收敛。[对应 FAQ](#faq-receipt)
-
-### 6.2、权限、撤回与附件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-权限能力不足不能降级为客户端自行授权。敏感接口仍须由服务端核验；客户端权限快照只用于及时禁用按钮。后端无法执行所需授权时，对应功能应受限或不交付。
-
-只有在线撤回通知时，可以处理已收到的通知，但要明确离线缺口。没有编辑版本时，优先查询当前权威实体；若也无查询能力，保留冲突状态，避免把“最后收到”宣传为正确版本。
-
-附件上传完成、业务侧确认可引用、消息服务接受，是三个不同阶段。只有裸上传接口时，需要确认引用如何形成、是否可查询最终状态、重复上传是否创建新资源；无恢复契约时不要承诺断点续传或跨启动自动完成。
-
-短期签名 URL 不是永久附件身份。缓存以稳定附件身份管理，访问地址失效通过授权接口刷新；若无刷新能力，展示资源已过期，不能绕过授权取回内容。
-
-### 6.3、没有长连接或推送的运行方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-没有长连接时，可按后端约定在前台使用 HTTP 手动刷新或有界轮询：进入会话、应用回前台、发送完成后触发适量刷新，并按限流、流量和电量预算调整。
-
-没有推送服务时，应把“后台即时提醒”列为不具备的能力。普通后台时间扩展只给有限的收尾执行机会，不能把定时器、轮询或心跳设计成后台常驻机制。[Apple：后台执行时间](https://developer.apple.com/documentation/uikit/extending-your-app-s-background-execution-time)
-
-即使已有后台推送，系统也不保证每次投递；恢复同步仍需依赖前台入口和后端可恢复数据。推送适合提示“可能有变化”，不代替同步完成凭证。[Apple：后台更新通知](https://developer.apple.com/documentation/usernotifications/pushing-background-updates-to-your-app)
-
-## 七、<span id="errors">协议错误到客户端动作</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 7.1、错误分类先于通用重试 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-下表是参考策略，具体错误码与业务效果由适配器映射。HTTP 状态码表达请求层语义，不单独证明消息有没有落库；例如网关超时可能发生在下游业务处理之后。
-
-| 归一化错误 | 客户端动作 | 保存的证据 |
-| --- | --- | --- |
-| 认证过期 | 合并并发续期；成功后按操作语义决定是否重试 | 账号代次、凭证代次、请求关联 ID |
-| 权限拒绝 | 停止该操作，刷新相关权限，解释原因 | 会话、权限版本、拒绝类型 |
-| 限流 | 遵守有效退避提示，设置最大等待预算 | 错误域、重试时刻、服务端提示 |
-| 传输中断 / 超时 | 进入未知结果决策，不一律变成发送失败 | 尝试 ID、阶段、幂等契约版本 |
-| 服务暂不可用 | 幂等读请求退避；写操作先判定可安全重试 | 响应、业务码、链路阶段 |
-| 同幂等键内容冲突 | 停止自动重试并核对原始意图 | 原始载荷摘要、契约及操作 ID |
-| 实体版本冲突 | 重取权威状态，再决定重新编辑或提示冲突 | 预期版本、实际版本 |
-| 游标过期 | 进入有边界的重新初始化，保留本地待发 | 流作用域、旧游标标识、失效原因 |
-| 消息类型不支持 | 安全占位或按协议隔离，避免阻断全部会话 | 类型、协议版本、脱敏诊断引用 |
-| 磁盘满 / 写库失败 | 不确认本地持久化，不推进同步检查点 | 错误分类、剩余空间与事务阶段 |
-
-### 7.2、限制重试放大与错误回退 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-同一错误在网络层、SDK 层、业务层同时重试，会把一次用户操作放大成多次请求。记录每层是否已消费重试预算，指定最终发送者。
-
-成功与失败回调都要校验原账号和任务代次。迟到超时不能覆盖已确认成功；旧版本失败不能回滚更新的权限或实体版本。协议冲突应有独立诊断，不能全归为“网络不好”。
-
-日志保留可关联的操作 ID、尝试 ID、服务端诊断 ID 和耗时，默认不记录明文内容、鉴权材料和完整附件签名 URL。
-
-## 八、<span id="cases">三种后端组合的完整接入示例</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 8.1、案例 A：普通 HTTP 聊天接口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**已知条件：** 消息有稳定 ID；POST 发送，超时后无结果查询也无幂等保证；历史按 offset 分页；没有已读、推送和长连接。这是教学组合，不代表某个实际团队。
-
-**客户端方案：** 本地保存意图和气泡；首次发送后取得契约认可的结果才确认成功，超时保留未知；前台按约定刷新近期窗口，历史按稳定 ID 合并；本地计数标为本设备范围。
-
-**生产边界：** 无后台即时提醒、无对方已读保证、无全历史完整性证明。未知操作的再次发送由明确交互处理；不能默默循环重发。
-
-**接入收益：** 数据库、列表、媒体缓存、账号隔离和诊断仍可做扎实；这些工程质量不会因为缺少长连接而失去价值。
-
-### 8.2、案例 B：有实时通道、同步能力不完整 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**已知条件：** WebSocket 推新消息；会话内顺序号可比较但不连续；发送键有限期幂等；历史可按消息位置查询；撤回只有在线通知；已读只按账号与会话提供。
-
-**客户端方案：** 连接恢复后按会话已知位置追赶；不按整数缺口无限补洞；幂等期限内有界重试；账号级已读按契约合并；已收到撤回保存墓碑。
-
-**生产边界：** 新消息追赶不能证明撤回完整。离线撤回需要额外实体核对或权威快照能力；当前没有时，明确保留该限制。推送若以后接入，只新增唤醒入口，不改变消息真值来源。
-
-**适配重点：** 实时事件和历史事件统一进入合并入口；握手成功不等于账号同步完成，连接状态与同步状态分开展示和监控。
-
-### 8.3、案例 C：成熟 SDK 托管消息能力 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**已知条件：** SDK 管理连接、消息数据库、离线同步与发送重试；回调和公开查询接口提供稳定消息身份；部分回执、搜索或群能力依赖 SDK 版本和服务配置。
-
-**客户端方案：** 使用业务门面隔离 SDK 类型，维护稳定 UI 映射；业务自有信息单独存储；公开接口承担历史加载和状态观察；按 SDK 文档配置账号退出、缓存及通知入口。
-
-**生产边界：** 不在 SDK 私有库上添加自有索引或修改状态；不为同一消息另跑自研重试循环。升级前验证回调顺序、持久化行为和错误映射；未购买 / 未启用 / 未确认的能力保持不可用或未知。
-
-**适配重点：** 公共业务接口可以统一，但 SDK 特有功能通过能力扩展暴露。强行把所有供应商压成最低共同能力，可能丢失生产需要的诊断、搜索和群管理功能。
-
-## 九、<span id="review">接入评审与问题定位模板</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 9.1、可以直接填写的评审记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 项目 | 填写内容 |
-| --- | --- |
-| 环境与版本 | 测试 / 生产、租户、协议或 SDK 版本、核对日期 |
-| 能力结论 | `unknown / unsupported / supported(contract)`，逐项记录 |
-| 成功定义 | 本地保存、网关接收、业务接受、远端持久化、对方接收分别如何证明 |
-| 身份与关联 | 本地、业务操作、网络尝试、服务端消息和事件的映射 |
-| 恢复边界 | 超时、断线、进程结束、游标失效、账号切换分别如何处理 |
-| 分页与覆盖 | 查询范围、排序、页边界、最后一页判据、历史可见性 |
-| 冲突与权限 | 编辑、撤回、成员变化、异步失败和旧回包的合并规则 |
-| 交付文案 | 不支持的功能如何关闭；未知、同步中、资源过期如何展示 |
-| 验证证据 | 端侧样本检查、真实接口联调、真机平台验证分别记录 |
-| 未决项 | 哪个能力尚未确认、影响什么承诺、采用什么临时策略 |
-
-评审记录的价值在于减少隐含假设。不能把“待后端确认”写完后继续按支持实现，也不能把全部未决项都归为客户端必修复缺陷。
-
-### 9.2、典型故障先按证据分层 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 表象 | 客户端先查 | 需要后端证据的部分 |
-| --- | --- | --- |
-| 重复消息 | 是否重复建意图、是否误换幂等键、SDK 是否已有重试 | 同一业务键是否生成多个服务端 ID |
-| 消息消失 | 写事务、账号作用域、分页合并、过滤条件 | 是否接受、保留 / 权限策略、同步覆盖 |
-| 未读不准 | 重放是否重复累加、读状态初始化、维度是否混用 | 权威计数规则、其他端状态、同步缺口 |
-| 发送卡住 | 附件依赖、任务领取、失败分类、未知结果处理 | 处理队列、限流、结果查询与最终状态 |
-| 已撤回又出现 | 墓碑、版本规则、历史回灌 | 撤回事件是否保留、历史响应是否过旧 |
-
-没有后端日志时，仍可给出“端侧已确认的事实、最小复现输入、尚缺哪一段证据”。不要把一个模糊“后端有问题”替代可协作的诊断结论。
-
-## 十、<span id="evidence">只有 iOS 环境时的研究与验证</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 10.1、无需服务器即可检查的内容 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-使用本地文件、内存事件序列和可替换时间源驱动适配器及策略；这些输入是测试替身，不是实际推送或长连接。本文只描述方法，没有创建测试工程或宣称已执行这些检查。
-
-| 固定输入 | 可检查的端侧性质 |
-| --- | --- |
-| 同一消息在线、历史各出现一次 | 有可靠身份时仅保留一个业务记录 |
-| 超时后成功回执迟到 | 原气泡更新为成功，不新建一条 |
-| 无幂等且结果未知 | 自动发送次数不继续增长 |
-| 相同正文、不同权威 ID | 两条合法消息都保留 |
-| 先撤回后创建 | 在协议允许该顺序时正文不复活 |
-| 账号退出后旧回调到达 | 不修改新账号、不发旧账号提示 |
-| 第 N 页落库失败 | 不推进该页完成检查点 |
-| 缺少回执或未读能力 | UI 不产生虚假的已读或权威数量 |
-
-这些检查能证明本地逻辑在给定输入下符合设计，不能证明远端按同一方式产生输入。真实后端幂等、APNs 投递、连接切换和端到端延迟保留为接入时的核验项。
-
-### 10.2、区分四种结论 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**设计已明确**表示条件和算法写清楚；**端侧已验证**表示有可复现输入与检查结果；**契约已确认**表示后端或 SDK 有具体保证；**联调已验证**表示在指定真实环境测过。
-
-文档辅助生产，不要求先拥有全部环境才能学习。交付时保留这四种状态，可以让后续工程师直接判断哪些代码能够复用、哪些参数要调整、哪些行为必须取得外部证据。
-
-## 十一、<span id="faq">FAQ：生产追问与面试回答</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 11.1、<span id="faq-formula">有没有能适配所有后端的 IM 架构？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**核心回答：** 可以统一客户端责任、接口和状态处理方法，不能统一所有后端的可靠性保证。先做能力矩阵，再由适配器归一化事件，稳定内核处理存储、任务和 UI，策略层选择重试、同步与降级。
-
-**追问回答：** 为新后端新增适配器后，还要确认身份、ACK、幂等、分页、权限等语义。只改 URL 和 JSON 字段，不能视为完成接入。[回到正文](#formula)
-
-### 11.2、<span id="faq-capability">接口有 client_message_id，就说明支持幂等吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**核心回答：** 不说明。必须确认服务端用它做什么，以及作用域、保存期限、重复调用返回和同键异内容处理。它也可能只是日志字段。
-
-**追问回答：** 未确认时标为 `unknown`，不启用依赖幂等的超时自动重发。一次联调没有重复，只能说明该样本行为，不能替代契约。[回到正文](#capabilities)
-
-### 11.3、<span id="faq-timeout">后端不支持幂等，发送超时后客户端怎么办？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**核心回答：** 先区分明确失败与结果未知。支持结果查询或可靠回声关联时先确认；确认原请求未生效才按契约重试，否则保留未知状态并限制自动重发。
-
-**追问回答：** 重试三次依然可能重复三条；单机串行只能控制本机调度，不能证明服务器只处理一次。人工重发也需要说明旧操作可能已成功。[回到正文](#send-policy)
-
-### 11.4、<span id="faq-identity">没有消息 ID，能不能用内容哈希去重？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**核心回答：** 不能把内容哈希当作通用权威身份。相同内容可以是不同消息，不同回包表示也可能属于同一消息；先找协议确认的稳定复合键。
-
-**追问回答：** 没有任何稳定关联时，只能做受限窗口展示或保留疑似重复，并明确无法可靠跨页去重。客户端生成本地 UI ID 解决视图身份，不能解决远端消息身份。[回到正文](#faq-identity-return)
-
-### 11.5、<span id="faq-sync">长连接正常，为什么还可能丢历史或者漏撤回？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**核心回答：** 实时通道只承载在线事件。断线后能否恢复，取决于历史 / 增量接口覆盖什么、保留多久、怎样续接。只有新消息历史，没有撤回记录，就无法证明离线撤回全部收敛。
-
-**追问回答：** 时间戳回退取数可降低部分漏项，但受窗口和分页限制；只有协议给出明确覆盖保证，才能声明该范围同步完成。[回到正文](#sync-policy)
-
-### 11.6、<span id="faq-receipt">后端不给已读和未读数，客户端能自己算吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**核心回答：** 可以维护本设备已知消息的本地阅读状态和计数，不能据此声称对方已读或账号全量未读。未知、估算和权威值要分开。
-
-**追问回答：** 缺少历史、新设备初始化和多端阅读都会使本地结果不完整。产品可以降级为本地红点，但必须保持语义一致。[回到正文](#feature-policy)
-
-### 11.7、<span id="faq-sdk">用商业 SDK，还需要自己实现一套消息数据库和重试吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**核心回答：** 先查 SDK 的职责。已经托管的连接、持久化、同步和重试通常不应重复实现；业务层做门面、能力映射、UI 投影和自有数据即可。
-
-**追问回答：** 要补能力时通过公开扩展点实施，并明确唯一所有者。两套重试或两份互相覆盖的消息真值会增加竞态和恢复困难。[回到正文](#adapter)
-
-### 11.8、<span id="faq-no-backend">只有 iOS 环境，能把研究做到对生产有帮助吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**核心回答：** 可以。先完成能力清单、状态机、错误映射、事务规则、输入样本和端侧检查，让逻辑能够被重放与定位；把真实服务行为列为后续接入核验项。
-
-**追问回答：** 本地事件注入验证的是客户端消费逻辑，不能称为已验证真实推送或长连接。在面试中明确这条证据边界，比声称所有链路都已跑通更可靠。[回到正文](#evidence)
-
-<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
-
-
-## iOS IM 聊天界面与多媒体工程
-
-
-![Jobs出品，必属精品](https://picsum.photos/1500/400)
-
-
----
-
-## 🔥 <span id="前言">前言</span>
-
-本文是 [iOS IM 开发研究手册](../iOS%20IM开发研究手册.md) 的界面与附件专题，覆盖消息进入界面、用户输入、媒体准备、发送、失败恢复与资源回收。数据库是可靠状态来源，聊天界面是状态的投影，附件流水线负责另一组独立且必须持久化的工作。
-
-以 [**UIKit**](https://developer.apple.com/documentation/uikit) 为主要讨论对象，不绑定特定 UI 框架。平台事实按 **2026-09-25** 查阅的 Apple 官方资料核验；业务状态机、缓存键和实验方案属于本文建议，应按协议与目标设备调整。所有流程代码均为语言无关伪代码，不能作为已编译的 SDK 示例。
-
-**阅读导航：** [职责与身份](#identity) → [列表与布局](#list) → [滚动锚点](#anchor) → [输入系统](#input) → [消息内容](#content) → [图片](#image) → [音频](#audio) → [视频与上传](#transfer) → [发送恢复](#recovery) → [隐私与无障碍](#accessibility) → [验证](#experiments) → [FAQ](#faq)。
-
-## 一、<span id="identity">职责分层与稳定身份</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 1.1、先定义关键对象 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 对象 | 定义 | 生命周期与边界 |
-| --- | --- | --- |
-| 消息实体 | 内容、发送者、会话和状态组成的业务记录 | 不持有 Cell、图片解码对象或播放器 |
-| 展示模型 | 给定消息与环境下，界面需要的不可变数据 | 包含内容版本、状态文案、布局输入 |
-| 稳定 UI ID | 同一逻辑消息在列表内不变化的身份 | 不能用当前位置或发送状态生成 |
-| 服务端消息 ID | 服务端分配的业务身份 | 发送前可能不存在，不能直接代替本地身份 |
-| 渲染版本 | 会改变内容或外观的版本标记 | 和身份分离，改变版本不等于新增消息 |
-| 附件记录 | 一份文件的身份、准备和传输状态 | 可被多个消息引用，不归某个 Cell 所有 |
-
-建议分成 `ConversationRepository → MessageWindow → PresentationBuilder → ListRenderer`，附件使用独立 `AttachmentStore → MediaProcessor → TransferCoordinator`。输入面板只提交命令；仓储提交后的变更驱动页面。播放协调器按业务决定跨页继续或停止，不让复用 Cell 自己充当播放器状态仓库。
-
-<span style="color:red"><b>Cell 出现不代表消息已发送；上传进度 100% 不代表服务端已接受消息。</b></span> 区分本地保存、排队、准备附件、上传、提交消息、服务端接受、目标设备送达和已读。UI 展示多少级状态由产品决定，内部状态不能因此合并。[对应 FAQ](#faq-state)
-
-### 1.2、pending 消息与 ACK 的合并 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-本地发送先生成 `clientMessageID`，同时建立持久 `localMessageKey` 作为 UI ID。ACK 是服务端对业务请求的确认，不是 TCP 确认；收到 ACK 后给原消息填入 `serverMessageID`、服务端时间和顺序号，保留 `localMessageKey`。远端补拉的同一条消息通过协议约定的 `clientMessageID` 或映射表与本地消息合并。
-
-| 事件顺序 | 正确处理 | 常见错误 |
-| --- | --- | --- |
-| 本地插入 → ACK → 同步回显 | 更新同一个实体与 UI ID | 把回显作为第三条消息 |
-| 本地插入 → 同步回显 → ACK | 先合并回显，ACK 再幂等补充 | ACK 到达后删除旧行再插入新行 |
-| 请求超时 → 重试 → 原 ACK 到达 | 同一幂等发送操作收敛 | 每次重试生成新消息，重复发送 |
-| 服务端排序位置改变 | 保留身份，按确认的排序规则移动 | 用创建时间覆盖可靠顺序号 |
-
-服务端未回传客户端关联标识时，单凭文本、时间和发送者匹配并不可靠，应修改协议或明确无法消除的歧义。消息删除、撤回、编辑也要保留足够版本信息，避免迟到回调重新显示已删除内容。
-
-Apple 的 Diffable Data Source 设计使用稳定标识；模型其他属性变化时，标识不应改变。业务层的 pending 合并策略是本文在此基础上的设计。[Apple：Make blazing fast lists and collection views](https://developer.apple.com/videos/play/wwdc2021/10252/)
-
-### 1.3、会话列表是独立读模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-会话行包含置顶顺序、最后有效消息摘要、最后活动排序键、未读数、免打扰、草稿、提及提示和发送失败提示。把这些字段从每条消息独立拼接，容易出现摘要已更新、未读仍旧值的短暂矛盾；优先发布同一持久化版本对应的会话快照。
-
-草稿是否影响排序、撤回后显示提示还是前一条有效消息、历史补拉是否影响最近会话顺序，都属于显式业务规则。低序号历史消息不应无条件覆盖最新摘要。在线状态、正在输入等短期信号使用失效时间和独立刷新节流，不能每个心跳重新排序全列表。
-
-## 二、<span id="list">长列表、差量更新与布局缓存</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 2.1、容器选型与窗口化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-`UITableView` 适合相对规则的单列气泡；`UICollectionView` 对多形态布局、组合展示和自定义布局更灵活。选择依据是目标交互、团队维护能力与实测，不是“某个组件天生不卡”。先把数据正确性、测量成本和异步资源管理拆开，再决定容器。
-
-**窗口化**是只保留当前阅读位置附近的消息展示数据。复用 Cell 只限制可见视图数量，不会自动限制消息数组、富文本、图片帧和布局字典的大小。大历史会话应从本地库分页读取，保留前后缓冲窗；窗口淘汰时保护阅读锚点、播放消息和编辑中的目标。
-
-初始打开最新消息、定位未读、搜索跳转历史位置，应分别定义加载入口。定位历史消息时先建目标附近窗口，再补两侧历史；不要从最新页一直向前加载到目标。恢复窗口需要保存消息 ID 与相对位置，不能保存只对旧数组有效的 `IndexPath`。
-
-### 2.2、把一次数据变更压缩成一次合理更新 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**Diff**是比较两份列表状态得到插入、删除、移动和内容变更。渲染管线接受一个有序事件流，合并同一短时间内的非关键变化，生成最新快照；已读回执和上传进度不应每一包都触发全量布局。
-
-| 变化 | 首选动作 | 需要检查 |
-| --- | --- | --- |
-| 发送状态图标变化 | 更新受影响的已存在项目 | 图标占位是否固定，是否改变高度 |
-| 文本编辑、翻译展开 | 内容更新并失效该消息布局 | 当前阅读锚点是否需要补偿 |
-| 新消息进入当前会话 | 插入稳定 ID | 是否贴底，是否显示新消息计数 |
-| 会话顺序变化 | 移动会话 ID | 手势操作期间是否延迟动画 |
-| 一次离线补拉大量消息 | 合并提交快照，按窗口展示 | 不为屏幕外全部消息逐条动画 |
-
-快照应用使用单一协调入口，避免两次异步更新交叉操作同一列表。可保存“最后已应用版本”和“待应用最新版本”；更新结束再处理后续版本。具体 API 是否允许在哪个队列计算或应用，应按采用的 SDK 文档处理；视图变更统一归主线程，禁止把“后台准备模型”理解成随意在后台操作 UIKit 对象。
-
-预取可以提前启动数据和图片准备，但预取请求可能取消，也可能没预取就直接显示。因此 Cell 配置必须能独立处理冷缓存。Apple 官方列表样例强调预取和图片准备；业务仍要自行实施有界队列与任务去重。[Apple：Building high-performance lists and collection views](https://developer.apple.com/documentation/uikit/building-high-performance-lists-and-collection-views)
-
-### 2.3、布局缓存必须能正确失效 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**测量缓存**保存给定内容与布局条件下的高度、文字排版和附件区域。缓存键至少考虑 `UI ID + 内容版本 + 容器有效宽度 + 字号类别 + 版式版本`；按实现补充显示比例、语言方向、折叠状态、头像分组、引用内容版本。宽度使用实际布局宽度，不能用全屏宽度代替分屏窗口宽度。
-
-| 触发变化 | 失效范围 | 容易漏掉的关联 |
-| --- | --- | --- |
-| 正文编辑、翻译展开 | 当前消息 | 会话摘要、搜索高亮缓存 |
-| 图片尺寸元数据到达 | 当前附件消息 | 消息高度与滚动锚点 |
-| 插入或删除相邻消息 | 当前与相邻分组消息 | 昵称、头像、时间分隔和气泡尾巴 |
-| 字号、窗口宽度或方向变化 | 当前窗口内相关布局 | 缓存内同 ID 的旧环境结果 |
-| 引用消息被撤回 | 所有引用其快照的可见项 | 已缓存引用标题与高度 |
-
-纯文本预处理和线程安全的独立测量可以在受控执行器中进行；不要把正在显示的 `UITextView`、约束树或共享可变排版对象拿到后台复用。测量结果携带输入版本，回主线程应用前再比对，丢弃旧结果。缓存设容量上限并统计命中率，不能用命中率掩盖错误高度。[对应 FAQ](#faq-layout)
-
-### 2.4、异步 Cell 复用协议 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-每次绑定生成 `bindingGeneration`，保存消息 ID、资源键和请求句柄。解绑或复用时取消本 Cell 的订阅、重置进度、播放指示、占位和无障碍描述；共享资源请求只在没有订阅者且没有其他业务需求时才考虑取消。
-
-```text
-bind(cell, item):
-  cell.generation += 1
-  expected = (item.uiID, item.contentVersion, cell.generation, item.resourceKey)
-  renderSynchronousState(item)
-  subscribeResource(item.resourceKey, completion):
-    dispatchToUI:
-      if cell.currentBinding != expected: discard
-      else: applyPreparedResource(completion)
-```
-
-取消是节省工作，身份与版本校验才是拒绝迟到结果的最后防线。禁止在图片完成回调中使用旧 `IndexPath` 找当前 Cell；若通过数据源更新，也先按稳定 ID 查当前实体。[对应 FAQ](#faq-reuse)
-
-## 三、<span id="anchor">分页、阅读锚点与自动滚动</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 3.1、顶部分页保持同一行的视觉位置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**滚动锚点**是一条稳定消息及其相对可见区域的位置。正常正向列表的建议步骤如下；倒置列表也必须保持同一不变量，不能直接照搬坐标符号。
-
-1、更新前记录第一条合适的可见消息 `anchorID`，以及其顶部相对列表可视区域的 `oldVisualY`。同时记录是否贴底、是否拖动和当前布局环境。
-
-2、使用服务端或数据库分页游标加载更早消息，去重后合并到同一消息窗口，生成快照。请求带窗口世代标识；切换会话或跳转搜索结果后拒绝旧分页返回。
-
-3、应用快照并等待本轮实际布局，重新按 `anchorID` 查到 `newVisualY`。对正向列表使用 `contentOffsetY += newVisualY - oldVisualY`，把同一消息移回原来的视觉位置。
-
-4、随后若自适应高度发生二次变化，在更新协调器中继续维护锚点；避免与用户拖动争抢。锚点被撤回或过滤时选最近仍存在的可见邻居；视口变化时按产品确定保顶部阅读位置还是底部阅读位置。
-
-单纯用 `newContentSize.height - oldContentSize.height` 补偿，只适用于变化都发生在锚点之前且高度准确的受限场景。图片高度补全、页脚变化和键盘 inset 同时发生时，应优先用消息几何位置校正。记录坐标所在视图，不能把屏幕坐标、内容坐标和安全区偏移混在一起。[对应 FAQ](#faq-anchor)
-
-### 3.2、新消息是否滚到底部 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**贴底**表示距离最新内容末尾处于产品定义的容差内，判断要计入有效底部 inset 与输入面板遮挡。收到新消息前捕获该状态；已贴底时保持末尾可见，正在看历史时保持阅读位置并累加“新消息”提示。
-
-用户主动发送消息通常进入跟随最新消息模式，但引用历史消息、搜索上下文和回复线程可以另设规则。键盘弹出、输入框增高和横竖屏切换沿用同一阅读模式；不能让三个独立回调各调用一次滚到底部，造成争抢和闪动。
-
-## 四、<span id="input">键盘、输入框与页面几何</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 4.1、统一输入面板状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-输入面板建议建模为 `idle / keyboard / emoji / attachment / recording`，另存草稿、选择区间、引用对象和焦点。状态切换由一个协调器更新输入区高度、列表底部可见区域和滚动策略，避免“键盘通知管理一次、表情面板再管理一次”的重复 inset。
-
-多行输入设置最小高度与最大可视高度，到上限后只滚动输入框内部。草稿节流持久化，在切会话等关键边界补写；中文拼音组合输入期间保留 marked text，不能每次输入都整段替换文本或强行重新解析 mention，破坏正在组合的输入。
-
-交互收起键盘时，消息列表和输入区同步跟随几何变化；输入框保留焦点和选择区语义。发送动作采用防重复提交标识，按钮防连点只是附加保护。外接键盘的回车、换行、快捷发送也要经过同一个发送命令入口。
-
-### 4.2、键盘布局与安全区 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-`UIKeyboardLayoutGuide` 表示键盘在当前视图布局中占据的区域；该能力从 iOS 15 引入。非停靠键盘是否跟随是独立配置，默认不等于一直追踪悬浮键盘。系统键盘未显示时，指南默认涉及底部安全区，因此不能再盲目加一次底部安全区。[Apple：Your guide to keyboard layout](https://developer.apple.com/videos/play/wwdc2021/10259/)、[键盘布局样例](https://developer.apple.com/documentation/uikit/adjusting-your-layout-with-keyboard-layout-guide)
-
-采用通知兼容旧系统时，应把键盘 frame 转到当前窗口和页面坐标，求真实遮挡交集并跟随系统动画参数。不能使用“键盘高度固定 216”“全局第一个 Window”或只监听 show/hide。iPad 分屏、悬浮键盘、旋转和外接键盘候选栏都可能改变几何条件。
-
-输入附件视图与页面内输入条是两种实现选择，先选一种几何所有者。当前 Scene 管理自己的窗口、安全区和键盘关系。旋转或窗口调整前后保留阅读锚点、草稿、光标和选择态，重算宽度相关布局；列表短于一屏时另行定义贴底布局，不能依赖负高度填充凑位置。
-
-## 五、<span id="content">富文本、引用与自定义消息</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 5.1、文本协议比富文本显示对象更稳定 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-传输层保存正文与语义实体，例如 `mention(userID, range)`、链接、强调、引用 ID；展示层生成富文本。不要把本地平台专用富文本归档作为跨端协议。实体 range 必须约定按 UTF-8 字节、UTF-16 单元还是 Unicode 字符计算；表情组合、肤色和多语言输入应有跨端样例验证。
-
-mention 以用户 ID 表达身份，昵称只是展示快照；重命名不应改变被提及对象。对正文编辑、粘贴、撤销和选择区删除同步修正实体范围，无法保留完整实体时按约定降级为普通文本。服务端同样校验范围与长度，客户端展示不能假设外部消息合法。
-
-链接识别和预览解耦。点击前校验 scheme、目标和打开策略；预览请求设置大小、重定向和超时限制，不在列表滚动中同步抓网页。外链预览会产生网络可观察行为，可采用服务端代理或显式预览策略；端到端加密产品要评估代理是否额外暴露消息中的链接。
-
-### 5.2、回复、线程与自定义卡片 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 能力 | 需要保存的语义 | 失败与兼容策略 |
-| --- | --- | --- |
-| 引用回复 | 原消息 ID、可选摘要快照、发送者 | 原文不存在、无权限或撤回时显示对应占位 |
-| 回复线程 | 线程根 ID、回复位置、线程读状态 | 主会话与线程的未读规则分别定义 |
-| 消息编辑 | 内容版本、编辑时间或事件版本 | 迟到旧版本不能覆盖新版本 |
-| 自定义消息 | 类型、schema 版本、结构化 payload | 未知版本显示安全摘要与升级提示 |
-| 交互卡片 | 业务资源 ID、动作类型、权限信息 | 展示状态和服务端操作结果分别更新 |
-
-卡片点击提交业务命令后，需要幂等键、当前账号权限和服务端返回；不能因为旧消息显示“可领取”就推断资源仍可领取。反序列化未知 payload 时设置长度、嵌套层数和字段上限；不允许消息携带任意脚本、类名或本地方法名后直接执行。
-
-回复跳转先解析权限与可恢复范围，再加载目标附近消息窗口。引用快照用于“这条回复当时指向什么”，原消息当前状态用于“现在是否允许展示”；撤回、过期和隐私策略应明确决定是否清除快照，避免形成撤回后的旁路保留。
-
-## 六、<span id="image">图片消息、缩略图与动图</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 6.1、区分文件大小与解码内存 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**Downsample（降采样）**是在解码阶段按目标显示像素生成较小图像。文件只有几 MB，不代表显示时也只占几 MB；例如 4,000 × 3,000、每像素 4 字节的位图，像素缓冲约 45.8 MiB，尚未算中间缓冲、对齐和其他副本。该计算仅说明量级，不代表所有图像固定采用此格式。
-
-列表使用缩略图，预览按显示需求请求更大版本，原图下载由用户动作或策略控制。目标像素由显示点尺寸与显示比例决定，宽高以方向修正后的图像为准。优先使用 [**Image I/O**](https://developer.apple.com/documentation/imageio) 进行尺寸适配，避免先完整解码原图再缩成小图；Apple 把适当缩放和色深控制列为降低图像内存的办法。[Apple：Making changes to reduce memory use](https://developer.apple.com/documentation/xcode/making-changes-to-reduce-memory-use)
-
-把下载字节缓存、解码图像缓存和布局尺寸缓存分开；缓存键包含账号隔离域、附件 ID、版本、目标像素规格和处理方式。签名 URL 只是短期访问凭证，不适合作为唯一内容身份。服务器提供的宽高不可信时做范围校验，未知尺寸使用有意义的加载外观，并在元数据到达后受控修正布局。
-
-### 6.2、动图与超大图 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**GIF 或其他动图**需要帧调度与解码预算。不要一次展开所有帧放入数组；限制预解码帧数、总像素和并发数量。只播放当前可见且符合策略的少量动图，离屏、后台或资源压力时停播；复用时通过附件 ID 恢复所需展示状态，而非把上一条动画留在 Cell。
-
-超长图和全景图按目标预览等级加载；特别大的原图可以研究分块显示或服务端分片，但要验证方向、缩放边界和缓存成本。格式类型、压缩率、帧数、像素尺寸都设预算，拒绝损坏或异常资源，避免仅依据文件后缀选择解码器。
-
-发送侧保留选图顺序和原始选择意图，分别产出上传版本与缩略图。默认是否保留 EXIF 定位、原图和动态信息是明确的隐私与质量策略；不要在“压缩一下”的工具函数里隐式决定。内存压力下先清理可重建解码缓存，不能删除待发送且唯一的源文件。[对应 FAQ](#faq-media)
-
-## 七、<span id="audio">语音消息与音频会话</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 7.1、录制状态不能由按钮外观推断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**音频会话**是应用向系统声明音频使用意图的机制；**语音消息**是录制后上传的文件，与实时通话链路不同。建议由应用级音频协调器仲裁语音播放、录制、视频播放和通话占用，页面只申请能力和订阅状态。
-
-```text
-idle → requestingPermission → preparing → recording → finalizing → ready
-                              ↘ failed       ↘ interrupted       ↘ failed
-recording → cancelling → idle
-ready → attachmentPipeline
-```
-
-按下录音先检查权限；用户允许后，还要确认按压会话仍然有效再启动录制，避免弹窗结束时手指早已抬起却开始录音。权限用途需要配置 `NSMicrophoneUsageDescription`；当前文档把旧 `AVAudioSession` 请求录音权限入口标为 deprecated，并指向 `AVAudioApplication`，具体版本分支按项目最低系统校验。[Apple：Recording permission](https://developer.apple.com/documentation/avfaudio/avaudiosession/requestrecordpermission(_:))
-
-停止录制后先完成容器写入，再验证文件存在、可解析和时长，最后移交附件管线。过短录音、磁盘不足、编码失败、页面退出、锁屏与系统打断有不同的用户反馈；未完成的文件不能假装可发送。计时显示用单调时间或实际媒体时间，波形采样用于展示，不作为文件已保存的证明。
-
-### 7.2、中断、路由和贴耳播放 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-音频中断开始时更新业务状态、停止相关 UI 动画并记录播放位置或录制结果；中断结束后结合系统恢复选项、原先是否播放、用户是否仍希望播放、当前页面和通话状态决定恢复。不能把恢复提示解释为无条件重新开麦。[Apple：Handling audio interruptions](https://developer.apple.com/documentation/avfaudio/handling-audio-interruptions)
-
-耳机插拔、蓝牙切换与会话 category 变化属于路由变化。以实际当前路由为依据，处理“旧输出不可用”等原因；语音从耳机脱落后通常暂停或要求显式继续，避免私密内容突然外放。路由回调进入统一状态执行器，再向主线程发布 UI；不能假定所有系统回调都发生在主线程。[Apple：Route change notification](https://developer.apple.com/documentation/avfaudio/avaudiosession/routechangenotification)
-
-贴耳播放同时涉及距离感应、音频路由和屏幕交互，不能仅改一个扬声器开关。距离感应只在相关播放期间启用，结束后释放；并非所有设备都有距离传感器，启用失败要保留手动听筒/扬声器选择或其他可用体验。[Apple：Proximity monitoring](https://developer.apple.com/documentation/uikit/uidevice/isproximitymonitoringenabled)
-
-另外处理媒体服务重置、耳机与蓝牙能力差异、录音格式协商、波形缓存、连续播放队列和倍速播放策略。收到撤回/过期事件时停止受影响资源的播放；离开 Cell 只解除展示绑定，是否停止声音由播放协调器的规则决定。[对应 FAQ](#faq-audio)
-
-## 八、<span id="transfer">视频、文件与上传流水线</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 8.1、先导入稳定文件，再处理和传输 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**导入**是把系统选择器交付的资源变成应用可管理的输入。选择完成不等于文件已在本地：资源可能还需从 iCloud 读取，文件 URL 也可能有临时有效期或访问范围。导入失败、取消、资源不可下载和文件供应商失联必须独立反馈；长期任务使用受控副本或正确管理的授权访问。
-
-例如 `NSItemProvider` 的文件表示加载接口可以交付临时副本，相关文档明确说明该副本在完成处理器返回后删除；需要长期使用时应在有效期内复制到受控路径，不能只保存 URL 再让后台任务稍后读取。[Apple：Loading a file representation](https://developer.apple.com/documentation/foundation/nsitemprovider/loadfilerepresentation(fortypeidentifier:completionhandler:))
-
-视频处理先读元数据并判断能否直传；需要转码时确定分辨率、帧率、码率、音频、方向、HDR/SDR 和服务端兼容要求。`AVAssetExportSession` 通过预设和文件类型等条件导出，兼容性需要检查，不能把“扩展名改成 mp4”当转码；导出结果也未必更小。[Apple：AVAssetExportSession](https://developer.apple.com/documentation/avfoundation/avassetexportsession)
-
-转码设置并发上限与取消路径，按当前热状态和用户优先级调度；保留源文件直到产物校验完成。产物先写临时路径，成功后切换到正式附件路径，失败清理半成品。数据库事务无法包住文件系统和云存储所有操作，后续由 [恢复状态机](#recovery) 对账。
-
-### 8.2、上传凭证、断点与后台边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 阶段 | 需要持久化的状态 | 恢复动作 |
-| --- | --- | --- |
-| 准备上传 | 附件 ID、版本、文件校验信息、大小 | 检查源文件与任务仍有效 |
-| 创建上传会话 | 服务端 upload ID、分片策略 | 过期或不存在时重建会话 |
-| 分片上传 | 已确认分片及服务端返回标识 | 向服务端对账，补传缺失分片 |
-| 完成对象 | 目标对象 ID、最终化结果 | 幂等查询或重做最终化 |
-| 提交消息 | 附件引用、消息幂等 ID | 按同一消息操作重试并去重 |
-
-签名 URL 到期应重新向业务服务鉴权并取凭证；先确认对象或分片是否已被接受，再重试，避免丢弃可用进度。凭证刷新必须绑定原账号、原附件与原版本，日志不能完整记录签名参数。鉴权失败、文件已删除和临时网络错误采用不同恢复路径。[对应 FAQ](#faq-upload)
-
-“断点续传”需要客户端、传输 API 和服务端协议共同支持。对象存储分片、HTTP 下载续传和 URLSession 上传恢复不是同一种能力；不要假定某个 resume data 可跨任意 URL、请求方法或存储供应商使用。检查服务端确认的字节或分片范围，不能仅依赖客户端显示过的进度。
-
-后台 `URLSession` 可把 HTTP/HTTPS 文件传输交给系统进程，但不承诺立刻执行。系统终止后可按同一会话标识重新关联任务；用户从多任务界面强制退出会取消后台传输，应用不会因此自动重启。用户再次启动后再对账恢复。[Apple：Background session configuration](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/background(withidentifier:))
-
-后台上传应遵守文件型任务的限制，不能把内存流式上传的一套假设直接搬过去；保存任务与业务附件的映射，并让源文件在任务需要期间可读。后台传输成功仍需回到业务消息提交阶段，不能直接把气泡标为送达。[Apple：Downloading files in the background](https://developer.apple.com/documentation/foundation/downloading-files-in-the-background)
-
-### 8.3、附件缓存的保留与淘汰 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**缓存配额**按账号和资源类别分配磁盘、解码内存及并发预算，至少区分待发送唯一文件、已上传可重下文件、缩略图、临时转码产物和用户明确离线保留资源。LRU 表示优先淘汰较久未使用的条目，但必须先过滤不能删除的资源。
-
-删除文件采用“引用/租约检查 → 标记待清理 → 执行删除 → 更新索引”，播放、分享、导出和后台上传期间持有资源租约。进程异常后通过超时和任务对账释放旧租约；重建成本高但可恢复的文件可降低淘汰优先级。聊天记录删除和附件删除不能简单一对一，转发与多消息引用可能共享对象。
-
-## 九、<span id="recovery">消息与附件跨资源恢复</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 9.1、用依赖关系驱动发送 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**Outbox（发件箱）**是持久保存待执行发送意图的记录。每条发送意图关联零个或多个附件，只有所有必需附件满足约定状态才能提交引用这些附件的消息；纯文本不必等待无关上传。
-
-```mermaid
-flowchart LR
-    A[持久化发送意图与附件关联] --> B[准备附件文件]
-    B --> C[上传并最终化对象]
-    C --> D[幂等提交消息]
-    D --> E[服务端业务 ACK]
-    E --> F[更新原消息与会话投影]
-    B --> R[记录失败阶段与可恢复原因]
-    C --> R
-    D --> R
-    R --> B
-    R --> C
-    R --> D
-```
-
-失败恢复根据已持久阶段选择入口，图中的回路不表示盲目重做全部步骤。发送按钮点击后可以先显示“正在准备”的本地消息，但只有发送意图与附件关系已经可靠保存后，才承诺能够跨崩溃恢复。保存失败时保留草稿并明确失败，不清空唯一输入。[对应 FAQ](#faq-state)
-
-### 9.2、逐个枚举崩溃窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 崩溃窗口 | 重启可观察状态 | 恢复原则 |
-| --- | --- | --- |
-| 已复制文件，尚未记录附件 | 孤立暂存文件 | 暂存清单或超期扫描回收 |
-| 已记录附件，文件未完成 | 记录存在但文件不完整 | 验证后重做准备或提示重新选择 |
-| 上传已成功，客户端没存结果 | 任务状态落后于云对象 | 用 upload ID 查询服务端结果 |
-| 云对象成功，消息被拒绝 | 孤立云对象与失败消息 | 按权限/内容错误提示，服务端延迟回收 |
-| 消息已接受，ACK 未收到 | 本地仍等待发送 | 用原幂等 ID 重试或查询结果 |
-| 用户取消时迟到成功回调 | 任务可能已完成 | 校验取消世代；按协议撤销/回收，不复活 UI |
-
-云端对象回收由服务端依据引用关系和保留期进行，不能让一个客户端超时就立即删除可能已被其他消息引用的对象。支持端到端加密时，附件密文、密钥封装和缩略图需作为明确资源处理，任何恢复步骤都不能把明文当作无害临时缓存。
-
-## 十、<span id="accessibility">分享、隐私与无障碍</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 10.1、系统入口与资源安全 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-优先通过 `PHPickerViewController` 获取用户选择的照片/视频，不为普通选图先索要全相册权限；选中的项目仍需异步加载。直接管理相册、拍摄和保存到相册是不同权限需求；仅保存内容时采用对应的添加权限级别。[Apple：Selecting Photos and Videos in iOS](https://developer.apple.com/documentation/photokit/selecting-photos-and-videos-in-ios)
-
-文件选择器、系统分享和拖放输入统一进入导入管线：校验类型、大小、文件名和内容，防止路径越界；不信任扩展名，不自动执行附件。用户导出的文件副本有自己的保留与清理规则；系统分享完成回调也不等于某个外部收件人已收到。
-
-转发生成新的消息操作和新的发送身份，按策略引用现有附件或复制资源，不复用原消息 ID。跨会话转发需检查目标权限、内容有效期及端到端加密会话的密钥边界，不能直接搬运仅原会话可解密的引用。
-
-剪贴板读取必须有可理解的用户动作，避免进入聊天页就读取敏感内容。系统 `UIPasteControl` 表达用户的粘贴意图；iOS 16 起程序化读取粘贴内容可能触发授权提示，应适配其实际交互。[Apple：UIPasteControl](https://developer.apple.com/documentation/uikit/uipastecontrol)
-
-账号退出先停止展示订阅和任务回调，再隔离/清理该账号的明文缓存及授权状态；共享设备的缓存键必须包含账号域。日志记录附件 ID、阶段与错误分类，避免消息正文、文件绝对路径、身份凭证或敏感缩略图进入诊断上传。
-
-文件保护等级会影响锁屏后的可访问性：`complete` 在锁屏时不能读写，`completeUntilFirstUserAuthentication` 在开机首次解锁后仍允许后续锁屏期间访问。按资源敏感度和后台传输需求明确选择并测试，不能为了上传方便把所有聊天文件统一降级；设备文件保护也不等于端到端加密。[Apple：FileProtectionType](https://developer.apple.com/documentation/foundation/fileprotectiontype)、[首次解锁保护语义](https://developer.apple.com/documentation/foundation/fileprotectiontype/completeuntilfirstuserauthentication)
-
-### 10.2、可访问性必须进入布局设计 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-**Dynamic Type**是系统按用户选择调整文字大小的能力。使用系统文本样式或可缩放自定义字体，同时允许控件和气泡高度随之变化；只把字体放大而保持固定高度会裁切。字号变化应进入 [布局缓存键](#list)。[Apple：Scaling fonts automatically](https://developer.apple.com/documentation/uikit/scaling-fonts-automatically)
-
-**VoiceOver**是系统屏幕朗读能力。消息读法建议组织为“发送者、正文或媒体类型、时间、发送状态”，避免把头像、昵称和气泡重复朗读。播放、复制、回复、重试等提供有名称的可访问动作，不能只能靠长按或滑动触发。[Apple：UIAccessibilityCustomAction](https://developer.apple.com/documentation/uikit/uiaccessibilitycustomaction)
-
-**RTL**是从右向左的界面方向。区分语言方向、文本自身方向和消息收发归属；使用方向语义布局，播放进度等控件不应机械镜像。`semanticContentAttribute` 用于表达此类视图语义。[Apple：Semantic content attribute](https://developer.apple.com/documentation/uikit/uiview/semanticcontentattribute)
-
-新消息突发时不逐条打断 VoiceOver 朗读；根据当前焦点和用户阅读模式合并提示并保持焦点。发送失败不能只变红，需有文字或可访问状态；减少动态效果、提高对比度、深浅色和大字号都纳入实验矩阵。[对应 FAQ](#faq-accessibility)
-
-## 十一、<span id="experiments">研究实验与验收矩阵</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 11.1、先定预算，再测量收益 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-性能指标至少包括首个可读消息时间、打开会话耗时、快照应用耗时、布局耗时、主线程停顿、滚动卡顿、解码峰值内存、磁盘缓存量、上传耗时与失败阶段分布。区分冷缓存和热缓存、实时流和离线补拉、短会话和长历史，按设备类别记录分位数而非仅平均值。
-
-60 Hz 与 120 Hz 的显示周期分别约 16.7 ms、8.3 ms，但不能把整段周期都当应用主线程可独占的预算；帧是否完成还受系统调度和渲染工作影响。以 [**Xcode**](https://developer.apple.com/xcode/) 和 Instruments 的实际表现定位瓶颈，不凭视觉感觉认定“异步就没问题”。
-
-| 实验 | 注入方式 | 正确性验收 |
-| --- | --- | --- |
-| 稳定身份 | ACK、回显、重试随机排序 | 同一消息只出现一次，状态收敛 |
-| 历史分页 | 连续向上翻页并插入实时消息 | 当前阅读消息不跳走，顺序不重复 |
-| 动态高度 | 缩略图迟到、编辑、字体放大同时发生 | 无裁切，锚点误差在项目阈值内 |
-| 高速复用 | 快速滑动并注入乱序图片响应 | 零串图、零旧状态、无残留播放指示 |
-| 键盘几何 | 旋转、分屏、悬浮、外接键盘与表情切换 | 输入可见，inset 不重复，草稿保留 |
-| 极端媒体 | 超长图、大动图、损坏文件、HDR 视频 | 有界内存，明确拒绝/降级，不假成功 |
-| 录音中断 | 来电、拒权、路由变化、磁盘不足 | 不静默丢录音，不自动重新开麦 |
-| 上传恢复 | 丢 ACK、签名过期、分片部分完成后终止 | 不重复消息，不重传已确认有效分片 |
-| 后台边界 | 正常挂起、系统终止、用户强退分别测试 | 各自符合恢复规则，不混称后台可靠 |
-| 跨账号 | 上传中退出并登录另一账号 | 回调、缓存、气泡和凭证不串账号 |
-| 无障碍 | 最大字号、VoiceOver、RTL、减少动态效果 | 可阅读、可操作，焦点与语义一致 |
-
-### 11.2、形成可复现的证据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-每组保存设备、系统、构建配置、消息分布、资源尺寸、网络条件、缓存状态和操作脚本。比较方案时只改变一个主要变量，例如测量缓存、图片降采样或快照合并；同时记录尾延迟和资源峰值，避免一个指标改善而另一个恶化。
-
-后台行为在真机脱离调试器验证，并区分主动强退和系统终止。当前文档只核验资料与结构，未宣称完成这些真机实验，也未把演示伪代码当成生产库。实验中的阈值由产品规模与最低支持设备确定，不提供“所有 IM 通用”的硬编码标准。
-
-## 十二、<span id="faq">FAQ：带答案的工程追问</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a>
-
-### 12.1、<span id="faq-state">消息已经出现在列表里，能否显示发送成功？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-不能。出现只说明本地展示状态已创建；本地持久化、附件上传、服务端接受、设备送达和已读是不同事实。发送成功标签至少绑定协议定义的业务确认，附件成功不能代替消息确认。崩溃恢复依赖持久发件箱和幂等操作，不依赖 Cell 是否显示过。[返回发送状态](#identity)、[返回恢复设计](#recovery)
-
-### 12.2、<span id="faq-layout">高度缓存只用 messageID 做 key 是否足够？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-不够。同一消息在宽度、字号、编辑版本、翻译展开和引用变化后可能高度不同；相邻分组变化也可能影响头像和时间分隔。将影响布局的输入纳入 key 或失效规则，结果应用时验证版本。命中一个错误缓存比重新测量更糟。[返回布局缓存](#list)
-
-### 12.3、<span id="faq-anchor">顶部分页只加 contentSize 的高度差为什么会跳？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-因为高度差可能包含锚点之后的变化，也可能仍是估算高度；键盘、图片尺寸与安全区还会共同影响坐标。保存稳定消息 ID 和视觉位置，在实际布局后校正该消息位置，再处理后续高度变化。锚点删除时准备相邻候选。[返回锚点算法](#anchor)
-
-### 12.4、<span id="faq-reuse">图片请求已经 cancel，为什么仍然会串图？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-取消和完成回调存在竞态，已排队回调仍可能到达；共享请求也可能继续服务其他页面。绑定时记录 UI ID、内容版本、资源键和世代，回调应用前再次比较。取消负责减少浪费，校验负责保证正确性。[返回复用协议](#list)
-
-### 12.5、<span id="faq-media">图片都已经压缩到 1 MB，为什么还内存暴涨？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-压缩文件大小与解码位图大小不是同一维度；多个高像素图片、动图帧和中间副本可以同时占用大量内存。按显示规格降采样，限制解码与动图帧缓存，并分别管理文件缓存和解码缓存。排查时看像素、并发与生命周期。[返回图片工程](#image)
-
-### 12.6、<span id="faq-audio">录音中断结束后自动恢复，体验是否更好？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-不一定。恢复播放要结合系统选项与用户意图；恢复录音可能在用户未察觉时重新开麦。保存可用录音或明确提示中断，由用户继续操作，并在状态机中区分播放恢复与录音重新开始。路由改变也要防止私密内容意外外放。[返回音频状态](#audio)
-
-### 12.7、<span id="faq-accessibility">无障碍能否等上线前只补 label？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-不能。大字号影响布局和缓存，VoiceOver 影响焦点与操作入口，RTL 影响方向语义，失败提示不能只依赖颜色。只补 label 无法修复固定高度裁切或只能滑动触发的动作；从展示模型、布局和交互设计阶段纳入。[返回无障碍](#accessibility)
-
-### 12.8、<span id="faq-upload">上传成功后消息提交失败，是否必须重新上传？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-不必。先按附件版本与上传会话查询有效对象，能复用时只重试消息提交。对象未最终化则补最终化，凭证过期则重新鉴权；只有文件或会话确实不可继续时才重建上传。云对象的延迟回收由引用关系与服务端规则决定。[返回上传管线](#transfer)、[返回崩溃窗口](#recovery)
-
-<a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
-
-
-## iOS IM 连接管理与推送后台
-
-
-![Jobs出品，必属精品](https://picsum.photos/1500/400)
-
-
----
-
-## 🔥 <span id="前言">前言</span>
-
-> [返回《iOS IM 开发研究手册》](../iOS%20IM开发研究手册.md)。本专题解决三个问题：前台如何持续收发、断线如何恢复、后台无法常驻时如何提醒并补齐消息。
-
-**连接负责传输，业务协议负责确认与同步，推送负责通知；三者必须配合，不能互相替代。** 本文讨论普通即时通讯 App；真实音视频通话另有通话框架与后台能力要求。
-
-资料核对日期：**2026-09-25**。以下架构、参数选择与实验是工程设计建议；平台行为以链接中的官方说明、实际 SDK 和真机结果为准。伪代码没有编译运行，不代表任何商业 IM 的内部实现。
-
-阅读路线：<a href="#scope" style="color:red; font-weight:bold;">职责边界</a> → <a href="#transport" style="color:red; font-weight:bold;">传输选型</a> → <a href="#state-machine" style="color:red; font-weight:bold;">状态机</a> → <a href="#lifecycle" style="color:red; font-weight:bold;">后台边界</a> → <a href="#apns" style="color:red; font-weight:bold;">APNs</a> → <a href="#extensions" style="color:red; font-weight:bold;">通知扩展</a> → <a href="#experiments" style="color:red; font-weight:bold;">实验</a> → <a href="#faq" style="color:red; font-weight:bold;">FAQ</a>。
-
-## 一、<span id="scope">先划清职责与成功语义</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 1.1、<span id="layers">一条消息经过哪些层</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```text
-消息发送意图 → 本地 Outbox → 应用协议 → 连接管理 → TLS / 传输
-                                                   ↓
-接收 UI ← 本地持久化与同步协调 ← 服务端消息系统 ← 接入网关
-                                  ↓
-                            APNs 通知链路
-```
-
-Outbox 是客户端持久化的待发送任务；消息系统负责服务端接收、分配标识、存储与投递；接入网关负责连接认证、路由和流量控制。即使前台长连接和 HTTP 补拉使用不同接口，最后也要进入同一套幂等落库流程。
-
-### 1.2、<span id="success-levels">不要把多种成功合成一个布尔值</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 观察到的事件 | 可以推断什么 | 不能据此推断什么 |
-| --- | --- | --- |
-| 本地 `send` 回调没有错误 | 当前发送操作在 API 定义层面成功 | 服务端已持久化消息 |
-| TCP 确认或 WebSocket Pong | 对应传输层或协议端点有响应 | 消息已落业务库、接收人已读 |
-| 服务端业务 ACK | 服务端完成协议约定的阶段 | 必然已经到达对方设备 |
-| 接收设备持久化回执 | 该设备完成约定的本地提交 | 该用户看到了消息 |
-| APNs 返回成功状态 | 推送请求被 APNs 成功接收处理 | 设备已经收到或用户已经看到 |
-| 通知被点击 | 用户触发了这个通知的动作 | 历史已补齐、消息内容已展示 |
-
-产品中的“发送中、已发送、已送达、已读”应有独立事件与时间戳，且明确“任一设备”还是“所有设备”。服务端业务 ACK 必须写入协议文档，不能由 iOS 客户端根据网络回调自行猜测。
-
-### 1.3、<span id="invariants">连接层必须守住的四条不变量</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-1、同一账号会话在单个客户端实例内，只有一个连接协调者拥有建连、关闭、重试和令牌刷新决策权。
-
-2、重连可以重复发送同一业务请求，但请求必须复用稳定的幂等标识；重连次数不能变成消息副本数。
-
-3、旧连接和旧账号的异步回调不能修改当前账号的连接状态、数据库或 UI。
-
-4、收到连接成功事件以后，仍须按已持久化游标补齐缺口；“在线”与“同步完成”是两个状态。
-
-## 二、<span id="transport">传输方式如何选择</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 2.1、<span id="transport-matrix">围绕约束选择 API 与协议</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 方案 | 适合的场景 | iOS 侧必须承担的工作 |
-| --- | --- | --- |
-| [**URLSessionWebSocketTask**](https://developer.apple.com/documentation/foundation/urlsessionwebsockettask) | 服务端提供标准 WebSocket，双向消息频繁 | 生命周期、认证、串行接收入口、超时、补拉与背压 |
-| [**Network.framework**](https://developer.apple.com/documentation/network) | 有明确自定义传输需求，或需要较细的连接与协议控制 | 协议分帧、状态管理、读写调度，以及所选传输的兼容验证 |
-| HTTP 短轮询 / 长轮询 | 原型、低频消息、受限网络中的降级通道 | 轮询游标、取消、超时、限流、重复响应和空轮询成本 |
-| [**SSE**](https://html.spec.whatwg.org/multipage/server-sent-events.html) | 服务端持续向客户端下发事件，上行可以另走 HTTP | 流式解析、事件 ID、重连恢复和上行链路协调 |
-| [**MQTT**](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html) | 已有 MQTT 基础设施、发布订阅模型适合业务 | SDK 评估、会话与订阅恢复、主题授权、业务幂等与后台策略 |
-
-表格是工程选型建议，不能只按“哪个更底层”作决定。先列业务 SLA、消息规模、协议控制权、代理环境、维护能力，再用同一组弱网与生命周期实验比较。
-
-### 2.2、<span id="websocket-network">WebSocket 与 Network.framework 的边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-标准 WebSocket 已经定义消息、分片、控制帧和关闭过程；采用系统 API 时，不要再手写一套 WebSocket 帧解析。原始 TCP 则只有字节流，需要设计长度前缀、版本、类型和上限，处理任意切分及合并。协议依据见 [RFC 6455](https://www.rfc-editor.org/rfc/rfc6455)。
-
-`Network.framework` 是网络 API 集合，不等于“自定义 TCP 协议”；也不能简单声称它必然比 `URLSession` 快。只有证据显示上层 API 无法满足协议或控制需求时，额外的实现与测试成本才有依据。
-
-### 2.3、<span id="polling-sse">HTTP 轮询与 SSE 的恢复设计</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-短轮询的时间间隔越短，延迟通常越低，但空请求和无线电唤醒成本越高。长轮询让服务端等待事件再返回，客户端处理后发起下一轮；需要避免两个轮询任务同时推进同一游标。代理提前断开属于常见恢复路径，不能当成无消息。
-
-SSE 使用 `text/event-stream`，事件可以携带 `id`，标准定义了重连时 `Last-Event-ID` 的语义；原生客户端需要实现或选用正确的解析器，不能把每个网络数据块当成一条完整事件。这个 ID 是否能直接作为 IM 同步游标，仍取决于服务端保存、过滤和补拉协议。标准细节见 [WHATWG SSE](https://html.spec.whatwg.org/multipage/server-sent-events.html)。
-
-上述方案都不赋予普通 App 后台永久运行资格。准备降级通道时，必须让长连接消息、轮询结果与 SSE 事件复用同一消息模型和去重规则，避免切换协议时重复入库、重复提示。
-
-### 2.4、<span id="mqtt-qos">MQTT QoS 不等于 IM 业务“恰好一次”</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-MQTT 的 QoS、会话过期、保留消息、遗嘱、订阅和消息过期各有明确协议语义；它们解决客户端与 Broker 等协议参与者之间的问题。即使采用 QoS 2，也不能自动覆盖“业务服务落库 → 多端扇出 → 接收端数据库 → 未读计数”的整条链路。
-
-评估 MQTT SDK 时，要验证持久会话恢复、客户端标识冲突、离线队列上限和重订阅行为。主题授权应由服务端执行，不能靠客户端约定“用户只订阅自己的 topic”。依据见 [OASIS MQTT 5.0](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html)。
-
-## 三、<span id="framing">帧、业务包与接收背压</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 3.1、<span id="frame-envelope">三个长度边界分别处理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-TCP 数据片段、WebSocket frame、应用 envelope 是三种不同边界。一个 WebSocket message 可以由多个 frame 构成；一个业务 envelope 也可以承载一批消息。业务批量包必须带条数、协议版本及必要标识，不能仅凭一次回调认定它是“一条聊天消息”。
-
-`URLSessionWebSocketTask.receive` 返回的是拼接完成的 WebSocket message。`maximumMessageSize` 限制其缓冲大小，包含 continuation frames 的累计字节数；还需另设解压后字节数、嵌套深度、单批消息条数等业务上限，防止“小压缩包解成大对象”。见 [maximumMessageSize](https://developer.apple.com/documentation/foundation/urlsessionwebsockettask/maximummessagesize)。
-
-### 3.2、<span id="receive-loop">一个连接只保留一个接收循环所有者</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-设计上让每个连接拥有一个 receive loop：一次接收成功，验证连接代次后把消息移交有界队列，再等待下一次接收；失败转交连接状态机。这里是为了简化顺序与生命周期的工程约束，不是声称框架通过它提供业务“恰好一次”。
-
-```text
-receiveLoop(connection, generation):
-    while generation == currentGeneration and not cancelled:
-        message = await connection.receive()
-        rejectIfOversizedOrUnsupported(message)
-        await boundedIngress.enqueue(message, accountEpoch, generation)
-    // error → only coordinator decides whether to reconnect
-```
-
-不要在 `receive`、心跳失败、网络变化和登录回调中分别启动新的循环。连接已经替换后，旧 loop 即使刚好收到一条有效消息，也必须按原账号与代次校验，不能直接写入当前库。
-
-### 3.3、<span id="bounded-pipeline">背压需要协议配合</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-接收后同步解析全部历史、建模并通知主线程，会让短时消息洪峰拖垮连接回调。推荐把轻量校验、解码、存储和展示分开，但各层都要有容量上限；并发解码结束顺序不能替代会话序列号。
-
-有界队列满时暂停继续请求消息，只能限制客户端下一段处理量，不能保证网络栈和服务端没有缓冲。可靠方案还应定义服务端窗口、分批拉取、限速，或关闭后通过持久化游标恢复。不能静默丢弃一批消息以后仍推进同步游标。
-
-## 四、<span id="state-machine">连接状态机与异步竞态</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 4.1、<span id="states">状态要能解释下一步动作</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```mermaid
-stateDiagram-v2
-    [*] --> Stopped
-    Stopped --> Connecting: 已登录且允许连接
-    Connecting --> Authenticating: 传输建立
-    Authenticating --> Syncing: 业务认证通过
-    Syncing --> Ready: 补拉追平
-    Ready --> Backoff: 可重试失败
-    Connecting --> Backoff: 可重试失败
-    Authenticating --> Backoff: 暂时失败
-    Syncing --> Backoff: 暂时失败
-    Backoff --> Connecting: 当前重试计划到期
-    Authenticating --> AuthRequired: 凭据不可恢复
-    Ready --> Stopped: 注销或生命周期策略停止
-    Backoff --> Stopped: 注销或生命周期策略停止
-    AuthRequired --> Connecting: 完成重新登录
-```
-
-这个图展示主要路径；实际实现应让任何活动状态都能响应注销、取消、协议不兼容和凭据失效。`Ready` 表示已经完成本轮必要同步，不只是 WebSocket 握手完成。历史很长时可细分“实时通道可用”和“历史追平进度”，避免 UI 长期只显示连接中。
-
-### 4.2、<span id="generation">代次隔离比到处判断 isConnected 更可靠</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-`accountEpoch` 表示登录上下文代次，`connectionGeneration` 表示某次连接实例，`attemptID` 表示一次具体异步操作。新登录、注销或替换连接时递增相应代次；每个回调携带创建时的上下文，变更状态前先比较。
-
-这样可以拒绝“旧连接失败回调关闭了新连接”“A 账号刷新令牌成功后覆盖 B 账号令牌”“退后台前的重试定时器在回前台后再创建第二条连接”等竞态。取消任务仍需代次校验，因为取消与回调完成可以同时发生。
-
-### 4.3、<span id="connection-owner">串行协调者只编排，不承包重活</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```text
-onEvent(event):
-    if event.accountEpoch != currentAccountEpoch: ignore
-    if event.hasGeneration and event.generation != currentGeneration: ignore
-    nextState, effects = reduce(state, event)
-    state = nextState
-    runEffectsOutsideStateMutation(effects)
-
-replaceConnection():
-    increment currentGeneration
-    cancel old receiveLoop, heartbeat, reconnectPlan
-    close old transport
-    start one new transport with currentGeneration
-```
-
-协调者可以由串行队列或 actor 实现，但网络请求、解密、数据库事务不应长时间占住其状态变更路径。使用 actor 也要考虑 `await` 之后状态已改变：恢复执行后重新核对账号代次和操作标识。
-
-## 五、<span id="authentication">连接认证与令牌刷新</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 5.1、<span id="auth-protocol">传输建立以后还需要业务会话</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-TLS 确认的是所连接端点的安全属性，业务认证确认当前账号及权限。认证可放在握手头或应用消息中，具体方式由服务端协议决定；需要协商账号、设备会话、协议版本、能力和恢复参数。不要把持久登录令牌放入容易进入访问日志的 URL 参数。
-
-只有拿到业务认证结果后才发送待发消息或补拉私有历史；认证失败时应停止相关调度。客户端本地时间不可靠，令牌提前刷新可以作为优化，但最终必须处理服务端返回的过期和撤销结果。
-
-### 5.2、<span id="single-flight">single flight：一次刷新，多方等待</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-同一账号可能同时有长连接、补拉请求、上传请求发现令牌过期。single flight 指这些请求共享一个正在进行的刷新任务，而不是各自刷新；否则刷新令牌轮换时容易互相覆盖并制造失效循环。
-
-```text
-validAccessToken(accountEpoch):
-    if cachedTokenStillUsable: return cachedToken
-    task = existingRefreshTaskForSameEpoch or createAndRegisterOne(accountEpoch)
-    try:
-        result = await task
-        if accountEpoch != currentAccountEpoch: reject stale result
-        install result atomically, without overwriting a newer token version
-        return result.accessToken
-    finally:
-        clear refreshTask only if it is still this task and this task has completed
-```
-
-失败也需要统一广播与分类。临时网络失败进入有限退避；刷新凭据被服务端撤销则进入需要登录状态。重放原请求时保留消息幂等标识，并设置认证重试预算，禁止每次 401 都无限刷新。
-
-### 5.3、<span id="credential-lifecycle">刷新完成不代表已有连接自动换身份</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-明确协议是否支持连接内重新认证；不支持时，用新令牌建立连接并同步恢复。不要假设修改内存中的 token 会更新已完成的握手。注销时使账号代次失效、取消刷新任务、停止发送，并按服务端协议解除设备推送绑定。
-
-## 六、<span id="heartbeat">心跳、超时与重连退避</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 6.1、<span id="heartbeat-semantics">先决定要探测哪一层</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-WebSocket Ping/Pong 用来探测 WebSocket 对端；若网关能够独立响应 Pong，它不能证明下游消息服务和数据库健康。业务心跳可以返回服务器时间、会话有效性或同步提示，但每个字段的含义都要有协议约定。控制帧语义见 [RFC 6455 第 5.5 节](https://www.rfc-editor.org/rfc/rfc6455#section-5.5)。
-
-至少区分建连超时、认证超时、心跳超时、单条消息 ACK 超时和补拉超时。消息 ACK 超时通常代表“结果未知”，需要查询状态或幂等重投；不能直接生成新消息 ID 再发一条。
-
-### 6.2、<span id="heartbeat-tuning">心跳不能拍脑袋固定成通用数字</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-心跳间隔应结合 NAT / 网关空闲超时、前台消息活跃度、网络 RTT、失败分布与能耗测量。无待确认心跳时才发下一个，记录对应探测 ID；使用单调时钟计算超时，避免系统时钟改变造成误判断。
-
-正常业务流量是否可以替代某种心跳，取决于它能否证明同一个探测目标仍活跃。App 从挂起恢复以后，先重评连接与时间基准，不要一次补发挂起期间所有 Timer 事件。
-
-### 6.3、<span id="retry-jitter">退避、抖动与重试预算</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```text
-capForAttempt = min(maxDelay, baseDelay * 2^boundedAttempt)
-delay = randomUniform(0, capForAttempt)   // full jitter，示例策略
-schedule exactly one retry for current generation
-```
-
-这是示例策略，参数必须通过压测调整。加抖动是为了避免大量客户端在故障恢复时同时重连；指数增长需要截断，避免数值溢出。稳定在线一段时间或完成有效业务交互后再重置尝试计数，避免“刚连上就断”的故障被不断重置成零延迟。
-
-永久凭据失败、协议版本不支持、明确禁止接入不能无限重试。对暂时失败设置窗口内次数与总耗时预算；服务端下发限流或重试建议时按对应协议处理。用户主动重试也要通过协调者合并请求，不能绕过并发限制。
-
-## 七、<span id="network-change">弱网、切网、TLS 与代理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 7.1、<span id="path-monitor">NWPathMonitor 不是业务可达性检测器</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-[**NWPathMonitor**](https://developer.apple.com/documentation/network/nwpathmonitor) 观察网络路径变化；`satisfied` 表示路径可用于建立连接和发送数据，不证明 DNS、TLS、网关认证及业务 API 全部成功。状态定义见 [NWPath.Status](https://developer.apple.com/documentation/network/nwpath/status-swift.enum)。
-
-可以用路径事件触发一次合并后的连接重评、调整大文件传输策略和提示离线，但实际连接结果才是端点可达性的证据。不要先等待监控器判定网络“完美”，才允许首次请求；`requiresConnection` 也不等于永久无网。
-
-### 7.2、<span id="handover">Wi-Fi 与蜂窝切换后怎么处理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-切网可能保留连接、导致连接失败，或出现暂时看似在线的半开状态；取决于传输、系统与实际网络。先收集连接状态与读写结果，必要时进行探测或替换连接，随后从持久游标补齐。不要只凭接口名称变化就重建所有连接。
-
-弱网下区分高 RTT、丢包、上行受阻、下行受阻、DNS 失败和服务端过载。它们都可能表现为“转圈”，但修复不同：盲目增加心跳、并发重试和缩短超时，可能把可恢复网络拖成重试风暴。
-
-### 7.3、<span id="tls-proxy">TLS 与代理问题如何定位</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-排查顺序建议是域名解析 → 目标端口 → TLS 握手与主机名 → HTTP / WebSocket 握手 → 业务认证 → 同步请求。生产环境保留系统证书校验；使用自定义传输时也必须正确配置 TLS，不能把“换成 TCP”理解成可以省略安全验证。
-
-证书错误应检查域名、证书链、有效期、设备时间及企业代理环境。不要用关闭验证来修复生产连接失败。不同 API、代理类型与系统版本的行为需要实测；不能假定所有自定义 socket 都具备 `URLSession` 的代理集成能力。安全入口见 [Apple 安全网络连接](https://developer.apple.com/documentation/security/preventing-insecure-network-connections)。
-
-## 八、<span id="lifecycle">iOS 前后台与执行资格</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 8.1、<span id="background-matrix">把业务任务映射到正确系统机制</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 任务 | 可用机制 | 工程边界 |
-| --- | --- | --- |
-| 前台实时收发 | 长连接或流式 HTTP | 仍需断线恢复与幂等 |
-| 刚退后台时完成已开始的发送 / 保存 | `beginBackgroundTask` | 有限时间，必须处理到期并及时结束 |
-| 非实时维护、索引或清理 | 合适的 Background Tasks API | 系统调度，不能承诺某秒运行 |
-| 大文件上传 / 下载 | 后台 `URLSession` 文件传输 | 按任务与 session 标识恢复，不是通用 socket 保活 |
-| 普通消息提醒 | 用户可见 APNs 通知 | 系统决定呈现，不能替代完整消息同步 |
-| 静默刷新 | Background push | 尽力而为，可能延迟、合并和不交付 |
-| 真实 VoIP 来电 | PushKit 与 CallKit 的对应流程 | 仅按真实通话用途使用，不能伪装为普通 IM 保活 |
-
-机制选择依据见 [Apple 后台策略](https://developer.apple.com/documentation/backgroundtasks/choosing-background-strategies-for-your-app) 与 [后台文件下载](https://developer.apple.com/documentation/foundation/downloading-files-in-the-background)。新后台 API 的出现也不代表普通聊天连接获得任意时长执行权。
-
-### 8.2、<span id="background-expiration">退后台时保住恢复点</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-推荐顺序：停止非必要预取 → 保存待发送任务和必要进度 → 尽快结束当前短事务 → 在允许时间内完成必要网络操作 → 结束后台任务。到期处理要可取消、可重入，不在回调里启动全量同步或长事务。
-
-`beginBackgroundTask` 请求的是有限执行时间，并不是“每调一次增加固定分钟数”。每个成功取得的任务标识必须匹配结束调用；请求失败、提前到期和业务完成都要覆盖。具体约束见 [延长后台执行时间](https://developer.apple.com/documentation/uikit/extending-your-app-s-background-execution-time)。
-
-### 8.3、<span id="suspension-recovery">被挂起、被终止、被用户强退要分开测</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-普通 App 挂起后，自己的 Timer 和接收循环不能作为持续执行保证；进程被终止时也不能依赖某个退出回调保存最后状态。关键任务必须先持久化，启动与回前台均从持久状态恢复。
-
-用户强退与系统回收不是同一实验条件。后台通知可能被系统延后或丢弃，用户强退还会影响后台启动行为；可见通知、静默通知、真实 VoIP 来电应分别测试。不要从“某次真机收到了推送”推导所有状态都能唤醒主 App。背景通知限制见 [Apple Background updates](https://developer.apple.com/documentation/usernotifications/pushing-background-updates-to-your-app)。
-
-## 九、<span id="apns">APNs 与多设备通知一致性</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 9.1、<span id="apns-role">APNs 是提醒与同步线索</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-[**APNs**](https://developer.apple.com/documentation/usernotifications) 的交付不是消息数据库的可靠复制协议。通知 payload 携带最少必要的消息 / 会话定位与版本线索；真正内容和状态通过可靠同步取得。服务端保存消息是根本，App 没收到某条推送时，下次打开也必须能补齐历史。
-
-不能用“收到 5 条通知”直接给未读数加 5。折叠、延迟、跨端已读和撤回会让这个算法失真；通知中的 badge 也可能过时。回前台以后按可信同步结果校准会话未读和总 badge。
-
-### 9.2、<span id="apns-request">请求成功、设备送达与用户查看分别观察</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-服务端日志记录业务消息 ID、设备绑定版本、环境、topic、`apns-id`、响应状态与耗时；客户端按可观测入口记录通知回调、扩展处理和点击。APNs `200` 不能直接记为接收设备业务送达；错误应按 `reason` 分类。`BadDeviceToken` 要检查环境，`410` 要处理失效 token，而不是无休止重试。见 [APNs 响应](https://developer.apple.com/documentation/usernotifications/handling-notification-responses-from-apns)。
-
-`apns-expiration` 表示通知仍有价值的时效策略，`apns-collapse-id` 表示可合并通知的身份，`apns-push-type` 与优先级应匹配 payload。会话摘要可以考虑折叠，但撤回、来电与每条独立事件需分别设计；这些头都不是消息去重或排序协议。见 [发送 APNs 请求](https://developer.apple.com/documentation/usernotifications/sending-notification-requests-to-apns)。
-
-### 9.3、<span id="device-token">Token、环境、账号不能混成一列</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-APNs device token 表示 App 与设备组合的推送地址，不是用户 ID，也不是登录凭据。App 每次启动向系统注册，取得当前 token 后安全上传；不要依赖本地缓存 token 作为长期真值。注册失败要有后续恢复，服务端应支持同一账号的多个设备。依据见 [注册 APNs](https://developer.apple.com/documentation/usernotifications/registering-your-app-with-apns)。
-
-建议绑定键包含 `installationID + environment + topic + pushType`，绑定值包含账号、当前 token、绑定版本与更新时间；这是业务建模建议。开发、生产、多个 Bundle ID 和普通 / VoIP token 分开管理。设备重新安装时本地安装标识也可能变化，不能把它当永久硬件身份。
-
-切换账号时，用鉴权接口完成旧绑定解除和新绑定建立，携带单调绑定版本或服务端会话约束，拒绝晚到的旧请求。离线注销的解除请求可能暂时送不出去，因此通知文案要有隐私兜底，后续补偿解绑，点击与扩展处理都再次核对账号上下文。
-
-### 9.4、<span id="notification-dedup">通知去重、消息去重和多端已读各自建模</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-消息去重使用稳定业务消息 ID；通知展示去重可使用“账号 + 通知事件 ID + 修订号”；多端已读使用服务端定义的会话已读游标或事件。前台长连接和 APNs 同时到达时，可在 `willPresent` 里结合当前会话与展示策略决定是否提示，入库仍走统一幂等路径。
-
-服务器根据设备活跃租约和已读进度减少无效推送，但状态可能过期，不能完全避免所有重复提醒。另一设备已读后，本机同步更新并清理适用的已投递通知；不能保证远程已经显示的通知在没有本机执行机会时立即消失。前台呈现与通知动作入口见 [处理通知与动作](https://developer.apple.com/documentation/usernotifications/handling-notifications-and-notification-related-actions)。
-
-## 十、<span id="extensions">通知扩展、冷启动与跨进程存储</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 10.1、<span id="nse">NSE 只负责有限的通知加工</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-[**UNNotificationServiceExtension**](https://developer.apple.com/documentation/usernotifications/unnotificationserviceextension) 可用于通知内容解密、补充展示信息或下载小附件；满足系统条件的可见远程通知及 `mutable-content: 1` 才会触发它。它不是静默通知通用处理器，也不是完整 IM 主进程的替身。
-
-先构造可安全展示的 `bestAttemptContent`，再异步加工。正常完成与 `serviceExtensionTimeWillExpire` 共享一次性完成门，确保只提交一次；到期时取消工作并尽快返回兜底内容。官方说明执行时间有限，不能把文档中的约数当成保证预算。条件与超时行为见 [修改新通知内容](https://developer.apple.com/documentation/usernotifications/modifying-content-in-newly-delivered-notifications)。
-
-原始 payload 的可见文字也要安全，因为扩展不执行、解密失败或超时时，系统可能显示原内容。不要把“把 body 改为空”当作可靠静默取消方案；敏感预览策略应在服务端构造通知时就确定。
-
-### 10.2、<span id="app-groups">App Groups 共享的是文件空间</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-[**App Groups**](https://developer.apple.com/documentation/xcode/configuring-app-groups) 允许 App 与扩展访问共享容器，但它们仍是不同进程；主 App 的单例、actor、串行队列和内存缓存不会自动对扩展生效。两边都需要正确的 entitlement、容器路径和数据版本约定。
-
-优先让扩展只读取必要快照或写入一个小型、可重放收件箱，主 App 恢复时统一合并；若必须共享数据库，就明确多进程并发、锁超时、迁移所有者与提交边界。不能在 NSE 中抢做复杂数据库迁移，也不能把进程内串行队列当成跨进程锁。
-
-共享偏好适合小配置，不能替代事务日志。共享数据库或文件还需考虑设备锁定时的数据保护可用性；解密密钥是否允许被扩展读取，应由安全方案和 Keychain 访问组决定，不能为了预览把全部密钥复制到普通共享偏好。
-
-### 10.3、<span id="cold-start-routing">点击通知时先恢复上下文，再导航</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-```text
-通知响应 → 解析受控路由意图 → 校验账号与 action → 保存待处理意图
-         → 恢复登录 / 打开账号库 → 等待目标 Scene 可用
-         → 查询本地消息，必要时补拉 → 导航会话并定位
-```
-
-路由结构建议包含 `accountID、conversationID、messageID、action、eventID`。只允许白名单动作，不执行任意 payload URL；目标不存在、被撤回、当前账号不同或权限已取消时，给出可解释的结果。通知点击不应绕过业务鉴权。
-
-尽早设置 `UNUserNotificationCenter.delegate`，把冷启动、热启动和通知动作汇入同一幂等路由队列。Scene 应由用户操作上下文及 App 的场景策略选定，不能直接使用 `connectedScenes.first`。原回调及时完成，导航等待与补拉可以交由拥有生命周期的协调者继续管理。
-
-只有消息达到产品定义的可读条件后才发送已读回执；进入通知回调不等于用户已读。快捷回复要像普通发送一样先建立持久 Outbox 和稳定请求 ID，失败后保留可恢复状态，不能为了回调完成就宣称发送成功。
-
-### 10.4、<span id="pushkit">PushKit 的来电职责不能借作保活</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-真实 VoIP 来电按照 [Apple PushKit 响应流程](https://developer.apple.com/documentation/pushkit/responding-to-voip-notifications-from-pushkit) 与适用的 CallKit 要求处理，及时报告来电并管理通话状态；服务端带稳定 call ID，防止延迟、重复和已取消来电制造重复界面。
-
-普通文字消息、拉历史、打心跳或后台保活不能伪装成 VoIP push。不能先把 PushKit 当作唤醒工具，再联网判断“其实没有来电”。真实通话的邀请、取消、超时和其他端接听，也要与通话信令状态机对齐。
-
-## 十一、<span id="experiments">可复现的研究与排障实验</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 11.1、<span id="test-harness">先建立可观测实验环境</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-准备测试账号、可控制的消息服务器、真机和可注入故障的测试网关；服务端支持延迟 ACK、重投、暂停下行、拒绝认证和指定错误。只对自有测试环境实施故障注入，日志去除 token、消息正文与个人信息。
-
-统一记录 `traceID、accountEpoch、generation、attemptID、messageID、connectionState、duration、queueDepth`；token 用不可逆摘要作关联。使用同一消息 ID 串起发送、本地提交、服务端 ACK、通知请求、设备补拉和展示，才能判断丢失发生在哪一层。
-
-### 11.2、<span id="failure-matrix">实验输入、预期和判据</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-| 实验 | 操作 | 通过判据 |
-| --- | --- | --- |
-| 半开连接 | 保持网络路径可用但丢弃测试连接下行 | 心跳 / 请求超时可检测，只有一个重连计划 |
-| ACK 丢失 | 服务端落库后丢弃 ACK | 原消息 ID 重试，双方各只有一条消息 |
-| 切网竞态 | 连续切换 Wi-Fi / 蜂窝并快速回前台 | 旧代次回调不关闭新连接，不出现双接收循环 |
-| 令牌失效洪峰 | 多个 API 与连接同时返回过期 | 同账号只有一个刷新任务，失败不会无限循环 |
-| 账号切换 | A 正在连接 / 刷新 / 接收时登录 B | B 库、连接和 UI 无 A 的数据或回调污染 |
-| 背压 | 下发大批消息并人为降低数据库吞吐 | 队列和内存有上限，恢复后无消息缺口 |
-| 后台到期 | 发送中退后台并触发可观察的到期路径 | 任务结束、恢复点保留，下次可继续 |
-| 推送重复与乱序 | 相同事件重复发送，旧通知晚到 | 消息不重复，未读不重复加，点击定位正确 |
-| NSE 失败 | 解密失败、附件超时、锁屏密钥不可用 | 安全兜底可展示，不泄露原始敏感内容 |
-| 冷启动路由 | 终止 App 后点通知，并制造登录过期 | 恢复账号后准确路由，未就绪时不乱跳 |
-
-每项保存设备型号、iOS 版本、构建配置、通知权限、网络条件、应用状态和服务端故障开关。模拟器适合部分逻辑回归，不能替代后台调度、真实 APNs、能耗和切网的真机证据。
-
-### 11.3、<span id="metrics">研究指标与结论怎么写</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-连接成功率应说明分母是用户会话、连接尝试还是活跃设备；同时报告恢复耗时分位数、重连次数、认证失败类型、同步追平时间、队列峰值和能耗。只看平均连接耗时，会掩盖少数用户持续重试的问题。
-
-推送至少分开统计“请求成功率”“可观察的设备处理率”“用户点击率”；无法观测的设备交付不能假装失败，也不能当作成功。实验结论写成“在这些设备、状态和注入条件下通过”，不要写成“保证任何情况下实时送达”。本文只完成资料与设计整理，上表实验尚未执行。
-
-## 十二、<span id="faq">常见问题与面试追问</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-### 12.1、<span id="faq-always-online">iOS IM 如何做到后台永远在线？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-普通 App 不应以后台永久长连接为架构前提。前台实时收发，后台使用合适的通知与有限执行机制，消息可靠性依靠服务端保存、持久游标、幂等重投和恢复补拉。真实通话按专用机制处理。
-
-### 12.2、<span id="faq-send">WebSocket send 成功能把气泡改成已发送吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-可以更新为“已交给传输层”，但产品“已发送”若表示服务端持久化，就必须等待对应业务 ACK。ACK 丢失时状态是未知，用同一幂等键重试或查状态，不能换 ID 再造一条。
-
-### 12.3、<span id="faq-receive">为什么建议只保留一个 receive loop？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-它让连接代次、取消、接收顺序与背压拥有单一所有者，降低重复订阅和旧回调污染风险。它不是业务去重机制；真正去重仍靠消息身份、唯一约束和同步协议。
-
-### 12.4、<span id="faq-network">NWPathMonitor 显示有网，为什么仍然连不上？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-路径可用不证明目标服务正常。DNS、TLS、代理、认证和服务器过载都可能失败。以实际请求错误和分阶段耗时定位，网络监控只作为调度线索。
-
-### 12.5、<span id="faq-heartbeat">心跳间隔是不是固定 30 秒就够了？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-没有通用最优值。根据网关 / NAT 超时、RTT、失败模式和能耗实验确定，并区分 WebSocket 端点存活与业务服务健康。低频过慢可能延迟发现，过密则增加网络与耗电成本。
-
-### 12.6、<span id="faq-refresh">十个请求同时令牌过期，应该刷新十次吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-不应该。同一账号代次共享一次刷新任务；成功后重试各自原请求，失败统一分类。A 账号的刷新结果不能写入切换后的 B 账号，原请求也必须有重试预算和幂等标识。
-
-### 12.7、<span id="faq-apns-success">APNs 返回 200 为什么用户没有看到通知？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-它说明请求成功，并不证明用户可见。还可能受设备连通性、时效、系统交付、通知授权、专注模式及呈现设置影响。分别查看 provider 日志、可用的 APNs 诊断和设备入口，不能用一个状态覆盖整条链路。
-
-### 12.8、<span id="faq-silent">每条消息都发静默推送，就能补齐后台消息吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-不能作为保证。静默推送可能被限流、延迟或不交付，它提供一次刷新机会。正确做法是在任何实际获得执行机会时从持久进度补齐，并在下次打开 App 时继续恢复。
-
-### 12.9、<span id="faq-token">Device token 能当作账号或固定设备 ID 吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-不能。它是特定 App 与设备组合的推送地址，可能变化且受环境与 topic 约束。账号关系由鉴权的服务端绑定管理，每次系统注册所得 token 都应进入绑定更新流程。
-
-### 12.10、<span id="faq-nse-database">NSE 与 App 可以用同一个数据库单例吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-不能共享内存单例，它们在不同进程。可以通过 App Groups 共享受控数据，但必须另外处理跨进程并发、锁、迁移和数据保护；复杂同步尽量交给主 App，扩展保持短小。
-
-### 12.11、<span id="faq-notification-read">点击通知后能立即上报已读吗？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-要看产品定义。点击时账号、数据库和目标 Scene 可能尚未就绪，消息也可能已经撤回。先完成合法路由与必要加载，满足“已展示 / 已进入阅读范围”等明确条件以后再更新已读。
-
-### 12.12、<span id="faq-pushkit">既然 PushKit 能唤醒，为何不用它接收普通聊天？</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
-
-VoIP push 有真实来电用途和对应的系统通话处理要求，不是通用后台执行通道。普通聊天使用 User Notifications；需要通知解密可采用符合触发条件的 NSE，消息完整性仍由同步协议保证。
 
 <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
 

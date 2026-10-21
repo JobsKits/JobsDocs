@@ -1,9 +1,9 @@
 ---
 title: "关于UITableViewCell和UICollectionViewCell圆切角+Cell的偏移量"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 860
-summary: "一些公共的 🔼 🔽 这种方式，只能统一的设置同一种样式，并不能满足自定义需求 ## 1、关于UITableView.UITableViewCell 🔼 🔽 ### 1.1、圆切角 🔼 🔽 #### 1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】 🔼 🔽 且不描边顶部 #### 1.1.2"
+weight: 690
+summary: "📚 目录（点击展开 / 收起） - 一些公共的 - 1、关于UITableView.UITableViewCell - 1.1、圆切角 - 1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】 - 1.1.2、除了最后一行以外，所有的cell的最下面的线的颜色为 layerConfig.lay"
 bookCollapseSection: false
 ---
 
@@ -17,8 +17,32 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## 一些公共的 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [一些公共的](#jobs-toc-heading-1)
+- [1、关于UITableView.UITableViewCell](#jobs-toc-heading-2)
+  - [1.1、圆切角](#jobs-toc-heading-3)
+    - [1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】](#jobs-toc-heading-4)
+    - [1.1.2、除了最后一行以外，所有的cell的最下面的线的颜色为 layerConfig.layerBorderCor](#jobs-toc-heading-5)
+    - [1.1.3、除了第一行以外，所有的cell的最上面的线为：layerConfig.layerBorderCor](#jobs-toc-heading-6)
+    - [1.1.4、调用示例](#jobs-toc-heading-7)
+  - [1.2、X、Y的偏移量](#jobs-toc-heading-8)
+- [2、关于UICollectionView.UICollectionViewCell](#jobs-toc-heading-9)
+  - [2.1、圆切角](#jobs-toc-heading-10)
+    - [2.1.1、对UICollectionView上的每一组的第一个和最后一个UICollectionViewCell进行圆切角](#jobs-toc-heading-11)
+    - [2.1.2、利用UIBezierPath，对 UICollectionViewCell 描边 + 切角](#jobs-toc-heading-12)
+    - [2.1.3、利用CALayer，对 UICollectionViewCell 只描边、不切角](#jobs-toc-heading-13)
+- [3、指定对某个View的某个角进行圆切角](#jobs-toc-heading-14)
+- [4、对某个View的4个角无差别进行圆切角](#jobs-toc-heading-15)
+- [5、其他](#jobs-toc-heading-16)
+
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一些公共的 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 @implementation UITableViewCell (BaseCellProtocol)
@@ -88,11 +112,11 @@ cell.contentView.layer.borderColor = cell.layer.borderColor = RGBA_COLOR(255, 22
 cell.contentView.layer.masksToBounds = cell.layer.masksToBounds = YES;
 ```
 
-## 1、关于UITableView.UITableViewCell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">1、关于UITableView.UITableViewCell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1.1、圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1、圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### 1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.1.1、以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 /// 以section为单位，每个section的第一行和最后一行的cell圆角化处理【cell之间没有分割线】
@@ -247,7 +271,7 @@ cell.contentView.layer.masksToBounds = cell.layer.masksToBounds = YES;
 }
 ```
 
-#### 1.1.2、除了最后一行以外，所有的cell的最下面的线的颜色为 layerConfig.layerBorderCor <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1.1.2、除了最后一行以外，所有的cell的最下面的线的颜色为 layerConfig.layerBorderCor <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 /// 除了最后一行以外，所有的cell的最下面的线的颜色为：layerConfig.layerBorderCor
@@ -276,7 +300,7 @@ cell.contentView.layer.masksToBounds = cell.layer.masksToBounds = YES;
 }
 ```
 
-#### 1.1.3、除了第一行以外，所有的cell的最上面的线为：layerConfig.layerBorderCor <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-6" data-jobs-toc="v2">1.1.3、除了第一行以外，所有的cell的最上面的线为：layerConfig.layerBorderCor <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 /// 除了第一行以外，所有的cell的最上面的线为：layerConfig.layerBorderCor
@@ -305,7 +329,7 @@ cell.contentView.layer.masksToBounds = cell.layer.masksToBounds = YES;
 }
 ```
 
-#### 1.1.4、调用示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-7" data-jobs-toc="v2">1.1.4、调用示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 - (void)tableView:(UITableView *)tableView
@@ -333,7 +357,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 ```
 
-### 1.2、X、Y的偏移量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">1.2、X、Y的偏移量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 对单个cell的偏移：需要在cell的子类里面复写父类方法-(void)setFrame:(CGRect)frame
 
@@ -359,11 +383,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 参见：1.1的调用示例
 ```
 
-## 2、关于UICollectionView.UICollectionViewCell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-9" data-jobs-toc="v2">2、关于UICollectionView.UICollectionViewCell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 2.1、圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-10" data-jobs-toc="v2">2.1、圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### 2.1.1、对UICollectionView上的每一组的第一个和最后一个UICollectionViewCell进行圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-11" data-jobs-toc="v2">2.1.1、对UICollectionView上的每一组的第一个和最后一个UICollectionViewCell进行圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 对**UICollectionView**上的每一组的第一个和最后一个**UICollectionViewCell**进行圆切角
 * 要求切第一个**UICollectionViewCell**的左上+右上，最后一个**UICollectionViewCell**的左下和右下
@@ -485,7 +509,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 ```
 
-#### 2.1.2、利用UIBezierPath，对 UICollectionViewCell 描边 + 切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-12" data-jobs-toc="v2">2.1.2、利用UIBezierPath，对 UICollectionViewCell 描边 + 切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 作用域 ：UICollectionViewCell子类的 - (void)drawRect:(CGRect)rect
 
@@ -518,7 +542,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 ```
 
-#### 2.1.3、利用CALayer，对 UICollectionViewCell 只描边、不切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-13" data-jobs-toc="v2">2.1.3、利用CALayer，对 UICollectionViewCell 只描边、不切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 作用域 ：**UICollectionViewCell**子类的` - (void)drawRect:(CGRect)rect`
 
@@ -586,7 +610,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 ```
 
-## 3、指定对某个View的某个角进行圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-14" data-jobs-toc="v2">3、指定对某个View的某个角进行圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 在这个View的具体子类里面，复写系统方法-(**void**)layoutSubviews;
 
@@ -599,14 +623,14 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 ```
 
-## 4、对某个View的4个角无差别进行圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-15" data-jobs-toc="v2">4、对某个View的4个角无差别进行圆切角 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```objective-c
 [View cornerCutToCircleWithCornerRadius:JobsWidth(8)];
 [View layerBorderCor:RGBA_COLOR(255, 225, 144, 1) andBorderWidth:JobsWidth(0.5f)];
 ```
 
-## 5、其他 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-16" data-jobs-toc="v2">5、其他 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 隐藏每个分区最后一个cell的分割线:系统分割线,移到屏幕外
 

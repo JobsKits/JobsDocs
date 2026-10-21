@@ -1,9 +1,9 @@
 ---
 title: "Mermaid 类图输入样例"
-date: 2026-08-04T15:56:10+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 150
-summary: "## 🔥 前言 > 这是 GitHub Actions 与 Mermaid CLI 的复杂输入样例，用于验证 Markdown 内 mermaid fenced code block 的解析。图中 Objective-C 协议内容只代表样例快照，不作为当前 Jobs iOS API 的权威文档。 ## 一、类图样例 🔼 🔽 我是有底线的➤点我回到首页"
+weight: 60
+summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、类图样例 --- ## 🔥 前言 > 这是 GitHub Actions 与 Mermaid CLI 的复杂输入样例，用于验证 Markdown 内 mermaid fenced code block 的解析。图中 Objective-C 协议内容只代表样例快照，不作为当前 Jobs iOS API 的权"
 bookCollapseSection: false
 ---
 
@@ -17,14 +17,24 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#jobs-toc-heading-1)
+- [一、类图样例](#jobs-toc-heading-2)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
-## 🔥 <font id=前言>前言</font>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
 
 > 这是 GitHub Actions 与 Mermaid CLI 的复杂输入样例，用于验证 Markdown 内 `mermaid` fenced code block 的解析。图中 Objective-C 协议内容只代表样例快照，不作为当前 Jobs iOS API 的权威文档。
 
-## 一、类图样例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">一、类图样例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```mermaid
 classDiagram

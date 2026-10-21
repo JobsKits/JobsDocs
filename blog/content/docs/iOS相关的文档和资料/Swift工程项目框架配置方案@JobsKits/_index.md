@@ -1,9 +1,9 @@
 ---
 title: "Swift工程项目框架配置方案@JobsKits"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 300
-summary: "一、一些基本的原则 🔼 🔽 ### 1、不到万不得已，不要用Objc库 🔼 🔽 既然是Swift工程，那么就尽可能的不要调用Objc库，否则我们为什么不用Objc写工程项目？不要既当又立。特别是在有优秀平替的情况下。相信互联网是在不断向前发展的，新出的轮子可能稳定性来讲可能不如老旧的（特别是那种很多年不更新的库，不到万不得已，慎用！），但是从调用和内存包括向"
+weight: 870
+summary: "📚 目录（点击展开 / 收起） - 一、一些基本的原则 - 1、不到万不得已，不要用Objc库 - 2、用开源播放器 - 二、我对iOS开发的认知 - 三、我的构架方案 - 1、选用的（外源）第三方框架 - 2、我的封装（重点） - 2.1、对UIViewController的封装 - 2.2、对UIView层的封装格式 - 2.3、对UIButton按钮的"
 bookCollapseSection: false
 ---
 
@@ -17,17 +17,85 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## 一、<font id=一些基本的原则>一些基本的原则</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [一、一些基本的原则](#jobs-toc-heading-1)
+  - [1、不到万不得已，不要用Objc库](#jobs-toc-heading-2)
+  - [2、用开源播放器](#jobs-toc-heading-3)
+- [二、我对iOS开发的认知](#jobs-toc-heading-4)
+- [三、我的构架方案](#jobs-toc-heading-5)
+  - [1、选用的（外源）第三方框架](#jobs-toc-heading-6)
+  - [2、我的封装（重点）](#jobs-toc-heading-7)
+    - [2.1、对UIViewController的封装](#jobs-toc-heading-8)
+    - [2.2、对UIView层的封装格式](#jobs-toc-heading-9)
+    - [2.3、对UIButton按钮的封装](#jobs-toc-heading-10)
+      - [2.3.1、利用分类作用于UIButton](#jobs-toc-heading-11)
+      - [2.3.2、利用继承作用于JobsButton](#jobs-toc-heading-12)
+    - [2.4、对UIGestureRecognizer手势的封装](#jobs-toc-heading-13)
+    - [2.5、对UITextView的封装（含输入监控过滤）](#jobs-toc-heading-14)
+    - [2.6、对UITextField输入框的封装](#jobs-toc-heading-15)
+      - [2.6.1、利用分类，对UITextField输入框的封装（含输入监控过滤）](#jobs-toc-heading-16)
+      - [2.6.2、利用继承，对UITextField输入框的封装 ➤ JobsTextField](#jobs-toc-heading-17)
+    - [2.7、对UIImageView的封装（暂时只展示Kingfisher ,当然 \*\*SDWebImage \*\*也有）](#jobs-toc-heading-18)
+    - [2.8、对UICollectionView的封装](#jobs-toc-heading-19)
+    - [2.9、对UITableView的封装](#jobs-toc-heading-20)
+    - [2.10、对UILabel的封装](#jobs-toc-heading-21)
+      - [2.10.1、动效数字标签（内核基于JobsSwiftTimer）](#jobs-toc-heading-22)
+    - [2.11、对UIScrollView的封装](#jobs-toc-heading-23)
+    - [2.12、对UIAlertController的封装](#jobs-toc-heading-24)
+    - [2.14、带箭头的对话框](#jobs-toc-heading-25)
+    - [2.15、对计时器的封装JobsSwiftTimer](#jobs-toc-heading-26)
+      - [2.15.1、倒计时按钮](#jobs-toc-heading-27)
+      - [2.15.2、跑马灯（实际展现的控件是按钮）](#jobs-toc-heading-28)
+      - [2.15.3、轮播图（实际展现的控件是按钮）](#jobs-toc-heading-29)
+      - [2.15.4、计划任务（内核基于JobsSwiftTimer）](#jobs-toc-heading-30)
+      - [2.15.5、红包雨](#jobs-toc-heading-31)
+      - [2.15.6、网络数据的监听](#jobs-toc-heading-32)
+      - [2.15.7、旋转的抽奖轮盘](#jobs-toc-heading-33)
+    - [2.16、进度条](#jobs-toc-heading-34)
+      - [2.16.1、系统进度条](#jobs-toc-heading-35)
+      - [2.16.2、自定义进度条（内核基于JobsSwiftTimer）  ➤ JobsProgressBar](#jobs-toc-heading-36)
+    - [2.17、雪花算法的Swift实践](#jobs-toc-heading-37)
+    - [2.18、对字符串的封装](#jobs-toc-heading-38)
+      - [2.18.1、多语言化](#jobs-toc-heading-39)
+      - [2.18.2、通用格式的转换](#jobs-toc-heading-40)
+      - [2.18.3、字符串加载图片资源](#jobs-toc-heading-41)
+      - [2.18.4、字符串打开](#jobs-toc-heading-42)
+      - [2.18.5、🍡 字符串取色🎨（校验规定格式）](#jobs-toc-heading-43)
+      - [2.18.6、对全局普通的字符串进行多语言国际化的处理](#jobs-toc-heading-44)
+      - [2.18.7、富文本相关](#jobs-toc-heading-45)
+      - [2.18.8、条形码](#jobs-toc-heading-46)
+      - [2.18.9、二维码](#jobs-toc-heading-47)
+      - [2.18.10、裁剪](#jobs-toc-heading-48)
+    - [2.19、对点击事件的封装](#jobs-toc-heading-49)
+      - [2.19.1、封装在UIControl 层的点击事件](#jobs-toc-heading-50)
+    - [2.20、对弹出框的封装](#jobs-toc-heading-51)
+    - [2.21、安全取Cell](#jobs-toc-heading-52)
+    - [2.22、（全局）协议传参（支持不定参数）](#jobs-toc-heading-53)
+      - [2.22.1、正向传参数：byData](#jobs-toc-heading-54)
+      - [2.22.2、逆向传参数：sendResult ➤ onResult](#jobs-toc-heading-55)
+    - [2.23、Debug模式下弹窗检测是否释放UIViewController](#jobs-toc-heading-56)
+  - [3、对抗记忆衰弱](#jobs-toc-heading-57)
+  - [4、一些脚本库JobsGenesis](#jobs-toc-heading-58)
+  - [5、将组件库Pod化](#jobs-toc-heading-59)
+- [四、BaseURL构架](#jobs-toc-heading-60)
 
-### 1、不到万不得已，不要用**Objc**库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、<font id=一些基本的原则>一些基本的原则</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+### <span id="jobs-toc-heading-2" data-jobs-toc="v2">1、不到万不得已，不要用**Objc**库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 既然是[**Swift**](https://www.swift.org/)工程，那么就尽可能的不要调用**Objc**库，否则我们为什么不用**Objc**写工程项目？**不要既当又立**。特别是在有优秀平替的情况下。相信互联网是在不断向前发展的，新出的轮子可能稳定性来讲可能不如老旧的（特别是那种很多年不更新的库，不到万不得已，慎用！），但是从调用和内存包括向前兼容等方面，一定是优于老旧框架的。否则为什么要开发新版本？即便是**Apple**公司，也是看到了**Objc**的一些不足，所以才下了很大的决心从**Objc**迁移到[**Swift**](https://www.swift.org/)，相信迁移所造成的各方损耗和带来的优势，也是经过各方多轮评估后才做的取舍！
 * **Objc**库需要导入头文件，而且头文件的导入在编译阶段同样存在循环引用的问题（编译的时候，一定是按照加载的顺序，自上而下的编译），那么在某些极端的情况下，引入的位置不对，就会造成编译不通过（亲测）。而[**Swift**](https://www.swift.org/)在工程内部不需要导入文件，除非在不同工程（跨域），比如利用[**CocoaPods**](https://cocoapods.org/)管理的第三方才需要进行导入。所以，既然是系统做了优化的，我们就要顺势而为。
 * 导入库，一般情况下，它会向后兼容，导入一些老旧的`*.framework`库，造成打包体积过大的隐患（并不能每次都精确复现，这里只是讲风险与隐患）。这里的一个例子就是[**过期的模拟器配件**](https://github.com/295060456/Xcode_Sys_lib)。老旧的Api只要你调用了就一定会指向老旧的`*.framework`，**会影响打包大小，但是不一定影响运行时的内存情况**
 * 对于一些老旧库（超过5年不维护的库）如果实在要用，就需要手动集成自项目，而不是[**CocoaPods**](https://cocoapods.org/)管理
 
-### 2、用开源播放器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">2、用开源播放器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 市面上，有开源的音视频播放器
 * 强烈建议不要用腾讯等中国大陆大厂出品的播放器
@@ -41,7 +109,7 @@ bookCollapseSection: false
   * 大厂播放器，可能也不方便魔改（可能关键部分早已封装成`*.framework`或者`*.a`）
   * 如果大厂播放器政策有所改变，进行业务收紧，我们也需要较大开销去应对这种变化（iOS/Android2端）如果多个App，每个App内部我们都需要进行替换
 
-## 二、我对iOS开发的认知 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">二、我对iOS开发的认知 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 方向隶属于大前端
 * 前端相对于后段的特点
@@ -58,9 +126,9 @@ bookCollapseSection: false
 * 绘制UI + 数据请求 + 数据处理 == 成品
   * 数据处理：[利用[**quicktype**](https://github.com/glideapps/quicktype)自动建立数据模型]()
 
-## 三、我的构架方案 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-5" data-jobs-toc="v2">三、我的构架方案 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1、选用的（外源）第三方框架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">1、选用的（外源）第三方框架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 基础配置框架
   * [**ReactiveSwift**](https://github.com/ReactiveCocoa/ReactiveSwift) 新版本支持 arm64 模拟器
@@ -100,9 +168,9 @@ bookCollapseSection: false
   * [**PhoneNumberKit**](https://github.com/marmelroy/PhoneNumberKit)：电话号码工具包：用于解析、格式化和验证国际电话号码。灵感来源：`Google.libphonenumber`
   * [**IQKeyboardManagerSwift**](https://github.com/hackiftekhar/IQKeyboardManager)
 
-### 2、我的封装（重点） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2、我的封装（重点） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### 2.1、对`UIViewController`的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-8" data-jobs-toc="v2">2.1、对`UIViewController`的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 <img src="./assets/image-20260221233907415.png" alt="image-20260221233907415" style="zoom:50%;" />
 
@@ -133,7 +201,7 @@ bookCollapseSection: false
       }
   ```
 
-#### 2.2、对`UIView`层的封装格式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-9" data-jobs-toc="v2">2.2、对`UIView`层的封装格式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 <img src="./assets/image-20260221233840263.png" alt="image-20260221233840263" style="zoom:50%;" />
 
@@ -274,9 +342,9 @@ bookCollapseSection: false
         }
     ```
 
-#### 2.3、对`UIButton`按钮的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-10" data-jobs-toc="v2">2.3、对`UIButton`按钮的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### 2.3.1、利用分类作用于`UIButton` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-11" data-jobs-toc="v2">2.3.1、利用分类作用于`UIButton` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 <img src="./assets/image-20260221233801095.png" alt="image-20260221233801095" style="zoom:50%;" />
 
@@ -675,7 +743,7 @@ private lazy var exampleButton: UIButton = {
     }()
     ```
 
-##### 2.3.2、利用继承作用于`JobsButton` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-12" data-jobs-toc="v2">2.3.2、利用继承作用于`JobsButton` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 解决在某些iOS版本向下兼容的情况下，无法把握`UIButton`内部控件的生命周期，导致UI错版的问题
 
@@ -737,7 +805,7 @@ private lazy var btn1: JobsButton = {
 }()
 ```
 
-#### 2.4、对`UIGestureRecognizer`手势的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-13" data-jobs-toc="v2">2.4、对`UIGestureRecognizer`手势的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 <p align="center">
   <img src="./assets/image-20251206153407706.png" width="45%">
@@ -881,7 +949,7 @@ private lazy var btn1: JobsButton = {
         }
     ```
 
-#### 2.5、对`UITextView`的封装（含输入监控过滤）
+#### <span id="jobs-toc-heading-14" data-jobs-toc="v2">2.5、对`UITextView`的封装（含输入监控过滤）</span><!-- jobs-toc:heading-end -->
 
 * 输入监控 + 退格监控
 
@@ -964,9 +1032,9 @@ private lazy var btn1: JobsButton = {
   }()
   ```
 
-#### 2.6、对`UITextField`输入框的封装
+#### <span id="jobs-toc-heading-15" data-jobs-toc="v2">2.6、对`UITextField`输入框的封装</span><!-- jobs-toc:heading-end -->
 
-##### 2.6.1、利用分类，对`UITextField`输入框的封装（含输入监控过滤）
+##### <span id="jobs-toc-heading-16" data-jobs-toc="v2">2.6.1、利用分类，对`UITextField`输入框的封装（含输入监控过滤）</span><!-- jobs-toc:heading-end -->
 
 * 密码输入框
 
@@ -1058,7 +1126,7 @@ private lazy var btn1: JobsButton = {
   }()
   ```
 
-##### 2.6.2、利用继承，对`UITextField`输入框的封装 ➤ `JobsTextField`
+##### <span id="jobs-toc-heading-17" data-jobs-toc="v2">2.6.2、利用继承，对`UITextField`输入框的封装 ➤ `JobsTextField`</span><!-- jobs-toc:heading-end -->
 
 > 在`UITextField`下面加了一个`UImageView`作为父视图，方便设置边距
 
@@ -1126,7 +1194,7 @@ private lazy var titleTF: JobsTextField = {
     }()
 ```
 
-#### 2.7、对`UIImageView`的封装（暂时只展示[**Kingfisher**](https://github.com/onevcat/Kingfisher) ,当然 [**SDWebImage **](https://github.com/SDWebImage/SDWebImage)也有）
+#### <span id="jobs-toc-heading-18" data-jobs-toc="v2">2.7、对`UIImageView`的封装（暂时只展示[**Kingfisher**](https://github.com/onevcat/Kingfisher) ,当然 [**SDWebImage **](https://github.com/SDWebImage/SDWebImage)也有）</span><!-- jobs-toc:heading-end -->
 
 * `UIImageView`@**字符串本地图**
 
@@ -1221,7 +1289,7 @@ private lazy var titleTF: JobsTextField = {
   }()
   ```
 
-#### 2.8、对`UICollectionView`的封装
+#### <span id="jobs-toc-heading-19" data-jobs-toc="v2">2.8、对`UICollectionView`的封装</span><!-- jobs-toc:heading-end -->
 
 ![image-20251206153328096](./assets/image-20251206153328096.png)
 
@@ -1419,7 +1487,7 @@ func collectionView(_ collectionView: UICollectionView,
 }
 ```
 
-#### 2.9、对`UITableView`的封装
+#### <span id="jobs-toc-heading-20" data-jobs-toc="v2">2.9、对`UITableView`的封装</span><!-- jobs-toc:heading-end -->
 
 * 没数据时，自动显示空态图（是一个按钮）
 * 封装了**拉新/刷新** 功能 ➤ 基于[**JobsRefresher**](https://github.com/JobsKits/JobsRefresher)
@@ -1572,11 +1640,11 @@ extension BMPlayerDemoVC : UITableViewDataSource,UITableViewDelegate{
 }
 ```
 
-#### 2.10、对`UILabel`的封装
+#### <span id="jobs-toc-heading-21" data-jobs-toc="v2">2.10、对`UILabel`的封装</span><!-- jobs-toc:heading-end -->
 
 <img src="./assets/image-20260221234038355.png" alt="image-20260221234038355" style="zoom:50%;" />
 
-##### 2.10.1、动效数字标签（内核基于`JobsSwiftTimer`）
+##### <span id="jobs-toc-heading-22" data-jobs-toc="v2">2.10.1、动效数字标签（内核基于`JobsSwiftTimer`）</span><!-- jobs-toc:heading-end -->
 
 ```swift
 private lazy var valueLabel: UILabel = {
@@ -1610,11 +1678,11 @@ self.valueLabel
     .byStartAnimatedTextNumber(endText)
 ```
 
-#### 2.11、对`UIScrollView`的封装
+#### <span id="jobs-toc-heading-23" data-jobs-toc="v2">2.11、对`UIScrollView`的封装</span><!-- jobs-toc:heading-end -->
 
 <img src="./assets/image-20260221234116329.png" alt="image-20260221234116329" style="zoom:50%;" />
 
-#### 2.12、<font id=UIAlertController>对`UIAlertController`的封装</font>
+#### <span id="jobs-toc-heading-24" data-jobs-toc="v2">2.12、<font id=UIAlertController>对`UIAlertController`的封装</font></span><!-- jobs-toc:heading-end -->
 
 * 最简单的 Alert
 
@@ -1819,7 +1887,7 @@ self.valueLabel
   }()
   ```
 
-#### 2.14、带箭头的对话框 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-25" data-jobs-toc="v2">2.14、带箭头的对话框 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 UIView().byDialogBoxContent { dialogBoxView in
@@ -1841,7 +1909,7 @@ UIView().byDialogBoxContent { dialogBoxView in
 }
 ```
 
-#### 2.15、对计时器的封装`JobsSwiftTimer` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-26" data-jobs-toc="v2">2.15、对计时器的封装`JobsSwiftTimer` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 <img src="./assets/image-20260221234215242.png" alt="image-20260221234215242" style="zoom:50%;" />
 
@@ -1915,7 +1983,7 @@ UIView().byDialogBoxContent { dialogBoxView in
     * 是否是正计时/是否是倒计时
     * 。。。
 
-##### 2.15.1、倒计时按钮 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-27" data-jobs-toc="v2">2.15.1、倒计时按钮 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 创建方案一
 
@@ -2016,7 +2084,7 @@ UIView().byDialogBoxContent { dialogBoxView in
   }()
   ```
 
-##### 2.15.2、跑马灯（实际展现的控件是按钮） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-28" data-jobs-toc="v2">2.15.2、跑马灯（实际展现的控件是按钮） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 // MARK: - 1. 向上连续滚动
@@ -2118,7 +2186,7 @@ private lazy var upContinuousMarquee: JobsMarqueeView = { [unowned self] in
     }()
 ```
 
-##### 2.15.3、轮播图（实际展现的控件是按钮） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-29" data-jobs-toc="v2">2.15.3、轮播图（实际展现的控件是按钮） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 // MARK: - 13. Kingfisher@背景图
@@ -2224,7 +2292,7 @@ private lazy var kingfisherImageButtonsMarquee: JobsMarqueeView = { [unowned sel
 }()
 ```
 
-##### 2.15.4、计划任务（内核基于`JobsSwiftTimer`） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-30" data-jobs-toc="v2">2.15.4、计划任务（内核基于`JobsSwiftTimer`） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 import JobsSwiftTaskCenter
@@ -2234,7 +2302,7 @@ let task = JobsPlan.after(.second * 2).do {
 }
 ```
 
-##### 2.15.5、红包雨 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-31" data-jobs-toc="v2">2.15.5、红包雨 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 private lazy var rainView: RedPacketRainView = {
@@ -2263,7 +2331,7 @@ private lazy var rainView: RedPacketRainView = {
   }()
 ```
 
-##### 2.15.6、网络数据的监听 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-32" data-jobs-toc="v2">2.15.6、网络数据的监听 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![image-20260315180854842](./assets/image-20260315180854842.png)
 
@@ -2302,7 +2370,7 @@ private lazy var rainView: RedPacketRainView = {
   }
   ```
 
-##### 2.15.7、旋转的抽奖轮盘 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-33" data-jobs-toc="v2">2.15.7、旋转的抽奖轮盘 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * ```swift
   private lazy var wheelView: LuckyWheelView = {
@@ -2357,9 +2425,9 @@ private lazy var rainView: RedPacketRainView = {
   wheelView.stopSpin() // 停止
   ```
 
-#### 2.16、进度条 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-34" data-jobs-toc="v2">2.16、进度条 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### 2.16.1、系统进度条 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-35" data-jobs-toc="v2">2.16.1、系统进度条 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 /// 进度条（显示剩余/已完成比例，取决于 progressMode）
@@ -2374,7 +2442,7 @@ private lazy var progressView: UIProgressView = {
 }()
 ```
 
-##### 2.16.2、自定义进度条（内核基于`JobsSwiftTimer`）  ➤ `JobsProgressBar` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
+##### <span id="jobs-toc-heading-36" data-jobs-toc="v2">2.16.2、自定义进度条（内核基于`JobsSwiftTimer`）  ➤ `JobsProgressBar` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> </span><!-- jobs-toc:heading-end -->
 
 ```swift
 /// 自定义进度条
@@ -2399,21 +2467,21 @@ private lazy var progressView: JobsProgressBar = {
 }()
 ```
 
-#### 2.17、雪花算法的[**Swift**](https://www.swift.org/)实践 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-37" data-jobs-toc="v2">2.17、雪花算法的[**Swift**](https://www.swift.org/)实践 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 SnowflakeSwift(IDCID: 4, machineID: 30).nextID() 
 ```
 
-#### 2.18、对字符串的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-38" data-jobs-toc="v2">2.18、对字符串的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### 2.18.1、多语言化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-39" data-jobs-toc="v2">2.18.1、多语言化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 "🔑 注册登录".tr
 ```
 
-##### 2.18.2、通用格式的转换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> 
+##### <span id="jobs-toc-heading-40" data-jobs-toc="v2">2.18.2、通用格式的转换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a> </span><!-- jobs-toc:heading-end -->
 
 ```swift
  "123".toInt()   
@@ -2461,7 +2529,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
  // 📘 说明：附加字体与颜色属性
 ```
 
-##### 2.18.3、字符串加载图片资源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-41" data-jobs-toc="v2">2.18.3、字符串加载图片资源 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 取本地图片
 
@@ -2512,7 +2580,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   }()
   ```
 
-##### 2.18.4、字符串打开 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-42" data-jobs-toc="v2">2.18.4、字符串打开 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 打开网站 / **`Scheme`**（带参）
 
@@ -2552,7 +2620,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   }
   ```
 
-##### 2.18.5、🍡 字符串取色🎨（校验规定格式）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-43" data-jobs-toc="v2">2.18.5、🍡 字符串取色🎨（校验规定格式）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 /// 支持格式：
@@ -2571,9 +2639,9 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
 "垃圾".cor(.black)        // 非法 → black
 ```
 
-##### 2.18.6、[**对全局普通的字符串进行多语言国际化的处理**](#国际化) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-44" data-jobs-toc="v2">2.18.6、[**对全局普通的字符串进行多语言国际化的处理**](#国际化) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### 2.18.7、[**富文本相关**](#富文本) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-45" data-jobs-toc="v2">2.18.7、[**富文本相关**](#富文本) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 数据层（转换）
 
@@ -3040,7 +3108,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
       ```
 
 
-##### 2.18.8、条形码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-46" data-jobs-toc="v2">2.18.8、条形码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * `Code128 条形码`（可指定目标尺寸；自动无插值放大）
 
@@ -3054,7 +3122,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   UIImageView().byImage(barContent.code128ByText(width: 260, barHeight: 100))
   ```
 
-##### 2.18.9、二维码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-47" data-jobs-toc="v2">2.18.9、二维码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 纯二维码（中间无Logo）
 
@@ -3078,7 +3146,7 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   )
   ```
 
-##### 2.18.10、裁剪 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-48" data-jobs-toc="v2">2.18.10、裁剪 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 去掉首尾空白 / 换行
 
@@ -3120,9 +3188,9 @@ SnowflakeSwift(IDCID: 4, machineID: 30).nextID()
   let httpString2 = input2.asHttpURLOrNil // -> "https://example.com"
   ```
 
-#### 2.19、对点击事件的封装
+#### <span id="jobs-toc-heading-49" data-jobs-toc="v2">2.19、对点击事件的封装</span><!-- jobs-toc:heading-end -->
 
-##### 2.19.1、封装在`UIControl` 层的点击事件
+##### <span id="jobs-toc-heading-50" data-jobs-toc="v2">2.19.1、封装在`UIControl` 层的点击事件</span><!-- jobs-toc:heading-end -->
 
 * ```swift
   private lazy var toggle: UISwitch = {
@@ -3186,7 +3254,7 @@ let button = UIButton(type: .system)
     }
 ```
 
-#### 2.20、对弹出框的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-51" data-jobs-toc="v2">2.20、对弹出框的封装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * [**UIAlertController**](#UIAlertController)
 
@@ -3225,7 +3293,7 @@ let button = UIButton(type: .system)
     )
     ```
 
-#### 2.21、安全取Cell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-52" data-jobs-toc="v2">2.21、安全取Cell <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 通过数组下标安全取**Cell**，即使越界也不会奔溃（只是去不到**Cell**值返回nil）
 
@@ -3234,9 +3302,9 @@ let cell = collectionView[section: 0, item: 3]
 let cell = tableView[section: 0, row: 3]
 ```
 
-#### 2.22、（全局）协议传参（支持不定参数） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-53" data-jobs-toc="v2">2.22、（全局）协议传参（支持不定参数） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### 2.22.1、正向传参数：<font size=5>**`byData`**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-54" data-jobs-toc="v2">2.22.1、正向传参数：<font size=5>**`byData`**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **VC / View**
 
@@ -3326,7 +3394,7 @@ let cell = tableView[section: 0, row: 3]
   }
   ```
 
-##### 2.22.2、逆向传参数：<font size=5>**`sendResult`**</font> ➤ <font size=5>**`onResult`**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-55" data-jobs-toc="v2">2.22.2、逆向传参数：<font size=5>**`sendResult`**</font> ➤ <font size=5>**`onResult`**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```swift
 /// 逆向传入
@@ -3337,7 +3405,7 @@ DemoDetailVC().onResult { name in
 }
 ```
 
-#### 2.23、Debug模式下弹窗检测是否释放`UIViewController` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-56" data-jobs-toc="v2">2.23、Debug模式下弹窗检测是否释放`UIViewController` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 引入框架 **`JobsSwiftDebugTools`**
 
@@ -3355,17 +3423,17 @@ DemoDetailVC().onResult { name in
   #endif
   ```
 
-### 3、对抗记忆衰弱 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-57" data-jobs-toc="v2">3、对抗记忆衰弱 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 使用**Xcode**代码块的方式👉[**`JobsCodeSnippets`**](https://github.com/JobsKits/JobsCodeSnippets)脚本安装，自动注入系统指定目录，只需要重启**Xcode**即可使用
 
   ![image-20251206164503864](./assets/image-20251206164503864.png)
 
-### 4、一些脚本库[JobsGenesis](https://github.com/JobsKits/JobsGenesis) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-58" data-jobs-toc="v2">4、一些脚本库[JobsGenesis](https://github.com/JobsKits/JobsGenesis) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 原则上拒绝python，直接用Shell调用系统底层SDK来完成（高效）
 
-### 5、将组件库Pod化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-59" data-jobs-toc="v2">5、将组件库Pod化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```ruby
 def byJobs
@@ -3408,7 +3476,7 @@ def byJobs
 end
 ```
 
-## 四、BaseURL构架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-60" data-jobs-toc="v2">四、BaseURL构架 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 移动端App需要预埋一组URL
   * 每次发包的时候，可以进行更替/每次启动移动端App也可以进行更新（具体看具体业务场景设计）

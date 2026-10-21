@@ -1,9 +1,9 @@
 ---
 title: "搭建邮件服务器（Mail server）"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 990
-summary: "搭建邮件服务器（Mail server） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、 电子邮件系统中的邮件交换记录(PTR Record) - 2、搭建流程 - 2.1、连接VPS - 2.1.1、相关准备工作 - 2.1.2、运行下列代码 - 2.2、更改主机名为mail，更改当前计算机的完"
+weight: 30
+summary: "📚 目录（点击展开 / 收起） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、电子邮件系统中的邮件交换记录 - 1.5、名称服务器 - 2、搭建流程 - 2.1、相关准备工作 - 2.1.1、购买并解析绑定域名jobs996.top - 2.1.2、购买VPS - 2.2、在VPS上进行各项配置 "
 bookCollapseSection: false
 ---
 
@@ -17,6 +17,36 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [1、基础概念介绍](#jobs-toc-heading-1)
+  - [1.1、SMTP](#jobs-toc-heading-2)
+  - [1.2、用户代理](#jobs-toc-heading-3)
+  - [1.3、PTR 反向解析](#jobs-toc-heading-4)
+  - [1.4、电子邮件系统中的邮件交换记录](#jobs-toc-heading-5)
+  - [1.5、名称服务器](#jobs-toc-heading-6)
+- [2、搭建流程](#jobs-toc-heading-7)
+  - [2.1、相关准备工作](#jobs-toc-heading-8)
+    - [2.1.1、购买并解析绑定域名jobs996.top](#jobs-toc-heading-9)
+    - [2.1.2、购买VPS](#jobs-toc-heading-10)
+  - [2.2、在VPS上进行各项配置](#jobs-toc-heading-11)
+    - [2.2.1、运行下列代码](#jobs-toc-heading-12)
+    - [2.2.2、更改主机名为mail，更改当前计算机的完整域名为mail.jobs996.top](#jobs-toc-heading-13)
+    - [2.2.3、下载安装iRedMail](#jobs-toc-heading-14)
+    - [2.2.4、卸载iRedMail](#jobs-toc-heading-15)
+    - [2.2.5、配置 iRedMail 邮件服务器](#jobs-toc-heading-16)
+    - [2.2.6、申请SSL证书](#jobs-toc-heading-17)
+      - [2.2.6.1、80 端口空闲的验证申请](#jobs-toc-heading-18)
+      - [2.2.6.2、Nginx 的方式验证申请](#jobs-toc-heading-19)
+      - [2.2.6.3、Http 的方式验证申请](#jobs-toc-heading-20)
+      - [2.2.6.4、DNS 验证的方式申请证书](#jobs-toc-heading-21)
+    - [2.2.7、安装证书到指定文件夹](#jobs-toc-heading-22)
+
+</details>
+<!-- jobs-toc:end -->
 - [搭建邮件服务器（Mail server）](#搭建邮件服务器mail-server)
 	- [1、基础概念介绍](#1基础概念介绍)
 		- [1.1、SMTP](#11smtp)
@@ -47,14 +77,14 @@ bookCollapseSection: false
 
 [百度百科/PTR记录](https://baike.baidu.com/item/PTR%E8%AE%B0%E5%BD%95/8243039)
 
-## 1、基础概念介绍 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">1、基础概念介绍 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 1、邮件服务器是一种用来负责电子邮件收发管理的设备，构成了电子邮件系统的核心;
 2、它比网络上的免费邮箱更安全和高效，因此一直是企业公司的必备设备
 ```
 
-### 1.1、SMTP <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-2" data-jobs-toc="v2">1.1、SMTP <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ***SMTP** = **S**imple **M**ail **T**ransfer **P**rotocol = 简单邮件传送协议 = 是因特网电子邮件系统首要的应用层协议*
 
@@ -104,13 +134,13 @@ bookCollapseSection: false
 	7.3、SMTP要求包括信体部分在内的每个邮件消息都是7位 ASCII 文本格式
 ```
 
-### 1.2、用户代理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.2、用户代理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 允许用户阅读、回复、转寄、保存和编写邮件消息（有时称为邮件阅读器）
 ```
 
-### 1.3、PTR 反向解析 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.3、PTR 反向解析 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 域名解析（正向解析）。即，A记录: 从域名 ===映射===> IP 地址
@@ -125,7 +155,7 @@ PTR 反向解析（逆向解析）。即，PTR记录: IP 地址 ===映射===> �
 因此，RFC1035 定义了 PTR（Pointer Record）记录。PTR 记录将 IP 地址指向域名。
 ```
 
-### 1.4、电子邮件系统中的邮件交换记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1.4、电子邮件系统中的邮件交换记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ***PTR**记录 = **P**oin**t**er **R**ecord = 指针记录 = 电子邮件系统中的邮件交换记录的一种数据类型;*
 
@@ -138,7 +168,7 @@ PTR 反向解析（逆向解析）。即，PTR记录: IP 地址 ===映射===> �
 	5.1、如果反向解析得到的域名 ≠ 发送邮件的域名 ===> 邮件不是从真正的服务器发出的 ===> 导致邮件被拒收，造成退信
 ```
 
-### 1.5、名称服务器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">1.5、名称服务器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *名称服务器（Name Server）是一种用于域名解析的服务器，也称为域名服务器。*
 
@@ -147,7 +177,7 @@ PTR 反向解析（逆向解析）。即，PTR记录: IP 地址 ===映射===> �
 当用户在浏览器中输入域名时，该请求首先会发送给本地的名称服务器，如果该名称服务器无法解析域名，则会向根名称服务器发送请求，根名称服务器会将请求转发给对应的顶级域名服务器，直至找到对应的IP地址并返回给用户。
 ```
 
-## 2、搭建流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-7" data-jobs-toc="v2">2、搭建流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *资料来源*
 
@@ -182,9 +212,9 @@ PTR 反向解析（逆向解析）。即，PTR记录: IP 地址 ===映射===> �
 4、VPS 最好要能够支持 PTR 反向解析
 ```
 
-### 2.1、相关准备工作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">2.1、相关准备工作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### 2.1.1、购买并解析绑定域名`jobs996.top` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-9" data-jobs-toc="v2">2.1.1、购买并解析绑定域名`jobs996.top` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [域名购买/namesilo](https://www.namesilo.com/)
 
@@ -250,7 +280,7 @@ SSL证书需要在域名解析成功后才能申请，因为SSL证书需要验�
 如果域名没有成功解析，证书颁发机构无法验证域名所有权，因此无法颁发SSL证书。
 ```
 
-#### 2.1.2、购买`VPS` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-10" data-jobs-toc="v2">2.1.2、购买`VPS` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [云服务器购买/hosteons](https://hosteons.com/)
 
@@ -280,9 +310,9 @@ Last login: Thu May 25 14:45:58 2023 from 36.37.187.89
 root@CentOS-7:~# 
 ```
 
-### 2.2、在`VPS`上进行各项配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-11" data-jobs-toc="v2">2.2、在`VPS`上进行各项配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### 2.2.1、运行下列代码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-12" data-jobs-toc="v2">2.2.1、运行下列代码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *更新系统、安装组件*
 
@@ -315,7 +345,7 @@ sudo apt-get remove vim #Debian/Ubuntu 命令
 sudo apt-get purge vim #Debian/Ubuntu 命令
 ```
 
-#### 2.2.2、更改主机名为`mail`，更改当前计算机的完整域名为`mail.jobs996.top` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-13" data-jobs-toc="v2">2.2.2、更改主机名为`mail`，更改当前计算机的完整域名为`mail.jobs996.top` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *编辑`$SYSTEM_CONFIG_DIR/hosts`文件*
 
@@ -360,7 +390,7 @@ mail.jobs996.top
 
 **更改主机名成功**🍺
 
-#### 2.2.3、下载安装`iRedMail` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-14" data-jobs-toc="v2">2.2.3、下载安装`iRedMail` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [iredmail 官网下载地址](https://www.iredmail.org/download.html)
 
@@ -406,7 +436,7 @@ https://jobs996.top/iredadmin   邮件服务器后台管理
 
 *至此，邮件服务器搭建完毕，以下开始设置邮件服务器。*
 
-#### 2.2.4、卸载`iRedMail` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-15" data-jobs-toc="v2">2.2.4、卸载`iRedMail` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 # 卸载 iRedMail 软件包
@@ -424,7 +454,7 @@ sudo apt-get autoremove
 sudo reboot
 ```
 
-#### 2.2.5、配置 `iRedMail` 邮件服务器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-16" data-jobs-toc="v2">2.2.5、配置 `iRedMail` 邮件服务器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 */root/iRedMail-1.6.3/config*
 
@@ -455,7 +485,7 @@ export FAIL2BAN_DB_PASSWD='OdGNXtD4D7Hinp7bonfAllm4p9ZHeAWJ'
 #EOF
 ```
 
-#### 2.2.6、申请`SSL`证书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-17" data-jobs-toc="v2">2.2.6、申请`SSL`证书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *利用 Acme 脚本申请证书，是我们用到的最常见的一种证书的申请方式*
 
@@ -483,7 +513,7 @@ yum install -y socat    #CentOS 命令
 
 **申请证书的时候，大约10秒钟的倒计时**
 
-##### 2.2.6.1、80 端口空闲的验证申请 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-18" data-jobs-toc="v2">2.2.6.1、80 端口空闲的验证申请 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *如果你还没有运行任何 web 服务, 80 端口是空闲的, 那么 Acme.sh 还能假装自己是一个 WebServer, 临时监听在 80 端口, 完成验证*
 
@@ -543,7 +573,7 @@ ja9q3SYlyfhgA95npv2edmR6Ejx42HI4
 [Tue 30 May 2023 10:53:42 PM CEST] And the full chain certs is there: /root/.acme.sh/mail.jobs996.top_ecc/fullchain.cer
 ```
 
-##### 2.2.6.2、Nginx 的方式验证申请 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-19" data-jobs-toc="v2">2.2.6.2、Nginx 的方式验证申请 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *这种方式需要你的服务器上面已经部署了 Nginx 环境，并且保证你申请的域名已经在 Nginx 进行了 conf 部署。（被申请的域名可以正常被打开）*
 
@@ -551,7 +581,7 @@ ja9q3SYlyfhgA95npv2edmR6Ejx42HI4
 ~/.acme.sh/acme.sh --issue  -d mail.jobs996.top  --nginx
 ```
 
-##### 2.2.6.3、Http 的方式验证申请 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-20" data-jobs-toc="v2">2.2.6.3、Http 的方式验证申请 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 这种方式需要你的服务器上面已经部署了网站环境。（被申请的域名可以正常被打开）
 
@@ -563,7 +593,7 @@ ja9q3SYlyfhgA95npv2edmR6Ejx42HI4
 ~/.acme.sh/acme.sh  --issue  -d mail.jobs.me -d www.mail.jobs996.top --webroot /home/wwwroot/mydomain.com/
 ```
 
-##### 2.2.6.4、DNS 验证的方式申请证书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-21" data-jobs-toc="v2">2.2.6.4、DNS 验证的方式申请证书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 这种方式的好处是:你不需要任何服务器，不需要任何公网 ip，只需要 dns 的解析记录即可完成验证。
@@ -573,7 +603,7 @@ Acme.sh 目前支持 cloudflare, dnspod, cloudxns, godaddy 以及 ovh 等数十�
 该方式可以申请多域名、泛域名证书，达到很多域名可以共用一张证书的目的。
 ```
 
-#### 2.2.7、安装证书到指定文件夹 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-22" data-jobs-toc="v2">2.2.7、安装证书到指定文件夹 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **注意:默认生成的证书都放在安装目录下: `~/.acme.sh/ `请不要直接使用此目录下的证书文件。**
 

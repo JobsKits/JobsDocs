@@ -1,9 +1,9 @@
 ---
 title: "ReactNative"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 960
-summary: "当前总行数：366 行 ## 一、基础知识 🔼 🔽 脚本语言：必须在自己的环境下（解释器）运行，不能完全对接操作系统。比如，.js需要在操作系统里面安装了Node.js以后，才可以运行； ## 二、一些工具 🔼 🔽 ### 1、Node.js 🔼 🔽 Node.js：是一个基于 Chrome V8 引擎的 JavaScript 运行环境。它的特点如下: 事件"
+weight: 160
+summary: "📚 目录（点击展开 / 收起） - 一、基础知识 - 二、一些工具 - 1、Node.js - 2、npm - 3、Yarn - 4、watchman - 6、Expo - 7、JavaScript bundler - 8、Metro 开发服务器 - 三、新建项目 - 四、运行项目 - 1、在iOS模拟器上运行 - 2、在Android模拟器上运行 - 3、"
 bookCollapseSection: false
 ---
 
@@ -17,16 +17,38 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [一、基础知识](#jobs-toc-heading-1)
+- [二、一些工具](#jobs-toc-heading-2)
+  - [1、Node.js](#jobs-toc-heading-3)
+  - [2、npm](#jobs-toc-heading-4)
+  - [3、Yarn](#jobs-toc-heading-5)
+  - [4、watchman](#jobs-toc-heading-6)
+  - [6、Expo](#jobs-toc-heading-7)
+  - [7、JavaScript bundler](#jobs-toc-heading-8)
+  - [8、Metro 开发服务器](#jobs-toc-heading-9)
+- [三、新建项目](#jobs-toc-heading-10)
+- [四、运行项目](#jobs-toc-heading-11)
+  - [1、在iOS模拟器上运行](#jobs-toc-heading-12)
+  - [2、在Android模拟器上运行](#jobs-toc-heading-13)
+  - [3、一些错误提示及解决办法](#jobs-toc-heading-14)
+
+</details>
+<!-- jobs-toc:end -->
 
 当前总行数：366 行
 
-## 一、基础知识 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、基础知识 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 脚本语言：必须在自己的环境下（解释器）运行，不能完全对接操作系统。比如，`*.js`需要在操作系统里面安装了Node.js以后，才可以运行；
 
-## 二、一些工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">二、一些工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1、Node.js <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1、Node.js <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * Node.js：是一个基于 Chrome V8 引擎的 JavaScript 运行环境。它的特点如下:
 
@@ -68,7 +90,7 @@ bookCollapseSection: false
     v21.7.1
     ```
 
-### 2、npm <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">2、npm <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它的主要作用如下:
 
@@ -84,7 +106,7 @@ npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它�
 
 * **创建项目**：npm 可以通过 `npm init` 创建一个标准化的包结构,便于构建新项目。
 
-###  3、Yarn <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+###  <span id="jobs-toc-heading-5" data-jobs-toc="v2">3、Yarn <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 全称：Yarn Package Manager
 * 由**Facebook**开源的**依赖管理工具**
@@ -98,7 +120,7 @@ npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它�
   * **更好的安全性**：在每次安装前,Yarn 会通过验证机制校验每个安装包的完整性。
   * **更好的网页端支持**：Yarn 可直接通过 Node.js 的流重定向到浏览器中运行。
 
-### 4、[watchman](https://facebook.github.io/watchman/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">4、[watchman](https://facebook.github.io/watchman/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **Facebook**出品，用于监视文件系统的变化
 
@@ -155,7 +177,7 @@ npm = **N**ode **P**ackage **M**anager = Node.js 的默认包管理工具。它�
     react-native upgrade # 将项目代码升级到最新的 React Native 版本
     ```
 
-### 6、Expo
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">6、Expo</span><!-- jobs-toc:heading-end -->
 
 Expo 是一个用于构建React Native应用程序的**工具链**。它旨在简化React Native应用程序的开发过程,并提供了许多有用的功能和工具。以下是 Expo 的一些主要特点:
 
@@ -173,7 +195,7 @@ Expo 是一个用于构建React Native应用程序的**工具链**。它旨在�
 
 * **无需Xcode或Android Studio**:使用Expo,开发人员无需在本地安装Xcode或Android Studio就可以构建React Native应用；
 
-### 7、JavaScript bundler
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">7、JavaScript bundler</span><!-- jobs-toc:heading-end -->
 
 * JavaScript bundler是一种工具；
 
@@ -191,7 +213,7 @@ Expo 是一个用于构建React Native应用程序的**工具链**。它旨在�
   - **Parcel**：零配置的bundler,开箱即用。
   - **Metro**：React Native应用程序的默认bundler。
 
-### 8、Metro 开发服务器
+### <span id="jobs-toc-heading-9" data-jobs-toc="v2">8、Metro 开发服务器</span><!-- jobs-toc:heading-end -->
 
 * Metro是React Native应用程序的JavaScript bundler；
 * 在React Native中，Metro充当bundler的角色，将React Native应用的JavaScript代码打包成一个单一文件，以优化应用的启动时间和整体性能；
@@ -211,7 +233,7 @@ Expo 是一个用于构建React Native应用程序的**工具链**。它旨在�
   * **资产解析**：Metro能够解析并正确导入图像、视频、字体等资产文件；
   * **错误捕获**：Metro将编译时和运行时的错误可视化,使排查问题更加简单；
 
-## 三、新建项目
+## <span id="jobs-toc-heading-10" data-jobs-toc="v2">三、新建项目</span><!-- jobs-toc:heading-end -->
 
 <span style="color:red; font-weight:bold;">*使用**React Native的内置命令行界面**新建工程*</span>
 
@@ -439,9 +461,9 @@ To run your project, navigate to the directory and run one of the following yarn
 ➜  Desktop 
 ```
 
-## 四、运行项目
+## <span id="jobs-toc-heading-11" data-jobs-toc="v2">四、运行项目</span><!-- jobs-toc:heading-end -->
 
-### 1、在iOS模拟器上运行
+### <span id="jobs-toc-heading-12" data-jobs-toc="v2">1、在iOS模拟器上运行</span><!-- jobs-toc:heading-end -->
 
 *`npm run ios`*或者`yarn ios`
 
@@ -499,7 +521,7 @@ iOS Bundled 7769ms (node_modules/expo/AppEntry.js)
 
 ```
 
-### 2、在Android模拟器上运行
+### <span id="jobs-toc-heading-13" data-jobs-toc="v2">2、在Android模拟器上运行</span><!-- jobs-toc:heading-end -->
 
 ```bash
 ➜  AwesomeProject git:(master) npm run android
@@ -518,7 +540,7 @@ https://developer.android.com/studio/run/device.html#developer-device-options. I
 ➜  AwesomeProject git:(master) 
 ```
 
-### 3、一些错误提示及解决办法
+### <span id="jobs-toc-heading-14" data-jobs-toc="v2">3、一些错误提示及解决办法</span><!-- jobs-toc:heading-end -->
 
 ```bash
 ➜  Desktop cd AwesomeProject

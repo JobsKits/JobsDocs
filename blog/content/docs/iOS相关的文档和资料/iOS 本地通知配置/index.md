@@ -1,9 +1,9 @@
 ---
 title: "iOS 本地通知配置"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 570
-summary: "一、在AppDelegate里面进行配置 🔼 🔽 ## 二、相关工具类 🔼 🔽 JobsLocalNotificationModel JobsMakeLocalNotification ## 三、相关调用 🔼 🔽 * ```objective-c [JobsMakeLocalNotification.new triggerLocalNotification:"
+weight: 520
+summary: "📚 目录（点击展开 / 收起） - 一、在AppDelegate里面进行配置 - 二、相关工具类 - 三、相关调用 ## 一、在AppDelegate里面进行配置 🔼 🔽 ## 二、相关工具类 🔼 🔽 JobsLocalNotificationModel JobsMakeLocalNotification ## 三、相关调用 🔼 🔽 * ```objecti"
 bookCollapseSection: false
 ---
 
@@ -17,8 +17,19 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## 一、在`AppDelegate`里面进行配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [一、在AppDelegate里面进行配置](#jobs-toc-heading-1)
+- [二、相关工具类](#jobs-toc-heading-2)
+- [三、相关调用](#jobs-toc-heading-3)
+
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">一、在`AppDelegate`里面进行配置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
   ```objective-c
   #import "AppDelegate.h"
@@ -51,7 +62,7 @@ bookCollapseSection: false
   @end
   ```
 
-## 二、相关工具类 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">二、相关工具类 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * **JobsLocalNotificationModel**
 
@@ -147,7 +158,7 @@ bookCollapseSection: false
   @end
   ```
 
-## 三、相关调用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">三、相关调用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * ```objective-c
   [JobsMakeLocalNotification.new triggerLocalNotification:JobsLocalNotificationModel.new];

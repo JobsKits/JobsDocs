@@ -1,25 +1,55 @@
 ---
 title: "iOS 逆向专题：静态分析"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 50
-summary: "## 🔥 前言 > 静态分析是在不运行目标程序的前提下读取 App Bundle、Mach-O、符号、字符串、元数据、控制流和伪代码。本专题只分析自己编译、开源教学或明确授权的样本；重点是建立证据链，不是获取第三方业务秘密。 ## 一、静态分析究竟在回答什么 🔼 🔽 ### 1.1、四类核心问题 🔼 🔽 1、身份：这个 Mach-O 面向什么平台、架构和最低"
+weight: 990
+summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、静态分析究竟在回答什么 - 1.1、四类核心问题 - 1.2、证据强度不要混在一起 - 二、IDA Pro 与 Hopper 怎样选 - 2.1、工具定位 - 2.2、同一份样本的标准打开顺序 - 三、自有 Lab 的只读命令 - 3.1、准备路径 - 3.2、确认身份与依赖 - 3.3、查看符号与字符串"
 bookCollapseSection: false
 ---
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#jobs-toc-heading-1)
+- [一、静态分析究竟在回答什么](#jobs-toc-heading-2)
+  - [1.1、四类核心问题](#jobs-toc-heading-3)
+  - [1.2、证据强度不要混在一起](#jobs-toc-heading-4)
+- [二、IDA Pro 与 Hopper 怎样选](#jobs-toc-heading-5)
+  - [2.1、工具定位](#jobs-toc-heading-6)
+  - [2.2、同一份样本的标准打开顺序](#jobs-toc-heading-7)
+- [三、自有 Lab 的只读命令](#jobs-toc-heading-8)
+  - [3.1、准备路径](#jobs-toc-heading-9)
+  - [3.2、确认身份与依赖](#jobs-toc-heading-10)
+  - [3.3、查看符号与字符串](#jobs-toc-heading-11)
+- [四、在反编译器里读函数](#jobs-toc-heading-12)
+  - [4.1、先看控制流，再看伪代码](#jobs-toc-heading-13)
+  - [4.2、ARM64 最小词汇](#jobs-toc-heading-14)
+  - [4.3、Objective-C 与 Swift 的差异](#jobs-toc-heading-15)
+- [五、练习：建立一条可审计证据链](#jobs-toc-heading-16)
+  - [5.1、Lab 设计](#jobs-toc-heading-17)
+  - [5.2、交付记录模板](#jobs-toc-heading-18)
+- [六、常见误区与完成标准](#jobs-toc-heading-19)
+  - [6.1、常见误区](#jobs-toc-heading-20)
+  - [6.2、学完应该会什么](#jobs-toc-heading-21)
+- [七、官方资料](#jobs-toc-heading-22)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
-## 🔥 <font id=前言>前言</font>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
 
 > 静态分析是在不运行目标程序的前提下读取 App Bundle、Mach-O、符号、字符串、元数据、控制流和伪代码。本专题只分析自己编译、开源教学或明确授权的样本；重点是建立证据链，不是获取第三方业务秘密。
 
-## 一、静态分析究竟在回答什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">一、静态分析究竟在回答什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 1.1、四类核心问题 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1、四类核心问题 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 1、身份：这个 Mach-O 面向什么平台、架构和最低系统版本？
 
@@ -29,7 +59,7 @@ bookCollapseSection: false
 
 4、行为：某个函数可能做什么，调用关系怎样，哪些结论还需要动态验证？
 
-### 1.2、证据强度不要混在一起 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.2、证据强度不要混在一起 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 证据 | 能说明什么 | 不能单独说明什么 |
 | --- | --- | --- |
@@ -41,9 +71,9 @@ bookCollapseSection: false
 
 报告中应明确写“静态证据”“推断”“待动态验证”，不要把反编译器猜测写成事实。
 
-## 二、IDA Pro 与 Hopper 怎样选 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-5" data-jobs-toc="v2">二、IDA Pro 与 Hopper 怎样选 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 2.1、工具定位 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">2.1、工具定位 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 工具 | 优势 | 代价 | 适合场景 |
 | --- | --- | --- | --- |
@@ -52,7 +82,7 @@ bookCollapseSection: false
 
 二者都不是“打开就得到源码”。先用 Apple / LLVM 命令确认二进制身份，再让 GUI 工具辅助命名、导航和记录。
 
-### 2.2、同一份样本的标准打开顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2.2、同一份样本的标准打开顺序 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 1、确认主可执行文件，不要把 Framework、Extension 或资源误当主程序。
 
@@ -66,9 +96,9 @@ bookCollapseSection: false
 
 6、记录静态结论，交给 LLDB 或测试日志验证。
 
-## 三、自有 Lab 的只读命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-8" data-jobs-toc="v2">三、自有 Lab 的只读命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 3.1、准备路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-9" data-jobs-toc="v2">3.1、准备路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 下面的 `APP_PATH` 和 `BIN_PATH` 必须替换成自己构建产物的实际路径：
 
@@ -77,7 +107,7 @@ APP_PATH="/path/to/ReverseLab.app"
 BIN_PATH="$APP_PATH/ReverseLab"
 ```
 
-### 3.2、确认身份与依赖 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-10" data-jobs-toc="v2">3.2、确认身份与依赖 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 file "$BIN_PATH"
@@ -87,7 +117,7 @@ xcrun otool -L "$BIN_PATH"
 xcrun dwarfdump --uuid "$BIN_PATH"
 ```
 
-### 3.3、查看符号与字符串 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-11" data-jobs-toc="v2">3.3、查看符号与字符串 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 xcrun nm -nm "$BIN_PATH" | head -n 80
@@ -97,9 +127,9 @@ xcrun swift-demangle '$s...'
 
 `strings` 只是搜索入口。若字符串没有交叉引用、位于未使用资源或被优化残留，不能证明功能存在。
 
-## 四、在反编译器里读函数 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-12" data-jobs-toc="v2">四、在反编译器里读函数 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 4.1、先看控制流，再看伪代码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-13" data-jobs-toc="v2">4.1、先看控制流，再看伪代码 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 推荐顺序：
 
@@ -113,7 +143,7 @@ xcrun swift-demangle '$s...'
 
 5、最后才读伪代码，并用汇编反证关键判断。
 
-### 4.2、ARM64 最小词汇 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-14" data-jobs-toc="v2">4.2、ARM64 最小词汇 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 指令 | 人话理解 |
 | --- | --- |
@@ -125,19 +155,19 @@ xcrun swift-demangle '$s...'
 | `LDR` / `STR` | 从内存读取 / 写入 |
 | `ADRP` + `ADD` | 组合出某个页附近的地址 |
 
-### 4.3、Objective-C 与 Swift 的差异 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-15" data-jobs-toc="v2">4.3、Objective-C 与 Swift 的差异 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - Objective-C 元数据通常保留类、Selector 和协议，导航更直观，但 Release 优化仍会改变结构。
 - Swift 有名称修饰、泛型、Witness Table 和较强优化；反编译结果更容易失去源代码边界。
 - `@objc`、动态派发和导出符号能增加可见线索，但不是所有 Swift 方法都会留下易读名字。
 
-## 五、练习：建立一条可审计证据链 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-16" data-jobs-toc="v2">五、练习：建立一条可审计证据链 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 5.1、Lab 设计 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-17" data-jobs-toc="v2">5.1、Lab 设计 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 在自己的 `ReverseLab` 中创建：一个唯一字符串、一个有真假分支的纯函数、一个 Swift 类型和一个 `@objc` 方法。分别构建 Debug 与 Release。
 
-### 5.2、交付记录模板 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-18" data-jobs-toc="v2">5.2、交付记录模板 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 项目 | 记录 |
 | --- | --- |
@@ -149,9 +179,9 @@ xcrun swift-demangle '$s...'
 | 动态验证 | 断点、日志或测试结果 |
 | 未验证项 | 明确列出，不补想象 |
 
-## 六、常见误区与完成标准 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-19" data-jobs-toc="v2">六、常见误区与完成标准 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 6.1、常见误区 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-20" data-jobs-toc="v2">6.1、常见误区 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 把伪代码当原始源码。
 - 只搜字符串，不看引用和分支。
@@ -159,11 +189,11 @@ xcrun swift-demangle '$s...'
 - 混淆主 App、Extension、Framework 和 dSYM。
 - 只看一个工具输出，不用系统命令交叉验证。
 
-### 6.2、学完应该会什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-21" data-jobs-toc="v2">6.2、学完应该会什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 你应能独立确认 Mach-O 身份，在 IDA 或 Hopper 中定位一个已知函数，画出一层调用关系，区分事实与推断，并设计一个低风险动态实验验证核心结论。
 
-## 七、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-22" data-jobs-toc="v2">七、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - [**IDA 官方文档**](https://docs.hex-rays.com/)
 - [**Hopper Disassembler**](https://www.hopperapp.com/)

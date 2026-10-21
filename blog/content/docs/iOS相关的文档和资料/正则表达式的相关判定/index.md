@@ -1,9 +1,9 @@
 ---
 title: "正则表达式的相关判定"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 440
-summary: "正则表达式的相关判定 - 1、检查一个手机号是否为中国的手机号 - 2、正则表达式匹配某一段字符串 - 2.1、正则表达式匹配英文（大小写）、空格、任意字符串（例如：Jobs）、数字、中文字符（繁 + 简） - 2.2、正则表达式匹配中文字符 - 2.3、正则表达式匹配 Emoji - 2.4、正则表达式匹配网页地址 - 2.5、正则表达式匹配特殊字符 - "
+weight: 930
+summary: "📚 目录（点击展开 / 收起） - 1、检查一个手机号是否为中国的手机号 - 2、正则表达式匹配某一段字符串 - 2.1、正则表达式匹配英文（大小写）、空格、任意字符串（例如：Jobs）、数字、中文字符（繁 + 简） - 2.2、正则表达式匹配中文字符 - 2.3、正则表达式匹配 Emoji - 2.4、正则表达式匹配网页地址 - 2.5、正则表达式匹配特殊"
 bookCollapseSection: false
 ---
 
@@ -17,6 +17,22 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [1、检查一个手机号是否为中国的手机号](#jobs-toc-heading-1)
+- [2、正则表达式匹配某一段字符串](#jobs-toc-heading-2)
+  - [2.1、正则表达式匹配英文（大小写）、空格、任意字符串（例如：Jobs）、数字、中文字符（繁 + 简）](#jobs-toc-heading-3)
+  - [2.2、正则表达式匹配中文字符](#jobs-toc-heading-4)
+  - [2.3、正则表达式匹配 Emoji](#jobs-toc-heading-5)
+  - [2.4、正则表达式匹配网页地址](#jobs-toc-heading-6)
+  - [2.5、正则表达式匹配特殊字符](#jobs-toc-heading-7)
+  - [2.6、正则表达式匹配邮箱地址](#jobs-toc-heading-8)
+
+</details>
+<!-- jobs-toc:end -->
 - [正则表达式的相关判定](#正则表达式的相关判定)
   - [1、检查一个手机号是否为中国的手机号](#1检查一个手机号是否为中国的手机号)
   - [2、正则表达式匹配某一段字符串](#2正则表达式匹配某一段字符串)
@@ -27,7 +43,7 @@ bookCollapseSection: false
     - [2.5、正则表达式匹配特殊字符](#25正则表达式匹配特殊字符)
     - [2.6、正则表达式匹配邮箱地址](#26正则表达式匹配邮箱地址)
 
-## 1、检查一个手机号是否为中国的手机号 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">1、检查一个手机号是否为中国的手机号 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 ^1(3\d|4[57]|5[^4\D]|66|7[^249\D]|8\d|9[89])\d{8}$
@@ -50,9 +66,9 @@ bookCollapseSection: false
 如果一个手机号符合以上条件，则可以认为它是中国的手机号。
 ```
 
-## 2、正则表达式匹配某一段字符串 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">2、正则表达式匹配某一段字符串 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 2.1、正则表达式匹配`英文（大小写）`、`空格`、`任意字符串（例如：Jobs）`、`数字`、`中文字符（繁 + 简）` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">2.1、正则表达式匹配`英文（大小写）`、`空格`、`任意字符串（例如：Jobs）`、`数字`、`中文字符（繁 + 简）` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 1、正则表达式检查某一段字符串是否是全英文：^[A-Za-z]+$
@@ -71,7 +87,7 @@ bookCollapseSection: false
 
 *这些正则表达式模式可能并不完美，具体取决于使用情况。此外，某些模式可能需要进行适当的调整以满足需求。*
 
-### 2.2、正则表达式匹配中文字符 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">2.2、正则表达式匹配中文字符 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 1、正则表达式检查某一段字符串是否是纯中文字符（包括了所有简体中文和繁体中文。不含空格、数字或其他符号）：^[\u4e00-\u9fa5]+$
@@ -97,7 +113,7 @@ bookCollapseSection: false
 需要注意的是，以上正则表达式只是匹配中文繁体字和简体字的基本范围，具体的匹配规则还需要根据具体的文本内容进行适当调整。
 ```
 
-### 2.3、正则表达式匹配 Emoji <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">2.3、正则表达式匹配 Emoji <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **在Unicode编码中，Emoji的编码范围 = (0x1F600 ~ 0x1F64F)<sub>256个字符</sub> + (0x1F300~0x1F5FF)<sub>203个字符</sub>**，共计459个字符
 
@@ -114,7 +130,7 @@ Emoji字符是由两个Unicode编码表示的高代理项和低代理项组成�
 由此可以得出整个正则表达式可以匹配一个或多个符合 UTF-16 标准的 emoji 表情字符。
 ```
 
-### 2.4、正则表达式匹配网页地址 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">2.4、正则表达式匹配网页地址 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *匹配标准的网址格式，包括协议、主机名和路径等部分*
 
@@ -168,7 +184,7 @@ else:
     print('非法网址')
 ```
 
-### 2.5、正则表达式匹配特殊字符 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">2.5、正则表达式匹配特殊字符 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *匹配任何非字母非数字的字符*
 
@@ -188,7 +204,7 @@ else:
 [!@#$%^&*()]
 ```
 
-### 2.6、正则表达式匹配邮箱地址 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-8" data-jobs-toc="v2">2.6、正则表达式匹配邮箱地址 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *正则表达式检查某一段字符串是否是邮箱地址*
 

@@ -1,6 +1,6 @@
 ---
 title: "科学上网"
-weight: 80
+weight: 960
 bookCollapseSection: false
 jobsContainerOnly: true
 ---

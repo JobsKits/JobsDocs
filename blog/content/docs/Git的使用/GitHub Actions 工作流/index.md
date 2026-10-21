@@ -1,23 +1,51 @@
 ---
 title: "GitHub Actions 工作流"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 140
-summary: "## 🔥 前言 > GitHub Actions 是 GitHub 的事件驱动自动化平台。它不仅能跑 CI/CD，也能做定时任务、发布、依赖更新、文档生成和仓库治理；权限、外部 Action、第三方依赖与不受信任 Pull Request 同时构成供应链边界。 ## 一、核心模型 🔼 🔽 | 概念 | 含义 | 关键边界 | | --- | --- | --"
+weight: 70
+summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、核心模型 - 二、触发器 - 三、权限与凭据 - 3.1、优先使用 GITHUB\\TOKEN - 3.2、最小权限 - 3.3、什么时候才用额外 Token - 四、第三方 Action 与依赖安全 - 五、Mermaid 自动生成示例 - 5.1、目标 - 5.2、工作流 - 5.3、输入要求 - 六、"
 bookCollapseSection: false
 ---
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#jobs-toc-heading-1)
+- [一、核心模型](#jobs-toc-heading-2)
+- [二、触发器](#jobs-toc-heading-3)
+- [三、权限与凭据](#jobs-toc-heading-4)
+  - [3.1、优先使用 GITHUB\_TOKEN](#jobs-toc-heading-5)
+  - [3.2、最小权限](#jobs-toc-heading-6)
+  - [3.3、什么时候才用额外 Token](#jobs-toc-heading-7)
+- [四、第三方 Action 与依赖安全](#jobs-toc-heading-8)
+- [五、Mermaid 自动生成示例](#jobs-toc-heading-9)
+  - [5.1、目标](#jobs-toc-heading-10)
+  - [5.2、工作流](#jobs-toc-heading-11)
+  - [5.3、输入要求](#jobs-toc-heading-12)
+- [六、写回仓库的安全实现](#jobs-toc-heading-13)
+  - [6.1、不要把 PAT 拼进 URL](#jobs-toc-heading-14)
+  - [6.2、只提交真实变化](#jobs-toc-heading-15)
+- [七、本地验证](#jobs-toc-heading-16)
+  - [7.1、直接验证命令](#jobs-toc-heading-17)
+  - [7.2、act](#jobs-toc-heading-18)
+- [八、常见故障](#jobs-toc-heading-19)
+- [九、官方资料](#jobs-toc-heading-20)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
-## 🔥 <font id=前言>前言</font>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
 
 > GitHub Actions 是 GitHub 的事件驱动自动化平台。它不仅能跑 CI/CD，也能做定时任务、发布、依赖更新、文档生成和仓库治理；权限、外部 Action、第三方依赖与不受信任 Pull Request 同时构成供应链边界。
 
-## 一、核心模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">一、核心模型 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 概念 | 含义 | 关键边界 |
 | --- | --- | --- |
@@ -38,7 +66,7 @@ bookCollapseSection: false
 
 本目录内的 `.github/workflows/generate_diagrams.yml` 是可复制的示例。因为它不在 `JobsDocs` 仓库根目录的 `.github/workflows/`，不会自动成为本仓库的有效 Workflow。
 
-## 二、触发器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">二、触发器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```yaml
 on:
@@ -63,9 +91,9 @@ on:
 
 ![运行记录](./assets/image-20240707005554875.png)
 
-## 三、权限与凭据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-4" data-jobs-toc="v2">三、权限与凭据 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 3.1、优先使用 `GITHUB_TOKEN` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">3.1、优先使用 `GITHUB_TOKEN` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 GitHub 会为每个 Job 自动创建短期 `GITHUB_TOKEN`，权限只在当前仓库和当前 Job 的授权范围内有效。对当前仓库提交生成物通常不需要个人 PAT：
 
@@ -76,7 +104,7 @@ permissions:
 
 `actions/checkout` 默认可以让后续 Git 命令继续使用该 Token；同仓库 `git push` 不需要把 Token 拼进 URL。
 
-### 3.2、最小权限 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">3.2、最小权限 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 没有写入需求时显式写：
 
@@ -89,7 +117,7 @@ permissions:
 - 来自 fork 的 `pull_request` 不会获得普通仓库 Secret，`GITHUB_TOKEN` 通常为只读；不要设计“PR 验证顺便推回主分支”。
 - `pull_request_target` 运行在目标仓库上下文，可能持有更高权限。不能在高权限 Job 中直接 checkout 并执行不受信任 PR 的代码。
 
-### 3.3、什么时候才用额外 Token <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">3.3、什么时候才用额外 Token <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 可能需要 GitHub App installation token 或细粒度 PAT 的场景：
 
@@ -116,7 +144,7 @@ Repository Secret 历史入口：
 
 ![新增 Repository Secret](./assets/image-20240704143425822.png)
 
-## 四、第三方 Action 与依赖安全 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-8" data-jobs-toc="v2">四、第三方 Action 与依赖安全 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - `uses: owner/action@v7` 的 major tag 方便更新，但 tag 可移动；高安全场景固定到经过核验的完整 commit SHA。
 - SHA 固定不会自动获得安全修复，需要 Dependabot 或定期审计主动更新。
@@ -124,9 +152,9 @@ Repository Secret 历史入口：
 - `npm install -g <package>` 不可复现。示例至少固定明确版本；正式项目优先提交 `package.json` 与 lockfile，再用 `npm ci`。
 - 不在日志中输出整个 `github` context、Secret 或含认证信息的远端 URL。
 
-## 五、Mermaid 自动生成示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-9" data-jobs-toc="v2">五、Mermaid 自动生成示例 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 5.1、目标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-10" data-jobs-toc="v2">5.1、目标 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 1. Push、Pull Request 和手动运行都验证 Mermaid CLI 能解析输入。
 2. 只有 `main` 的 Push 或在 `main` 上手动运行才写回生成图。
@@ -134,7 +162,7 @@ Repository Secret 历史入口：
 4. 同一分支的并发发布互斥，避免自动提交相互抢占。
 5. 没有生成变化时正常结束，不让空 commit 导致 Workflow 失败。
 
-### 5.2、工作流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-11" data-jobs-toc="v2">5.2、工作流 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 把本目录的示例复制到目标仓库根目录：
 
@@ -168,7 +196,7 @@ env:
 
 截至 2026-08-04，示例使用 `actions/checkout@v7`、`actions/setup-node@v7`、Node.js 24 LTS 和 Mermaid CLI `11.16.0`。版本会演进，维护时必须重新核对上游，不只修改日期。
 
-### 5.3、输入要求 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-12" data-jobs-toc="v2">5.3、输入要求 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 Markdown 输入必须包含合法的 Mermaid fenced code block：
 
@@ -183,9 +211,9 @@ flowchart LR
 - 一个 Markdown 有多张 Mermaid 图时，CLI 可能生成带序号的多个输出；暂存路径要覆盖 `diagram*.png`。
 - `mermaid.md` 是复杂输入样例，不代表 GitHub Actions 知识本身。
 
-## 六、写回仓库的安全实现 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-13" data-jobs-toc="v2">六、写回仓库的安全实现 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 6.1、不要把 PAT 拼进 URL <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-14" data-jobs-toc="v2">6.1、不要把 PAT 拼进 URL <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 错误方向：
 
@@ -199,7 +227,7 @@ https://<actor>:<token>@github.com/<repository>.git
 git push
 ```
 
-### 6.2、只提交真实变化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-15" data-jobs-toc="v2">6.2、只提交真实变化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 mapfile -d '' generated_files < <(find . -maxdepth 1 -type f -name 'diagram*.png' -print0)
@@ -220,9 +248,9 @@ git push
 - Bash 数组配合 NUL 分隔输入，既兼容空格和特殊字符，也显式处理“没有生成任何文件”的异常情况。
 - 工作流自动 Push 使用仓库 `GITHUB_TOKEN` 时，通常不会再次触发普通 Push Workflow，从而避免递归运行；如果改用 PAT 或 GitHub App token，必须重新设计防递归条件。
 
-## 七、本地验证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-16" data-jobs-toc="v2">七、本地验证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 7.1、直接验证命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-17" data-jobs-toc="v2">7.1、直接验证命令 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 node --version
@@ -232,7 +260,7 @@ npx --yes @mermaid-js/mermaid-cli@11.16.0 \
   --output diagram.png
 ```
 
-### 7.2、`act` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-18" data-jobs-toc="v2">7.2、`act` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [**act**](https://github.com/nektos/act) 可以在本地用容器模拟部分 GitHub Actions：
 
@@ -246,7 +274,7 @@ act workflow_dispatch
 - 本地通过不能证明 GitHub-hosted Runner 一定通过；最终仍要在目标仓库验证。
 - 测试 Secret 使用专门的测试值，不能把生产 Secret 写进命令历史或普通文件。
 
-## 八、常见故障 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-19" data-jobs-toc="v2">八、常见故障 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 现象 | 原因方向 | 处理 |
 | --- | --- | --- |
@@ -259,7 +287,7 @@ act workflow_dispatch
 | Mermaid CLI 找不到浏览器 | Puppeteer/Runner 依赖、CLI 版本或沙箱问题 | 先使用 CLI 官方安装策略与 GitHub-hosted Runner；不要随意关闭所有沙箱。 |
 | 自动提交形成无限循环 | 使用了会触发新 Push 事件的 PAT/App token，且无条件限制 | 改用 `GITHUB_TOKEN` 或增加 actor、路径、消息和并发保护。 |
 
-## 九、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-20" data-jobs-toc="v2">九、官方资料 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - [**GitHub Actions 文档**](https://docs.github.com/en/actions)
 - [**Workflow 语法**](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)

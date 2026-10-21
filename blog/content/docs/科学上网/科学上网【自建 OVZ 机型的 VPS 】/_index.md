@@ -1,9 +1,9 @@
 ---
 title: "科学上网【自建 OVZ 机型的 VPS 】"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 100
-summary: "科学上网【自建 OVZ 机型的 VPS 】 - 1、前言 - 2、使用到的工具 - 3、流程 - 3.1、Namesilo - 3.1.1、身份认证 - 3.1.2、 DNS管理 - 3.2、Cloudflare - 3.2.1、注册 - 3.2.2、添加站点 - 3.2.3、选择（Free）计划 - 3.2.4、查看记录 - 3.2.5、更改您的名称服务器"
+weight: 970
+summary: "📚 目录（点击展开 / 收起） - 1、前言 - 2、使用到的工具 - 3、流程 - 3.1、Namesilo - 3.1.1、身份认证 - 3.1.2、 DNS管理 - 3.2、Cloudflare - 3.2.1、注册 - 3.2.2、添加站点 - 3.2.3、选择（Free）计划 - 3.2.4、查看记录 - 3.2.5、更改您的名称服务器（完毕以后，"
 bookCollapseSection: false
 ---
 
@@ -17,6 +17,59 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [1、前言](#jobs-toc-heading-1)
+- [2、使用到的工具](#jobs-toc-heading-2)
+- [3、流程](#jobs-toc-heading-3)
+  - [3.1、Namesilo](#jobs-toc-heading-4)
+    - [3.1.1、身份认证](#jobs-toc-heading-5)
+    - [3.1.2、 DNS管理](#jobs-toc-heading-6)
+  - [3.2、Cloudflare](#jobs-toc-heading-7)
+    - [3.2.1、注册](#jobs-toc-heading-8)
+    - [3.2.2、添加站点](#jobs-toc-heading-9)
+    - [3.2.3、选择（Free）计划](#jobs-toc-heading-10)
+    - [3.2.4、查看记录](#jobs-toc-heading-11)
+    - [3.2.5、更改您的名称服务器（完毕以后，需要刷新 Cloudflare ，检查是否生效）](#jobs-toc-heading-12)
+    - [3.2.6、成功生效](#jobs-toc-heading-13)
+  - [3.3、hosteons](#jobs-toc-heading-14)
+    - [3.3.1、注册](#jobs-toc-heading-15)
+    - [3.3.2、服务器的购买和设置](#jobs-toc-heading-16)
+    - [3.3.3、hosteons  ↔ Cloudflare](#jobs-toc-heading-17)
+      - [3.3.3.1、进入 hosteons → DNS  → 添加记录](#jobs-toc-heading-18)
+      - [3.3.3.2、检测二级域名是否成功](#jobs-toc-heading-19)
+  - [3.4、🌹SSH工具 FinalShell 连接 VPS（含账密）🌹](#jobs-toc-heading-20)
+  - [3.5、部署X-UI](#jobs-toc-heading-21)
+  - [3.6、访问X-UI面板](#jobs-toc-heading-22)
+  - [3.7、申请SSL证书](#jobs-toc-heading-23)
+    - [3.7.1、在FinalShell下输入x-ui,调出X-UI的管理脚本，输入16](#jobs-toc-heading-24)
+    - [3.7.2、完成一些设置](#jobs-toc-heading-25)
+      - [3.7.2.1、域名设置](#jobs-toc-heading-26)
+      - [3.7.2.2、密钥设置](#jobs-toc-heading-27)
+      - [3.7.2.3、注册邮箱设置，即输入Cloudflare的用户名](#jobs-toc-heading-28)
+      - [3.7.2.4、相关日志打印](#jobs-toc-heading-29)
+    - [3.7.3、/root/cert 证书文件夹](#jobs-toc-heading-30)
+    - [3.7.4、X-UI面板证书设置](#jobs-toc-heading-31)
+  - [3.8、在X-UI面板里面部署入站节点](#jobs-toc-heading-32)
+  - [3.9、使用Qv2ray](#jobs-toc-heading-33)
+    - [3.9.1、安装](#jobs-toc-heading-34)
+    - [3.9.2、数据导入](#jobs-toc-heading-35)
+  - [3.10、IP优选：套用CDN拯救线路](#jobs-toc-heading-36)
+    - [3.10.1、准备工作](#jobs-toc-heading-37)
+      - [3.10.1.1、断开Qv2ray链接并删除(图略)](#jobs-toc-heading-38)
+      - [3.10.1.2、在X-UI面板-入站列表里面，删除刚才配置的节点(图略)](#jobs-toc-heading-39)
+    - [3.10.2、操作流程](#jobs-toc-heading-40)
+      - [3.10.2.1、打开DNS：Cloudflare，找到解析域名的地方，开启代理](#jobs-toc-heading-41)
+      - [3.10.2.2、Cloudflare里面SSL/TLS 加密模式设置为完全（严格）](#jobs-toc-heading-42)
+      - [3.10.2.3、在X-UI面板里面建立VLESS+WS+TLS的代理节点](#jobs-toc-heading-43)
+      - [3.10.2.4、Cloudflare设置请求头](#jobs-toc-heading-44)
+      - [3.10.2.5、Cloudflare设置服务器地址](#jobs-toc-heading-45)
+
+</details>
+<!-- jobs-toc:end -->
 
 - [科学上网【自建 OVZ 机型的 VPS 】](#科学上网自建-ovz-机型的-vps-)
   - [1、前言](#1前言)
@@ -65,7 +118,7 @@ bookCollapseSection: false
         - [3.10.2.4、Cloudflare设置请求头](#31024cloudflare设置请求头)
         - [3.10.2.5、Cloudflare设置服务器地址](#31025cloudflare设置服务器地址)
 
-## <span id="前言">1、前言</span>
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2"><span id="前言">1、前言</span></span><!-- jobs-toc:heading-end -->
 
 *资料来源*
 
@@ -90,7 +143,7 @@ VPS 分国内的和国外的。国外的 VPS 就是我们科学上网所需要�
 3、价格便宜
 ```
 
-## 2、使用到的工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-2" data-jobs-toc="v2">2、使用到的工具 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 域名购买       | Namesilo          | https://www.namesilo.com                                     | 可以使用支付宝 |
 | -------------- | ----------------- | ------------------------------------------------------------ | -------------- |
@@ -100,11 +153,11 @@ VPS 分国内的和国外的。国外的 VPS 就是我们科学上网所需要�
 | 服务器监控工具 | X-UI              | apt update -y<br/>apt install -y curl socat<br/>bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh) | 免费           |
 | SSL证书申请    | x-ui 和Cloudflare | 16                                                           | 免费           |
 
-## 3、流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## <span id="jobs-toc-heading-3" data-jobs-toc="v2">3、流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-### 3.1、Namesilo <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">3.1、Namesilo <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### 3.1.1、身份认证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-5" data-jobs-toc="v2">3.1.1、身份认证 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **https://www.namesilo.com/account_profile.php**
 
@@ -119,7 +172,7 @@ https://www.namesilo.com/account_profile.php 重定向为 https://www.namesilo.c
 
 ![Namesilo的DNS设置](./assets/Namesilo的DNS设置.jpg)
 
-#### 3.1.2、 DNS管理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-6" data-jobs-toc="v2">3.1.2、 DNS管理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **https://www.namesilo.com/account_domain_manage_dns.php**
 
@@ -129,7 +182,7 @@ https://www.namesilo.com/account_profile.php 重定向为 https://www.namesilo.c
 
 **自此，域名`jobs295060456.top`购买成功**
 
-### 3.2、Cloudflare <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-7" data-jobs-toc="v2">3.2、Cloudflare <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **https://www.cloudflare.com/zh-cn/**
 
@@ -157,25 +210,25 @@ Cloudflare 是一个内容分发网络，即:CDN。
 就算我们不使用 Cloudflare 的 CDN 业务，域名托管到 Cloudflare 以后，也会加速 DNS 解析生效;
 ```
 
-#### 3.2.1、注册 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-8" data-jobs-toc="v2">3.2.1、注册 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 略
 
-#### 3.2.2、添加站点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-9" data-jobs-toc="v2">3.2.2、添加站点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![Cloudflare添加站点](./assets/Cloudflare添加站点.jpg)
 
-#### 3.2.3、选择（Free）计划 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-10" data-jobs-toc="v2">3.2.3、选择（Free）计划 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![Cloudflare添加站点选择计划](./assets/Cloudflare添加站点选择计划.jpg)
 
-#### 3.2.4、查看记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-11" data-jobs-toc="v2">3.2.4、查看记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![Cloudflare查看记录](./assets/Cloudflare查看记录.jpg)
 
 **点击`继续`**
 
-#### 3.2.5、更改您的名称服务器（完毕以后，需要刷新 Cloudflare ，检查是否生效） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-12" data-jobs-toc="v2">3.2.5、更改您的名称服务器（完毕以后，需要刷新 Cloudflare ，检查是否生效） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *等待域名生效*
 
@@ -196,21 +249,21 @@ Cloudflare 是一个内容分发网络，即:CDN。
 
 **自此，namesilo 完毕  ！！！相关功能被 Cloudflare 进行托管  ... 等待域名生效**
 
-#### 3.2.6、成功生效 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-13" data-jobs-toc="v2">3.2.6、成功生效 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![Namesilo->Cloudflare生效](./assets/Namesilo->Cloudflare生效.jpg)
 
 **同时，Cloudflare 的注册邮箱会受到一封生效的邮件**
 
-### 3.3、hosteons <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-14" data-jobs-toc="v2">3.3、hosteons <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **https://hosteons.com/**
 
-#### 3.3.1、注册 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-15" data-jobs-toc="v2">3.3.1、注册 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 略
 
-#### 3.3.2、服务器的购买和设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-16" data-jobs-toc="v2">3.3.2、服务器的购买和设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *自行选择一款配置，支持支付宝购买*
 
@@ -229,9 +282,9 @@ Primary IP
 213.59.119.127
 ```
 
-#### 3.3.3、hosteons  ↔ Cloudflare <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-17" data-jobs-toc="v2">3.3.3、hosteons  ↔ Cloudflare <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### 3.3.3.1、进入 hosteons → DNS  → 添加记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-18" data-jobs-toc="v2">3.3.3.1、进入 hosteons → DNS  → 添加记录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **搭建 VPS 推荐使用二级域名**
 
@@ -239,7 +292,7 @@ Primary IP
 
 **暂时关闭是为了演示一个不良效果**
 
-##### 3.3.3.2、检测二级域名是否成功 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-19" data-jobs-toc="v2">3.3.3.2、检测二级域名是否成功 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```bash
 ➜  ~ ping hello.jobs295060456.top                      
@@ -258,7 +311,7 @@ PING hello.jobs295060456.top (213.59.119.127): 56 data bytes
 
 **🎉🍺 成功 🎉🍺**
 
-### 3.4、🌹SSH工具 FinalShell 连接 VPS（含账密）🌹 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-20" data-jobs-toc="v2">3.4、🌹SSH工具 FinalShell 连接 VPS（含账密）🌹 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *FinalShell*
 
@@ -279,7 +332,7 @@ IP:213.59.119.127
 
 ![FinalShell03](./assets/FinalShell03.jpg)
 
-### 3.5、部署`X-UI` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-21" data-jobs-toc="v2">3.5、部署`X-UI` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *`X-UI`可视化节点部署的一个脚本*
 
@@ -295,7 +348,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
 
 ![X-UI安装](./assets/X-UI安装.jpg)
 
-### 3.6、访问`X-UI`面板 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-22" data-jobs-toc="v2">3.6、访问`X-UI`面板 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *因为没有配置https证书，所以网页报红*
 
@@ -309,24 +362,24 @@ open http://213.59.119.127:54321
 
 ![X-UI面板](./assets/X-UI面板.jpg)
 
-### 3.7、申请`SSL`证书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-23" data-jobs-toc="v2">3.7、申请`SSL`证书 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 一个域名对应一个SSL证书
 泛域名配置证书，也就是一个证书涵盖所有的泛域名
 ```
 
-#### 3.7.1、在`FinalShell`下输入`x-ui`,调出`X-UI`的管理脚本，输入`16` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-24" data-jobs-toc="v2">3.7.1、在`FinalShell`下输入`x-ui`,调出`X-UI`的管理脚本，输入`16` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![利用X-UI对SSL证书进行申请](./assets/利用X-UI对SSL证书进行申请.jpg)
 
-#### 3.7.2、完成一些设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-25" data-jobs-toc="v2">3.7.2、完成一些设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### 3.7.2.1、域名设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-26" data-jobs-toc="v2">3.7.2.1、域名设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 `jobs295060456.top`
 
-##### 3.7.2.2、密钥设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-27" data-jobs-toc="v2">3.7.2.2、密钥设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 密钥位置: Cloudflare 👉🏻概述 👉🏻获取您的API令牌
@@ -342,11 +395,11 @@ Api密钥：`4890192c37124e425dac15c55768117c954ad`
 
 ![Cloudflare的Api密钥🔑](./assets/Cloudflare的Api密钥🔑.jpg)
 
-##### 3.7.2.3、注册邮箱设置，即输入`Cloudflare`的用户名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-28" data-jobs-toc="v2">3.7.2.3、注册邮箱设置，即输入`Cloudflare`的用户名 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 `lg295060456@gmail.com`
 
-#####  3.7.2.4、相关日志打印 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#####  <span id="jobs-toc-heading-29" data-jobs-toc="v2">3.7.2.4、相关日志打印 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```bash
 root@vps73846798:~# x-ui
@@ -512,13 +565,13 @@ drwx------ 6 root root 4.0K May 14 05:28 ..
 root@vps73846798:~# 
 ```
 
-#### 3.7.3、`/root/cert` 证书文件夹 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-30" data-jobs-toc="v2">3.7.3、`/root/cert` 证书文件夹 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![刷新→云服务器上的root:cert文件夹](./assets/刷新→云服务器上的root:cert文件夹.jpg)
 
 ![cert文件夹](./assets/cert文件夹.jpg)
 
-#### 3.7.4、`X-UI`面板证书设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-31" data-jobs-toc="v2">3.7.4、`X-UI`面板证书设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![X-UI面板证书设置](./assets/X-UI面板证书设置.jpg)
 
@@ -528,7 +581,7 @@ root@vps73846798:~#
 open https://hello.jobs295060456.top:54321/
 ```
 
-### 3.8、在`X-UI`面板里面部署入站节点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-32" data-jobs-toc="v2">3.8、在`X-UI`面板里面部署入站节点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![在X-UI面板里面部署入站节点](./assets/在X-UI面板里面部署入站节点.jpg)
 
@@ -538,45 +591,45 @@ open https://hello.jobs295060456.top:54321/
 vless://d8cabfc6-146f-41dd-8d48-59000cf10df8@hello.jobs295060456.top:443?type=tcp&security=xtls&flow=xtls-rprx-direct#%E5%93%88%E5%93%88%E5%93%88
 ```
 
-### 3.9、使用`Qv2ray` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-33" data-jobs-toc="v2">3.9、使用`Qv2ray` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 Qv2ray 是一款跨平台的 V2Ray 客户端，用于科学上网和保护网络隐私。
 它可以帮助用户在网络审查和封锁的国家或地区访问受限的网站或服务，同时加密网络流量，保护用户的网络通信数据不被窃取或监听。Qv2ray 支持多种协议和加密方式，可以自定义配置，在保护隐私的同时提供更快、更稳定的网络连接。
 ```
 
-#### 3.9.1、安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-34" data-jobs-toc="v2">3.9.1、安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```bash
 open https://formulae.brew.sh/cask/qv2ray
 brew install --cask qv2ray
 ```
 
-#### 3.9.2、数据导入 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-35" data-jobs-toc="v2">3.9.2、数据导入 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![导入二维码字符串资料到qv2ray](./assets/导入二维码字符串资料到qv2ray.jpg)
 
 ![qv2ray](./assets/qv2ray.jpg)
 
-### 3.10、IP优选：套用`CDN`拯救线路 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-36" data-jobs-toc="v2">3.10、IP优选：套用`CDN`拯救线路 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### 3.10.1、准备工作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-37" data-jobs-toc="v2">3.10.1、准备工作 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### 3.10.1.1、断开`Qv2ray`链接并删除(图略) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-38" data-jobs-toc="v2">3.10.1.1、断开`Qv2ray`链接并删除(图略) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### 3.10.1.2、在X-UI面板-入站列表里面，删除刚才配置的节点(图略) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-39" data-jobs-toc="v2">3.10.1.2、在X-UI面板-入站列表里面，删除刚才配置的节点(图略) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### 3.10.2、操作流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+#### <span id="jobs-toc-heading-40" data-jobs-toc="v2">3.10.2、操作流程 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### 3.10.2.1、打开DNS：Cloudflare，找到解析域名的地方，开启代理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-41" data-jobs-toc="v2">3.10.2.1、打开DNS：Cloudflare，找到解析域名的地方，开启代理 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![Cloudflare开启代理](./assets/Cloudflare开启代理.jpg)
 
-##### 3.10.2.2、Cloudflare里面SSL/TLS 加密模式设置为完全（严格） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-42" data-jobs-toc="v2">3.10.2.2、Cloudflare里面SSL/TLS 加密模式设置为完全（严格） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ![Cloudflare里面SSL:TLS加密模式设置为完全（严格）](./assets/Cloudflare里面SSL:TLS加密模式设置为完全（严格）.jpg)
 
-##### 3.10.2.3、在`X-UI`面板里面建立`VLESS+WS+TLS`的代理节点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-43" data-jobs-toc="v2">3.10.2.3、在`X-UI`面板里面建立`VLESS+WS+TLS`的代理节点 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *检验`Cloudflare`域名是否代理成功生效*
 
@@ -602,13 +655,13 @@ open http://213.59.119.127:54321/xui/
 
 **注：但是要对节点进行修改以后才可使用**
 
-##### 3.10.2.4、Cloudflare设置请求头 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-44" data-jobs-toc="v2">3.10.2.4、Cloudflare设置请求头 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *设置请求头为：host|hello.jobs295060456.top*
 
 ![Cloudflare设置请求头](./assets/Cloudflare设置请求头.jpg)
 
-##### 3.10.2.5、Cloudflare设置服务器地址 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+##### <span id="jobs-toc-heading-45" data-jobs-toc="v2">3.10.2.5、Cloudflare设置服务器地址 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 *服务器地址为:hello.jobs295060456.top*
 

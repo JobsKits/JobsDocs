@@ -1,9 +1,9 @@
 ---
 title: "配置info.plist"
-date: 2026-10-04T15:57:04+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 620
-summary: "Open As Source Code，添加以下信息 🔼 🔽 ### 开权限： 🔼 🔽 多语言化 Localizable.strings ### 添加外部字体： 🔼 🔽 ### 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在Info.plist中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 🔼 🔽 当你"
+weight: 410
+summary: "📚 目录（点击展开 / 收起） - Open As Source Code，添加以下信息 - 开权限： - 添加外部字体： - 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在Info.plist中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 - 屏幕旋转 - 添加Appicon ## Open As S"
 bookCollapseSection: false
 ---
 
@@ -17,10 +17,24 @@ bookCollapseSection: false
   allowfullscreen>
 </iframe>
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
 
-## Open As Source Code，添加以下信息 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+- [Open As Source Code，添加以下信息](#jobs-toc-heading-1)
+  - [开权限：](#jobs-toc-heading-2)
+  - [添加外部字体：](#jobs-toc-heading-3)
+  - [苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在Info.plist中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。](#jobs-toc-heading-4)
+  - [屏幕旋转](#jobs-toc-heading-5)
+  - [添加Appicon](#jobs-toc-heading-6)
 
-### 开权限： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+</details>
+<!-- jobs-toc:end -->
+
+## <span id="jobs-toc-heading-1" data-jobs-toc="v2">Open As Source Code，添加以下信息 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+
+### <span id="jobs-toc-heading-2" data-jobs-toc="v2">开权限： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 *多语言化*
 
 ```xml
@@ -95,7 +109,7 @@ bookCollapseSection: false
 "NSVideoSubscriberAccountUsageDescription" = "我们需要获取你的TV权限";
 ```
 
-### 添加外部字体： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">添加外部字体： <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 ```xml
 <key>UIAppFonts</key>
 <array>
@@ -104,7 +118,7 @@ bookCollapseSection: false
 </array>
 ```
 
-### 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在`Info.plist`中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在`Info.plist`中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 当你的应用在iOS 9中需要使用 QQ/QQ空间/支付宝/微信SDK的相关能力（分享、收藏、支付、登录等）时，需要在`Info.plist`里增加如下代码：
 
 ```xml
@@ -149,7 +163,7 @@ bookCollapseSection: false
 </array>
 ```
 
-### 屏幕旋转 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">屏幕旋转 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```xml
 <key>UISupportedInterfaceOrientations</key>
@@ -161,7 +175,7 @@ bookCollapseSection: false
 </array>
 ```
 
-### 添加Appicon <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-6" data-jobs-toc="v2">添加Appicon <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```xml
 <key>CFBundleIcons</key>

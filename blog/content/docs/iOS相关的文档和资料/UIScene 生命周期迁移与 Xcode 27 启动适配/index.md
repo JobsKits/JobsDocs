@@ -1,15 +1,66 @@
 ---
 title: "UIScene 生命周期迁移与 Xcode 27 启动适配"
-date: 2026-10-16T20:30:55+08:00
+date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 320
-summary: "## 🔥 前言 资料核对日期：2026-10-15。 本文面向 Objective-C 新旧工程、Swift / UIKit 工程，说明为什么必须迁移、启动流程具体改变了什么、代码该放在哪里，以及如何验收。 从 iOS / iPadOS 27 起，使用最新 SDK 构建的 UIKit App 必须采用 scene 生命周期，否则无法启动。“用 Xcode 2"
+weight: 470
+summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、先说准确：强制的是 scene 生命周期 - 1.1、三个版本维度不能混用 - 1.2、单窗口也必须有 scene，多窗口仍是产品选择 - 1.3、旧警告与实际失败要区分 - 二、以前与今天：真正改变的是启动流程 - 2.1、以前：AppDelegate 同时初始化进程与唯一主窗口 - 2.2、今天：先启"
 bookCollapseSection: false
 ---
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
+<!-- jobs-toc:start -->
+<!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
+<details>
+<summary>📚 目录（点击展开 / 收起）</summary>
+
+- [🔥 前言](#%E5%89%8D%E8%A8%80)
+- [一、先说准确：强制的是 scene 生命周期](#requirement)
+  - [1.1、三个版本维度不能混用](#jobs-toc-heading-3)
+  - [1.2、单窗口也必须有 scene，多窗口仍是产品选择](#jobs-toc-heading-4)
+  - [1.3、旧警告与实际失败要区分](#jobs-toc-heading-5)
+- [二、以前与今天：真正改变的是启动流程](#launch-comparison)
+  - [2.1、以前：AppDelegate 同时初始化进程与唯一主窗口](#old-launch)
+  - [2.2、今天：先启动进程，再连接一个窗口场景](#scene-launch)
+  - [2.3、进程还活着：新建窗口、重连窗口、重新激活是三条路](#warm-connection)
+  - [2.4、哪些只执行一次，哪些会重复](#startup-boundary)
+- [三、职责拆分与完整回调对照](#responsibilities)
+  - [3.1、进程、会话、场景、窗口各管什么](#jobs-toc-heading-12)
+  - [3.2、OC 与 Swift 回调一一对应](#callback-map)
+- [四、配置必须完整，最终包必须能解析到类](#manifest)
+  - [4.1、纯代码窗口的 manifest 基线](#jobs-toc-heading-15)
+  - [4.2、静态配置与动态配置二选一，也可以显式互相校验](#jobs-toc-heading-16)
+  - [4.3、storyboard 与纯代码创建要明确选路](#jobs-toc-heading-17)
+- [五、OC 新旧工程与 Swift 工程怎么迁移](#migration-steps)
+  - [5.1、先查已有实现，避免重复迁移](#jobs-toc-heading-19)
+  - [5.2、窗口创建的必要不变量](#jobs-toc-heading-20)
+  - [5.3、SwiftUI App 单独判断](#jobs-toc-heading-21)
+- [六、冷启动与热启动：必须同时迁移入口事件](#entry-events)
+  - [6.1、冷连接使用 connectionOptions，热事件使用专属回调](#jobs-toc-heading-23)
+  - [6.2、路由必须等 UI 就绪，同时保证只消费一次](#jobs-toc-heading-24)
+  - [6.3、通知注册与 UI 路由不能整段搬走](#jobs-toc-heading-25)
+- [七、前后台与状态恢复按场景治理](#foreground-restoration)
+  - [7.1、一个窗口后台，不等于整个 App 后台](#jobs-toc-heading-27)
+  - [7.2、会话恢复与业务数据持久化是两件事](#jobs-toc-heading-28)
+- [八、窗口归属、悬浮窗与布局要一并审计](#window-ownership)
+  - [8.1、从当前 UI 找场景，不从全局集合猜场景](#jobs-toc-heading-30)
+  - [8.2、附加窗口必须绑定到宿主 scene](#jobs-toc-heading-31)
+  - [8.3、布局读取实际容器](#jobs-toc-heading-32)
+- [九、验证必须覆盖启动，而不只覆盖编译](#verification)
+  - [9.1、静态与构建检查](#jobs-toc-heading-34)
+  - [9.2、启动与多窗口验收矩阵](#jobs-toc-heading-35)
+  - [9.3、通过标准与边界](#jobs-toc-heading-36)
+- [十、常见失败：按启动链条定位](#troubleshooting)
+- [十一、Jobs 三工程的落地与验证记录](#implementation)
+  - [11.1、审计结论：三工程原本已有 scene，修复的是缺口](#jobs-toc-heading-39)
+  - [11.2、OC 新旧工程同步修复](#jobs-toc-heading-40)
+  - [11.3、Swift UIKit 与 Flutter 桥接](#jobs-toc-heading-41)
+  - [11.4、实际验证状态](#jobs-toc-heading-42)
+- [十二、官方资料与继续阅读](#references)
+
+</details>
+<!-- jobs-toc:end -->
 
 ---
 
@@ -25,7 +76,7 @@ bookCollapseSection: false
 
 ## 一、<span id="requirement">先说准确：强制的是 scene 生命周期</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、三个版本维度不能混用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-3" data-jobs-toc="v2">1.1、三个版本维度不能混用 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 维度 | 负责什么 | 与本问题的关系 |
 | --- | --- | --- |
@@ -38,7 +89,7 @@ bookCollapseSection: false
 
 工程判断：不要为了绕过要求长期停留在旧 SDK，也不要把部署目标强行抬到 27 当成修复。完成 scene 迁移后，旧系统支持范围仍由业务、依赖和 API 可用性决定。
 
-### 1.2、单窗口也必须有 scene，多窗口仍是产品选择 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-4" data-jobs-toc="v2">1.2、单窗口也必须有 scene，多窗口仍是产品选择 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - `UIApplicationSupportsMultipleScenes = false`：采用 scene 生命周期，同时只显示一个 scene；这可以满足生命周期要求。
 - `UIApplicationSupportsMultipleScenes = true`：允许多个 scene 同时存在；每个 scene 的窗口、导航栈、页面状态都要独立。
@@ -46,7 +97,7 @@ bookCollapseSection: false
 
 三份 Jobs 基础工程原本已经启用多 scene，并有独立 SceneDelegate Demo。因此工程修复应保留多窗口能力，修正遗漏的配置、事件与窗口归属，不通过关闭多窗口掩盖全局窗口问题。[TN3187](https://developer.apple.com/documentation/technotes/tn3187-migrating-to-the-uikit-scene-based-life-cycle)
 
-### 1.3、旧警告与实际失败要区分 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-5" data-jobs-toc="v2">1.3、旧警告与实际失败要区分 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 旧系统会记录“尚未采用 scene、将来会触发断言”的迁移提示；新要求生效后，问题不再只是弃用警告。出现启动断言时，先查看运行日志、最终 App 的 `Info.plist` 和实际回调，不能只检查工程目录里是否存在 `SceneDelegate` 文件。[TN3187 的版本说明](https://developer.apple.com/documentation/technotes/tn3187-migrating-to-the-uikit-scene-based-life-cycle)
 
@@ -203,7 +254,7 @@ sequenceDiagram
 
 ## 三、<span id="responsibilities">职责拆分与完整回调对照</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、进程、会话、场景、窗口各管什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-12" data-jobs-toc="v2">3.1、进程、会话、场景、窗口各管什么 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 对象 | 作用 | 保存什么 |
 | --- | --- | --- |
@@ -237,7 +288,7 @@ sequenceDiagram
 
 ## 四、<span id="manifest">配置必须完整，最终包必须能解析到类</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、纯代码窗口的 manifest 基线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-15" data-jobs-toc="v2">4.1、纯代码窗口的 manifest 基线 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 以下是采用 `SceneDelegate` 类名的 **OC 示例**，放入 App target 实际使用的 `Info.plist` 字典中。该示例保留多窗口；产品只需一个窗口时可以把 `true` 改为 `false`，无需退回 AppDelegate 管理窗口。
 
@@ -265,7 +316,7 @@ sequenceDiagram
 
 Swift 的默认运行时类名带模块前缀，一般将上面的代理类值替换为 `$(PRODUCT_MODULE_NAME).SceneDelegate`。若类通过 `@objc(...)` 显式指定了运行时名称，以真实名称为准。不能把 Swift 带模块写法直接照搬给普通 OC 类，也不能凭文件名猜测运行时类。[scene 配置字段](https://developer.apple.com/documentation/uikit/specifying-the-scenes-your-app-supports)
 
-### 4.2、静态配置与动态配置二选一，也可以显式互相校验 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-16" data-jobs-toc="v2">4.2、静态配置与动态配置二选一，也可以显式互相校验 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 配置固定：manifest 可以完整描述 scene，不必为了形式增加动态配置回调。
 - 需要按 session role、用户活动或内容类型选场景：实现 AppDelegate 的配置回调。使用类型设置 `sceneClass`、`delegateClass` 可以避免只靠字符串查类；配置名与 manifest 保持一致。
@@ -274,7 +325,7 @@ Swift 的默认运行时类名带模块前缀，一般将上面的代理类值�
 
 动态配置回调返回的是“如何创建 scene”的描述；窗口仍由 UIKit 交付 scene 后，在代理连接方法里建立。[动态配置 API](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/application(_:configurationforconnecting:options:))
 
-### 4.3、storyboard 与纯代码创建要明确选路 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-17" data-jobs-toc="v2">4.3、storyboard 与纯代码创建要明确选路 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | UI 方案 | 必要设置 | 窗口创建方 |
 | --- | --- | --- |
@@ -285,7 +336,7 @@ Swift 的默认运行时类名带模块前缀，一般将上面的代理类值�
 
 ## 五、<span id="migration-steps">OC 新旧工程与 Swift 工程怎么迁移</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、先查已有实现，避免重复迁移 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-19" data-jobs-toc="v2">5.1、先查已有实现，避免重复迁移 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 1、确认 App target 的入口、`INFOPLIST_FILE`、manifest、SceneDelegate 及源码 target membership。磁盘有文件但没有加入 target，运行时同样找不到代理。
 
@@ -297,13 +348,13 @@ Swift 的默认运行时类名带模块前缀，一般将上面的代理类值�
 
 5、区分主工程、Jobs 自建能力与第三方。OC 新工程的 Jobs 自建能力按本地 Pod 形态修改，OC 老工程按原有主工程集成位置同步；不把新工程 Pod 目录直接搬进老工程，也不修改供应商或生成源码。
 
-### 5.2、窗口创建的必要不变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-20" data-jobs-toc="v2">5.2、窗口创建的必要不变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 无论 OC 还是 Swift，连接方法都必须做到：确认传入的是 `UIWindowScene` → 用这个 scene 建窗口 → 为该窗口建立独立根控制器 / 导航栈 → SceneDelegate 持有窗口 → 展示窗口。不能先拿“任意前台 scene”建窗口再回填，也不能把旧窗口对象跨 scene 复用。
 
 Jobs 工程调用方沿用现有 `JobsMake` / `JobsOCDSL`、`JobsSwiftDSL` 创建与链式配置入口；底层封装负责承接 Apple 的 scene 绑定 API。迁移时核对封装真实实现，不能只把调用名称换成 DSL 就宣称绑定正确。
 
-### 5.3、[**SwiftUI**](https://developer.apple.com/documentation/swiftui) App 单独判断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-21" data-jobs-toc="v2">5.3、[**SwiftUI**](https://developer.apple.com/documentation/swiftui) App 单独判断 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [**SwiftUI**](https://developer.apple.com/documentation/swiftui) 的 `@main struct ...: App`，在 `body` 中通过 `WindowGroup` 等 `Scene` 声明 UI，已经采用系统管理的 scene 生命周期。它与 `@main class AppDelegate: UIApplicationDelegate` 是两种入口形态；只看 `@main` 无法判断。
 
@@ -311,7 +362,7 @@ Jobs 工程调用方沿用现有 `JobsMake` / `JobsOCDSL`、`JobsSwiftDSL` 创�
 
 ## 六、<span id="entry-events">冷启动与热启动：必须同时迁移入口事件</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、冷连接使用 connectionOptions，热事件使用专属回调 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-23" data-jobs-toc="v2">6.1、冷连接使用 connectionOptions，热事件使用专属回调 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 入口 | 创建或恢复 scene 的连接入口 | scene 已连接时的入口 | 必须保留的上下文 |
 | --- | --- | --- | --- |
@@ -325,7 +376,7 @@ Jobs 工程调用方沿用现有 `JobsMake` / `JobsOCDSL`、`JobsSwiftDSL` 创�
 
 采用 scene 后，AppDelegate 的 `willFinish` / `didFinish` 仍用于进程初始化，但不能再依赖其 `launchOptions` 承接 scene 的启动原因。冷启动只改热事件回调，常见结果就是“App 已打开，用户指定的页面没有打开”。[Apple 对 launch options 的说明](https://developer.apple.com/documentation/uikit/responding-to-the-launch-of-your-app)
 
-### 6.2、路由必须等 UI 就绪，同时保证只消费一次 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-24" data-jobs-toc="v2">6.2、路由必须等 UI 就绪，同时保证只消费一次 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 工程建议：连接与热事件先归一化为业务意图，附带目标 session；root / 开屏 / 登录等准备完成后再消费。UI 线程负责导航，异步准备结束前保留意图；scene 断开时释放连接资源，必要的可恢复意图按会话持久化。
 
@@ -337,7 +388,7 @@ Jobs 工程调用方沿用现有 `JobsMake` / `JobsOCDSL`、`JobsSwiftDSL` 创�
 - 登录和开屏各自异步时，使用实际完成信号与可路由 root；`sceneDidBecomeActive` 不能替代所有就绪条件。
 - 快捷操作 completion handler 无论成功或失败都恰好调用一次。无法识别的动作返回失败；不要让外部系统一直等候。
 
-### 6.3、通知注册与 UI 路由不能整段搬走 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-25" data-jobs-toc="v2">6.3、通知注册与 UI 路由不能整段搬走 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 [**UserNotifications**](https://developer.apple.com/documentation/usernotifications) 通知中心代理须在进程启动结束前设置，通知授权与远程推送注册仍是进程级工作；设备 token、静默推送与后台处理也不能机械搬成某个窗口私有逻辑。点击通知导致 UI 连接时，再读取 scene 的 notification response，将目标页面送到对应窗口。[通知中心代理](https://developer.apple.com/documentation/usernotifications/unusernotificationcenterdelegate)、[connectionOptions.notificationResponse](https://developer.apple.com/documentation/uikit/uiscene/connectionoptions/notificationresponse)
 
@@ -345,13 +396,13 @@ Jobs 工程调用方沿用现有 `JobsMake` / `JobsOCDSL`、`JobsSwiftDSL` 创�
 
 ## 七、<span id="foreground-restoration">前后台与状态恢复按场景治理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、一个窗口后台，不等于整个 App 后台 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-27" data-jobs-toc="v2">7.1、一个窗口后台，不等于整个 App 后台 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 页面动画、摄像头预览、交互计时等跟随所属 scene；共享连接、后台同步和进程统计根据全进程状态处理。窗口 A 进入后台时，窗口 B 可能仍在前台，不能在 A 的 `sceneDidEnterBackground` 无条件关闭全进程服务。
 
 需要“整个进程是否仍有前台界面”时，使用 UIApplication 对应通知与聚合状态，或维护按 session 标识记录的场景状态集合。不要只转发某一个 SceneDelegate 回调，伪装成整个进程状态。[生命周期文档](https://developer.apple.com/documentation/uikit/managing-your-app-s-life-cycle)、[当前迁移文档的重要说明](https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle)
 
-### 7.2、会话恢复与业务数据持久化是两件事 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-28" data-jobs-toc="v2">7.2、会话恢复与业务数据持久化是两件事 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 SceneDelegate 通过 `stateRestorationActivityForScene:` / `stateRestorationActivity(for:)` 提供 [**NSUserActivity**](https://developer.apple.com/documentation/foundation/nsuseractivity)，保存内容标识、选中标签、导航位置等 UI 状态；恢复时按对应 session 读取。活动中不要塞窗口、控制器、巨大缓存或敏感凭据。
 
@@ -361,7 +412,7 @@ SceneDelegate 通过 `stateRestorationActivityForScene:` / `stateRestorationActi
 
 ## 八、<span id="window-ownership">窗口归属、悬浮窗与布局要一并审计</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 8.1、从当前 UI 找场景，不从全局集合猜场景 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-30" data-jobs-toc="v2">8.1、从当前 UI 找场景，不从全局集合猜场景 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 手中已有的上下文 | 应该怎样取得窗口 / scene |
 | --- | --- |
@@ -373,13 +424,13 @@ SceneDelegate 通过 `stateRestorationActivityForScene:` / `stateRestorationActi
 
 `connectedScenes.first` 的顺序没有业务含义；多个 scene 可同时在前台，一个 scene 也可能有主窗口与悬浮窗口。筛选 `foregroundActive` 能过滤状态，仍不能证明剩下的那个就是用户当前操作的窗口。实在需要全局兼容入口时，应限制为唯一明确候选；歧义时要求调用方传上下文，不任取一个。
 
-### 8.2、附加窗口必须绑定到宿主 scene <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-31" data-jobs-toc="v2">8.2、附加窗口必须绑定到宿主 scene <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 调试面板、提示窗、悬浮按钮、开屏等额外 `UIWindow` 都要检查绑定归属、生命周期与释放。给窗口设置 frame 并显示，不等于它已绑定正确 scene。附加窗口成为 key 后，不能反过来让全局“当前窗口”查询把业务导航导向调试面板。
 
 每个需要独立显示的面板按 scene 管理；若产品明确只显示一个全局入口，则管理器要跟随明确的宿主 scene 切换和断开，不能缓存第一个 SceneDelegate 永久复用。主题切换、HUD、弹窗与页面跳转也要维持同一归属。
 
-### 8.3、布局读取实际容器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-32" data-jobs-toc="v2">8.3、布局读取实际容器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 迁移 scene 并不自动完成可调整窗口的适配。子视图优先使用自己的容器 bounds、安全区与约束；需要显示环境时，取所属 window scene / traits。避免继续用 `UIScreen.main.bounds` 决定当前窗口宽高，也不要只靠设备型号或横竖屏判断布局。[WWDC26 的 main screen 章节](https://developer.apple.com/videos/play/wwdc2026/278/)
 
@@ -387,7 +438,7 @@ SceneDelegate 通过 `stateRestorationActivityForScene:` / `stateRestorationActi
 
 ## 九、<span id="verification">验证必须覆盖启动，而不只覆盖编译</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 9.1、静态与构建检查 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-34" data-jobs-toc="v2">9.1、静态与构建检查 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 1、对 App target 的所有实际构建配置，核对 SDK、部署目标、`INFOPLIST_FILE`、manifest 和 SceneDelegate target membership。
 
@@ -399,7 +450,7 @@ SceneDelegate 通过 `stateRestorationActivityForScene:` / `stateRestorationActi
 
 5、构建有安装依赖、导出 IPA 或其它 Build Phase 时，先确认副作用、输出位置和验证开关；不为只验证 scene 擅自覆盖已有交付包。
 
-### 9.2、启动与多窗口验收矩阵 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-35" data-jobs-toc="v2">9.2、启动与多窗口验收矩阵 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | 用例 | 预期 | 能发现的问题 |
 | --- | --- | --- |
@@ -420,7 +471,7 @@ SceneDelegate 通过 `stateRestorationActivityForScene:` / `stateRestorationActi
 
 工程测试建议：在日志中记录进程启动次数、session 的 `persistentIdentifier`、配置名、回调名与窗口所属 scene。日志用于证明入口发生与归属，不打印 token、完整敏感 URL 参数或通知私密载荷。
 
-### 9.3、通过标准与边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-36" data-jobs-toc="v2">9.3、通过标准与边界 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 “配置正确”“语法通过”“完整编译通过”“iOS 27 能启动”“多窗口业务通过”是不同结论。只有实际执行对应步骤后才能标记通过。最低支持系统、iOS 27 / iPadOS 27、Debug / Release、干净安装 / 升级安装要记录真实覆盖范围；模拟器结果不冒充真机验收。[Apple 推荐的 iPad 回归场景](https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle)
 
@@ -443,7 +494,7 @@ SceneDelegate 通过 `stateRestorationActivityForScene:` / `stateRestorationActi
 
 本节记录实际落地状态，与上文通用迁移方案分开维护。工程代码、依赖、工具链或测试条件改变后，需要重跑相关验证，不能把这份记录当永久编译保证。
 
-### 11.1、审计结论：三工程原本已有 scene，修复的是缺口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-39" data-jobs-toc="v2">11.1、审计结论：三工程原本已有 scene，修复的是缺口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 三工程均已具备 SceneDelegate、scene manifest、多窗口 Demo 与状态恢复基础，不属于从纯 AppDelegate 工程从零接入的情况。配置保持 `UIApplicationSupportsMultipleScenes = true`。OC 两工程保留已有 manifest 与动态配置回调，配置名称、代理类型保持对应；Swift UIKit 工程则移除重复回调，由 manifest 作为配置单一来源。
 
@@ -453,7 +504,7 @@ SceneDelegate 通过 `stateRestorationActivityForScene:` / `stateRestorationActi
 | [OC 老工程](../../../JobsBaseConfig/JobsBaseConfig@JobsOCBaseConfigDemo/README.md) | Jobs 能力直接集成主工程 | `启动配置/AppDelegate & SceneDelegate`、`MyAppTools` |
 | [Swift UIKit 工程](../../../JobsBaseConfig/JobsBaseConfig@JobsSwiftBaseConfigDemo/README.md) | UIKit 宿主、Jobs Swift 能力与 Flutter add-to-app | `Info.plist`、`AppDelegate.swift`、`SceneDelegate.swift` |
 
-### 11.2、OC 新旧工程同步修复 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-40" data-jobs-toc="v2">11.2、OC 新旧工程同步修复 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - 移除每个 SceneDelegate 对全局 scene 连接通知的监听，避免另一个 scene 连接时，已有代理也收到通知并把自己的 `windowScene` 引用覆盖成别人的 scene。
 - 在 `willConnect` 校验 `UIWindowScene`，使用本次连接的 scene 创建窗口；独立 root、Demo 恢复、窗口持有与显示集中于本 scene。
@@ -486,7 +537,7 @@ self.jobsSetWindow(UIWindow.initByScene(windowScene)).window
 
 对应源码：[OC 新工程场景连接](../../../JobsOCBaseConfigDemo@ByPods/JobsOCBaseConfigDemo/入口/SceneDelegate/SceneDelegate+UISceneDelegate/SceneDelegate+UISceneDelegate.m)、[OC 老工程场景连接](<../../../JobsBaseConfig/JobsBaseConfig@JobsOCBaseConfigDemo/JobsOCBaseConfigDemo/启动配置/AppDelegate & SceneDelegate/SceneDelegate/SceneDelegate+UISceneDelegate/SceneDelegate+UISceneDelegate.m>)。
 
-### 11.3、Swift UIKit 与 Flutter 桥接 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-41" data-jobs-toc="v2">11.3、Swift UIKit 与 Flutter 桥接 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 - manifest 显式声明 `UIWindowScene`，保留 Swift 模块限定代理类名；移除业务 `UISceneStoryboardFile = Main`，由现有纯代码管线唯一创建主窗口，防止自动 storyboard 窗口与手动窗口重复。
 - 移除 AppDelegate 的重复配置回调，scene 配置统一由 manifest 提供；修正非 Flutter 分支对系统代理方法的声明。
@@ -504,7 +555,7 @@ window = UIWindow.jobsMake(scene: windowScene, root: homeViewController)
 
 当前原生宿主没有已定义的 URL Scheme 业务路由，因此没有凭空添加通用链接业务。Flutter 插件桥接已补入口，不代表所有第三方插件都已完成 scene 迁移；Flutter 官方也提示其多 scene 支持仍有边界。LiveChat 自身使用第三方单例窗口，本工程只修正宿主 scene 引用，不承诺多个 scene 同时独立聊天。与 UIKit 工程并列的 SwiftUI 工程已检查 `App` / `WindowGroup` 入口，保持原有 scene 管理方式，无需再手动迁移主窗口。
 
-### 11.4、实际验证状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### <span id="jobs-toc-heading-42" data-jobs-toc="v2">11.4、实际验证状态 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **工程核验时间：2026-10-15 至 2026-10-16，时区 Asia/Shanghai。** 官方资料核对日期仍为前言标注的 2026-10-15。构建与运行采用 Xcode 27、iOS 27 SDK、Debug arm64 模拟器目标，以及独立的 iPadOS 27 模拟器。
 
