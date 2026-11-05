@@ -678,7 +678,7 @@ frida-ps -Uai
 
 ### <span id="jobs-toc-heading-54" data-jobs-toc="v2">7.13、第 11 步：比较 Debug 与 Release <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-对两份产物重复第 1～9 步，建立对照表：
+> 对两份产物重复第 1～9 步，建立对照表：
 
 | 观察项 | Debug | Release | 原因假设 | 动态验证 |
 | --- | --- | --- | --- | --- |
