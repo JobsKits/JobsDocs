@@ -2,7 +2,7 @@
 title: "利用Cloudflare进行科学上网（免费）"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 980
+weight: 30
 summary: "📚 目录（点击展开 / 收起） - 一、🔥 前言 - 1、📖 参考资料 - 2、🔨 所需工具 - 二、⚙️ 实操 - 三、🧑‍🔬科普 - 1、服务器节点 ## 一、🔥 前言 🔼 🔽 ### 1、📖 参考资料 🔼 🔽 👉2026 最强 Cloudflare 免费节点！永久可用+免费域名｜10分钟搭建｜解锁 ChatGPT / Gemini ！ ### 2、🔨 "
 bookCollapseSection: false
 ---

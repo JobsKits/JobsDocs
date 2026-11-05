@@ -2,7 +2,7 @@
 title: "搭建邮件服务器（Mail server）"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 30
+weight: 140
 summary: "📚 目录（点击展开 / 收起） - 1、基础概念介绍 - 1.1、SMTP - 1.2、用户代理 - 1.3、PTR 反向解析 - 1.4、电子邮件系统中的邮件交换记录 - 1.5、名称服务器 - 2、搭建流程 - 2.1、相关准备工作 - 2.1.1、购买并解析绑定域名jobs996.top - 2.1.2、购买VPS - 2.2、在VPS上进行各项配置 "
 bookCollapseSection: false
 ---

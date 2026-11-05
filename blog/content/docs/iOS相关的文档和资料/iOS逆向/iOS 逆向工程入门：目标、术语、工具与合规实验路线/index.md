@@ -1,8 +1,8 @@
 ---
 title: "iOS 逆向工程入门：目标、术语、工具与合规实验路线"
-date: 2026-10-18T23:42:55+08:00
+date: 2026-11-05T13:44:33+08:00
 draft: false
-weight: 570
+weight: 880
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、先建立正确边界 - 1.1、允许且有价值的研究场景 - 1.2、不应进入的场景 - 1.3、每次开始前的五个问题 - 二、iOS 逆向的工作目标，也就是“为什么做” - 2.1、从开发者角度理解动机 - 2.2、逆向不是一个单独动作 - 三、学习提纲 - 3.1、基础层：先知道程序如何变成 App - 3"
 bookCollapseSection: false
 ---
@@ -686,7 +686,7 @@ frida-ps -Uai
 
 ### <span id="jobs-toc-heading-54" data-jobs-toc="v2">7.13、第 11 步：比较 Debug 与 Release <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-对两份产物重复第 1～9 步，建立对照表：
+> 对两份产物重复第 1～9 步，建立对照表：
 
 | 观察项 | Debug | Release | 原因假设 | 动态验证 |
 | --- | --- | --- | --- | --- |

@@ -2,7 +2,7 @@
 title: "Python 相关经验与面试手册"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 210
+weight: 220
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、先建立 iOS 开发者的 Python 地图 - 1.1、Python 适合替我做什么 - 1.2、把熟悉概念对上号 - 1.3、怎样查这篇文档最快 - 二、解释器、脚本入口与最小语法 - 2.1、.py 文件怎样变成运行中的程序 - 2.2、先确定究竟在运行哪一个 Python - 2.3、第一个完整脚"
 bookCollapseSection: false
 ---

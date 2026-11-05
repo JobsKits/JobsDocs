@@ -2,7 +2,7 @@
 title: "MacOS_Web服务器学习"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 250
+weight: 120
 summary: "📚 目录（点击展开 / 收起） - 一、前言 - 二、tomcat - 1、tomcat的安装 - 2、tomcat的开启/关闭/重启 - 三、httpd - 1、httpd的安装 - 2、httpdhttpd的启动 - 3、httpd的停止 - 4、httpd的重启 - 5、httpd的相关备注和说明 - 5.1、默认占用系统8080端口，俗称apache"
 bookCollapseSection: false
 ---

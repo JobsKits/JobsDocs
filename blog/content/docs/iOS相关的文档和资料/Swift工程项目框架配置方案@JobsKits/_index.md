@@ -2,7 +2,7 @@
 title: "Swift工程项目框架配置方案@JobsKits"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 870
+weight: 990
 summary: "📚 目录（点击展开 / 收起） - 一、一些基本的原则 - 1、不到万不得已，不要用Objc库 - 2、用开源播放器 - 二、我对iOS开发的认知 - 三、我的构架方案 - 1、选用的（外源）第三方框架 - 2、我的封装（重点） - 2.1、对UIViewController的封装 - 2.2、对UIView层的封装格式 - 2.3、对UIButton按钮的"
 bookCollapseSection: false
 ---

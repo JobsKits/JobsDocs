@@ -2,7 +2,7 @@
 title: "SSH ➤ Github"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 1000
+weight: 240
 summary: "📚 目录（点击展开 / 收起） - 一、生成SSH密钥🔑 - 二、确认 id\\rsa 真的存在 & 权限正确 - 三、把 github.com 的 key 明确写进 ~/.ssh/config - 四、id\\rsa ➤ macOS Keychain + agent - 五、添加SSH密钥🔑 ➤ SSH代理 - 六、添加公钥🔑 ➤ Github - 七、命令测"
 bookCollapseSection: false
 ---

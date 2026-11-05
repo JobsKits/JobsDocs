@@ -2,7 +2,7 @@
 title: "Git 故障诊断与恢复手册"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 80
+weight: 320
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、六层状态模型 - 二、通用止损清单 - 2.1、先保存现场 - 2.2、确认真实仓库与 Git 目录 - 三、无法 Commit - 3.1、先区分“无法暂存”与“无法创建提交” - 3.2、错误分流 - 3.3、身份、Hook 与签名 - 3.4、锁文件 - 3.5、残留锁、子模块与 Jobs Comm"
 bookCollapseSection: false
 ---

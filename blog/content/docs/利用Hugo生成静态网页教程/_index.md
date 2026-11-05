@@ -2,7 +2,7 @@
 title: "利用Hugo生成静态网页教程"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 150
+weight: 110
 summary: "📚 目录（点击展开 / 收起） - 一、核心特点 - 1、环境配置 - 2、安装配置 - 3、生成站点 - 3.2、创建一些页面资源 - 3.3、安装皮肤 - 4、运行Hugo - 4.1、本地运行 - 4.2、发布到GitHub Hugo中文文档 ## 一、核心特点 > 没有后端、没有数据库、速度极快 ## 1、环境配置 🔼 🔽 推荐终端：Oh-My-Zs"
 bookCollapseSection: false
 ---

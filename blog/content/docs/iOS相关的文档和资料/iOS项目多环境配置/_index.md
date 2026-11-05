@@ -2,7 +2,7 @@
 title: "iOS项目多环境配置"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 860
+weight: 980
 summary: "📚 目录（点击展开 / 收起） - 一、打开项目并找到 🔼 - 三、代码中使用 🔼 - 四、配置 Podfile 🔼 - 五、如果需要安装多个app包 🔼 ## 一、打开项目并找到 🔼 🔽 🔼 * 找到build setting 👉搜索 Swift Compiler - Custom Floags 。这里就是第一步添加的环境，然后在里面添加宏定义变量 ## "
 bookCollapseSection: false
 ---

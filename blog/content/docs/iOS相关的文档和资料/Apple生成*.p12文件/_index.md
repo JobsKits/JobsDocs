@@ -2,7 +2,7 @@
 title: "Apple生成*.p12文件"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 380
+weight: 450
 summary: "📚 目录（点击展开 / 收起） - 一、什么是\\.p12文件？ - 二、\\.p12文件的用处 - 三、生成流程 - 1、打开：钥匙串访问 (Keychain Access)🔑 - 2、从证书颁发机构请求证书 - 3、在 Apple Developer 生成 .cer - 4、导入 .cer 并导出私钥 ## 一、什么是.p12文件？ 🔼 🔽 .p12 文件全"
 bookCollapseSection: false
 ---

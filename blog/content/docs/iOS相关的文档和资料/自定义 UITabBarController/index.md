@@ -2,7 +2,7 @@
 title: "自定义 UITabBarController"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 880
+weight: 940
 summary: "📚 目录（点击展开 / 收起） - 一、相关目录结构 - 二、拓展系统TabBarVC 回到顶部 - 1、JobsTabBarVC - 1.1、对横屏的适配 - 1.2、对系统的 UITabBar 通过KVC的方式替换为自定义的 JobsTabBar - 1.3、滑动手势切换子控制器 - 1.4、长按手势 - 1.5、支持PPBadgeView：TabBar"
 bookCollapseSection: false
 ---

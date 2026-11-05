@@ -2,7 +2,7 @@
 title: "iOS 多语言环境设置"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 540
+weight: 950
 summary: "📚 目录（点击展开 / 收起） - 一、目标 - 二、参考资料 - 三、特别说明 - 四、配置流程 - 1、Xcode 中的配置 - 2、语言代码 - 3、应用名称本地化 / 国际化（InfoPlist.strings） - 4、代码中字符串的本地化（Localizable.strings） - 5、图片本地化 - 6、第三方支援 - 7、相关调用 - 五、"
 bookCollapseSection: false
 ---

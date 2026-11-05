@@ -2,7 +2,7 @@
 title: "Shell脚本代码片段"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 950
+weight: 100
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 💥 代码讲解 - 🎯 脚本标准基座（推荐复制到新脚本） - 🎯 Debug - 🎯 Logo - 🎯 打开系统设置 - 🎯 等待用户输入后执行 - 🎯 判断是否当前IP在🇨🇳中国（大陆地区） - 🎯 git - 1、目录判定 - 2、检测远程仓库 - 🎯 获取系统变量 - 1、路径 - 1.1、获取：脚本所在"
 bookCollapseSection: false
 ---

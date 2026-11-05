@@ -2,7 +2,7 @@
 title: "GitHub Actions 工作流"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 70
+weight: 340
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、核心模型 - 二、触发器 - 三、权限与凭据 - 3.1、优先使用 GITHUB\\TOKEN - 3.2、最小权限 - 3.3、什么时候才用额外 Token - 四、第三方 Action 与依赖安全 - 五、Mermaid 自动生成示例 - 5.1、目标 - 5.2、工作流 - 5.3、输入要求 - 六、"
 bookCollapseSection: false
 ---

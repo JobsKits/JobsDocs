@@ -2,7 +2,7 @@
 title: "iOS 横竖屏UI切换"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 500
+weight: 740
 summary: "📚 目录（点击展开 / 收起） - 一、第三方支援 - 二、xcode 设置 - 三、Info.plist 设置 - 四、代码处理 - 五、屏幕上下倒立不可用 - 六、横竖屏检测·相关测评报告 - 1、锚定UIDevice.currentDevice.orientation（需要真机配合） - 2、锚定场景方向UIInterfaceOrientation -"
 bookCollapseSection: false
 ---

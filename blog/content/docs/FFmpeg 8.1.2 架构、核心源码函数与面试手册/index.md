@@ -2,7 +2,7 @@
 title: "FFmpeg 8.1.2 架构、核心源码函数与面试手册"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 280
+weight: 70
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、面试先背这组结论 - 1.1、30 秒介绍 FFmpeg - 1.2、10 秒架构回答 - 1.3、函数题的万能回答模板 - 二、版本基线与库版本 - 2.1、为什么选 FFmpeg 8.1.2 - 2.2、FFmpeg 8.1.2 的库版本 - 2.3、版本号怎么理解 - 三、FFmpeg 到底由什么组"
 bookCollapseSection: false
 ---

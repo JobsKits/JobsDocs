@@ -2,7 +2,7 @@
 title: "iOS 逆向专题：Hook 工具"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 590
+weight: 900
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、先按被改变的位置分类 - 1.1、四类常见 Hook - 1.2、Hook、注入和动态调试的关系 - 二、工具地图 - 2.1、MobileSubstrate / Cydia Substrate - 2.2、Substitute - 2.3、fishhook - 2.4、HookZz 与 Dobby - "
 bookCollapseSection: false
 ---

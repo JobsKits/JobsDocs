@@ -2,7 +2,7 @@
 title: "iOS 逆向专题：签名、脱壳、class-dump 与常用命令行工具"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 560
+weight: 890
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、代码签名到底证明什么 - 1.1、四个核心作用 - 1.2、签名对象是一棵树 - 二、只读签名检查 - 2.1、验证 Bundle - 2.2、读取 Entitlements - 2.3、读取 Provisioning Profile - 三、脱壳与签名的关系 - 3.1、二者解决不同问题 - 四、cla"
 bookCollapseSection: false
 ---

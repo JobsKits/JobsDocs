@@ -2,7 +2,7 @@
 title: "移动端上架（分发）流程"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 910
+weight: 820
 summary: "📚 目录（点击展开 / 收起） - 1、苹果端上架 - 1.1、一些基础知识 - 1.1.1、一个完整可用的\\.ipa包，包括： - 1.1.2、iOS.App 签名的分类 - 1.1.3、\\.p12文件（也称为 PKCS #12 文件） - 1.1.4、命令行工具 - 1.2、上架 App Store流程（关键点） - 1.3、非Apple官方渠道宣发：第"
 bookCollapseSection: false
 ---

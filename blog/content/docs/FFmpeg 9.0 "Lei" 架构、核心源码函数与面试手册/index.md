@@ -1,8 +1,8 @@
 ---
 title: "FFmpeg 9.0 \"Lei\" 架构、核心源码函数与面试手册"
-date: 2026-10-18T23:42:55+08:00
+date: 2026-11-05T13:44:33+08:00
 draft: false
-weight: 270
+weight: 80
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、面试先背这组结论 - 1.1、30 秒介绍 FFmpeg - 1.2、10 秒架构回答 - 1.3、函数题的万能回答模板 - 二、版本基线与库版本 - 2.1、为什么选 FFmpeg 9.0 \"Lei\" - 2.2、为什么代号叫“Lei”：雷霄骅留下的学习方法 - 2.3、FFmpeg 9.0 的库版本 "
 bookCollapseSection: false
 ---
@@ -779,7 +779,7 @@ main()                                  fftools/ffmpeg.c
 
 ### <span id="jobs-toc-heading-52" data-jobs-toc="v2">7.8、`ffmpeg_parse_options()`：参数不是一张全局字典 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-源码：[`fftools/ffmpeg_opt.c:1424-1504`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_opt.c#L1424-L1504)
+> 源码：[`fftools/ffmpeg_opt.c:1424-1504`](https://github.com/FFmpeg/FFmpeg/blob/n9.0/fftools/ffmpeg_opt.c#L1424-L1504)
 
 | 语句范围 | 逐句作用 | 面试重点 |
 | --- | --- | --- |

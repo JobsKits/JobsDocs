@@ -2,7 +2,7 @@
 title: "Mermaid 类图输入样例"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 60
+weight: 330
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、类图样例 --- ## 🔥 前言 > 这是 GitHub Actions 与 Mermaid CLI 的复杂输入样例，用于验证 Markdown 内 mermaid fenced code block 的解析。图中 Objective-C 协议内容只代表样例快照，不作为当前 Jobs iOS API 的权"
 bookCollapseSection: false
 ---
