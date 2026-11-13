@@ -2,7 +2,7 @@
 title: "iOS 屏幕适配专题：从初代 iPhone 到折叠屏"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 460
+weight: 470
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、当前事实：折叠 iPhone 已发布，适配工具仍有 beta 边界 - 1.1、发布、预订与发售是三个时间点 - 1.2、SDK 版本会改变 App 获得的显示行为 - 1.3、先确认工程能采用新基线 - 二、从最开始说起：屏幕适配的历史主线 - 2.1、2007—2010：固定画布、iPad 与 Ret"
 bookCollapseSection: false
 ---

@@ -2,7 +2,7 @@
 title: "iOS项目集成Unity"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 770
+weight: 780
 summary: "📚 目录（点击展开 / 收起） - 前言 - 一、前置条件 - 二、无差别导入（适用于Unity侧提供的iOS包兼容iOS模拟器和实体设备） - 1、选中主 App ➤ TARGETS ➤ General - 1.1、Frameworks, Libraries, and Embedded Content ➤ 如果是条件编译，那么这一步跳过 - 2、选中主 A"
 bookCollapseSection: false
 ---

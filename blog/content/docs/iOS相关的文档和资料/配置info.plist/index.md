@@ -2,7 +2,7 @@
 title: "配置info.plist"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 750
+weight: 760
 summary: "📚 目录（点击展开 / 收起） - Open As Source Code，添加以下信息 - 开权限： - 添加外部字体： - 苹果公司iOS 9系统策略更新，限制了http协议的访问，此外应用需要在Info.plist中将要使用的URL Schemes列为白名单，才可正常检查其他应用是否安装。 - 屏幕旋转 - 添加Appicon ## Open As S"
 bookCollapseSection: false
 ---

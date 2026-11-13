@@ -2,7 +2,7 @@
 title: "Git 仓库治理与高级工具"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 270
+weight: 280
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、Revision 选择与历史查询 - 1.1、常用选择器 - 1.2、按路径、内容和函数定位 - 二、worktree：一个仓库同时检出多个分支 - 三、stash 与临时上下文 - 四、复用冲突解决：rerere - 五、二分定位回归：bisect - 六、Hook 与自动化边界 - 七、Commit "
 bookCollapseSection: false
 ---

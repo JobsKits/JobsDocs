@@ -2,7 +2,7 @@
 title: "专题"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 700
+weight: 710
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、先划清职责与成功语义 - 1.1、一条消息经过哪些层 - 1.2、不要把多种成功合成一个布尔值 - 1.3、连接层必须守住的四条不变量 - 二、传输方式如何选择 - 2.1、围绕约束选择 API 与协议 - 2.2、WebSocket 与 Network.framework 的边界 - 2.3、HTTP "
 bookCollapseSection: false
 ---

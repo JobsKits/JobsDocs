@@ -2,7 +2,7 @@
 title: "Swift➤Flutter"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 850
+weight: 860
 summary: "📚 目录（点击展开 / 收起） - 一、前言 - 1、实践目的：iOS项目主工程（Swift）集成和在个别页面调用Flutter页面 - 2、经验总结 - 二、集成步骤 - 1、目录结构 - 2、Product ➤ Scheme ➤ Edit Scheme - 3、配置 Podfile ➤ pod install - 4、iOS侧的入口配置 ## 一、前言 "
 bookCollapseSection: false
 ---

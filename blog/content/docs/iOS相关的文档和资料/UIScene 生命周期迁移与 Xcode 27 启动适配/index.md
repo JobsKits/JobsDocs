@@ -2,7 +2,7 @@
 title: "UIScene 生命周期迁移与 Xcode 27 启动适配"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 420
+weight: 430
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、先说准确：强制的是 scene 生命周期 - 1.1、三个版本维度不能混用 - 1.2、单窗口也必须有 scene，多窗口仍是产品选择 - 1.3、旧警告与实际失败要区分 - 二、以前与今天：真正改变的是启动流程 - 2.1、以前：AppDelegate 同时初始化进程与唯一主窗口 - 2.2、今天：先启"
 bookCollapseSection: false
 ---

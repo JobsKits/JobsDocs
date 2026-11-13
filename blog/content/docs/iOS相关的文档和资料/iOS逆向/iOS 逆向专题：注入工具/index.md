@@ -2,7 +2,7 @@
 title: "iOS 逆向专题：注入工具"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 920
+weight: 930
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、先理解动态库为什么会被加载 - 1.1、加载链条 - 1.2、三种完全不同的“注入”语境 - 二、工具地图 - 2.1、它们分别做什么 - 2.2、为什么 install\\name\\tool 不等于 insert\\dylib - 三、代码签名为什么总出现在注入问题里 - 3.1、修改一个字节都会改变签名覆"
 bookCollapseSection: false
 ---

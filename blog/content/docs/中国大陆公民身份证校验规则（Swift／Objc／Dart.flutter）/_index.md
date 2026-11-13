@@ -2,7 +2,7 @@
 title: "中国大陆公民身份证校验规则（Swift/Objc/Dart.flutter）"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 190
+weight: 200
 summary: "📚 目录（点击展开 / 收起） - 一、Swift的校验方法 - 三、Flutter.dart的校验方法 ## 一、Swift的校验方法 🔼 🔽 > 1️⃣ 统一校验规则：格式 → 出生日期 → 顺序码(≠\"000\") → 校验位。 > > 2️⃣ 策略 > > 按 GB 11643-1999 的 18 位规则：格式→生日→顺序码→校验位 > > 若输入为 "
 bookCollapseSection: false
 ---

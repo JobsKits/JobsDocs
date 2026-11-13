@@ -2,7 +2,7 @@
 title: "iOS 本地通知配置"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 930
+weight: 940
 summary: "📚 目录（点击展开 / 收起） - 一、在AppDelegate里面进行配置 - 二、相关工具类 - 三、相关调用 ## 一、在AppDelegate里面进行配置 🔼 🔽 ## 二、相关工具类 🔼 🔽 JobsLocalNotificationModel JobsMakeLocalNotification ## 三、相关调用 🔼 🔽 * ```objecti"
 bookCollapseSection: false
 ---

@@ -2,7 +2,7 @@
 title: "ReactNative"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 230
+weight: 240
 summary: "📚 目录（点击展开 / 收起） - 一、基础知识 - 二、一些工具 - 1、Node.js - 2、npm - 3、Yarn - 4、watchman - 6、Expo - 7、JavaScript bundler - 8、Metro 开发服务器 - 三、新建项目 - 四、运行项目 - 1、在iOS模拟器上运行 - 2、在Android模拟器上运行 - 3、"
 bookCollapseSection: false
 ---

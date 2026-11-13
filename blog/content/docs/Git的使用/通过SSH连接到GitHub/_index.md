@@ -2,7 +2,7 @@
 title: "通过SSH连接到GitHub"
 date: 2026-10-18T23:42:55+08:00
 draft: false
-weight: 310
+weight: 320
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、先检查已有密钥 - 二、生成新密钥 - 三、权限与文件结构 - 四、配置 ~/.ssh/config - 4.1、单一 GitHub 账号 - 4.2、多个 GitHub 账号 - 五、加入 ssh-agent 与 macOS Keychain - 六、把公钥添加到 GitHub - 七、校验主机身份并测"
 bookCollapseSection: false
 ---
