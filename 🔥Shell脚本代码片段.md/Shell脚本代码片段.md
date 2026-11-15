@@ -1,342 +1,504 @@
-# `Shell`脚本代码片段
+# [**MacOS**](https://www.apple.com/macos/) `Shell` 脚本代码片段
 
-<iframe
-  src="https://dragonir.github.io/3d/#/earth"
-  title="Jobs出品，必属精品"
-  width="100%"
-  height="400"
-  style="border:0; display:block;"
-  allowfullscreen>
-</iframe>
+![Jobs出品，必属精品](https://picsum.photos/1500/400)
 
 <!-- jobs-toc:start -->
 <!-- jobs-toc:source {"v":2,"token":"[toc]"} -->
 <details>
 <summary>📚 目录（点击展开 / 收起）</summary>
 
-- [🔥 前言](#jobs-toc-heading-1)
-- [💥 代码讲解](#jobs-toc-heading-2)
-  - [🎯 脚本标准基座（推荐复制到新脚本）](#jobs-toc-heading-3)
-  - [🎯 Debug](#jobs-toc-heading-4)
-  - [🎯 Logo](#jobs-toc-heading-5)
-  - [🎯 打开系统设置](#jobs-toc-heading-6)
-  - [🎯 等待用户输入后执行](#jobs-toc-heading-7)
-  - [🎯 判断是否当前IP在🇨🇳中国（大陆地区）](#jobs-toc-heading-8)
-  - [🎯 git](#jobs-toc-heading-9)
-    - [1、目录判定](#jobs-toc-heading-10)
-    - [2、检测远程仓库](#jobs-toc-heading-11)
-  - [🎯 获取系统变量](#jobs-toc-heading-12)
-    - [1、路径](#jobs-toc-heading-13)
-      - [1.1、获取：脚本所在目录的绝对路径](#jobs-toc-heading-14)
-      - [1.2、获取：当前脚本文件名](#jobs-toc-heading-15)
-      - [1.3、获取：脚本路径](#jobs-toc-heading-16)
-      - [1.4、\*获取：桌面路径 \*](#jobs-toc-heading-17)
-      - [1.5、循环问正确（判断依据解耦自定义拓展）的路径，直到正确为止](#jobs-toc-heading-18)
-    - [2、获取：当前用户名](#jobs-toc-heading-19)
-    - [3、\*获取：🍏 Xcode 信息 \*](#jobs-toc-heading-20)
-    - [4、\*获取：☕ Java 信息 \*](#jobs-toc-heading-21)
-    - [5、获取：🤖  Android SDK 信息](#jobs-toc-heading-22)
-  - [🎯 生成桌面快捷方式](#jobs-toc-heading-23)
-  - [🎯 转换路径为绝对路径](#jobs-toc-heading-24)
-  - [🎯 识别.xcodeproj](#jobs-toc-heading-25)
-  - [🎯 Android 模拟器🤖](#jobs-toc-heading-26)
-    - [2、📱关闭 iOS 模拟器](#jobs-toc-heading-27)
-    - [3、📱打开 iOS 模拟器](#jobs-toc-heading-28)
-  - [🎯 执行耗时](#jobs-toc-heading-29)
-  - [🎯 写文件](#jobs-toc-heading-30)
-    - [🎯 1、单行写文件（避免重复写入）](#jobs-toc-heading-31)
-    - [🎯 2、多行写文件（避免重复写入）](#jobs-toc-heading-32)
-    - [🎯 3、函数将内容插入到指定的文件顶部](#jobs-toc-heading-33)
-  - [🎯 环境变量](#jobs-toc-heading-34)
-    - [🎯 1、写单行的环境变量](#jobs-toc-heading-35)
-    - [🎯 2、写多行的环境变量](#jobs-toc-heading-36)
-    - [🎯 3、🌐 环境变量格式化](#jobs-toc-heading-37)
-  - [🎯 判断芯片架构（ARM64 / x86\_64）](#jobs-toc-heading-38)
-  - [🎯 SDKMAN](#jobs-toc-heading-39)
-  - [🎯 💎Rubygems 自检安装](#jobs-toc-heading-40)
-    - [🎯1、自检安装 💎Gem.CocoaPods](#jobs-toc-heading-41)
-    - [🎯2、自检安装 💎Gem.bundler](#jobs-toc-heading-42)
-  - [🎯 🍺Homebrew 自检安装](#jobs-toc-heading-43)
-    - [🎯 1、自检安装 🍺Homebrew （自动架构判断，包含环境注入）](#jobs-toc-heading-44)
-    - [🎯 2、自检安装 🍺Homebrew.fzf](#jobs-toc-heading-45)
-    - [🎯 3、自检安装 🍺Homebrew.jq](#jobs-toc-heading-46)
-    - [🎯 4、自检安装 🍺Homebrew.dart](#jobs-toc-heading-47)
-    - [🎯 5、自检安装 🍺Homebrew.coreutils（提供 realpath）](#jobs-toc-heading-48)
-    - [🎯 6、自检安装 🍺Homebrew.bc](#jobs-toc-heading-49)
-    - [🎯 7、自检安装 🍺Homebrew.Gradle](#jobs-toc-heading-50)
-    - [🎯 8、自检安装 🍺Homebrew.jenv](#jobs-toc-heading-51)
-    - [🎯 9、自检安装 🍺Homebrew.cocoapods](#jobs-toc-heading-52)
-    - [🎯 10、自检安装 🍺Homebrew.Perl](#jobs-toc-heading-53)
-    - [🎯 11、自检安装 Rbenv](#jobs-toc-heading-54)
-    - [🎯 12、官方安装 Ruby](#jobs-toc-heading-55)
-  - [🎯 删除🍺Homebrew](#jobs-toc-heading-56)
-  - [🎯自检安装 fvm（Dart官方推荐）](#jobs-toc-heading-57)
-  - [🎯 设置Ruby镜像源（根据 IP 自动判断）](#jobs-toc-heading-58)
-  - [🎯 镜像切换](#jobs-toc-heading-59)
-    - [1、CocoaPods 镜像切换](#jobs-toc-heading-60)
-    - [2、Ruby  镜像切换](#jobs-toc-heading-61)
-  - [🎯 检测本地Java环境是否已经安装](#jobs-toc-heading-62)
-  - [🎯 Flutter](#jobs-toc-heading-63)
-    - [🎯 1、判断当前目录是否为Flutter项目根目录](#jobs-toc-heading-64)
-    - [🎯 2、获取 Flutter项目名称](#jobs-toc-heading-65)
-    - [🎯 3、判断Flutter文件是否是入口🚪](#jobs-toc-heading-66)
-    - [🎯 4、统一获取Flutter项目路径和Dart入口文件路径](#jobs-toc-heading-67)
-    - [🎯 5、FVM 检测](#jobs-toc-heading-68)
-  - [🎯 全更新](#jobs-toc-heading-69)
-  - [🎯 Git](#jobs-toc-heading-70)
-    - [🎯 1、删除本地Git缓存目录](#jobs-toc-heading-71)
-    - [🎯 2、删除CDN源trunk](#jobs-toc-heading-72)
-    - [🎯 3、添加Git源](#jobs-toc-heading-73)
-  - [🎯判断两个文件内容是否一致](#jobs-toc-heading-74)
-  - [🎯重启](#jobs-toc-heading-75)
-  - [🎯 Shell](#jobs-toc-heading-76)
-    - [🎯 1、切换Shell](#jobs-toc-heading-77)
-    - [🎯 2、显示当前Shell](#jobs-toc-heading-78)
-    - [🎯 3、打开新的终端窗口并切换到脚本所在的目录](#jobs-toc-heading-79)
-    - [🎯 4、关闭终端窗口](#jobs-toc-heading-80)
-    - [🎯 5、打开新的终端窗口](#jobs-toc-heading-81)
-    - [🎯 6、仅对当前Shell有效的临时环境](#jobs-toc-heading-82)
+- [🔥 前言](#%E5%89%8D%E8%A8%80)
+- [一、从成熟脚本提取的固定写法](#distilled-patterns)
+  - [1.1、先自述，再初始化，最后编排业务](#runtime-skeleton)
+  - [1.2、自身路径、参数数组与拖入路径](#paths-and-arguments)
+  - [1.3、纯文本日志与管道真实退出码](#logging-and-exit)
+  - [1.4、确认、选择与返回是不同状态](#confirmation-and-selection)
+  - [1.5、自检：发现、运行验证、定点修复、复检](#dependency-health)
+  - [1.6、来源先显示，下载完成后再发布](#source-and-download)
+  - [1.7、批量先成功枚举，再逐项处理](#nul-batch)
+  - [1.8、备份、候选、并发核对和恢复](#transactional-write)
+  - [1.9、锁、进程身份与退出清理](#locks-processes-cleanup)
+  - [1.10、部署与反部署成对，恢复只处理本次归属](#deployment-state)
+  - [1.11、终端展示、来源日志与应用动作](#terminal-style)
+  - [1.12、验证小片段，避免用真实业务验证框架](#verification-boundary)
+- [二、来源范围与持续维护](#sources-and-maintenance)
+  - [2.1、扫描范围与证据强度](#survey-scope)
+  - [2.2、JobsGenesis 之外的固定写法](#outside-genesis)
+  - [2.3、片段如何成为后续脚本的参考](#maintenance-contract)
+- [三、专项代码片段](#specialized-snippets)
+  - [3.1、🎯 Debug](#jobs-toc-heading-20)
+  - [3.2、🎯 Logo](#jobs-toc-heading-21)
+  - [🎯 打开系统设置](#jobs-toc-heading-22)
+  - [🎯 等待用户输入后执行](#jobs-toc-heading-23)
+  - [🎯 判断是否当前IP在🇨🇳中国（大陆地区）](#jobs-toc-heading-24)
+  - [🎯 git](#jobs-toc-heading-25)
+    - [1、目录判定](#jobs-toc-heading-26)
+    - [2、检测远程仓库](#jobs-toc-heading-27)
+  - [🎯 获取系统变量](#jobs-toc-heading-28)
+    - [1、路径](#jobs-toc-heading-29)
+      - [1.1、获取：脚本所在目录的绝对路径](#jobs-toc-heading-30)
+      - [1.2、获取：当前脚本文件名](#jobs-toc-heading-31)
+      - [1.3、获取：脚本路径](#jobs-toc-heading-32)
+      - [1.4、\*获取：桌面路径 \*](#jobs-toc-heading-33)
+      - [1.5、循环问正确（判断依据解耦自定义拓展）的路径，直到正确为止](#jobs-toc-heading-34)
+    - [2、获取：当前用户名](#jobs-toc-heading-35)
+    - [3、\*获取：🍏 Xcode 信息 \*](#jobs-toc-heading-36)
+    - [4、\*获取：☕ Java 信息 \*](#jobs-toc-heading-37)
+    - [5、获取：🤖  Android SDK 信息](#jobs-toc-heading-38)
+  - [🎯 生成桌面快捷方式](#jobs-toc-heading-39)
+  - [🎯 转换路径为绝对路径](#jobs-toc-heading-40)
+  - [🎯 识别.xcodeproj](#jobs-toc-heading-41)
+  - [🎯 Android 模拟器🤖](#jobs-toc-heading-42)
+    - [2、📱关闭 iOS 模拟器](#jobs-toc-heading-43)
+    - [3、📱打开 iOS 模拟器](#jobs-toc-heading-44)
+  - [3.4、🎯 执行耗时](#jobs-toc-heading-45)
+  - [3.5、🎯 写文件](#jobs-toc-heading-46)
+    - [🎯 1、单行写文件（避免重复写入）](#jobs-toc-heading-47)
+    - [🎯 2、多行写文件（避免重复写入）](#jobs-toc-heading-48)
+    - [🎯 3、函数将内容插入到指定的文件顶部](#jobs-toc-heading-49)
+  - [3.6、🎯 环境变量](#jobs-toc-heading-50)
+    - [🎯 1、写单行的环境变量](#jobs-toc-heading-51)
+    - [🎯 2、写多行的环境变量](#jobs-toc-heading-52)
+    - [🎯 3、🌐 环境变量格式化](#jobs-toc-heading-53)
+  - [3.7、🎯 判断芯片架构（ARM64 / x86\_64）](#jobs-toc-heading-54)
+  - [3.8、🎯 SDKMAN](#jobs-toc-heading-55)
+  - [3.9、🎯 💎Rubygems 自检安装](#jobs-toc-heading-56)
+    - [🎯1、自检安装 💎Gem.CocoaPods](#jobs-toc-heading-57)
+    - [🎯2、自检安装 💎Gem.bundler](#jobs-toc-heading-58)
+  - [3.10、🎯 🍺Homebrew 自检安装](#jobs-toc-heading-59)
+    - [🎯 1、自检安装 🍺Homebrew （自动架构判断，包含环境注入）](#jobs-toc-heading-60)
+    - [🎯 2、自检安装 🍺Homebrew.fzf](#jobs-toc-heading-61)
+    - [🎯 3、自检安装 🍺Homebrew.jq](#jobs-toc-heading-62)
+    - [🎯 4、自检安装 🍺Homebrew.dart](#jobs-toc-heading-63)
+    - [🎯 5、自检安装 🍺Homebrew.coreutils（提供 realpath）](#jobs-toc-heading-64)
+    - [🎯 6、自检安装 🍺Homebrew.bc](#jobs-toc-heading-65)
+    - [🎯 7、自检安装 🍺Homebrew.Gradle](#jobs-toc-heading-66)
+    - [🎯 8、自检安装 🍺Homebrew.jenv](#jobs-toc-heading-67)
+    - [🎯 9、自检安装 🍺Homebrew.cocoapods](#jobs-toc-heading-68)
+    - [🎯 10、自检安装 🍺Homebrew.Perl](#jobs-toc-heading-69)
+    - [🎯 11、自检安装 Rbenv](#jobs-toc-heading-70)
+    - [🎯 12、官方安装 Ruby](#jobs-toc-heading-71)
+  - [3.11、🎯 删除🍺Homebrew](#jobs-toc-heading-72)
+  - [3.12、🎯自检安装 fvm（Dart官方推荐）](#jobs-toc-heading-73)
+  - [3.13、🎯 设置Ruby镜像源（根据 IP 自动判断）](#jobs-toc-heading-74)
+  - [3.14、🎯 镜像切换](#jobs-toc-heading-75)
+    - [1、CocoaPods 镜像切换](#jobs-toc-heading-76)
+    - [2、Ruby  镜像切换](#jobs-toc-heading-77)
+  - [3.15、🎯 检测本地Java环境是否已经安装](#jobs-toc-heading-78)
+  - [3.16、🎯 Flutter](#jobs-toc-heading-79)
+    - [🎯 1、判断当前目录是否为Flutter项目根目录](#jobs-toc-heading-80)
+    - [🎯 2、获取 Flutter项目名称](#jobs-toc-heading-81)
+    - [🎯 3、判断Flutter文件是否是入口🚪](#jobs-toc-heading-82)
+    - [🎯 4、统一获取Flutter项目路径和Dart入口文件路径](#jobs-toc-heading-83)
+    - [🎯 5、FVM 检测](#jobs-toc-heading-84)
+  - [3.17、🎯 全更新](#jobs-toc-heading-85)
+  - [3.18、🎯 Git](#jobs-toc-heading-86)
+    - [🎯 1、删除本地Git缓存目录](#jobs-toc-heading-87)
+    - [🎯 2、删除CDN源trunk](#jobs-toc-heading-88)
+    - [🎯 3、添加Git源](#jobs-toc-heading-89)
+  - [3.19、🎯判断两个文件内容是否一致](#jobs-toc-heading-90)
+  - [3.20、🎯重启](#jobs-toc-heading-91)
+  - [3.21、🎯 Shell](#jobs-toc-heading-92)
+    - [🎯 1、切换Shell](#jobs-toc-heading-93)
+    - [🎯 2、显示当前Shell](#jobs-toc-heading-94)
+    - [🎯 3、打开新的终端窗口并切换到脚本所在的目录](#jobs-toc-heading-95)
+    - [🎯 4、关闭终端窗口](#jobs-toc-heading-96)
+    - [🎯 5、打开新的终端窗口](#jobs-toc-heading-97)
+    - [🎯 6、仅对当前Shell有效的临时环境](#jobs-toc-heading-98)
 
 </details>
 <!-- jobs-toc:end -->
 
-## <span id="jobs-toc-heading-1" data-jobs-toc="v2">🔥 <font id=前言>前言</font></span><!-- jobs-toc:heading-end -->
+---
 
-* 虽然**Shell**脚本晦涩难懂，但相较于**python**等脚本，因为减少了一层系统封装调用，所以使得**shell**脚本具有更大的普适度
+## 🔥 <span id="前言">前言</span>
 
-  * 不会因为第三方**Api**更新而影响使用
-  * 也降低了某些潜在的兼容性等**Bug**的出现几率
-  * 增强了代码执行的效率
+本文从本机自维护脚本中提取经常复用的结构、交互和恢复机制，面向新脚本编写及已有脚本维护。[**WindowsOS**](https://www.microsoft.com/windows) 的原生实现单独放在[Windows 脚本代码片段](./Windows脚本代码片段.md)，不把 MacOS 命令逐字替换成另一端命令。
 
-* 为了更好的规避**Shell**脚本的晦涩难懂，特此文件记录一些高频需求涉及到的**Shell**脚本代码片段
+- **先读公约和脚本 Skill，再读对应平台的本文片段，最后对照当前来源脚本。** 片段解释可复用的思路及边界，不能代替项目真实参数、权限、业务确认与平台验证。
+- 本文使用 [**zsh**](https://zsh.sourceforge.io/)；独立入口使用 `#!/bin/zsh`，`# shell: zsh` 仅是编辑器提示。原生 Shell 可以减少额外解释器依赖，但性能与兼容性仍取决于调用的工具和实现。
+- [固定写法](#distilled-patterns)优先用于新代码。[专项片段](#specialized-snippets)保留原资料；其中历史独立示例可能依赖上下文，不能把旧安装菜单、未定义变量、直接覆盖和全局修改当作现行生产基座。
+- 文中标为“归纳模板”的代码经过必要简化，不声称与来源逐字相同；真实来源、适用范围和验证边界见[来源与维护](#sources-and-maintenance)。文档里的相对来源链接要求本机兄弟仓保持现有相对布局；单独克隆 JobsDocs 时不一定存在。
 
-* <font color=red>本文件下所有的**Shell**脚本都将使用`# shell: zsh`语法</font>
+## 一、<span id="distilled-patterns">从成熟脚本提取的固定写法</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-  | 特性                           | `# shell: zsh`（推荐）          | `# shell: sh`（兼容） |
-  | ------------------------------ | ----------------------------- | ------------------- |
-  | 默认交互功能（补全、高亮等）   | ✅ 强                          | ❌ 弱                |
-  | 支持数组                       | ✅ 原生支持                    | ❌ 基本不支持        |
-  | 字符串处理能力强               | ✅ 强大（支持正则/替换）       | ❌ 弱                |
-  | 支持关联数组（字典）           | ✅ 支持                        | ❌ 不支持            |
-  | 脚本调试支持                   | ✅ `set -x` + `zsh -x`         | ✅ `sh -x`           |
-  | 更好的语法扩展（例如 `[[ ]]`） | ✅ 支持                        | ❌ 不支持            |
-  | 更现代更安全的语法             | ✅ 是                          | ❌ 否                |
-  | **macOS** 默认支持             | ✅ 是（**Catalina** 之后默认） | ✅ 是                |
+### 1.1、<span id="runtime-skeleton">先自述，再初始化，最后编排业务</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-## <span id="jobs-toc-heading-2" data-jobs-toc="v2">💥 代码讲解 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+自述前只计算展示需要的值；日志创建、目录写入、环境修复和业务都放在确认之后。`main()` 只写高层函数调用和同行职责注释。独立终端、应用动作、自动化入口各自声明身份，非 TTY 不代表已授权无人值守运行。
 
-
-### <span id="jobs-toc-heading-3" data-jobs-toc="v2">🎯 脚本标准基座（推荐复制到新脚本） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
-
-> 后续写 `.command` 脚本时，优先使用这套基座。核心交互约定固定为：**回车跳过，输入任意字符后回车执行安装 / 更新 / 升级流程**。危险操作例外，例如删除、覆盖、强制 reset，必须单独要求输入 `YES`。
+以下是**归纳的最小流程模板**：业务仅打印当前脚本路径，确认后只创建一个私有日志。它演示路径、确认、日志、退出码与清理的组合；正式可交互入口还应复用[终端展示保护](#terminal-style)中的完整现行实现。模板刻意使用纯文本，不自行改变终端颜色。
 
 ```shell
+#!/bin/zsh
+# 用途：展示自述后输出自身位置；确认前不写文件。
+# 影响：确认后仅在系统临时目录建立私有日志；Ctrl+C 取消。
 # shell: zsh
 
-# ============================= 基础路径 =============================
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
-SCRIPT_PATH="${SCRIPT_DIR}/$(basename -- "$0")"
-SCRIPT_BASENAME=$(basename "$0" | sed 's/\.[^.]*$//')
-LOG_FILE="$TMPDIR/${SCRIPT_BASENAME}.log"
-
-# ============================= 彩色日志 =============================
-log()            { echo -e "$1" | tee -a "$LOG_FILE"; }
-color_echo()     { log "\033[1;32m$1\033[0m"; }
-info_echo()      { log "\033[1;34mℹ $1\033[0m"; }
-success_echo()   { log "\033[1;32m✔ $1\033[0m"; }
-warn_echo()      { log "\033[1;33m⚠ $1\033[0m"; }
-warm_echo()      { log "\033[1;33m$1\033[0m"; }
-note_echo()      { log "\033[1;35m➤ $1\033[0m"; }
-error_echo()     { log "\033[1;31m✖ $1\033[0m"; }
-err_echo()       { log "\033[1;31m$1\033[0m"; }
-debug_echo()     { log "\033[1;35m🐞 $1\033[0m"; }
-highlight_echo() { log "\033[1;36m🔹 $1\033[0m"; }
-gray_echo()      { log "\033[0;90m$1\033[0m"; }
-bold_echo()      { log "\033[1m$1\033[0m"; }
-underline_echo() { log "\033[4m$1\033[0m"; }
-
-# ============================= 通用交互 =============================
-# 回车=跳过；输入任意字符=执行。适合安装、更新、升级、自检等非危险步骤。
-ask_run() {
-  echo ""
-  note_echo "👉 $1"
-  gray_echo "【回车=跳过，任意字符=执行】"
-  local input
-  IFS= read -r "input?➤ "
-  [[ -n "$input" ]]
-}
-
-# 只用于危险操作：删除、覆盖、强制 reset、清空目录等。
-ask_yes() {
-  echo ""
-  warn_echo "⚠ $1"
-  gray_echo "必须输入 YES 才会继续；直接回车或其它输入都会取消。"
-  local input
-  IFS= read -r "input?➤ "
-  [[ "$input" == "YES" ]]
-}
-
-# ============================= 路径工具 =============================
-get_cpu_arch() {
-  [[ "$(uname -m)" == "arm64" ]] && echo "arm64" || echo "x86_64"
-}
-
-abs_path() {
-  local p="$1"
-  [[ -z "$p" ]] && return 1
-  p="${p//\"/}"
-  [[ "$p" != "/" ]] && p="${p%/}"
-
-  if [[ -d "$p" ]]; then
-    (cd "$p" 2>/dev/null && pwd -P)
-  elif [[ -f "$p" ]]; then
-    (cd "${p:h}" 2>/dev/null && printf "%s/%s\n" "$(pwd -P)" "${p:t}")
-  else
-    return 1
+ENTRY_PATH="${0:A}"
+SCRIPT_DIR=""
+SCRIPT_PATH=""
+LOG_FILE=""
+# 展示用途和影响，输入结束不能视作确认。
+show_script_intro_and_wait() {
+  printf '%s\n' '脚本自述：展示自身位置并建立本次日志。'
+  printf '脚本：%s\n' "$ENTRY_PATH"
+  printf '%s\n' '影响：只写系统临时目录；按回车继续，Ctrl+C 取消。'
+  if [[ ! -t 0 || ! -t 1 ]]; then
+    printf '%s\n' '需要可交互终端；当前入口未声明自动化模式。' >&2
+    exit 2
   fi
+  local answer=""
+  IFS= read -r 'answer?➤ ' || exit 130
+  [[ -z "$answer" ]] || exit 0
 }
-
-# ============================= 环境变量写入 =============================
-# 参数1：要写入的 shell 配置文件；参数2：唯一标识；参数3：实际 shellenv 内容。
-inject_shellenv_block() {
-  local profile_file="$1"
-  local id="$2"
-  local shellenv="$3"
-  local header="# >>> ${id} 环境变量 >>>"
-  local footer="# <<< ${id} 环境变量 <<<"
-
-  if [[ -z "$profile_file" || -z "$id" || -z "$shellenv" ]]; then
-    error_echo "缺少参数：inject_shellenv_block <profile_file> <id> <shellenv>"
-    return 1
-  fi
-
-  [[ -f "$profile_file" ]] || touch "$profile_file"
-
-  if grep -Fq "$header" "$profile_file" || grep -Fq "$shellenv" "$profile_file"; then
-    info_echo "📌 已存在环境变量：$id"
-  else
-    {
-      echo ""
-      echo "$header"
-      echo "$shellenv"
-      echo "$footer"
-    } >> "$profile_file"
-    success_echo "✅ 已写入环境变量：$profile_file -> $id"
-  fi
-
-  eval "$shellenv"
-  success_echo "🟢 环境变量已在当前终端生效：$id"
+# 确认后初始化运行环境，不依赖启动工作目录。
+initialize_runtime() {
+  setopt NO_NOMATCH PIPE_FAIL
+  SCRIPT_PATH="$ENTRY_PATH"
+  SCRIPT_DIR="${SCRIPT_PATH:h}"
+  LOG_FILE="$(umask 077; mktemp "${TMPDIR:-/tmp}/jobs-script.XXXXXXXX")" || exit 1
+  trap 'exit 130' INT
+  trap 'exit 143' TERM
 }
-
-# ============================= Homebrew 自检 =============================
-resolve_brew_bin() {
-  if command -v brew >/dev/null 2>&1; then
-    command -v brew
-  elif [[ -x "$(brew --prefix)/bin/brew" ]]; then
-    echo "$(brew --prefix)/bin/brew"
-  elif [[ -x "$(brew --prefix)/bin/brew" ]]; then
-    echo "$(brew --prefix)/bin/brew"
-  else
-    return 1
-  fi
+# 展示内容与日志内容分离；该模板使用纯文本。
+log_message() {
+  local level="$1" text="$2"
+  printf '[%s] %s\n' "$level" "$text" >&2
+  printf '[%s] %s\n' "$level" "$text" >> "$LOG_FILE" || return 1
 }
-
-install_homebrew() {
-  local arch="$(get_cpu_arch)"
-  local shell_path="${SHELL##*/}"
-  local profile_file=""
-  local brew_bin=""
-  local shellenv_cmd=""
-
-  if ! brew_bin="$(resolve_brew_bin)"; then
-    warn_echo "🧩 未检测到 Homebrew，正在安装...（架构：$arch）"
-
-    if [[ "$arch" == "arm64" ]]; then
-      $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
-        error_echo "Homebrew 安装失败（arm64）"
-        exit 1
-      }
-      brew_bin="$(brew --prefix)/bin/brew"
-    else
-      arch -x86_64 $SYSTEM_BIN_DIR/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
-        error_echo "Homebrew 安装失败（x86_64）"
-        exit 1
-      }
-      brew_bin="$(brew --prefix)/bin/brew"
-    fi
-
-    success_echo "✅ Homebrew 安装成功"
-  else
-    info_echo "🍺 已检测到 Homebrew：$brew_bin"
-  fi
-
-  shellenv_cmd="eval \"\$(${brew_bin} shellenv)\""
-  case "$shell_path" in
-    zsh)   profile_file="$HOME/.zprofile" ;;
-    bash)  profile_file="$HOME/.bash_profile" ;;
-    *)     profile_file="$HOME/.profile" ;;
-  esac
-
-  inject_shellenv_block "$profile_file" "homebrew_env" "$shellenv_cmd"
-  eval "$(${brew_bin} shellenv)"
-
-  if ask_run "Homebrew 已安装。是否执行更新？将依次执行 brew update、brew upgrade、brew cleanup、brew doctor、brew -v"; then
-    info_echo "⏳ 正在更新 Homebrew..."
-    brew update  || { error_echo "brew update 失败"; return 1; }
-    brew upgrade || { error_echo "brew upgrade 失败"; return 1; }
-    brew cleanup || { error_echo "brew cleanup 失败"; return 1; }
-    brew doctor  || { warn_echo  "brew doctor 有警告/错误，请按提示处理"; }
-    brew -v      || { warn_echo  "打印 brew 版本失败，可忽略"; }
-    success_echo "✅ Homebrew 已更新"
-  else
-    note_echo "⏭️ 已跳过 Homebrew 更新"
-  fi
+# 汇总退出结果，日志供后续排查。
+finish_runtime() {
+  local result_code="$1"
+  printf '退出码：%s；日志：%s\n' "$result_code" "$LOG_FILE" >&2
 }
-
-# Homebrew 软件包：未安装则安装；已安装则按统一交互决定是否升级。
-brew_install_or_upgrade() {
-  local formula="$1"
-  local command_name="${2:-$formula}"
-  [[ -z "$formula" ]] && { error_echo "缺少 formula"; return 1; }
-
-  if ! command -v "$command_name" >/dev/null 2>&1; then
-    note_echo "📦 未检测到 $command_name，正在安装 $formula..."
-    brew install "$formula" || { error_echo "$formula 安装失败"; return 1; }
-    success_echo "✅ $formula 安装成功"
-  else
-    if ask_run "$command_name 已安装。是否执行 brew upgrade $formula？"; then
-      info_echo "⏳ 正在升级 $formula..."
-      brew upgrade "$formula" || { error_echo "$formula 升级失败"; return 1; }
-      brew cleanup || { warn_echo "brew cleanup 执行时有警告"; }
-      success_echo "✅ $formula 已升级"
-    else
-      note_echo "⏭️ 已跳过 $formula 升级"
-    fi
+# 在脚本定义区声明退出函数，避免函数局部 EXIT trap 提前触发。
+TRAPEXIT() {
+  local result_code=$?
+  (( ZSH_SUBSHELL == 0 )) || return "$result_code"
+  if [[ -n "$LOG_FILE" ]]; then
+    finish_runtime "$result_code"
   fi
+  return "$result_code"
 }
-
-# ============================= 主入口 =============================
+# 编排本例业务，并显式处理失败。
+run_business() {
+  log_message INFO "脚本目录：$SCRIPT_DIR" || exit 1
+  log_message SUCCESS '只读示例完成。' || exit 1
+}
+# 收口高层流程，真实业务分支留在各职责函数内。
 main() {
-  clear
-  : > "$LOG_FILE"
-  info_echo "脚本路径：$SCRIPT_PATH"
-  info_echo "日志路径：$LOG_FILE"
-  # show_readme_and_wait
-  # install_homebrew
-  # brew_install_or_upgrade "fzf"
+  show_script_intro_and_wait # 首先展示用途并取得本次运行确认。
+  initialize_runtime # 确认后才创建日志并注册退出处理。
+  run_business "$@" # 执行已声明的业务并传递原参数。
 }
 
 main "$@"
 ```
 
-### <span id="jobs-toc-heading-4" data-jobs-toc="v2">🎯 **Debug** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+来源：[CodeGraph 安装器](<../../JobsGenesis/JobsCommand@iOS/配置相关/【MacOS】⚙️安装代码地图CodeGraph.command/【MacOS】⚙️安装代码地图CodeGraph.command>) 的 `show_script_intro_and_wait`、`initialize_runtime`、`main`；[CodeSnippets 安装器](<../../JobsGenesis/JobsCommand@iOS/配置相关/【MacOS】⚙️双击安装JobsCodeSnippets.command/【MacOS】⚙️双击安装JobsCodeSnippets.command>) 的 `configure_runtime`、`run_business`。原有终端监督保护需要与既有 trap 合并，不能把这里的 EXIT trap 覆盖到成熟入口上。
+
+### 1.2、<span id="paths-and-arguments">自身路径、参数数组与拖入路径</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+- 脚本资源从脚本自身位置或明确项目标记解析；用户目录从运行环境取得。`pwd` 是调用者的位置，不自动代表工程根；同名包装后必须重新核对层级。App 包外资源还须考虑系统隔离运行路径，不能仅靠 `../Scripts` 推定。
+- 首选原始参数 `"$@"`，每个参数是一个路径。不要 `eval` 拖入文本，不全局删除引号，不把空格拆成多个文件。以下模板接收**已经存在的单个真实路径**；交互拖入后带有 Shell 转义的字符串，需要来源脚本的词法解析步骤，不能直接当成原始参数。
+
+```shell
+# 接收原始路径参数，保留路径内部的空格和引号。
+resolve_existing_path() {
+  local candidate="$1"
+  [[ -n "$candidate" && -e "$candidate" ]] || return 1
+  print -r -- "${candidate:A}"
+}
+# 用参数数组调用程序，避免把数据重新解释成命令。
+inspect_selected_paths() {
+  local selected_path=""
+  for selected_path in "$@"; do
+    [[ -e "$selected_path" ]] || return 1
+    /usr/bin/stat -f '%N | %z bytes' "$selected_path" || return 1
+  done
+}
+```
+
+来源：[Release 附件替换](<../../JobsGenesis/JobsCommand@Gits/MacOS/【MacOS】🔄替换GitHub Release附件.command/【MacOS】🔄替换GitHub Release附件.command>) 的 `normalize_directory`。它先接受真实路径，必要时才用 zsh 分词及解引号，并拒绝多个词和控制字符；这种策略与只去掉一层首尾引号的简单输入不是同一能力。
+
+### 1.3、<span id="logging-and-exit">纯文本日志与管道真实退出码</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+- 每次运行建立唯一、私有的日志；固定 `脚本名.log` 可用于明确的单实例入口，但不能让并发任务互相清空。终端负责颜色，日志只存可搜索文本；自述标题、普通说明和操作选项的样式使用现行展示函数。
+- `command | tee` 不能只看 `$?`。以下归纳片段一次保存整个 `pipestatus`，先传递业务失败，再报告日志写入失败。它用于**不包含秘密且自身输出为纯文本的命令**；外部彩色输出应在 tee 前增加过滤段，并同步检查每个过滤段状态。
+
+```shell
+# 同时展示和记录纯文本命令输出，不让 tee 掩盖业务失败。
+run_logged() {
+  local -a command_args=("$@")
+  local -a stage_codes=()
+  "${command_args[@]}" 2>&1 | tee -a "$LOG_FILE"
+  stage_codes=("${pipestatus[@]}")
+  if (( stage_codes[1] != 0 )); then
+    printf '命令失败，退出码：%s\n' "${stage_codes[1]}" >&2
+    return "${stage_codes[1]}"
+  fi
+  if (( stage_codes[2] != 0 )); then
+    printf '日志写入失败：%s\n' "$LOG_FILE" >&2
+    return "${stage_codes[2]}"
+  fi
+  return 0
+}
+```
+
+来源：CodeGraph 安装器的 `log_message`、`run_logged`。来源的业务码捕获经过这里的归纳增强，不能反过来声称来源已经检查所有管道阶段。`pipestatus` 属于 zsh；不能直接贴进 bash。[zsh 官方参数说明](https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Set-By-The-Shell)解释其含义。
+
+### 1.4、<span id="confirmation-and-selection">确认、选择与返回是不同状态</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+- 首屏自述的回车只表示“了解用途”。普通安装、更新与修复使用键盘菜单，默认跳过；选择目标只形成计划，最终确认后才执行。
+- 危险动作默认取消；已有精确 `YES` 门禁保留。明确要求免文字输入的入口按命名危险选项及空格复核处理，不能用普通回车默认执行。
+- [**fzf**](https://formulae.brew.sh/formula/fzf) 子层提供 `←` 返回真正上一层；取消、返回、空选、执行失败和成功分别传递。切换上层目标后清除依赖它的下层结果。`FZF_DEFAULT_OPTS` 不能改变必需方向键。
+
+下面只示范**普通执行确认**，不用于下载附件多选或危险动作。依赖必须在已授权的依赖准备阶段就绪；缺失时停止，不悄悄改成数字输入。
+
+```shell
+# 默认跳过；只接受明确选中的执行项。
+confirm_regular_action() {
+  [[ -t 0 && -t 1 ]] || return 2
+  command -v fzf >/dev/null 2>&1 || return 2
+  fzf --version >/dev/null 2>&1 || return 2
+  local picked="" picker_code=0
+  picked="$(printf '%s\n' '跳过 / 取消' '执行本次操作' |
+    FZF_DEFAULT_OPTS='' FZF_DEFAULT_OPTS_FILE='' fzf --no-multi \
+      --bind='up:up,down:down,tab:down,shift-tab:up,esc:abort' \
+      --header='↑/↓ 或 Tab 选择；回车确认；默认跳过' \
+      --prompt='执行确认 > ')" || picker_code=$?
+  (( picker_code == 0 )) || return "$picker_code"
+  [[ "$picked" == '执行本次操作' ]]
+}
+# 精确 YES 仅适用于保留这种约定的独立危险操作。
+confirm_dangerous_yes() {
+  [[ -t 0 && -t 1 ]] || return 2
+  local answer=""
+  printf '风险：%s\n' "$1" >&2
+  printf '%s\n' '必须输入 YES；直接回车、其它输入和 EOF 均取消。' >&2
+  IFS= read -r 'answer?➤ ' || return 1
+  [[ "$answer" == YES ]]
+}
+```
+
+完整层级状态参考 Release 附件替换的 `choose_with_fzf`、`collect_plan`，不是整份照抄：该来源仍含旧的多选按键，下载附件面板须使用当前“完整取数 → 零项提示／一项真实数据／多项首行全选 → 最终确认”约定。纯空白执行等下载专项规则不推广给普通安装菜单。
+
+### 1.5、<span id="dependency-health">自检：发现、运行验证、定点修复、复检</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+`command -v` 只说明候选存在。需要验证 `--version`、运行时最小能力及实际执行通道；升级走哪个包管理器，就检查那条依赖链。已有健康环境直接复用，不为了形式完整重新安装。
+
+```shell
+# 发现一个真实可用的 brew，不在 brew 缺失时调用 brew --prefix。
+resolve_healthy_brew() {
+  local candidate="" discovered=""
+  discovered="$(command -v brew 2>/dev/null)"
+  for candidate in "$discovered" /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    [[ -n "$candidate" && -x "$candidate" ]] || continue
+    "$candidate" --version >/dev/null 2>&1 || continue
+    "$candidate" --prefix >/dev/null 2>&1 || continue
+    print -r -- "$candidate"
+    return 0
+  done
+  return 1
+}
+# 显示候选与健康结果；缺失时交回已授权的安装流程。
+check_brew_health() {
+  local brew_bin=""
+  brew_bin="$(resolve_healthy_brew)" || return 1
+  printf '可用 Homebrew：%s\n' "$brew_bin"
+}
+```
+
+来源：CodeGraph 安装器的 `jobs_brew_candidate_ok`、`jobs_brew_find`、`check_node_npm_health`、`find_healthy_node_npm`。上例覆盖系统常规前缀，显式自定义路径应先校验再复用。它不安装、不改启动文件、不批量升级软件。[**Homebrew**](https://brew.sh/) 的环境刷新只在确认的候选可用后执行。
+
+- 普通本地修复按层执行一次并立即复检，失败即停止下游，避免无限递归。
+- 已声明并获准的必需 SDK 获取是持续重试的专项例外：只包围可重入的获取步骤；退避等待可取消，保留可靠缓存，取消码不重试。磁盘、权限、认证、许可和版本不存在等确定错误另行处理。
+- 业务命令不能因网络重试重复构建、重启、上传或修改远端。来源：[SDK 获取重试](<../../Flutter/tool/setup/Scripts/【MacOS】SDK获取重试.zsh/【MacOS】SDK获取重试.zsh>) 的 `jobs_sdk_retry`；其 `LOCAL_OPTIONS`、`LOCAL_TRAPS` 和原输入流传递也应保留。
+
+### 1.6、<span id="source-and-download">来源先显示，下载完成后再发布</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+- 在传输前显示对象、实际来源、目标和已知版本；切换来源时更新显示。配置 URL、Git 本地规则展开的 URL 与经过网络验证的终点分开描述。
+- 展示 URL 去掉凭据、查询与片段；展示副本不能回写业务地址。不要原样打印带认证参数的命令、HTTP Header 或环境。私有日志也不能保存秘密。
+- 以下归纳模板用于**一次普通 HTTPS 制品获取**，要求调用方已经展示来源、取得授权，并传入来自独立可信渠道的 SHA256。目标文件已存在时拒绝覆盖；中断可能留下同目录临时文件，由入口登记后清理。不提供断点续传和 SDK 无限重试。
+
+```shell
+# 下载到同目录临时文件，验证后发布；目标父目录由调用方准备。
+download_verified_once() {
+  local asset_url="$1" target_file="$2" expected_sha256="$3"
+  local temp_file="" actual_sha256="" transfer_code=0
+  [[ "$asset_url" == https://* ]] || return 2
+  [[ "$expected_sha256" =~ '^[[:xdigit:]]{64}$' ]] || return 2
+  [[ -d "${target_file:h}" && ! -e "$target_file" && ! -L "$target_file" ]] || return 2
+  temp_file="$(umask 077; mktemp "${target_file}.part.XXXXXXXX")" || return 1
+  curl --fail --location --proto '=https' --proto-redir '=https' \
+    --connect-timeout 10 --speed-limit 1 --speed-time 30 \
+    --output "$temp_file" -- "$asset_url" || transfer_code=$?
+  if (( transfer_code != 0 )); then
+    rm -f -- "$temp_file"
+    return "$transfer_code"
+  fi
+  actual_sha256="$(shasum -a 256 "$temp_file")" || {
+    rm -f -- "$temp_file"
+    return 1
+  }
+  actual_sha256="${actual_sha256%% *}"
+  if [[ "${actual_sha256:l}" != "${expected_sha256:l}" ]]; then
+    rm -f -- "$temp_file"
+    return 1
+  fi
+  # 使用 link 的精确双路径语义，目标已存在（含目录）时失败。
+  if ! /bin/link "$temp_file" "$target_file"; then
+    rm -f -- "$temp_file"
+    return 1
+  fi
+  rm -f -- "$temp_file"
+}
+```
+
+来源：Release 附件替换的 `stage_plan`、`download_asset`、`verify_download`、`backup_assets`、`check_concurrent_changes`。上例的本地发布是归纳改进，使用 MacOS 原生 `/bin/link` 的精确目标语义，受目标文件系统 hard link 能力限制；不支持时应明确失败，不能偷偷降级成覆盖。生产入口把临时文件纳入自身清理登记；不可信可写共享目录还需更严格的目录与文件身份控制。参数语义见 [curl 官方手册](https://curl.se/docs/manpage.html)。
+
+持续下载和分卷不能仅凭“文件存在”成功：核对资产 ID、版本、长度和可信摘要；续传必须确认远端标识仍相同。API 数据先取齐分页再展示，限流等待、传输重试、本地错误各自分支处理。
+
+### 1.7、<span id="nul-batch">批量先成功枚举，再逐项处理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+路径清单使用 NUL 分隔，兼容空格、中文、引号和换行。先把 `find` 结果写入私有清单并确认成功，再遍历，避免进程替换隐藏扫描失败。目录跳过只是第一层过滤，不能代替文件所有权检查。
+
+```shell
+# 只读统计授权根内的文件；生产写操作还需逐项所有权白名单。
+inspect_file_tree() {
+  local scan_root="$1" manifest_file="" current_file="" file_count=0
+  [[ -d "$scan_root" && ! -L "$scan_root" ]] || return 2
+  scan_root="${scan_root:A}"
+  manifest_file="$(umask 077; mktemp "${TMPDIR:-/tmp}/jobs-files.XXXXXXXX")" || return 1
+  if ! find "$scan_root" \
+    -type d \( -name .git -o -name node_modules -o -name Pods \
+      -o -name PodsManual -o -name 'ManualBy*Pods@Pods' -o -name .dart_tool \
+      -o -name build -o -name DerivedData -o -name Vendor -o -name vendor \) -prune \
+    -o -type f -print0 > "$manifest_file"; then
+    rm -f -- "$manifest_file"
+    return 1
+  fi
+  while IFS= read -r -d '' current_file; do
+    (( file_count += 1 ))
+  done < "$manifest_file"
+  rm -f -- "$manifest_file" || return 1
+  printf '只读枚举文件数：%s\n' "$file_count"
+}
+```
+
+来源：[全文搜索替换](<../../JobsGenesis/JobsCommand@Others/MacOS/【MacOS】全文件搜索文字替换.command/【MacOS】全文件搜索文字替换.command>) 的 `replace_in_target`。第三方、生成源码和归属不明文件排除；只维护 Jobs 自有或明确接管的内容。
+
+### 1.8、<span id="transactional-write">备份、候选、并发核对和恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+成熟写入不是“先备份，然后无条件覆盖”。应保存原始快照与身份，在候选副本中生成并验证完整内容；发布前确认原对象未变，完成后核对结果。恢复也只撤回本次拥有且未被后续修改的资源。
+
+下面的归纳模板仅处理**普通单文件、同目录候选、协作锁保护且目录可信**的场景。调用前应已取得同一写入协议的锁、完成危险确认及元数据保存。它检测常见并发变化，但比较到替换之间仍有竞争窗口；不是任意进程下的文件系统 CAS，也不用于有额外 ACL／扩展属性恢复要求的配置。
+
+```shell
+# 核对原件仍等于快照后替换，保留备份供上层恢复。
+publish_checked_candidate() {
+  local target_file="$1" original_copy="$2" candidate_file="$3"
+  [[ -f "$target_file" && ! -L "$target_file" ]] || return 2
+  [[ -f "$original_copy" && ! -L "$original_copy" ]] || return 2
+  [[ -f "$candidate_file" && ! -L "$candidate_file" ]] || return 2
+  [[ "${target_file:A:h}" == "${candidate_file:A:h}" ]] || return 2
+  cmp -s "$target_file" "$original_copy" || return 3
+  # 调用方先验证候选语法、权限和必要元数据，再进入本步骤。
+  mv -f -- "$candidate_file" "$target_file" || return 1
+  return 0
+}
+```
+
+- 文件级参考全文搜索替换的 `replace_in_file`：不跟随符号链接、区分未匹配与读取失败、同目录临时文件、不覆盖旧备份。
+- 目录事务参考 CodeSnippets 安装器的 `prepare_transaction`、`record_metadata`、`compare_original_files`、`publish_candidate`、`handle_interrupt`：备份内容与元数据，发布前再次核对；不能把它简化为 `cp` 加 `rm -rf`。
+- 托管配置块使用唯一开始／结束标记。零组可新增，一组可更新，多组、缺边界、嵌套异常应停止；保留块外文本。仅用 `grep` 搜到一行不是完整幂等更新协议。
+
+### 1.9、<span id="locks-processes-cleanup">锁、进程身份与退出清理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+- 锁使用实际平台提供的互斥机制；记录本轮 owner、对象范围、创建信息。未知锁、活动锁不强删；只因时间较旧不能判死。锁类型不同，释放方式也不同，不能把持久文件锁路径当空目录删掉。
+- `kill -0 PID` 只做存活检查。停止前同时核对 PID、启动时间、可执行路径／命令以及所属项目收据；身份改变则保留并报告。停止自己创建的子进程时登记整个任务树，不能用宽泛 `pkill -f`。
+- zsh 的函数 `EXIT` trap 与脚本退出存在作用域差异；避免在锁获取函数里注册一个会随函数返回提前释放的 EXIT。命令替换子 Shell 也不能释放主进程的锁。参考 [zsh 官方 trap 说明](https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html)。
+- 清理注册本轮临时文件、私有目录、子进程和锁；按反向依赖顺序清理，保留业务退出码。清理前重新校验路径、非链接、设备／inode 或 owner；不能只检查一个字符串以临时目录开头。
+- `SIGKILL`、断电与终端崩溃不能承诺由 trap 恢复；持久恢复材料必须可供下次启动核验。
+
+来源：[子模块下载](<../../JobsGenesis/JobsCommand@Gits/MacOS/【MacOS】⏬下载配置当前Git子模块（可向下同步递归）.command/【MacOS】⏬下载配置当前Git子模块（可向下同步递归）.command>) 的 `acquire_download_lock`、`TRAPEXIT`、`release_download_runtime`；[Finder 部署事务](<../../JobsGenesis/OS@Extension/MacOS@Extension/JobsFileHasher/Scripts/【MacOS】AppDeployment.zsh/【MacOS】AppDeployment.zsh>) 的 `jobs_deployment_validate_transaction`、`jobs_deployment_release_transaction`；[学术平台部署](<../../学术服务平台/部署/MacOS/【MacOS】部署.command/【MacOS】部署.command>) 的 `lc_release_lock`、`lc_stop_recorded`；[JobsIM 部署](<../../JobsIM/部署/MacOS/部署运行.command/部署运行.command>) 的 `assert_owner`、`process_matches`。
+
+### 1.10、<span id="deployment-state">部署与反部署成对，恢复只处理本次归属</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+从散落业务仓提取的部署机制不能被通用安装器替代，推荐保留以下完整协议：
+
+- 用项目真实位置、用户和对象身份形成独立状态区；没有收据的非空目录不自动接管。
+- 记录部署前资源快照、原始备份及部署后摘要，配置、数据、工具和缓存分开归属；恢复时仅处理仍等于本次 after 状态的资源。
+- 部署 checkpoint 与恢复进度落盘，失败后下次可识别未完成阶段；完成反部署后逐项核对 before 状态。用户后来新建、修改或共享的对象保留并报告。
+- 数据备份与数据恢复分开确认；加密备份可通过解密并读取归档结构验证，但这仍不等于数据库恢复演练。
+- 核心生命周期直接内嵌到各平台入口；可以有必要冗余，不能要求用户运行开发期生成器或另装无关解释器才能部署。快捷入口可转交本平台唯一实施入口。
+
+来源：[学术平台部署](<../../学术服务平台/部署/MacOS/【MacOS】部署.command/【MacOS】部署.command>) 的 `lc_manifest`、`lc_begin`、`lc_checkpoint`、`lc_restore_resources`；[JobsIM 部署](<../../JobsIM/部署/MacOS/部署运行.command/部署运行.command>) 的 `initialize`、`assert_owner`、`backup_instance`。这些来源的业务成熟度与入口格式分开判断，不把它们现存的每个顶层执行语句认定为新规范。
+
+### 1.11、<span id="terminal-style">终端展示、来源日志与应用动作</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+终端默认颜色是会话共享状态。生产入口复制现行脚本 Skill 中的**完整临时终端配色范本**，并参考 CodeGraph 安装器的 `jobs_terminal_style_run`／`jobs_terminal_style_bootstrap`；不把数百行状态保护删成 `37;40m` 和 `reset`。范本属于开发时参考，交付脚本内嵌实现，不在运行时读取本机 Skill 路径。
+
+- 只修改实际连接的会话，先读回再修改，退出精确恢复本次改动；不能修改最前窗口、默认 Profile、启动配置或系统主题。用户运行中更改了原项时保留新值并报告冲突。
+- 非 TTY、`TERM` 空／`dumb`、`NO_COLOR`（含空值）及应用纯文本输出降级；能力不明或读写恢复无法可靠验证时保持原状态。控制序列只发终端，不写日志。
+- 自述标题和正文、仅回车与任意字符选项按真实交互突出；固定词 `YES` 不属于“仅回车”。颜色不改变输入含义与默认值。
+- [**Sourcetree**](https://www.sourcetreeapp.com/) 动作必须明确识别来源，第一屏即纯文本；需交互的业务转交独立终端，参数安全引用并保留最终退出码。非 TTY 本身不是应用身份。
+- [Git 动态代理](<../../JobsGenesis/JobsCommand@Gits/MacOS/【MacOS】🌐双击配置Git动态代理.command/【MacOS】🌐双击配置Git动态代理.command>) 的 `execute_selected_command`、`execute_network_policy` 展示另一项边界：代理限定本任务／子进程，尊重显式设置，不写全局配置，真实业务最多执行一次。网络探测失败不能盲目重放远端写操作。
+
+### 1.12、<span id="verification-boundary">验证小片段，避免用真实业务验证框架</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+- 静态：对本文新归纳 zsh 片段执行 `zsh -n`；检查代码块闭合、文内锚点及相对来源。
+- 隔离：在中文、空格、引号路径和无关工作目录验证自身寻址；用假命令验证业务失败与日志失败；在临时目录验证批量扫描和候选发布，不触碰真实部署目录。
+- 交互：fzf 的方向键、默认取消、EOF、子层返回和重新进入需要真实 TTY 行为验证。语法检查不能代替按键验收；模板未验部分如实注明。
+- 平台：MacOS 测试不能证明 Windows 原生行为，通用 PowerShell AST 解析不能证明注册表、终端或服务行为。无需为文档验证安装软件、清理环境、修改仓库索引、部署或反部署业务。
+
+当前核对：8 个新归纳代码块通过 `zsh -n`，10 项隔离夹具覆盖退出码、日志失败、特殊路径、NUL 枚举、候选并发检查与假下载校验；独立复核补测子 Shell 归属、非 TTY 门禁和目标目录竞争。最小流程模板已在真实 TTY、中文空格路径及无关工作目录完成确认后执行。两份文档的目录转换、锚点与 HTML 预览已核对；封面外链未请求。本文新确认菜单的完整按键路径、生产终端配色和真实部署未执行，不从片段检查推定这些行为已经通过。
+
+## 二、<span id="sources-and-maintenance">来源范围与持续维护</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+### 2.1、<span id="survey-scope">扫描范围与证据强度</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+扫描基准为 2026-11-15，本机 GitHub 根内按 `.command`、`.sh`、`.zsh`、`.bash`、`.ps1`、`.psm1`、`.psd1`、`.bat`、`.cmd` 发现候选，另检索局部 `AGENTS.md`。重点覆盖 JobsGenesis 的 Git 工具、环境配置、iOS 工具、系统扩展及双端脚本，也审阅其它仓库的独特机制。
+
+| 层次 | 结果与含义 |
+| --- | --- |
+| 常规发现 | 2,271 条候选路径，包含 10 份规则文件与 91 条显式第三方目录路径；不是自维护脚本数量。 |
+| 第一层排除后 | 2,170 条脚本候选，JobsGenesis 1,632 条、其余仓库 538 条；按字节摘要有 1,236 组，反映副本重复，不代表语义去重。 |
+| 补充忽略文件发现 | 跳过 Skills、第三方及常见构建依赖目录后另得 2,601 条候选，与常规范围不同、不可直接相减；发现的生成报告、SDK缓存、供应商源码继续排除。 |
+| 正文证据 | 按用途读取代表函数并给出实际来源；不是逐份完整审计全部脚本，也不是所有来源脚本已经通过现行格式或实机验收。 |
+| 不自动推广 | 第三方、生成、所有权不明、旧副本；仅文件名相似、路径存在或过去测试通过，都不能作为本轮成熟度证明。 |
+
+### 2.2、<span id="outside-genesis">JobsGenesis 之外的固定写法</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+> 主仓外按不同业务抽样核实，避免只从一套公共函数重复计数。
+
+| 来源 | 值得复用的部分 | 边界 |
+| --- | --- | --- |
+| [学术平台部署入口](<../../学术服务平台/部署/MacOS/【MacOS】部署.command/【MacOS】部署.command>) | 资源快照、摘要、owner锁、checkpoint、恢复进度；仅撤回归属资源 | 不执行真实安装或清理验证；业务版本与目标系统分别核验 |
+| [JobsIM 部署入口](<../../JobsIM/部署/MacOS/部署运行.command/部署运行.command>) | 每项目独立状态、PID身份、备份加密后解密读回 | 归档可读不等于数据库恢复演练 |
+| [Flutter SDK 重试](<../../Flutter/tool/setup/Scripts/【MacOS】SDK获取重试.zsh/【MacOS】SDK获取重试.zsh>) | 局部选项与trap、获取阶段重试、取消码、不重复业务 | 不把 SDK 专项无限重试推广给普通安装或远端写入 |
+| [Pod Install 离线保护](<../../JobsOCBaseConfigDemo@ByPods/ScriptsByPods/Cocoapods相关脚本/【MacOS】📦Pod Install离线保护.command/【MacOS】📦Pod Install离线保护.command>) | `offline`、`check-only`、`skip` 三种语义分离；辅助失败不覆盖主任务结果 | 仅自维护 hook 辅助入口，不修改 Pods 内第三方；不能借文档验收运行 pod install |
+| [WindowsOS 下载器](<../../WindowsOS/WindowsOS_10/WindowsOS/【WindowsOS】⏬下载当前仓库Release.cmd/【WindowsOS】⏬下载当前仓库Release.ps1>) | 原生获取、附件身份、断点与取消 | Windows 对应实现与详细来源在独立文档核对；不从 Shell 推定原生支持 |
+
+### 2.3、<span id="maintenance-contract">片段如何成为后续脚本的参考</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+- 写／改脚本前，先加载公约与对应语言／平台 Skill，再阅读这里命中的片段和真实来源函数；跨平台任务同时读取两份文档。
+- 当前确认的规则优先于旧示例；发现不一致时调整归纳模板，标清来源仅证明哪一项机制，不整份继承旧写法。
+- 新的长期固定写法优先更新已有对应章节，写清用途、参数、依赖、返回值、取消／失败、清理与验证。普通事实不重复入库，不把项目专用常量变成全局默认值。
+- 新模板只替换项目值，保留已确认的工程判断；对关键控制实现做必要隔离验证。正式脚本自包含，开发机文档和 Skill 路径不成为分发产物依赖。
+
+## 三、<span id="specialized-snippets">专项代码片段</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+> 以下保留既有专题资料。示例中的 `SYSTEM_BIN_DIR`、`SYSTEM_CONFIG_DIR` 等变量须由所属项目定义；环境安装、强制停止、删除、覆盖、镜像与默认 Shell 修改须另行确认。新入口以[固定写法](#distilled-patterns)为基座，旧的“任意字符执行”、彩色日志直接落盘、直接下载执行和未校验进程身份等写法不作为现行标准。
+
+### <span id="jobs-toc-heading-20" data-jobs-toc="v2">3.1、🎯 **Debug** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 echo "📄 SCRIPT_PATH = $SCRIPT_PATH"
 read "?👉 按下回车开始执行，或 Ctrl+C 取消..."
 ```
 
-### <span id="jobs-toc-heading-5" data-jobs-toc="v2">🎯 **Logo** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-21" data-jobs-toc="v2">3.2、🎯 **Logo** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * ```shell
   print_logo() {
@@ -572,13 +734,13 @@ init_logging() {
 }
 ```
 
-### <span id="jobs-toc-heading-6" data-jobs-toc="v2">🎯 打开系统设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-22" data-jobs-toc="v2">🎯 打开系统设置 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 open "x-apple.systempreferences:com.apple.preference.security?Privacy"
 ```
 
-### <span id="jobs-toc-heading-7" data-jobs-toc="v2">🎯 等待用户输入后执行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-23" data-jobs-toc="v2">🎯 等待用户输入后执行 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * ```
   # ✅ 通用：回车跳过，任意字符执行
@@ -651,7 +813,7 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy"
   > echo "✅ 卸载完成"
   > ```
 
-### <span id="jobs-toc-heading-8" data-jobs-toc="v2">🎯 判断是否当前IP在🇨🇳中国（大陆地区）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-24" data-jobs-toc="v2">🎯 判断是否当前IP在🇨🇳中国（大陆地区）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 is_in_china() {
@@ -666,9 +828,9 @@ is_in_china() {
 }
 ```
 
-### <span id="jobs-toc-heading-9" data-jobs-toc="v2">🎯 [**git**](https://git-scm.com/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-25" data-jobs-toc="v2">🎯 [**git**](https://git-scm.com/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### <span id="jobs-toc-heading-10" data-jobs-toc="v2">1、目录判定 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-26" data-jobs-toc="v2">1、目录判定 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 is_git_repo() {
@@ -681,7 +843,7 @@ is_git_repo() {
 }
 ```
 
-#### <span id="jobs-toc-heading-11" data-jobs-toc="v2">2、检测远程仓库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-27" data-jobs-toc="v2">2、检测远程仓库 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 ensure_git_remote() {
@@ -714,11 +876,11 @@ ensure_git_remote() {
 }
 ```
 
-### <span id="jobs-toc-heading-12" data-jobs-toc="v2">🎯 获取系统变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-28" data-jobs-toc="v2">🎯 获取系统变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### <span id="jobs-toc-heading-13" data-jobs-toc="v2">1、路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-29" data-jobs-toc="v2">1、路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-##### <span id="jobs-toc-heading-14" data-jobs-toc="v2">1.1、<font color=red>**获取：脚本所在目录的绝对路径**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+##### <span id="jobs-toc-heading-30" data-jobs-toc="v2">1.1、<font color=red>**获取：脚本所在目录的绝对路径**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
   >- **${BASH_SOURCE[0]:-${(%):-%x}}**：获取当前脚本路径，兼容 **bash** 和 **zsh**。🔔 `:-` 是默认值语法（如果前者不存在就用后者）
   >  * **bash** 用 `BASH_SOURCE[0]`
@@ -746,7 +908,7 @@ cd "$SCRIPT_DIR" || {
 }
 ```
 
-##### <span id="jobs-toc-heading-15" data-jobs-toc="v2">1.2、**获取：当前脚本文件名** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+##### <span id="jobs-toc-heading-31" data-jobs-toc="v2">1.2、**获取：当前脚本文件名** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
   > `basename "$0"`：提取脚本文件的**文件名**部分（去除路径）
 
@@ -754,20 +916,20 @@ cd "$SCRIPT_DIR" || {
   script_file="$(basename "$0")"
   ```
 
-##### <span id="jobs-toc-heading-16" data-jobs-toc="v2">1.3、**获取：脚本路径** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+##### <span id="jobs-toc-heading-32" data-jobs-toc="v2">1.3、**获取：脚本路径** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
 SCRIPT_PATH="${SCRIPT_DIR}/$(basename -- "$0")"
 ```
 
-##### <span id="jobs-toc-heading-17" data-jobs-toc="v2">1.4、**获取：桌面路径 **<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+##### <span id="jobs-toc-heading-33" data-jobs-toc="v2">1.4、**获取：桌面路径 **<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
   ```shell
   DESKTOP_PATH=~/Desktop
   ```
 
-##### <span id="jobs-toc-heading-18" data-jobs-toc="v2">1.5、循环问正确（判断依据解耦自定义拓展）的路径，直到正确为止 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+##### <span id="jobs-toc-heading-34" data-jobs-toc="v2">1.5、循环问正确（判断依据解耦自定义拓展）的路径，直到正确为止 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 # shell: zsh
@@ -852,7 +1014,7 @@ main() {
 main "$@"
 ```
 
-#### <span id="jobs-toc-heading-19" data-jobs-toc="v2">2、**获取：当前用户名** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-35" data-jobs-toc="v2">2、**获取：当前用户名** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
   > 用双引号 `"` 包裹起来，可以防止用户名中出现空格、特殊字符时发生错误
 
@@ -880,7 +1042,7 @@ main "$@"
 | `id -un`  | 命令     | 当前有效用户的用户名（与 `whoami` 通常一样，但更底层）   |
 | `logname` | 命令     | 最初登录系统的用户（在 `sudo` 场景下可能与当前用户不同） |
 
-#### <span id="jobs-toc-heading-20" data-jobs-toc="v2">3、**获取：🍏 Xcode 信息 **<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-36" data-jobs-toc="v2">3、**获取：🍏 Xcode 信息 **<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 print_xcode_info() {
@@ -894,7 +1056,7 @@ print_xcode_info() {
 }
 ```
 
-#### <span id="jobs-toc-heading-21" data-jobs-toc="v2">4、**获取：☕ Java 信息 ** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-37" data-jobs-toc="v2">4、**获取：☕ Java 信息 ** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```
 print_java_info() {
@@ -908,7 +1070,7 @@ print_java_info() {
 }
 ```
 
-#### <span id="jobs-toc-heading-22" data-jobs-toc="v2">5、**获取：🤖  [Android](https://www.android.com/) SDK 信息** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-38" data-jobs-toc="v2">5、**获取：🤖  [Android](https://www.android.com/) SDK 信息** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 print_android_sdk_info() {
@@ -933,7 +1095,7 @@ print_android_sdk_info() {
 }
 ```
 
-### <span id="jobs-toc-heading-23" data-jobs-toc="v2">🎯 生成桌面快捷方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-39" data-jobs-toc="v2">🎯 生成桌面快捷方式 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 shortcut_name="${flutter_project_name}.command"
@@ -945,7 +1107,7 @@ if [[ ! -f "$shortcut_path" ]]; then
 fi
 ```
 
-### <span id="jobs-toc-heading-24" data-jobs-toc="v2">🎯 转换路径为<font color=red>**绝对路径**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-40" data-jobs-toc="v2">🎯 转换路径为<font color=red>**绝对路径**</font> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > **将用户输入的路径（文件或文件夹）转换为“绝对路径（不含软链接）”**，并去掉多余的双引号或末尾斜杠，增强兼容性。
 
@@ -966,7 +1128,7 @@ abs_path() {
 }
 ```
 
-### <span id="jobs-toc-heading-25" data-jobs-toc="v2">🎯 识别**`.xcodeproj`**  <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-41" data-jobs-toc="v2">🎯 识别**`.xcodeproj`**  <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 find_or_prompt_xcodeproj() {
@@ -988,7 +1150,7 @@ find_or_prompt_xcodeproj() {
 }
 ```
 
-### <span id="jobs-toc-heading-26" data-jobs-toc="v2">🎯 [**Android**](https://www.android.com/) 模拟器🤖<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-42" data-jobs-toc="v2">🎯 [**Android**](https://www.android.com/) 模拟器🤖<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * 检查模拟器是否存在；启动一个可用的；设置并返回 `$device_id`
 
@@ -1075,7 +1237,7 @@ find_or_prompt_xcodeproj() {
   }
   ```
 
-### 🎯 **iOS** 模拟器📱<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 3.3、🎯 **iOS** 模拟器📱<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 #### 1、（检测）防止假后台  <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
@@ -1101,7 +1263,7 @@ fix_fake_simulator() {
 }
 ```
 
-#### <span id="jobs-toc-heading-27" data-jobs-toc="v2">2、📱关闭 **iOS** 模拟器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-43" data-jobs-toc="v2">2、📱关闭 **iOS** 模拟器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 xcrun simctl shutdown all
@@ -1115,13 +1277,13 @@ else
 fi
 ```
 
-#### <span id="jobs-toc-heading-28" data-jobs-toc="v2">3、📱打开 **iOS** 模拟器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-44" data-jobs-toc="v2">3、📱打开 **iOS** 模拟器 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 open -a Simulator
 ```
 
-### <span id="jobs-toc-heading-29" data-jobs-toc="v2">🎯 执行耗时 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-45" data-jobs-toc="v2">3.4、🎯 执行耗时 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 START_TIME=$(date +%s) # 放在最前面
@@ -1136,7 +1298,7 @@ print_duration() {
 print_duration
 ```
 
-### <span id="jobs-toc-heading-30" data-jobs-toc="v2">🎯 写文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-46" data-jobs-toc="v2">3.5、🎯 写文件 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 >* **追加写入**
 >
@@ -1177,7 +1339,7 @@ print_duration
 >     ```
 >  
 
-#### <span id="jobs-toc-heading-31" data-jobs-toc="v2">🎯 1、单行写文件（避免重复写入）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-47" data-jobs-toc="v2">🎯 1、单行写文件（避免重复写入）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 inject_shellenv_block() {
@@ -1211,7 +1373,7 @@ inject_shellenv_block() {
 }
 ```
 
-#### <span id="jobs-toc-heading-32" data-jobs-toc="v2">🎯 2、多行写文件（避免重复写入）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-48" data-jobs-toc="v2">🎯 2、多行写文件（避免重复写入）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 append_env_block() {
@@ -1239,7 +1401,7 @@ append_env_block() {
 }
 ```
 
-#### <span id="jobs-toc-heading-33" data-jobs-toc="v2">🎯 3、函数将内容插入到指定的文件顶部 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-49" data-jobs-toc="v2">🎯 3、函数将内容插入到指定的文件顶部 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 insert_block_to_profile_top() {
@@ -1270,7 +1432,7 @@ insert_block_to_profile_top() {
 > insert_block_to_profile_top "$marker" "${block[@]}"
 > ```
 
-### <span id="jobs-toc-heading-34" data-jobs-toc="v2">🎯 环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-50" data-jobs-toc="v2">3.6、🎯 环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 | shell 类型 | 默认配置文件      | macOS 默认用哪个❓                                            |
 | ---------- | ----------------- | ------------------------------------------------------------ |
@@ -1288,13 +1450,13 @@ else
 fi
 ```
 
-#### <span id="jobs-toc-heading-35" data-jobs-toc="v2">🎯 1、写单行的环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-51" data-jobs-toc="v2">🎯 1、写单行的环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 inject_shellenv_block "$HOME/.zprofile" "homebrew_env" 'eval "$($(brew --prefix)/bin/brew shellenv)"'
 ```
 
-#### <span id="jobs-toc-heading-36" data-jobs-toc="v2">🎯 2、写多行的环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-52" data-jobs-toc="v2">🎯 2、写多行的环境变量 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 append_env_block "$HOME/.zshrc" \
@@ -1302,7 +1464,7 @@ append_env_block "$HOME/.zshrc" \
   'export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn'
 ```
 
-#### <span id="jobs-toc-heading-37" data-jobs-toc="v2">🎯 3、🌐 环境变量格式化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-53" data-jobs-toc="v2">🎯 3、🌐 环境变量格式化 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 <font color=red>把环境变量 `$PATH` 中的路径项按冒号（`:`）拆分，并逐行打印每一项路径</font>
 
@@ -1333,7 +1495,7 @@ $SYSTEM_USR_DIR/bin
 $SYSTEM_BIN_DIR
 ```
 
-### <span id="jobs-toc-heading-38" data-jobs-toc="v2">🎯 判断芯片架构（`ARM64` / `x86_64`）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-54" data-jobs-toc="v2">3.7、🎯 判断芯片架构（`ARM64` / `x86_64`）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 get_cpu_arch() {
@@ -1341,13 +1503,13 @@ get_cpu_arch() {
 }
 ```
 
-### <span id="jobs-toc-heading-39" data-jobs-toc="v2">🎯 [**SDKMAN**](https://sdkman.io/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-55" data-jobs-toc="v2">3.8、🎯 [**SDKMAN**](https://sdkman.io/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 暂不把 **SDKMAN** 写进通用脚本基座。它更偏交互式 Java 生态管理，和 `Homebrew + jenv` 的职责有重叠。需要独立封装时，再按“安装、环境注入、版本切换、卸载回滚”四段式补充。
 
-### <span id="jobs-toc-heading-40" data-jobs-toc="v2">🎯 💎[**Rubygems**](https://rubygems.org/) 自检安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-56" data-jobs-toc="v2">3.9、🎯 💎[**Rubygems**](https://rubygems.org/) 自检安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### <span id="jobs-toc-heading-41" data-jobs-toc="v2">🎯1、自检安装 💎**`Gem.CocoaPods`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-57" data-jobs-toc="v2">🎯1、自检安装 💎**`Gem.CocoaPods`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 install_cocoaPods() {
@@ -1377,7 +1539,7 @@ install_cocoaPods() {
 }
 ```
 
-#### <span id="jobs-toc-heading-42" data-jobs-toc="v2">🎯2、自检安装 💎**`Gem.bundler`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-58" data-jobs-toc="v2">🎯2、自检安装 💎**`Gem.bundler`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 install_bundler() {
@@ -1405,9 +1567,9 @@ install_bundler() {
 }
 ```
 
-### <span id="jobs-toc-heading-43" data-jobs-toc="v2">🎯 🍺**`Homebrew`** 自检安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-59" data-jobs-toc="v2">3.10、🎯 🍺**`Homebrew`** 自检安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### <span id="jobs-toc-heading-44" data-jobs-toc="v2">🎯 1、自检安装 🍺**`Homebrew`** （自动架构判断，包含环境注入）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-60" data-jobs-toc="v2">🎯 1、自检安装 🍺**`Homebrew`** （自动架构判断，包含环境注入）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 install_homebrew() {
@@ -1484,7 +1646,7 @@ else
 fi
 ```
 
-#### <span id="jobs-toc-heading-45" data-jobs-toc="v2">🎯 2、自检安装 🍺**`Homebrew.fzf`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-61" data-jobs-toc="v2">🎯 2、自检安装 🍺**`Homebrew.fzf`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 install_fzf() {
@@ -1525,7 +1687,7 @@ install_fzf() {
   > result=$(fzf_select "通过 Homebrew 安装" "通过 Git 安装" "取消")
   > ```
 
-#### <span id="jobs-toc-heading-46" data-jobs-toc="v2">🎯 3、自检安装 🍺**`Homebrew.jq`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-62" data-jobs-toc="v2">🎯 3、自检安装 🍺**`Homebrew.jq`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 install_jq() {
@@ -1552,7 +1714,7 @@ install_jq() {
 }
 ```
 
-#### <span id="jobs-toc-heading-47" data-jobs-toc="v2">🎯 4、自检安装 🍺**`Homebrew.dart`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-63" data-jobs-toc="v2">🎯 4、自检安装 🍺**`Homebrew.dart`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 install_dart() {
@@ -1580,7 +1742,7 @@ install_dart() {
 }
 ```
 
-#### <span id="jobs-toc-heading-48" data-jobs-toc="v2">🎯 5、自检安装 🍺**`Homebrew.coreutils`**（提供 `realpath`）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-64" data-jobs-toc="v2">🎯 5、自检安装 🍺**`Homebrew.coreutils`**（提供 `realpath`）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 install_coreutils() {
@@ -1610,7 +1772,7 @@ install_coreutils() {
 }
 ```
 
-#### <span id="jobs-toc-heading-49" data-jobs-toc="v2">🎯 6、自检安装 🍺**`Homebrew.bc`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-65" data-jobs-toc="v2">🎯 6、自检安装 🍺**`Homebrew.bc`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 install_bc() {
@@ -1637,7 +1799,7 @@ install_bc() {
 }
 ```
 
-#### <span id="jobs-toc-heading-50" data-jobs-toc="v2">🎯 7、自检安装 🍺**`Homebrew.Gradle`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-66" data-jobs-toc="v2">🎯 7、自检安装 🍺**`Homebrew.Gradle`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 install_gradle() {
@@ -1668,7 +1830,7 @@ install_gradle() {
 }
 ```
 
-#### <span id="jobs-toc-heading-51" data-jobs-toc="v2">🎯 8、自检安装 🍺**`Homebrew.jenv`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-67" data-jobs-toc="v2">🎯 8、自检安装 🍺**`Homebrew.jenv`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > [**Flutter**](https://flutter.dev/).[**Android**](https://www.android.com/)的运行和打包需要一个[**Java**](https://www.java.com/zh-CN/)环境（有必要和系统[**Java**](https://www.java.com/zh-CN/)环境进行区分开）
 >
@@ -1836,7 +1998,7 @@ install_rbenv() {
 >   }
 >   ```
 
-#### <span id="jobs-toc-heading-52" data-jobs-toc="v2">🎯 9、自检安装 🍺**`Homebrew.cocoapods`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-68" data-jobs-toc="v2">🎯 9、自检安装 🍺**`Homebrew.cocoapods`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 install_cocoapods() {
@@ -1866,7 +2028,7 @@ install_cocoapods() {
 }
 ```
 
-#### <span id="jobs-toc-heading-53" data-jobs-toc="v2">🎯 10、自检安装 🍺**`Homebrew.Perl`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-69" data-jobs-toc="v2">🎯 10、自检安装 🍺**`Homebrew.Perl`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 ensure_perl_installed() {
@@ -1899,7 +2061,7 @@ ensure_perl_installed() {
 }
 ```
 
-#### <span id="jobs-toc-heading-54" data-jobs-toc="v2">🎯 11、自检安装 **`Rbenv`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-70" data-jobs-toc="v2">🎯 11、自检安装 **`Rbenv`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > `rbenv` 是一个 **Ruby 版本管理工具**
 
@@ -1957,7 +2119,7 @@ install_rbenv() {
 
 ```
 
-#### <span id="jobs-toc-heading-55" data-jobs-toc="v2">🎯 12、官方安装 **`Ruby`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-71" data-jobs-toc="v2">🎯 12、官方安装 **`Ruby`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 # 1. 克隆 rbenv 到本地
@@ -1987,7 +2149,7 @@ rbenv global 3.3.0
 ruby -v
 ```
 
-### <span id="jobs-toc-heading-56" data-jobs-toc="v2">🎯 删除🍺[**Homebrew**](https://brew.sh/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-72" data-jobs-toc="v2">3.11、🎯 删除🍺[**Homebrew**](https://brew.sh/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 # 1. 尝试 untap & 清理
@@ -2018,7 +2180,7 @@ if [[ -n "$brew_repo" ]]; then
 fi
 ```
 
-### <span id="jobs-toc-heading-57" data-jobs-toc="v2">🎯自检安装 **`fvm`**（[**Dart**](https://dart.dev/)官方推荐） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-73" data-jobs-toc="v2">3.12、🎯自检安装 **`fvm`**（[**Dart**](https://dart.dev/)官方推荐） <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > <font color=red>**安装`fvm`的大前提是预先安装`dart`环境 **</font>
 >
@@ -2058,7 +2220,7 @@ install_fvm() {
 
 ```
 
-### <span id="jobs-toc-heading-58" data-jobs-toc="v2">🎯 设置**`Ruby`**镜像源（根据 IP 自动判断）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-74" data-jobs-toc="v2">3.13、🎯 设置**`Ruby`**镜像源（根据 IP 自动判断）<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 set_gem_source() {
@@ -2076,9 +2238,9 @@ set_gem_source() {
 }
 ```
 
-### <span id="jobs-toc-heading-59" data-jobs-toc="v2">🎯 镜像切换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-75" data-jobs-toc="v2">3.14、🎯 镜像切换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### <span id="jobs-toc-heading-60" data-jobs-toc="v2">1、[**CocoaPods**](https://cocoapods.org/) 镜像切换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-76" data-jobs-toc="v2">1、[**CocoaPods**](https://cocoapods.org/) 镜像切换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 switch_cocoapods_source() {
@@ -2099,7 +2261,7 @@ switch_cocoapods_source() {
 }
 ```
 
-#### <span id="jobs-toc-heading-61" data-jobs-toc="v2">2、[**Ruby**](https://www.ruby-lang.org/en/)  镜像切换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-77" data-jobs-toc="v2">2、[**Ruby**](https://www.ruby-lang.org/en/)  镜像切换 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 set_gem_source() {
@@ -2118,7 +2280,7 @@ set_gem_source() {
 }
 ```
 
-### <span id="jobs-toc-heading-62" data-jobs-toc="v2">🎯 检测本地[**Java**](https://www.java.com/zh-CN/)环境是否已经安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-78" data-jobs-toc="v2">3.15、🎯 检测本地[**Java**](https://www.java.com/zh-CN/)环境是否已经安装 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > **`command -v java`**：检查 `java` 命令是否存在于 `PATH` 中；
 >
@@ -2139,9 +2301,9 @@ else
 fi 
 ```
 
-### <span id="jobs-toc-heading-63" data-jobs-toc="v2">🎯 [**Flutter**](https://flutter.dev/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-79" data-jobs-toc="v2">3.16、🎯 [**Flutter**](https://flutter.dev/) <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### <span id="jobs-toc-heading-64" data-jobs-toc="v2">🎯 1、判断当前目录是否为[**Flutter**](https://flutter.dev/)项目根目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-80" data-jobs-toc="v2">🎯 1、判断当前目录是否为[**Flutter**](https://flutter.dev/)项目根目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 is_flutter_project_root() {
@@ -2149,7 +2311,7 @@ is_flutter_project_root() {
 }
 ```
 
-#### <span id="jobs-toc-heading-65" data-jobs-toc="v2">🎯 2、获取 [**Flutter**](https://flutter.dev/)项目名称  <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-81" data-jobs-toc="v2">🎯 2、获取 [**Flutter**](https://flutter.dev/)项目名称  <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 _get_flutter_project_name() {
@@ -2163,7 +2325,7 @@ _get_flutter_project_name() {
 }
 ```
 
-#### <span id="jobs-toc-heading-66" data-jobs-toc="v2">🎯 3、判断[**Flutter**](https://flutter.dev/)文件是否是入口🚪<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-82" data-jobs-toc="v2">🎯 3、判断[**Flutter**](https://flutter.dev/)文件是否是入口🚪<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > <font color=red>**支持的**`main`**函数写法**</font>
 > `void main() {}`// 标准同步入口
@@ -2233,7 +2395,7 @@ detect_entry() {
 }
 ```
 
-#### <span id="jobs-toc-heading-67" data-jobs-toc="v2">🎯 4、统一获取[**Flutter**](https://flutter.dev/)项目路径和[**Dart**](https://dart.dev/)入口文件路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-83" data-jobs-toc="v2">🎯 4、统一获取[**Flutter**](https://flutter.dev/)项目路径和[**Dart**](https://dart.dev/)入口文件路径 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 > 兼容用户拖入目录、拖入[**Dart**](https://dart.dev/)文件、或直接回车（默认为当前目录为[**Flutter**](https://flutter.dev/)项目根目录）三种用法
 
@@ -2306,7 +2468,7 @@ resolve_flutter_root() {
 }
 ```
 
-#### <span id="jobs-toc-heading-68" data-jobs-toc="v2">🎯 5、[**FVM**](https://fvm.app/) 检测 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-84" data-jobs-toc="v2">🎯 5、[**FVM**](https://fvm.app/) 检测 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 detect_flutter_cmd() {
@@ -2335,7 +2497,7 @@ fi
 >
 > 如果没有安装[**FVM**](https://fvm.app/) ，则 `flutter pub get`
 
-### <span id="jobs-toc-heading-69" data-jobs-toc="v2">🎯 全更新 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-85" data-jobs-toc="v2">3.17、🎯 全更新 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 **`.zshrc`**
 
@@ -2348,9 +2510,9 @@ fi
  }
  ```
 
-### <span id="jobs-toc-heading-70" data-jobs-toc="v2">🎯 **`Git`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-86" data-jobs-toc="v2">3.18、🎯 **`Git`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### <span id="jobs-toc-heading-71" data-jobs-toc="v2">🎯 1、删除本地**`Git`**缓存目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-87" data-jobs-toc="v2">🎯 1、删除本地**`Git`**缓存目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 REPO_PATH="$HOME/.cocoapods/repos/cocoapods"
@@ -2362,7 +2524,7 @@ else
 fi
 ```
 
-#### <span id="jobs-toc-heading-72" data-jobs-toc="v2">🎯 2、删除**`CDN`**源**`trunk`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-88" data-jobs-toc="v2">🎯 2、删除**`CDN`**源**`trunk`** <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 if pod repo list | grep -q "^trunk"; then
@@ -2373,14 +2535,14 @@ else
 fi
 ```
 
-#### <span id="jobs-toc-heading-73" data-jobs-toc="v2">🎯 3、添加**`Git`**源<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-89" data-jobs-toc="v2">🎯 3、添加**`Git`**源<a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 print_green "🔗 正在添加 Git 源 https://github.com/CocoaPods/Specs.git ..."
 pod repo add cocoapods https://github.com/CocoaPods/Specs.git
 ```
 
-### <span id="jobs-toc-heading-74" data-jobs-toc="v2">🎯判断两个文件内容是否一致 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-90" data-jobs-toc="v2">3.19、🎯判断两个文件内容是否一致 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 # 判断源文件和目标文件内容是否完全一致
@@ -2393,7 +2555,7 @@ is_actions_plist_same() {
 }
 ```
 
-### <span id="jobs-toc-heading-75" data-jobs-toc="v2">🎯重启 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-91" data-jobs-toc="v2">3.20、🎯重启 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 * App 名、进程名、`open -a` 用的名字，不一定是同一个东西
 
@@ -2509,9 +2671,9 @@ is_actions_plist_same() {
   }
   ```
 
-### <span id="jobs-toc-heading-76" data-jobs-toc="v2">🎯 `Shell` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+### <span id="jobs-toc-heading-92" data-jobs-toc="v2">3.21、🎯 `Shell` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
-#### <span id="jobs-toc-heading-77" data-jobs-toc="v2">🎯 1、切换`Shell` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-93" data-jobs-toc="v2">🎯 1、切换`Shell` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 # ========== 获取所有可用 shell ==========
@@ -2536,14 +2698,14 @@ echo "🔧 正在切换默认 shell 为：$selected_shell"
 chsh -s "$selected_shell"
 ```
 
-#### <span id="jobs-toc-heading-78" data-jobs-toc="v2">🎯 2、显示当前`Shell` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-94" data-jobs-toc="v2">🎯 2、显示当前`Shell` <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 echo "✅ 当前默认 shell 已更新为："
 dscl . -read ~/ UserShell
 ```
 
-#### <span id="jobs-toc-heading-79" data-jobs-toc="v2">🎯 3、打开新的终端窗口并切换到脚本所在的目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-95" data-jobs-toc="v2">🎯 3、打开新的终端窗口并切换到脚本所在的目录 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 open_terminal_and_cd() {
@@ -2557,7 +2719,7 @@ EOF
 }
 ```
 
-#### <span id="jobs-toc-heading-80" data-jobs-toc="v2">🎯 4、关闭终端窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-96" data-jobs-toc="v2">🎯 4、关闭终端窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 close_terminal_window() {
@@ -2573,7 +2735,7 @@ close_terminal_window() {
 }
 ```
 
-#### <span id="jobs-toc-heading-81" data-jobs-toc="v2">🎯 5、打开新的终端窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-97" data-jobs-toc="v2">🎯 5、打开新的终端窗口 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 open_terminal_and_cd() {
@@ -2592,7 +2754,7 @@ EOF
 > open_terminal_and_cd "$current_directory" # 打开新的终端窗口并切换到脚本所在的目录
 > ```
 
-#### <span id="jobs-toc-heading-82" data-jobs-toc="v2">🎯 6、仅对当前`Shell`有效的临时环境 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
+#### <span id="jobs-toc-heading-98" data-jobs-toc="v2">🎯 6、仅对当前`Shell`有效的临时环境 <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></span><!-- jobs-toc:heading-end -->
 
 ```shell
 # ================================== 通用开发环境变量配置 ==================================

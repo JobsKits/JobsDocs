@@ -60,6 +60,8 @@
 - 脚本运行后会先展示说明并等待回车；随后执行 `./blog/sync_docs.sh`，再运行 `hugo server -D --disableFastRender`。
 - 执行前需要确保本机已经安装 Hugo；可以通过 `hugo version` 检查。
 - 本地预览流程会重新生成 `./blog/content/docs`、`./blog/public`及部分站点运行文件。预览结束后先检查 `git status`，确认生成差异符合预期再提交。
+- 普通专题目录包含 `README.md` 和直属 `.html`／`.htm` 演示时，README 会成为可点击的说明页；用 `[游戏入口](./几猫国产3A大作_V1.html)` 这样的相对链接打开演示。其它普通 README 仍按原规则排除。
+- HTML 原样复制到 `./blog/static/jobs-html/docs/` 对应专题目录，链接由站点自动转换；同目录的 `assets/` 也会随演示复制。每次同步只重建这份专用副本目录，原 HTML、其它静态资源和自动发布流程保留。当前支持单文件演示及其 `assets/` 资源，不自动收集同级其它 JS／CSS 文件；达到 25 MiB 的 HTML 不发布，PDF 仍排除。
 - 停止本地预览：回到运行脚本的终端，按 `Control + C`。
 - 本地预览日志位于系统临时目录中的 `install.log`。
 

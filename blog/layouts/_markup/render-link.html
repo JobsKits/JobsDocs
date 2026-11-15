@@ -1,0 +1,23 @@
+{{- $destination := .Destination -}}
+{{- if .Page.Site.Params.BookPortableLinks -}}
+  {{- $destination = partial "docs/links/portable-link" . -}}
+{{- end -}}
+{{- $url := urls.Parse .Destination -}}
+{{- $filename := strings.TrimPrefix "./" $url.Path -}}
+{{- $extension := lower (path.Ext $filename) -}}
+{{- if and (not $url.IsAbs) (not $url.Host) (not (strings.HasPrefix .Destination "#")) (eq (path.Base $filename) $filename) (in (slice ".html" ".htm") $extension) -}}
+  {{- with .Page.File -}}
+    {{- $assetPath := path.Join "jobs-html" .Dir $filename -}}
+    {{- if fileExists (path.Join "static" $assetPath) -}}
+      {{- $destination = $assetPath | relURL -}}
+      {{- with $url.RawQuery -}}
+        {{- $destination = printf "%s?%s" $destination . -}}
+      {{- end -}}
+      {{- with $url.Fragment -}}
+        {{- $destination = printf "%s#%s" $destination . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+{{- /**/ -}}

@@ -360,6 +360,7 @@ readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 readonly BLOG_DIR="$ROOT_DIR/blog"
 readonly CONTENT_DIR="$BLOG_DIR/content/docs"
+readonly HTML_STATIC_DIR="$BLOG_DIR/static/jobs-html"
 readonly OBSOLETE_POSTS_DIR="$BLOG_DIR/content/posts"
 readonly CONTAINER_ROUTES_FILE="$BLOG_DIR/static/jobs-container-routes.js"
 readonly HEAD_INJECTION_FILE="$BLOG_DIR/layouts/partials/docs/inject/head.html"
@@ -367,6 +368,7 @@ readonly BODY_INJECTION_FILE="$BLOG_DIR/layouts/partials/docs/inject/body.html"
 
 WEIGHT_VALUE=10
 PUBLISHABLE_MARKDOWN_FILES=()
+PUBLISHABLE_HTML_FILES=()
 PUBLISHABLE_PDF_FILES=()
 CHILD_DIRECTORIES=()
 
@@ -1045,6 +1047,10 @@ should_skip_common_path() {
         return 0
     fi
 
+    if [[ "/$lower_path" == */.codegraph/* ]]; then
+        return 0
+    fi
+
     if [[ "$lower_path" == */node_modules/* ]]; then
         return 0
     fi
@@ -1134,6 +1140,11 @@ should_skip_markdown() {
             return 1
         fi
 
+        # 独立 HTML 演示用 README 作为说明入口，根 README 仍不发布。
+        if [[ "$(dirname "$file")" != "$ROOT_DIR" ]] && dir_has_publishable_html "$(dirname "$file")"; then
+            return 1
+        fi
+
         return 0
     fi
 
@@ -1203,6 +1214,30 @@ collect_direct_publishable_markdown_files() {
 
     rm -f "$tmp_file"
 }
+# 收集直属 HTML，独立演示保持原文件名和内容，不经过 Hugo 模板渲染。
+collect_direct_publishable_html_files() {
+    local dir="$1"
+    local file
+    local tmp_file
+
+    PUBLISHABLE_HTML_FILES=()
+    tmp_file="$(mktemp "${TMPDIR:-/tmp}/jobsdocs_html.XXXXXX")"
+    find "$dir" -maxdepth 1 -type f \( -iname "*.html" -o -iname "*.htm" \) -print0 > "$tmp_file"
+
+    while IFS= read -r -d '' file; do
+        if is_cloudflare_pages_oversized_file "$file"; then
+            continue
+        fi
+        PUBLISHABLE_HTML_FILES+=("$file")
+    done < "$tmp_file"
+
+    rm -f "$tmp_file"
+}
+# 判断目录是否有可原样发布的 HTML 演示。
+dir_has_publishable_html() {
+    collect_direct_publishable_html_files "$1"
+    [[ "${#PUBLISHABLE_HTML_FILES[@]}" -gt 0 ]]
+}
 
 # 收集指定目录直属的可发布 PDF 文件。
 collect_direct_publishable_pdf_files() {
@@ -1267,6 +1302,26 @@ copy_assets() {
     mkdir -p "$target_dir/assets"
 
     cp -R "$source_dir/assets/." "$target_dir/assets/"
+}
+# HTML 放入专用静态目录，避免 index.html 与文档页冲突，也避免被当作 Hugo 内容。
+copy_same_dir_html() {
+    local source_dir="$1"
+    local target_dir="$2"
+    local static_target_dir
+    local file
+
+    collect_direct_publishable_html_files "$source_dir"
+    if [[ "${#PUBLISHABLE_HTML_FILES[@]}" -eq 0 ]]; then
+        return
+    fi
+
+    static_target_dir="$HTML_STATIC_DIR/docs/${target_dir#$CONTENT_DIR/}"
+    mkdir -p "$static_target_dir"
+    for file in "${PUBLISHABLE_HTML_FILES[@]}"; do
+        cp "$file" "$static_target_dir/$(basename "$file")"
+        log "Synced HTML: ${file#$ROOT_DIR/} -> ${static_target_dir#$BLOG_DIR/}/$(basename "$file")"
+    done
+    copy_assets "$source_dir" "$static_target_dir"
 }
 
 # 复制直属 PDF。
@@ -1406,6 +1461,7 @@ write_normal_leaf_directory_page() {
     fi
 
     copy_assets "$source_dir" "$target_dir"
+    copy_same_dir_html "$source_dir" "$target_dir"
     copy_same_dir_pdfs "$source_dir" "$target_dir"
 }
 
@@ -1428,6 +1484,7 @@ write_single_markdown_page() {
     write_single_markdown_body "$md_file" >> "$target_file"
 
     copy_assets "$source_dir" "$target_dir"
+    copy_same_dir_html "$source_dir" "$target_dir"
     copy_same_dir_pdfs "$source_dir" "$target_dir"
 }
 
@@ -1794,6 +1851,10 @@ sync_root_markdown_files() {
 # Cloudflare Pages 会校验 public 目录；如果这里残留旧 PDF，哪怕本次脚本跳过 PDF，部署也会失败。
 clean_public_dir() {
     rm -rf "$BLOG_DIR/public"
+}
+# 仅清理本脚本生成的 HTML 副本，源文件及其它静态资源保持原样。
+clean_html_static_dir() {
+    rm -rf "$HTML_STATIC_DIR"
 }
 
 # 清空 Hugo 自动同步生成的 docs 内容目录。
@@ -2397,6 +2458,7 @@ main() {
 
     # 3. 清空旧内容，并准备注入文件。
     clean_public_dir
+    clean_html_static_dir
     prepare_container_routes_file
     clean_content_dir
     clean_obsolete_posts_dir
