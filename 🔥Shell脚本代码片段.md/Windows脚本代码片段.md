@@ -8,45 +8,45 @@
 <summary>📚 目录（点击展开 / 收起）</summary>
 
 - [🔥 前言](#%E5%89%8D%E8%A8%80)
-- [一、从哪些成熟脚本提炼](#windows-source-map)
-  - [1.1、来源与固定职责](#source-functions)
-  - [1.2、观察结果不能机械提升为标准](#read-pattern-boundaries)
-- [二、PowerShell 入口基座](#powershell-foundation)
-  - [2.1、同名包装与三层说明](#script-package)
-  - [2.2、可复制的只读起步骨架](#safe-entry-example)
-  - [2.3、版本与文件编码必须显式](#version-and-encoding)
-- [三、Batch 只作薄入口](#batch-launcher)
-  - [3.1、参数、路径和退出码](#batch-template)
-  - [3.2、包名可变时按唯一标记寻址](#marked-package)
-- [四、路径、遍历和文本修改](#paths-and-text)
-  - [4.1、路径作为数据处理](#literal-paths)
-  - [4.2、跳过依赖目录与链接](#tree-traversal)
-  - [4.3、严格 UTF-8 与 BOM 保留](#strict-utf8)
-- [五、外部命令与结果通道](#native-commands)
-  - [5.1、不要只依赖 try / catch 判断失败](#native-exit)
-  - [5.2、发现、验证、修复、再验证](#command-health)
-- [六、交互、日志和来源显示](#prompts-and-logging)
-  - [6.1、普通写操作默认取消](#keyboard-confirm)
-  - [6.2、显示真实来源，日志保持纯文本](#source-display)
-  - [6.3、会话配色采用完整保护，不能简化恢复](#terminal-style)
-- [七、下载、依赖和缓存](#downloads-and-sdk)
-  - [7.1、先下载临时文件，再验证并发布](#download-template)
-  - [7.2、必需 SDK 的持续获取是专门流程](#sdk-retry)
-  - [7.3、Release 分页与断点按真实对象验证](#release-object-identity)
-- [八、环境作用域与进程归属](#process-and-environment)
-  - [8.1、新版宿主将环境直接交给子进程](#child-process-environment)
-  - [8.2、PATH、代理和永久配置各有边界](#environment-scope)
-  - [8.3、进程收据至少核对 PID、启动时间和路径](#process-receipt)
-- [九、幂等、并发检查与恢复](#backup-and-rollback)
-  - [9.1、先预览，确认后复检，再备份写入](#backup-edit-template)
-  - [9.2、部署与反部署共用一份归属协议](#deployment-contract)
-  - [9.3、大文件用流式分卷、候选校验和无覆盖发布](#file-volumes)
-- [十、Windows 平台动作单独归纳](#windows-specific)
-  - [10.1、注册表、任务、服务与快捷方式](#platform-boundaries)
-  - [10.2、常见迁移误区](#windows-not-shell-translation)
-- [十一、如何验证这些范本](#validation)
-  - [11.1、先做 AST 解析，再做隔离行为检查](#ast-validation)
-  - [11.2、本文的核对范围](#validation-status)
+- [一、🎯 从哪些成熟脚本提炼](#windows-source-map)
+  - [1.1、🎯 来源与固定职责](#source-functions)
+  - [1.2、🎯 观察结果不能机械提升为标准](#read-pattern-boundaries)
+- [二、🎯 PowerShell 入口基座](#powershell-foundation)
+  - [2.1、🎯 同名包装与三层说明](#script-package)
+  - [2.2、🎯 可复制的只读起步骨架](#safe-entry-example)
+  - [2.3、🎯 版本与文件编码必须显式](#version-and-encoding)
+- [三、🎯 Batch 只作薄入口](#batch-launcher)
+  - [3.1、🎯 参数、路径和退出码](#batch-template)
+  - [3.2、🎯 包名可变时按唯一标记寻址](#marked-package)
+- [四、🎯 路径、遍历和文本修改](#paths-and-text)
+  - [4.1、🎯 路径作为数据处理](#literal-paths)
+  - [4.2、🎯 跳过依赖目录与链接](#tree-traversal)
+  - [4.3、🎯 严格 UTF-8 与 BOM 保留](#strict-utf8)
+- [五、🎯 外部命令与结果通道](#native-commands)
+  - [5.1、🎯 不要只依赖 try / catch 判断失败](#native-exit)
+  - [5.2、🎯 发现、验证、修复、再验证](#command-health)
+- [六、🎯 交互、日志和来源显示](#prompts-and-logging)
+  - [6.1、🎯 普通写操作默认取消](#keyboard-confirm)
+  - [6.2、🎯 显示真实来源，日志保持纯文本](#source-display)
+  - [6.3、🎯 会话配色采用完整保护，不能简化恢复](#terminal-style)
+- [七、🎯 下载、依赖和缓存](#downloads-and-sdk)
+  - [7.1、🎯 先下载临时文件，再验证并发布](#download-template)
+  - [7.2、🎯 必需 SDK 的持续获取是专门流程](#sdk-retry)
+  - [7.3、🎯 Release 分页与断点按真实对象验证](#release-object-identity)
+- [八、🎯 环境作用域与进程归属](#process-and-environment)
+  - [8.1、🎯 新版宿主将环境直接交给子进程](#child-process-environment)
+  - [8.2、🎯 PATH、代理和永久配置各有边界](#environment-scope)
+  - [8.3、🎯 进程收据至少核对 PID、启动时间和路径](#process-receipt)
+- [九、🎯 幂等、并发检查与恢复](#backup-and-rollback)
+  - [9.1、🎯 先预览，确认后复检，再备份写入](#backup-edit-template)
+  - [9.2、🎯 部署与反部署共用一份归属协议](#deployment-contract)
+  - [9.3、🎯 大文件用流式分卷、候选校验和无覆盖发布](#file-volumes)
+- [十、🎯 Windows 平台动作单独归纳](#windows-specific)
+  - [10.1、🎯 注册表、任务、服务与快捷方式](#platform-boundaries)
+  - [10.2、🎯 常见迁移误区](#windows-not-shell-translation)
+- [十一、🎯 如何验证这些范本](#validation)
+  - [11.1、🎯 先做 AST 解析，再做隔离行为检查](#ast-validation)
+  - [11.2、🎯 本文的核对范围](#validation-status)
 
 </details>
 <!-- jobs-toc:end -->
@@ -61,9 +61,9 @@
 
 正文将**已有做法**与**归纳模板**分开：前者有本地来源和函数名；后者在这些做法上补齐当前约束、明确输入输出和失败语义，不能反推每个原脚本已具备模板的全部能力。本轮只整理文档，不执行原脚本的安装、部署、删除、注册表写入和任务注册。
 
-## 一、<span id="windows-source-map">从哪些成熟脚本提炼</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 一、🎯 <span id="windows-source-map">从哪些成熟脚本提炼</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 1.1、<span id="source-functions">来源与固定职责</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 1.1、🎯 <span id="source-functions">来源与固定职责</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 以下相对路径从本文目录出发；同名副本作为覆盖对象，不作为独立成熟方案重复统计。来源核对日期：2026-11-15。
 
@@ -83,7 +83,7 @@
 | W12 | [WindowsOS 文件分卷内核](../../WindowsOS/WindowsOS_10/WindowsOS/Common/FileVolumes.ps1) | `Get-JobsVolumeGroup`、`Invoke-JobsFileMerge / Split`：卷组身份、固定内存流式读写、SHA-256、候选发布与流释放。 |
 | W13 | [WindowsOS Release 获取](../../WindowsOS/WindowsOS_10/WindowsOS/【WindowsOS】⏬下载当前仓库Release.cmd/【WindowsOS】⏬下载当前仓库Release.ps1) | `Get-ReleaseApiItems`、`Get-ReleaseIdentity`、`Receive-ReleaseAttempt / Asset`：分页、附件身份、Range 核对与安全续传。 |
 
-### 1.2、<span id="read-pattern-boundaries">观察结果不能机械提升为标准</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 1.2、🎯 <span id="read-pattern-boundaries">观察结果不能机械提升为标准</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - W01 / W03 等来源仍可见输入编号、输入任意字符或精确 `YES` 的不同菜单；新范本的普通写操作采用键盘菜单并默认取消。来源只证明相关方法存在，不证明所有旧交互符合当前习惯。
 - 精确大写 `YES` 仅保留给已经明确采用该门禁的独立危险操作；不要把输入任意字符当作危险授权。
@@ -91,9 +91,9 @@
 - W11 的 `ArgumentList`、`$IsWindows` 等写法属于声明了新版宿主的脚本；5.1 模板使用兼容实现。不能把语法能解析与运行库成员存在混为一谈。
 - 上游第三方、供应商、生成包装器及作者归属不明确的脚本，仅列为排除范围，不蒸馏成 Jobs 自有标准；本次不修改这些来源文件。
 
-## 二、<span id="powershell-foundation">PowerShell 入口基座</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 二、🎯 <span id="powershell-foundation">PowerShell 入口基座</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 2.1、<span id="script-package">同名包装与三层说明</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 2.1、🎯 <span id="script-package">同名包装与三层说明</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 ```text
 【WindowsOS】示例工具.ps1/
@@ -106,7 +106,7 @@
 - `README.md` 写完整能力、模式、参数、默认值、依赖、输入输出、日志、副作用和失败处理；源码头注释方便维护；运行时自述是写在源码中的固定文本，不能运行时读取 README 拼起来。
 - 内部模块和测试按职责管理；不得因为被调用就自行豁免用户现行包装规则。`OS@Extension` 的明确目录例外按原工程保留，不借文档整理搬动源脚本。
 
-### 2.2、<span id="safe-entry-example">可复制的只读起步骨架</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 2.2、🎯 <span id="safe-entry-example">可复制的只读起步骨架</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 归纳自 W01 / W03 / W05。下面是完整可运行的**目录检查器**，默认 `Check`，只统计目录的直接子项；没有安装、下载和写配置。`Run` 仅用于演示自述确认后的日志初始化，业务仍只读。新业务替换 `Invoke-Business` 时，同时改自述、计划和确认，不能保留“只读”字样掩盖写操作。
 
@@ -197,7 +197,7 @@ try {
 - `Main` 直接调用高层方法，每行带职责注释；异常处理集中在最终调用边界。库函数返回结果或抛错，避免深层 `exit` 使调用者无法清理。
 - `#requires` 会先于脚本主体检查最低版本；这是解释器门槛。确认前只能做必要的展示准备，真实初始化继续放在确认之后。
 
-### 2.3、<span id="version-and-encoding">版本与文件编码必须显式</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 2.3、🎯 <span id="version-and-encoding">版本与文件编码必须显式</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 同一份中文源码在两代宿主中读取一致，比“终端看起来没乱码”更重要。
 
@@ -211,9 +211,9 @@ try {
 
 5.1 与 7 的默认编码和 `utf8` 参数含义有差异；中文脚本面向 5.1 时使用带 BOM 的 UTF-8，数据文件按消费端约定处理。具体差异见 [Microsoft 编码说明](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_character_encoding)及[脚本文件编码说明](https://learn.microsoft.com/powershell/scripting/dev-cross-plat/vscode/understanding-file-encoding)。
 
-## 三、<span id="batch-launcher">Batch 只作薄入口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 三、🎯 <span id="batch-launcher">Batch 只作薄入口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 3.1、<span id="batch-template">参数、路径和退出码</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 3.1、🎯 <span id="batch-template">参数、路径和退出码</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 归纳自 W05 / W10。下面的 ASCII 包装适用于“同目录仅有一个 `.ps1` 实施文件”的明确交付结构；数量不是一个就失败，不按排序选第一个。已有中文同名启动器也可直接用带引号的固定相对路径。
 
@@ -250,15 +250,15 @@ endlocal & exit /b 1
 - 如果实施脚本声明 7.4，包装器就查找和验证 `pwsh.exe` 的版本，失败时说明需求；不要自动回退到 5.1，也不要为运行入口擅自全局安装新版宿主。
 - `System32` 是系统约定位置；脚本自带资源仍从自身目录解析。32 位父进程的文件系统重定向、进程位数和注册表视图需要在对应宿主单独验证。
 
-### 3.2、<span id="marked-package">包名可变时按唯一标记寻址</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 3.2、🎯 <span id="marked-package">包名可变时按唯一标记寻址</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 W10 的固定写法是：扫描同级 `*.ps1` 目录，同时检查 `deployment.entry` 与目录内同名实施文件，仅允许唯一命中。这个模式用于“快捷入口在包外、包名包含中文且可能变化”的场景；标记名必须对应真实动作，部署与反部署分别登记，不能找到任意标记就执行。
 
 包外快捷入口只转交当前平台唯一实施脚本；不要复制部署流程、自述和确认，不依赖当前工作目录，也不回退到开发机旧源码位置。
 
-## 四、<span id="paths-and-text">路径、遍历和文本修改</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 四、🎯 <span id="paths-and-text">路径、遍历和文本修改</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 4.1、<span id="literal-paths">路径作为数据处理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 4.1、🎯 <span id="literal-paths">路径作为数据处理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 已有做法：W01 的 `Get-JobsPath / Assert-JobsPathAncestors`、W03 的 `Resolve-JobsDirectory`。归纳规则是先校验用户显式路径，再发现工程根；一切文件名用 `-LiteralPath`，避免 `[]` 被当成通配符。`GetFullPath` 只是规范化，不证明存在、归属或没有联接。
 
@@ -294,7 +294,7 @@ function Invoke-JobsInDirectory {
 - 本文的联接拒绝策略适用于批量修改等需要清楚边界的工具；确需允许链接的业务应验证真实目标和授权范围，不静默放开全目录。
 - 路径确认和写入间仍可能发生竞争；哈希复检、互斥锁和受控目录共同降低风险，不能声称几次 `Test-Path` 已消除全部竞争条件。
 
-### 4.2、<span id="tree-traversal">跳过依赖目录与链接</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 4.2、🎯 <span id="tree-traversal">跳过依赖目录与链接</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 W01 `Get-JobsFiles` 与 W03 `Get-JobsSourceFiles` 都采用受控递归；归纳模板增加常见供应商目录，并保留返回 `FileInfo` 对象，方便调用方继续按扩展名筛选。
 
@@ -319,7 +319,7 @@ function Get-JobsManagedFiles {
 
 排除目录不等于完成所有权检查；写入计划还要排除文件头、版权或路径显示属于第三方的源码，以及生成文件。无权限的目录明确报错，不把漏扫后的数量显示成完整结果。
 
-### 4.3、<span id="strict-utf8">严格 UTF-8 与 BOM 保留</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 4.3、🎯 <span id="strict-utf8">严格 UTF-8 与 BOM 保留</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 归纳自 W01 `Read-JobsUtf8 / Write-JobsUtf8`。此模板明确只处理严格 UTF-8；拒绝二进制或 UTF-16，不“猜编码后覆盖”。处理大文件时另做大小限制或流式实现，不一次读入任意体积文件。
 
@@ -348,9 +348,9 @@ function Write-JobsUtf8Document {
 
 字面替换用 `$doc.Text.Replace($Find, $Replacement)`，不把用户文本直接塞给正则 `-replace`。空查找串必须拒绝；没有差异就不写入、不制造备份。原换行由整个字符串保留，只有新增行才按文件既有策略选择换行。
 
-## 五、<span id="native-commands">外部命令与结果通道</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 五、🎯 <span id="native-commands">外部命令与结果通道</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 5.1、<span id="native-exit">不要只依赖 try / catch 判断失败</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 5.1、🎯 <span id="native-exit">不要只依赖 try / catch 判断失败</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 W02 的固定做法是参数数组、捕获原生退出码并返回结构化结果。`$ErrorActionPreference = 'Stop'` 不能跨宿主统一代替原生程序的失败码判断；7 的原生命令错误偏好也需要明确。参考 [LASTEXITCODE 官方定义](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_automatic_variables#lastexitcode)及[原生命令错误偏好](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_preference_variables#psnativecommanduseerroractionpreference)。
 
@@ -397,7 +397,7 @@ function Invoke-JobsExecutable {
 - 不记录可能包含密码的完整参数、连接串或全部原始输出。敏感工具使用 `-Quiet` 并只展示必要的脱敏摘要；URL 脱敏不等于通用日志脱敏。
 - 大量输出、进度、超时、后台运行用专门进程管理，不用这个缓冲全部输出的短命令模板。不要把数据函数整体放入显示／着色管道而改变输入与状态。
 
-### 5.2、<span id="command-health">发现、验证、修复、再验证</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 5.2、🎯 <span id="command-health">发现、验证、修复、再验证</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 W01 `Require-JobsCommand` 负责发现，W08 `Test-BootstrapGo / Ensure-Go` 再验证实际版本。写新工具时先确认完整依赖链，复用健康上游，只修复缺失或损坏的一层。
 
@@ -421,9 +421,9 @@ function Test-JobsGitHealth {
 
 普通安装／修复先展示对象、来源和范围并确认，每层最多一次后复检；已获授权的必需 SDK 网络获取采用[持续重试边界](#sdk-retry)。安装后刷新当前进程的命令发现与 PATH，不能仅提示“重启电脑”就宣称本轮已就绪；不为一个工具强制安装未用到的包管理器。
 
-## 六、<span id="prompts-and-logging">交互、日志和来源显示</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 六、🎯 <span id="prompts-and-logging">交互、日志和来源显示</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 6.1、<span id="keyboard-confirm">普通写操作默认取消</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 6.1、🎯 <span id="keyboard-confirm">普通写操作默认取消</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 以下为面向 `ConsoleHost` 的两项原生键盘菜单，适合确认一个已经完整展示的普通操作计划；默认选中取消，方向键／Tab 切换，回车确认，Esc 取消。多层列表优先复用项目已验证的 [**fzf**](https://github.com/junegunn/fzf) 选择器，子层明确支持左键返回，不能用重跑全部业务实现返回。
 
@@ -470,7 +470,7 @@ function Confirm-JobsExactYes {
 - 提示中“仅回车”的整段选项使用绿色粗体，“输入任意字符后回车”的整段选项使用红色粗体；固定词 `YES` 不能误标成仅回车执行。纯文本能力下降时保留清晰文案，不能伪称粗体已生效。
 - Sourcetree 动作进程不等待输入；需要选择和危险确认时转交独立交互终端。不能仅凭重定向或 `TERM=dumb` 判断它来自 Sourcetree，也不能因此跳过确认。
 
-### 6.2、<span id="source-display">显示真实来源，日志保持纯文本</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 6.2、🎯 <span id="source-display">显示真实来源，日志保持纯文本</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 W01 `Show-JobsSource` 会剥离 URL 的认证信息、查询与片段。归纳模板只负责地址展示副本，绝不把脱敏地址回写到业务请求。签名位于路径等非常规位置时还需按来源协议额外脱敏。
 
@@ -504,7 +504,7 @@ function Show-JobsTransferSource {
 - 日志按运行编号分开或追加，保留对象、来源、目标、失败码和恢复结果；不清空仍用于恢复的旧记录。落盘使用纯文本，终端控制序列不混入日志。
 - 不直接记录输入正文、密码、Token、私钥、Cookie、整个环境或连接串。对敏感工具不回显未经筛选的异常正文；可检索审计与秘密恢复材料分开保存。
 
-### 6.3、<span id="terminal-style">会话配色采用完整保护，不能简化恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 6.3、🎯 <span id="terminal-style">会话配色采用完整保护，不能简化恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 已有完整实现见 W06 / W07 的 `New-JobsTerminalStyleState`、`Start-JobsTerminalStyle`、`Stop-JobsTerminalStyle`。它包含 Win32 控制台模式、颜色快照、嵌套归属、输入事件保留与恢复判断，不能缩成改 `RawUI.BackgroundColor` 后再 `Clear-Host`。
 
@@ -516,9 +516,9 @@ function Show-JobsTransferSource {
 - 同控制台嵌套入口复用有效归属，不能内层提前恢复；用户运行中修改的状态保留并报告冲突。
 - 正常退出、错误、可捕获中断均核对恢复；进程被强杀或控制台崩溃不能承诺自动恢复。提供精确的手动恢复入口，语法检查不能替代真实终端测试。
 
-## 七、<span id="downloads-and-sdk">下载、依赖和缓存</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 七、🎯 <span id="downloads-and-sdk">下载、依赖和缓存</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 7.1、<span id="download-template">先下载临时文件，再验证并发布</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 7.1、🎯 <span id="download-template">先下载临时文件，再验证并发布</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 W04 有完整选路与续传，W08 `Receive-Dependency` 有有界请求和持续退避。以下是**单次获取且要求可信 SHA-256 的小文件模板**，不是完整 SDK 下载器；来源与目标已经由调用方确认，目标存在时拒绝覆盖。官方摘要必须从可追溯渠道取得，不以同一未知镜像随包提供的摘要独立证明可信。
 
@@ -559,7 +559,7 @@ function Receive-JobsVerifiedFile {
 - `Invoke-WebRequest` 的 HTTPS 起点不自动证明最终重定向路线符合策略；严格限 HTTPS 重定向、来源白名单或实际路线要求时，使用项目已验证的获取器并核对每次跳转，不能沿用上例声称已验证全部路线。
 - TLS／证书失败明确报错；不加入忽略证书或关闭校验的通用回退。压缩包解压到独立暂存目录，验证条目不会越出目标树后再发布，拒绝覆盖不明旧目录。
 
-### 7.2、<span id="sdk-retry">必需 SDK 的持续获取是专门流程</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 7.2、🎯 <span id="sdk-retry">必需 SDK 的持续获取是专门流程</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 流程已声明并获准的必需 SDK，网络失败、断流和单次超时后持续自动重试；有上限退避，不设默认总次数或总时长上限，用户可随时 Ctrl+C。重试只包住可重入的获取步骤，不重跑整个安装／构建／启动业务。
 - 参数错误、版本不存在、磁盘不足、权限、认证和许可证问题明确停止或等待处理，不伪装成网络重试。取消异常和取消退出码原样上抛，不能被 `catch { continue }` 吞掉。
@@ -569,7 +569,7 @@ function Receive-JobsVerifiedFile {
 - 同一个 SDK 缓存只允许一个有效写者；等待锁可取消，不能为抢锁杀另一个任务。持续显示真实进度、当前来源、重试次数和下次间隔，元数据输出与进度分通道。
 - SDK 目录存在不代表就绪；组件、版本和最小健康探针全部通过后才进入业务。首次运行隐式补齐的组件也属于获取链，不能绕开上述边界。
 
-### 7.3、<span id="release-object-identity">Release 分页与断点按真实对象验证</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 7.3、🎯 <span id="release-object-identity">Release 分页与断点按真实对象验证</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 W13 是 `JobsGenesis` 之外的成熟来源。固定模式是先取齐分页，再展示完整附件列表；断点不是“同名文件存在就接着写”，而是核对附件 ID、名称、URL、大小、更新时间与可得摘要。
 
@@ -578,9 +578,9 @@ W13 是 `JobsGenesis` 之外的成熟来源。固定模式是先取齐分页，�
 - `Retry-After` 与速率限制进入退避策略，取消仍能退出。W13 自身存在对部分认证／不存在响应持续退避的业务选择；这不作为通用下载标准，确定的认证、许可或版本错误仍按当前入口明确阻断。
 - 一个镜像仓库的目录名包含 XP／2003／7，不意味着这些新脚本可在对应旧系统执行；最低宿主与镜像文件所属系统分开说明。
 
-## 八、<span id="process-and-environment">环境作用域与进程归属</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 八、🎯 <span id="process-and-environment">环境作用域与进程归属</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 8.1、<span id="child-process-environment">新版宿主将环境直接交给子进程</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 8.1、🎯 <span id="child-process-environment">新版宿主将环境直接交给子进程</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 已有做法见 W11 `Invoke-Tool`。下面明确要求 **PowerShell 7.4+**，只处理短时 `.exe`；`ArgumentList` 负责参数序列，不手拼一个 `Arguments` 字符串。它不是可直接粘贴进 5.1 的公共方法。[ArgumentList 官方说明](https://learn.microsoft.com/dotnet/api/system.diagnostics.processstartinfo.argumentlist)
 
@@ -625,7 +625,7 @@ function Invoke-JobsIsolatedTool {
 - 5.1 如需 `ProcessStartInfo.Arguments`，复用 W04 的 `ConvertTo-JobsSdkRouteArgument` 和已有测试，先确认目标程序的解析规则。不能用 `($Arguments -join ' ')` 代替引用，也不能把一套 C 运行库规则当成所有解释器的通用规则。
 - 顺序读取 stdout 再 stderr 会在输出量大时互相堵塞；W11 同时启动两路异步读取。不要为了显示实时进度再改回顺序同步读取。
 
-### 8.2、<span id="environment-scope">PATH、代理和永久配置各有边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 8.2、🎯 <span id="environment-scope">PATH、代理和永久配置各有边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 临时 PATH／代理优先用子进程环境；不要把 `.zprofile` 的思路照搬成 `setx`。`setx` 写的是后续进程的持久环境，不能修复当前进程，也不适合盲目重写整段 PATH。
 - 原地修改前逐键保留“未设置／空值／非空值”和本次写入值，退出时只恢复本次改过且仍等于本次值的项；并发修改保留并报告，不能清空所有代理代替恢复。
@@ -633,7 +633,7 @@ function Invoke-JobsIsolatedTool {
 - 需要持久写用户或机器环境时先展示真实作用域与原值类别，防重复，写后读回；保密快照与脱敏日志分离。没有对应授权就不升级到机器级、系统代理或全局 Git 配置。
 - `$HOME`、`$PID`、`$Host`、`$Error` 等是自动变量或系统变量，不拿来存业务状态。使用 `JobsTargetRoot`、`JobsProcessId` 等职责名称，特别注意 PowerShell 变量名不区分大小写。
 
-### 8.3、<span id="process-receipt">进程收据至少核对 PID、启动时间和路径</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 8.3、🎯 <span id="process-receipt">进程收据至少核对 PID、启动时间和路径</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 W08 `Add-OriginProcess / Stop-OriginProcesses`、W11 `Server-IsRunning` 都不只信 PID。以下归纳方法只**验证**一个已有收据，不终止进程；调用者仍要先验证收据文件的归属和不可被未授权修改的存储边界。
 
@@ -658,9 +658,9 @@ function Get-JobsOwnedProcess {
 
 不能读取身份就保留并停止该动作；不要 `taskkill /IM` 扫同名程序，也不要按端口杀服务。部署前记录项目、用户／SID、实例和平台归属；服务管理器托管的服务按原管理器停止，不能混用“前台终端退出即回收”的策略。
 
-## 九、<span id="backup-and-rollback">幂等、并发检查与恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 九、🎯 <span id="backup-and-rollback">幂等、并发检查与恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 9.1、<span id="backup-edit-template">先预览，确认后复检，再备份写入</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 9.1、🎯 <span id="backup-edit-template">先预览，确认后复检，再备份写入</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 W01 `Invoke-JobsReplace` 的成熟顺序是：扫描计划、保存原文／BOM／哈希、显示命中、确认、检查是否被并发修改、备份、替换。下面归纳为**单个已有 UTF-8 文件**的提交方法；参数中的哈希与新文本由先前只读计划产生，调用者先完成普通确认或危险门禁。
 
@@ -704,7 +704,7 @@ function Set-JobsPlannedText {
 - 追加内容用完整行或受控标记块判断是否已存在，重复执行无差异不写；不得因为找到一段相似子串就判断整块已完整安装。
 - 多文件任务逐项记录完成／失败，任一失败最终返回非零并保留已完成清单；不能因最后一项成功就覆盖前面失败，也不能把单文件备份误称为整批自动回滚。
 
-### 9.2、<span id="deployment-contract">部署与反部署共用一份归属协议</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 9.2、🎯 <span id="deployment-contract">部署与反部署共用一份归属协议</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > W08 / W09 是需要整体复用行为的成熟来源；不能从中只摘 `Remove-Item -Recurse`，丢掉原点、锁和恢复证据。
 
@@ -724,7 +724,7 @@ function Set-JobsPlannedText {
 - W11 将实例、加密备份和恢复私钥放在源码外，并要求备份与私钥不在同一目录树；“已生成备份文件”“已实际解密检查”“已完成恢复演练”分别记录，不能互相冒充。
 - 互斥与状态回执是协议，不能只为省代码换成另一种格式；升级读取旧状态时显式兼容或阻断，不把未知格式当作全新部署。
 
-### 9.3、<span id="file-volumes">大文件用流式分卷、候选校验和无覆盖发布</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 9.3、🎯 <span id="file-volumes">大文件用流式分卷、候选校验和无覆盖发布</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 W12 的固定写法适合归纳为文件处理协议；不把 `ReadAllBytes` 文本模板拿来处理任意体积镜像。
 
@@ -734,9 +734,9 @@ W12 的固定写法适合归纳为文件处理协议；不把 `ReadAllBytes` 文
 - 归纳后的发布候选应放在**最终目标所在文件系统**，目标已存在拒绝覆盖；跨卷另行复制和复验，不承诺 `File.Move` 自动完成跨卷原子发布。W12 默认同源目录候选、可选异盘输出这一组合需要单独处理。
 - 未发布候选保留为 `.partial` 并说明位置，源文件与完整分卷保留；重复运行先发现已存在结果，不自动清空旧数据。
 
-## 十、<span id="windows-specific">Windows 平台动作单独归纳</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 十、🎯 <span id="windows-specific">Windows 平台动作单独归纳</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 10.1、<span id="platform-boundaries">注册表、任务、服务与快捷方式</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 10.1、🎯 <span id="platform-boundaries">注册表、任务、服务与快捷方式</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 > 这些动作不能靠把 MacOS 命令名替换掉完成；复用时先确认作用域、身份、反向操作和最低系统能力。
 
@@ -751,7 +751,7 @@ W12 的固定写法适合归纳为文件处理协议；不把 `ReadAllBytes` 文
 
 注册表值除数据外还要保存是否存在与 `RegistryValueKind`，区分 32／64 位视图；恢复只针对本次改动且当前值仍匹配的项。任务计划需要保留触发器、账户、权限和动作；服务需要保留启动类型、二进制路径和归属。通用“导出整个注册表／删整棵服务目录”不属于最小恢复方案。
 
-### 10.2、<span id="windows-not-shell-translation">常见迁移误区</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 10.2、🎯 <span id="windows-not-shell-translation">常见迁移误区</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 调外部工具用 `curl.exe`、`where.exe` 等明确名称并 `Get-Command -CommandType Application`；不要把 5.1 的同名别名当成真实可执行文件。
 - PowerShell `-eq / -contains` 默认通常不区分大小写；要求精确大写门禁用 `-ceq`，路径比较按 Windows 文件系统与实际对象规则处理，不能拿它简化所有字符串协议。
@@ -761,9 +761,9 @@ W12 的固定写法适合归纳为文件处理协议；不把 `ReadAllBytes` 文
 - GUI 管理面板不能替代日志与失败码；静默启动只意味着隐藏窗口，不能说明业务成功。面板线程不执行长任务，后台结果要回传到所属面板，不截取其它窗口进度。
 - 5.1 / 7、控制台／GUI、32／64 位、Windows 本机／[**WSL**](https://learn.microsoft.com/windows/wsl/) 是不同组合；通过其中一种不代表全部支持。真实支持矩阵写到对应入口 README，不照搬当前最新版号码作保证。
 
-## 十一、<span id="validation">如何验证这些范本</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+## 十一、🎯 <span id="validation">如何验证这些范本</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
-### 11.1、<span id="ast-validation">先做 AST 解析，再做隔离行为检查</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 11.1、🎯 <span id="ast-validation">先做 AST 解析，再做隔离行为检查</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 下面只解析指定脚本，不执行主体、安装和模块加载。兼容 5.1 的脚本还要在 5.1 本机解析并验证运行库；新版宿主解析通过只能证明当前解析器接受语法。
 
@@ -791,7 +791,7 @@ Write-Host 'AST 语法解析通过；尚未执行业务。'
 - 真实 TTY 覆盖默认取消、每种键位、EOF、子层返回、重新进入、终端配色和恢复；静态出现按键名不代表交互已通过。
 - 部署用隔离资源验证原有／新建／共享对象、锁竞争、PID 复用、备份与清零、失败续行和重复反部署；不卸载用户真实环境。
 
-### 11.2、<span id="validation-status">本文的核对范围</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+### 11.2、🎯 <span id="validation-status">本文的核对范围</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 本文来源通过本机只读核对；13 个 PowerShell 代码块已在当前 MacOS 的 PowerShell 7.7.0 中通过 AST 解析，20 项隔离检查覆盖 BOM／换行保留、无差异写入、并发拒绝、非法 UTF-8、二进制拒绝、目录排除、链接拒绝、工作目录恢复、来源脱敏、原生命令失败码和 Check／Plan 不落盘。组合片段时必须保留各节声明的依赖方法和最低版本，不能把每段当成可单独分发的完整程序。
 

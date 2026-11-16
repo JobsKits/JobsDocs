@@ -164,7 +164,19 @@
     }
 
     .jobs-audio-unlock {
-      display: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+    }
+
+    .jobs-audio-unlock:hover {
+      background: #1d4ed8;
+    }
+
+    .jobs-audio-unlock:focus-visible {
+      outline: 3px solid #60a5fa;
+      outline-offset: 3px;
     }
 
     .jobs-audio-player.is-blocked .jobs-audio-unlock {
@@ -210,6 +222,7 @@
       }
 
       .jobs-audio-unlock {
+        min-height: 44px;
         padding: 7px 12px;
         font-size: 0.8rem;
       }
@@ -396,11 +409,6 @@
     transform: scale(0.985);
   }
 
-  #jobs-audio-player.is-playing .jobs-audio-unlock,
-  #jobs-audio-player.is-autoplay-trying .jobs-audio-unlock {
-    display: none !important;
-  }
-
   #jobs-audio-player.is-autoplay-trying .jobs-audio-hint {
     display: none !important;
   }
@@ -423,7 +431,8 @@
       name="jobs-docs-frame"
       src="{{ $firstDoc.RelPermalink | relURL }}"
       title="Jobs Docs"
-      allow="autoplay">
+      allow="autoplay; fullscreen; gamepad"
+      allowfullscreen>
     </iframe>
     {{- else }}
     <div style="padding: 24px;">暂无文档。</div>
@@ -437,9 +446,9 @@
   <div id="jobs-audio-player" class="jobs-audio-player is-waiting-gesture is-floating" aria-label="背景音乐控制台">
     <div class="jobs-audio-head" title="拖动音乐控制台">
       <div class="jobs-audio-title">🎵 With an Orchid</div>
-      <button id="jobs-music-unlock" class="jobs-audio-unlock" type="button" aria-label="开启背景音乐">开启音乐</button>
+      <button id="jobs-music-unlock" class="jobs-audio-unlock" type="button" aria-label="播放背景音乐" aria-pressed="false">播放音乐</button>
     </div>
-    <p id="jobs-audio-hint" class="jobs-audio-hint">正在尝试自动播放；如果浏览器拦截，首次触摸/点击页面后会继续播放。</p>
+    <p id="jobs-audio-hint" class="jobs-audio-hint">音乐暂未播放，请点击“播放音乐”重试。</p>
     <audio id="jobs-bg-music" controls loop preload="auto" playsinline>
       <source src="{{ $musicURL }}" type="audio/mpeg">
       当前浏览器不支持 audio 标签。
@@ -577,199 +586,294 @@
     })();
   </script>
 
+  <!-- jobsdocs-shell-music -->
   <script>
-    (function () {
-      var audio = document.getElementById("jobs-bg-music");
-      var frame = document.getElementById("jobs-docs-frame");
-      var player = document.getElementById("jobs-audio-player");
-      var unlockButton = document.getElementById("jobs-music-unlock");
+(function () {
+  var audio = document.getElementById("jobs-bg-music");
+  var frame = document.getElementById("jobs-docs-frame");
+  var player = document.getElementById("jobs-audio-player");
+  var toggleButton = document.getElementById("jobs-music-unlock");
 
-      if (!audio) {
+  if (!audio) {
+    return;
+  }
+
+  var storagePrefix = "jobsdocs.shellMusic.";
+  var timeKey = storagePrefix + "currentTime";
+  var volumeKey = storagePrefix + "volume";
+  var mutedKey = storagePrefix + "muted";
+  var pausedKey = storagePrefix + "pausedByUser";
+  var manualPaused = readStorage(pausedKey) === "true";
+  var restoredCurrentTime = false;
+  var pendingPlay = false;
+  var requestVersion = 0;
+  var pageSuspended = false;
+  var hookedFrameDocument = null;
+
+  // 存储被浏览器禁用时，当前页面仍保留可用的播放控制。
+  function readStorage(key) {
+    try {
+      return window.localStorage.getItem(key);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function writeStorage(key, value) {
+    try {
+      window.localStorage.setItem(key, String(value));
+    } catch (error) {}
+  }
+
+  function storedNumber(key, fallback) {
+    var value = readStorage(key);
+    var numberValue = value === null ? NaN : Number(value);
+    return Number.isFinite(numberValue) ? numberValue : fallback;
+  }
+
+  // 明确的暂停意图使先前的播放 Promise 失效，页面事件只负责重试。
+  function setManualPaused(value) {
+    manualPaused = value;
+    requestVersion += 1;
+    pendingPlay = false;
+    writeStorage(pausedKey, value);
+  }
+
+  function setPlayerState(state) {
+    if (player) {
+      player.classList.remove("is-playing", "is-paused", "is-waiting-gesture", "is-blocked", "is-autoplay-trying");
+      player.classList.add(state);
+    }
+
+    if (toggleButton) {
+      var canPause = state === "is-playing" || state === "is-autoplay-trying";
+      toggleButton.textContent = canPause ? "暂停音乐" : "播放音乐";
+      toggleButton.setAttribute("aria-label", canPause ? "暂停背景音乐" : "播放背景音乐");
+      toggleButton.setAttribute("aria-pressed", canPause ? "true" : "false");
+    }
+  }
+
+  function restoreVolume() {
+    var volume = storedNumber(volumeKey, 0.42);
+    audio.volume = volume >= 0 && volume <= 1 ? volume : 0.42;
+    audio.muted = readStorage(mutedKey) === "true";
+  }
+
+  function restoreCurrentTime() {
+    if (restoredCurrentTime) {
+      return;
+    }
+
+    var savedTime = storedNumber(timeKey, 0);
+    try {
+      if (savedTime > 0) {
+        audio.currentTime = Number.isFinite(audio.duration) && audio.duration > 0
+          ? savedTime % audio.duration
+          : savedTime;
+      }
+      restoredCurrentTime = true;
+    } catch (error) {}
+  }
+
+  function saveState() {
+    if (Number.isFinite(audio.currentTime)) {
+      writeStorage(timeKey, audio.currentTime);
+    }
+    if (Number.isFinite(audio.volume)) {
+      writeStorage(volumeKey, audio.volume);
+    }
+    writeStorage(mutedKey, audio.muted);
+  }
+
+  function pauseMusic() {
+    setManualPaused(true);
+    audio.pause();
+    setPlayerState("is-paused");
+    saveState();
+  }
+
+  function markBlocked(version) {
+    if (version !== requestVersion || manualPaused) {
+      return;
+    }
+    pendingPlay = false;
+    if (audio.paused) {
+      setPlayerState("is-blocked");
+    }
+  }
+
+  // 所有自动播放入口都经过同一门禁，不改音量、静音或手动暂停状态。
+  function tryPlay(explicit) {
+    if (explicit === true) {
+      setManualPaused(false);
+    }
+    if (manualPaused) {
+      return false;
+    }
+    if (!audio.paused && !audio.ended) {
+      setPlayerState("is-playing");
+      return true;
+    }
+    if (pendingPlay) {
+      return false;
+    }
+
+    pendingPlay = true;
+    var version = ++requestVersion;
+    setPlayerState("is-autoplay-trying");
+    try {
+      var result = audio.play();
+      if (result && typeof result.then === "function") {
+        result.then(function () {
+          if (version !== requestVersion || manualPaused) {
+            return;
+          }
+          pendingPlay = false;
+          if (!audio.paused) {
+            setPlayerState("is-playing");
+          }
+        }).catch(function () {
+          markBlocked(version);
+        });
+      } else {
+        pendingPlay = false;
+        setPlayerState(audio.paused ? "is-blocked" : "is-playing");
+      }
+    } catch (error) {
+      markBlocked(version);
+    }
+    return true;
+  }
+
+  function automaticPlay() {
+    return tryPlay(false);
+  }
+
+  function explicitPlay() {
+    return tryPlay(true);
+  }
+
+  function handleGesture(event) {
+    if (player && event.target && player.contains(event.target)) {
+      return;
+    }
+    automaticPlay();
+  }
+
+  function bindFrameGestures() {
+    try {
+      var doc = frame && frame.contentDocument;
+      if (!doc || doc === hookedFrameDocument) {
         return;
       }
-
-      var storagePrefix = "jobsdocs.shellMusic.";
-      var timeKey = storagePrefix + "currentTime";
-      var volumeKey = storagePrefix + "volume";
-      var defaultVolume = 0.42;
-      var restoredCurrentTime = false;
-      var blockedByPolicy = false;
-
-      function getNumberFromStorage(key, fallback) {
-        var value = window.localStorage.getItem(key);
-        var numberValue = Number(value);
-
-        if (!Number.isFinite(numberValue)) {
-          return fallback;
-        }
-
-        return numberValue;
-      }
-
-      function setPlayerState(state) {
-        if (!player) {
-          return;
-        }
-
-        player.classList.remove("is-playing", "is-waiting-gesture", "is-blocked");
-        player.classList.add(state);
-      }
-
-      function restoreVolume() {
-        var volume = getNumberFromStorage(volumeKey, defaultVolume);
-
-        if (volume <= 0 || volume > 1) {
-          volume = defaultVolume;
-        }
-
-        audio.volume = volume;
-        audio.muted = false;
-        audio.defaultMuted = false;
-      }
-
-      function restoreCurrentTime() {
-        if (restoredCurrentTime) {
-          return;
-        }
-
-        restoredCurrentTime = true;
-        var savedTime = getNumberFromStorage(timeKey, 0);
-
-        if (savedTime <= 0) {
-          return;
-        }
-
-        try {
-          if (Number.isFinite(audio.duration) && audio.duration > 0) {
-            audio.currentTime = savedTime % audio.duration;
-          } else {
-            audio.currentTime = savedTime;
-          }
-        } catch (error) {}
-      }
-
-      function saveState() {
-        if (Number.isFinite(audio.currentTime)) {
-          window.localStorage.setItem(timeKey, String(audio.currentTime));
-        }
-
-        if (Number.isFinite(audio.volume) && !audio.muted) {
-          window.localStorage.setItem(volumeKey, String(audio.volume));
-        }
-      }
-
-      function handlePlayBlocked() {
-        blockedByPolicy = true;
-        audio.muted = false;
-        audio.defaultMuted = false;
-        setPlayerState("is-blocked");
-      }
-
-      function handlePlayStarted() {
-        blockedByPolicy = false;
-        audio.muted = false;
-        audio.defaultMuted = false;
-        setPlayerState("is-playing");
-      }
-
-      function tryPlay() {
-        restoreVolume();
-
-        try {
-          var playPromise = audio.play();
-
-          if (playPromise && typeof playPromise.then === "function") {
-            playPromise.then(handlePlayStarted).catch(handlePlayBlocked);
-          } else if (!audio.paused) {
-            handlePlayStarted();
-          }
-        } catch (error) {
-          handlePlayBlocked();
-        }
-      }
-
-      function unlock() {
-        restoreVolume();
-        tryPlay();
-        return true;
-      }
-
-      function isTrustedFrameMessage(event) {
-        if (event.origin && event.origin !== "null" && event.origin !== window.location.origin) {
-          return false;
-        }
-
-        if (frame && event.source && event.source !== frame.contentWindow) {
-          return false;
-        }
-
-        return true;
-      }
-
-      restoreVolume();
-      setPlayerState("is-waiting-gesture");
-
-      window.JobsDocsMusic = {
-        unlock: unlock,
-        unlockFromFrame: unlock,
-        play: unlock,
-        saveState: saveState
-      };
-
-      audio.addEventListener("loadedmetadata", function () {
-        restoreCurrentTime();
-        tryPlay();
+      hookedFrameDocument = doc;
+      ["pointerdown", "touchstart", "keydown", "click"].forEach(function (name) {
+        doc.addEventListener(name, handleGesture, { capture: true, passive: true });
       });
+    } catch (error) {}
+  }
 
-      audio.addEventListener("canplay", function () {
-        if (!blockedByPolicy) {
-          tryPlay();
-        }
-      }, { once: true });
+  restoreVolume();
+  setPlayerState(manualPaused ? "is-paused" : "is-waiting-gesture");
 
-      audio.addEventListener("play", handlePlayStarted);
-      audio.addEventListener("playing", handlePlayStarted);
-      audio.addEventListener("pause", function () {
-        if (!audio.ended) {
-          setPlayerState("is-waiting-gesture");
-        }
-      });
-      audio.addEventListener("timeupdate", saveState);
-      audio.addEventListener("volumechange", saveState);
+  // 原生 audio 控件的播放、暂停也更新同一个持久状态。
+  audio.addEventListener("play", function () {
+    if (audio.paused) {
+      return;
+    }
+    if (manualPaused) {
+      setManualPaused(false);
+    }
+    pendingPlay = false;
+    setPlayerState("is-playing");
+  });
+  audio.addEventListener("pause", function () {
+    if (!audio.paused || audio.ended) {
+      return;
+    }
+    if (!document.hidden && !pageSuspended) {
+      setManualPaused(true);
+    }
+    setPlayerState(manualPaused ? "is-paused" : "is-waiting-gesture");
+    saveState();
+  });
+  audio.addEventListener("loadedmetadata", function () {
+    restoreCurrentTime();
+    automaticPlay();
+  });
+  audio.addEventListener("canplay", automaticPlay);
+  audio.addEventListener("timeupdate", saveState);
+  audio.addEventListener("volumechange", saveState);
 
-      if (unlockButton) {
-        ["pointerdown", "touchstart", "click"].forEach(function (eventName) {
-          unlockButton.addEventListener(eventName, function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            unlock();
-          }, { capture: true });
-        });
+  if (toggleButton) {
+    toggleButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (pendingPlay || !audio.paused) {
+        pauseMusic();
+      } else {
+        explicitPlay();
       }
+    });
+  }
 
-      ["pointerdown", "touchstart", "keydown", "click"].forEach(function (eventName) {
-        document.addEventListener(eventName, unlock, { capture: true });
-      });
+  ["pointerdown", "touchstart", "keydown", "click"].forEach(function (name) {
+    document.addEventListener(name, handleGesture, { capture: true, passive: true });
+  });
 
-      window.addEventListener("message", function (event) {
-        if (!isTrustedFrameMessage(event)) {
-          return;
-        }
+  window.addEventListener("message", function (event) {
+    if (!frame || event.origin !== window.location.origin || event.source !== frame.contentWindow || !event.data) {
+      return;
+    }
+    if (["jobsdocs:unlock-music", "jobsdocs-user-gesture", "jobsdocs:any-user-action", "jobsdocs:menu-scroll", "jobsdocs:panel-scroll"].indexOf(event.data.type) !== -1) {
+      automaticPlay();
+    }
+    if (event.data.type === "jobsdocs:layout-change") {
+      bindFrameGestures();
+    }
+  });
 
-        if (event.data && (
-          event.data.type === "jobsdocs:unlock-music" ||
-          event.data.type === "jobsdocs-user-gesture"
-        )) {
-          unlock();
-        }
-      });
+  if (frame) {
+    frame.addEventListener("load", function () {
+      bindFrameGestures();
+      automaticPlay();
+    });
+  }
+  window.addEventListener("load", bindFrameGestures);
+  window.addEventListener("pageshow", function () {
+    pageSuspended = false;
+    bindFrameGestures();
+    automaticPlay();
+  });
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+      automaticPlay();
+    }
+  });
+  window.addEventListener("pagehide", function () {
+    pageSuspended = true;
+    saveState();
+  });
+  window.addEventListener("beforeunload", saveState);
 
-      window.addEventListener("pagehide", saveState);
-      window.addEventListener("beforeunload", saveState);
+  window.JobsDocsMusic = {
+    unlock: automaticPlay,
+    unlockFromFrame: automaticPlay,
+    play: explicitPlay,
+    pause: pauseMusic,
+    saveState: saveState
+  };
+  window.JobsDocsTryPlayMusic = automaticPlay;
+  window.JobsDocsBindMusicEvents = bindFrameGestures;
 
-      tryPlay();
-    })();
+  bindFrameGestures();
+  if (audio.readyState >= 1) {
+    restoreCurrentTime();
+  }
+  automaticPlay();
+})();
   </script>
+  <!-- /jobsdocs-shell-music -->
   <!-- jobsdocs-v12-player-layout -->
   <script>
     (function () {
@@ -1385,594 +1489,7 @@
   <!-- /jobsdocs-v12-player-layout -->
 
 
-  <!-- v10-audio-autoplay-restore -->
-  <script>
-    (function () {
-      var player = null;
-      var audio = null;
 
-      function setup() {
-        player = player || document.getElementById("jobs-audio-player");
-
-        if (!player) {
-          return false;
-        }
-
-        audio = audio || player.querySelector("audio");
-
-        if (!audio) {
-          return false;
-        }
-
-        audio.autoplay = true;
-        audio.preload = "auto";
-        audio.muted = false;
-        audio.defaultMuted = false;
-        audio.volume = 1;
-
-        try {
-          audio.setAttribute("autoplay", "");
-          audio.setAttribute("preload", "auto");
-          audio.setAttribute("playsinline", "");
-          audio.setAttribute("webkit-playsinline", "");
-          audio.removeAttribute("muted");
-        } catch (error) {}
-
-        return true;
-      }
-
-      function markPlaying() {
-        if (!player) {
-          return;
-        }
-
-        player.classList.add("is-playing");
-        player.classList.remove("is-blocked", "is-waiting-gesture", "is-autoplay-trying");
-      }
-
-      function markBlocked() {
-        if (!player) {
-          return;
-        }
-
-        player.classList.add("is-blocked");
-        player.classList.remove("is-playing", "is-autoplay-trying");
-      }
-
-      function tryPlay(reason) {
-        if (!setup()) {
-          return;
-        }
-
-        if (!audio.paused && !audio.ended) {
-          markPlaying();
-          return;
-        }
-
-        player.classList.add("is-autoplay-trying");
-        player.classList.remove("is-waiting-gesture");
-
-        try {
-          if (audio.readyState === 0) {
-            audio.load();
-          }
-        } catch (error) {}
-
-        var result;
-
-        try {
-          audio.muted = false;
-          audio.defaultMuted = false;
-          audio.volume = 1;
-          result = audio.play();
-        } catch (error) {
-          markBlocked();
-          return;
-        }
-
-        if (result && typeof result.then === "function") {
-          result.then(markPlaying).catch(markBlocked);
-        } else {
-          window.setTimeout(function () {
-            if (audio.paused) {
-              markBlocked();
-            } else {
-              markPlaying();
-            }
-          }, 80);
-        }
-      }
-
-      function bindGestureUnlock(target) {
-        if (!target || target.__jobsAudioAutoplayHooked) {
-          return;
-        }
-
-        target.__jobsAudioAutoplayHooked = true;
-
-        ["touchstart", "pointerdown", "mousedown", "click", "keydown"].forEach(function (name) {
-          target.addEventListener(name, function () {
-            tryPlay("gesture:" + name);
-          }, { capture: true, passive: true });
-        });
-      }
-
-      function bindFrameGesture() {
-        var frame = document.getElementById("jobs-docs-frame");
-
-        if (!frame) {
-          return;
-        }
-
-        try {
-          bindGestureUnlock(frame.contentWindow);
-          bindGestureUnlock(frame.contentDocument);
-          bindGestureUnlock(frame.contentDocument && frame.contentDocument.documentElement);
-          bindGestureUnlock(frame.contentDocument && frame.contentDocument.body);
-        } catch (error) {}
-      }
-
-      function boot() {
-        setup();
-
-        bindGestureUnlock(window);
-        bindGestureUnlock(document);
-        bindGestureUnlock(document.documentElement);
-        bindGestureUnlock(document.body);
-        bindFrameGesture();
-
-        tryPlay("boot");
-
-        window.setTimeout(function () {
-          tryPlay("boot-120");
-        }, 120);
-
-        window.setTimeout(function () {
-          tryPlay("boot-600");
-        }, 600);
-
-        window.setTimeout(function () {
-          tryPlay("boot-1500");
-        }, 1500);
-      }
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", boot);
-      } else {
-        boot();
-      }
-
-      window.addEventListener("load", function () {
-        bindFrameGesture();
-        tryPlay("load");
-      });
-
-      window.addEventListener("pageshow", function () {
-        tryPlay("pageshow");
-      });
-
-      document.addEventListener("visibilitychange", function () {
-        if (!document.hidden) {
-          tryPlay("visible");
-        }
-      });
-
-      window.addEventListener("message", function (event) {
-        if (event.origin && event.origin !== "null" && event.origin !== window.location.origin) {
-          return;
-        }
-
-        if (
-          event.data &&
-          (
-            event.data.type === "jobsdocs:unlock-music" ||
-            event.data.type === "jobsdocs-user-gesture"
-          )
-        ) {
-          tryPlay("iframe-message");
-        }
-      });
-
-      var frame = document.getElementById("jobs-docs-frame");
-
-      if (frame) {
-        frame.addEventListener("load", function () {
-          window.setTimeout(function () {
-            bindFrameGesture();
-            tryPlay("frame-load");
-          }, 80);
-        });
-      }
-
-      window.JobsDocsTryPlayMusic = tryPlay;
-    })();
-  </script>
-  <!-- /v10-audio-autoplay-restore -->
-
-
-  <!-- v11-any-user-action-unlock-music -->
-  <script>
-    (function () {
-      var eventNames = [
-        "click",
-        "dblclick",
-        "pointerdown",
-        "pointerup",
-        "pointermove",
-        "touchstart",
-        "touchmove",
-        "touchend",
-        "mousedown",
-        "mouseup",
-        "mousemove",
-        "keydown",
-        "wheel",
-        "scroll"
-      ];
-
-      var lastTryAt = 0;
-
-      function getAudio() {
-        var player = document.getElementById("jobs-audio-player");
-
-        if (!player) {
-          return null;
-        }
-
-        return player.querySelector("audio");
-      }
-
-      function markPlaying() {
-        var player = document.getElementById("jobs-audio-player");
-
-        if (!player) {
-          return;
-        }
-
-        player.classList.add("is-playing");
-        player.classList.remove("is-blocked", "is-waiting-gesture", "is-autoplay-trying");
-      }
-
-      function markBlocked() {
-        var player = document.getElementById("jobs-audio-player");
-
-        if (!player) {
-          return;
-        }
-
-        player.classList.add("is-blocked");
-        player.classList.remove("is-playing", "is-autoplay-trying");
-      }
-
-      function unlockMusic(reason, force) {
-        var now = Date.now();
-
-        if (!force && now - lastTryAt < 260) {
-          return;
-        }
-
-        lastTryAt = now;
-
-        if (typeof window.JobsDocsTryPlayMusic === "function") {
-          window.JobsDocsTryPlayMusic("any-user-action:" + reason);
-          return;
-        }
-
-        var audio = getAudio();
-
-        if (!audio) {
-          return;
-        }
-
-        try {
-          audio.autoplay = true;
-          audio.preload = "auto";
-          audio.muted = false;
-          audio.defaultMuted = false;
-          audio.volume = 1;
-          audio.setAttribute("autoplay", "");
-          audio.setAttribute("preload", "auto");
-          audio.setAttribute("playsinline", "");
-          audio.setAttribute("webkit-playsinline", "");
-          audio.removeAttribute("muted");
-
-          if (audio.readyState === 0) {
-            audio.load();
-          }
-        } catch (error) {}
-
-        var result;
-
-        try {
-          result = audio.play();
-        } catch (error) {
-          markBlocked();
-          return;
-        }
-
-        if (result && typeof result.then === "function") {
-          result.then(markPlaying).catch(markBlocked);
-        } else {
-          window.setTimeout(function () {
-            if (audio.paused) {
-              markBlocked();
-            } else {
-              markPlaying();
-            }
-          }, 80);
-        }
-      }
-
-      function bindTarget(target, label) {
-        if (!target || target.__jobsDocsAnyActionUnlockHooked) {
-          return;
-        }
-
-        target.__jobsDocsAnyActionUnlockHooked = true;
-
-        eventNames.forEach(function (eventName) {
-          target.addEventListener(eventName, function () {
-            unlockMusic(label + ":" + eventName, eventName === "touchstart" || eventName === "pointerdown" || eventName === "click");
-          }, {
-            capture: true,
-            passive: true
-          });
-        });
-      }
-
-      function bindFrame() {
-        var frame = document.getElementById("jobs-docs-frame");
-
-        if (!frame) {
-          return;
-        }
-
-        bindTarget(frame, "iframe-element");
-
-        try {
-          bindTarget(frame.contentWindow, "iframe-window");
-          bindTarget(frame.contentDocument, "iframe-document");
-          bindTarget(frame.contentDocument && frame.contentDocument.documentElement, "iframe-html");
-          bindTarget(frame.contentDocument && frame.contentDocument.body, "iframe-body");
-        } catch (error) {}
-      }
-
-      function boot() {
-        bindTarget(window, "window");
-        bindTarget(document, "document");
-        bindTarget(document.documentElement, "html");
-        bindTarget(document.body, "body");
-        bindFrame();
-
-        unlockMusic("boot", true);
-
-        window.setTimeout(function () {
-          unlockMusic("boot-120", true);
-        }, 120);
-
-        window.setTimeout(function () {
-          unlockMusic("boot-800", true);
-        }, 800);
-      }
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", boot);
-      } else {
-        boot();
-      }
-
-      window.addEventListener("load", function () {
-        bindFrame();
-        unlockMusic("load", true);
-      });
-
-      window.addEventListener("pageshow", function () {
-        bindFrame();
-        unlockMusic("pageshow", true);
-      });
-
-      window.addEventListener("message", function (event) {
-        if (event.origin && event.origin !== "null" && event.origin !== window.location.origin) {
-          return;
-        }
-
-        if (
-          event.data &&
-          (
-            event.data.type === "jobsdocs:unlock-music" ||
-            event.data.type === "jobsdocs-user-gesture" ||
-            event.data.type === "jobsdocs:any-user-action"
-          )
-        ) {
-          unlockMusic(event.data.reason || event.data.type, true);
-        }
-      });
-    })();
-  </script>
-  <!-- /v11-any-user-action-unlock-music -->
-
-
-<!-- jobsdocs-v16-force-audio-on-action -->
-<script>
-(function () {
-  var lastTryAt = 0;
-
-  function getPlayer() {
-    return document.getElementById("jobs-audio-player") || document.querySelector(".jobs-audio-player");
-  }
-
-  function getAudio() {
-    var player = getPlayer();
-    return player ? player.querySelector("audio") : null;
-  }
-
-  function markPlaying() {
-    var player = getPlayer();
-    if (!player) return;
-    player.classList.add("is-playing");
-    player.classList.remove("is-blocked", "is-waiting-gesture", "is-autoplay-trying");
-  }
-
-  function markBlocked(reason) {
-    var player = getPlayer();
-    if (!player) return;
-    player.classList.add("is-blocked");
-    player.classList.remove("is-playing", "is-autoplay-trying");
-    player.setAttribute("data-last-blocked-reason", reason || "");
-  }
-
-  function tryPlay(reason, force) {
-    var now = Date.now();
-    if (!force && now - lastTryAt < 120) return;
-    lastTryAt = now;
-
-    var player = getPlayer();
-    var audio = getAudio();
-    if (!audio) return;
-
-    if (player) {
-      player.classList.add("is-autoplay-trying");
-      player.classList.remove("is-waiting-gesture");
-      player.setAttribute("data-last-play-reason", reason || "");
-    }
-
-    try {
-      audio.autoplay = true;
-      audio.preload = "auto";
-      audio.muted = false;
-      audio.defaultMuted = false;
-      audio.volume = 1;
-      audio.setAttribute("autoplay", "");
-      audio.setAttribute("preload", "auto");
-      audio.setAttribute("playsinline", "");
-      audio.setAttribute("webkit-playsinline", "");
-      audio.removeAttribute("muted");
-      if (audio.readyState === 0) audio.load();
-    } catch (error) {}
-
-    if (!audio.paused && !audio.ended) {
-      markPlaying();
-      return;
-    }
-
-    var result;
-    try {
-      result = audio.play();
-    } catch (error) {
-      markBlocked(reason);
-      return;
-    }
-
-    if (result && typeof result.then === "function") {
-      result.then(markPlaying).catch(function () {
-        markBlocked(reason);
-      });
-    } else {
-      window.setTimeout(function () {
-        audio.paused ? markBlocked(reason) : markPlaying();
-      }, 80);
-    }
-  }
-
-  function bindTarget(target, label) {
-    if (!target || target.__jobsDocsV16AudioHooked) return;
-    target.__jobsDocsV16AudioHooked = true;
-
-    [
-      "click",
-      "dblclick",
-      "pointerdown",
-      "pointerup",
-      "touchstart",
-      "touchmove",
-      "touchend",
-      "mousedown",
-      "mouseup",
-      "keydown",
-      "wheel",
-      "scroll"
-    ].forEach(function (eventName) {
-      target.addEventListener(eventName, function () {
-        var strong = /click|pointerdown|touchstart|mousedown|keydown/.test(eventName);
-        tryPlay(label + ":" + eventName, strong);
-      }, { capture: true, passive: true });
-    });
-  }
-
-  function bindFrame() {
-    var frame = document.getElementById("jobs-docs-frame");
-    if (!frame) return;
-
-    bindTarget(frame, "iframe-element");
-
-    try {
-      bindTarget(frame.contentWindow, "iframe-window");
-      bindTarget(frame.contentDocument, "iframe-document");
-      bindTarget(frame.contentDocument && frame.contentDocument.documentElement, "iframe-html");
-      bindTarget(frame.contentDocument && frame.contentDocument.body, "iframe-body");
-
-      var doc = frame.contentDocument;
-      if (doc) {
-        [".book-page", ".book-menu", ".book-menu-content", ".book-toc", ".book-toc-content", "main", "body"].forEach(function (selector) {
-          doc.querySelectorAll(selector).forEach(function (el) {
-            bindTarget(el, "iframe:" + selector);
-          });
-        });
-      }
-    } catch (error) {}
-  }
-
-  function boot() {
-    bindTarget(window, "window");
-    bindTarget(document, "document");
-    bindTarget(document.documentElement, "html");
-    bindTarget(document.body, "body");
-    bindFrame();
-
-    tryPlay("boot", true);
-    window.setTimeout(function () { bindFrame(); tryPlay("boot-120", true); }, 120);
-    window.setTimeout(function () { bindFrame(); tryPlay("boot-800", true); }, 800);
-  }
-
-  window.JobsDocsTryPlayMusic = tryPlay;
-  window.JobsDocsBindMusicEvents = bindFrame;
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
-  } else {
-    boot();
-  }
-
-  window.addEventListener("load", function () {
-    bindFrame();
-    tryPlay("load", true);
-  });
-
-  window.addEventListener("pageshow", function () {
-    bindFrame();
-    tryPlay("pageshow", true);
-  });
-
-  window.addEventListener("message", function (event) {
-    if (event.origin && event.origin !== "null" && event.origin !== window.location.origin) return;
-    if (!event.data) return;
-
-    if (
-      event.data.type === "jobsdocs:unlock-music" ||
-      event.data.type === "jobsdocs:any-user-action" ||
-      event.data.type === "jobsdocs:menu-scroll" ||
-      event.data.type === "jobsdocs:panel-scroll"
-    ) {
-      tryPlay(event.data.reason || event.data.type, true);
-    }
-
-    if (event.data.type === "jobsdocs:layout-change") {
-      bindFrame();
-    }
-  });
-})();
-</script>
-<!-- /jobsdocs-v16-force-audio-on-action -->
 
 </body>
 </html>

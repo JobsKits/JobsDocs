@@ -1,0 +1,30 @@
+{{- $file := .Get "file" -}}
+{{- $assetPath := path.Join "jobs-html" .Page.File.Dir $file -}}
+{{- with .Page.Params.jobsHtmlAsset -}}
+  {{- $assetPath = . -}}
+{{- end -}}
+{{- $frameID := printf "jobs-html-%s" (md5 $assetPath) -}}
+{{- $src := $assetPath | relURL -}}
+<section class="jobs-html-demo" aria-label="{{ .Page.Title }} 在线运行">
+  <nav class="jobs-html-demo-actions" aria-label="演示操作">
+    <a href="{{ $src }}" target="{{ $frameID }}">重新运行</a>
+    <a href="{{ $src }}" target="_blank" rel="noopener">独立窗口运行</a>
+  </nav>
+  <iframe
+    id="{{ $frameID }}"
+    name="{{ $frameID }}"
+    class="jobs-html-demo-frame"
+    src="{{ $src }}"
+    title="{{ .Page.Title }} · {{ $file }}"
+    loading="lazy"
+    allow="autoplay; fullscreen; gamepad"
+    allowfullscreen>
+  </iframe>
+</section>
+<style>
+  .jobs-html-demo { margin-block: 0 2rem; }
+  .jobs-html-demo-actions { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; margin-bottom: 0.75rem; }
+  .jobs-html-demo .jobs-html-demo-actions a { color: var(--jobs-text, inherit); text-decoration: underline; text-underline-offset: 0.2em; }
+  .jobs-html-demo-actions a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .jobs-html-demo-frame { display: block; width: 100%; height: clamp(360px, 72vh, 900px); border: 0; background: #0b1119; }
+</style>

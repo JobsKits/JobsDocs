@@ -1039,47 +1039,13 @@ should_skip_common_path() {
 
     lower_path="$(to_lower "$rel_path")"
 
+    case "/$lower_path/" in
+        */.git/*|*/.github/*|*/.codegraph/*|*/node_modules/*|*/vendor/*|*/pods/*|*/.dart_tool/*|*/build/*|*/deriveddata/*|*/dist/*|*/public/*|*/coverage/*|*/.cache/*)
+            return 0
+            ;;
+    esac
+
     if [[ "$lower_path" == blog/* ]]; then
-        return 0
-    fi
-
-    if [[ "$lower_path" == .git/* || "$lower_path" == .github/* ]]; then
-        return 0
-    fi
-
-    if [[ "/$lower_path" == */.codegraph/* ]]; then
-        return 0
-    fi
-
-    if [[ "$lower_path" == */node_modules/* ]]; then
-        return 0
-    fi
-
-    if [[ "$lower_path" == */vendor/* ]]; then
-        return 0
-    fi
-
-    if [[ "$lower_path" == */pods/* ]]; then
-        return 0
-    fi
-
-    if [[ "$lower_path" == */build/* ]]; then
-        return 0
-    fi
-
-    if [[ "$lower_path" == */dist/* ]]; then
-        return 0
-    fi
-
-    if [[ "$lower_path" == */public/* ]]; then
-        return 0
-    fi
-
-    if [[ "$lower_path" == */coverage/* ]]; then
-        return 0
-    fi
-
-    if [[ "$lower_path" == */.cache/* ]]; then
         return 0
     fi
 
@@ -1092,6 +1058,7 @@ should_skip_directory() {
     local rel_path
     local lower_path
     local dirname_value
+    local companion_html
 
     if [[ "$dir" == "$ROOT_DIR" ]]; then
         return 1
@@ -1115,6 +1082,17 @@ should_skip_directory() {
 
     if [[ "$lower_path" == */assets ]]; then
         return 0
+    fi
+
+    # 浏览器保存网页时的配套目录属于资源，不把广告 iframe 等列成文档。
+    if [[ "$dirname_value" == *_files ]]; then
+        for companion_html in "${dir%_files}".*; do
+            if [[ -f "$companion_html" ]]; then
+                case "$(to_lower "${companion_html##*.}")" in
+                    html|htm) return 0 ;;
+                esac
+            fi
+        done
     fi
 
     return 1
@@ -1315,13 +1293,85 @@ copy_same_dir_html() {
         return
     fi
 
-    static_target_dir="$HTML_STATIC_DIR/docs/${target_dir#$CONTENT_DIR/}"
+    static_target_dir="$HTML_STATIC_DIR/docs${target_dir#$CONTENT_DIR}"
     mkdir -p "$static_target_dir"
     for file in "${PUBLISHABLE_HTML_FILES[@]}"; do
-        cp "$file" "$static_target_dir/$(basename "$file")"
+        if [[ ! -f "$static_target_dir/$(basename "$file")" ]]; then
+            cp "$file" "$static_target_dir/$(basename "$file")"
+        fi
+        copy_html_saved_resources "${file%.*}_files" "$static_target_dir/$(basename "${file%.*}")_files"
         log "Synced HTML: ${file#$ROOT_DIR/} -> ${static_target_dir#$BLOG_DIR/}/$(basename "$file")"
     done
-    copy_assets "$source_dir" "$static_target_dir"
+    if [[ ! -d "$static_target_dir/assets" ]]; then
+        copy_assets "$source_dir" "$static_target_dir"
+    fi
+}
+# 复制浏览器保存网页的配套资源，继续排除 PDF 和超出托管限制的文件。
+copy_html_saved_resources() {
+    local source_dir="$1"
+    local target_dir="$2"
+    local file
+    local target_file
+    local tmp_file
+
+    if [[ ! -d "$source_dir" || -d "$target_dir" ]]; then
+        return
+    fi
+    tmp_file="$(mktemp "${TMPDIR:-/tmp}/jobsdocs_html_resources.XXXXXX")"
+    find "$source_dir" -type d \( -name .git -o -name node_modules -o -name Pods \
+        -o -name .dart_tool -o -name build -o -name DerivedData \) -prune \
+        -o -type f -print0 > "$tmp_file"
+    while IFS= read -r -d '' file; do
+        if [[ "$(to_lower "$file")" == *.pdf ]] || is_cloudflare_pages_oversized_file "$file"; then
+            continue
+        fi
+        target_file="$target_dir/${file#$source_dir/}"
+        mkdir -p "$(dirname "$target_file")"
+        cp "$file" "$target_file"
+    done < "$tmp_file"
+    rm -f "$tmp_file"
+}
+# HTML 与 Markdown 一样拥有目录入口，正文区域只嵌入原始 HTML。
+sync_direct_html_as_pages() {
+    local source_dir="$1"
+    local parent_target_dir="$2"
+    local file
+    local filename
+    local target_dir
+    local safe_filename
+    local safe_asset_path
+
+    collect_direct_publishable_html_files "$source_dir"
+    if [[ "${#PUBLISHABLE_HTML_FILES[@]}" -eq 0 ]]; then
+        return
+    fi
+    promote_leaf_page_to_branch_index "$parent_target_dir"
+    copy_same_dir_html "$source_dir" "$parent_target_dir"
+
+    for file in "${PUBLISHABLE_HTML_FILES[@]}"; do
+        filename="$(basename "$file")"
+        target_dir="$parent_target_dir/HTML-$(make_safe_path_segment "${filename%.*}")-$(to_lower "${filename##*.}")"
+        if [[ -e "$target_dir/index.md" || -e "$target_dir/_index.md" ]]; then
+            log_error "HTML 入口与已有页面冲突：$target_dir"
+            return 1
+        fi
+        safe_filename="$(escape_yaml_string "$filename")"
+        safe_asset_path="$(escape_yaml_string "jobs-html/docs${parent_target_dir#$CONTENT_DIR}/$filename")"
+        mkdir -p "$target_dir"
+        cat > "$target_dir/index.md" <<EOF
+---
+title: "$safe_filename"
+draft: false
+weight: $WEIGHT_VALUE
+bookToC: false
+jobsHtmlAsset: "$safe_asset_path"
+---
+
+{{< html-demo file="$safe_filename" >}}
+EOF
+        log "Synced HTML Page: ${file#$ROOT_DIR/} -> ${target_dir#$BLOG_DIR/}/index.md"
+        WEIGHT_VALUE=$((WEIGHT_VALUE + 10))
+    done
 }
 
 # 复制直属 PDF。
@@ -1390,6 +1440,7 @@ write_markdown_page_header() {
     local date_value="$3"
     local weight_value="$4"
     local summary_source="$5"
+    local embed_html="${6:-false}"
     local safe_title
     local summary
     local safe_summary
@@ -1406,9 +1457,24 @@ write_markdown_page_header() {
         echo "weight: $weight_value"
         echo "summary: \"$safe_summary\""
         echo "bookCollapseSection: false"
+        if [[ "$embed_html" == "true" ]]; then
+            echo "jobsHtmlEmbedded: true"
+        fi
         echo "---"
         echo
     } > "$target_file"
+}
+# 将 README 配套的 HTML 放在说明页顶部，保留站点目录和原始文件。
+write_html_demo_frames() {
+    local source_dir="$1"
+    local file
+    local safe_filename
+
+    collect_direct_publishable_html_files "$source_dir"
+    for file in "${PUBLISHABLE_HTML_FILES[@]}"; do
+        safe_filename="$(escape_yaml_string "$(basename "$file")")"
+        printf '{{< html-demo file="%s" >}}\n\n' "$safe_filename"
+    done
 }
 
 # 获取直属 Markdown 里的 README.md。
@@ -1435,13 +1501,22 @@ write_normal_leaf_directory_page() {
     local md_file
     local md_title
     local md_fallback
+    local embed_html="false"
 
     target_file="$target_dir/index.md"
     summary_source="${PUBLISHABLE_MARKDOWN_FILES[0]}"
 
+    if [[ -n "$(get_direct_readme_markdown_file)" ]] && dir_has_publishable_html "$source_dir"; then
+        embed_html="true"
+    fi
+
     mkdir -p "$target_dir"
 
-    write_markdown_page_header "$target_file" "$title" "$date_value" "$weight_value" "$summary_source"
+    write_markdown_page_header "$target_file" "$title" "$date_value" "$weight_value" "$summary_source" "$embed_html"
+
+    if [[ "$embed_html" == "true" ]]; then
+        write_html_demo_frames "$source_dir" >> "$target_file"
+    fi
 
     if [[ "${#PUBLISHABLE_MARKDOWN_FILES[@]}" -eq 1 ]]; then
         write_single_markdown_body "${PUBLISHABLE_MARKDOWN_FILES[0]}" >> "$target_file"
@@ -1758,6 +1833,7 @@ process_directory() {
 
     if [[ "$source_dir" == "$ROOT_DIR" ]]; then
         sync_direct_pdfs_as_pages "$source_dir" "$CONTENT_DIR" ""
+        sync_direct_html_as_pages "$source_dir" "$CONTENT_DIR"
 
         collect_direct_child_directories "$source_dir"
 
@@ -1783,6 +1859,7 @@ process_directory() {
             next_transparent_prefix=""
         fi
 
+        sync_direct_html_as_pages "$source_dir" "$next_visible_parent_target_dir"
         collect_direct_child_directories "$source_dir"
 
         if [[ "${#CHILD_DIRECTORIES[@]}" -gt 0 ]]; then
@@ -1796,8 +1873,8 @@ process_directory() {
         return
     fi
 
-    if [[ "$is_top_level" == "true" ]] || { is_markdown_named_dir_segment "$(basename "$source_dir")" && dir_has_publishable_markdown_descendant "$source_dir"; }; then
-        dir_title="$(get_dir_title "$source_dir")"
+    if [[ "$is_top_level" == "true" ]] || dir_has_publishable_html "$source_dir" || { is_markdown_named_dir_segment "$(basename "$source_dir")" && dir_has_publishable_markdown_descendant "$source_dir"; }; then
+        dir_title="$(join_title_prefix "$transparent_prefix" "$(get_dir_title "$source_dir")")"
         section_target_dir="$visible_parent_target_dir/$(make_safe_path_segment "$dir_title")"
 
         write_section_index "$section_target_dir" "$dir_title" "$WEIGHT_VALUE"
@@ -1815,6 +1892,7 @@ process_directory() {
     fi
 
     sync_direct_pdfs_as_pages "$source_dir" "$next_visible_parent_target_dir" "$next_transparent_prefix"
+    sync_direct_html_as_pages "$source_dir" "$next_visible_parent_target_dir"
 
     collect_direct_child_directories "$source_dir"
 
