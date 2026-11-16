@@ -2,10 +2,13 @@
 title: "几猫国产3A大作_V1"
 date: 2026-11-13T16:09:38+08:00
 draft: false
-weight: 160
+weight: 180
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、当前能做什么 - 二、1 MB 左右为什么能装下这些效果 - 2.1、文件体积拆分 - 2.2、到底有没有联网拉依赖 - 2.3、真正省体积的是“资源配方” - 三、画面效果怎样叠出来 - 四、代码地图与模块关系 - 五、如何运行与操作 - 5.1、启动方式 - 5.2、真实操作入口 - 5.3、画质与常"
 bookCollapseSection: false
+jobsHtmlEmbedded: true
 ---
+
+{{< html-demo file="几猫国产3A大作_V1.html" >}}
 
 
 ![Jobs出品，必属精品](https://picsum.photos/1500/400)

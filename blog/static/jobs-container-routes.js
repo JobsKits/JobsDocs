@@ -4,3 +4,8 @@ window.JOBS_CONTAINER_ROUTES.push("/docs/.jobs-markdown-toc/");
 window.JOBS_CONTAINER_ROUTES.push("/docs/iOS相关的文档和资料/");
 window.JOBS_CONTAINER_ROUTES.push("/docs/iOS相关的文档和资料/音视频/");
 window.JOBS_CONTAINER_ROUTES.push("/docs/iOS相关的文档和资料/iOS逆向/");
+window.JOBS_CONTAINER_ROUTES.push("/docs/iOS相关的文档和资料/网页静态资料.html／iOS-认识Mach-OMasonry.html/");
+window.JOBS_CONTAINER_ROUTES.push("/docs/iOS相关的文档和资料/网页静态资料.html／Git 给远程库添加多个URL地址Masonry.html/");
+window.JOBS_CONTAINER_ROUTES.push("/docs/iOS相关的文档和资料/网页静态资料.html／Masonry.html/");
+window.JOBS_CONTAINER_ROUTES.push("/docs/iOS相关的文档和资料/网页静态资料.html／Masonry.html/iOS Masonry 等间隔或等宽高排列多个控件/");
+window.JOBS_CONTAINER_ROUTES.push("/docs/iOS相关的文档和资料/网页静态资料.html／3分钟实现iOS语言本地化:国际化（图文详解）Masonry.html/");

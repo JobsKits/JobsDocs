@@ -2,7 +2,7 @@
 title: "FFmpeg 9.0 \"Lei\" 架构、核心源码函数与面试手册"
 date: 2026-11-05T13:44:33+08:00
 draft: false
-weight: 80
+weight: 90
 summary: "📚 目录（点击展开 / 收起） - 🔥 前言 - 一、面试先背这组结论 - 1.1、30 秒介绍 FFmpeg - 1.2、10 秒架构回答 - 1.3、函数题的万能回答模板 - 二、版本基线与库版本 - 2.1、为什么选 FFmpeg 9.0 \"Lei\" - 2.2、为什么代号叫“Lei”：雷霄骅留下的学习方法 - 2.3、FFmpeg 9.0 的库版本 "
 bookCollapseSection: false
 ---
