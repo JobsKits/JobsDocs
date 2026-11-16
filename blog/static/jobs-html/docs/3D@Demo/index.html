@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Markdown 里的可拖动 3D 演示</title>
+  <style>
+    :root {
+      --bg: #070b18;
+      --panel: rgba(15, 23, 42, 0.76);
+      --panel-border: rgba(148, 163, 184, 0.24);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #38bdf8;
+      --warn: #f59e0b;
+      --good: #34d399;
+      --pink: #f472b6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.20), transparent 26%),
+        radial-gradient(circle at 80% 70%, rgba(244, 114, 182, 0.14), transparent 30%),
+        radial-gradient(circle at 55% 52%, rgba(52, 211, 153, 0.12), transparent 34%),
+        var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      user-select: none;
+    }
+
+    .page {
+      position: relative;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      width: 100%;
+      height: 100%;
+    }
+
+    .sidebar {
+      z-index: 10;
+      padding: 24px;
+      border-right: 1px solid var(--panel-border);
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.84), rgba(15, 23, 42, 0.54));
+      backdrop-filter: blur(18px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: 999px;
+      color: #bae6fd;
+      background: rgba(14, 165, 233, 0.10);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 30px;
+      line-height: 1.1;
+      letter-spacing: -0.05em;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .hint {
+      margin-top: 20px;
+      padding: 14px;
+      border: 1px solid var(--panel-border);
+      border-radius: 16px;
+      background: rgba(2, 6, 23, 0.36);
+    }
+
+    .hint strong {
+      color: var(--text);
+    }
+
+    .controls {
+      display: grid;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    button {
+      height: 40px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: 12px;
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.76);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button:hover {
+      border-color: rgba(56, 189, 248, 0.60);
+      background: rgba(30, 41, 59, 0.86);
+    }
+
+    button.active {
+      border-color: rgba(56, 189, 248, 0.88);
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.20);
+      background: rgba(14, 165, 233, 0.18);
+    }
+
+    .legend {
+      display: grid;
+      gap: 9px;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    .dot.good {
+      background: var(--good);
+    }
+
+    .dot.warn {
+      background: var(--warn);
+    }
+
+    .dot.pink {
+      background: var(--pink);
+    }
+
+    .viewport {
+      position: relative;
+      overflow: hidden;
+      perspective: 1050px;
+      cursor: grab;
+    }
+
+    .viewport:active {
+      cursor: grabbing;
+    }
+
+    .stage {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 620px;
+      height: 620px;
+      margin-left: -310px;
+      margin-top: -310px;
+      transform-style: preserve-3d;
+      transform: rotateX(-18deg) rotateY(28deg) scale(1);
+      transition: transform 120ms linear;
+    }
+
+    .rings,
+    .nodes,
+    .lines {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+    }
+
+    .ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border: 1px solid rgba(125, 211, 252, 0.24);
+      border-radius: 999px;
+      transform-style: preserve-3d;
+      box-shadow: inset 0 0 28px rgba(56, 189, 248, 0.06), 0 0 30px rgba(56, 189, 248, 0.08);
+    }
+
+    .ring.r1 {
+      width: 520px;
+      height: 520px;
+      margin: -260px;
+      transform: rotateX(78deg);
+    }
+
+    .ring.r2 {
+      width: 430px;
+      height: 430px;
+      margin: -215px;
+      transform: rotateY(72deg);
+      border-color: rgba(244, 114, 182, 0.20);
+    }
+
+    .ring.r3 {
+      width: 360px;
+      height: 360px;
+      margin: -180px;
+      transform: rotateX(18deg) rotateY(60deg);
+      border-color: rgba(52, 211, 153, 0.18);
+    }
+
+    .core {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 128px;
+      height: 128px;
+      margin: -64px;
+      border-radius: 50%;
+      transform: translateZ(0);
+      background:
+        radial-gradient(circle at 28% 24%, rgba(255,255,255,0.92), transparent 0 10%, rgba(255,255,255,0.20) 11%, transparent 24%),
+        radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.92), rgba(99, 102, 241, 0.58) 56%, rgba(15, 23, 42, 0.40) 78%);
+      box-shadow:
+        0 0 34px rgba(56, 189, 248, 0.54),
+        inset -18px -20px 36px rgba(2, 6, 23, 0.56);
+      transform-style: preserve-3d;
+    }
+
+    .core::after {
+      content: "核心";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.9);
+    }
+
+    .node {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      min-width: 82px;
+      min-height: 42px;
+      display: grid;
+      place-items: center;
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 18px;
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.15;
+      transform-style: preserve-3d;
+      background: rgba(14, 165, 233, 0.18);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.20), inset 0 0 18px rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      transition: filter 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .node:hover,
+    .node.focus {
+      filter: brightness(1.35);
+      border-color: rgba(255,255,255,0.55);
+      box-shadow: 0 0 34px rgba(56, 189, 248, 0.38), inset 0 0 18px rgba(255, 255, 255, 0.10);
+    }
+
+    .node.good {
+      background: rgba(16, 185, 129, 0.20);
+      box-shadow: 0 0 20px rgba(52, 211, 153, 0.22), inset 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .node.warn {
+      background: rgba(245, 158, 11, 0.20);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.22), inset 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .node.pink {
+      background: rgba(244, 114, 182, 0.20);
+      box-shadow: 0 0 20px rgba(244, 114, 182, 0.22), inset 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .particle {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 7px;
+      height: 7px;
+      margin: -3.5px;
+      border-radius: 999px;
+      background: rgba(224, 242, 254, 0.72);
+      box-shadow: 0 0 12px rgba(125, 211, 252, 0.72);
+      transform-style: preserve-3d;
+    }
+
+    .line {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      height: 2px;
+      width: 1px;
+      transform-origin: 0 0;
+      background: linear-gradient(90deg, rgba(125, 211, 252, 0.68), rgba(125, 211, 252, 0.03));
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.14);
+      transform-style: preserve-3d;
+    }
+
+    .info-card {
+      position: absolute;
+      right: 24px;
+      bottom: 24px;
+      z-index: 20;
+      width: min(420px, calc(100% - 48px));
+      padding: 18px;
+      border: 1px solid var(--panel-border);
+      border-radius: 20px;
+      background: var(--panel);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(18px);
+    }
+
+    .info-card h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .info-card p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .small {
+      color: #cbd5e1;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: absolute;
+        left: 12px;
+        top: 12px;
+        width: min(330px, calc(100% - 24px));
+        max-height: 46%;
+        overflow: auto;
+        border: 1px solid var(--panel-border);
+        border-radius: 22px;
+      }
+
+      .stage {
+        width: 520px;
+        height: 520px;
+        margin-left: -260px;
+        margin-top: -260px;
+      }
+
+      .info-card {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <aside class="sidebar">
+      <div class="badge">🧊 Markdown 3D Demo · 无素材版</div>
+      <h1>可拖动的 3D 演示图</h1>
+      <p>
+        这个页面没有使用 3D 模型素材，也没有依赖外部库。
+        它用 HTML、CSS 3D 和原生 JavaScript 生成一个可以拖拽、缩放、点击的 3D 结构图。
+      </p>
+
+      <div class="hint">
+        <p><strong>操作：</strong></p>
+        <p class="small">
+          鼠标拖动：旋转<br>
+          鼠标滚轮：缩放<br>
+          点击节点：查看说明<br>
+          空格键：暂停 / 恢复自动旋转
+        </p>
+      </div>
+
+      <div class="controls">
+        <button id="modeCell" class="active">细胞教材模式</button>
+        <button id="modeCode">代码地图模式</button>
+        <button id="resetBtn">重置视角</button>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><span class="dot"></span> 主结构 / 入口</div>
+        <div class="legend-item"><span class="dot good"></span> 能量 / 服务</div>
+        <div class="legend-item"><span class="dot warn"></span> 存储 / 数据</div>
+        <div class="legend-item"><span class="dot pink"></span> 通信 / 依赖</div>
+      </div>
+    </aside>
+
+    <section id="viewport" class="viewport">
+      <div id="stage" class="stage">
+        <div class="rings">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+        </div>
+        <div class="lines" id="lines"></div>
+        <div class="core" id="core"></div>
+        <div class="nodes" id="nodes"></div>
+      </div>
+
+      <div class="info-card">
+        <h2 id="infoTitle">细胞核 / 核心控制区</h2>
+        <p id="infoBody">
+          这就是你要的“没有 3D 素材也能立刻看到效果”的版本。后续可以把节点换成代码文件、类、方法、模块关系。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const viewport = document.getElementById("viewport");
+    const stage = document.getElementById("stage");
+    const nodesRoot = document.getElementById("nodes");
+    const linesRoot = document.getElementById("lines");
+    const infoTitle = document.getElementById("infoTitle");
+    const infoBody = document.getElementById("infoBody");
+    const modeCell = document.getElementById("modeCell");
+    const modeCode = document.getElementById("modeCode");
+    const resetBtn = document.getElementById("resetBtn");
+
+    let rotateX = -18;
+    let rotateY = 28;
+    let scale = 1;
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+    let autoRotate = true;
+    let activeMode = "cell";
+
+    const cellNodes = [
+      {
+        title: "线粒体",
+        body: "能量工厂，把营养物质转成细胞可用的能量。",
+        type: "good",
+        x: -190,
+        y: -70,
+        z: 110
+      },
+      {
+        title: "内质网",
+        body: "负责蛋白质和脂质的加工与运输。",
+        type: "",
+        x: 180,
+        y: -120,
+        z: 70
+      },
+      {
+        title: "高尔基体",
+        body: "负责包装、分拣和发送细胞产物。",
+        type: "pink",
+        x: 210,
+        y: 90,
+        z: -60
+      },
+      {
+        title: "溶酶体",
+        body: "负责分解废弃物和外来物质，类似清理系统。",
+        type: "warn",
+        x: -150,
+        y: 140,
+        z: -120
+      },
+      {
+        title: "细胞膜",
+        body: "控制物质进出，是细胞和外界的边界。",
+        type: "pink",
+        x: 0,
+        y: -235,
+        z: -80
+      },
+      {
+        title: "核糖体",
+        body: "蛋白质合成位置，可以理解为小型生产机器。",
+        type: "good",
+        x: 35,
+        y: 210,
+        z: 135
+      }
+    ];
+
+    const codeNodes = [
+      {
+        title: "入口脚本",
+        body: "比如 install.command / update.command，负责接收用户动作并进入主流程。",
+        type: "",
+        x: -205,
+        y: -90,
+        z: 90
+      },
+      {
+        title: "菜单模块",
+        body: "比如 fzf 菜单入口，让用户不用记命令也能触发功能。",
+        type: "pink",
+        x: 185,
+        y: -135,
+        z: 75
+      },
+      {
+        title: "依赖体检",
+        body: "检查 Homebrew、fzf、git、gh 等基础能力是否存在。",
+        type: "good",
+        x: 235,
+        y: 75,
+        z: -70
+      },
+      {
+        title: "配置同步",
+        body: "把仓库里的配置同步到用户系统环境。",
+        type: "warn",
+        x: -160,
+        y: 150,
+        z: -125
+      },
+      {
+        title: "README",
+        body: "给人看的说明层，降低用户理解成本。",
+        type: "pink",
+        x: 0,
+        y: -240,
+        z: -85
+      },
+      {
+        title: "日志系统",
+        body: "统一彩色日志、错误提示和阶段输出。",
+        type: "good",
+        x: 45,
+        y: 215,
+        z: 140
+      }
+    ];
+
+    function applyTransform() {
+      stage.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
+    }
+
+    function makeNode(item, index) {
+      const el = document.createElement("button");
+      el.className = `node ${item.type || ""}`;
+      el.type = "button";
+      el.innerHTML = item.title;
+      el.style.transform = `translate3d(${item.x}px, ${item.y}px, ${item.z}px) translate(-50%, -50%)`;
+
+      el.addEventListener("click", (event) => {
+        event.stopPropagation();
+        document.querySelectorAll(".node").forEach(node => node.classList.remove("focus"));
+        el.classList.add("focus");
+        infoTitle.textContent = item.title;
+        infoBody.textContent = item.body;
+      });
+
+      return el;
+    }
+
+    function makeLine(item) {
+      const line = document.createElement("div");
+      line.className = "line";
+
+      const dx = item.x;
+      const dy = item.y;
+      const dz = item.z;
+      const length = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      const yaw = Math.atan2(dz, dx) * 180 / Math.PI;
+      const pitch = Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)) * 180 / Math.PI;
+
+      line.style.width = `${length}px`;
+      line.style.transform = `translate3d(0, 0, 0) rotateY(${-yaw}deg) rotateZ(${pitch}deg)`;
+
+      return line;
+    }
+
+    function makeParticles() {
+      for (let i = 0; i < 70; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+
+        const angleA = Math.random() * Math.PI * 2;
+        const angleB = Math.acos((Math.random() * 2) - 1);
+        const radius = 170 + Math.random() * 120;
+
+        const x = Math.sin(angleB) * Math.cos(angleA) * radius;
+        const y = Math.sin(angleB) * Math.sin(angleA) * radius;
+        const z = Math.cos(angleB) * radius;
+
+        p.style.opacity = String(0.22 + Math.random() * 0.55);
+        p.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+
+        nodesRoot.appendChild(p);
+      }
+    }
+
+    function renderMode(mode) {
+      activeMode = mode;
+      nodesRoot.innerHTML = "";
+      linesRoot.innerHTML = "";
+
+      const data = mode === "cell" ? cellNodes : codeNodes;
+
+      data.forEach(item => {
+        linesRoot.appendChild(makeLine(item));
+        nodesRoot.appendChild(makeNode(item));
+      });
+
+      makeParticles();
+
+      if (mode === "cell") {
+        infoTitle.textContent = "细胞核 / 核心控制区";
+        infoBody.textContent = "细胞教材模式：用 3D 空间把细胞结构拆成可点击节点，适合教学、科普和流程解释。";
+        modeCell.classList.add("active");
+        modeCode.classList.remove("active");
+      } else {
+        infoTitle.textContent = "项目核心 / 架构中心";
+        infoBody.textContent = "代码地图模式：把文件、模块、脚本、依赖关系变成可拖动的 3D 结构图。";
+        modeCode.classList.add("active");
+        modeCell.classList.remove("active");
+      }
+    }
+
+    viewport.addEventListener("pointerdown", (event) => {
+      dragging = true;
+      lastX = event.clientX;
+      lastY = event.clientY;
+      viewport.setPointerCapture(event.pointerId);
+    });
+
+    viewport.addEventListener("pointermove", (event) => {
+      if (!dragging) return;
+
+      const dx = event.clientX - lastX;
+      const dy = event.clientY - lastY;
+
+      rotateY += dx * 0.45;
+      rotateX -= dy * 0.45;
+
+      rotateX = Math.max(-78, Math.min(78, rotateX));
+
+      lastX = event.clientX;
+      lastY = event.clientY;
+
+      applyTransform();
+    });
+
+    viewport.addEventListener("pointerup", () => {
+      dragging = false;
+    });
+
+    viewport.addEventListener("wheel", (event) => {
+      event.preventDefault();
+      scale += event.deltaY > 0 ? -0.05 : 0.05;
+      scale = Math.max(0.62, Math.min(1.75, scale));
+      applyTransform();
+    }, { passive: false });
+
+    modeCell.addEventListener("click", () => renderMode("cell"));
+    modeCode.addEventListener("click", () => renderMode("code"));
+
+    resetBtn.addEventListener("click", () => {
+      rotateX = -18;
+      rotateY = 28;
+      scale = 1;
+      autoRotate = true;
+      applyTransform();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
+        event.preventDefault();
+        autoRotate = !autoRotate;
+      }
+
+      if (event.key === "1") {
+        renderMode("cell");
+      }
+
+      if (event.key === "2") {
+        renderMode("code");
+      }
+    });
+
+    function tick() {
+      if (autoRotate && !dragging) {
+        rotateY += 0.08;
+        applyTransform();
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    renderMode("cell");
+    applyTransform();
+    tick();
+  </script>
+</body>
+</html>
